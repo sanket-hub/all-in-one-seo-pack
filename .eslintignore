@@ -1,6 +1,0 @@
-// List of files and folders that ESLint should ignore.
-
-**/*{.,-}min.js
-webpack-config.js
-/build/*
-/src/*
