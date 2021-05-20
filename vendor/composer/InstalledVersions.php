@@ -24,24 +24,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-develop',
+    'version' => 'dev-develop',
     'aliases' => 
     array (
     ),
-    'reference' => '1f875efe678ce01a64128a8ac02bc265d33e195e',
+    'reference' => '6f8f5119b51c93b1698da757256447c23312a91f',
     'name' => 'awesomemotive/all-in-one-seo-pack-pro',
   ),
   'versions' => 
   array (
     'awesomemotive/all-in-one-seo-pack-pro' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'dev-develop',
+      'version' => 'dev-develop',
       'aliases' => 
       array (
       ),
-      'reference' => '1f875efe678ce01a64128a8ac02bc265d33e195e',
+      'reference' => '6f8f5119b51c93b1698da757256447c23312a91f',
     ),
     'monolog/monolog' => 
     array (
