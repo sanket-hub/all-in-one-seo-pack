@@ -736,10 +736,10 @@ TEMPLATE
 	 */
 	protected function setDynamicSearchApperanceOptions( $objectType, $objectName, $defaultOptions ) {
 		// Check if dynamic backup needs to be reset.
-		if ( isset( $this->options['internal']['searchAppearanceDynamicBackup'][ $objectType ]['value'][ $objectName ] ) ) {
+		if ( ! empty( $this->options['internal']['searchAppearanceDynamicBackup'][ $objectType ]['value'][ $objectName ] ) ) {
 			$this->needsUpdate = true;
 
-			$defaultOptions = array_replace_recursive( $defaultOptions, (array) $this->options['internal']['searchAppearanceDynamicBackup'][ $objectType ]['value'][ $objectName ] );
+			$defaultOptions = array_replace_recursive( $defaultOptions, $this->options['internal']['searchAppearanceDynamicBackup'][ $objectType ]['value'][ $objectName ] );
 			unset( $this->options['internal']['searchAppearanceDynamicBackup'][ $objectType ]['value'][ $objectName ] );
 		}
 
@@ -764,10 +764,10 @@ TEMPLATE
 		];
 
 		// Check if dynamic backup needs to be reset.
-		if ( isset( $this->options['internal']['socialFacebookDynamicBackup'][ $objectType ]['value'][ $objectName ] ) ) {
+		if ( ! empty( $this->options['internal']['socialFacebookDynamicBackup'][ $objectType ]['value'][ $objectName ] ) ) {
 			$this->needsUpdate = true;
 
-			$defaultOptions = array_replace_recursive( $defaultOptions, (array) $this->options['internal']['socialFacebookDynamicBackup'][ $objectType ]['value'][ $objectName ] );
+			$defaultOptions = array_replace_recursive( $defaultOptions, $this->options['internal']['socialFacebookDynamicBackup'][ $objectType ]['value'][ $objectName ] );
 			unset( $this->options['internal']['socialFacebookDynamicBackup'][ $objectType ]['value'][ $objectName ] );
 		}
 
