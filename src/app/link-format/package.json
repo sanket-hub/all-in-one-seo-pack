@@ -1,0 +1,19 @@
+{
+    "name": "aioseo-link-formats",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "watch": "wp-scripts build --config webpack-config.js --watch",
+        "build-webpack-lite": "dotenv -e .env.lite -- wp-scripts build --config webpack-config.js",
+        "build-webpack-pro": "dotenv -e .env.pro -- wp-scripts build --config webpack-config.js"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "7.1.0",
+        "@wordpress/icons": "1.2.0",
+        "classnames": "2.2.6",
+        "dom-scroll-into-view": "2.0.1",
+        "lodash": "4.17.15",
+        "dotenv": "^8.2.0",
+        "dotenv-cli": "^3.1.0"
+    }
+}
