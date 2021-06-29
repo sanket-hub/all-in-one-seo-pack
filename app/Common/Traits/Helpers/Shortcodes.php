@@ -36,7 +36,8 @@ trait Shortcodes {
 		'Simple Membership Profile'        => 'swpm_profile_form',
 		'Simple Membership Reset'          => 'swpm_reset_form',
 		'Simple Membership Update Level'   => 'swpm_update_level_to',
-		'Simple Membership Member Info'    => 'swpm_show_member_info'
+		'Simple Membership Member Info'    => 'swpm_show_member_info',
+		'Revslider'                        => 'rev_slider'
 	];
 
 	/**
@@ -46,12 +47,16 @@ trait Shortcodes {
 	 *
 	 * @param  string $content      The post content.
 	 * @param  array  $tagsToRemove Shortcode tags that should be removed before parsing the content.
+	 * @param  bool   $override     Whether shortcodes should be parsed regardless of the context. Needed for ActionScheduler actions.
 	 * @return string $content      The post content with shortcodes replaced.
 	 */
-	public function doShortcodes( $content, $tagsToRemove = [] ) {
+	public function doShortcodes( $content, $tagsToRemove = [], $override = false ) {
 		if (
-			( is_admin() && ! wp_doing_ajax() && ! wp_doing_cron() ) ||
-			apply_filters( 'aioseo_disable_shortcode_parsing', false )
+			! $override &&
+			(
+				( is_admin() && ! wp_doing_ajax() && ! wp_doing_cron() ) ||
+				apply_filters( 'aioseo_disable_shortcode_parsing', false )
+			)
 		) {
 			return $content;
 		}
@@ -83,6 +88,7 @@ trait Shortcodes {
 
 	/**
 	 * Returns the content with only the allowed shortcodes and wildcards replaced.
+	 * This function should be used in Action Scheduler action callbacks only as it runs shortcodes everywhere, regardless of the context.
 	 *
 	 * @since 4.1.2
 	 *
@@ -108,7 +114,7 @@ trait Shortcodes {
 		}
 
 		$tagsToRemove = array_diff( $tags, $allowedTags );
-		return $this->doShortcodes( $content, $tagsToRemove );
+		return $this->doShortcodes( $content, $tagsToRemove, true );
 	}
 
 	/**

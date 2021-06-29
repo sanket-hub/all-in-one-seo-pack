@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '92cc20164467f8856c461977c05d43cda6f99c68',
+    'reference' => 'ad0e0ada30d321e66de6b15fabd5c6e9d679f40c',
     'name' => 'awesomemotive/all-in-one-seo-pack-pro',
   ),
   'versions' => 
@@ -41,7 +41,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '92cc20164467f8856c461977c05d43cda6f99c68',
+      'reference' => 'ad0e0ada30d321e66de6b15fabd5c6e9d679f40c',
+    ),
+    'jwhennessey/phpinsight' => 
+    array (
+      'pretty_version' => 'v2.0.9',
+      'version' => '2.0.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b89e7a7f418ebd88ae330b889be4dd1d47d4ceaa',
     ),
     'monolog/monolog' => 
     array (
@@ -54,12 +63,12 @@ private static $installed = array (
     ),
     'psr/log' => 
     array (
-      'pretty_version' => '1.1.3',
-      'version' => '1.1.3.0',
+      'pretty_version' => '1.1.4',
+      'version' => '1.1.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
+      'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
     ),
     'psr/log-implementation' => 
     array (
