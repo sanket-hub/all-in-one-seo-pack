@@ -33,13 +33,12 @@ const HeadlinePanelWordBalance = props => {
 			: 0.2 > props.data.result.commonWordsPercentage
 				? 'orange-bg'
 				: 'green-bg'
-	const textGetMoreClicks = __(
-		'Your headline would be more likely to get clicks if it had more uncommon words.',
-		td
-	)
 	const guideLineOnCommonWords =
 		0.2 > props.data.result.commonWordsPercentage
-			? textGetMoreClicks
+			? __(
+				'Your headline would be more likely to get clicks if it had more common words.',
+				td
+			)
 			: __(
 				'Headlines with 20-30% common words are more likely to get clicks.',
 				td
@@ -58,7 +57,10 @@ const HeadlinePanelWordBalance = props => {
 				: 'green-bg'
 	const guideLineOnUnCommonWords =
 		0.1 > props.data.result.uncommonWordsPercentage
-			? textGetMoreClicks
+			? __(
+				'Your headline would be more likely to get clicks if it had more uncommon words.',
+				td
+			)
 			: __(
 				'Headlines with uncommon words are more likely to get clicks.',
 				td

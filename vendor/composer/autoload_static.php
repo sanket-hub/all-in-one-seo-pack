@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit33a9062754de3763f52b735d16db5727
+class ComposerStaticInitf9bbe470f9307a4597ed9e672ddb23e0
 {
     public static $prefixLengthsPsr4 = array (
         'P' => 
@@ -14,6 +14,10 @@ class ComposerStaticInit33a9062754de3763f52b735d16db5727
         'M' => 
         array (
             'Monolog\\' => 8,
+        ),
+        'I' => 
+        array (
+            'InstituteWeb\\ComposerScripts\\' => 29,
         ),
         'A' => 
         array (
@@ -29,6 +33,10 @@ class ComposerStaticInit33a9062754de3763f52b735d16db5727
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'InstituteWeb\\ComposerScripts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/instituteweb/composer-scripts/src',
         ),
         'AIOSEO\\Plugin\\' => 
         array (
@@ -161,10 +169,10 @@ class ComposerStaticInit33a9062754de3763f52b735d16db5727
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit33a9062754de3763f52b735d16db5727::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit33a9062754de3763f52b735d16db5727::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit33a9062754de3763f52b735d16db5727::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit33a9062754de3763f52b735d16db5727::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf9bbe470f9307a4597ed9e672ddb23e0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf9bbe470f9307a4597ed9e672ddb23e0::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf9bbe470f9307a4597ed9e672ddb23e0::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf9bbe470f9307a4597ed9e672ddb23e0::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -113,19 +113,19 @@ export default {
 				{
 					slug   : 'title-description',
 					name   : this.$t.__('Title & Description', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_search_appearance_settings',
 					pro    : false
 				},
 				{
 					slug   : 'Schema',
 					name   : this.$t.__('Schema Markup', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_search_appearance_settings',
 					pro    : true
 				},
 				{
 					slug   : 'advanced',
 					name   : this.$t.__('Advanced', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_search_appearance_settings',
 					pro    : false
 				}
 			]

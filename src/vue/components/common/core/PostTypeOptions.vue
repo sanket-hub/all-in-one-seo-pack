@@ -59,12 +59,6 @@
 <script>
 export default {
 	props : {
-		disabled : {
-			type : Boolean,
-			default () {
-				return false
-			}
-		},
 		type : {
 			type     : String,
 			required : true

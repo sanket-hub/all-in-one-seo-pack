@@ -17,7 +17,17 @@
 			:small="small"
 		>
 			<div class="aioseo-header-content">
-				<svg-aioseo-logo />
+				<a
+					v-if="isUnlicensed"
+					:href="$links.utmUrl('header-logo')"
+					target="_blank"
+
+				>
+					<svg-aioseo-logo />
+				</a>
+				<svg-aioseo-logo
+					v-if="!isUnlicensed"
+				/>
 				<span
 					v-if="pageName"
 					class="spacer"
@@ -142,6 +152,10 @@ html:not([data-scroll='0']) {
 		display: flex;
 		height: 72px;
 		align-items: center;
+
+		a:focus {
+			box-shadow: none;
+		}
 
 		svg.aioseo-logo {
 			height: 26px;

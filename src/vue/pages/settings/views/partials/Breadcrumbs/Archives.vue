@@ -35,37 +35,37 @@ export default {
 					{
 						slug   : 'DateArchives',
 						name   : this.$t.__('Date Archives', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					},
 					{
 						slug   : 'SearchArchives',
 						name   : this.$t.__('Search Archives', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					},
 					{
 						slug   : 'NotFound',
 						name   : this.$t.__('404', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					},
 					{
 						slug   : 'AuthorArchives',
 						name   : this.$t.__('Author Archives', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					},
 					{
 						slug   : 'BlogArchives',
 						name   : this.$t.__('Blog Archive', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					},
 					{
 						slug   : 'PostTypeArchives',
 						name   : this.$t.__('Post Type Archives', this.$td),
-						access : 'aioseo_manage_seo',
+						access : 'aioseo_general_settings',
 						pro    : true
 					}
 				]

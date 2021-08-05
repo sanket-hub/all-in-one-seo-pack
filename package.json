@@ -3,17 +3,18 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"start": "dotenv -e .env.wp vue-cli-service serve --open --port=8082",
-		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
-		"start-lite": "dotenv -e .env.wp.lite vue-cli-service serve",
-		"start-webpack": "webpack-cli --config webpack/dev.config.js --mode development -w",
 		"build-webpack-dev": "webpack-cli --config webpack/dev.config.js --mode development",
 		"build-webpack-lite": "dotenv -e .env.wp.lite -- webpack-cli --config webpack/lite.config.js --mode production",
 		"build-lite": "npm run clear:babel-cache && vue-cli-service build --mode lite && node ./build/unique-pot/index.js lite",
 		"clear:babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
 		"lint": "vue-cli-service lint --no-fix",
-		"lint-fix": "vue-cli-service lint"
+		"lint-fix": "vue-cli-service lint",
+		"start": "dotenv -e .env.wp vue-cli-service serve --open --port=8082",
+		"serve": "vue-cli-service serve",
+		"start-lite": "dotenv -e .env.wp.lite vue-cli-service serve",
+		"start-webpack": "webpack-cli --config webpack/dev.config.js --mode development -w",
+		"start-vue": "npx run-p start-lite start-pro"
 	},
 	"dependencies": {
 		"@wordpress/autop": "2.9.0",

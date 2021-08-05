@@ -13,6 +13,7 @@ import tags from '@/vue/utils/tags'
 import addons from '@/vue/utils/addons'
 import TruSEO from '@/vue/plugins/truSEO'
 import '@/vue/plugins/breadcrumbs'
+import '@/vue/plugins/html-sitemap'
 
 import * as constants from './constants'
 
@@ -63,6 +64,7 @@ Vue.use(VueScrollTo, {
 
 Vue.prototype.$addons           = addons
 Vue.prototype.$allowed          = allowed
+Vue.prototype.$bus              = new Vue()
 Vue.prototype.$constants        = constants
 Vue.prototype.$http             = http
 Vue.prototype.$isPro            = 'pro' === process.env.VUE_APP_VERSION.toLowerCase()

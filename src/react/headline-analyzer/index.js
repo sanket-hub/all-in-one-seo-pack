@@ -52,7 +52,7 @@ const HeadlineAnalyzer = () => {
 					dataExist : false
 				}
 				setAnalyzer({ ...analyzer, ...newAnalyzerData })
-				console.log('Couldn\t fetch score for headline:', error)
+				console.log('Couldn\'t fetch score for headline:', error)
 			})
 	}
 
@@ -77,9 +77,7 @@ const HeadlineAnalyzer = () => {
 	)
 
 	const [ analyzer, setAnalyzer ] = useState({})
-	const pinnedIcon = document.querySelector(
-		`.components-button[aria-label='${textHeadlineAnalyzer}'] svg`
-	)
+
 	const previousScores =
 		'undefined' !== typeof analyzer.previousHeadlinesData
 			? analyzer.previousHeadlinesData
@@ -93,8 +91,10 @@ const HeadlineAnalyzer = () => {
 		'</span>',
 		'</a>'
 	)
-	const wrapper = document.querySelector('.aioseo-headline-analyzer-wrapper')
 
+	const pinnedIcon = document.querySelector(
+		`.components-button[aria-label='${textHeadlineAnalyzer}'] svg`
+	)
 	if (pinnedIcon) {
 		const scoreTag = document.createElement('span')
 		if (
@@ -135,6 +135,7 @@ const HeadlineAnalyzer = () => {
 		}
 	}
 
+	const wrapper = document.querySelector('.aioseo-headline-analyzer-wrapper')
 	if (wrapper) {
 		const headingElements = wrapper.parentNode.querySelectorAll(
 			'.components-panel__header'
@@ -143,7 +144,7 @@ const HeadlineAnalyzer = () => {
 			headingElements.forEach(function (element) {
 				const button = element.querySelector('[aria-pressed="true"]')
 				if (button && null !== button) {
-					button.remove()
+					button.style.display = 'none'
 				}
 			})
 		}

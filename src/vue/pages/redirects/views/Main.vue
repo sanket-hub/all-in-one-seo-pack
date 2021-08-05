@@ -14,7 +14,7 @@ import FullSiteRedirect from './AIOSEO_VERSION/FullSiteRedirect'
 import ImportExport from './AIOSEO_VERSION/ImportExport'
 import Logs from './AIOSEO_VERSION/Logs'
 import Logs404 from './AIOSEO_VERSION/Logs404'
-import Redirects from './AIOSEO_VERSION/Redirects'
+import Redirects from './Redirects'
 import Settings from './AIOSEO_VERSION/Settings'
 export default {
 	components : {

@@ -30,6 +30,8 @@ export const SaveChanges = {
 					} else {
 						saved = true
 					}
+
+					this.$bus.$emit('changes-saved')
 				})
 		}
 	}

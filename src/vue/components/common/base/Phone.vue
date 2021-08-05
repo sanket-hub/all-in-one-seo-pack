@@ -86,7 +86,13 @@ export default {
 	.maz-phone-number-input__country-flag {
 			left: 20px;
 			bottom: 12px;
+			z-index: auto;
 	}
+
+	.maz-input__icon {
+		z-index: auto;
+	}
+
 	.maz-select__options-list {
 		input {
 			border-color: $blue;
@@ -98,13 +104,6 @@ export default {
 		border-radius: 3px;
 	}
 
-	// Right input field.
-	.input-phone-number {
-		z-index: 2;
-		&:focus {
-			z-index: 2;
-		}
-	}
 	&.invalidNumber {
 		div.maz-flex-1 > div > input {
 			border-color: red;

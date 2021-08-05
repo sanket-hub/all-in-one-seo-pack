@@ -135,7 +135,7 @@ export default {
 				selectCategory  : this.$t.__('Select a category to help us narrow down the SEO options that work best for you and your site.', this.$td),
 				enterYourAnswer : this.$t.__('Enter your answer', this.$td),
 				siteTitle       : this.$t.__('Home Page Title', this.$td),
-				metaDescription : this.$t.__('Meta Description', this.$td)
+				metaDescription : this.$t.__('Home Page Meta Description', this.$td)
 			},
 			categories : [
 				{ value: 'blog', name: this.$t.__('Blog', this.$td), icon: 'svg-blog' },

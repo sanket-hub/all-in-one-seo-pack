@@ -8,7 +8,6 @@ const version = 'Lite'
 
 const pageKeys = [
 	'about',
-	'app',
 	'connect',
 	'connect-pro',
 	'dashboard',
@@ -29,18 +28,32 @@ const pageKeys = [
 	'tools'
 ]
 
+const standaloneKeys = [
+	'app',
+	'notifications'
+]
+
 const pages = () => {
 	const pages = {}
 	pageKeys.forEach(key => {
-		pages[key] = page(key)
+		pages[key] = entry(key, 'pages')
 	})
 
 	return pages
 }
 
-const page = key => {
+const standalones = () => {
+	const standalones = {}
+	standaloneKeys.forEach(key => {
+		standalones[key] = entry(key, 'standalone')
+	})
+
+	return standalones
+}
+
+const entry = (key, context = 'pages') => {
 	return {
-		entry    : `src/vue/pages/${key}/main.js`,
+		entry    : `src/vue/${context}/${key}/main.js`,
 		template : 'public/index.html',
 		filename : 'app' === key ? 'index.html' : `${key}.html`,
 		chunks   : [ 'chunk-common', 'chunk-vendors', key ]
@@ -112,7 +125,10 @@ module.exports = {
 			chunkFilename : 'css/[name].css'
 		}
 	},
-	pages        : pages(),
+	pages : {
+		...pages(),
+		...standalones()
+	},
 	chainWebpack : config => {
 		config.optimization.splitChunks({
 			automaticNameDelimiter : '_',

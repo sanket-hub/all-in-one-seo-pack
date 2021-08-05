@@ -13,7 +13,7 @@
 		:placeholder="placeholder"
 		:show-labels="false"
 		:track-by="trackBy"
-		:custom-label="({ label }) => label"
+		:custom-label="customLabel"
 		:allow-empty="!!multiple"
 		:filterable="filterable"
 		@search-change="searchChange"
@@ -102,6 +102,10 @@ export default {
 			default () {
 				return ''
 			}
+		},
+		customLabel : {
+			type    : Function,
+			default : ({ label }) => label
 		},
 		name          : String,
 		value         : [ String, Array, Number, Object ],

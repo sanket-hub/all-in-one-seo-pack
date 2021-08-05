@@ -75,7 +75,7 @@ export default {
 
 <style lang="scss">
 .aioseo-copy-block {
-	display: flex;
+	display: inline-flex;
 
 	.message {
 		background-color: #fff;

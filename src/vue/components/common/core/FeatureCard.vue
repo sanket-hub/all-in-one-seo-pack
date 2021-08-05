@@ -27,7 +27,7 @@
 				</div>
 
 				<div
-					v-if="(activated && !feature.requiresUpgrade) || staticCard"
+					v-if="((activated && !feature.requiresUpgrade) || staticCard) && canManage"
 					class="learn-more"
 				>
 					<a :href="getHref(feature.manageUrl)">{{ strings.manage }}</a>
@@ -106,6 +106,12 @@ export default {
 			type : Boolean,
 			default () {
 				return true
+			}
+		},
+		canManage : {
+			type : Boolean,
+			default () {
+				return false
 			}
 		},
 		staticCard : Boolean

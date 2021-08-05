@@ -236,42 +236,42 @@ export default {
 	methods : {
 		...mapActions([ 'doTask' ]),
 		clearCache () {
-			this.clearingCache = true
+			this.loading.clearingCache = true
 			this.doTask('clear-cache')
 				.then(() => {
-					this.clearingCache = false
+					this.loading.clearingCache = false
 					console.log('Cache has been cleared.')
 				}, () => (console.error('Cache could not be cleared.')))
 		},
 		removeDuplicates () {
-			this.removeDuplicates = true
+			this.loading.removeDuplicates = true
 			this.doTask('remove-duplicates')
 				.then(() => {
-					this.removingDuplicates = false
+					this.loading.removeDuplicates = false
 					console.log('Duplicates have been removed.')
 				}, () => (console.error('Duplicates could not be removed.')))
 		},
 		unescapeData () {
-			this.unescapeData = true
+			this.loading.unescapeData = true
 			this.doTask('unescape-data')
 				.then(() => {
-					this.unescapeData = false
+					this.loading.unescapeData = false
 					console.log('Cleaning procedure for escaped data has been scheduled.')
 				}, () => (console.error('Cleaning procedure for escaped data could not be scheduled.')))
 		},
 		clearImageData () {
-			this.clearImageData = true
+			this.loading.clearImageData = true
 			this.doTask('clear-image-data')
 				.then(() => {
-					this.clearImageData = false
+					this.loading.clearImageData = false
 					console.log('Image data has been wiped.')
 				}, () => (console.error('Image data could not be wiped.')))
 		},
 		clearVideoData () {
-			this.clearVideoData = true
+			this.loading.clearVideoData = true
 			this.doTask('clear-video-data')
 				.then(() => {
-					this.clearVideoData = false
+					this.loading.clearVideoData = false
 					console.log('Video data has been cleared.')
 				}, () => (console.error('Video data could not be cleared.')))
 		},
@@ -280,10 +280,10 @@ export default {
 		},
 		restartMigration () {
 			this.showAreYouSureModal = false
-			this.restartMigration    = true
+			this.loading.restartMigration    = true
 			this.doTask('restart-v3-migration')
 				.then(() => {
-					this.restartMigration = false
+					this.loading.restartMigration = false
 					console.log('Migration has been restarted.')
 				}, () => (console.error('Migration could not be restarted.')))
 		}

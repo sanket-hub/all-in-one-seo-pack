@@ -149,12 +149,36 @@ export default {
 				return
 			}
 
-			const target  = event && event.target ? event.target : null
-			const element = this.$refs['aioseo-notifications']
+			const target = event && event.target ? event.target : null
 
-			if (element && element !== target && !element.contains(target)) {
-				this.toggleNotifications()
+			const notificationsLink = document.querySelector('#wp-admin-bar-aioseo-notifications')
+			if (notificationsLink && (notificationsLink === target || notificationsLink.contains(target))) {
+				return
 			}
+
+			const sidebarNotificationsLink      = document.querySelector('#toplevel_page_aioseo .wp-first-item')
+			const sidebarNotificationsLinkPulse = document.querySelector('#toplevel_page_aioseo .wp-first-item .aioseo-menu-notification-indicator')
+			if (
+				sidebarNotificationsLink &&
+				sidebarNotificationsLink.contains(sidebarNotificationsLinkPulse) &&
+				(
+					sidebarNotificationsLink === target ||
+					sidebarNotificationsLink.contains(target)
+				)
+			) {
+				return
+			}
+
+			const element = this.$refs['aioseo-notifications']
+			if (element && (element === target || element.contains(target))) {
+				return
+			}
+
+			this.toggleNotifications()
+		},
+		notificationsLinkClick (event) {
+			event.preventDefault()
+			this.toggleNotifications()
 		},
 		processDismissAllNotifications () {
 			const slugs = []
@@ -213,6 +237,17 @@ export default {
 	mounted () {
 		document.addEventListener('keydown', this.escapeListener)
 		document.addEventListener('click', this.documentClick)
+
+		const notificationsLink = document.querySelector('#wp-admin-bar-aioseo-notifications .ab-item')
+		if (notificationsLink) {
+			notificationsLink.addEventListener('click', this.notificationsLinkClick)
+		}
+
+		const sidebarNotificationsLink      = document.querySelector('#toplevel_page_aioseo .wp-first-item')
+		const sidebarNotificationsLinkPulse = document.querySelector('#toplevel_page_aioseo .wp-first-item .aioseo-menu-notification-indicator')
+		if (sidebarNotificationsLink && sidebarNotificationsLinkPulse) {
+			sidebarNotificationsLink.addEventListener('click', this.notificationsLinkClick)
+		}
 	}
 }
 </script>

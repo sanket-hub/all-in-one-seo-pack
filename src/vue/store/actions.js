@@ -357,6 +357,13 @@ export default {
 						if (notificationIndicator) {
 							notificationIndicator.remove()
 						}
+
+						// Remove from the sidebar too
+						const sidebarNotificationsLink      = document.querySelector('#toplevel_page_aioseo .wp-first-item')
+						const sidebarNotificationsLinkPulse = document.querySelector('#toplevel_page_aioseo .wp-first-item .aioseo-menu-notification-indicator')
+						if (sidebarNotificationsLink && sidebarNotificationsLink.contains(sidebarNotificationsLinkPulse)) {
+							sidebarNotificationsLink.remove()
+						}
 					}
 				}
 			})

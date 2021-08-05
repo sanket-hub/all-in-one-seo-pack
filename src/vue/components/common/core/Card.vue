@@ -94,6 +94,14 @@ export default {
 		},
 		disabled : Boolean
 	},
+	watch : {
+		toggles (value) {
+			const slug = this.slug
+			if (value && !this.settings.toggledCards[slug]) {
+				this.toggleCard({ slug, shouldSave: true })
+			}
+		}
+	},
 	computed : {
 		...mapGetters([ 'settings' ])
 	},

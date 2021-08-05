@@ -75,14 +75,17 @@ import { __ } from '@wordpress/i18n'
 					el('div',
 						{ id: 'aioseo-post-settings-sidebar', className: 'aioseo-post-settings-sidebar' },
 						el('div',
-							{ className: 'aioseo-loading-spinner dark' },
+							{ id: 'aioseo-post-settings-sidebar-vue', className: 'aioseo-post-settings-sidebar-vue' },
 							el('div',
-								{ className: 'double-bounce1' },
-								null
-							),
-							el('div',
-								{ className: 'double-bounce2' },
-								null
+								{ className: 'aioseo-loading-spinner dark' },
+								el('div',
+									{ className: 'double-bounce1' },
+									null
+								),
+								el('div',
+									{ className: 'double-bounce2' },
+									null
+								)
 							)
 						)
 					)

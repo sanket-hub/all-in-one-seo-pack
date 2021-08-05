@@ -254,6 +254,7 @@ export default {
 	}
 
 	&:disabled {
+		border: 1px solid $gray;
 		color: $placeholder-color;
 		background-color: $background;
 		cursor: default;

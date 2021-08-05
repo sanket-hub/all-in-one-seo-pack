@@ -10,7 +10,10 @@
 			<svg-upload />
 		</template>
 
-		<div class="export-settings aioseo-settings-row">
+		<div
+			class="export-settings"
+			:class="{'aioseo-settings-row' : canExportPostOptions}"
+		>
 			<grid-row>
 				<grid-column
 					class="export-all"
@@ -47,7 +50,10 @@
 			</grid-row>
 		</div>
 
-		<div class="export-post-types">
+		<div
+			v-if="canExportPostOptions"
+			class="export-post-types"
+		>
 			<grid-row>
 				<grid-column
 					class="export-all"
@@ -115,30 +121,78 @@ export default {
 	computed : {
 		settings () {
 			const settings = [
-				{ value: 'webmasterTools', label: this.$t.__('Webmaster Tools', this.$td) },
-				{ value: 'rssContent', label: this.$t.__('RSS Content', this.$td) },
-				{ value: 'advanced', label: this.$t.__('Advanced', this.$td) },
-				{ value: 'searchAppearance', label: this.$t.__('Search Appearance', this.$td) },
-				{ value: 'socialNetworks', label: this.$t.__('Social Networks', this.$td) },
-				{ value: 'sitemap', label: this.$t.__('Sitemaps', this.$td) },
-				{ value: 'redirects', label: this.$t.__('Redirects', this.$td) },
-				{ value: 'breadcrumbs', label: this.$t.__('Breadcrumbs', this.$td) },
-				{ value: 'tools', label: this.$t.__('Tools', this.$td) }
+				{
+					value  : 'webmasterTools',
+					label  : this.$t.__('Webmaster Tools', this.$td),
+					access : 'aioseo_general_settings'
+				},
+				{
+					value  : 'rssContent',
+					label  : this.$t.__('RSS Content', this.$td),
+					access : 'aioseo_general_settings'
+				},
+				{
+					value  : 'advanced',
+					label  : this.$t.__('Advanced', this.$td),
+					access : 'aioseo_general_settings'
+				},
+				{
+					value  : 'searchAppearance',
+					label  : this.$t.__('Search Appearance', this.$td),
+					access : 'aioseo_search_appearance_settings'
+				},
+				{
+					value  : 'social',
+					label  : this.$t.__('Social Networks', this.$td),
+					access : 'aioseo_social_networks_settings'
+				},
+				{
+					value  : 'sitemap',
+					label  : this.$t.__('Sitemaps', this.$td),
+					access : 'aioseo_sitemap_settings'
+				},
+				{
+					value  : 'redirects',
+					label  : this.$t.__('Redirects', this.$td),
+					access : 'aioseo_redirects_settings'
+				},
+				{
+					value  : 'breadcrumbs',
+					label  : this.$t.__('Breadcrumbs', this.$td),
+					access : 'aioseo_general_settings'
+				},
+				{
+					value  : 'tools',
+					label  : this.$t.__('Tools', this.$td),
+					access : 'aioseo_tools_settings'
+				}
 			]
 
 			if (this.$isPro) {
-				settings.push({ value: 'accessControl', label: this.$t.__('Access Control', this.$td) })
+				settings.push({
+					value  : 'accessControl',
+					label  : this.$t.__('Access Control', this.$td),
+					access : 'aioseo_admin'
+				})
 			}
 
 			if (!this.isUnlicensed && this.showImageSeoReset) {
-				settings.push({ value: 'image', label: this.$t.__('Image SEO', this.$td) })
+				settings.push({
+					value  : 'image',
+					label  : this.$t.__('Image SEO', this.$td),
+					access : 'aioseo_search_appearance_settings'
+				})
 			}
 
 			if (!this.isUnlicensed && this.showLocalBusinessReset) {
-				settings.push({ value: 'localBusiness', label: this.$t.__('Local Business SEO', this.$td) })
+				settings.push({
+					value  : 'localBusiness',
+					label  : this.$t.__('Local Business SEO', this.$td),
+					access : 'aioseo_local_seo_settings'
+				})
 			}
 
-			return settings
+			return settings.filter(setting => this.$allowed(setting.access))
 		},
 		canExport () {
 			const passed = []
@@ -150,6 +204,15 @@ export default {
 				passed.push(this.postOptions[key])
 			})
 			return passed.some(a => a)
+		},
+		canExportPostOptions () {
+			return [
+				'aioseo_page_general_settings',
+				'aioseo_page_advanced_settings',
+				'aioseo_page_schema_settings',
+				'aioseo_page_social_settings',
+				'aioseo_page_local_seo_settings'
+			].some(capability => this.$allowed(capability))
 		}
 	},
 	methods : {

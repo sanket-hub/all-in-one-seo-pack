@@ -17,6 +17,8 @@ import { __, sprintf } from '@wordpress/i18n';
 		return
 	}
 
+	let vueInitialState = null
+
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
@@ -90,11 +92,13 @@ import { __, sprintf } from '@wordpress/i18n';
 					)
 				}
 
-				const vueInitialState = {}
-				Object.keys(attributes).forEach(function (key) {
-					vueInitialState[key] = attributes[key]
-				})
-				vueInitialState.categories = categories
+				if (null === vueInitialState) {
+					vueInitialState = {}
+					Object.keys(attributes).forEach(function (key) {
+						vueInitialState[key] = attributes[key]
+					})
+					vueInitialState.categories = categories
+				}
 
 				observeElement({
 					id      : vueAioseoId,

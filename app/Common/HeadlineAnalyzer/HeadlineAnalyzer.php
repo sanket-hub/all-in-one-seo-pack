@@ -29,6 +29,10 @@ class HeadlineAnalyzer {
 	 * @return void
 	 */
 	public function enqueue() {
+		if ( ! aioseo()->helpers->isScreenBase( 'post' ) ) {
+			return;
+		}
+
 		if (
 			( defined( 'MONSTERINSIGHTS_VERSION' ) && ! monsterinsights_get_option( 'disable_headline_analyzer' ) ) ||
 			( defined( 'EXACTMETRICS_VERSION' ) && ! exactmetrics_get_option( 'disable_headline_analyzer' ) ) ||

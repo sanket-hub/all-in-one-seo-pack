@@ -1,7 +1,7 @@
 <template>
 	<div class="aioseo-general-settings">
 		<core-getting-started
-			v-if="settings.showSetupWizard"
+			v-if="settings.showSetupWizard && $allowed('aioseo_setup_wizard')"
 		/>
 
 		<core-card
@@ -21,7 +21,7 @@
 
 			<core-settings-row
 				:name="strings.setupWizard"
-				v-if="!settings.showSetupWizard"
+				v-if="!settings.showSetupWizard && $allowed('aioseo_setup_wizard')"
 			>
 				<template #content>
 					<base-button

@@ -1,6 +1,50 @@
 {
     "packages": [
         {
+            "name": "instituteweb/composer-scripts",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/InstituteWeb/composer-scripts.git",
+                "reference": "5907516e0d6aba5f2b78cafd4af3cb352b44e9ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/InstituteWeb/composer-scripts/get/5907516e0d6aba5f2b78cafd4af3cb352b44e9ab.zip",
+                "reference": "5907516e0d6aba5f2b78cafd4af3cb352b44e9ab",
+                "shasum": ""
+            },
+            "require-dev": {
+                "composer/composer": "^1.2"
+            },
+            "time": "2017-02-21T15:09:52+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "InstituteWeb\\ComposerScripts\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Armin Vieweg",
+                    "email": "armin@v.ieweg.de"
+                }
+            ],
+            "description": "Fixes slashe issues on Windows when executing composer scripts (like 'bin/example').",
+            "homepage": "https://bitbucket.org/InstituteWeb/composer-scripts",
+            "support": {
+                "issues": "https://bitbucket.org/InstituteWeb/composer-scripts/issues",
+                "source": "https://bitbucket.org/InstituteWeb/composer-scripts/src/5907516e0d6aba5f2b78cafd4af3cb352b44e9ab/?at=1.1.0"
+            },
+            "install-path": "../instituteweb/composer-scripts"
+        },
+        {
             "name": "jwhennessey/phpinsight",
             "version": "v2.0.9",
             "version_normalized": "2.0.9.0",
@@ -240,5 +284,7 @@
         }
     ],
     "dev": true,
-    "dev-package-names": []
+    "dev-package-names": [
+        "instituteweb/composer-scripts"
+    ]
 }

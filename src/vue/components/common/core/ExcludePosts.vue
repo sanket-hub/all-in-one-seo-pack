@@ -3,6 +3,7 @@
 		<base-select
 			:options="excludeOptions"
 			:ajax-search="processGetObjects"
+			:customLabel="searchableLabel"
 			size="medium"
 			multiple
 			:value="getJsonValues(optionName)"
@@ -10,7 +11,7 @@
 			:placeholder="strings.typeToSearch"
 		>
 			<template #noOptions>
-				{{ strings.noOptions }}
+				{{ noOptions }}
 			</template>
 			<template #noResult>
 				{{ strings.noResult }}
@@ -95,12 +96,13 @@ export default {
 		return {
 			excludeOptions : [],
 			strings        : {
-				typeToSearch : this.$t.__('Type to search...', this.$td),
-				noOptions    : this.$t.__('Begin typing a title to search...', this.$td),
-				noResult     : this.$t.__('No results found for that title. Try again!', this.$td),
-				clear        : this.$t.__('Clear', this.$td),
-				id           : this.$t.__('ID', this.$td),
-				type         : this.$t.__('Type', this.$td)
+				typeToSearch   : this.$t.__('Type to search...', this.$td),
+				noOptionsPosts : this.$t.__('Begin typing a post ID, title or slug to search...', this.$td),
+				noOptionsTerms : this.$t.__('Begin typing a term ID or name to search...', this.$td),
+				noResult       : this.$t.__('No results found for your search. Try again!', this.$td),
+				clear          : this.$t.__('Clear', this.$td),
+				id             : this.$t.__('ID', this.$td),
+				type           : this.$t.__('Type', this.$td)
 			}
 		}
 	},
@@ -116,6 +118,12 @@ export default {
 				}
 				this.options.excludeTerms = value
 			}
+		},
+		noOptions () {
+			if ('posts' === this.type) {
+				return this.strings.noOptionsPosts
+			}
+			return this.strings.noOptionsTerms
 		}
 	},
 	methods : {
@@ -129,6 +137,9 @@ export default {
 		getOptionTitle (title, search) {
 			const regex = new RegExp(`(${search})`, 'gi')
 			return title.replace(regex, '<span class="search-term">$1</span>')
+		},
+		searchableLabel ({ value, label, slug }) {
+			return `${value} ${label} ${slug}`
 		}
 	}
 }

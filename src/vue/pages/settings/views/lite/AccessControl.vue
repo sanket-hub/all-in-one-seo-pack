@@ -14,11 +14,11 @@
 
 			<core-blur>
 				<template
-					v-for="role in roles"
+					v-for="role in getRoles"
 				>
 					<core-settings-row
-						:key="role"
-						:name="strings[role]"
+						:key="role.name"
+						:name="role.label"
 					>
 						<template #content>
 							<div

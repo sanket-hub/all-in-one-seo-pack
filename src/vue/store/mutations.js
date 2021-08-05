@@ -87,6 +87,9 @@ export default {
 		this._vm.$set(state.currentPost.schema_type_options[schema], setting, value)
 	},
 	updateNotifications (state, payload) {
+		if (payload.new.length && window.aioseoNotifications) {
+			this._vm.$set(window.aioseoNotifications, 'newNotifications', payload.new.length)
+		}
 		this._vm.$set(state, 'notifications', payload)
 	},
 	toggleDismissedNotifications (state, payload) {

@@ -46,7 +46,7 @@
 								type="action"
 							>
 								<svg-refresh
-									@click.native="processRestoreBackup(backup)"
+									@click.native="maybeRestoreBackup(backup)"
 								/>
 
 								<template #tooltip>
@@ -58,7 +58,7 @@
 								type="action"
 							>
 								<svg-trash
-									@click.native="processDeleteBackup(backup)"
+									@click.native="maybeDeleteBackup(backup)"
 								/>
 
 								<template #tooltip>
@@ -80,6 +80,43 @@
 			<svg-circle-plus />
 			{{ strings.createBackup }}
 		</base-button>
+
+		<core-modal
+			v-if="showModal"
+			no-header
+		>
+			<template #body >
+				<div class="aioseo-modal-body">
+					<button
+						class="close"
+						@click.stop="showModal = false"
+					>
+						<svg-close @click="showModal = false" />
+					</button>
+
+					<h3>{{ areYouSure }}</h3>
+					<div class="reset-description"
+						v-html="strings.actionCannotBeUndone"
+					/>
+
+					<base-button
+						type="blue"
+						size="medium"
+						@click="processBackupAction"
+					>
+						{{ iAmSure }}
+					</base-button>
+
+					<base-button
+						type="gray"
+						size="medium"
+						@click="showModal = false"
+					>
+						{{ strings.noChangedMind }}
+					</base-button>
+				</div>
+			</template>
+		</core-modal>
 	</core-card>
 </template>
 
@@ -89,11 +126,20 @@ export default {
 	data () {
 		return {
 			timeout               : null,
+			backupToDelete        : null,
+			backupToRestore       : null,
 			backupsDeleteSuccess  : false,
+			showModal             : false,
 			backupsRestoreSuccess : false,
 			loading               : false,
 			strings               : {
 				backupSettings             : this.$t.__('Backup Settings', this.$td),
+				areYouSureDeleteBackup     : this.$t.__('Are you sure you want to delete this backup?', this.$td),
+				areYouSureRestoreBackup    : this.$t.__('Are you sure you want to restore this backup?', this.$td),
+				yesDeleteBackup            : this.$t.__('Yes, I want to delete this backup', this.$td),
+				yesRestoreBackup           : this.$t.__('Yes, I want to restore this backup', this.$td),
+				noChangedMind              : this.$t.__('No, I changed my mind', this.$td),
+				actionCannotBeUndone       : this.$t.__('This action cannot be undone.', this.$td),
 				noBackups                  : this.$t.__('You have no saved backups.', this.$td),
 				createBackup               : this.$t.__('Create Backup', this.$td),
 				restore                    : this.$t.__('Restore', this.$td),
@@ -104,7 +150,13 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'backups' ])
+		...mapState([ 'backups' ]),
+		areYouSure () {
+			return this.backupToDelete ? this.strings.areYouSureDeleteBackup : this.strings.areYouSureRestoreBackup
+		},
+		iAmSure () {
+			return this.backupToDelete ? this.strings.yesDeleteBackup : this.strings.yesRestoreBackup
+		}
 	},
 	methods : {
 		...mapActions([ 'createBackup', 'deleteBackup', 'restoreBackup' ]),
@@ -115,12 +167,22 @@ export default {
 					this.loading = false
 				})
 		},
-		processDeleteBackup (backup) {
+		maybeDeleteBackup (backup) {
+			this.showModal = true
+			this.backupToDelete = backup
+		},
+		maybeRestoreBackup (backup) {
+			this.showModal = true
+			this.backupToRestore = backup
+		},
+		processDeleteBackup () {
 			this.loading = true
-			this.deleteBackup(backup)
+			this.deleteBackup(this.backupToDelete)
 				.then(() => {
 					clearTimeout(this.timeout)
 					this.loading              = false
+					this.showModal            = false
+					this.backupToDelete       = null
 					this.backupsDeleteSuccess = true
 					this.timeout = setTimeout(() => {
 						this.backupsDeleteSuccess  = false
@@ -128,12 +190,14 @@ export default {
 					}, 3000)
 				})
 		},
-		processRestoreBackup (backup) {
+		processRestoreBackup () {
 			this.loading = true
-			this.restoreBackup(backup)
+			this.restoreBackup(this.backupToRestore)
 				.then(() => {
 					clearTimeout(this.timeout)
 					this.loading              = false
+					this.showModal            = false
+					this.backupToRestore      = null
 					this.backupsRestoreSuccess = true
 					this.timeout = setTimeout(() => {
 						this.backupsDeleteSuccess  = false
@@ -148,6 +212,9 @@ export default {
 				'<strong>' + this.$moment(backup * 1000).tz(this.$moment.tz.guess()).format('MMMM D, YYYY') + '</strong>',
 				'<strong>' + this.$moment(backup * 1000).tz(this.$moment.tz.guess()).format('h:mmA z') + '</strong>'
 			)
+		},
+		processBackupAction () {
+			return this.backupToDelete ? this.processDeleteBackup() : this.processRestoreBackup()
 		}
 	}
 }
@@ -232,6 +299,55 @@ export default {
 		width: 14px;
 		height: 14px;
 		margin-right: 10px;
+	}
+
+	.aioseo-modal-body {
+		padding: 20px 50px 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		position: relative;
+
+		h3 {
+			font-size: 20px;
+			margin-bottom: 16px;
+		}
+
+		.reset-description {
+			font-size: 16px;
+			color: $black;
+			margin-bottom: 16px;
+			text-align: center;
+			max-width: 515px;
+		}
+
+		button.close {
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			width: 24px;
+			height: 24px;
+			background-color: #fff;
+			border: none;
+			display: flex;
+			align-items: center;
+
+			svg.aioseo-close {
+				cursor: pointer;
+				width: 14px;
+				height: 14px;
+			}
+		}
+
+		.aioseo-description {
+			max-width: 510px;
+			text-align: center;
+		}
+
+		.aioseo-button:not(.close) {
+			margin-top: 16px;
+		}
 	}
 }
 </style>

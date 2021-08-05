@@ -15,7 +15,7 @@ export default [
 		name      : 'dashboard',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_admin',
+			access : 'aioseo_dashboard',
 			name   : __('Dashboard', td)
 		}
 	}

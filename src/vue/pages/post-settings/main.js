@@ -55,9 +55,9 @@ if (window.aioseo.currentPost) {
 		}).$mount(`#aioseo-${currentContext}-settings-metabox`)
 
 		if ('post' === currentContext) {
-			const sidebar = document.getElementById('aioseo-post-settings-sidebar')
+			const sidebar = document.getElementById('aioseo-post-settings-sidebar-vue')
 			if (!sidebar) {
-				elemLoaded('#aioseo-post-settings-sidebar', 'aioseoSidebarVisible')
+				elemLoaded('#aioseo-post-settings-sidebar-vue', 'aioseoSidebarVisible')
 				document.addEventListener('animationstart', function (event) {
 					if ('aioseoSidebarVisible' === event.animationName) {
 						new Vue({
@@ -67,7 +67,7 @@ if (window.aioseo.currentPost) {
 								screenContext : 'sidebar'
 							},
 							render : h => h(App)
-						}).$mount('#aioseo-post-settings-sidebar')
+						}).$mount('#aioseo-post-settings-sidebar-vue')
 					}
 				}, { passive: true })
 			} else {
@@ -78,7 +78,7 @@ if (window.aioseo.currentPost) {
 						screenContext : 'sidebar'
 					},
 					render : h => h(App)
-				}).$mount('#aioseo-post-settings-sidebar')
+				}).$mount('#aioseo-post-settings-sidebar-vue')
 			}
 		}
 	}

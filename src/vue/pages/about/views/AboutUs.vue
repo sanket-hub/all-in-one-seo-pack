@@ -84,6 +84,7 @@
 							<base-button
 								v-if="plugins[pluginName].installed && !plugins[pluginName].activated"
 								type="green"
+								:disabled="!plugins[pluginName].canActivate"
 								@click="activate(pluginName)"
 								:loading="plugins[pluginName].loading"
 							>
@@ -369,9 +370,10 @@ export default {
 
 		// Set installation and activation status for each plugin.
 		Object.keys(this.localPlugins).forEach(pluginName => {
-			this.pluginData[pluginName].installed  = this.localPlugins[pluginName].installed
-			this.pluginData[pluginName].canInstall = this.localPlugins[pluginName].canInstall
-			this.pluginData[pluginName].activated  = this.localPlugins[pluginName].activated
+			this.pluginData[pluginName].installed   = this.localPlugins[pluginName].installed
+			this.pluginData[pluginName].canInstall  = this.localPlugins[pluginName].canInstall
+			this.pluginData[pluginName].canActivate = this.localPlugins[pluginName].canActivate
+			this.pluginData[pluginName].activated   = this.localPlugins[pluginName].activated
 			// Don't render free version if premium version is installed.
 			if (this.plugins[pluginName].free) {
 				if (this.localPlugins[pluginName].installed) {

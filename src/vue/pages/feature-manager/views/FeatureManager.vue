@@ -1,11 +1,8 @@
 <template>
 	<div class="aioseo-feature-manager">
 		<div class="aioseo-feature-manager-header">
-			<div class="buttons">
-				<div
-					v-if="$isPro && $aioseo.license.isActive"
-					class="button-content"
-				>
+			<div class="buttons" v-if="getAddons.filter(addon => addon.canActivate === true).length > 0">
+				<div class="button-content">
 					<base-button
 						size="medium"
 						type="blue"
@@ -13,6 +10,7 @@
 						@click="activateAllFeatures"
 					>{{ strings.activateAllFeatures }}</base-button>
 					<base-button
+						v-if="!isUnlicensed"
 						size="medium"
 						type="gray"
 						:loading="loading.deactivateAll"
@@ -32,7 +30,7 @@
 
 		<div class="aioseo-feature-manager-addons">
 			<core-alert
-				v-if="$isPro && !$aioseo.license.isActive"
+				v-if="isUnlicensed"
 				type="red"
 			>
 				<strong>{{ yourLicenseIsText }}</strong>
@@ -69,6 +67,8 @@
 				>
 					<core-feature-card
 						ref="addons"
+						:can-activate="addon.canActivate"
+						:can-manage="$allowed(addon.capability)"
 						:feature="addon"
 					>
 						<template #title>
@@ -208,6 +208,12 @@ export default {
 			return addon.description
 		},
 		activateAllFeatures () {
+			// First, check to see if this user is licensed and has an active license.
+			// If not, we want to redirect the user to a new page with an upsell.
+			if (!this.$isPro || !this.$aioseo.license.isActive) {
+				return window.open(this.$links.utmUrl('activate-all-features'))
+			}
+
 			this.loading.activateAll = true
 			const addons = this.addons
 				.filter(addon => !addon.requiresUpgrade)

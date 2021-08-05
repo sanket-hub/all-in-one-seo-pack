@@ -96,7 +96,11 @@ const docLinks = {
 	unknownWebserver              : `${marketingSite}docs/redirect-manager-unknown-web-server`,
 	seoAnalyzerIssues             : `${marketingSite}docs/seo-analysis-unable-to-connect-to-your-site`,
 	redirectCustomRulesUserAgent  : `${marketingSite}docs/redirection-manager-custom-rules/#user-agent`,
-	redirectCanonicalHttps        : `${marketingSite}docs/full-site-redirect/#canonical-settings`
+	redirectCanonicalHttps        : `${marketingSite}docs/full-site-redirect/#canonical-settings`,
+	htmlSitemap                   : `${marketingSite}docs/html-sitemap`,
+	htmlSitemapShortcode          : `${marketingSite}docs/shortcode-html-sitemap`,
+	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap`,
+	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives`
 }
 
 const upsellLinks = {
@@ -106,6 +110,15 @@ const upsellLinks = {
 }
 
 const getUpsellUrl = (medium, content = null, link) => {
+	if ('feature-manager-upgrade' === medium && 'no-license-key' !== content) {
+		const feature = 'aioseo-local-business' === content
+			? '&features[]=local-seo'
+			: '&features[]=' + content.replace('aioseo-', '')
+
+		// This ensures that we only show plans on the pricing page that include the relevant addon.
+		return utmUrl(medium, content, upsellLinks[link]) + feature
+	}
+
 	return utmUrl(medium, content, upsellLinks[link])
 }
 

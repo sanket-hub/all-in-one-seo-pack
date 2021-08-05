@@ -78,25 +78,25 @@ export default {
 				{
 					slug   : 'ContentTypesLite',
 					name   : this.$t.__('Content Types', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_general_settings',
 					pro    : true
 				},
 				{
 					slug   : 'Taxonomies',
 					name   : this.$t.__('Taxonomies', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_general_settings',
 					pro    : true
 				},
 				{
 					slug   : 'Archives',
 					name   : this.$t.__('Archives', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_general_settings',
 					pro    : true
 				},
 				{
 					slug   : 'Advanced',
 					name   : this.$t.__('Advanced', this.$td),
-					access : 'aioseo_manage_seo',
+					access : 'aioseo_general_settings',
 					pro    : true
 				}
 			]

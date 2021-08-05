@@ -257,7 +257,7 @@
 		opacity: 1;
 
 		&:disabled {
-			border-color: #dcdde1;
+			border: 1px solid #dcdde1;
 			background-color: #f3f4f5;
 			color: #8c8f9a;
 			cursor: default;

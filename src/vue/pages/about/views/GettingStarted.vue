@@ -1,6 +1,7 @@
 <template>
 	<div class="aioseo-getting-started">
 		<core-getting-started
+			v-if="$allowed('aioseo_setup_wizard')"
 			disable-close
 		/>
 

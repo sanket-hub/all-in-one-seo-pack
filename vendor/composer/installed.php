@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ad0e0ada30d321e66de6b15fabd5c6e9d679f40c',
+    'reference' => 'ae17a1f9f3ced74aab29dbecb2420ceaf64c5a20',
     'name' => 'awesomemotive/all-in-one-seo-pack-pro',
   ),
   'versions' => 
@@ -18,7 +18,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ad0e0ada30d321e66de6b15fabd5c6e9d679f40c',
+      'reference' => 'ae17a1f9f3ced74aab29dbecb2420ceaf64c5a20',
+    ),
+    'instituteweb/composer-scripts' => 
+    array (
+      'pretty_version' => '1.1.0',
+      'version' => '1.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5907516e0d6aba5f2b78cafd4af3cb352b44e9ab',
     ),
     'jwhennessey/phpinsight' => 
     array (

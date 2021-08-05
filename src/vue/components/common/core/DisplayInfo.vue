@@ -9,7 +9,11 @@
 				v-model="currentItem"
 				name="displayInfo"
 				:options="boxToggleOptions"
+				@input="(value) => inputEvent(value)"
 			>
+				<template #extra>
+					<slot name="extra" />
+				</template>
 				<template #shortcode>
 					<svg-shortcode/>
 					<p>{{ strings.shortcode }}</p>
@@ -26,6 +30,7 @@
 					<svg-widget/>
 					<p>{{ strings.widget }}</p>
 				</template>
+
 			</base-box-toggle>
 
 			<div class="displayInfo-show-content">
@@ -33,11 +38,43 @@
 					:key="index" v-for="(item, index) in boxToggleOptions"
 					:active="item.value === currentItem"
 				>
-					<div class="copy-box">
+					<div
+						class="copy-box"
+						v-if="'extra' !== item.slot"
+					>
 						<div>
-							<div class="aioseo-description" v-if="item.desc" v-html="item.desc"></div>
+							<div
+								class="aioseo-description"
+								v-if="item.desc"
+								v-html="item.desc"
+							/>
 							<core-copy-block v-if="item.copy" :message="item.copy"/>
+
+							<a
+								v-if="$slots[item.slot + 'Advanced'] && !showAdvancedSettings"
+								class="advanced-settings-link"
+								href="#"
+								@click.prevent="showAdvancedSettings = !showAdvancedSettings"
+							>{{ strings.advancedSettings }}</a>
 						</div>
+
+						<transition-slide
+							v-if="$slots[item.slot + 'Advanced']"
+							:class="{ 'advanced-settings' : true, 'advanced-settings-hidden' : !showAdvancedSettings }"
+							:active="showAdvancedSettings"
+						>
+							<slot :name="item.slot + 'Advanced'"/>
+						</transition-slide>
+					</div>
+
+					<div
+						class="extra-box"
+						v-if="'extra' === item.slot"
+					>
+						<slot
+							name="extraBox"
+							:item="item"
+						/>
 					</div>
 				</transition-slide>
 			</div>
@@ -46,7 +83,6 @@
 </template>
 
 <script>
-
 export default {
 	props : {
 		label : {
@@ -59,16 +95,31 @@ export default {
 			type : Object,
 			default () {
 				return {
-					shortcode : { copy: '', desc: '' },
-					block     : { copy: '', desc: '' },
-					php       : { copy: '', desc: '' },
-					widget    : { copy: '', desc: '' }
+					extra     : { copy: '', desc: '', input: false },
+					shortcode : { copy: '', desc: '', input: false },
+					block     : { copy: '', desc: '', input: false },
+					php       : { copy: '', desc: '', input: false },
+					widget    : { copy: '', desc: '', input: false }
 				}
 			}
 		}
 	},
+	data () {
+		return {
+			currentItem          : Object.keys(this.options)[0],
+			errors               : [],
+			showAdvancedSettings : false,
+			strings              : {
+				shortcode        : this.$t.__('Shortcode', this.$td),
+				gutenbergBlock   : this.$t.__('Gutenberg Block', this.$td),
+				phpCode          : this.$t.__('PHP Code', this.$td),
+				widget           : this.$t.__('Widget', this.$td),
+				advancedSettings : this.$t.__('Advanced Settings', this.$td)
+			}
+		}
+	},
 	computed : {
-		boxToggleOptions : function () {
+		boxToggleOptions () {
 			const boxOptions = Object.keys(this.options)
 			return boxOptions.map((key) => ({
 				value : key,
@@ -78,20 +129,15 @@ export default {
 			}))
 		}
 	},
-	data () {
-		return {
-			currentItem : Object.keys(this.options)[0],
-			strings     : {
-				shortcode      : this.$t.__('Shortcode', this.$td),
-				gutenbergBlock : this.$t.__('Gutenberg Block', this.$td),
-				phpCode        : this.$t.__('PHP Code', this.$td),
-				widget         : this.$t.__('Widget', this.$td)
-			}
-		}
-	},
 	watch : {
 		currentItem (newValue) {
 			this.currentItem = newValue
+		}
+	},
+	methods : {
+		inputEvent (value) {
+			this.$emit('input', value)
+			this.showAdvancedSettings = false
 		}
 	}
 }
@@ -107,6 +153,7 @@ export default {
 	}
 
 	svg.aioseo-widget,
+	svg.aioseo-new-page,
 	svg.aioseo-shortcode {
 		width: 100%;
 		height: auto;
@@ -128,14 +175,12 @@ export default {
 		width: 110px;
 	}
 
-	.copy-box {
-		padding-top: 0.5rem;
-
-		> div {
-			padding: 30px;
-			border-radius: 3px;
-			background-color: $box-background;
-		}
+	.copy-box,
+	.extra-box {
+		margin-top: 10px;
+		padding: 30px;
+		border-radius: 3px;
+		background-color: $box-background;
 
 		.aioseo-description {
 			margin: 0;
@@ -144,6 +189,27 @@ export default {
 		.aioseo-copy-block {
 			margin: 20px 0 0;
 		}
+
+		.advanced-settings-link {
+			display: inline-block;
+			padding-top: 5px;
+			margin: 16px 0 0 16px;
+			color: $placeholder-color;
+			text-decoration: underline;
+			font-size: 13px;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		.advanced-settings {
+			padding-top: 20px;
+		}
+	}
+
+	.advanced-settings.advanced-settings-hidden {
+		display: none;
 	}
 
 	.aioseo-tooltip {

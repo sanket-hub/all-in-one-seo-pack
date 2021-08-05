@@ -28,7 +28,7 @@
 				{{ strings.goodResults }}
 			</div>
 
-			<div class="links">
+			<div class="links" v-if="$allowed('aioseo_seo_analysis_settings')">
 				<a :href="$aioseo.urls.aio.seoAnalysis">{{ strings.completeSiteAuditChecklist }}</a>
 				<a :href="$aioseo.urls.aio.seoAnalysis" class="no-underline">&rarr;</a>
 			</div>

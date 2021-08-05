@@ -1,7 +1,34 @@
 <template>
 	<div id="aioseo-help-modal" class="aioseo-help">
+		<core-upgrade-bar
+			v-if="!$isPro && settings.showUpgradeBar && pong"
+		/>
+
+		<core-license-key-bar
+			v-if="$isPro && isUnlicensed && pong"
+		/>
+
+		<core-api-bar
+			v-if="!pong"
+		/>
+
 		<div class="aioseo-help-header">
-			<svg-aioseo-logo id="aioseo-help-logo" />
+			<div class="logo">
+				<a
+					v-if="isUnlicensed"
+					:href="$links.utmUrl('header-logo')"
+					target="_blank"
+
+				>
+					<svg-aioseo-logo
+						id="aioseo-help-logo"
+					/>
+				</a>
+				<svg-aioseo-logo
+					v-if="!isUnlicensed"
+					id="aioseo-help-logo"
+				/>
+			</div>
 			<div
 				id="aioseo-help-close"
 				:title="strings.close"
@@ -75,7 +102,7 @@
 			</div>
 			<div id="aioseo-help-footer">
 				<div class="aioseo-help-footer-block">
-					<a href="https://aioseo.com/docs/" rel="noopener noreferrer" target="_blank">
+					<a :href="$links.utmUrl('help-panel-all-docs', '', 'https://aioseo.com/docs/')" rel="noopener noreferrer" target="_blank">
 						<svg-description />
 						<h3>{{ strings.viewDocumentation }}</h3>
 						<p>{{ strings.browseDocumentation }}</p>
@@ -116,7 +143,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { debounce } from '@/vue/utils/debounce'
 export default {
 	data () {
@@ -139,7 +166,8 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'showHelpModal', 'helpPanel' ]),
+		...mapGetters([ 'settings', 'isUnlicensed' ]),
+		...mapState([ 'showHelpModal', 'helpPanel', 'pong' ]),
 		filteredDocs () {
 			if ('' !== this.searchItem) {
 				return Object.values(this.helpPanel.docs).filter(post => {
@@ -209,10 +237,13 @@ export default {
 			background: #fff;
 			width: 100%;
 			height: 60px;
-			position: fixed;
 			z-index: 1;
-			top: 0;
-			left: 0;
+			padding: 20px;
+			display: flex;
+
+			> .logo {
+				flex: 1;
+			}
 		}
 
 		.aioseo-help-docs {
@@ -304,7 +335,7 @@ export default {
 				background-color: #fff;
 				text-align: center;
 				top: 0;
-				padding: 74px 0 50px 0;
+				padding: 20px 0 50px 0;
 			}
 			#aioseo-help-result {
 				.aioseo-help-docs {
@@ -363,19 +394,13 @@ export default {
 		}
 	}
 	#aioseo-help-logo {
-		position: fixed;
 		width: 132px;
 		height: 26px;
-		top: 20px;
-		left: 20px;
 		z-index: 2;
 	}
 	#aioseo-help-close {
-		position: fixed;
 		width: 20px;
 		height: 20px;
-		top: 30px;
-		right: 30px;
 		cursor: pointer;
 		opacity: 0.7;
 		transition: all 0.05s;

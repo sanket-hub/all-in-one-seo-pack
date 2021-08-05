@@ -16,20 +16,20 @@ const HeadlinePieChart = props => {
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<circle
-						class="aioseo-seo-headline-analyzer-score__background"
+						className="aioseo-seo-headline-analyzer-score__background"
 						stroke="#e8e8eb"
-						stroke-width="2"
+						strokeWidth="2"
 						fill="none"
 						cx="16.91549431"
 						cy="16.91549431"
 						r="15.91549431"
 					/>
 					<circle
-						class="aioseo-seo-headline-analyzer-score__circle"
+						className="aioseo-seo-headline-analyzer-score__circle"
 						stroke={color}
-						stroke-width="2"
-						stroke-dasharray={`${score}, 100`}
-						stroke-linecap="round"
+						strokeWidth="2"
+						strokeDasharray={`${score}, 100`}
+						strokeLinecap="round"
 						fill="none"
 						cx="16.91549431"
 						cy="16.91549431"

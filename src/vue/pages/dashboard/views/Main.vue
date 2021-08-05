@@ -7,7 +7,7 @@
 		>
 			<div>
 				<div
-					v-if="settings.showSetupWizard"
+					v-if="settings.showSetupWizard && $allowed('aioseo_setup_wizard')"
 					class="dashboard-getting-started"
 				>
 					<core-getting-started />
@@ -24,7 +24,7 @@
 							<core-seo-site-score />
 						</core-card>
 
-						<grid-row>
+						<grid-row v-if="quickLinks.length > 0">
 							<grid-column>
 								<div class="aioseo-quicklinks-title">
 									{{ strings.quicklinks }}
@@ -48,6 +48,7 @@
 								<core-feature-card
 									:feature="link"
 									:can-activate="false"
+									:can-manage="$allowed(link.access)"
 									static-card
 								>
 									<template #title>
@@ -263,6 +264,10 @@ export default {
 				{ icon: 'svg-book', text: this.strings.gettingStarted, link: this.$links.utmUrl('dashboard-support-box', 'beginners-guide', 'docs/quick-start-guide/'), blank: true }
 			]
 
+			if (!this.$allowed('aioseo_setup_wizard')) {
+				return options
+			}
+
 			return this.settings.showSetupWizard
 				? options
 				: options.concat({
@@ -274,13 +279,49 @@ export default {
 		},
 		quickLinks () {
 			return [
-				{ icon: 'svg-title-and-meta', description: this.strings.manageSearchAppearance, name: this.strings.searchAppearance, manageUrl: this.$aioseo.urls.aio.searchAppearance },
-				{ icon: 'svg-clipboard-checkmark', description: this.strings.manageSeoAnalysis, name: this.strings.seoAnalysis, manageUrl: this.$aioseo.urls.aio.seoAnalysis },
-				{ icon: 'svg-location-pin', description: this.strings.manageLocalSeo, name: this.strings.localSeo, manageUrl: this.$aioseo.urls.aio.localSeo },
-				{ icon: 'svg-share', description: this.strings.manageSocialNetworks, name: this.strings.socialNetworks, manageUrl: this.$aioseo.urls.aio.socialNetworks },
-				{ icon: 'svg-build', description: this.strings.manageTools, name: this.strings.tools, manageUrl: this.$aioseo.urls.aio.tools },
-				{ icon: 'svg-sitemaps-pro', description: this.strings.manageSitemap, name: this.strings.sitemap, manageUrl: this.$aioseo.urls.aio.sitemaps }
-			]
+				{
+					icon        : 'svg-title-and-meta',
+					description : this.strings.manageSearchAppearance,
+					name        : this.strings.searchAppearance,
+					manageUrl   : this.$aioseo.urls.aio.searchAppearance,
+					access      : 'aioseo_search_appearance_settings'
+				},
+				{
+					icon        : 'svg-clipboard-checkmark',
+					description : this.strings.manageSeoAnalysis,
+					name        : this.strings.seoAnalysis,
+					manageUrl   : this.$aioseo.urls.aio.seoAnalysis,
+					access      : 'aioseo_seo_analysis_settings'
+				},
+				{
+					icon        : 'svg-location-pin',
+					description : this.strings.manageLocalSeo,
+					name        : this.strings.localSeo,
+					manageUrl   : this.$aioseo.urls.aio.localSeo,
+					access      : 'aioseo_local_seo_settings'
+				},
+				{
+					icon        : 'svg-share',
+					description : this.strings.manageSocialNetworks,
+					name        : this.strings.socialNetworks,
+					manageUrl   : this.$aioseo.urls.aio.socialNetworks,
+					access      : 'aioseo_social_networks_settings'
+				},
+				{
+					icon        : 'svg-build',
+					description : this.strings.manageTools,
+					name        : this.strings.tools,
+					manageUrl   : this.$aioseo.urls.aio.tools,
+					access      : 'aioseo_tools_settings'
+				},
+				{
+					icon        : 'svg-sitemaps-pro',
+					description : this.strings.manageSitemap,
+					name        : this.strings.sitemap,
+					manageUrl   : this.$aioseo.urls.aio.sitemaps,
+					access      : 'aioseo_sitemap_settings'
+				}
+			].filter(link => this.$allowed(link.access))
 		}
 	},
 	methods : {
