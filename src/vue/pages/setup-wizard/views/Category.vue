@@ -157,7 +157,8 @@ export default {
 				'optimized-search-appearance',
 				'analytics',
 				'image-seo',
-				'sitemaps'
+				'sitemaps',
+				'redirects'
 			]
 
 			// Let's preselect some features based on the category set.

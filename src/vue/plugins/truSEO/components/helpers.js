@@ -52,9 +52,9 @@ export const shouldShowTruSeoScore = () => {
 	const showScore = !!(
 		window.aioseo.options.advanced &&
 		window.aioseo.options.advanced.truSeo &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType] &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType].advanced &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType].advanced.showMetaBox
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType] &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced.showMetaBox
 	)
 	return (
 		shouldShowMetaBox() ||
@@ -71,16 +71,16 @@ export const shouldShowMetaBox = () => {
 	const showForPost = !!(
 		postType &&
 		'post' === window.aioseo.currentPost.context &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType] &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType].advanced &&
-		window.aioseo.options.searchAppearance.dynamic.postTypes[postType].advanced.showMetaBox
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType] &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced.showMetaBox
 	)
 	const showForTerm = !!(
 		taxonomy &&
 		'term' === window.aioseo.currentPost.context &&
-		window.aioseo.options.searchAppearance.dynamic.taxonomies[taxonomy] &&
-		window.aioseo.options.searchAppearance.dynamic.taxonomies[taxonomy].advanced &&
-		window.aioseo.options.searchAppearance.dynamic.taxonomies[taxonomy].advanced.showMetaBox
+		window.aioseo.dynamicOptions.searchAppearance.taxonomies[taxonomy] &&
+		window.aioseo.dynamicOptions.searchAppearance.taxonomies[taxonomy].advanced &&
+		window.aioseo.dynamicOptions.searchAppearance.taxonomies[taxonomy].advanced.showMetaBox
 	)
 
 	return showForPost || showForTerm

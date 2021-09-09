@@ -6,6 +6,7 @@ export const getOptions = () => new Promise(resolve => {
 		return resolve(setOptions({
 			internalOptions : window.aioseo.internalOptions,
 			options         : window.aioseo.options,
+			dynamicOptions  : window.aioseo.dynamicOptions,
 			networkOptions  : window.aioseo.networkOptions,
 			settings        : window.aioseo.settings,
 			notifications   : window.aioseo.notifications,
@@ -23,6 +24,7 @@ export const getOptions = () => new Promise(resolve => {
 export const setOptions = ({
 	internalOptions,
 	options,
+	dynamicOptions,
 	networkOptions,
 	settings,
 	notifications,
@@ -37,6 +39,7 @@ export const setOptions = ({
 }) => {
 	internalOptions = merge({ ...window.aioseo.internalOptions }, { ...internalOptions })
 	options         = merge({ ...window.aioseo.options }, { ...options })
+	dynamicOptions  = merge({ ...window.aioseo.dynamicOptions }, { ...dynamicOptions })
 	networkOptions  = merge({ ...window.aioseo.networkOptions }, { ...networkOptions })
 	settings        = merge({ ...window.aioseo.settings }, { ...settings })
 	notifications   = merge({ ...window.aioseo.notifications }, { ...notifications })
@@ -55,6 +58,7 @@ export const setOptions = ({
 		...window.aioseo,
 		internalOptions,
 		options,
+		dynamicOptions,
 		networkOptions,
 		settings,
 		notifications,
@@ -69,9 +73,12 @@ export const setOptions = ({
 	window.aioseo         = aioseo
 	Vue.prototype.$aioseo = aioseo
 
+	window.dispatchEvent(new Event('updateAioseo', { aioseo }))
+
 	return {
 		internalOptions,
 		options,
+		dynamicOptions,
 		networkOptions,
 		settings,
 		notifications,

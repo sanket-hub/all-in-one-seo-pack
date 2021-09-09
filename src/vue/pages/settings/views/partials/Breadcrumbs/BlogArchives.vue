@@ -7,35 +7,35 @@
 		<template #content>
 			<div>
 				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.blog.useDefaultTemplate"></preview>
+						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate"></preview>
 				<grid-row>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.blog.useDefaultTemplate"
+							v-model="dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate"
 							class="current-item"
 						/>
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
-				<grid-row v-if="!options.breadcrumbs.dynamic.archives.blog.useDefaultTemplate">
+				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate">
 					<grid-column
 						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.blog.showPrefixCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.blog.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.blog.showHomeCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.blog.showHomeCrumb"
 							class="current-item"
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
 					<grid-column>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.blog.template"
+							v-model="dynamicOptions.breadcrumbs.archives.blog.template"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-blog-archive"
@@ -71,7 +71,7 @@ export default {
 	methods : {
 		getPreview () {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const archiveOptions = breadcrumbOptions.dynamic.archives.blog
+			const archiveOptions = this.dynamicOptions.breadcrumbs.archives.blog
 			const useDefault = archiveOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && archiveOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -80,12 +80,12 @@ export default {
 			]
 		},
 		getTemplate () {
-			const template = this.options.breadcrumbs.dynamic.archives.blog.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.blog : this.options.breadcrumbs.dynamic.archives.blog.template
+			const template = this.dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.blog : this.dynamicOptions.breadcrumbs.archives.blog.template
 			return template.replace(/#breadcrumb_blog_page_title/g, this.$aioseo.data.staticBlogPageTitle)
 		}
 	},
 	computed : {
-		...mapState([ 'options' ])
+		...mapState([ 'options', 'dynamicOptions' ])
 	}
 }
 </script>

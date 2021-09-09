@@ -23,10 +23,13 @@ export default {
 		const rootOptionsNetwork       = JSON.stringify(JSON.parse(JSON.stringify(rootState.options)), replacer)
 		const originalOptionsRedirects = JSON.stringify(JSON.parse(JSON.stringify(state.redirectOptions)), replacer)
 		const rootOptionsRedirects     = JSON.stringify(JSON.parse(JSON.stringify(rootState.redirects.options)), replacer)
+		const originalOptionsDynamic   = JSON.stringify(JSON.parse(JSON.stringify(state.dynamicOptions)), replacer)
+		const rootOptionsDynamic       = JSON.stringify(JSON.parse(JSON.stringify(rootState.dynamicOptions)), replacer)
 		return !(
 			originalOptions === rootOptions &&
 			originalOptionsNetwork === rootOptionsNetwork &&
-			originalOptionsRedirects === rootOptionsRedirects
+			originalOptionsRedirects === rootOptionsRedirects &&
+			originalOptionsDynamic === rootOptionsDynamic
 		)
 	}
 }

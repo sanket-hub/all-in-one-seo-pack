@@ -4,6 +4,11 @@ import { __, sprintf } from '@wordpress/i18n'
 	if ('undefined' === typeof wp || 'undefined' === typeof wp.blocks) {
 		return
 	}
+
+	if ('object' === typeof wp.blocks.getBlockType('aioseo/breadcrumbs')) {
+		return
+	}
+
 	if (window.aioseo.currentPost) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment

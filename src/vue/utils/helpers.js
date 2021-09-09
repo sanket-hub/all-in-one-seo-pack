@@ -1,6 +1,6 @@
 export const observeElement = (params) => {
 	new MutationObserver(function () {
-		const el = document.getElementById(params.id)
+		const el = params.id ? document.getElementById(params.id) : document.querySelector(params.selector)
 		if (el) {
 			this.disconnect()
 			params.done(el)

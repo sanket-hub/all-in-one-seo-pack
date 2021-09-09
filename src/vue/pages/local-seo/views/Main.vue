@@ -10,10 +10,12 @@
 import '@/vue/components/AIOSEO_VERSION'
 import Locations from './Locations'
 import OpeningHours from './OpeningHours'
+import Maps from './Maps'
 export default {
 	components : {
 		Locations,
-		OpeningHours
+		OpeningHours,
+		Maps
 	},
 	data () {
 		return {

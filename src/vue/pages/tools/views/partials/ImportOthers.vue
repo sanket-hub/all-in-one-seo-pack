@@ -66,8 +66,6 @@
 				<grid-column
 					v-for="(setting, index) in settings"
 					:key="index"
-					xl="3"
-					md="4"
 					sm="6"
 				>
 					<base-checkbox

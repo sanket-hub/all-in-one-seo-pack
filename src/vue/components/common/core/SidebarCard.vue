@@ -117,6 +117,16 @@ export default {
 	},
 	methods : {
 		...mapActions([ 'toggleCard' ])
+	},
+	created () {
+		this.$bus.$on('open-post-settings', (param) => {
+			for (const card in this.settings.toggledCards) {
+				if (this.settings.toggledCards[card]) {
+					this.toggleCard({ slug: card })
+				}
+			}
+			this.toggleCard({ slug: param.card })
+		})
 	}
 }
 </script>

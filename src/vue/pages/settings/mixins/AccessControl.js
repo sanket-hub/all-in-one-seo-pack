@@ -22,6 +22,12 @@ export const AccessControl = {
 					description : this.$t.sprintf(this.$t.__('By default Authors have access to %1$sSEO settings for individual pages and posts that they already have permission to edit.%2$s', this.$td), '<strong>', '</strong>')
 				},
 				{
+					label       : this.$t.__('Contributor', this.$td),
+					name        : 'contributor',
+					// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
+					description : this.$t.sprintf(this.$t.__('By default Contributors have access to %1$sSEO settings for individual pages and posts that they already have permission to edit.%2$s', this.$td), '<strong>', '</strong>')
+				},
+				{
 					label       : this.$t.__('SEO Manager', this.$td),
 					name        : 'seoManager',
 					// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.

@@ -26,7 +26,7 @@
 					</base-checkbox>
 				</grid-column>
 				<grid-column
-					v-for="(setting, index) in settings"
+					v-for="(setting, index) in toolsSettings"
 					:key="index"
 					sm="6"
 				>
@@ -105,7 +105,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { ToolsSettings } from '@/vue/mixins'
+
 export default {
+	mixins : [ ToolsSettings ],
 	data () {
 		return {
 			options     : {},
@@ -119,81 +122,6 @@ export default {
 		}
 	},
 	computed : {
-		settings () {
-			const settings = [
-				{
-					value  : 'webmasterTools',
-					label  : this.$t.__('Webmaster Tools', this.$td),
-					access : 'aioseo_general_settings'
-				},
-				{
-					value  : 'rssContent',
-					label  : this.$t.__('RSS Content', this.$td),
-					access : 'aioseo_general_settings'
-				},
-				{
-					value  : 'advanced',
-					label  : this.$t.__('Advanced', this.$td),
-					access : 'aioseo_general_settings'
-				},
-				{
-					value  : 'searchAppearance',
-					label  : this.$t.__('Search Appearance', this.$td),
-					access : 'aioseo_search_appearance_settings'
-				},
-				{
-					value  : 'social',
-					label  : this.$t.__('Social Networks', this.$td),
-					access : 'aioseo_social_networks_settings'
-				},
-				{
-					value  : 'sitemap',
-					label  : this.$t.__('Sitemaps', this.$td),
-					access : 'aioseo_sitemap_settings'
-				},
-				{
-					value  : 'redirects',
-					label  : this.$t.__('Redirects', this.$td),
-					access : 'aioseo_redirects_settings'
-				},
-				{
-					value  : 'breadcrumbs',
-					label  : this.$t.__('Breadcrumbs', this.$td),
-					access : 'aioseo_general_settings'
-				},
-				{
-					value  : 'tools',
-					label  : this.$t.__('Tools', this.$td),
-					access : 'aioseo_tools_settings'
-				}
-			]
-
-			if (this.$isPro) {
-				settings.push({
-					value  : 'accessControl',
-					label  : this.$t.__('Access Control', this.$td),
-					access : 'aioseo_admin'
-				})
-			}
-
-			if (!this.isUnlicensed && this.showImageSeoReset) {
-				settings.push({
-					value  : 'image',
-					label  : this.$t.__('Image SEO', this.$td),
-					access : 'aioseo_search_appearance_settings'
-				})
-			}
-
-			if (!this.isUnlicensed && this.showLocalBusinessReset) {
-				settings.push({
-					value  : 'localBusiness',
-					label  : this.$t.__('Local Business SEO', this.$td),
-					access : 'aioseo_local_seo_settings'
-				})
-			}
-
-			return settings.filter(setting => this.$allowed(setting.access))
-		},
 		canExport () {
 			const passed = []
 			Object.keys(this.options).forEach(key => {
@@ -225,7 +153,7 @@ export default {
 					settings.push('general')
 				}
 				settings.push('internal')
-				this.settings
+				this.toolsSettings
 					.filter(setting => 'all' !== setting.value)
 					.forEach(setting => {
 						settings.push(setting.value)

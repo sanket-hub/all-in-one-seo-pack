@@ -235,14 +235,16 @@ export default {
 	},
 	saveChanges ({ state, commit }) {
 		setOptions({
-			redirects : state.redirects,
-			options   : state.options,
-			settings  : state.settings
+			redirects      : state.redirects,
+			options        : state.options,
+			dynamicOptions : state.dynamicOptions,
+			settings       : state.settings
 		})
 
 		const options = {
-			options : state.options,
-			network : this._vm.$aioseo.data.network
+			options        : state.options,
+			dynamicOptions : state.dynamicOptions,
+			network        : this._vm.$aioseo.data.network
 		}
 
 		if ('redirects' === this._vm.$aioseo.page) {
@@ -253,6 +255,7 @@ export default {
 			.then(response => {
 				commit('updateNotifications', response.body.notifications)
 				commit('original/setOriginalOptions', JSON.parse(JSON.stringify(state.options)), { root: true })
+				commit('original/setOriginalDynamicOptions', JSON.parse(JSON.stringify(state.dynamicOptions)), { root: true })
 
 				if (state.redirects && state.redirects.options) {
 					commit('original/setOriginalRedirectOptions', JSON.parse(JSON.stringify(state.redirects.options)), { root: true })

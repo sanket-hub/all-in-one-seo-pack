@@ -259,7 +259,7 @@ export default {
 	},
 	computed : {
 		...mapState('live-tags', [ 'liveTags' ]),
-		...mapState([ 'currentPost', 'options' ]),
+		...mapState([ 'currentPost', 'options', 'dynamicOptions' ]),
 		objectTypeOptions () {
 			return [ { groupLabel: this.$t.__('Default', this.$td), options: [ { label: this.$t.__('Default Object Type (Set in Social Networks)', this.$td), value: 'default' } ] } ].concat(this.$constants.OG_TYPE_OPTIONS)
 		},
@@ -268,7 +268,7 @@ export default {
 			return 'article' === this.currentPost.og_object_type ||
 				(
 					'default' === this.currentPost.og_object_type &&
-					'article' === this.options.social.facebook.general.dynamic[context][this.currentPost.postType || this.currentPost.termType].objectType
+					'article' === this.dynamicOptions.social.facebook.general[context][this.currentPost.postType || this.currentPost.termType].objectType
 				)
 		}
 	},

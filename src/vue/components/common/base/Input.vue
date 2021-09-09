@@ -40,6 +40,7 @@
 				{ prepend: prependIcon },
 				{ append: appendIcon }
 			]"
+			:id="inputId"
 		/>
 		<div
 			v-if="!$slots.append && appendIcon"
@@ -97,7 +98,8 @@ export default {
 		step : {
 			type     : Number,
 			required : false
-		}
+		},
+		inputId : String
 	}
 }
 </script>

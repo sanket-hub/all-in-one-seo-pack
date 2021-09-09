@@ -22,7 +22,8 @@ import 'moment-timezone'
 
 import VueScrollTo from 'vue-scrollto'
 
-window.aioseo = window.aioseo || {}
+window.aioseo    = window.aioseo || {}
+window.aioseoBus = window.aioseoBus || new Vue()
 
 if ('production' === process.env.NODE_ENV) {
 	const publicPath = window.aioseo.urls.publicPath || '/'
@@ -64,7 +65,7 @@ Vue.use(VueScrollTo, {
 
 Vue.prototype.$addons           = addons
 Vue.prototype.$allowed          = allowed
-Vue.prototype.$bus              = new Vue()
+Vue.prototype.$bus              = window.aioseoBus
 Vue.prototype.$constants        = constants
 Vue.prototype.$http             = http
 Vue.prototype.$isPro            = 'pro' === process.env.VUE_APP_VERSION.toLowerCase()

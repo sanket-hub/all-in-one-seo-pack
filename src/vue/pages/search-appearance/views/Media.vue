@@ -18,7 +18,7 @@
 				>
 					<template #content>
 						<base-radio-toggle
-							v-model="options.searchAppearance.dynamic.postTypes.attachment.redirectAttachmentUrls"
+							v-model="dynamicOptions.searchAppearance.postTypes.attachment.redirectAttachmentUrls"
 							name="redirectAttachmentUrls"
 							:options="[
 								{ label: $constants.GLOBAL_STRINGS.disabled, value: 'disabled', activeClass: 'dark' },
@@ -36,7 +36,7 @@
 
 			<template
 				#tabs
-				v-if="'disabled' === options.searchAppearance.dynamic.postTypes.attachment.redirectAttachmentUrls"
+				v-if="'disabled' === dynamicOptions.searchAppearance.postTypes.attachment.redirectAttachmentUrls"
 			>
 				<core-main-tabs
 					:tabs="tabs"
@@ -49,13 +49,13 @@
 
 			<transition
 				name="route-fade" mode="out-in"
-				v-if="'disabled' === options.searchAppearance.dynamic.postTypes.attachment.redirectAttachmentUrls"
+				v-if="'disabled' === dynamicOptions.searchAppearance.postTypes.attachment.redirectAttachmentUrls"
 			>
 				<component
 					:is="settings.internalTabs[`${postType.name}SA`]"
 					:object="postType"
 					:separator="options.searchAppearance.global.separator"
-					:options="options.searchAppearance.dynamic.postTypes[postType.name]"
+					:options="dynamicOptions.searchAppearance.postTypes[postType.name]"
 					type="postTypes"
 				/>
 			</transition>
@@ -133,7 +133,7 @@ export default {
 	},
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'options', 'settings' ]),
+		...mapState([ 'options', 'dynamicOptions', 'settings' ]),
 		postType () {
 			return this.$aioseo.postData.postTypes
 				.filter(pt => 'attachment' === pt.name)[0]

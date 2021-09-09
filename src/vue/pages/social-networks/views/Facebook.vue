@@ -206,8 +206,8 @@
 								:options="objectTypeOptions"
 								group-label="groupLabel"
 								group-values="options"
-								:value="getObjectTypeOptions(options.social.facebook.general.dynamic.postTypes[postType.name].objectType)"
-								@input="value => options.social.facebook.general.dynamic.postTypes[postType.name].objectType = value.value"
+								:value="getObjectTypeOptions(dynamicOptions.social.facebook.general.postTypes[postType.name].objectType)"
+								@input="value => dynamicOptions.social.facebook.general.postTypes[postType.name].objectType = value.value"
 							/>
 						</table-column>
 					</table-row>
@@ -235,8 +235,8 @@
 								:options="objectTypeOptions"
 								group-label="groupLabel"
 								group-values="options"
-								:value="getObjectTypeOptions(options.social.facebook.general.dynamic.taxonomies[taxonomy.name].objectType)"
-								@input="value => options.social.facebook.general.dynamic.taxonomies[taxonomy.name].objectType = value.value"
+								:value="getObjectTypeOptions(dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType)"
+								@input="value => dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType = value.value"
 							/>
 
 							<base-select
@@ -732,7 +732,7 @@ export default {
 	},
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'options' ]),
+		...mapState([ 'options', 'dynamicOptions' ]),
 		objectTypeOptions () {
 			return this.$constants.OG_TYPE_OPTIONS
 		}

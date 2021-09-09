@@ -99,6 +99,10 @@
 		<core-modal
 			v-if="semrushShowModal"
 			@close="semrushShowModal = false"
+			isolate
+			:classes="[
+				'aioseo-focus-keyphrase-panel-modal'
+			]"
 		>
 			<div slot="headerTitle">
 				{{ strings.modalTitle }}
@@ -234,10 +238,17 @@
 												/>
 
 												<span
-													v-if="!loadingResults"
+													v-if="!loadingResults && !semrush.error"
 												>
 													{{ strings.noResults }}
 												</span>
+
+												<core-alert
+													type="red"
+													v-if="semrush.error"
+												>
+													{{ semrushError }}
+												</core-alert>
 											</div>
 										</td>
 									</tr>
@@ -309,6 +320,13 @@ export default {
 		...mapGetters([ 'isUnlicensed', 'isConnected' ]),
 		...mapState([ 'currentPost', 'internalOptions' ]),
 		...mapState('integrations', [ 'semrush' ]),
+		semrushError () {
+			if (this.semrush.error.includes('TOTAL LIMIT EXCEEDED')) {
+				return this.$t.__('You have exceeded the limit for requests. Please try again later.', this.$td)
+			}
+
+			return this.$t.__('An error occurred while fetching keyphrases. Please try again later.', this.$td)
+		},
 		semrushDatabase () {
 			return this.$constants.COUNTRY_LIST
 				.map(country => {
@@ -556,7 +574,8 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-focus-keyphrase-panel {
+// These styles apply to a modal that needs to isolate from the main app.
+.aioseo-app.aioseo-focus-keyphrase-panel-modal {
 	.modal-body {
 		max-height: calc(90vh - 70px);
 		overflow: auto;

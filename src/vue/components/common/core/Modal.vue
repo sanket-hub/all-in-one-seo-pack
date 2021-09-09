@@ -1,25 +1,36 @@
 <template>
 	<transition name="modal">
-		<div class="modal-mask">
-			<div class="modal-wrapper">
-				<div class="modal-container">
-					<div
-						v-if="!noHeader"
-						class="modal-header"
-					>
-						<slot name="header">
-							<slot name="headerTitle" />
-							<button
-								class="close"
-								@click.stop="$emit('close')"
-							>
-								<svg-close @click="$emit('close')" />
-							</button>
-						</slot>
-					</div>
+		<div
+			:class="[
+				{
+					'aioseo-app' : isolate
+				},
+				...classes
+			]"
+		>
+			<div
+				class="modal-mask"
+			>
+				<div class="modal-wrapper">
+					<div class="modal-container">
+						<div
+							v-if="!noHeader"
+							class="modal-header"
+						>
+							<slot name="header">
+								<slot name="headerTitle" />
+								<button
+									class="close"
+									@click.stop="$emit('close')"
+								>
+									<svg-close @click="$emit('close')" />
+								</button>
+							</slot>
+						</div>
 
-					<div class="modal-body">
-						<slot name="body"></slot>
+						<div class="modal-body">
+							<slot name="body"></slot>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -30,7 +41,9 @@
 <script>
 export default {
 	props : {
-		noHeader : Boolean
+		noHeader : Boolean,
+		isolate  : Boolean,
+		classes  : Array
 	},
 	methods : {
 		scrollToElement () {
@@ -44,6 +57,10 @@ export default {
 	},
 	mounted () {
 		this.scrollToElement()
+
+		if (this.isolate) {
+			document.body.appendChild(this.$el)
+		}
 	}
 }
 </script>

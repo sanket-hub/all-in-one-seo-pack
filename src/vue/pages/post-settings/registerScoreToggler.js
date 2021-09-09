@@ -1,9 +1,9 @@
-import { isBlockEditor, truSeoShouldAnalyze } from '@/vue/plugins/truSEO/components'
+import { isBlockEditor } from '@/vue/plugins/truSEO/components'
 import { __ } from '@wordpress/i18n'
 
 (function (wp) {
 	const td = process.env.VUE_APP_TEXTDOMAIN
-	if (!isBlockEditor() || !truSeoShouldAnalyze()) {
+	if (!isBlockEditor()) {
 		return
 	}
 	const registerPlugin = wp.plugins.registerPlugin

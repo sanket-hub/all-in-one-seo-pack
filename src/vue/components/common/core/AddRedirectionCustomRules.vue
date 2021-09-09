@@ -1,58 +1,64 @@
 <template>
 	<div class="custom-rules">
-		{{ strings.customRules }}
-		<div class="rule-table">
-			<div
+		<table class="redirects-options-table" cellspacing="0" cellpadding="0">
+			<thead>
+			<tr>
+				<td colspan="2">{{ strings.customRules }}</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr
 				class="rule"
-				:class="{ even: 0 === index % 2 }"
 				v-for="(match, index) in customRules"
-				:key="index">
-				<div class="rule-settings">
-					<base-select
-						:options="filteredTypes"
-						size="medium"
-						:placeholder="strings.selectMatchRule"
-						:value="getRuleValue('type', index)"
-						@input="updateRule('type', $event, index)"
-					/>
-					<base-select
-						v-if="getType(index, 'options') || getType(index, 'taggable')"
-						:options="getType(index, 'options') || []"
-						size="medium"
-						:value="getRuleValue('value', index)"
-						@input="updateRule('value', $event, index)"
-						:multiple="getType(index, 'multiple') || getType(index, 'taggable')"
-						:taggable="getType(index, 'taggable')"
-						:placeholder="getType(index, 'placeholder') || strings.selectAValue"
-					/>
-					<!-- Key field when there's a key/value pair. -->
-					<base-input
-						v-if="getType(index, 'keyValuePair')"
-						:value="getRuleValue('key', index)"
-						@input="updateRule('key', $event, index)"
-						size="medium"
-						:placeholder="getType(index, 'placeholderKey') || strings.key"
-					/>
-					<!-- Key field when there's a key/value pair. -->
-					<!-- Value field if there are no options and the option is not taggable -->
-					<base-input
-						v-if="!getType(index, 'options') && !getType(index, 'taggable')"
-						:value="getRuleValue('value', index)"
-						@input="updateRule('value', $event, index)"
-						size="medium"
-						:placeholder="getType(index, 'placeholder') || strings.value"
-						:disabled="!getType(index)"
-					/>
-					<!-- Value field if there are no options and the option is not taggable/multiple -->
-					<base-toggle
-						v-if="getType(index, 'regex')"
-						:value="getRuleValue('regex', index)"
-						@input="updateRule('regex', $event, index)"
-					>
-						{{ strings.regex }}
-					</base-toggle>
-				</div>
-				<div class="actions">
+				:class="{ even: 0 === index % 2 }"
+				:key="index"
+			>
+				<td  class="rule-settings">
+						<base-select
+							:options="filteredTypes"
+							size="medium"
+							:placeholder="strings.selectMatchRule"
+							:value="getRuleValue('type', index)"
+							@input="updateRule('type', $event, index)"
+						/>
+						<base-select
+							v-if="getType(index, 'options') || getType(index, 'taggable')"
+							:options="getType(index, 'options') || []"
+							size="medium"
+							:value="getRuleValue('value', index)"
+							@input="updateRule('value', $event, index)"
+							:multiple="getType(index, 'multiple') || getType(index, 'taggable')"
+							:taggable="getType(index, 'taggable')"
+							:placeholder="getType(index, 'placeholder') || strings.selectAValue"
+						/>
+						<!-- Key field when there's a key/value pair. -->
+						<base-input
+							v-if="getType(index, 'keyValuePair')"
+							:value="getRuleValue('key', index)"
+							@input="updateRule('key', $event, index)"
+							size="medium"
+							:placeholder="getType(index, 'placeholderKey') || strings.key"
+						/>
+						<!-- Key field when there's a key/value pair. -->
+						<!-- Value field if there are no options and the option is not taggable -->
+						<base-input
+							v-if="!getType(index, 'options') && !getType(index, 'taggable')"
+							:value="getRuleValue('value', index)"
+							@input="updateRule('value', $event, index)"
+							size="medium"
+							:placeholder="getType(index, 'placeholder') || strings.value"
+							:disabled="!getType(index)"
+						/>
+						<!-- Value field if there are no options and the option is not taggable/multiple -->
+						<base-toggle
+							v-if="getType(index, 'regex')"
+							:value="getRuleValue('regex', index)"
+							@input="updateRule('regex', $event, index)"
+						>
+							{{ strings.regex }}
+						</base-toggle>
+				</td>
+				<td class="actions">
 					<core-tooltip
 						class="action"
 						type="action"
@@ -65,18 +71,24 @@
 							{{ strings.delete }}
 						</template>
 					</core-tooltip>
-				</div>
-			</div>
-		</div>
-		<base-button
-			size="medium"
-			type="blue"
-			@click="addRule(null)"
-			class="add-rule"
-		>
-			<svg-circle-plus/>
-			{{ strings.add }}
-		</base-button>
+				</td>
+			</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="2">
+					<base-button
+						size="small-table"
+						type="black"
+						@click="addRule(null)"
+					>
+						<svg-circle-plus/>
+						{{ strings.add }}
+					</base-button>
+				</td>
+			</tr>
+			</tfoot>
+		</table>
 	</div>
 </template>
 
@@ -94,7 +106,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				customRules     : this.$t.__('Custom Rules:', this.$td),
+				customRules     : this.$t.__('Custom Rules', this.$td),
 				selectMatchRule : this.$t.__('Select Rule', this.$td),
 				delete          : this.$t.__('Delete', this.$td),
 				add             : this.$t.__('Add Custom Rule', this.$td),
@@ -303,58 +315,25 @@ export default {
 <style lang="scss" scoped>
 .custom-rules {
 	width: 100%;
-	.rule-table {
-		margin-top: 5px;
-		border: 1px solid $input-border;
-		border-radius: 3px;
-		width: 100%;
-		font-family: Helvetica;
-		font-size: 14px;
-		font-style: normal;
-		font-weight: 400;
-		line-height: 21px;
-		letter-spacing: 0px;
-		text-align: left;
-
-		.rule {
-			padding: 13px;
-			background: $box-background;
-
-			&.even {
-				background-color: #fff;
-			}
-		}
-	}
-
+	margin-top: 14px;
 	.rule {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		padding-top: 10px;
-
-		&:first-child {
-			border-radius: 3px 3px 0 0
-		}
-
-		&:last-child {
-			border-radius: 0 0 3px 3px
-		}
-
-		.rule-settings {
-			> .aioseo-select:first-child {
-				width: 250px;
-				min-width: 250px;
-			}
-		}
-
 		.rule-settings {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			flex: 1;
 
+			> .aioseo-select:first-child {
+				width: 100%;
+				max-width: 250px;
+			}
+
 			> * {
-				margin: 0 6px 0 0;
+				margin: 0 16px 0 0;
+
+				&:last-child{
+					margin-right: 0;
+				}
 
 				&.aioseo-toggle {
 					margin: 0 10px 0 4px;
@@ -393,13 +372,6 @@ export default {
 	.aioseo-button {
 		svg {
 			color: #fff;
-		}
-	}
-
-	.add-rule {
-		margin-top: 10px;
-
-		svg {
 			margin-right: 6px;
 		}
 	}

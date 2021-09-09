@@ -67,7 +67,8 @@ export default {
 		color: #52565A;
 	}
 }
-.edit-post-sidebar {
+.edit-post-sidebar,
+.editor-post-publish-panel {
 	.domain {
 		font-size: 13px;
 	}

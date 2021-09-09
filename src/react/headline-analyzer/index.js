@@ -25,6 +25,14 @@ const HeadlineAnalyzer = () => {
 
 	// Fetch data from the API.
 	const fetchData = () => {
+		if (!postTitle) {
+			const newAnalyzerData = {
+				dataExist : false
+			}
+			setAnalyzer({ ...analyzer, ...newAnalyzerData })
+			return
+		}
+
 		http(window.aioseo.nonce).post(`${window.aioseo.urls.restUrl}aioseo/v1/analyze_headline`)
 			.send({
 				title : postTitle

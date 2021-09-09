@@ -29,6 +29,7 @@ export default paths => {
 			const {
 				internalOptions,
 				options,
+				dynamicOptions,
 				networkOptions,
 				settings,
 				notifications,
@@ -42,6 +43,7 @@ export default paths => {
 			router.app.$set(store.state, 'redirects', merge({ ...store.state.redirects }, { ...redirects }))
 			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
 			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
+			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))
 			router.app.$set(store.state, 'networkOptions', merge({ ...store.state.networkOptions }, { ...networkOptions }))
 			router.app.$set(store.state, 'settings', merge({ ...store.state.settings }, { ...settings }))
 			router.app.$set(store.state, 'notifications', merge({ ...store.state.notifications }, { ...notifications }))
@@ -54,6 +56,7 @@ export default paths => {
 
 			// We clone the state as it is right now so we can compare for changes later.
 			store.commit('original/setOriginalOptions', JSON.parse(JSON.stringify(store.state.options)))
+			store.commit('original/setOriginalDynamicOptions', JSON.parse(JSON.stringify(store.state.dynamicOptions)))
 			store.commit('original/setOriginalNetworkOptions', JSON.parse(JSON.stringify(store.state.networkOptions)))
 
 			if (store.state.redirects && store.state.redirects.options) {

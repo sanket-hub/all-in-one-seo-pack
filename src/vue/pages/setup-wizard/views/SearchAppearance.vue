@@ -265,7 +265,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options' ]),
+		...mapState([ 'options', 'dynamicOptions' ]),
 		...mapState('wizard', [ 'category', 'searchAppearance' ])
 	},
 	methods : {
@@ -285,7 +285,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.searchAppearance.redirectAttachmentPages = 'attachment' === this.options.searchAppearance.dynamic.postTypes.attachment.redirectAttachmentUrls
+		this.searchAppearance.redirectAttachmentPages = 'attachment' === this.dynamicOptions.searchAppearance.postTypes.attachment.redirectAttachmentUrls
 		this.loaded = true
 	}
 }

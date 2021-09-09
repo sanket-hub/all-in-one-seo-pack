@@ -27,5 +27,14 @@ export default [
 			access : 'aioseo_local_seo_settings',
 			name   : __('Opening Hours', td)
 		}
+	},
+	{
+		path      : '/maps',
+		name      : 'maps',
+		component : loadView('Main'),
+		meta      : {
+			access : 'aioseo_local_seo_settings',
+			name   : __('Maps', td)
+		}
 	}
 ]

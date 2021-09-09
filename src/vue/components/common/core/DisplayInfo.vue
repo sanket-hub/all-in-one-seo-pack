@@ -30,7 +30,6 @@
 					<svg-widget/>
 					<p>{{ strings.widget }}</p>
 				</template>
-
 			</base-box-toggle>
 
 			<div class="displayInfo-show-content">

@@ -13,6 +13,7 @@ import { SeoSiteScore } from './SeoSiteScore'
 import { Url } from './Url'
 import { IsDirty } from './IsDirty'
 import { Wizard } from './Wizard'
+import { ToolsSettings } from './ToolsSettings'
 
 export {
 	CanShowImage,
@@ -31,5 +32,6 @@ export {
 	TruSeoScore,
 	Uploader,
 	Url,
-	Wizard
+	Wizard,
+	ToolsSettings
 }

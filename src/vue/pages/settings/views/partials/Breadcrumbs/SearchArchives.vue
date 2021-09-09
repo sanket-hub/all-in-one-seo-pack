@@ -6,35 +6,35 @@
 		<template #content>
 			<div>
 				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.search.useDefaultTemplate"></preview>
+						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate"></preview>
 				<grid-row>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.search.useDefaultTemplate"
+							v-model="dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate"
 							class="current-item"
 						/>
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
-				<grid-row v-if="!options.breadcrumbs.dynamic.archives.search.useDefaultTemplate">
+				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate">
 					<grid-column
 						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.search.showPrefixCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.search.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.search.showHomeCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.search.showHomeCrumb"
 							class="current-item"
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
 					<grid-column>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.search.template"
+							v-model="dynamicOptions.breadcrumbs.archives.search.template"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-search"
@@ -72,7 +72,7 @@ export default {
 	methods : {
 		getPreview () {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const archiveOptions = breadcrumbOptions.dynamic.archives.search
+			const archiveOptions = this.dynamicOptions.breadcrumbs.archives.search
 			const useDefault = archiveOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && archiveOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -81,12 +81,12 @@ export default {
 			]
 		},
 		getTemplate () {
-			const template = this.options.breadcrumbs.dynamic.archives.search.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.search : this.options.breadcrumbs.dynamic.archives.search.template
+			const template = this.dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.search : this.dynamicOptions.breadcrumbs.archives.search.template
 			return template.replace(/#breadcrumb_search_result_format/g, this.options.breadcrumbs.searchResultFormat).replace(/#breadcrumb_search_string/g, this.strings.searchString)
 		}
 	},
 	computed : {
-		...mapState([ 'options' ])
+		...mapState([ 'options', 'dynamicOptions' ])
 	}
 }
 </script>

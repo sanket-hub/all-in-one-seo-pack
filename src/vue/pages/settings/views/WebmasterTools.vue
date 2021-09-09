@@ -25,7 +25,10 @@
 							{ connected: isConnected(tool) }
 						]"
 					>
-						<img :src="tool.logo" />
+						<component
+							class="logo-svg"
+							:is="tool.svg"
+						/>
 						<div
 							v-html="tool.name"
 						/>
@@ -297,7 +300,7 @@ export default {
 				{
 					slug     : 'googleSearchConsole',
 					name     : this.$t.__('Google Search Console', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/google.png'),
+					svg      : 'svg-logo-google',
 					settings : [
 						{
 							option      : 'google',
@@ -310,7 +313,7 @@ export default {
 				{
 					slug     : 'bing',
 					name     : this.$t.__('Bing Webmaster Tools', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/bing.png'),
+					svg      : 'svg-logo-microsoft-bing',
 					settings : [
 						{
 							option      : 'bing',
@@ -323,7 +326,7 @@ export default {
 				{
 					slug     : 'yandex',
 					name     : this.$t.__('Yandex Webmaster Tools', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/yandex.png'),
+					svg      : 'svg-logo-yandex',
 					settings : [
 						{
 							option      : 'yandex',
@@ -336,7 +339,7 @@ export default {
 				{
 					slug     : 'baidu',
 					name     : this.$t.__('Baidu Webmaster Tools', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/baidu.png'),
+					svg      : 'svg-logo-baidu',
 					settings : [
 						{
 							option      : 'baidu',
@@ -349,7 +352,7 @@ export default {
 				{
 					slug     : 'pinterest',
 					name     : this.$t.__('Pinterest Site Verification', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/pinterest.png'),
+					svg      : 'svg-logo-pinterest',
 					settings : [
 						{
 							option      : 'pinterest',
@@ -363,7 +366,7 @@ export default {
 				// {
 				//  slug     : 'alexa',
 				//  name     : this.$t.__('Alexa Verification ID', this.$td),
-				//  logo     : require('@/vue/assets/images/webmaster-tools/alexa.png'),
+				//  svg      : 'svg-logo-alexa',
 				//  settings : [
 				//      {
 				//          option      : 'alexa',
@@ -375,7 +378,7 @@ export default {
 				// {
 				//  slug     : 'norton',
 				//  name     : this.$t.sprintf(this.$t.__('Norton Safe Web%1$sVerification ID', this.$td), '<br>'),
-				//  logo     : require('@/vue/assets/images/webmaster-tools/norton.png'),
+				//  svg      : 'svg-logo-norton',
 				//  settings : [
 				//      {
 				//          option      : 'norton',
@@ -387,7 +390,7 @@ export default {
 				{
 					slug     : 'googleAnalytics',
 					name     : this.$t.__('Google Analytics', this.$td),
-					logo     : require('@/vue/assets/images/webmaster-tools/googleAnalytics.png'),
+					svg      : 'svg-logo-google-analytics',
 					settings : [
 						{
 							parent      : 'googleAnalytics',
@@ -856,7 +859,7 @@ export default {
 			text-align: center;
 			position: relative;
 
-			img {
+			svg {
 				max-width: 100%;
 				max-height: 100%;
 				margin: 0 40px

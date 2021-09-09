@@ -18,6 +18,10 @@
 		<core-modal
 			v-if="currentPost.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="closeModal"
+			isolate
+			:classes="[
+				'post-settings-modal'
+			]"
 		>
 			<div slot="headerTitle">
 				{{ strings.modalTitle }}
@@ -129,6 +133,10 @@ export default {
 				removeParam('aioseo-modaltab')
 			}, 500)
 		}
+
+		this.$bus.$on('open-post-settings', (param) => {
+			this.processChangeTab(param.tab)
+		})
 
 		switch (this.$root._data.screenContext) {
 			case 'sidebar' :
@@ -299,39 +307,41 @@ export default {
 		}
 	}
 }
-.aioseo-modal-content {
-	.aioseo-tabs.internal {
-		border-bottom-width: 1px !important;
+.aioseo-app.post-settings-modal {
+	.aioseo-modal-content {
+		.aioseo-tabs.internal {
+			border-bottom-width: 1px !important;
 
-		@media screen and (max-width: 520px) {
-			padding-left: 20px !important;
+			@media screen and (max-width: 520px) {
+				padding-left: 20px !important;
+			}
 		}
-	}
-	.md-tabs-navigation {
-		.md-tabs-indicator {
-			bottom: -1px !important;
+		.md-tabs-navigation {
+			.md-tabs-indicator {
+				bottom: -1px !important;
+			}
 		}
-	}
-	@media only screen and (min-width: 782px) {
-		.col-md-4 {
-			-ms-flex-preferred-size: 33.33333333% !important;
-			flex-basis: 33.33333333% !important;
-			max-width: 33.33333333% !important;
-		}
-		.col-md-5 {
-			-ms-flex-preferred-size: 41.66666667% !important;
-			flex-basis: 41.66666667% !important;
-			max-width: 41.66666667% !important;
-		}
-		.col-md-7 {
-			-ms-flex-preferred-size: 58.33333333% !important;
-			flex-basis: 58.33333333% !important;
-			max-width: 58.33333333% !important;
-		}
-		.col-md-8 {
-			-ms-flex-preferred-size: 66.66666667% !important;
-			flex-basis: 66.66666667% !important;
-			max-width: 66.66666667% !important;
+		@media only screen and (min-width: 782px) {
+			.col-md-4 {
+				-ms-flex-preferred-size: 33.33333333% !important;
+				flex-basis: 33.33333333% !important;
+				max-width: 33.33333333% !important;
+			}
+			.col-md-5 {
+				-ms-flex-preferred-size: 41.66666667% !important;
+				flex-basis: 41.66666667% !important;
+				max-width: 41.66666667% !important;
+			}
+			.col-md-7 {
+				-ms-flex-preferred-size: 58.33333333% !important;
+				flex-basis: 58.33333333% !important;
+				max-width: 58.33333333% !important;
+			}
+			.col-md-8 {
+				-ms-flex-preferred-size: 66.66666667% !important;
+				flex-basis: 66.66666667% !important;
+				max-width: 66.66666667% !important;
+			}
 		}
 	}
 }

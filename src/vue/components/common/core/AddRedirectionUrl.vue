@@ -32,7 +32,6 @@
 							v-if="url.warnings.length"
 						/>
 						<svg-gear
-							v-if="!log404"
 							:class="{ active: urlOptionsActive }"
 							@click.native="showOptions = !showOptions"
 						/>
@@ -57,7 +56,7 @@
 			@set-url="setUrl"
 		/>
 
-		<slot name="source-url-description" />
+		<slot name="source-url-description" v-if="!log404" />
 
 		<transition-slide
 			:active="showOptions"
@@ -190,6 +189,15 @@ export default {
 			}
 
 			const errors = []
+			if (this.url.regex) {
+				try {
+					new RegExp(this.url.url)
+				} catch (e) {
+					errors.push(this.$t.__('The regex syntax is invalid.', this.$td))
+					return errors
+				}
+			}
+
 			if ('http' === this.url.url.substr(0, 4) && -1 === this.url.url.indexOf(document.location.origin)) {
 				errors.push(this.$t.__('Please enter a valid relative source URL.', this.$td))
 			}
@@ -199,7 +207,7 @@ export default {
 			}
 
 			if ('/(.*)' === this.url.url || '^/(.*)' === this.url.url) {
-				errors.push(this.$t.__('A full site redirect is not currently supported.', this.$td))
+				errors.push(this.$t.__('This redirect is supported using the Relocate Site feature under Full Site Redirect tab.', this.$td))
 			}
 
 			if (
@@ -235,7 +243,7 @@ export default {
 				warnings.push(this.$t.__('Anchor values are not sent to the server and cannot be redirected.', this.$td))
 			}
 
-			if (this.maybeRegex && !this.url.regex) {
+			if (!this.log404 && this.maybeRegex && !this.url.regex) {
 				// Translators: 1 - Adds a html tag with an option like: <code>Regex</code>
 				warnings.push(this.$t.sprintf(this.$t.__('Remember to enable the %1$s option if this is a regular expression.', this.$td), '<code>Regex</code>'))
 			}
@@ -364,7 +372,7 @@ export default {
 
 	.aioseo-input {
 		input {
-			padding-right: 76px;
+			padding-right: 76px !important;
 		}
 
 		.append-icon {

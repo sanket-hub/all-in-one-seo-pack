@@ -6,35 +6,35 @@
 		<template #content>
 			<div>
 				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.author.useDefaultTemplate"></preview>
+						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate"></preview>
 				<grid-row>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.author.useDefaultTemplate"
+							v-model="dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate"
 							class="current-item"
 						/>
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
-				<grid-row v-if="!options.breadcrumbs.dynamic.archives.author.useDefaultTemplate">
+				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate">
 					<grid-column
 						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.author.showPrefixCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.author.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.author.showHomeCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.author.showHomeCrumb"
 							class="current-item"
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
 					<grid-column>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.author.template"
+							v-model="dynamicOptions.breadcrumbs.archives.author.template"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-author"
@@ -73,7 +73,7 @@ export default {
 	methods : {
 		getPreview () {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const archiveOptions = breadcrumbOptions.dynamic.archives.author
+			const archiveOptions = this.dynamicOptions.breadcrumbs.archives.author
 			const useDefault = archiveOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && archiveOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -82,7 +82,7 @@ export default {
 			]
 		},
 		getTemplate () {
-			let template = this.options.breadcrumbs.dynamic.archives.author.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.author : this.options.breadcrumbs.dynamic.archives.author.template
+			let template = this.dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.author : this.dynamicOptions.breadcrumbs.archives.author.template
 			template = template.replace(/#breadcrumb_author_display_name/g, this.strings.authorName)
 			template = template.replace(/#breadcrumb_author_first_name/g, this.strings.authorNameFirst)
 			template = template.replace(/#breadcrumb_author_last_name/g, this.strings.authorNameLast)
@@ -90,7 +90,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options' ])
+		...mapState([ 'options', 'dynamicOptions' ])
 	}
 }
 </script>

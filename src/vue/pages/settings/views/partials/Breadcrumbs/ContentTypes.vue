@@ -9,77 +9,77 @@
 			<template #content>
 				<div>
 					<preview :preview-data="getPreview(postType)"
-							 :useDefaultTemplate="options.breadcrumbs.dynamic.postTypes[postType.name].useDefaultTemplate"></preview>
+							 :useDefaultTemplate="dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate"></preview>
 					<grid-row>
 						<grid-column>
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].useDefaultTemplate"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate"
 								class="current-item"
 							/>
 							{{ strings.useDefaultTemplate }}
 						</grid-column>
 					</grid-row>
-					<grid-row v-if="!options.breadcrumbs.dynamic.postTypes[postType.name].useDefaultTemplate">
+					<grid-row v-if="!dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate">
 						<grid-column
 							v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].showPrefixCrumb"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showPrefixCrumb"
 								class="current-item"
 							/>
 							{{ strings.showPrefixLabel }}
 						</grid-column>
 						<grid-column>
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].showHomeCrumb"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showHomeCrumb"
 								class="current-item"
 							/>
 							{{ strings.showHomeLabel }}
 						</grid-column>
 						<grid-column v-if="postTypeHasArchive(postType)">
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].showArchiveCrumb"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showArchiveCrumb"
 								class="current-item"
 							/>
 							{{ strings.showPostTypeArchiveLabel }}
 						</grid-column>
 						<grid-column v-if="getPostTaxonomyOptions(postType).length">
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].showTaxonomyCrumbs"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showTaxonomyCrumbs"
 								class="current-item"
 							/>
 							{{ strings.showTaxonomyLabel }}
 						</grid-column>
 						<grid-column v-if="postTypeIsHierarchical(postType)">
 							<base-toggle
-								v-model="options.breadcrumbs.dynamic.postTypes[postType.name].showParentCrumbs"
+								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs"
 								class="current-item"
 							/>
 							{{ strings.showParentLabel }}
 						</grid-column>
 						<grid-column>
 							<core-settings-row
-								:name="postTypeIsHierarchical(postType) && options.breadcrumbs.dynamic.postTypes[postType.name].showParentCrumbs ? strings.singleTemplateLabel : ''"
+								:name="postTypeIsHierarchical(postType) && dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs ? strings.singleTemplateLabel : ''"
 								leftSize="12"
 								rightSize="12"
 							>
 								<template #content>
 									<core-html-tags-editor
-										v-model="options.breadcrumbs.dynamic.postTypes[postType.name].template"
+										v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].template"
 										:line-numbers="true"
 										:tags-context="'breadcrumbs-post-type-'+postType.name"
 										:minimum-line-numbers="3"
 										checkUnfilteredHtml
 										:default-tags="[
-									'breadcrumb_post_title',
-									'breadcrumb_link'
-								]"
+											'breadcrumb_post_title',
+											'breadcrumb_link'
+										]"
 									>
 									</core-html-tags-editor>
 								</template>
 							</core-settings-row>
 						</grid-column>
 						<grid-column
-							v-if="postTypeIsHierarchical(postType) && options.breadcrumbs.dynamic.postTypes[postType.name].showParentCrumbs">
+							v-if="postTypeIsHierarchical(postType) && dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs">
 							<core-settings-row
 								:name="strings.parentTemplateLabel"
 								leftSize="12"
@@ -87,22 +87,22 @@
 							>
 								<template #content>
 									<core-html-tags-editor
-										v-model="options.breadcrumbs.dynamic.postTypes[postType.name].parentTemplate"
+										v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].parentTemplate"
 										:line-numbers="true"
 										:tags-context="'breadcrumbs-post-type-'+postType.name"
 										:minimum-line-numbers="3"
 										checkUnfilteredHtml
 										:default-tags="[
-									'breadcrumb_post_title',
-									'breadcrumb_link'
-								]"
+											'breadcrumb_post_title',
+											'breadcrumb_link'
+										]"
 									>
 									</core-html-tags-editor>
 								</template>
 							</core-settings-row>
 						</grid-column>
 						<grid-column
-							v-if="options.breadcrumbs.dynamic.postTypes[postType.name].showTaxonomyCrumbs && getPostTaxonomyOptions(postType).length">
+							v-if="dynamicOptions.breadcrumbs.postTypes[postType.name].showTaxonomyCrumbs && getPostTaxonomyOptions(postType).length">
 							<grid-column>
 								<div class="taxonomy-select">
 									{{ strings.selectTaxonomyLabel }}
@@ -111,7 +111,7 @@
 										:options="getPostTaxonomyOptions(postType)"
 										:placeholder="strings.selectTaxonomy"
 										:value="getPostTaxonomyOptions(postType).find(t => t.value === getPostTypeTaxonomy(postType).name)"
-										@input="value => options.breadcrumbs.dynamic.postTypes[postType.name].taxonomy = value.value"
+										@input="value => dynamicOptions.breadcrumbs.postTypes[postType.name].taxonomy = value.value"
 									/>
 								</div>
 							</grid-column>
@@ -152,7 +152,7 @@ export default {
 	methods : {
 		getPreview (postType) {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const postTypeOptions = breadcrumbOptions.dynamic.postTypes[postType.name]
+			const postTypeOptions = this.dynamicOptions.breadcrumbs.postTypes[postType.name]
 			const useDefault = postTypeOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && postTypeOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -176,17 +176,17 @@ export default {
 				return
 			}
 
-			const parentTemplate = this.options.breadcrumbs.dynamic.taxonomies[taxonomy.name].parentTemplate || this.options.breadcrumbs.dynamic.taxonomies[taxonomy.name].template
+			const parentTemplate = this.dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].parentTemplate || this.dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].template
 
-			const template = this.options.breadcrumbs.dynamic.taxonomies[taxonomy.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.taxonomies[taxonomy.name] : parentTemplate
+			const template = this.dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.taxonomies[taxonomy.name] : parentTemplate
 			return template.replace(new RegExp('#breadcrumb_taxonomy_title', 'g'), taxonomy.singular + ' Parent')
 		},
 		getPostTypeParentTemplate (postType) {
-			const template = this.options.breadcrumbs.dynamic.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.options.breadcrumbs.dynamic.postTypes[postType.name].parentTemplate
+			const template = this.dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.dynamicOptions.breadcrumbs.postTypes[postType.name].parentTemplate
 			return template.replace(new RegExp('#breadcrumb_post_title', 'g'), postType.singular + ' Parent')
 		},
 		getPostTypeTemplate (postType) {
-			const template = this.options.breadcrumbs.dynamic.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.options.breadcrumbs.dynamic.postTypes[postType.name].template
+			const template = this.dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.dynamicOptions.breadcrumbs.postTypes[postType.name].template
 			return template.replace(new RegExp('#breadcrumb_post_title', 'g'), postType.singular)
 		},
 		getPostTaxonomyOptions (postType) {
@@ -198,7 +198,7 @@ export default {
 			})
 		},
 		getPostTypeTaxonomy (postType) {
-			let taxonomies = this.$aioseo.postData.taxonomies.filter(taxData => taxData.name === this.options.breadcrumbs.dynamic.postTypes[postType.name].taxonomy)
+			let taxonomies = this.$aioseo.postData.taxonomies.filter(taxData => taxData.name === this.dynamicOptions.breadcrumbs.postTypes[postType.name].taxonomy)
 			if (0 === taxonomies.length && 0 < postType.taxonomies.length) {
 				taxonomies = this.$aioseo.postData.taxonomies.filter(taxData => postType.taxonomies.includes(taxData.name))
 			}
@@ -207,7 +207,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options' ]),
+		...mapState([ 'options', 'dynamicOptions' ]),
 		postTypes () {
 			return this.$aioseo.postData.postTypes || []
 		}

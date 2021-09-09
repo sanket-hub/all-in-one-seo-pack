@@ -6,20 +6,8 @@ import App from './App.vue'
 import './registerScoreToggler'
 import store from '@/vue/store'
 import { elemLoaded } from '@/vue/utils/elemLoaded'
-import {
-	isBlockEditor,
-	shouldShowMetaBox,
-	isClassicEditor,
-	isWooCommerceProduct,
-	maybeUpdatePost,
-	maybeUpdateTerm,
-	maybeUpdateAttachment
-} from '@/vue/plugins/truSEO/components'
-import {
-	watchClassicEditor,
-	watchBlockEditor,
-	watchWooCommerce
-} from '@/vue/plugins/truSEO/context'
+import { shouldShowMetaBox } from '@/vue/plugins/truSEO/components'
+import loadTruSeo from '@/vue/pages/post-settings/loadTruSeo'
 
 // Local Business.
 import AppLocalBusiness from '../local-business-seo/App.vue'
@@ -27,6 +15,7 @@ import '../local-business-seo/blocks/BusinessInfo.js'
 import '../local-business-seo/blocks/Locations.js'
 import '../local-business-seo/blocks/OpeningHours.js'
 import '../local-business-seo/blocks/LocationCategories.js'
+import '../local-business-seo/blocks/LocationMap.js'
 
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
@@ -84,57 +73,7 @@ if (window.aioseo.currentPost) {
 	}
 }
 
-window.addEventListener('load', function () {
-	if (!shouldShowMetaBox()) {
-		return
-	}
-
-	// Update post analysis on initial page load.
-	maybeUpdatePost()
-	if ('term' === window.aioseo.currentPost.context) {
-		maybeUpdateTerm()
-	} else {
-		// Make sure the API is available.
-		store.dispatch('ping')
-		store.dispatch('savePostState')
-
-		if (isBlockEditor()) {
-			const interval = window.setInterval(() => {
-				const post = window.wp.data.select('core/editor').getCurrentPost()
-				if (post.id) {
-					window.clearInterval(interval)
-					watchBlockEditor()
-				}
-			}, 50)
-			window.addEventListener('beforeunload', (event) => {
-				if (!store.state.isDirty) {
-					return undefined
-				}
-				event.preventDefault()
-				event.returnValue = ''
-			})
-		} else {
-			if (isWooCommerceProduct()) {
-				watchWooCommerce()
-			}
-
-			if (isClassicEditor()) {
-				const interval = window.setInterval(() => {
-					if (!window.tinyMCE) {
-						return
-					}
-					if (window.tinyMCE.get('content')) {
-						window.clearInterval(interval)
-						watchClassicEditor()
-					}
-				}, 50)
-			}
-
-			// Attachemet Page
-			maybeUpdateAttachment()
-		}
-	}
-})
+window.addEventListener('load', loadTruSeo)
 
 if (window.aioseo.currentPost && window.aioseo.localBusiness && document.getElementById('aioseo-location-settings-metabox')) {
 	Vue.config.productionTip = false

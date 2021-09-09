@@ -2,8 +2,10 @@ export const SeoSiteScore = {
 	data () {
 		return {
 			strings : {
-				weveGotWorkToDo         : this.$t.__('We\'ve got some<br>work to do!', this.$td),
-				needsImprovement        : this.$t.__('Needs<br>Improvement!', this.$td),
+				// Translators: 1 - HTML Line break tag.
+				weveGotWorkToDo         : this.$t.sprintf(this.$t.__('We\'ve got some%1$swork to do!', this.$td), '<br>'),
+				// Translators: 1 - HTML Line break tag.
+				needsImprovement        : this.$t.sprintf(this.$t.__('Needs%1$sImprovement!', this.$td), '<br>'),
 				veryGood                : this.$t.__('Very Good!', this.$td),
 				excellent               : this.$t.__('Excellent!', this.$td),
 				toSeeYourSiteScore      : this.$t.__('to see your Site Score.', this.$td),

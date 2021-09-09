@@ -9,6 +9,10 @@ export default {
 				database
 			})
 			.then(response => {
+				if (403 === response.body.keyphrases.status) {
+					commit('semrushSetKeyphrasesError', response.body.keyphrases.error)
+					return
+				}
 				commit('semrushSetKeyphrases', response.body.keyphrases.data.rows)
 			})
 	},

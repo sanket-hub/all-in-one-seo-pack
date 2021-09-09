@@ -3,6 +3,7 @@ export default {
 	loaded          : false,
 	internalOptions : {},
 	options         : {},
+	dynamicOptions  : {},
 	networkOptions  : {},
 	settings        : {},
 	notifications   : {

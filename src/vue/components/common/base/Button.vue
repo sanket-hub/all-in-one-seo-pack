@@ -54,7 +54,7 @@ export default {
 		size : {
 			type        : String,
 			default     : '',
-			description : 'Button size (small|medium|large)'
+			description : 'Button size (small-table|small|medium|large)'
 		},
 		link : {
 			type        : Boolean,
@@ -93,7 +93,8 @@ export default {
 	color: $black;
 	white-space: nowrap;
 
-	&.small {
+	&.small,
+	&.small-table {
 		height: 30px;
 		font-size: 14px;
 		padding: 0 12px;
@@ -102,6 +103,11 @@ export default {
 			width: 25px;
 			height: 25px;
 		}
+	}
+
+	&.small-table {
+		font-size: 12px;
+		border-radius: 3px;
 	}
 
 	&.medium {

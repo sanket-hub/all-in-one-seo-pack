@@ -218,20 +218,39 @@ module.exports = function () {
 					return memo
 				}, {})
 
-				// Can only assign translation with usable msgid
+				// Can only assign translation with usable "msgid".
 				if (!translation.msgid) {
 					return
 				}
 
-				// Check for the text domain (this only checks the variable, not the actual flag).
+				// Check for the text domain (this only checks if the $td/$tdPro variable is set; not the actual value).
 				if (!path.node.arguments[1]) {
 					console.log(path.node.arguments)
+					return
 				}
-				const tdName = path.node.arguments[1].name || (path.node.arguments[1].property && path.node.arguments[1].property.name ? path.node.arguments[1].property.name : null)
+
+				// eslint-disable-next-line one-var
+				let tdName = ''
+				if (2 >= path.node.arguments.length) {
+					tdName = path.node.arguments[1].name || (
+						path.node.arguments[1].property && path.node.arguments[1].property.name
+							? path.node.arguments[1].property.name
+							: null
+					)
+				} else {
+					// _n() has 4 instead of 2 arguments (compared to the regular __() function).
+					tdName = path.node.arguments[3].name || (
+						path.node.arguments[3].property && path.node.arguments[3].property.name
+							? path.node.arguments[3].property.name
+							: null
+					)
+				}
+
 				if (!tdName) {
 					console.log(path.node.arguments)
 					return
 				}
+
 				if (tdName.replace('$', '') !== state.opts.td) {
 					return
 				}

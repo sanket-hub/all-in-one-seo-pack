@@ -32,6 +32,7 @@ export default {
 		const {
 			internalOptions,
 			options,
+			dynamicOptions,
 			networkOptions,
 			settings,
 			notifications,
@@ -42,6 +43,7 @@ export default {
 		} = await getOptions(this.$http)
 		this.$set(this.$store.state, 'internalOptions', merge({ ...this.$store.state.internalOptions }, { ...internalOptions }))
 		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
+		this.$set(this.$store.state, 'dynamicOptions', merge({ ...this.$store.state.dynamicOptions }, { ...dynamicOptions }))
 		this.$set(this.$store.state, 'networkOptions', merge({ ...this.$store.state.networkOptions }, { ...networkOptions }))
 		this.$set(this.$store.state, 'settings', merge({ ...this.$store.state.settings }, { ...settings }))
 		this.$set(this.$store.state, 'notifications', merge({ ...this.$store.state.notifications }, { ...notifications }))
@@ -52,3 +54,14 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.aioseo-post-settings-sidebar-vue {
+	display: flex;
+	justify-content: center;
+
+	.aioseo-loading-spinner {
+		margin-top: 30px;
+	}
+}
+</style>

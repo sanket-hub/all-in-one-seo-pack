@@ -28,7 +28,7 @@
 					:is="settings.internalTabs[`${postType.name}SA`]"
 					:object="postType"
 					:separator="options.searchAppearance.global.separator"
-					:options="options.searchAppearance.dynamic.postTypes[postType.name]"
+					:options="dynamicOptions.searchAppearance.postTypes[postType.name]"
 					type="postTypes"
 				/>
 			</transition>
@@ -81,7 +81,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options', 'settings' ]),
+		...mapState([ 'options', 'dynamicOptions', 'settings' ]),
 		postTypes () {
 			return this.$aioseo.postData.postTypes
 				.filter(pt => 'attachment' !== pt.name)

@@ -21,6 +21,7 @@
 					</core-alert>
 					<base-editor
 						class="htaccess-editor"
+						:disabled="!$aioseo.user.unfilteredHtml"
 						v-model="$aioseo.data.htaccess"
 						line-numbers
 						monospace

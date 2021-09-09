@@ -90,7 +90,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options', 'settings' ]),
+		...mapState([ 'options', 'dynamicOptions', 'settings' ]),
 		getArchives () {
 			return this.archives.concat(this.$aioseo.postData.archives.map(a => ({
 				label    : `${a.label} Archives`,
@@ -118,7 +118,7 @@ export default {
 		},
 		getOptions (archive) {
 			if (archive.dynamic) {
-				return this.options.searchAppearance.dynamic.archives[archive.name.replace('Archive', '')]
+				return this.dynamicOptions.searchAppearance.archives[archive.name.replace('Archive', '')]
 			}
 
 			return this.options.searchAppearance.archives[archive.name]

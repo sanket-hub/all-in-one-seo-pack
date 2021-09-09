@@ -34,7 +34,7 @@
 					:is="settings.internalTabs[`${taxonomy.name}SA`]"
 					:object="taxonomy"
 					:separator="options.searchAppearance.global.separator"
-					:options="options.searchAppearance.dynamic.taxonomies[taxonomy.name]"
+					:options="dynamicOptions.searchAppearance.taxonomies[taxonomy.name]"
 					type="taxonomies"
 					:show-bulk="false"
 				/>
@@ -80,7 +80,7 @@ export default {
 	},
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'options', 'settings' ]),
+		...mapState([ 'options', 'dynamicOptions', 'settings' ]),
 		taxonomies () {
 			return this.$aioseo.postData.taxonomies
 		}

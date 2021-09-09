@@ -320,7 +320,7 @@
 					/>
 					<core-priority-score
 						v-if="!options.sitemap.general.advancedSettings.priority.postTypes.grouped"
-						:priority="options.sitemap.dynamic.priority.postTypes"
+						:priority="dynamicOptions.sitemap.priority.postTypes"
 						:rows="getPostTypeRows"
 						:labels="getPostTypeLabels"
 					/>
@@ -346,7 +346,7 @@
 					/>
 					<core-priority-score
 						v-if="!options.sitemap.general.advancedSettings.priority.taxonomies.grouped"
-						:priority="options.sitemap.dynamic.priority.taxonomies"
+						:priority="dynamicOptions.sitemap.priority.taxonomies"
 						:rows="getTaxonomyRows"
 						:labels="getTaxonomyLabels"
 					/>
@@ -455,7 +455,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options', 'internalOptions' ]),
+		...mapState([ 'options', 'dynamicOptions', 'internalOptions' ]),
 		getPostTypeRows () {
 			return this.$aioseo.postData.postTypes.map(p => p.name)
 		},

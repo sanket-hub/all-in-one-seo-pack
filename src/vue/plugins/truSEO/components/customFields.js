@@ -12,7 +12,7 @@ export const customFieldsContent = () => {
 		return ''
 	}
 	const postType  = window.aioseo.currentPost.postType
-	const truFields = window.aioseo.options.searchAppearance.dynamic.postTypes[postType].customFields
+	const truFields = window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].customFields
 
 	// No custom fields have been specified.
 	if (!truFields || !truSeoShouldAnalyze) {

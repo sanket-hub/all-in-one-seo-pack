@@ -12,6 +12,10 @@ import HtmlSitemapSidebar from '../../standalone/HtmlSitemapSidebar'
 		return
 	}
 
+	if ('object' === typeof wp.blocks.getBlockType('aioseo/html-sitemap')) {
+		return
+	}
+
 	let vueInitialState = null
 
 	if (window.aioseo.currentPost) {

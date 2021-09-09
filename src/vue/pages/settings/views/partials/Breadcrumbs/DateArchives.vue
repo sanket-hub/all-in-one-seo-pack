@@ -7,33 +7,33 @@
 			<div>
 				<div class="previews-box">
 					<preview :preview-data="getPreview('day')"
-							 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.date.useDefaultTemplate"></preview>
+							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
 					<preview :preview-data="getPreview('month')"
-							 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.date.useDefaultTemplate"></preview>
+							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
 					<preview :preview-data="getPreview('')"
-							 :useDefaultTemplate="options.breadcrumbs.dynamic.archives.date.useDefaultTemplate"></preview>
+							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
 				</div>
 				<grid-row>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.date.useDefaultTemplate"
+							v-model="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"
 							class="current-item"
 						/>
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
-				<grid-row v-if="!options.breadcrumbs.dynamic.archives.date.useDefaultTemplate">
+				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate">
 					<grid-column
 						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.date.showPrefixCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.date.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.date.showHomeCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.date.showHomeCrumb"
 							class="current-item"
 						/>
 						{{ strings.showHomeLabel }}
@@ -41,7 +41,7 @@
 					<grid-column>
 						<strong>{{ strings.year }}</strong>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.date.template.year"
+							v-model="dynamicOptions.breadcrumbs.archives.date.template.year"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-date-archive-year"
@@ -55,7 +55,7 @@
 
 						<strong>{{ strings.month }}</strong>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.date.template.month"
+							v-model="dynamicOptions.breadcrumbs.archives.date.template.month"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-date-archive-month"
@@ -69,7 +69,7 @@
 
 						<strong>{{ strings.day }}</strong>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.date.template.day"
+							v-model="dynamicOptions.breadcrumbs.archives.date.template.day"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							tags-context="breadcrumbs-date-archive-day"
@@ -108,7 +108,7 @@ export default {
 	methods : {
 		getPreview (type) {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const archiveOptions = breadcrumbOptions.dynamic.archives.date
+			const archiveOptions = this.dynamicOptions.breadcrumbs.archives.date
 			const useDefault = archiveOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && archiveOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -120,20 +120,20 @@ export default {
 			]
 		},
 		getYearTemplate () {
-			const template = this.options.breadcrumbs.dynamic.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.year : this.options.breadcrumbs.dynamic.archives.date.template.year
+			const template = this.dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.year : this.dynamicOptions.breadcrumbs.archives.date.template.year
 			return template.replace(/#breadcrumb_date_archive_year/g, this.strings.year)
 		},
 		getMonthTemplate () {
-			const template = this.options.breadcrumbs.dynamic.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.month : this.options.breadcrumbs.dynamic.archives.date.template.month
+			const template = this.dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.month : this.dynamicOptions.breadcrumbs.archives.date.template.month
 			return template.replace(/#breadcrumb_date_archive_month/g, this.strings.month)
 		},
 		getDayTemplate () {
-			const template = this.options.breadcrumbs.dynamic.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.day : this.options.breadcrumbs.dynamic.archives.date.template.day
+			const template = this.dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.date.day : this.dynamicOptions.breadcrumbs.archives.date.template.day
 			return template.replace(/#breadcrumb_date_archive_day/g, this.strings.day)
 		}
 	},
 	computed : {
-		...mapState([ 'options' ])
+		...mapState([ 'options', 'dynamicOptions' ])
 	}
 }
 </script>

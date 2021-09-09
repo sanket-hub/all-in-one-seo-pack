@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ae17a1f9f3ced74aab29dbecb2420ceaf64c5a20',
+    'reference' => '18d4ae491958a5407a1b255b3707b4004f22daa5',
     'name' => 'awesomemotive/all-in-one-seo-pack-pro',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ae17a1f9f3ced74aab29dbecb2420ceaf64c5a20',
+      'reference' => '18d4ae491958a5407a1b255b3707b4004f22daa5',
     ),
     'instituteweb/composer-scripts' => 
     array (

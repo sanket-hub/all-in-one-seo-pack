@@ -18,13 +18,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import BusinessInfo from './BusinessInfo' // TODO: Use code from local-seo
-import OpeningHours from './OpeningHours' // TODO: Use code from local-seo
+import BusinessInfo from './BusinessInfo'
+import OpeningHours from './OpeningHours'
+import Maps from './Maps'
 import { debounce } from '@/vue/utils/debounce'
 export default {
 	components : {
 		BusinessInfo,
-		OpeningHours
+		OpeningHours,
+		Maps
 	},
 	watch : {
 		currentPost : {
@@ -49,6 +51,11 @@ export default {
 					slug : 'opening-hours',
 					icon : 'svg-settings',
 					name : this.$t.__('Opening Hours', this.$td)
+				},
+				{
+					slug : 'maps',
+					icon : 'svg-settings',
+					name : this.$t.__('Maps', this.$td)
 				}
 			]
 		}

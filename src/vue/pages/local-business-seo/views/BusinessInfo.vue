@@ -51,6 +51,15 @@
 		</core-settings-row>
 
 		<core-settings-row
+			:name="strings.map"
+			align
+		>
+			<template #content>
+				<local-business-map />
+			</template>
+		</core-settings-row>
+
+		<core-settings-row
 			:name="strings.businessContact"
 			class="info-businesscontact-row"
 			align
@@ -109,7 +118,8 @@ export default {
 				businessContact : this.$t.__('Contact Info', this.$td),
 				businessIDs     : this.$t.__('IDs', this.$td),
 				paymentInfo     : this.$t.__('Payment Info', this.$td),
-				areaServed      : this.$t.__('Area Served', this.$td)
+				areaServed      : this.$t.__('Area Served', this.$td),
+				map             : this.$t.__('Map', this.$td)
 			}
 		}
 	}

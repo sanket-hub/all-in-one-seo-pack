@@ -1,5 +1,6 @@
 export default {
 	semrush : {
-		results : []
+		results : [],
+		error   : null
 	}
 }

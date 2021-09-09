@@ -1,3 +1,4 @@
+const fs                   = require('fs')
 const os                   = require('os')
 const webpack              = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -30,7 +31,8 @@ const pageKeys = [
 
 const standaloneKeys = [
 	'app',
-	'notifications'
+	'notifications',
+	'publish-panel'
 ]
 
 const pages = () => {
@@ -60,6 +62,37 @@ const entry = (key, context = 'pages') => {
 	}
 }
 
+const pluginsConfig = [
+	new webpack.NormalModuleReplacementPlugin(/(.*)AIOSEO_VERSION(\.*)/, resource => {
+		resource.request = resource.request.replace(/AIOSEO_VERSION/, version.toLowerCase())
+	}),
+	new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+	new MiniCssExtractPlugin({
+		ignoreOrder : true
+	})
+]
+
+if (!process.env.AIOSEO_LOCAL_DEV) {
+	pluginsConfig.push(new WebpackRTLPlugin())
+}
+
+let https = false
+try {
+	/*
+	Generate Cert files via:
+	`mkcert aioseo.local`
+	 */
+	if (fs.existsSync('./' + process.env.VUE_APP_CRT_DOMAIN + '-key.pem')) {
+		https = {
+			key  : fs.readFileSync('./' + process.env.VUE_APP_CRT_DOMAIN + '-key.pem'),
+			cert : fs.readFileSync('./' + process.env.VUE_APP_CRT_DOMAIN + '.pem'),
+			ca   : fs.readFileSync(process.env.VUE_APP_CRT_ROOT_CA)
+		}
+	}
+} catch (err) {
+	console.log(err)
+}
+
 module.exports = {
 	runtimeCompiler     : true,
 	publicPath          : process.env[`VUE_APP_WP_${version.toUpperCase()}`] || '/',
@@ -68,27 +101,7 @@ module.exports = {
 	filenameHashing     : false,
 	productionSourceMap : false,
 	configureWebpack    : () => {
-		const dev     = process.env.AIOSEO_LOCAL_DEV
-		const plugins = dev
-			? [
-				new webpack.NormalModuleReplacementPlugin(/(.*)AIOSEO_VERSION(\.*)/, resource => {
-					resource.request = resource.request.replace(/AIOSEO_VERSION/, version.toLowerCase())
-				}),
-				new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-				new MiniCssExtractPlugin({
-					ignoreOrder : true
-				})
-			]
-			: [
-				new webpack.NormalModuleReplacementPlugin(/(.*)AIOSEO_VERSION(\.*)/, resource => {
-					resource.request = resource.request.replace(/AIOSEO_VERSION/, version.toLowerCase())
-				}),
-				new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-				new MiniCssExtractPlugin({
-					ignoreOrder : true
-				}),
-				new WebpackRTLPlugin()
-			]
+		const plugins = pluginsConfig
 		return {
 			module : {
 				noParse : /node_modules\/lodash\/lodash\.js/
@@ -103,7 +116,9 @@ module.exports = {
 					'Access-Control-Allow-Methods' : '*',
 					'Access-Control-Allow-Headers' : '*'
 				},
-				disableHostCheck : true
+				disableHostCheck : true,
+				host             : process.env.VUE_APP_CRT_DOMAIN,
+				https
 			},
 			output : {
 				jsonpFunction : 'aioseopjsonp'

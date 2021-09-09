@@ -7,35 +7,35 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview(archive)" :useDefaultTemplate="options.breadcrumbs.dynamic.archives.postTypes[archive.name].useDefaultTemplate"></preview>
+				<preview :preview-data="getPreview(archive)" :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate"></preview>
 				<grid-row>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.postTypes[archive.name].useDefaultTemplate"
+							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate"
 							class="current-item"
 						/>
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
-				<grid-row v-if="!options.breadcrumbs.dynamic.archives.postTypes[archive.name].useDefaultTemplate">
+				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate">
 					<grid-column
 						 v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.postTypes[archive.name].showPrefixCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
 					<grid-column>
 						<base-toggle
-							v-model="options.breadcrumbs.dynamic.archives.postTypes[archive.name].showHomeCrumb"
+							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].showHomeCrumb"
 							class="current-item"
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
 					<grid-column>
 						<core-html-tags-editor
-							v-model="options.breadcrumbs.dynamic.archives.postTypes[archive.name].template"
+							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].template"
 							:line-numbers="true"
 							checkUnfilteredHtml
 							:tags-context="'breadcrumbs-post-type-archive-'+archive.name"
@@ -73,7 +73,7 @@ export default {
 	methods : {
 		getPreview (archive) {
 			const breadcrumbOptions = this.options.breadcrumbs
-			const archiveOptions = breadcrumbOptions.dynamic.archives.postTypes[archive.name]
+			const archiveOptions = this.dynamicOptions.breadcrumbs.archives.postTypes[archive.name]
 			const useDefault = archiveOptions.useDefaultTemplate
 			return [
 				(useDefault && breadcrumbOptions.breadcrumbPrefix) || (!useDefault && archiveOptions.showPrefixCrumb) ? breadcrumbOptions.breadcrumbPrefix : '',
@@ -83,12 +83,12 @@ export default {
 			]
 		},
 		getArchiveTemplate (archive) {
-			const template = this.options.breadcrumbs.dynamic.archives.postTypes[archive.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.postTypes[archive.name] : this.options.breadcrumbs.dynamic.archives.postTypes[archive.name].template
+			const template = this.dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.archives.postTypes[archive.name] : this.dynamicOptions.breadcrumbs.archives.postTypes[archive.name].template
 			return template.replace(/#breadcrumb_archive_post_type_format/g, this.options.breadcrumbs.archiveFormat).replace(new RegExp('#breadcrumb_archive_post_type_name', 'g'), archive.label)
 		}
 	},
 	computed : {
-		...mapState([ 'options' ]),
+		...mapState([ 'options', 'dynamicOptions' ]),
 		archives () {
 			return this.$aioseo.postData.archives
 		}

@@ -221,9 +221,8 @@
 							class="edit-row"
 							:class="{ even: 0 === index % 2 }"
 						>
-							<th scope="row" class="check-column"></th>
 							<td
-								:colspan="columns.length"
+								:colspan="columns.length + 1"
 								class="edit-row-content"
 							>
 								<transition-slide
@@ -607,7 +606,8 @@ export default {
 				&.edit-row-content {
 					.wrapper {
 						.border {
-							padding: 8px 0 8px;
+							margin-top: 7px;
+							padding: 19px 0 20px;
 							border-top: 1px solid $border;
 						}
 					}

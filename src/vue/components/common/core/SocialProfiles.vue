@@ -53,7 +53,10 @@
 				:rightSize="rightSize"
 			>
 				<template #name>
-					<img :src="profile.image" /> {{ profile.label }}
+					<component
+						class="logo-svg"
+						:is="profile.svg"
+					/> {{ profile.label }}
 				</template>
 
 				<template #content>
@@ -116,7 +119,7 @@ export default {
 					name       : 'Facebook',
 					label      : 'Facebook Page URL',
 					url        : 'https://facebook.com',
-					image      : require('@/vue/assets/images/social/facebook.png'),
+					svg        : 'svg-icon-facebook',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?facebook\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Facebook URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -127,7 +130,7 @@ export default {
 					name       : 'Twitter',
 					label      : 'Twitter URL',
 					url        : 'https://twitter.com',
-					image      : require('@/vue/assets/images/social/twitter.png'),
+					svg        : 'svg-icon-twitter',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?twitter\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Twitter URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -138,7 +141,7 @@ export default {
 					name       : 'Instagram',
 					label      : 'Instagram URL',
 					url        : 'https://instagram.com',
-					image      : require('@/vue/assets/images/social/instagram.png'),
+					svg        : 'svg-icon-instagram',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?instagram\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Instagram URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -149,7 +152,7 @@ export default {
 					name       : 'Pinterest',
 					label      : 'Pinterest URL',
 					url        : 'https://pinterest.com',
-					image      : require('@/vue/assets/images/social/pinterest.png'),
+					svg        : 'svg-icon-pinterest',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?pinterest\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Pinterest URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -160,7 +163,7 @@ export default {
 					name       : 'YouTube',
 					label      : 'YouTube URL',
 					url        : 'https://youtube.com',
-					image      : require('@/vue/assets/images/social/youtube.png'),
+					svg        : 'svg-icon-youtube',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?youtube\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your YouTube URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -171,7 +174,7 @@ export default {
 					name       : 'LinkedIn',
 					label      : 'LinkedIn URL',
 					url        : 'https://linkedin.com/in',
-					image      : require('@/vue/assets/images/social/linked-in.png'),
+					svg        : 'svg-icon-linkedin',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?linkedin\.[a-z.]+\/(?:in|company|school|groups)\/.*$/.test(v) || this.$t.__('Your LinkedIn URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -182,7 +185,7 @@ export default {
 					name       : 'Tumblr',
 					label      : 'Tumblr URL',
 					url        : 'https://{profile}.tumblr.com',
-					image      : require('@/vue/assets/images/social/tumblr.png'),
+					svg        : 'svg-icon-tumblr',
 					validation : [
 						v => /^https:\/\/([^/]+)\.tumblr\.[a-z.]+(?:.*)?$/.test(v) || this.$t.__('Your Tumblr URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -193,7 +196,7 @@ export default {
 					name       : 'Yelp',
 					label      : 'Yelp Page URL',
 					url        : 'https://yelp.com/biz',
-					image      : require('@/vue/assets/images/social/yelp.png'),
+					svg        : 'svg-icon-yelp',
 					validation : [
 						v => /^https:\/\/(?:www\.)?yelp\.[a-z.]+\/biz\/.*$/.test(v) || this.$t.__('Your Yelp URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -204,7 +207,7 @@ export default {
 					name       : 'SoundCloud',
 					label      : 'SoundCloud URL',
 					url        : 'https://soundcloud.com',
-					image      : require('@/vue/assets/images/social/soundcloud.png'),
+					svg        : 'svg-icon-sound-cloud',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?soundcloud\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your SoundCloud URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -215,7 +218,7 @@ export default {
 					name       : 'Wikipedia',
 					label      : 'Wikipedia URL',
 					url        : 'https://en.wikipedia.org/wiki',
-					image      : require('@/vue/assets/images/social/wikipedia.png'),
+					svg        : 'svg-icon-wikipedia',
 					validation : [
 						v => /^https:\/\/([a-z-]+)\.wikipedia\.org\/wiki\/.*$/.test(v) || this.$t.__('Your Wikipedia URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -226,7 +229,7 @@ export default {
 					name       : 'MySpace',
 					label      : 'MySpace URL',
 					url        : 'https://myspace.com',
-					image      : require('@/vue/assets/images/social/myspace.png'),
+					svg        : 'svg-icon-myspace',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?myspace\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your MySpace URL is invalid. Please check the format and try again.', this.$td)
 					],
@@ -345,18 +348,16 @@ export default {
 			padding-bottom: 0;
 			border-bottom: none;
 
+			.logo-svg {
+				margin-right: 10px;
+			}
+
 			.profile-error {
 				margin-top: 10px;
 			}
 
 			.name {
 				margin-bottom: 0;
-			}
-
-			img {
-				height: 16px;
-				width: auto;
-				margin-right: 10px;
 			}
 		}
 	}

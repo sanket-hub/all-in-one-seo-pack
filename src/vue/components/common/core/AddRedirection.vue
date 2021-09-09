@@ -138,7 +138,7 @@
 
 					<transition-slide
 						class="advanced-settings"
-						:active="showAdvancedSettings && !log404"
+						:active="showAdvancedSettings"
 					>
 						<div class="query-params">
 							{{ strings.queryParams }}
@@ -151,7 +151,7 @@
 					</transition-slide>
 
 					<a
-						v-if="!showAdvancedSettings && !log404"
+						v-if="!showAdvancedSettings"
 						class="advanced-settings-link"
 						href="#"
 						@click.prevent="showAdvancedSettings = !showAdvancedSettings"
@@ -159,7 +159,7 @@
 				</div>
 				<transition-slide
 					class="advanced-settings"
-					:active="showAdvancedSettings && !log404"
+					:active="showAdvancedSettings"
 				>
 					<add-redirection-custom-rules :edit-custom-rules="customRules" />
 				</transition-slide>
@@ -252,8 +252,9 @@ export default {
 	},
 	computed : {
 		saveIsDisabled () {
-			const sourceUrls = this.sourceUrls.map(url => url.url)
-			return !sourceUrls.every(a => a) || (this.redirectTypeHasTarget() && !this.targetUrl)
+			return !!this.sourceUrls.filter(url => !url.url).length ||
+				!!this.sourceUrls.filter(url => 0 < url.errors.length).length ||
+				(this.redirectTypeHasTarget() && !this.targetUrl)
 		},
 		getRelativeAbsolute () {
 			const matched = this.targetUrl.match(/^\/([a-zA-Z0-9_\-%]*\..*)\//)
@@ -362,7 +363,7 @@ export default {
 					this.reset()
 				})
 				.catch(error => {
-					this.handleGenericError(error)
+					this.handleError(error)
 				})
 		},
 		saveChanges () {
@@ -389,22 +390,25 @@ export default {
 				})
 				.catch(error => {
 					console.error(error)
-					this.handleGenericError(error)
+					this.handleError(error)
 				})
 		},
-		handleGenericError (error) {
+		handleError (error) {
 			if (409 !== error.response.status || !error.response.body.failed || !error.response.body.failed.length) {
 				this.genericError   = true
 				this.addingRedirect = false
 				return
 			}
 
-			const urlIndexes = []
-			const failed     = error.response.body.failed
+			const urlIndexes          = []
+			const failed              = error.response.body.failed
+			const genericErrorMessage = this.$t.__('A redirect already exists for this source URL. To make changes, edit the original instead.', this.$td)
 			failed.forEach(f => {
-				const urlIndex = this.sourceUrls.findIndex(u => u.url === f)
+				const urlIndex = this.sourceUrls.findIndex(u => u.url === f.url || f)
 				if (-1 !== urlIndex) {
-					this.sourceUrls[urlIndex].errors.push(this.$t.__('A redirect already exists for this source URL. To make changes, edit the original instead.', this.$td))
+					if (!this.sourceUrls[urlIndex].errors.find(error => error === f.error || error === genericErrorMessage)) {
+						this.sourceUrls[urlIndex].errors.push(f.error || genericErrorMessage)
+					}
 					urlIndexes.push(urlIndex)
 				}
 			})
@@ -471,11 +475,11 @@ export default {
 	mounted () {
 		this.sourceUrls = this.getDefaultSourceUrls
 		if (this.url) {
-			this.sourceUrls = [ this.url ]
+			this.sourceUrls = [ { ...this.getDefaultSourceUrl, ...this.url } ]
 		}
 
 		if (this.urls && this.urls.length) {
-			this.sourceUrls = this.urls
+			this.sourceUrls = this.urls.map(url => ({ ...this.getDefaultSourceUrl, ...url }))
 		}
 
 		if (this.target) {
@@ -517,9 +521,12 @@ export default {
 		}
 
 		.advanced-settings-link {
-			text-decoration: underline;
 			margin-top: 21px;
 		}
+	}
+
+	.advanced-settings-link {
+		text-decoration: underline !important;
 	}
 
 	&.log-404 {
@@ -561,6 +568,10 @@ export default {
 			align-items: center;
 			justify-content: center;
 
+			@media(min-width: 1200px) {
+				margin: -15px 50px 0;
+			}
+
 			svg {
 				height: 103px;
 				color: $blue;
@@ -578,19 +589,20 @@ export default {
 			}
 
 			.aioseo-input {
-				margin-bottom: 10px;
+				margin-bottom: 12px;
 			}
 		}
 
 		.target {
-			.aioseo-description {
-				height: 30px;
-			}
 		}
 
 		.target {
+			input {
+				padding-right: 30px;
+			}
+
 			.append-icon {
-				width: 60px;
+				width: 30px;
 				justify-content: flex-end;
 
 				svg {
@@ -611,6 +623,10 @@ export default {
 				}
 			}
 
+			.aioseo-description {
+				height: 30px;
+			}
+
 			.target-url-warning,
 			.target-url-error {
 				margin-bottom: 10px;
@@ -622,7 +638,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		margin-top: 30px;
+		margin-top: 24px;
 
 		.all-settings {
 			width: 100%;
@@ -647,7 +663,7 @@ export default {
 			margin-top: -50px;
 
 			&.advanced {
-				margin-top: -40px;
+				margin-top: 24px;
 			}
 		}
 
@@ -675,6 +691,9 @@ export default {
 
 		.cancel-edit-row {
 			margin-left: 10px;
+			@media(min-width: 1200px) {
+				margin-left: 16px;
+			}
 		}
 	}
 }

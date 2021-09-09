@@ -1,4 +1,5 @@
 import Vue from 'vue'
-export const allowed = () => {
-	return !!Vue.prototype.$aioseo.user.canManage
+export const allowed = (permission) => {
+	const user = Vue.prototype.$aioseo.user
+	return !!user.canManage || !!(user.capabilities && user.capabilities[permission])
 }
