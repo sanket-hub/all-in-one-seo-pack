@@ -43,6 +43,7 @@ class Sitemap {
 		if ( aioseo()->options->sitemap->general->enable ) {
 			remove_action( 'init', 'wp_sitemaps_get_server' );
 			add_filter( 'wp_sitemaps_enabled', '__return_false' );
+			add_filter( 'pre_handle_404', [ $this, 'redirectOtherSitemaps' ] );
 		}
 
 		add_action( 'aioseo_static_sitemap_regeneration', [ $this, 'regenerateStaticSitemap' ] );
@@ -264,8 +265,12 @@ class Sitemap {
 		global $wp_query;
 		$wp_query->is_home = false;
 
-		if ( isset( $_GET['aioseo-dev'] ) ) {
-			aioseo()->sitemap->helpers->logPerformance();
+		// This prevents the sitemap from including terms twice when WPML is active.
+		if ( class_exists( 'SitePress' ) ) {
+			global $sitepress_settings;
+			// Before building the sitemap make sure links aren't translated.
+			// The setting should not be updated in the DB.
+			$sitepress_settings['auto_adjust_ids'] = 0;
 		}
 
 		// Sets context class properties.
@@ -299,9 +304,6 @@ class Sitemap {
 			}
 		}
 
-		if ( isset( $_GET['aioseo-dev'] ) ) {
-			aioseo()->sitemap->helpers->logPerformance();
-		}
 		exit();
 	}
 
@@ -420,6 +422,49 @@ class Sitemap {
 				$classes['sitemap']->xsl();
 			}
 		}
+	}
+
+	/**
+	 * Redirects sitemaps from other WordPress Core/other plugins to ours.
+	 *
+	 * @since 4.1.5
+	 *
+	 * @param  bool $preempt Whether to short-circuit default header status handling.
+	 * @return bool          Whether to short-circuit default header status handling.
+	 */
+	public function redirectOtherSitemaps( $preempt ) {
+		$sitemapPatterns = [
+			'general' => [
+				'sitemap\.txt',
+				'sitemaps\.xml',
+				'sitemap-xml\.xml',
+				'sitemap[0-9]+\.xml',
+				'sitemap(|[-_\/])?index[0-9]*\.xml',
+				'wp-sitemap\.xml',
+			],
+			'rss'     => [
+				'rss[0-9]*\.xml',
+			]
+		];
+
+		foreach ( aioseo()->addons->getLoadedAddons() as $addonName => $loadedAddon ) {
+			if ( ! empty( $loadedAddon->helpers ) && method_exists( $loadedAddon->helpers, 'getOtherSitemapPatterns' ) ) {
+				$sitemapPatterns[ $addonName ] = $loadedAddon->helpers->getOtherSitemapPatterns();
+			}
+		}
+
+		$sitemapPatterns = apply_filters( 'aioseo_sitemap_redirect_filenames', $sitemapPatterns );
+
+		foreach ( $sitemapPatterns as $type => $patterns ) {
+			foreach ( $patterns as $pattern ) {
+				if ( preg_match( "/^$pattern$/i", $GLOBALS['wp']->request ) ) {
+					wp_safe_redirect( aioseo()->sitemap->helpers->getUrl( $type ) );
+					exit();
+				}
+			}
+		}
+
+		return $preempt;
 	}
 
 	/**

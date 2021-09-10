@@ -47,7 +47,7 @@ class Updates {
 		$oldOptions = get_option( 'aioseop_options' );
 		if ( empty( $oldOptions ) && ! is_network_admin() && ! isset( $_GET['activate-multi'] ) ) {
 			// Sets 30 second transient for welcome screen redirect on activation.
-			aioseo()->transients->update( 'activation_redirect', true, 30 );
+			aioseo()->cache->update( 'activation_redirect', true, 30 );
 		}
 
 		if ( ! empty( $oldOptions['last_active_version'] ) ) {
@@ -107,6 +107,11 @@ class Updates {
 
 		if ( version_compare( $lastActiveVersion, '4.1.4', '<' ) ) {
 			$this->migrateDynamicSettings();
+		}
+
+		if ( version_compare( $lastActiveVersion, '4.1.5', '<' ) ) {
+			// Schedule routine to remove our old transients from the options table.
+			aioseo()->helpers->scheduleRecurrentAction( aioseo()->cache->getOptionCacheCleanAction(), 5, MINUTE_IN_SECONDS );
 		}
 
 		do_action( 'aioseo_run_updates', $lastActiveVersion );

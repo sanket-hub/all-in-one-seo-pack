@@ -635,15 +635,16 @@ class Admin {
 	 * @return void
 	 */
 	public function addRobotsMenu() {
-		$this->addMainMenu( 'aioseo-tools' );
+		$slug = 'aioseo-tools';
+		$this->addMainMenu( $slug );
 
-		$page = $this->pages['aioseo-tools'];
+		$page = $this->pages[ $slug ];
 		$hook = add_submenu_page(
-			$page['parent'],
+			$slug,
 			! empty( $page['page_title'] ) ? $page['page_title'] : $page['menu_title'],
 			$page['menu_title'],
-			$page['capability'],
-			'aioseo-tools',
+			$this->getPageRequiredCapability( $slug ),
+			$slug,
 			[ $this, 'page' ]
 		);
 		add_action( "load-{$hook}", [ $this, 'hooks' ] );
@@ -704,6 +705,10 @@ class Admin {
 	 */
 	public function page() {
 		echo '<div id="aioseo-app"></div>';
+
+		if ( ! apply_filters( 'aioseo_flyout_menu_disable', false ) ) {
+			echo '<div id="aioseo-flyout-menu"></div>';
+		}
 	}
 
 	/**
@@ -858,10 +863,34 @@ class Admin {
 		//  'css/chunk-' . $this->currentPage . $rtl . '-vendors.css'
 		// );
 
+		if ( ! apply_filters( 'aioseo_flyout_menu_disable', false ) ) {
+			$this->enqueueFlyoutMenu();
+		}
+
 		wp_localize_script(
 			'aioseo-' . $this->currentPage . '-script',
 			'aioseo',
 			aioseo()->helpers->getVueData( $this->currentPage )
+		);
+	}
+
+	/**
+	 * Enqueues the JS/CSS for the Flyout Menu.
+	 *
+	 * @since 4.1.5
+	 *
+	 * @return void
+	 */
+	private function enqueueFlyoutMenu() {
+		aioseo()->helpers->enqueueScript(
+			'aioseo-flyout-menu',
+			'js/flyout-menu.js'
+		);
+
+		$rtl = is_rtl() ? '.rtl' : '';
+		aioseo()->helpers->enqueueStyle(
+			'aioseo-flyout-menu',
+			"css/flyout-menu$rtl.css"
 		);
 	}
 
@@ -1176,9 +1205,9 @@ class Admin {
 			Migration\Helpers::redoMigration();
 		}
 
-		// Remove all AIOSEO transients.
+		// Remove all AIOSEO cache.
 		if ( isset( $_GET['aioseo-clear-cache'] ) ) {
-			aioseo()->transients->clearCache();
+			aioseo()->cache->clear();
 		}
 
 		if ( isset( $_GET['aioseo-remove-duplicates'] ) ) {
@@ -1204,7 +1233,7 @@ class Admin {
 	 * @return void
 	 */
 	public function scheduleUnescapeData() {
-		aioseo()->transients->update( 'unslash_escaped_data_posts', time(), WEEK_IN_SECONDS );
+		aioseo()->cache->update( 'unslash_escaped_data_posts', time(), WEEK_IN_SECONDS );
 		aioseo()->helpers->scheduleSingleAction( 'aioseo_unslash_escaped_data_posts', 120 );
 	}
 
@@ -1217,7 +1246,7 @@ class Admin {
 	 */
 	public function unslashEscapedDataPosts() {
 		$postsToUnslash = 200;
-		$timeStarted    = gmdate( 'Y-m-d H:i:s', aioseo()->transients->get( 'unslash_escaped_data_posts' ) );
+		$timeStarted    = gmdate( 'Y-m-d H:i:s', aioseo()->cache->get( 'unslash_escaped_data_posts' ) );
 
 		$posts = aioseo()->db->start( 'aioseo_posts' )
 			->select( '*' )
@@ -1228,7 +1257,7 @@ class Admin {
 			->result();
 
 		if ( empty( $posts ) ) {
-			aioseo()->transients->delete( 'unslash_escaped_data_posts' );
+			aioseo()->cache->delete( 'unslash_escaped_data_posts' );
 			return;
 		}
 

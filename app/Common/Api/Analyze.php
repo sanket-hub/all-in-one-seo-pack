@@ -25,8 +25,8 @@ class Analyze {
 		$analyzeUrl       = ! empty( $body['url'] ) ? esc_url_raw( urldecode( $body['url'] ) ) : null;
 		$refreshResults   = ! empty( $body['refresh'] ) ? (bool) $body['refresh'] : false;
 		$analyzeOrHomeUrl = ! empty( $analyzeUrl ) ? $analyzeUrl : home_url();
-		$responseCode     = false === aioseo()->transients->get( 'analyze_site_code' ) ? [] : aioseo()->transients->get( 'analyze_site_code' );
-		$responseBody     = false === aioseo()->transients->get( 'analyze_site_body' ) ? [] : aioseo()->transients->get( 'analyze_site_body' );
+		$responseCode     = false === aioseo()->cache->get( 'analyze_site_code' ) ? [] : aioseo()->cache->get( 'analyze_site_code' );
+		$responseBody     = false === aioseo()->cache->get( 'analyze_site_body' ) ? [] : aioseo()->cache->get( 'analyze_site_body' );
 		if (
 			empty( $responseCode ) ||
 			empty( $responseCode[ $analyzeOrHomeUrl ] ) ||
@@ -54,8 +54,8 @@ class Analyze {
 			$responseCode[ $analyzeOrHomeUrl ] = wp_remote_retrieve_response_code( $response );
 			$responseBody[ $analyzeOrHomeUrl ] = json_decode( wp_remote_retrieve_body( $response ) );
 
-			aioseo()->transients->update( 'analyze_site_code', $responseCode, 10 * MINUTE_IN_SECONDS );
-			aioseo()->transients->update( 'analyze_site_body', $responseBody, 10 * MINUTE_IN_SECONDS );
+			aioseo()->cache->update( 'analyze_site_code', $responseCode, 10 * MINUTE_IN_SECONDS );
+			aioseo()->cache->update( 'analyze_site_body', $responseBody, 10 * MINUTE_IN_SECONDS );
 		}
 
 		if ( 200 !== $responseCode[ $analyzeOrHomeUrl ] || empty( $responseBody[ $analyzeOrHomeUrl ]->success ) || ! empty( $responseBody[ $analyzeOrHomeUrl ]->error ) ) {

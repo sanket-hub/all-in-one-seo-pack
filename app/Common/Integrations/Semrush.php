@@ -148,7 +148,7 @@ class Semrush {
 		}
 
 		$transientKey = 'semrush_keyphrases_' . $keyphrase . '_' . $database;
-		$results      = aioseo()->transients->get( $transientKey );
+		$results      = aioseo()->cache->get( $transientKey );
 
 		if ( false !== $results ) {
 			return $results;
@@ -170,7 +170,7 @@ class Semrush {
 		$response = wp_remote_get( $url );
 		$body     = json_decode( wp_remote_retrieve_body( $response ) );
 
-		aioseo()->transients->update( $transientKey, $body );
+		aioseo()->cache->update( $transientKey, $body );
 
 		return $body;
 	}

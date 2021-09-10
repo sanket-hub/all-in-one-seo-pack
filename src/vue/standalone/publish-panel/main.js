@@ -45,4 +45,7 @@ if (window.aioseo.currentPost && 'post' === window.aioseo.currentPost.context) {
 	})
 }
 
-window.addEventListener('load', loadTruSeo)
+window.addEventListener('load', () => {
+	// The currentPost state hasn't loaded here yet so we need to prevent that we clear out the hidden post data field.
+	loadTruSeo(false)
+})

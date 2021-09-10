@@ -236,8 +236,8 @@ class Helpers {
 			->whereRaw( "`option_name` LIKE 'aioseo_options_internal%'" )
 			->run();
 
-		aioseo()->transients->delete( 'v3_migration_in_progress_posts' );
-		aioseo()->transients->delete( 'v3_migration_in_progress_terms' );
+		aioseo()->cache->delete( 'v3_migration_in_progress_posts' );
+		aioseo()->cache->delete( 'v3_migration_in_progress_terms' );
 
 		try {
 			if ( as_next_scheduled_action( 'aioseo_migrate_post_meta' ) ) {

@@ -419,21 +419,50 @@ class Helpers {
 
 		foreach ( aioseo()->sitemap->addons as $addon => $classes ) {
 			if ( ! empty( $classes['helpers'] ) ) {
-				$urls = $urls + $classes['helpers']->getSitemapUrls();
+				$urls = array_merge( $urls, $classes['helpers']->getSitemapUrls() );
 			}
 		}
 
-		// Check if user has a custom filename from the V3 migration.
-		$filename = aioseo()->options->sitemap->general->advancedSettings->enable &&
-			! aioseo()->options->sitemap->general->advancedSettings->dynamic && aioseo()->sitemap->helpers->filename( 'general' )
-			? aioseo()->sitemap->helpers->filename( 'general' ) :
-			'sitemap';
 		if ( aioseo()->options->sitemap->general->enable ) {
-			$urls[] = 'Sitemap: ' . trailingslashit( home_url() ) . $filename . '.xml';
+			$urls[] = $this->getUrl( 'general' );
 		}
 		if ( aioseo()->options->sitemap->rss->enable ) {
-			$urls[] = 'Sitemap: ' . trailingslashit( home_url() ) . 'sitemap.rss';
+			$urls[] = $this->getUrl( 'rss' );
 		}
+
+		foreach ( $urls as &$url ) {
+			$url = 'Sitemap: ' . $url;
+		}
+
 		return $urls;
+	}
+
+	/**
+	 * Returns the URL of the given sitemap type.
+	 *
+	 * @since 4.1.5
+	 *
+	 * @param  string $type The sitemap type.
+	 * @return string       The sitemap URL.
+	 */
+	public function getUrl( $type ) {
+		$url = home_url( 'sitemap.xml' );
+
+		if ( 'rss' === $type ) {
+			$url = home_url( 'sitemap.rss' );
+		}
+
+		if ( 'general' === $type ) {
+			// Check if user has a custom filename from the V3 migration.
+			$filename = $this->filename( 'general' ) ?: 'sitemap';
+			$url      = home_url( $filename . '.xml' );
+		}
+
+		$addon = aioseo()->addons->getLoadedAddon( $type );
+		if ( ! empty( $addon->helpers ) && method_exists( $addon->helpers, 'getUrl' ) ) {
+			$url = $addon->helpers->getUrl();
+		}
+
+		return $url;
 	}
 }

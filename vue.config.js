@@ -32,7 +32,8 @@ const pageKeys = [
 const standaloneKeys = [
 	'app',
 	'notifications',
-	'publish-panel'
+	'publish-panel',
+	'flyout-menu'
 ]
 
 const pages = () => {

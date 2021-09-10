@@ -92,11 +92,10 @@ class Ping {
 		] );
 
 		if ( aioseo()->options->sitemap->general->enable ) {
-			// Check if user has a custom filename from the V3 migration.
-			$sitemapUrls[] = trailingslashit( home_url() ) . aioseo()->sitemap->helpers->filename() . '.xml';
+			$sitemapUrls[] = aioseo()->sitemap->helpers->getUrl( 'general' );
 		}
 		if ( aioseo()->options->sitemap->rss->enable ) {
-			$sitemapUrls[] = trailingslashit( home_url() ) . 'sitemap.rss';
+			$sitemapUrls[] = aioseo()->sitemap->helpers->getUrl( 'rss' );
 		}
 
 		foreach ( aioseo()->sitemap->addons as $addon => $classes ) {

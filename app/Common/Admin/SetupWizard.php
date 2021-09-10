@@ -35,12 +35,12 @@ class SetupWizard {
 	 */
 	public function redirect() {
 		// Check if we should consider redirection.
-		if ( ! aioseo()->transients->get( 'activation_redirect' ) ) {
+		if ( ! aioseo()->cache->get( 'activation_redirect' ) ) {
 			return;
 		}
 
 		// If we are redirecting, clear the transient so it only happens once.
-		aioseo()->transients->delete( 'activation_redirect' );
+		aioseo()->cache->delete( 'activation_redirect' );
 
 		// Check option to disable welcome redirect.
 		if ( get_option( 'aioseo_activation_redirect', false ) ) {
@@ -98,7 +98,7 @@ class SetupWizard {
 		remove_action( 'admin_print_styles', 'gutenberg_block_editor_admin_print_styles' );
 
 		// If we are redirecting, clear the transient so it only happens once.
-		aioseo()->transients->delete( 'activation_redirect' );
+		aioseo()->cache->delete( 'activation_redirect' );
 
 		$this->loadOnboardingWizard();
 	}

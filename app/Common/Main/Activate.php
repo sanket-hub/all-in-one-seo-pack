@@ -21,10 +21,21 @@ class Activate {
 		register_activation_hook( AIOSEO_FILE, [ $this, 'activate' ] );
 		register_deactivation_hook( AIOSEO_FILE, [ $this, 'deactivate' ] );
 
+		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	/**
+	 * Initialize activation.
+	 *
+	 * @since 4.1.5
+	 *
+	 * @return void
+	 */
+	public function init() {
 		// If Pro just deactivated the lite version, we need to manually run the activation hook, because it doesn't run here.
-		$proDeactivatedLite = (bool) aioseo()->transients->get( 'pro_just_deactivated_lite' );
+		$proDeactivatedLite = (bool) aioseo()->cache->get( 'pro_just_deactivated_lite' );
 		if ( $proDeactivatedLite ) {
-			aioseo()->transients->delete( 'pro_just_deactivated_lite', true );
+			aioseo()->cache->delete( 'pro_just_deactivated_lite', true );
 			$this->activate( false );
 		}
 	}
@@ -51,7 +62,7 @@ class Activate {
 			aioseo()->internalOptions->internal->firstActivated = $time;
 		}
 
-		aioseo()->transients->clearCache();
+		aioseo()->cache->clear();
 
 		$this->maybeRunSetupWizard();
 	}
@@ -94,6 +105,6 @@ class Activate {
 		}
 
 		// Sets 30 second transient for welcome screen redirect on activation.
-		aioseo()->transients->update( 'activation_redirect', true, 30 );
+		aioseo()->cache->update( 'activation_redirect', true, 30 );
 	}
 }

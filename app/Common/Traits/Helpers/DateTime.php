@@ -73,4 +73,18 @@ trait DateTime {
 	public function minutesToIso8601( $minutes ) {
 		return "PT${minutes}M";
 	}
+
+	/**
+	 * Returns a MySQL formatted date.
+	 *
+	 * @since 4.1.5
+	 *
+	 * @param  int|string   $time Any format accepted by strtotime.
+	 * @return false|string       The MySQL formatted string.
+	 */
+	public function timeToMysql( $time ) {
+		$time = is_string( $time ) ? strtotime( $time ) : $time;
+
+		return date( 'Y-m-d H:i:s', $time );
+	}
 }

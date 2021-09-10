@@ -15,7 +15,7 @@ import {
 	watchWooCommerce
 } from '@/vue/plugins/truSEO/context'
 
-export default () => {
+export default (populateHiddenField = true) => {
 	// If the options are not loaded, just call the setOptions with empty object.
 	if (!store.state.loaded) {
 		setOptions({})
@@ -32,7 +32,10 @@ export default () => {
 	} else {
 		// Make sure the API is available.
 		store.dispatch('ping')
-		store.dispatch('savePostState')
+
+		if (populateHiddenField) {
+			store.dispatch('savePostState')
+		}
 
 		if (isBlockEditor()) {
 			const interval = window.setInterval(() => {

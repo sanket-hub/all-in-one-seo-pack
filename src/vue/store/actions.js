@@ -492,6 +492,11 @@ export default {
 			})
 	},
 	savePostState ({ state, dispatch }) {
+		// In some contexts, the state might not have loaded fully and still be an Observer object.
+		if (!state || !state.currentPost || !Object.keys(state.currentPost).length) {
+			return
+		}
+
 		dispatch('updateState', state.currentPost)
 		const postField = document.querySelector('#aioseo-post-settings')
 		if (postField) {

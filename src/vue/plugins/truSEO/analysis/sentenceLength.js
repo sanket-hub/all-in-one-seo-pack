@@ -1,4 +1,3 @@
-import inRange from 'lodash/inRange'
 import checkTooLongSentences from '../researches/stringProcessing/checkForTooLongSentences'
 import countSentencesFromText from '../researches/helpers/countSentencesFromText'
 import formatNumber from '../researches/helpers/formatNumber'
@@ -55,25 +54,14 @@ function sentenceLength (content) {
 			error       : 0
 		}
 	}
-	if (inRange(percentage, parameters.slightlyTooMany, parameters.farTooMany)) {
-		return {
-			title       : __('Sentences Length', td),
-			// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
-			description : sprintf(__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td), `${percentage}%`, parameters.recommendedWordCount, `${parameters.slightlyTooMany}%`),
-			score       : scores.slightlyCorrect,
-			maxScore    : scores.correctLength,
-			error       : 1
-		}
-	}
-	if (percentage > parameters.farTooMany) {
-		return {
-			title       : __('Sentences Length', td),
-			// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
-			description : sprintf(__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td), `${percentage}%`, parameters.recommendedWordCount, `${parameters.slightlyTooMany}%`),
-			score       : scores.incorrect,
-			maxScore    : scores.correctLength,
-			error       : 1
-		}
+
+	return {
+		title       : __('Sentences Length', td),
+		// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
+		description : sprintf(__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td), `${percentage}%`, parameters.recommendedWordCount, `${parameters.slightlyTooMany}%`),
+		score       : scores.slightlyCorrect,
+		maxScore    : scores.correctLength,
+		error       : 1
 	}
 }
 

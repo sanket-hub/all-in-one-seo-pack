@@ -27,10 +27,6 @@ trait Vue {
 		$postTypeObj = get_post_type_object( get_post_type( get_the_ID() ) );
 		$screen      = get_current_screen();
 
-		// Check if user has a custom filename from the V3 migration.
-		$sitemapFilename = aioseo()->sitemap->helpers->filename( 'general' );
-		$sitemapFilename = $sitemapFilename ? $sitemapFilename : 'sitemap';
-
 		$isStaticHomePage = 'page' === get_option( 'show_on_front' );
 		$staticHomePage   = intval( get_option( 'page_on_front' ) );
 		$data = [
@@ -53,8 +49,8 @@ trait Vue {
 				'restUrl'           => rest_url(),
 				'publicPath'        => plugin_dir_url( AIOSEO_FILE ),
 				'rssFeedUrl'        => get_bloginfo( 'rss2_url' ),
-				'generalSitemapUrl' => home_url( "/$sitemapFilename.xml" ),
-				'rssSitemapUrl'     => home_url( '/sitemap.rss' ),
+				'generalSitemapUrl' => aioseo()->sitemap->helpers->getUrl( 'general' ),
+				'rssSitemapUrl'     => aioseo()->sitemap->helpers->getUrl( 'rss' ),
 				'robotsTxtUrl'      => $this->getSiteUrl() . '/robots.txt',
 				'blockedBotsLogUrl' => wp_upload_dir()['baseurl'] . '/aioseo/logs/aioseo-bad-bot-blocker.log',
 				'upgradeUrl'        => apply_filters( 'aioseo_upgrade_link', AIOSEO_MARKETING_URL ),

@@ -67,8 +67,8 @@ class Migration {
 
 		// Stop migration for new v4 users where it was incorrectly triggered.
 		if ( version_compare( $lastActiveVersion[0], '4.0.4', '=' ) && ! get_option( 'aioseop_options' ) ) {
-			aioseo()->transients->delete( 'v3_migration_in_progress_posts' );
-			aioseo()->transients->delete( 'v3_migration_in_progress_terms' );
+			aioseo()->cache->delete( 'v3_migration_in_progress_posts' );
+			aioseo()->cache->delete( 'v3_migration_in_progress_terms' );
 
 			try {
 				if ( as_next_scheduled_action( 'aioseo_migrate_post_meta' ) ) {
@@ -108,7 +108,7 @@ class Migration {
 
 		update_option( 'aioseo_options_v3', $this->oldOptions );
 
-		aioseo()->transients->update( 'v3_migration_in_progress_posts', time(), WEEK_IN_SECONDS );
+		aioseo()->cache->update( 'v3_migration_in_progress_posts', time(), WEEK_IN_SECONDS );
 
 		$this->migrateSettings();
 		$this->meta->migrateMeta();
@@ -124,7 +124,7 @@ class Migration {
 	 * @return void
 	 */
 	public function redoMetaMigration() {
-		aioseo()->transients->update( 'v3_migration_in_progress_posts', time(), WEEK_IN_SECONDS );
+		aioseo()->cache->update( 'v3_migration_in_progress_posts', time(), WEEK_IN_SECONDS );
 		$this->meta->migrateMeta();
 	}
 
@@ -149,13 +149,13 @@ class Migration {
 			}
 		}
 
-		aioseo()->transients->update( 'v3_migration_in_progress_settings', time() );
+		aioseo()->cache->update( 'v3_migration_in_progress_settings', time() );
 
 		new GeneralSettings();
 
 		if ( ! isset( $this->oldOptions['modules']['aiosp_feature_manager_options'] ) ) {
 			new Sitemap();
-			aioseo()->transients->delete( 'v3_migration_in_progress_settings' );
+			aioseo()->cache->delete( 'v3_migration_in_progress_settings' );
 			return;
 		}
 
@@ -181,7 +181,7 @@ class Migration {
 			new Wpml();
 		}
 
-		aioseo()->transients->delete( 'v3_migration_in_progress_settings' );
+		aioseo()->cache->delete( 'v3_migration_in_progress_settings' );
 	}
 
 	/**

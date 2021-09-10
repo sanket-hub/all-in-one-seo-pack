@@ -20,6 +20,10 @@ trait Language {
 	 * @return string The language code.
 	 */
 	public function currentLanguageCode() {
+		global $wp_version;
+		if ( version_compare( $wp_version, '5.0', '<' ) ) {
+			return get_locale();
+		}
 		return determine_locale();
 	}
 

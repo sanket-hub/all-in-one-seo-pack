@@ -33,9 +33,13 @@ export const TruSeoScore = {
 		}
 	},
 	methods : {
-		getErrorDisplay (errors) {
-			if (0 < errors) {
-				return `${errors} ${this.strings.errors}`
+		getErrorDisplay (amountOfErrors) {
+			if (0 < amountOfErrors) {
+				return this.$t.sprintf(
+					// Translators: 1 - The amount of errors.
+					this.$t._n('%1$s Error', '%1$s Errors', amountOfErrors, this.$td),
+					amountOfErrors
+				)
 			}
 			return this.strings.allGood
 		},

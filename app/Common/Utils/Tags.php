@@ -791,7 +791,7 @@ class Tags {
 			$author   = new \WP_User( $post->post_author );
 			$postId   = empty( $id ) ? $post->ID : $id;
 			$category = get_the_category( $postId );
-		} elseif ( is_author() ) {
+		} elseif ( is_author() && is_a( get_queried_object(), 'WP_User' ) ) {
 			$author = get_queried_object();
 		}
 
@@ -886,7 +886,7 @@ class Tags {
 				// Fall through to post content if we're in the admin.
 				// This is needed since get_the_excerpt doesn't generate an excerpt from the post content outside of the loop.
 			case 'post_content':
-				return empty( $postId ) ? ( $sampleData ? __( 'An example of content from your page/post.', 'all-in-one-seo-pack' ) : '' ) : aioseo()->helpers->getContent( $post );
+				return empty( $postId ) ? ( $sampleData ? __( 'An example of content from your page/post.', 'all-in-one-seo-pack' ) : '' ) : aioseo()->helpers->getDescriptionFromContent( $post );
 			case 'category':
 			case 'taxonomy_title':
 				$title = $this->getTaxonomyTitle( $postId );
