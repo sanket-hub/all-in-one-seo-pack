@@ -1,0 +1,268 @@
+<template>
+	<div
+		class="aioseo-meta-options"
+		:class="{
+			editing: showEditTitle || showEditDescription
+		}"
+	>
+		<div>
+			<div class="edit-row edit-title">
+				<a
+					class="dashicons dashicons-edit aioseo-quickedit"
+					:title="strings.edit"
+					@click.prevent="editTitle"
+				>
+				</a>
+				<strong>{{ strings.title }} </strong>
+				<span
+					:id="`aioseo-${columnName}-${termId}-value`"
+					v-html="truncate(titleParsed, 100)"
+				/>
+			</div>
+			<div
+				v-if="showEditTitle"
+				class="edit-row"
+			>
+				<textarea
+					v-model="title"
+					class="aioseo-quickedit-input"
+					rows="4"
+					columns="32"
+				/>
+				<a
+					class="dashicons aioseo-quickedit-input-save"
+					@click.prevent="save"
+					:title="strings.save"
+				>
+					<svg-circle-check width="20" />
+				</a>
+				<a
+					class="dashicons aioseo-quickedit-input-cancel"
+					@click.prevent="cancel"
+					:title="strings.cancel"
+				>
+					<svg-circle-close width="20" />
+				</a>
+			</div>
+
+			<div class="edit-row edit-description">
+				<a
+					class="dashicons dashicons-edit aioseo-quickedit"
+					:title="strings.edit"
+					@click.prevent="editDescription"
+				>
+				</a>
+				<strong>{{ strings.description }} </strong>
+				<span
+					:id="`aioseo-${columnName}-${termId}-value`"
+					v-html="truncate(descriptionParsed)"
+				/>
+			</div>
+			<div
+				v-if="showEditDescription"
+				class="edit-row"
+			>
+				<textarea
+					v-model="termDescription"
+					class="aioseo-quickedit-input"
+					rows="4"
+					columns="32"
+				/>
+				<a
+					class="dashicons aioseo-quickedit-input-save"
+					@click.prevent="save"
+					:title="strings.save"
+				>
+					<svg-circle-check width="20" />
+				</a>
+				<a
+					class="dashicons aioseo-quickedit-input-cancel"
+					@click.prevent="cancel"
+					:title="strings.cancel"
+				>
+					<svg-circle-close width="20" />
+				</a>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import { getOptions } from '@/vue/utils/options'
+import merge from 'lodash/merge'
+import { mapState } from 'vuex'
+import { Tags, TruSeoScore } from '@/vue/mixins'
+import { truSeoShouldAnalyze } from '@/vue/plugins/truSEO/components'
+export default {
+	mixins : [ Tags, TruSeoScore ],
+	props  : {
+		term    : Object,
+		restUrl : String
+	},
+	data () {
+		return {
+			termId              : null,
+			columnName          : null,
+			title               : null,
+			titleParsed         : null,
+			termDescription     : null,
+			descriptionParsed   : null,
+			showEditTitle       : false,
+			showEditDescription : false,
+			showTruSeo          : false,
+			strings             : {
+				title       : this.$t.__('Title:', this.$td),
+				description : this.$t.__('Description:', this.$td),
+				edit        : this.$t.__('Edit', this.$td),
+				save        : this.$t.__('Save', this.$td),
+				cancel      : this.$t.__('Cancel', this.$td),
+				wait        : this.$t.__('Please wait...', this.$td)
+			}
+		}
+	},
+	computed : {
+		...mapState([ 'options', 'currentPost' ])
+	},
+	methods : {
+		save () {
+			this.showEditTitle = false
+			this.showEditDescription = false
+			this.term.title = this.title
+			this.term.description = this.termDescription
+			this.$http.post(`${this.restUrl}aioseo/v1/termscreen`)
+				.send({
+					termId      : this.term.id,
+					title       : this.term.title,
+					description : this.term.description
+				})
+				.then(response => {
+					this.titleParsed       = response.body.title
+					this.descriptionParsed = response.body.description
+				})
+				.catch(error => {
+					console.error(`Unable to update term with ID ${this.term.id}: ${error}`)
+				})
+		},
+		cancel () {
+			this.showEditTitle = false
+			this.showEditDescription = false
+		},
+		editTitle () {
+			this.showEditTitle = true
+		},
+		editDescription () {
+			this.showEditDescription  = true
+		}
+	},
+	mounted () {
+		this.termId            = this.term.id
+		this.columnName        = this.term.columnName
+		this.title             = this.term.title
+		this.titleParsed       = this.term.titleParsed
+		this.termDescription   = this.term.description
+		this.descriptionParsed = this.term.descriptionParsed
+	},
+	async created () {
+		const { options, currentPost, tags } = await getOptions(this.$http)
+		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
+		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
+		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
+		this.showTruSeo = truSeoShouldAnalyze()
+	}
+}
+</script>
+
+<style lang="scss">
+.aioseo-meta-options {
+	float: left;
+	display: block;
+	opacity: 1;
+	overflow: hidden;
+	width: 100%;
+
+	&.editing {
+		max-height: initial;
+		overflow: visible;
+	}
+
+	.dashicons {
+		cursor: pointer;
+	}
+
+	.aioseo-quickedit {
+		margin-right: 5px;
+		color: #72777c;
+
+		&:hover {
+			color: #0073aa;
+			outline: 0;
+		}
+	}
+
+	.aioseo-quickedit-input {
+		float:left;
+		position:relative;
+		margin-bottom: 10px;
+		font-size:13px;
+		width:100%;
+		z-index:1;
+	}
+
+	.aioseo-quickedit-input-save {
+		margin-right: 5px;
+		color: rgb(22, 204, 22);
+	}
+
+	.aioseo-quickedit-input-cancel {
+		color: red;
+	}
+
+	.aioseo-quickedit:focus,
+	.aioseo-quickedit-input-save:focus,
+	.aioseo-quickedit-input-cancel:focus  {
+		box-shadow: none;
+	}
+
+	.aioseo-quickedit-spinner {
+		float:left;
+		width:20px;
+		margin-right:5px;
+	}
+
+	.edit-row {
+		margin-bottom: 10px;
+		&.edit-title,
+		&.edit-description,
+		&.edit-image-title,
+		&.edit-image-alt {
+			max-height: 70px;
+			overflow: hidden;
+		}
+	}
+}
+
+table.wp-list-table {
+	.column-name {
+		width: auto !important;
+	}
+}
+
+td.seotitle.column-seotitle,
+td.seodesc.column-seodesc,
+td.seokeywords.column-seokeywords {
+	overflow: visible;
+}
+
+@media screen and (max-width: 782px) {
+	body.wp-admin {
+		th.column-seotitle,
+		th.column-seodesc,
+		th.column-seokeywords,
+		td.seotitle.column-seotitle,
+		td.seodesc.column-seodesc,
+		td.seokeywords.column-seokeywords {
+			display: none;
+		}
+	}
+}
+</style>
