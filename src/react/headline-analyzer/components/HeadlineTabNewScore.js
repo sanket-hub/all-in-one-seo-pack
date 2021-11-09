@@ -1,4 +1,4 @@
-import { http } from './../functions'
+import { http, restUrl } from './../functions'
 import classnames from 'classnames'
 const { __ } = window.wp.i18n
 const { Fragment } = window.wp.element
@@ -32,7 +32,7 @@ const HeadlineTabNewScore = props => {
 			return
 		}
 
-		http(window.aioseo.nonce).post(`${window.aioseo.urls.restUrl}aioseo/v1/analyze_headline`)
+		http(window.aioseo.nonce).post(restUrl('analyze_headline'))
 			.send({
 				title : headline
 			})

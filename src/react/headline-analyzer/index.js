@@ -1,6 +1,6 @@
 
 import icons from './icons'
-import { debounce, http } from './functions'
+import { debounce, http, restUrl } from './functions'
 
 import HeadlineSwitcher from './components/HeadlineSwitcher'
 import HeadlinePanelPreviousScores from './components/HeadlinePanelPreviousScores'
@@ -33,7 +33,7 @@ const HeadlineAnalyzer = () => {
 			return
 		}
 
-		http(window.aioseo.nonce).post(`${window.aioseo.urls.restUrl}aioseo/v1/analyze_headline`)
+		http(window.aioseo.nonce).post(restUrl('analyze_headline'))
 			.send({
 				title : postTitle
 			})

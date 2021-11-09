@@ -41,7 +41,7 @@ export async function isGoogleApiEnabled (apiKey, apiName) {
 
 	switch (apiName) {
 		case 'places/embed':
-			return await Vue.prototype.$http.post(`${Vue.prototype.$aioseo.urls.restUrl}aioseo/v1/local-business/maps/check-api-enabled`)
+			return await Vue.prototype.$http.post(Vue.prototype.$links.restUrl('local-business/maps/check-api-enabled'))
 				.send({
 					apiKey  : apiKey,
 					apiName : apiName
@@ -59,7 +59,7 @@ export async function isGoogleApiEnabled (apiKey, apiName) {
 	}
 }
 
-export async function isGoogleLibraryEnabled (google, library) {
+export async function isGoogleLibraryEnabled (google, library, query) {
 	if (!google) {
 		return false
 	}
@@ -70,8 +70,18 @@ export async function isGoogleLibraryEnabled (google, library) {
 		case 'places':
 			service = new google.maps.places.AutocompleteService()
 			return new Promise((resolve) => {
-				service.getQueryPredictions({ input: 'NYC' }, function (predictions, status) {
+				service.getQueryPredictions({ input: query || 'NYC' }, function (predictions, status) {
 					resolve(status === google.maps.places.PlacesServiceStatus.OK)
+				})
+			})
+		case 'geocoder':
+			service = new google.maps.Geocoder()
+			return new Promise((resolve) => {
+				service.geocode({ address: query || 'NYC' }, function (results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+						resolve({ enabled: true, result: results[0].geometry.location })
+					}
+					resolve({ enabled: false })
 				})
 			})
 		default:

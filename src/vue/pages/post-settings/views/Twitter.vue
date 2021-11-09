@@ -164,10 +164,7 @@
 					<span v-if="'summary_large_image' === currentPost.twitter_card">{{ strings.minimumSizeSummaryWithLarge }}</span>
 				</div>
 
-				<img
-					v-if="canShowImage(currentPost.twitter_image_custom_url)"
-					:src="currentPost.twitter_image_custom_url"
-				/>
+				<base-img :src="currentPost.twitter_image_custom_url" />
 			</template>
 		</core-settings-row>
 
@@ -193,10 +190,10 @@
 </template>
 
 <script>
-import { CanShowImage, ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
+import { ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage, ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty ],
+	mixins : [ ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty ],
 	props  : {
 		isMobilePreview : {
 			type : Boolean,

@@ -331,6 +331,9 @@ class Connect {
 			'v'        => 1,
 		], defined( 'AIOSEO_UPGRADE_URL' ) ? AIOSEO_UPGRADE_URL : 'https://upgrade.aioseo.com' );
 
+		// We're storing the ID of the user who is installing Pro so that we can add capabilties for him after upgrading.
+		aioseo()->cache->update( 'connect_active_user', get_current_user_id(), 15 * MINUTE_IN_SECONDS );
+
 		return [
 			'url' => $url,
 		];
@@ -410,6 +413,9 @@ class Connect {
 		if ( ! is_wp_error( $active ) ) {
 			aioseo()->internalOptions->internal->connect->reset();
 
+			// Because the regular activation hooks won't run, we need to add capabilities for the installing user so that he doesn't run into an error on the first request.
+			aioseo()->activate->addCapabilitiesOnUpgrade();
+
 			deactivate_plugins( plugin_basename( AIOSEO_FILE ), false, $network );
 
 			wp_send_json_success( $success );
@@ -453,6 +459,9 @@ class Connect {
 		}
 
 		aioseo()->internalOptions->internal->connect->reset();
+
+		// Because the regular activation hooks won't run, we need to add capabilities for the installing user so that he doesn't run into an error on the first request.
+		aioseo()->activate->addCapabilitiesOnUpgrade();
 
 		deactivate_plugins( plugin_basename( AIOSEO_FILE ), false, $network );
 

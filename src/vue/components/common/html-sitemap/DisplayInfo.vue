@@ -258,7 +258,7 @@ export default {
 
 			this.isLoading = true
 			debounce(() => {
-				this.$http.post(`${window.aioseo.urls.restUrl}aioseo/v1/sitemap/validate-html-sitemap-slug`)
+				this.$http.post(this.$links.restUrl('sitemap/validate-html-sitemap-slug'))
 					.send({
 						pageUrl : this.pageUrl
 					})

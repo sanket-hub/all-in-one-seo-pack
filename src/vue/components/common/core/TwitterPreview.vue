@@ -20,18 +20,19 @@
 			>
 				<div class="twitter-content">
 					<div
-						v-if="canShowImage(image) || !image"
 						class="twitter-image-preview"
 						:style="{
-							backgroundImage: 'summary' === getCard ? `url('${image}')` : ''
+							backgroundImage: 'summary' === getCard && canShowImage ? `url('${image}')` : ''
 						}"
 					>
 						<svg-book
-							v-if="!image"
+							v-if="!image || !canShowImage"
 						/>
-						<img
-							v-if="'summary_large_image' === getCard && image"
+						<base-img
+							v-show="'summary_large_image' === getCard && canShowImage"
 							:src="image"
+							:debounce="false"
+							@can-show="maybeCanShow"
 						/>
 					</div>
 
@@ -53,13 +54,16 @@
 </template>
 
 <script>
-import { CanShowImage } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage ],
-	props  : {
+	props : {
 		image : String,
 		card  : String
+	},
+	data () {
+		return {
+			canShowImage : false
+		}
 	},
 	computed : {
 		...mapState([ 'options' ]),
@@ -72,6 +76,11 @@ export default {
 			}
 
 			return this.card
+		}
+	},
+	methods : {
+		maybeCanShow (canShow) {
+			this.canShowImage = canShow
 		}
 	}
 }

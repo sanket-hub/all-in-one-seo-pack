@@ -15,3 +15,20 @@ export const http = (nonce) => superagent
 			}
 		})
 	})
+
+const unForwardSlashIt = str => {
+	return str.replace(/^\//, '')
+}
+
+const unTrailingSlashIt = str => {
+	return str.replace(/\/$/, '')
+}
+
+const trailingSlashIt = str => {
+	return unTrailingSlashIt(str) + '/'
+}
+
+export const restUrl = (path) => {
+	path = window.aioseo.data.hasUrlTrailingSlash ? trailingSlashIt(path) : unTrailingSlashIt(path)
+	return trailingSlashIt(window.aioseo.urls.restUrl) + trailingSlashIt('aioseo/v1') + unForwardSlashIt(path)
+}

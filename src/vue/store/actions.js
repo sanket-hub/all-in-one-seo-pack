@@ -15,9 +15,31 @@ const clearLicenseNotices = () => {
 	}
 }
 
+const clearNotificationNotices = notifications => {
+	const notificationCount = document.querySelector('.aioseo-menu-notification-counter')
+	if (notificationCount) {
+		if (notifications.active.length) {
+			notificationCount.innerText = notifications.active.length
+		} else {
+			notificationCount.remove()
+			const notificationIndicator = document.querySelector('#wp-admin-bar-aioseo-notifications')
+			if (notificationIndicator) {
+				notificationIndicator.remove()
+			}
+
+			// Remove from the sidebar too
+			const sidebarNotificationsLink      = document.querySelector('#toplevel_page_aioseo .wp-first-item')
+			const sidebarNotificationsLinkPulse = document.querySelector('#toplevel_page_aioseo .wp-first-item .aioseo-menu-notification-indicator')
+			if (sidebarNotificationsLink && sidebarNotificationsLink.contains(sidebarNotificationsLinkPulse)) {
+				sidebarNotificationsLink.remove()
+			}
+		}
+	}
+}
+
 export default {
 	ping ({ commit }) {
-		this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/ping/`)
+		this._vm.$http.get(this._vm.$links.restUrl('ping'))
 			.catch(() => {
 				commit('setPong', false)
 			})
@@ -30,7 +52,7 @@ export default {
 		})
 
 		if (shouldSave) {
-			this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/toggle-card/`)
+			this._vm.$http.post(this._vm.$links.restUrl('settings/toggle-card'))
 				.send({
 					card : slug
 				})
@@ -43,7 +65,7 @@ export default {
 			options  : state.options,
 			settings : state.settings
 		})
-		this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/toggle-radio/`)
+		this._vm.$http.post(this._vm.$links.restUrl('settings/toggle-radio'))
 			.send({
 				radio : slug,
 				value : value
@@ -62,7 +84,7 @@ export default {
 		setOptions({
 			currentPost : state.currentPost
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/post/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('post'))
 			.send(state.currentPost)
 			.then(() => {})
 	},
@@ -71,7 +93,7 @@ export default {
 		setOptions({
 			currentPost : state.currentPost
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/post/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('post'))
 			.send(state.currentPost)
 			.then(() => {})
 	},
@@ -95,19 +117,19 @@ export default {
 		setOptions({
 			currentPost : state.currentPost
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/post/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('post'))
 			.send(state.currentPost)
 			.then(() => {})
 	},
 	getConnectUrl (context, { key, wizard }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/connect-url/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('connect-url'))
 			.send({
 				licenseKey : key.trim(),
 				wizard
 			})
 	},
 	processConnect ({ rootState }, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/connect-pro/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('connect-pro'))
 			.send({
 				downloadUrl : payload.file,
 				token       : payload.token,
@@ -119,13 +141,13 @@ export default {
 		setOptions({
 			options : state.options
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/connect/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('connect'))
 			.send({
 				token
 			})
 	},
 	runSiteAnalyzer ({ commit }, payload = {}) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/analyze/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('analyze'))
 			.send({
 				url     : payload.url,
 				refresh : payload.refresh
@@ -152,7 +174,7 @@ export default {
 			})
 	},
 	deleteCompetitorSite ({ commit }, url) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/analyze/delete-site/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('analyze/delete-site'))
 			.send({
 				url
 			})
@@ -162,7 +184,7 @@ export default {
 			})
 	},
 	activate ({ commit }, key) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/activate/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('activate'))
 			.send({
 				licenseKey : key.trim()
 			})
@@ -176,6 +198,7 @@ export default {
 					commit('setLicense', response.body.license)
 
 					clearLicenseNotices()
+					clearNotificationNotices(response.body.notifications)
 				}
 
 				return response
@@ -189,7 +212,7 @@ export default {
 			})
 	},
 	deactivate ({ commit }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/deactivate/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('deactivate'))
 			.send({})
 			.then(response => {
 				commit('updateNotifications', response.body.notifications)
@@ -219,7 +242,7 @@ export default {
 			options  : state.options,
 			settings : state.settings
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/hide-upgrade-bar/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/hide-upgrade-bar'))
 			.send({})
 			.then(() => {})
 	},
@@ -229,7 +252,7 @@ export default {
 			options  : state.options,
 			settings : state.settings
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/hide-setup-wizard/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/hide-setup-wizard'))
 			.send({})
 			.then(() => {})
 	},
@@ -250,7 +273,7 @@ export default {
 		if ('redirects' === this._vm.$aioseo.page) {
 			options.redirectOptions = state.redirects.options
 		}
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/options/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('options'))
 			.send(options)
 			.then(response => {
 				commit('updateNotifications', response.body.notifications)
@@ -272,7 +295,7 @@ export default {
 			})
 	},
 	saveHtaccess ({ commit }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/htaccess/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('htaccess'))
 			.send({
 				htaccess : this._vm.$aioseo.data.htaccess
 			})
@@ -286,7 +309,7 @@ export default {
 		setOptions({
 			currentPost : payload
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/post/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('post'))
 			.send(payload)
 			.then(() => {})
 			.catch((error) => {
@@ -294,7 +317,7 @@ export default {
 			})
 	},
 	installPlugins ({ state, commit }, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/plugins/install/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('plugins/install'))
 			.send(payload)
 			.then(response => {
 				if (!response.body.success) {
@@ -314,14 +337,14 @@ export default {
 			})
 	},
 	deactivatePlugins (context, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/plugins/deactivate/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('plugins/deactivate'))
 			.send(payload)
 			.then(response => {
 				return response
 			})
 	},
 	getObjects (context, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/objects/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('objects'))
 			.send(payload)
 			.then(response => {
 				if (!response.body.success) {
@@ -342,7 +365,7 @@ export default {
 		})
 		this._vm.$set(state.notifications, 'active', activeNotifications)
 
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/notifications/dismiss/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('notifications/dismiss'))
 			.send(payload)
 			.then(response => {
 				commit('updateNotifications', response.body.notifications)
@@ -350,29 +373,11 @@ export default {
 					throw new Error(response.body.message)
 				}
 
-				const notificationCount = document.querySelector('.aioseo-menu-notification-counter')
-				if (notificationCount) {
-					if (response.body.notifications.active.length) {
-						notificationCount.innerText = response.body.notifications.active.length
-					} else {
-						notificationCount.remove()
-						const notificationIndicator = document.querySelector('#wp-admin-bar-aioseo-notifications')
-						if (notificationIndicator) {
-							notificationIndicator.remove()
-						}
-
-						// Remove from the sidebar too
-						const sidebarNotificationsLink      = document.querySelector('#toplevel_page_aioseo .wp-first-item')
-						const sidebarNotificationsLinkPulse = document.querySelector('#toplevel_page_aioseo .wp-first-item .aioseo-menu-notification-indicator')
-						if (sidebarNotificationsLink && sidebarNotificationsLink.contains(sidebarNotificationsLinkPulse)) {
-							sidebarNotificationsLink.remove()
-						}
-					}
-				}
+				clearNotificationNotices(response.body.notifications)
 			})
 	},
 	processButtonAction ({ commit }, action) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/${action}/`)
+		return this._vm.$http.post(this._vm.$links.restUrl(`${action}`))
 			.send({
 				network : this._vm.$aioseo.data.network
 			})
@@ -384,13 +389,13 @@ export default {
 			})
 	},
 	resetSettings (context, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/reset-settings/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('reset-settings'))
 			.send({
 				settings : payload
 			})
 	},
 	clearLog (context, log) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/clear-log/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('clear-log'))
 			.send({
 				log
 			})
@@ -399,7 +404,7 @@ export default {
 			})
 	},
 	emailDebugInfo (context, emailAddress) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/email-debug-info/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('email-debug-info'))
 			.send({
 				email : emailAddress
 			})
@@ -414,7 +419,7 @@ export default {
 		setOptions({
 			currentPost : state.currentPost
 		})
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/keyphrases/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('keyphrases'))
 			.send(payload)
 			.then(() => {})
 			.catch((error) => {
@@ -425,7 +430,7 @@ export default {
 		commit('isDirty', value)
 	},
 	getTags ({ commit }) {
-		return this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/tags/`)
+		return this._vm.$http.get(this._vm.$links.restUrl('tags'))
 			.then(response => {
 				commit('updateTags', response.body.tags)
 				setOptions({
@@ -434,7 +439,7 @@ export default {
 			})
 	},
 	uploadFile ({ commit }, { file, filename }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/import/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/import'))
 			.attach('file', file, filename)
 			.then(response => {
 				if (response.body.license) {
@@ -447,20 +452,20 @@ export default {
 			})
 	},
 	exportSettings (context, { settings, postOptions }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/export/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/export'))
 			.send({
 				settings,
 				postOptions
 			})
 	},
 	createBackup ({ commit }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/backup/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('backup'))
 			.then(response => {
 				commit('updateBackups', response.body.backups)
 			})
 	},
 	restoreBackup ({ commit }, backup) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/backup/restore/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('backup/restore'))
 			.send({
 				backup
 			})
@@ -477,7 +482,7 @@ export default {
 			})
 	},
 	deleteBackup ({ commit }, backup) {
-		return this._vm.$http.delete(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/backup/`)
+		return this._vm.$http.delete(this._vm.$links.restUrl('backup'))
 			.send({
 				backup
 			})
@@ -486,7 +491,7 @@ export default {
 			})
 	},
 	importPlugins (context, plugins) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/import-plugins/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/import-plugins'))
 			.send({
 				plugins
 			})
@@ -510,7 +515,7 @@ export default {
 		}
 	},
 	doTask (context, actionName) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/settings/do-task/`).send({
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/do-task')).send({
 			action : actionName
 		}).then((response) => {
 			if (!response || !response.statusCode || 400 === response.statusCode) {

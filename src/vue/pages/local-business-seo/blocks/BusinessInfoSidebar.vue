@@ -83,6 +83,35 @@
 				{{ strings.showTax }}
 			</base-toggle>
 		</div>
+		<div class="sidebar-row">
+			<p class="title">{{strings.labels}}</p>
+		</div>
+		<div class="sidebar-row labels" v-if="$root.$data.showLabels">
+			<div v-if="$root.$data.showAddress">
+				<label>{{ strings.addressLabel }}</label>
+				<base-input size="small" v-model="$root.$data.addressLabel"/>
+			</div>
+			<div v-if="$root.$data.showVat">
+				<label>{{ strings.vatIdLabel }}</label>
+				<base-input size="small" v-model="$root.$data.vatIdLabel"/>
+			</div>
+			<div v-if="$root.$data.showTax">
+				<label>{{ strings.taxIdLabel }}</label>
+				<base-input size="small" v-model="$root.$data.taxIdLabel"/>
+			</div>
+			<div v-if="$root.$data.showPhone">
+				<label>{{ strings.phoneLabel }}</label>
+				<base-input size="small" v-model="$root.$data.phoneLabel"/>
+			</div>
+			<div v-if="$root.$data.showFax">
+				<label>{{ strings.faxLabel }}</label>
+				<base-input size="small" v-model="$root.$data.faxLabel"/>
+			</div>
+			<div v-if="$root.$data.showEmail">
+				<label>{{ strings.emailLabel }}</label>
+				<base-input size="small" v-model="$root.$data.emailLabel"/>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -103,7 +132,14 @@ export default {
 				emailAddress   : this.$t.__('Email Address', this.$td),
 				showVat        : this.$t.__('Show VAT ID', this.$td),
 				showTax        : this.$t.__('Show Tax ID', this.$td),
-				countryCode    : this.$t.__('Phone/Fax Country Code', this.$td)
+				countryCode    : this.$t.__('Phone/Fax Country Code', this.$td),
+				labels         : this.$t.__('Labels', this.$td),
+				addressLabel   : this.$t.__('Address', this.$td),
+				vatIdLabel     : this.$t.__('Vat ID', this.$td),
+				taxIdLabel     : this.$t.__('Tax ID', this.$td),
+				phoneLabel     : this.$t.__('Phone', this.$td),
+				faxLabel       : this.$t.__('Fax', this.$td),
+				emailLabel     : this.$t.__('Email', this.$td)
 			}
 		}
 	},
@@ -138,11 +174,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sidebar-row {
 	margin-bottom: 16px;
 	.title {
 		font-weight: 700;
+	}
+
+	&.labels {
+		.aioseo-input {
+			margin: 2px 0 10px;
+		}
 	}
 }
 </style>

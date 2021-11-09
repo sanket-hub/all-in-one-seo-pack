@@ -33,7 +33,13 @@
 				</grid-column>
 			</grid-row>
 
+			<core-alert
+				v-if="!ctaButtonVisible && ctaButtonVisibleWarning"
+				type="yellow"
+				v-html="ctaButtonVisibleWarning"
+			/>
 			<base-button
+				v-if="ctaButtonVisible"
 				type="green"
 				tag="a"
 				:href="ctaLink"
@@ -101,7 +107,13 @@
 					</grid-column>
 				</grid-row>
 
+				<core-alert
+					v-if="!ctaButtonVisible && ctaButtonVisibleWarning"
+					type="yellow"
+					v-html="ctaButtonVisibleWarning"
+				/>
 				<base-button
+					v-if="ctaButtonVisible"
 					type="green"
 					tag="a"
 					:href="ctaLink"
@@ -159,7 +171,13 @@
 				</grid-column>
 			</grid-row>
 
+			<core-alert
+				v-if="!ctaButtonVisible && ctaButtonVisibleWarning"
+				type="yellow"
+				v-html="ctaButtonVisibleWarning"
+			/>
 			<base-button
+				v-if="ctaButtonVisible"
 				type="green"
 				tag="a"
 				:href="ctaLink"
@@ -226,7 +244,14 @@ export default {
 			default () {
 				return true
 			}
-		}
+		},
+		ctaButtonVisible : {
+			type : Boolean,
+			default () {
+				return true
+			}
+		},
+		ctaButtonVisibleWarning : String
 	},
 	data () {
 		return {

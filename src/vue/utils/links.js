@@ -83,6 +83,10 @@ const docLinks = {
 	productIdentifiers            : `${marketingSite}docs/unique-product-identifiers/`,
 	redirectManagerRegex          : `${marketingSite}docs/redirect-manager-regex/`, // @TODO: Make sure this is right when we create the doc.
 	redirectGdpr                  : `${marketingSite}docs/redirect-gdpr-privacy-information/`, // @TODO: Make sure this is right when we create the doc.
+	redirectCustomRulesUserAgent  : `${marketingSite}docs/redirection-manager-custom-rules/#user-agent`,
+	redirectCanonicalHttps        : `${marketingSite}docs/full-site-redirect/#canonical-settings`,
+	redirectUnknownWebserver      : `${marketingSite}docs/redirect-manager-unknown-web-server/`,
+	redirectServerConfigReload    : `${marketingSite}docs/redirect-manager-configuration-reload/`,
 	localSeoShortcodeBusinessInfo : `${marketingSite}docs/shortcode-aioseo_local_business_info/`,
 	localSeoShortcodeOpeningHours : `${marketingSite}docs/shortcode-aioseo_local_opening_hours/`,
 	localSeoShortcodeLocations    : `${marketingSite}docs/shortcode-aioseo_local_locations/`,
@@ -97,14 +101,11 @@ const docLinks = {
 	breadcrumbsDisplay            : `${marketingSite}docs/displaying-breadcrumbs-on-your-site/`,
 	breadcrumbsShortcode          : `${marketingSite}docs/shortcode-aioseo_breadcrumbs/`,
 	breadcrumbsFunction           : `${marketingSite}docs/function-aioseo_breadcrumbs/`,
-	unknownWebserver              : `${marketingSite}docs/redirect-manager-unknown-web-server`,
-	seoAnalyzerIssues             : `${marketingSite}docs/seo-analysis-unable-to-connect-to-your-site`,
-	redirectCustomRulesUserAgent  : `${marketingSite}docs/redirection-manager-custom-rules/#user-agent`,
-	redirectCanonicalHttps        : `${marketingSite}docs/full-site-redirect/#canonical-settings`,
-	htmlSitemap                   : `${marketingSite}docs/html-sitemap`,
-	htmlSitemapShortcode          : `${marketingSite}docs/shortcode-html-sitemap`,
-	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap`,
-	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives`
+	seoAnalyzerIssues             : `${marketingSite}docs/seo-analysis-unable-to-connect-to-your-site/`,
+	htmlSitemap                   : `${marketingSite}docs/html-sitemap/`,
+	htmlSitemapShortcode          : `${marketingSite}docs/shortcode-html-sitemap/`,
+	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap/`,
+	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives/`
 }
 
 const upsellLinks = {
@@ -211,12 +212,21 @@ const rawUrlEncode = (url) => {
 	})
 }
 
-const untrailingSlashIt = str => {
+const unForwardSlashIt = str => {
+	return str.replace(/^\//, '')
+}
+
+const unTrailingSlashIt = str => {
 	return str.replace(/\/$/, '')
 }
 
 const trailingSlashIt = str => {
-	return untrailingSlashIt(str) + '/'
+	return unTrailingSlashIt(str) + '/'
+}
+
+const restUrl = (path) => {
+	path = window.aioseo.data.hasUrlTrailingSlash ? trailingSlashIt(path) : unTrailingSlashIt(path)
+	return trailingSlashIt(window.aioseo.urls.restUrl) + trailingSlashIt('aioseo/v1') + unForwardSlashIt(path)
 }
 
 export default {
@@ -226,6 +236,9 @@ export default {
 	getPricingUrl,
 	getUpsellLink,
 	getUpsellUrl,
+	unForwardSlashIt,
+	unTrailingSlashIt,
 	trailingSlashIt,
-	utmUrl
+	utmUrl,
+	restUrl
 }

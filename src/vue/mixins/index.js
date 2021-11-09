@@ -1,4 +1,4 @@
-import { CanShowImage, ImageSourceOptions, Uploader } from './Image'
+import { ImageSourceOptions, Uploader } from './Image'
 import { JsonValues } from './JsonValues'
 import { License } from './License'
 import { MaxCounts } from './MaxCounts'
@@ -16,7 +16,6 @@ import { Wizard } from './Wizard'
 import { ToolsSettings } from './ToolsSettings'
 
 export {
-	CanShowImage,
 	ImageSourceOptions,
 	IsDirty,
 	JsonValues,

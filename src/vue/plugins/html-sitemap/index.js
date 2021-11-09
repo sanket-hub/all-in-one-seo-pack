@@ -8,7 +8,7 @@ import { __, sprintf } from '@wordpress/i18n'
 import HtmlSitemapSidebar from '../../standalone/HtmlSitemapSidebar'
 
 (function (wp) {
-	if ('undefined' === typeof wp || 'undefined' === typeof wp.blocks) {
+	if ('undefined' === typeof wp || 'undefined' === typeof wp.blocks || 'undefined' === typeof wp.blockEditor) {
 		return
 	}
 
@@ -21,8 +21,8 @@ import HtmlSitemapSidebar from '../../standalone/HtmlSitemapSidebar'
 	if (window.aioseo.currentPost) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const ServerSideRender = wp.serverSideRender
-		const InspectorControls = wp.blockEditor.InspectorControls
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
+		const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
 		const PanelBody = wp.components.PanelBody
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -102,6 +102,9 @@ import HtmlSitemapSidebar from '../../standalone/HtmlSitemapSidebar'
 					type    : 'boolean',
 					default : window.location && window.location.pathname.startsWith('/wp-admin/')
 				}
+			},
+			save : function () {
+				return null
 			},
 			edit : function (props) {
 				const { setAttributes, attributes, className, clientId } = props

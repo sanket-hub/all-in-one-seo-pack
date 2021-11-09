@@ -36,11 +36,7 @@ if (window.aioseo.currentPost) {
 				tableContext  : currentContext,
 				screenContext : 'metabox'
 			},
-			render : h => h(App, {
-				props : {
-					restUrl : window.aioseo.urls.restUrl
-				}
-			})
+			render : h => h(App)
 		}).$mount(`#aioseo-${currentContext}-settings-metabox`)
 
 		if ('post' === currentContext) {

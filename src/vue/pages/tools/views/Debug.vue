@@ -202,7 +202,7 @@ export default {
 				warning                     : 'Before you run any of these actions, make sure that you have fully read the description and understand the consequences as these cannot be reverted.',
 				general                     : 'General',
 				clearCache                  : 'Clear Cache',
-				clearCacheDescription       : 'This action deletes all our transients in the database.',
+				clearCacheDescription       : 'This action deletes all cache records in the database.',
 				removeDuplicates            : 'Remove Duplicates',
 				removeDuplicatesDescription : 'This action will remove any duplicate records that are found in the <code>aioseo_posts</code> or <code>aioseo_terms</code> table.',
 				unescapeData                : 'Unescape Data',

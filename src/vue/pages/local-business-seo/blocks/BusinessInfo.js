@@ -11,9 +11,8 @@ import { __, sprintf } from '@wordpress/i18n';
 
 // Vue integration inspired from this GIST.
 // https://gist.github.com/royboy789/dfd470c9ffc5d4391f90348033d6bd64
-
 (function (wp) {
-	if ('undefined' === typeof wp.blocks) {
+	if ('undefined' === typeof wp.blocks || 'undefined' === typeof wp.blockEditor) {
 		return
 	}
 
@@ -22,9 +21,9 @@ import { __, sprintf } from '@wordpress/i18n';
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const InspectorControls = wp.blockEditor.InspectorControls
+		const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
 		const PanelBody = wp.components.PanelBody
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const withSelect = wp.data.withSelect
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -52,13 +51,33 @@ import { __, sprintf } from '@wordpress/i18n';
 					type    : 'number',
 					default : null
 				},
-				layout : {
-					type    : 'string',
-					default : 'classic'
-				},
 				showLabels : {
 					type    : 'boolean',
 					default : true
+				},
+				addressLabel : {
+					type    : 'string',
+					default : __('Address:', td)
+				},
+				vatIdLabel : {
+					type    : 'string',
+					default : __('VAT ID:', td)
+				},
+				taxIdLabel : {
+					type    : 'string',
+					default : __('Tax ID:', td)
+				},
+				phoneLabel : {
+					type    : 'string',
+					default : __('Phone:', td)
+				},
+				faxLabel : {
+					type    : 'string',
+					default : __('Fax:', td)
+				},
+				emailLabel : {
+					type    : 'string',
+					default : __('Email:', td)
 				},
 				showIcons : {
 					type    : 'boolean',
@@ -104,6 +123,9 @@ import { __, sprintf } from '@wordpress/i18n';
 					type    : 'string',
 					default : Date.now()
 				}
+			},
+			save : function () {
+				return null
 			},
 			edit : withSelect(function (select) {
 				const locations = select('core').getEntityRecords('postType', window.aioseo.localBusiness.postTypeName, { per_page: 100 })
@@ -255,6 +277,12 @@ import { __, sprintf } from '@wordpress/i18n';
 										showEmail       : attributes.showEmail,
 										showVat         : attributes.showVat,
 										showTax         : attributes.showTax,
+										addressLabel    : attributes.addressLabel,
+										vatIdLabel      : attributes.vatIdLabel,
+										taxIdLabel      : attributes.taxIdLabel,
+										phoneLabel      : attributes.phoneLabel,
+										faxLabel        : attributes.faxLabel,
+										emailLabel      : attributes.emailLabel,
 										updated         : attributes.updated,
 										dataObject      : window.aioseo.currentPost.postType === window.aioseo.localBusiness.postTypeName ? JSON.stringify(window.aioseo.currentPost.local_seo.locations.business) : null
 									}

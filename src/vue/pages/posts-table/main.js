@@ -22,8 +22,7 @@ if (window.aioseo.posts) {
 			},
 			render : h => h(App, {
 				props : {
-					post,
-					restUrl : window.aioseo.urls.restUrl
+					post
 				}
 			})
 		}).$mount(`#${post.columnName}-${post.id}`)
@@ -38,8 +37,7 @@ if (window.aioseo.terms && 0 === window.aioseo.posts.length) {
 			},
 			render : h => h(TermApp, {
 				props : {
-					term,
-					restUrl : window.aioseo.urls.restUrl
+					term
 				}
 			})
 		}).$mount(`#${term.columnName}-${term.id}`)

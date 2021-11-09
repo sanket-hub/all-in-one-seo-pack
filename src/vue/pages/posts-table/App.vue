@@ -195,8 +195,7 @@ import { shouldShowTruSeoScore } from '@/vue/plugins/truSEO/components'
 export default {
 	mixins : [ Tags, TruSeoScore ],
 	props  : {
-		post    : Object,
-		restUrl : String
+		post : Object
 	},
 	data () {
 		return {
@@ -242,7 +241,7 @@ export default {
 			this.showEditDescription = false
 			this.post.title          = this.title
 			this.post.description    = this.postDescription
-			this.$http.post(`${this.restUrl}aioseo/v1/postscreen`)
+			this.$http.post(this.$links.restUrl('postscreen'))
 				.send({
 					postId      : this.post.id,
 					title       : this.post.title,
@@ -267,7 +266,7 @@ export default {
 			this.post.description    = this.postDescription
 			this.post.imageTitle     = this.imageTitle
 			this.post.imageAltTag    = this.imageAltTag
-			this.$http.post(`${this.restUrl}aioseo/v1/postscreen`)
+			this.$http.post(this.$links.restUrl('postscreen'))
 				.send({
 					postId      : this.post.id,
 					isMedia     : true,

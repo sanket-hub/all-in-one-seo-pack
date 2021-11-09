@@ -55,10 +55,7 @@
 
 			<div class="aioseo-description" v-html="strings.minimumSize"></div>
 
-			<img
-				v-if="canShowImage($root.$data.customMarker)"
-				:src="$root.$data.customMarker"
-			/>
+			<base-img :src="$root.$data.customMarker" />
 		</div>
 		<div class="sidebar-row">
 			<p class="title">{{strings.mapDisplay}}</p>
@@ -75,13 +72,17 @@
 				</div>
 			</div>
 		</div>
+		<div class="sidebar-row labels" v-if="$root.$data.showLabel">
+			<p class="title">{{ strings.label }}</p>
+			<base-input size="small" v-model="$root.$data.label"/>
+		</div>
 	</div>
 </template>
 
 <script>
-import { CanShowImage, Uploader } from '@/vue/mixins'
+import { Uploader } from '@/vue/mixins'
 export default {
-	mixins : [ CanShowImage, Uploader ],
+	mixins : [ Uploader ],
 	data () {
 		return {
 			locationsList : [],
@@ -98,7 +99,8 @@ export default {
 				pasteYourImageUrl   : this.$t.__('Paste your image URL or select a new image', this.$td),
 				// Translators: 1 - Strong tag, 2 - Close strong tag.
 				minimumSize         : this.$t.sprintf(this.$t.__('%1$sThe custom marker should be: 100x100 px.%2$s If the image exceeds those dimensions it could (partially) cover the info popup.', this.$td), '<strong>', '</strong>'),
-				remove              : this.$t.__('Remove', this.$td)
+				remove              : this.$t.__('Remove', this.$td),
+				label               : this.$t.__('Label', this.$td)
 			}
 		}
 	},
@@ -145,7 +147,8 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		margin: 0 -10px;
+		margin-left: -10px;
+		margin-right: -10px;
 
 		> div {
 			padding: 0 10px;

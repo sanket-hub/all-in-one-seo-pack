@@ -13,7 +13,7 @@ import { __, sprintf } from '@wordpress/i18n';
 // https://gist.github.com/royboy789/dfd470c9ffc5d4391f90348033d6bd64
 
 (function (wp) {
-	if ('undefined' === typeof wp.blocks) {
+	if ('undefined' === typeof wp.blocks || 'undefined' === typeof wp.blockEditor) {
 		return
 	}
 
@@ -22,9 +22,9 @@ import { __, sprintf } from '@wordpress/i18n';
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const InspectorControls = wp.blockEditor.InspectorControls
+		const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
 		const PanelBody = wp.components.PanelBody
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const withSelect = wp.data.withSelect
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -52,6 +52,9 @@ import { __, sprintf } from '@wordpress/i18n';
 					type    : 'number',
 					default : null
 				}
+			},
+			save : function () {
+				return null
 			},
 			edit : withSelect(function (select) {
 				const categories = select('core').getEntityRecords('taxonomy', window.aioseo.localBusiness.taxonomyName)

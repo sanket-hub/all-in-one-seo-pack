@@ -89,10 +89,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.facebook.general.defaultImagePosts)"
-						:src="options.social.facebook.general.defaultImagePosts"
-					/>
+					<base-img :src="options.social.facebook.general.defaultImagePosts" />
 				</template>
 			</core-settings-row>
 
@@ -179,10 +176,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.facebook.general.defaultImageTerms)"
-						:src="options.social.facebook.general.defaultImageTerms"
-					/>
+					<base-img :src="options.social.facebook.general.defaultImageTerms" />
 				</template>
 			</core-settings-row>
 
@@ -396,10 +390,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.facebook.homePage.image)"
-						:src="options.social.facebook.homePage.image"
-					/>
+					<base-img :src="options.social.facebook.homePage.image" />
 				</template>
 			</core-settings-row>
 
@@ -663,10 +654,10 @@
 </template>
 
 <script>
-import { CanShowImage, ImageSourceOptions, MaxCounts, Tags, Uploader } from '@/vue/mixins'
+import { ImageSourceOptions, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapGetters, mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage, ImageSourceOptions, MaxCounts, Tags, Uploader ],
+	mixins : [ ImageSourceOptions, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
 			siteNameCount    : 0,

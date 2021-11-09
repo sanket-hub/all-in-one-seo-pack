@@ -1,7 +1,7 @@
 import { isBlockEditor } from '@/vue/plugins/truSEO/components/helpers'
 
 (function (wp) {
-	if (!isBlockEditor()) {
+	if (!isBlockEditor() || !wp.editPost.PluginDocumentSettingPanel) {
 		return
 	}
 

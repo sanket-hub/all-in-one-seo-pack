@@ -6,7 +6,7 @@ export default {
 			commit('resetSelectedFilters')
 		}
 
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/${slug}/`)
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/${slug}/`))
 			.send({
 				additional,
 				searchTerm : state.searchTerm,
@@ -78,7 +78,7 @@ export default {
 		const filter     = getters.getCurrentFilter || { slug: 'search' }
 		const httpAction = 'delete' === action ? 'delete' : 'post'
 		const url        = 'delete' === action ? '' : `${action}/`
-		return this._vm.$http[httpAction](`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/bulk/${url}`)
+		return this._vm.$http[httpAction](this._vm.$links.restUrl(`redirects/bulk/${url}`))
 			.send({
 				searchTerm  : state.searchTerm,
 				currentPage : state.totals.main.page,
@@ -109,7 +109,7 @@ export default {
 		}
 
 		filter = filter || getters.getCurrentFilter
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/paginate/${filter.slug}/${page}/`)
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/paginate/${filter.slug}/${page}/`))
 			.send({
 				additional,
 				orderBy
@@ -137,7 +137,7 @@ export default {
 	},
 	search ({ state, commit }, { searchTerm, page }) {
 		commit('resetSelectedFilters')
-		return this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/search/${searchTerm}/${page}/`)
+		return this._vm.$http.get(this._vm.$links.restUrl(`redirects/search/${searchTerm}/${page}/`))
 			.then(response => {
 				commit('updateFilters', response.body.filters)
 				commit('updateRows', response.body.rows)
@@ -148,12 +148,12 @@ export default {
 			})
 	},
 	create (context, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('redirects'))
 			.send(payload)
 	},
 	update ({ commit, state }, { id, payload }) {
 		const rows = state.rows
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/${id}/`)
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/${id}/`))
 			.send(payload)
 			.then(response => {
 				if (response.body.redirect && response.body.redirect.id) {
@@ -170,34 +170,37 @@ export default {
 			})
 	},
 	delete (context, id) {
-		return this._vm.$http.delete(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/${id}`)
+		return this._vm.$http.delete(this._vm.$links.restUrl(`redirects/${id}`))
+	},
+	test (context, { id, payload }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/${id}/test/`)).send(payload)
 	},
 	delete404 (context, urls) {
-		return this._vm.$http.delete(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/logs-404/`)
+		return this._vm.$http.delete(this._vm.$links.restUrl('redirects/logs-404'))
 			.send({
 				urls
 			})
 	},
 	deleteLog (context, urls) {
-		return this._vm.$http.delete(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/logs/`)
+		return this._vm.$http.delete(this._vm.$links.restUrl('redirects/logs'))
 			.send({
 				urls
 			})
 	},
 	exportServerRedirects (context, server) {
-		return this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/export/${server}/`)
+		return this._vm.$http.get(this._vm.$links.restUrl(`redirects/export/${server}/`))
 	},
 	exportRedirects (context, { groups, type }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/export/${type}/`)
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/export/${type}/`))
 			.send({
 				groups
 			})
 	},
 	exportLogs (context, type) {
-		return this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/export-logs/${type}/`)
+		return this._vm.$http.get(this._vm.$links.restUrl(`redirects/export-logs/${type}/`))
 	},
 	uploadFile ({ commit }, { file, filename }) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/import/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('redirects/import'))
 			.attach('file', file, filename)
 			.then(response => {
 				commit('updateFilters', response.body.filters)
@@ -206,14 +209,14 @@ export default {
 			})
 	},
 	importPlugins ({ dispatch }, plugins) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/import-plugins/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('redirects/import-plugins'))
 			.send({
 				plugins
 			})
 			.then(() => dispatch('filter', { slug: 'all' }))
 	},
 	getPosts (context, payload) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/posts/`)
+		return this._vm.$http.post(this._vm.$links.restUrl('redirects/posts'))
 			.send(payload)
 			.then(response => {
 				if (!response.body.success) {
@@ -224,7 +227,7 @@ export default {
 			})
 	},
 	getRedirectOptions ({ commit }) {
-		return this._vm.$http.get(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/redirects/options/`)
+		return this._vm.$http.get(this._vm.$links.restUrl('redirects/options'))
 			.then(response => {
 				if (response.body.options) {
 					commit('updateOptions', response.body.options)
@@ -236,5 +239,27 @@ export default {
 					})
 				}
 			})
+	},
+	testServerRedirects ({ state, commit }) {
+		if (state.server.redirectTest.testing) {
+			return
+		}
+
+		commit('updateServerRedirectTestStatus', {
+			testing : true,
+			failed  : state.server.redirectTest.failed
+		})
+		return this._vm.$http.get(this._vm.$links.restUrl('redirects/server/test')).then(response => {
+			commit('updateServerRedirectTestStatus', {
+				testing : false,
+				failed  : !response.body.success
+			})
+			commit('updateNotifications', response.body.notifications, { root: true })
+		}).catch(() => {
+			commit('updateServerRedirectTestStatus', {
+				testing : false,
+				failed  : true
+			})
+		})
 	}
 }

@@ -403,6 +403,10 @@ export default {
 		},
 		openModal () {
 			this.semrushShowModal = true
+			if (this.semrush.error) {
+				return
+			}
+
 			this.getKeyphrases()
 		},
 		getKeyphrases () {
@@ -410,6 +414,11 @@ export default {
 			this.semrushGetKeyphrases(this.semrushCountry.value)
 				.then(() => {
 					this.loadingResults = false
+				})
+				.catch((error) => {
+					this.semrushShowModal = false
+					this.loadingResults   = false
+					console.error(error.message)
 				})
 		},
 		closedCallback (reload) {
@@ -566,7 +575,7 @@ export default {
 	},
 	mounted () {
 		const promises = []
-		if (this.semrushExpired) {
+		if (this.internalOptions.integrations.semrush.accessToken && this.semrushExpired) {
 			promises.push(this.semrushRefresh())
 		}
 	}

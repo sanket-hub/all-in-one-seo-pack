@@ -75,5 +75,9 @@ export default {
 	},
 	updateSortDir (state, { slug, dir }) {
 		this._vm.$set(state.sortDir, slug, dir)
+	},
+	updateServerRedirectTestStatus (state, { failed, testing }) {
+		this._vm.$set(state.server.redirectTest, 'failed', failed)
+		this._vm.$set(state.server.redirectTest, 'testing', testing)
 	}
 }

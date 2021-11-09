@@ -145,10 +145,7 @@
 					{{ strings.minimumSize }}
 				</div>
 
-				<img
-					v-if="canShowImage(currentPost.og_image_custom_url)"
-					:src="currentPost.og_image_custom_url"
-				/>
+				<base-img :src="currentPost.og_image_custom_url" />
 			</template>
 		</core-settings-row>
 
@@ -218,10 +215,10 @@
 </template>
 
 <script>
-import { CanShowImage, ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
+import { ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage, ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty ],
+	mixins : [ ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty ],
 	props  : {
 		isMobilePreview : {
 			type : Boolean,

@@ -13,7 +13,7 @@ import { __, sprintf } from '@wordpress/i18n';
 // https://gist.github.com/royboy789/dfd470c9ffc5d4391f90348033d6bd64
 
 (function (wp) {
-	if ('undefined' === typeof wp.blocks) {
+	if ('undefined' === typeof wp.blocks || 'undefined' === typeof wp.blockEditor) {
 		return
 	}
 
@@ -22,9 +22,9 @@ import { __, sprintf } from '@wordpress/i18n';
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const InspectorControls = wp.blockEditor.InspectorControls
+		const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
 		const PanelBody = wp.components.PanelBody
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const withSelect = wp.data.withSelect
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -92,6 +92,10 @@ import { __, sprintf } from '@wordpress/i18n';
 					type    : 'boolean',
 					default : true
 				},
+				label : {
+					type    : 'string',
+					default : __('Our Opening Hours:', td)
+				},
 				dataObject : {
 					type    : 'string',
 					default : null
@@ -101,12 +105,16 @@ import { __, sprintf } from '@wordpress/i18n';
 					default : Date.now()
 				}
 			},
+			save : function () {
+				return null
+			},
 			edit : withSelect(function (select) {
 				const locations = select('core').getEntityRecords('postType', window.aioseo.localBusiness.postTypeName, { per_page: 100 })
 				return {
 					locations : locations
 				}
-			})(function (props) {
+			}
+			)(function (props) {
 				const { setAttributes, attributes, className, clientId, locations } = props
 				const vueAIOSEOSettingsId = `aioseo-${clientId}-settings`
 
@@ -250,6 +258,7 @@ import { __, sprintf } from '@wordpress/i18n';
 										showFriday    : attributes.showFriday,
 										showSaturday  : attributes.showSaturday,
 										showSunday    : attributes.showSunday,
+										label         : attributes.label,
 										updated       : attributes.updated,
 										dataObject    : window.aioseo.currentPost.postType === window.aioseo.localBusiness.postTypeName ? JSON.stringify(window.aioseo.currentPost.local_seo.openingHours) : null
 									}

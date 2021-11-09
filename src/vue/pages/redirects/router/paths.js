@@ -15,7 +15,7 @@ export default [
 		name      : 'redirects',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
+			access : 'aioseo_redirects_manage',
 			name   : __('Redirects', td)
 		}
 	},
@@ -24,7 +24,7 @@ export default [
 		name      : 'full-site-redirect',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
+			access : 'aioseo_redirects_manage',
 			name   : __('Full Site Redirect', td)
 		}
 	},
@@ -33,7 +33,7 @@ export default [
 		name      : 'logs',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
+			access : 'aioseo_redirects_manage',
 			name   : __('Logs', td)
 		}
 	},
@@ -42,7 +42,7 @@ export default [
 		name      : 'logs-404',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
+			access : 'aioseo_redirects_manage',
 			name   : __('404 Logs', td)
 		}
 	},

@@ -96,8 +96,7 @@ import { truSeoShouldAnalyze } from '@/vue/plugins/truSEO/components'
 export default {
 	mixins : [ Tags, TruSeoScore ],
 	props  : {
-		term    : Object,
-		restUrl : String
+		term : Object
 	},
 	data () {
 		return {
@@ -129,7 +128,7 @@ export default {
 			this.showEditDescription = false
 			this.term.title = this.title
 			this.term.description = this.termDescription
-			this.$http.post(`${this.restUrl}aioseo/v1/termscreen`)
+			this.$http.post(this.$links.restUrl('termscreen'))
 				.send({
 					termId      : this.term.id,
 					title       : this.term.title,

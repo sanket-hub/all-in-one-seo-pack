@@ -99,7 +99,7 @@ export default {
 		font-size: 14px;
 		padding: 0 12px;
 
-		.loading-spinner {
+		.aioseo-loading-spinner {
 			width: 25px;
 			height: 25px;
 		}
@@ -115,7 +115,7 @@ export default {
 		font-size: 14px;
 		padding: 0 18px;
 
-		.loading-spinner {
+		.aioseo-loading-spinner {
 			width: 35px;
 			height: 35px;
 		}

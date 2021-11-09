@@ -188,6 +188,20 @@ export default {
 		}
 	}
 
+	&.small{
+		tr {
+			td {
+				padding: 8px !important;
+			}
+		}
+		thead {
+			td {
+				height: 30px;
+				padding: 0 8px !important;
+			}
+		}
+	}
+
 	svg {
 		color: $gray2;
 		&.aioseo-trash {

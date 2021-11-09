@@ -32,7 +32,8 @@ const pageKeys = [
 const standaloneKeys = [
 	'app',
 	'notifications',
-	'publish-panel'
+	'publish-panel',
+	'flyout-menu'
 ]
 
 const pages = () => {
@@ -137,7 +138,7 @@ module.exports = {
 		},
 		extract : {
 			filename      : 'css/[name].css',
-			chunkFilename : 'css/[name].css'
+			chunkFilename : 'css/[name].css?ver=[chunkHash:8]'
 		}
 	},
 	pages : {
@@ -172,6 +173,7 @@ module.exports = {
 				}
 			}
 		})
+		config.output.chunkFilename('js/[name].js?ver=[chunkHash:8]')
 	},
 	parallel : !('linux' === process.platform && os.release().includes('Microsoft'))
 }

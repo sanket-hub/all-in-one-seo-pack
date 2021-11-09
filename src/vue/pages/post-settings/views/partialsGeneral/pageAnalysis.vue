@@ -25,10 +25,6 @@ export default {
 	},
 	data () {
 		return {
-			strings : {
-				errors  : this.$t.__('Errors', this.$td),
-				allGood : this.$t.__('All Good!', this.$td)
-			},
 			initTab : 'basic',
 			tabs    : [
 				{

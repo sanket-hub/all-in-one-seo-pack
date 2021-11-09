@@ -47,6 +47,12 @@ export default {
 	color: $black;
 	line-height: 1.4;
 
+	&.medium {
+		padding: 12px 20px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+
 	&.small {
 		padding: 8px;
 		font-size: 13px;

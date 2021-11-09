@@ -4,6 +4,8 @@ import { customFieldsContent } from './customFields'
 import { getPostEditedPermalink } from './postPermalink'
 import { isBlockEditor, isClassicEditor  } from './helpers'
 
+const base64regex = /base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)/g
+
 /**
  * Returns the stored post content.
  *
@@ -44,9 +46,13 @@ export const getPostContent = () => {
 		postContent = postContent + customFieldsContent()
 	}
 
+	// Replace base64 stuff, since we don't need it to analyze the content.
+	postContent = postContent.replace(base64regex, '')
+
 	if (postContent) {
 		store.commit('live-tags/updatePostContent', postContent)
 	}
+
 	return postContent
 }
 
@@ -76,6 +82,9 @@ export const getPostEditedContent = () => {
 	if (customFieldsContent()) {
 		postContent = postContent + customFieldsContent()
 	}
+
+	// Replace base64 stuff, since we don't need it to analyze the content.
+	postContent = postContent ? postContent.replace(base64regex, '') : postContent
 
 	return postContent
 }

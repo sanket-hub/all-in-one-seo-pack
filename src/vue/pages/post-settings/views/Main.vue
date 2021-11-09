@@ -36,7 +36,6 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { getParams, removeParam } from '@/vue/utils/params'
-import { debounce } from '@/vue/utils/debounce'
 import Advanced from './Advanced'
 import General from './General'
 import Schema from './Schema'
@@ -86,9 +85,7 @@ export default {
 		currentPost : {
 			deep : true,
 			handler () {
-				debounce(() => {
-					this.savePostState()
-				}, 500)
+				this.savePostState()
 			}
 		}
 	},
@@ -239,7 +236,6 @@ export default {
 				color: $black !important;
 				.label {
 					display: inline;
-					margin-left: 10px;
 				}
 			}
 			&:not(.md-active) {

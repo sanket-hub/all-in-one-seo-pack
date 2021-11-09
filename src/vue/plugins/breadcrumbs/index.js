@@ -12,7 +12,7 @@ import { __, sprintf } from '@wordpress/i18n'
 	if (window.aioseo.currentPost) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
 			{
@@ -51,6 +51,9 @@ import { __, sprintf } from '@wordpress/i18n'
 						]
 					)
 				)
+			},
+			save : function () {
+				return null
 			}
 		})
 	}

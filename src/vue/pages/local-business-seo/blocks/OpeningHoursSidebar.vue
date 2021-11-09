@@ -73,6 +73,10 @@
 				{{ strings.Sunday }}
 			</base-toggle>
 		</div>
+		<div class="sidebar-row labels" v-if="$root.$data.showTitle">
+			<label>{{ strings.label }}</label>
+			<base-input size="small" v-model="$root.$data.label"/>
+		</div>
 	</div>
 </template>
 
@@ -91,7 +95,8 @@ export default {
 				Thursday       : this.$t.__('Thursday', this.$td),
 				Friday         : this.$t.__('Friday', this.$td),
 				Saturday       : this.$t.__('Saturday', this.$td),
-				Sunday         : this.$t.__('Sunday', this.$td)
+				Sunday         : this.$t.__('Sunday', this.$td),
+				label          : this.$t.__('Label', this.$td)
 			}
 		}
 	},
@@ -126,11 +131,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sidebar-row {
 	margin-bottom: 16px;
 	.title {
 		font-weight: 700;
+	}
+	.aioseo-input {
+		margin: 3px 0 10px;
 	}
 }
 </style>

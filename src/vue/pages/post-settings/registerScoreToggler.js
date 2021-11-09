@@ -1,21 +1,21 @@
-import { isBlockEditor } from '@/vue/plugins/truSEO/components'
+import { isBlockEditor, shouldShowMetaBox, shouldShowTruSeoScore } from '@/vue/plugins/truSEO/components'
 import { __ } from '@wordpress/i18n'
 
 (function (wp) {
 	const td = process.env.VUE_APP_TEXTDOMAIN
-	if (!isBlockEditor()) {
+	if (!isBlockEditor() || !shouldShowMetaBox()) {
 		return
 	}
-	const registerPlugin = wp.plugins.registerPlugin
+	const registerPlugin            = wp.plugins.registerPlugin
 	const PluginSidebarMoreMenuItem = wp.editPost.PluginSidebarMoreMenuItem
-	const PluginSidebar = wp.editPost.PluginSidebar
-	const Fragment = wp.element.Fragment
-	const el = wp.element.createElement
-	const analysisCapability = window.aioseo.user.capabilities.aioseo_page_analysis
-	const score = window.aioseo.currentPost.seo_score
-	const naString = __('N/A', td)
-	const scoreClass = function (score) {
-		if (!analysisCapability) {
+	const PluginSidebar             = wp.editPost.PluginSidebar
+	const Fragment                  = wp.element.Fragment
+	const el                        = wp.element.createElement
+	const analysisCapability        = window.aioseo.user.capabilities.aioseo_page_analysis
+	const score                     = window.aioseo.currentPost.seo_score
+	const naString                  = __('N/A', td)
+	const scoreClass                = function (score) {
+		if (!analysisCapability || !shouldShowTruSeoScore()) {
 			return 'score-disabled'
 		}
 		return 80 < score ? 'score-green' : 50 < score ? 'score-orange' : 1 < score  ? 'score-red' : 'score-disabled'

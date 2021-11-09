@@ -28,6 +28,7 @@
 								:key="index"
 								:md="sameUsernameWidth"
 								sm="6"
+								:class="profile.value"
 							>
 								<base-checkbox
 									size="medium"
@@ -51,6 +52,7 @@
 				align
 				:leftSize="leftSize"
 				:rightSize="rightSize"
+				:class="profile.value"
 			>
 				<template #name>
 					<component

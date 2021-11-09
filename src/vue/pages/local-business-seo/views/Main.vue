@@ -21,7 +21,6 @@ import { mapActions, mapState } from 'vuex'
 import BusinessInfo from './BusinessInfo'
 import OpeningHours from './OpeningHours'
 import Maps from './Maps'
-import { debounce } from '@/vue/utils/debounce'
 export default {
 	components : {
 		BusinessInfo,
@@ -32,9 +31,7 @@ export default {
 		currentPost : {
 			deep : true,
 			handler () {
-				debounce(() => {
-					this.savePostState()
-				}, 250)
+				this.savePostState()
 			}
 		}
 	},

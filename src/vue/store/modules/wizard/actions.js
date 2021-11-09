@@ -2,7 +2,7 @@ import { setOptions } from '@/vue/utils/options'
 
 export default {
 	saveWizard ({ state, commit }, section) {
-		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/wizard`)
+		return this._vm.$http.post(this._vm.$links.restUrl('wizard'))
 			.send({
 				section,
 				wizard : { ...state }

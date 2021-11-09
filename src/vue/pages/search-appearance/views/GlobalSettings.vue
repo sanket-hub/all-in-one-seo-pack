@@ -331,10 +331,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(options.searchAppearance.global.schema.organizationLogo)"
-						:src="options.searchAppearance.global.schema.organizationLogo"
-					/>
+					<base-img :src="options.searchAppearance.global.schema.organizationLogo" />
 				</template>
 			</core-settings-row>
 
@@ -374,10 +371,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(options.searchAppearance.global.schema.personLogo)"
-						:src="options.searchAppearance.global.schema.personLogo"
-					/>
+					<base-img :src="options.searchAppearance.global.schema.personLogo" />
 				</template>
 			</core-settings-row>
 
@@ -400,10 +394,10 @@
 </template>
 
 <script>
-import { CanShowImage, JsonValues, MaxCounts, Uploader } from '@/vue/mixins'
+import { JsonValues, MaxCounts, Uploader } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage, JsonValues, MaxCounts, Uploader ],
+	mixins : [ JsonValues, MaxCounts, Uploader ],
 	data () {
 		return {
 			titleCount       : 0,

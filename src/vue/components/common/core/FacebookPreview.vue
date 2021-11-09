@@ -23,9 +23,10 @@
 				class="facebook-content"
 				:class="{ vertical: images[image] && images[image].vertical }"
 			>
-				<img
-					v-if="canShowImage(image)"
+				<base-img
+					:debounce="false"
 					:src="image"
+					@images="results => images = results"
 				/>
 
 				<div class="facebook-site-description">
@@ -49,11 +50,14 @@
 </template>
 
 <script>
-import { CanShowImage } from '@/vue/mixins'
 export default {
-	mixins : [ CanShowImage ],
-	props  : {
+	props : {
 		image : String
+	},
+	data () {
+		return {
+			images : {}
+		}
 	},
 	computed : {
 		appName () {

@@ -89,5 +89,11 @@ export default {
 			pages : 0,
 			page  : 1
 		}
+	},
+	server : {
+		redirectTest : {
+			testing : false,
+			failed  : false
+		}
 	}
 }

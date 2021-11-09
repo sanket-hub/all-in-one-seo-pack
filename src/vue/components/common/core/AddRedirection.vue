@@ -143,7 +143,7 @@
 						<div class="query-params">
 							{{ strings.queryParams }}
 							<base-select
-								:options="$constants.REDIRECT_QUERY_PARAMS"
+								:options="redirectQueryParams"
 								v-model="queryParam"
 								size="medium"
 							/>
@@ -324,6 +324,24 @@ export default {
 				errors      : [],
 				warnings    : []
 			}
+		},
+		redirectQueryParams () {
+			return 0 < this.sourceUrls.filter(u => u.regex).length
+				? this.$constants.REDIRECT_QUERY_PARAMS.map(param => {
+					param.$isDisabled = false
+					if ('exact' === param.value) {
+						param.$isDisabled = true
+						// Let's also reset the selected queryParam.
+						if ('exact' === this.queryParam.value) {
+							this.queryParam = this.$constants.REDIRECT_QUERY_PARAMS.find(option => !option.$isDisabled)
+						}
+					}
+					return param
+				})
+				: this.$constants.REDIRECT_QUERY_PARAMS.map(param => {
+					param.$isDisabled = false
+					return param
+				})
 		}
 	},
 	methods : {

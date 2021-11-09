@@ -14,16 +14,16 @@ import { addQueryArgs } from '@wordpress/url'
 // Vue integration inspired from this GIST.
 // https://gist.github.com/royboy789/dfd470c9ffc5d4391f90348033d6bd64
 (function (wp) {
-	if ('undefined' === typeof wp.blocks) {
+	if ('undefined' === typeof wp.blocks || 'undefined' === typeof wp.blockEditor) {
 		return
 	}
 
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const InspectorControls = wp.blockEditor.InspectorControls
+		const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
 		const PanelBody = wp.components.PanelBody
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const withSelect = wp.data.withSelect
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -71,6 +71,10 @@ import { addQueryArgs } from '@wordpress/url'
 					type    : 'string',
 					default : '450px'
 				},
+				label : {
+					type    : 'string',
+					default : __('Our location:', td)
+				},
 				dataObject : {
 					type    : 'string',
 					default : null
@@ -79,6 +83,9 @@ import { addQueryArgs } from '@wordpress/url'
 					type    : 'string',
 					default : Date.now()
 				}
+			},
+			save : function () {
+				return null
 			},
 			edit : withSelect(function (select) {
 				const locations = select('core').getEntityRecords('postType', window.aioseo.localBusiness.postTypeName, { per_page: 100 })
@@ -269,6 +276,7 @@ import { addQueryArgs } from '@wordpress/url'
 										customMarker : attributes.customMarker,
 										width        : attributes.width,
 										height       : attributes.height,
+										label        : attributes.label,
 										updated      : attributes.updated,
 										dataObject   : isLocationPostType ? JSON.stringify(window.aioseo.currentPost.local_seo.maps) : null
 									}

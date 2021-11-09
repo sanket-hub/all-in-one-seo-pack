@@ -48,32 +48,35 @@ export const shouldShowTruSeoScore = () => {
 	if (!window.aioseo.screen || !window.aioseo.screen.postType) {
 		return false
 	}
-	const postType = window.aioseo.screen.postType
+
 	const showScore = !!(
 		window.aioseo.options.advanced &&
 		window.aioseo.options.advanced.truSeo &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType] &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced.showMetaBox
+		shouldShowMetaBox(window.aioseo.screen.postType)
 	)
-	return (
-		shouldShowMetaBox() ||
-		showScore
-	)
+	return showScore
 }
 
-export const shouldShowMetaBox = () => {
+export const shouldShowMetaBox = (postType = null) => {
+	if (postType) {
+		return !!(
+			window.aioseo.dynamicOptions.searchAppearance.postTypes[postType] &&
+			window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced &&
+			window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced.showMetaBox
+		)
+	}
+
 	if (!window.aioseo.currentPost || !window.aioseo.currentPost.id) {
 		return false
 	}
-	const postType = window.aioseo.currentPost.postType
+	const pt       = window.aioseo.currentPost.postType
 	const taxonomy = window.aioseo.currentPost.termType
 	const showForPost = !!(
-		postType &&
+		pt &&
 		'post' === window.aioseo.currentPost.context &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType] &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced &&
-		window.aioseo.dynamicOptions.searchAppearance.postTypes[postType].advanced.showMetaBox
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[pt] &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[pt].advanced &&
+		window.aioseo.dynamicOptions.searchAppearance.postTypes[pt].advanced.showMetaBox
 	)
 	const showForTerm = !!(
 		taxonomy &&

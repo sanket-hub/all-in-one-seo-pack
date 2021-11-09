@@ -104,10 +104,7 @@
 						<span v-if="'summary_large_image' === options.social.twitter.general.defaultCardType">{{ strings.minimumSizeSummaryWithLarge }}</span>
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.twitter.general.defaultImagePosts)"
-						:src="options.social.twitter.general.defaultImagePosts"
-					/>
+					<base-img :src="options.social.twitter.general.defaultImagePosts" />
 				</template>
 			</core-settings-row>
 
@@ -195,10 +192,7 @@
 						<span v-if="'summary_large_image' === options.social.twitter.general.defaultCardType">{{ strings.minimumSizeSummaryWithLarge }}</span>
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.twitter.general.defaultImageTerms)"
-						:src="options.social.twitter.general.defaultImageTerms"
-					/>
+					<base-img :src="options.social.twitter.general.defaultImageTerms" />
 				</template>
 			</core-settings-row>
 
@@ -348,10 +342,7 @@
 						<span v-if="'summary_large_image' === options.social.twitter.homePage.cardType">{{ strings.minimumSizeSummaryWithLarge }}</span>
 					</div>
 
-					<img
-						v-if="canShowImage(options.social.twitter.homePage.image)"
-						:src="options.social.twitter.homePage.image"
-					/>
+					<base-img :src="options.social.twitter.homePage.image" />
 				</template>
 			</core-settings-row>
 
@@ -418,10 +409,10 @@
 </template>
 
 <script>
-import { CanShowImage, ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader } from '@/vue/mixins'
+import { ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapState, mapGetters } from 'vuex'
 export default {
-	mixins : [ CanShowImage, ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader ],
+	mixins : [ ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
 			titleCount       : 0,

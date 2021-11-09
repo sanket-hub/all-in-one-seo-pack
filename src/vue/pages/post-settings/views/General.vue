@@ -301,13 +301,10 @@ export default {
 		}
 	},
 	watch : {
-		// savePostState needs to be called immediately because debouncing twice fails.
 		'currentPost.title' () {
-			this.savePostState()
 			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 2000)
 		},
 		'currentPost.description' () {
-			this.savePostState()
 			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 2000)
 		}
 	},

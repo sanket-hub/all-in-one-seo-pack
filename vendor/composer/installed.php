@@ -1,24 +1,24 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => '18d4ae491958a5407a1b255b3707b4004f22daa5',
+    'reference' => 'ae47de3b5a21aed7c120245cf811cefaff85c1b1',
     'name' => 'awesomemotive/all-in-one-seo-pack-pro',
   ),
   'versions' => 
   array (
     'awesomemotive/all-in-one-seo-pack-pro' => 
     array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => '18d4ae491958a5407a1b255b3707b4004f22daa5',
+      'reference' => 'ae47de3b5a21aed7c120245cf811cefaff85c1b1',
     ),
     'instituteweb/composer-scripts' => 
     array (

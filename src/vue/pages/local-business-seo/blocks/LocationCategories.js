@@ -8,7 +8,7 @@ import { __, sprintf } from '@wordpress/i18n';
 	if (window.aioseo.currentPost && window.aioseo.localBusiness) {
 		const el = wp.element.createElement
 		const Fragment = wp.element.Fragment
-		const ServerSideRender = wp.serverSideRender
+		const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender
 		const withSelect = wp.data.withSelect
 		const td = process.env.VUE_APP_TEXTDOMAIN
 		const icon = el('svg',
@@ -31,7 +31,10 @@ import { __, sprintf } from '@wordpress/i18n';
 			category : 'aioseo',
 			icon     : icon,
 			example  : {},
-			edit     : withSelect(function (select) {
+			save     : function () {
+				return null
+			},
+			edit : withSelect(function (select) {
 				const categories = select('core').getEntityRecords('taxonomy', window.aioseo.localBusiness.taxonomyName)
 				return {
 					categories : categories

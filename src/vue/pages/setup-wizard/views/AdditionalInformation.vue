@@ -177,10 +177,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(additionalInformation.organizationLogo)"
-						:src="additionalInformation.organizationLogo"
-					/>
+					<base-img :src="additionalInformation.organizationLogo" />
 				</div>
 
 				<div
@@ -220,10 +217,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(additionalInformation.personLogo)"
-						:src="additionalInformation.personLogo"
-					/>
+					<base-img :src="additionalInformation.personLogo" />
 				</div>
 
 				<div
@@ -262,10 +256,7 @@
 						{{ strings.minimumSize }}
 					</div>
 
-					<img
-						v-if="canShowImage(additionalInformation.socialShareImage)"
-						:src="additionalInformation.socialShareImage"
-					/>
+					<base-img :src="additionalInformation.socialShareImage" />
 				</div>
 
 				<div class="header social">
@@ -302,10 +293,10 @@
 </template>
 
 <script>
-import { CanShowImage, MaxCounts, Uploader, Wizard } from '@/vue/mixins'
+import { MaxCounts, Uploader, Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 export default {
-	mixins : [ CanShowImage, MaxCounts, Uploader, Wizard ],
+	mixins : [ MaxCounts, Uploader, Wizard ],
 	data () {
 		return {
 			loaded  : false,

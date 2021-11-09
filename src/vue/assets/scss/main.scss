@@ -90,6 +90,12 @@ body[class*="page_aioseo"] {
 		}
 	}
 
+	&.aioseo-flyout-menu-enabled {
+		.aioseo-app {
+			padding-bottom: 40px;
+		}
+	}
+
 	@media screen and (max-width: 960px) {
 		&.auto-fold {
 			.aioseo-header,
@@ -132,6 +138,12 @@ body[class*="page_aioseo"] {
 			.aioseo-header,
 			.aioseo-notifications .overlay {
 				left: 0;
+			}
+		}
+
+		&.aioseo-flyout-menu-enabled {
+			.aioseo-app {
+				padding-bottom: 100px;
 			}
 		}
 	}
