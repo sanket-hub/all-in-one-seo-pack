@@ -138,7 +138,7 @@ module.exports = {
 		},
 		extract : {
 			filename      : 'css/[name].css',
-			chunkFilename : 'css/[name].css?ver=[chunkHash:8]'
+			chunkFilename : !process.env.AIOSEO_LOCAL_DEV ? 'css/[name].css?ver=[chunkHash:8]' : 'css/[name].css'
 		}
 	},
 	pages : {
@@ -173,7 +173,10 @@ module.exports = {
 				}
 			}
 		})
-		config.output.chunkFilename('js/[name].js?ver=[chunkHash:8]')
+
+		if (!process.env.AIOSEO_LOCAL_DEV) {
+			config.output.chunkFilename('js/[name].js?ver=[chunkHash:8]')
+		}
 	},
 	parallel : !('linux' === process.platform && os.release().includes('Microsoft'))
 }
