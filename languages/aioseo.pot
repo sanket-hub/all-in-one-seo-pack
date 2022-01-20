@@ -5547,6 +5547,7 @@ msgstr ""
 msgid "Automotive Business"
 msgstr ""
 
+#. Translators: 1 - Strong tag, 2 - Close strong tag.
 #: languages/aioseo-lite.php:724
 msgid "Childcare"
 msgstr ""
@@ -5817,6 +5818,7 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
+#. Translators: 1 - "Pro", 2 - A percentage ("50%").
 #: languages/aioseo-lite.php:952
 msgid "Fax Number"
 msgstr ""
@@ -6182,6 +6184,7 @@ msgstr ""
 msgid "Regex"
 msgstr ""
 
+#. Translators: 1 - Learn more link.
 #: languages/aioseo-lite.php:1239
 msgid "Check redirect for"
 msgstr ""
@@ -6945,6 +6948,7 @@ msgstr ""
 msgid "not installed"
 msgstr ""
 
+#. Translators: 1 - Focus Keyphrase or Keyphrase.
 #: languages/aioseo-lite.php:1902
 msgid "Title Attribute Format"
 msgstr ""
@@ -7046,6 +7050,7 @@ msgstr ""
 msgid "Twitter Card Type"
 msgstr ""
 
+#. Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
 #: languages/aioseo-lite.php:1983
 msgid "Default (Set under Social Networks)"
 msgstr ""

@@ -39,12 +39,12 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
-#: src/vue/pages/seo-analysis/router/paths.js:19
-msgid "SEO Audit Checklist"
+#: src/vue/router/index.js:94
+msgid "Are you sure you want to leave? you have unsaved changes!"
 msgstr ""
 
-#: src/vue/pages/seo-analysis/router/paths.js:28
-msgid "Analyze Competitor Site"
+#: src/vue/plugins/html-sitemap/index.js:149
+msgid "Display Settings"
 msgstr ""
 
 #: src/vue/pages/settings/views/Advanced.vue:286
@@ -124,6 +124,7 @@ msgid "You're good to go!"
 msgstr ""
 
 #: src/vue/pages/post-settings/views/General.vue:283
+#: src/vue/standalone/publish-panel/PrePublish.vue:71
 msgid "Snippet Preview"
 msgstr ""
 
@@ -138,6 +139,7 @@ msgstr ""
 #: src/vue/pages/dashboard/views/Main.vue:226
 #: src/vue/pages/seo-analysis/views/Main.vue:23
 #: src/vue/pages/settings/views/Advanced.vue:288
+#: src/vue/standalone/publish-panel/PrePublish.vue:87
 msgid "SEO Analysis"
 msgstr ""
 
@@ -2012,25 +2014,24 @@ msgstr ""
 msgid "No content yet"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/contentHasAssets.js:36
-#: src/vue/plugins/truSEO/analysis/lengthContent.js:25
-msgid "Please add some content first."
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:145
+msgid "Default template for all pages."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/lengthContent.js:36
-msgid "The content length is ok. Good job!"
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:149
+msgid "Granular control over the template for each post type, taxonomy and archive."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/lengthContent.js:52
-msgid "This is far below the recommended minimum of words."
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:153
+msgid "XML Sitemap"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/lengthContent.js:70
 msgid "Content length"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/lengthContent.js:71
-msgid "The content is below the minimum of words. Add more content."
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:159
+msgid "Complete Support"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/isExternalLink.js:20
@@ -2049,14 +2050,12 @@ msgstr ""
 msgid "You are linking to other resources on your website which is great."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/isInternalLink.js:28
-msgid "Internal links"
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:170
+msgid "Submit your videos to search engines (Pro & Elite plans only)"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/isInternalLink.js:29
-msgid ""
-"We couldn't find any internal links in your content. Add internal links in "
-"your content."
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:180
+msgid "Submit your latest news stories to Google News (Pro & Elite plans only)"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/calculateFleschReading.js:45
@@ -2090,31 +2089,29 @@ msgstr ""
 msgid ":-)"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:100
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:229
+msgid "Priority Support"
+msgstr ""
+
+# Translators: 1 - The abbreviated plugin name ("AIOSEO").
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:71
+msgid "%1$s Lite vs. Pro"
+msgstr ""
+
+# Translators: 1 - The plugin name ("All in One SEO").
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:73
 msgid ""
-"You are not using any subheadings, but your text is short enough and "
-"probably doesn't need them."
+"Get the most out of %1$s by upgrading to Pro and unlocking all of the "
+"powerful features."
 msgstr ""
 
-# Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
-#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:72
-msgid ""
-"%1$d section of your text is longer than %2$d words and is not separated by "
-"any subheadings. Add subheadings to improve readability."
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:76
+msgid "Features:"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:81
-msgid ""
-"You are not using any subheadings, although your text is rather long. Try "
-"and add some subheadings."
-msgstr ""
-
-#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:91
-msgid "Great job!"
-msgstr ""
-
-#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:99
-msgid "Subheading distribution"
+#: src/vue/pages/about/views/lite/LiteVsPro.vue:79
+#: src/vue/pages/setup-wizard/views/Success.vue:147
+msgid "Upgrade to Pro to Unlock Powerful SEO Features"
 msgstr ""
 
 # Translators: 1 - Number of sentences.
@@ -2195,16 +2192,17 @@ msgstr ""
 msgid "You are using short paragraphs."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/contentHasAssets.js:49
-msgid "Your content contains images and/or video(s)."
+#: src/vue/pages/redirects/views/pro/partials/HTTPHeaders.vue:170
+msgid "redirect"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/contentHasAssets.js:56
 msgid "Images/videos in content"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/contentHasAssets.js:57
-msgid "You are not using rich media like images or videos."
+# Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
+#: src/vue/pages/about/views/GettingStarted.vue:130
+msgid "Get %1$s %2$s and Unlock all the Powerful Features"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:24
@@ -2213,44 +2211,49 @@ msgid ""
 "from the page instead. Make sure to write one!"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:34
-msgid "The meta description is too short."
+#: src/vue/pages/about/views/GettingStarted.vue:141
+msgid "Social Meta for Categories, Tags and Custom Taxonomies"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:43
-msgid "Meta description length"
+#: src/vue/pages/about/views/GettingStarted.vue:142
+#: src/vue/pages/dashboard/views/Main.vue:205
+msgid "Advanced Google Analytics tracking"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:44
-msgid "The meta description is over 160 characters."
+#: src/vue/pages/about/views/GettingStarted.vue:143
+#: src/vue/pages/dashboard/views/Main.vue:207
+msgid "Greater control over display settings"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:53
-msgid "Meta description Length"
+#: src/vue/pages/about/views/GettingStarted.vue:144
+#: src/vue/pages/dashboard/views/Main.vue:210
+msgid "Ad free (no banner adverts)"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/titleLength.js:19
 msgid "Please add a title first."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/titleLength.js:29
-msgid "No title has been specified. Make sure to write one!"
+#: src/vue/pages/about/views/GettingStarted.vue:173
+msgid "How to Control Search Results"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/titleLength.js:39
-msgid "The title is too short."
+# Translators: 1 - The plugin short name ("AIOSEO Pro"), 2 - "Pro" string.
+#: src/vue/pages/about/views/GettingStarted.vue:178
+msgid "Installing %1$s %2$s"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/titleLength.js:48
-msgid "SEO Title length"
+#: src/vue/pages/about/views/GettingStarted.vue:182
+msgid "Optimizing your Content Headings"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/titleLength.js:49
-msgid "The title is over 60 characters."
+# Translators: 1 - The plugin short name ("AIOSEO").
+#: src/vue/pages/redirects/views/pro/partials/ImportAioseo.vue:82
+msgid "Import Redirects from %1$s File"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/titleLength.js:58
-msgid "Title Length"
+#: src/vue/pages/redirects/views/pro/partials/ImportAioseo.vue:83
+msgid "Import from a JSON file..."
 msgstr ""
 
 # Translators: 1 - Focus Keyphrase or Keyphrase.
@@ -2270,30 +2273,38 @@ msgid ""
 "alt text."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:103
-msgid "Your H2 and H3 subheadings reflects the topic of your copy. Good job!"
+#: src/vue/pages/redirects/views/pro/partials/ImportAioseo.vue:87
+msgid "A JSON file is required to import redirects."
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:111
 msgid "Focus keyphrase in Subheadings"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:112
-msgid "Use your focus keyphrase more in your H2 and H3 subheadings."
-msgstr ""
-
-#: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:76
-msgid "Use more focus keyphrases in your H2 and H3 subheadings!"
-msgstr ""
-
-#: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:85
+#: src/vue/pages/redirects/views/pro/partials/ImportAioseo.vue:89
 msgid ""
-"More than 75% of your H2 and H3 subheadings reflect the topic of your copy. "
-"That's too much. Don't over-optimize!"
+"There was an error importing your redirects. Please make sure you are "
+"uploading the correct file or it is in the proper format."
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/keyphraseInSubHeadings.js:94
-msgid "Your H2 or H3 subheading reflects the topic of your copy. Good job!"
+# Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
+#: src/vue/pages/redirects/views/pro/partials/ImportOthers.vue:109
+#: src/vue/pages/tools/views/partials/ImportOthers.vue:175
+msgid "%1$s was successfully imported!"
+msgstr ""
+
+# Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
+#: src/vue/pages/redirects/views/pro/partials/ImportOthers.vue:113
+#: src/vue/pages/tools/views/partials/ImportOthers.vue:179
+msgid "An error occurred while importing %1$s. Please try again."
+msgstr ""
+
+# Translators: 1 - The name of the plugin (e.g. "Yoast SEO"), 2 - The version of the plugin (e.g. "10.2.3").
+#: src/vue/pages/redirects/views/pro/partials/ImportOthers.vue:156
+#: src/vue/pages/tools/views/partials/ImportOthers.vue:222
+msgid ""
+"We do not support importing from the currently installed version of %1$s "
+"(%2$s). Please upgrade to the latest version and try again."
 msgstr ""
 
 # Translators: 1 - Focus Keyphrase or Keyphrase.
@@ -2301,17 +2312,16 @@ msgstr ""
 msgid "%1$s in introduction"
 msgstr ""
 
-#: src/vue/plugins/truSEO/analysis/keyphraseInIntroduction.js:27
-msgid "No content added yet."
+#: src/vue/pages/redirects/views/pro/partials/ImportOthers.vue:81
+#: src/vue/pages/tools/views/partials/ImportOthers.vue:128
+msgid "not installed"
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseInIntroduction.js:42
-msgid "Your %1$s appears in the first paragraph. Well done!"
+#: src/vue/pages/redirects/views/pro/partials/RelocateSite.vue:68
+msgid "Relocate Site"
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseInIntroduction.js:52
+#: src/vue/pages/redirects/views/pro/partials/RelocateSite.vue:69
 msgid ""
 "Your %1$s does not appear in the first paragraph. Make sure the topic is "
 "clear immediately."
@@ -2346,14 +2356,15 @@ msgstr ""
 msgid "%1$s in meta description"
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseInDescription.js:25
-msgid "%1$s found in meta description."
+#: src/vue/pages/redirects/views/pro/partials/RelocateSite.vue:70
+msgid ""
+"By enabling this option you disabled any site aliases or canonical "
+"settings. Enter a domain to redirect everything, except WordPress login and "
+"admin."
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseInDescription.js:35
-msgid "%1$s not found in meta description."
+#: src/vue/pages/redirects/views/pro/partials/RelocateSite.vue:71
+msgid "Your old site address"
 msgstr ""
 
 #: src/vue/plugins/truSEO/analysis/keyphraseBeginningTitle.js:18
@@ -2385,19 +2396,19 @@ msgstr ""
 msgid "%1$s length"
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseLength.js:29
-msgid "No %1$s was set. Set a %1$s in order to calculate your SEO score."
+# Translators: 1 - Nginx/Apache, 2 - Learn more link.
+#: src/vue/pages/redirects/views/pro/partials/ServerConfigReloadWarning.vue:27
+msgid ""
+"Your redirect settings have been updated. In order for them to work "
+"properly you may need to reload your %1$s configuration. %2$s"
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseLength.js:50
-msgid "%1$s is slightly long. Try to make it shorter."
+#: src/vue/pages/redirects/views/pro/partials/ServerConfigReloadWarning.vue:28
+msgid "If you don't know how to do that please revert your Redirect Method to PHP."
 msgstr ""
 
-# Translators: 1 - Focus Keyphrase or Keyphrase.
-#: src/vue/plugins/truSEO/analysis/keyphraseLength.js:60
-msgid "%1$s is too long. Try to make it shorter."
+#: src/vue/pages/redirects/views/pro/partials/ServerConfigReloadWarning.vue:29
+msgid "Check Again"
 msgstr ""
 
 # Translators: 1 - The current step count. 2 - The total step count.
@@ -3172,8 +3183,9 @@ msgstr ""
 msgid "No Index RSS Feeds"
 msgstr ""
 
-#: src/vue/components/common/core/PostTypeOptions.vue:82
-msgid "No post types available."
+#: src/vue/pages/post-settings/views/General.vue:286
+#: src/vue/pages/search-appearance/views/partials/TitleDescription.vue:145
+msgid "Click on the tags below to insert variables into your title."
 msgstr ""
 
 #: src/vue/components/common/core/PostStatusOptions.vue:70
@@ -3181,10 +3193,15 @@ msgstr ""
 msgid "No taxonomies available."
 msgstr ""
 
-#: src/vue/components/common/core/PostTypeOptions.vue:84
-msgid ""
-"All post types are set to noindex or your site does not have any post types "
-"registered that are supported by this feature."
+#: src/vue/components/common/core/AddRedirection.vue:237
+#: src/vue/components/common/core/DisplayInfo.vue:112
+#: src/vue/components/common/html-sitemap/DisplayInfo.vue:146
+#: src/vue/pages/search-appearance/views/Advanced.vue:376
+#: src/vue/pages/settings/views/Advanced.vue:283
+#: src/vue/pages/sitemaps/views/GeneralSitemap.vue:441
+#: src/vue/pages/sitemaps/views/HtmlSitemap.vue:295
+#: src/vue/pages/social-networks/views/Facebook.vue:697
+msgid "Advanced Settings"
 msgstr ""
 
 #: src/vue/components/common/core/PostStatusOptions.vue:72
@@ -3211,12 +3228,12 @@ msgstr ""
 msgid "Home Page"
 msgstr ""
 
-#: src/vue/components/common/core/PriorityScore.vue:67
-msgid "Archive Pages"
+#: src/vue/pages/search-appearance/views/Advanced.vue:379
+msgid "Remove Stopwords from Permalinks"
 msgstr ""
 
-#: src/vue/components/common/core/PriorityScore.vue:68
-msgid "Author Pages"
+#: src/vue/pages/search-appearance/views/Advanced.vue:380
+msgid "Remove Category Base Prefix"
 msgstr ""
 
 #: src/vue/components/common/core/Notifications.vue:94
@@ -3237,37 +3254,50 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:155
-msgid "View All"
+#: src/vue/pages/search-appearance/views/Advanced.vue:393
+msgid ""
+"Check this if you want your categories for a given post used as the Meta "
+"Keywords for this post (in addition to any keywords you specify on the Edit "
+"Post screen)."
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:156
-msgid "Docs"
+#: src/vue/pages/search-appearance/views/Advanced.vue:394
+msgid "Use Tags for Meta Keywords"
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:157
-msgid "View Documentation"
+#: src/vue/pages/search-appearance/views/Advanced.vue:395
+msgid ""
+"Check this if you want your tags for a given post used as the Meta Keywords "
+"for this post (in addition to any keywords you specify on the Edit Post "
+"screen)."
 msgstr ""
 
-# Translators: 1 - The plugin short name ("AIOEO").
-#: src/vue/components/common/core/Help.vue:159
-msgid "Browse documentation, reference material, and tutorials for %1$s."
+#: src/vue/pages/search-appearance/views/Advanced.vue:396
+msgid "Dynamically Generate Meta Keywords"
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:160
-msgid "View All Documentation"
+#: src/vue/pages/search-appearance/views/Advanced.vue:397
+msgid ""
+"Check this if you want your keywords on your Posts page (set in WordPress "
+"under Settings, Reading, Front Page Displays) and your archive pages to be "
+"dynamically generated from the keywords of the posts showing on that page. "
+"If unchecked, it will use the keywords set in the edit page screen for the "
+"posts page."
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:161
-msgid "Get Support"
+#: src/vue/pages/search-appearance/views/Advanced.vue:398
+#: src/vue/pages/settings/views/partials/Breadcrumbs/Advanced.vue:73
+msgid "Paged Format"
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:162
-msgid "Submit a ticket and our world class support team will be in touch soon."
+#: src/vue/pages/search-appearance/views/Advanced.vue:399
+msgid ""
+"This string gets appended to the titles and descriptions of paginated pages "
+"(like term or archive pages)."
 msgstr ""
 
-#: src/vue/components/common/core/Help.vue:163
-msgid "Submit a Support Ticket"
+#: src/vue/pages/search-appearance/views/Advanced.vue:400
+msgid "Description Format"
 msgstr ""
 
 #: src/vue/components/common/core/FeatureCard.vue:168
@@ -5522,14 +5552,17 @@ msgid ""
 "ticketing, recurring events, and more."
 msgstr ""
 
-# Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
-#: src/vue/pages/about/views/GettingStarted.vue:130
-msgid "Get %1$s %2$s and Unlock all the Powerful Features"
+#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:100
+msgid ""
+"You are not using any subheadings, but your text is short enough and "
+"probably doesn't need them."
 msgstr ""
 
-# Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
-#: src/vue/pages/about/views/GettingStarted.vue:132
-msgid "Get %1$s %2$s and Unlock all the Powerful Features."
+# Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
+#: src/vue/plugins/truSEO/analysis/subheadingsDistribution.js:72
+msgid ""
+"%1$d section of your text is longer than %2$d words and is not separated by "
+"any subheadings. Add subheadings to improve readability."
 msgstr ""
 
 #: src/vue/pages/about/views/GettingStarted.vue:136
@@ -5566,25 +5599,27 @@ msgstr ""
 msgid "Ad free (no banner adverts)"
 msgstr ""
 
-#: src/vue/pages/about/views/GettingStarted.vue:148
-msgid "Video Tutorials"
+#: src/vue/plugins/truSEO/analysis/transitionWords.js:64
+msgid "Transition words"
 msgstr ""
 
-#: src/vue/pages/about/views/GettingStarted.vue:149
-msgid "View all video tutorials"
+#: src/vue/plugins/truSEO/analysis/metadescriptionLength.js:54
+#: src/vue/plugins/truSEO/analysis/titleLength.js:59
+#: src/vue/plugins/truSEO/analysis/transitionWords.js:65
+msgid "Well done!"
 msgstr ""
 
-# Translators: 1 - The plugin short name ("AIOSEO").
-#: src/vue/pages/about/views/GettingStarted.vue:154
-msgid "%1$s Documentation"
+#: src/vue/pages/post-settings/views/Twitter.vue:210
+msgid "Twitter Preview"
 msgstr ""
 
-#: src/vue/pages/about/views/GettingStarted.vue:155
-msgid "See our full documentation"
+#: src/vue/pages/post-settings/views/Twitter.vue:211
+msgid "Use Data from Facebook Tab"
 msgstr ""
 
-#: src/vue/pages/about/views/GettingStarted.vue:161
-msgid "Basic Guide to Google Analytics"
+#: src/vue/pages/post-settings/views/Facebook.vue:236
+#: src/vue/pages/post-settings/views/Twitter.vue:212
+msgid "Image Source"
 msgstr ""
 
 #: src/vue/pages/about/views/GettingStarted.vue:165
