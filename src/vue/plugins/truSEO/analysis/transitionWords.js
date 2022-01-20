@@ -1,3 +1,4 @@
+import { count } from '@/vue/plugins/wordcount'
 import inRange from 'lodash/inRange'
 import findTransitionWords from '../researches/findTransitionWords'
 import formatNumber from '../researches/helpers/formatNumber'
@@ -26,6 +27,11 @@ function calculateScoreFromPercentage (percentage) {
 
 function transitionWords (content) {
 	if (!content) {
+		return {}
+	}
+
+	// Check if the text is longer than 200 words.
+	if (200 > count(content, 'characters_including_spaces')) {
 		return {}
 	}
 

@@ -63,8 +63,6 @@ export default {
 	logs404         : [],
 	filters         : [],
 	selectedFilters : {},
-	searchTerm      : null,
-	paginatedPage   : 1,
 	sort            : {
 		logs    : 'last_accessed',
 		logs404 : 'last_accessed'
@@ -88,6 +86,18 @@ export default {
 			total : 0,
 			pages : 0,
 			page  : 1
+		}
+	},
+	tableFields : {
+		main : {
+			searchTerm    : '',
+			paginatedPage : 1
+		},
+		logs : {
+			paginatedPage : 1
+		},
+		logs404 : {
+			paginatedPage : 1
 		}
 	},
 	server : {

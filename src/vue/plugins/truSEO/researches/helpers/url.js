@@ -82,7 +82,7 @@ function isInternalLink( url, host ) {
 		return true
 	}
 
-	return includes( parsedUrl.host, host )
+	return parsedUrl.host === host
 }
 
 /**

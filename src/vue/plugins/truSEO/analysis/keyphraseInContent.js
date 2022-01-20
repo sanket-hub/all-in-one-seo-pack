@@ -16,8 +16,8 @@ function keyphraseInContent (content, keyphrase) {
 
 	if (0 < keywordMatched.count) {
 		return {
-			title       : __('Focus Keyphrase in content', td),
-			description : __('Focus Keyphrase found in content.', td),
+			title       : __('Focus keyphrase in content', td),
+			description : __('Focus keyphrase found in content.', td),
 			score       : scores.matches,
 			maxScore    : scores.matches,
 			error       : 0
@@ -25,8 +25,8 @@ function keyphraseInContent (content, keyphrase) {
 	}
 
 	return {
-		title       : __('Focus Keyphrase in content', td),
-		description : __('Focus Keyphrase not found in content.', td),
+		title       : __('Focus keyphrase in content', td),
+		description : __('Focus keyphrase not found in content.', td),
 		score       : scores.noMatches,
 		maxScore    : scores.matches,
 		error       : 1

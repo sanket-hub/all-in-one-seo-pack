@@ -1,4 +1,4 @@
-import { mapGetters, mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export const Wizard = {
 	data () {
 		return {
@@ -12,7 +12,6 @@ export const Wizard = {
 	computed : {
 		...mapGetters('wizard', [ 'getNextLink', 'getPrevLink' ]),
 		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'addons' ]),
 		features () {
 			return [ ...this.$constants.WIZARD_FEATURES ]
 		},

@@ -49,11 +49,8 @@ export default {
 	resetSelectedFilters (state) {
 		this._vm.$set(state, 'selectedFilters', {})
 	},
-	setSearchTerm (state, term) {
-		this._vm.$set(state, 'searchTerm', term)
-	},
-	setPaginatedPageNumber (state, number) {
-		this._vm.$set(state, 'paginatedPage', number)
+	setPaginatedPage (state, { group, page }) {
+		this._vm.$set(state.tableFields[group], 'paginatedPage', page)
 	},
 	resetPageNumbers (state) {
 		const { main, total404, logs } = state.totals
@@ -68,7 +65,6 @@ export default {
 		}
 
 		this._vm.$set(state, 'totals', totals)
-		this._vm.$set(state, 'paginatedPage', 1)
 	},
 	updateSort (state, { slug, column }) {
 		this._vm.$set(state.sort, slug, column)

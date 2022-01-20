@@ -72,7 +72,7 @@ export default function calculateFleschReading (content) {
 
 		if (score >= scores.okay) {
 			return {
-				title       : __('Flesch Reading Ease', td),
+				title       : __('Flesch reading ease', td),
 				// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string.
 				description : sprintf(__('The copy scores %1$s in the test, which is considered %2$s to read.', td), fleschReadingResult, feedback),
 				score       : score,
@@ -82,7 +82,7 @@ export default function calculateFleschReading (content) {
 		}
 
 		return {
-			title       : __('Flesch Reading Ease', td),
+			title       : __('Flesch reading ease', td),
 			// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string, 3 - Note string.
 			description : sprintf(__('The copy scores %1$s in the test, which is considered %2$s to read. %3$s', td), fleschReadingResult, feedback, note),
 			score       : score,
@@ -92,7 +92,7 @@ export default function calculateFleschReading (content) {
 	}
 
 	return {
-		title       : __('Flesch Reading Ease N/A', td),
+		title       : __('Flesch reading ease N/A', td),
 		description : __(':-)', td),
 		score       : 0,
 		maxScore    : 0,

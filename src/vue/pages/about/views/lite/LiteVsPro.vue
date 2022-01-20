@@ -23,7 +23,7 @@
 				<div class="header-pro">Pro</div>
 			</div>
 
-			<hr/>
+			<hr />
 
 			<div>
 				<div v-for="(feature, index) in features" :key="index">
@@ -40,7 +40,7 @@
 							<div v-if="feature.pro.description">{{ feature.pro.description }}</div>
 						</div>
 					</div>
-					<hr/>
+					<hr />
 				</div>
 			</div>
 		</div>
@@ -208,6 +208,16 @@ export default {
 					pro : {
 						title       : this.$t.__('Available as Addon Plugin', this.$td),
 						description : this.$t.__('Create, manage and monitor redirects for 404\'s or modified posts + server redirects, full site redirects and site aliases (Pro & Elite plans only)', this.$td)
+					}
+				},
+				linkAssistant : {
+					name : this.$t.__('Link Assistant', this.$td),
+					lite : {
+						title : this.$t.__('Not Available', this.$td)
+					},
+					pro : {
+						title       : this.$t.__('Available as Addon Plugin', this.$td),
+						description : this.$t.__('View detailed link & domain reports, manage existing links and discover new internal linking opportunities through smart suggestions (Pro & Elite plans only)', this.$td)
 					}
 				},
 				support : {

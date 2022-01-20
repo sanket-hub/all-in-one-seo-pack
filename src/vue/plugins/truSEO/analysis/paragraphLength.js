@@ -17,7 +17,7 @@ function paragraphLength (content) {
 
 	if (hasBigParagraphs) {
 		return {
-			title       : __('Paragraphs Length', td),
+			title       : __('Paragraphs length', td),
 			description : __('At least one paragraph is long. Consider using short paragraphs.', td),
 			score       : scores.incorrect,
 			maxScore    : scores.correctLength,
@@ -25,7 +25,7 @@ function paragraphLength (content) {
 		}
 	}
 	return {
-		title       : __('Paragraphs Length', td),
+		title       : __('Paragraphs length', td),
 		description : __('You are using short paragraphs.', td),
 		score       : scores.correctLength,
 		maxScore    : scores.correctLength,

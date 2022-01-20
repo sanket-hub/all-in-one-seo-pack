@@ -8,7 +8,13 @@ requireModule.keys().forEach(fileName => {
 
 	// Replace ./ and .js
 	const path = fileName.replace(/(\.\/|\.js)/g, '')
-	const [ moduleName, imported ] = path.split('/')
+	let [ moduleName, imported ] = path.split('/')
+
+	// This is needed so that the namespace can be accessed in camelcase.
+	// If not, the getters won't be linked to the correct state.
+	if ('link-assistant' === moduleName) {
+		moduleName = 'linkAssistant'
+	}
 
 	if (!modules[moduleName]) {
 		modules[moduleName] = {

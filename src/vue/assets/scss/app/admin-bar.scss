@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 #wpadminbar {
 	#wp-admin-bar-aioseo-main {
 		.aioseo-logo.svg {
@@ -72,6 +74,13 @@
 		line-height: 1.6;
 		animation: aioseo-menu-notification-indicator-pulse 1.5s infinite;
 	}
+
+	.aioseo-menu-new-indicator {
+		color: $orange;
+		vertical-align: super;
+		font-size: 9px;
+		padding-left: 2px;
+	}
 }
 
 #toplevel_page_aioseo {
@@ -84,6 +93,13 @@
 		background-color: #ca4a1f;
 		line-height: 1.6;
 		animation: aioseo-menu-notification-indicator-pulse 1.5s infinite;
+	}
+
+	.aioseo-menu-new-indicator {
+		color: $orange;
+		vertical-align: super;
+		font-size: 9px;
+		padding-left: 2px;
 	}
 }
 

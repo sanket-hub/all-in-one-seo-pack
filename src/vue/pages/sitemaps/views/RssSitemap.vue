@@ -62,13 +62,13 @@
 			>
 				<template #content>
 					<base-input
+						v-model="options.sitemap.rss.linksPerIndex"
 						class="aioseo-links-per-site"
 						type="number"
 						size="medium"
-						v-model="options.sitemap.rss.linksPerIndex"
-						:max="maxInput"
-						@keyup="setMaxInput"
 						:min="1"
+						:max="50000"
+						@keyup="validateLinksPerIndex"
 					/>
 
 					<div class="aioseo-description">
@@ -113,10 +113,11 @@
 </template>
 
 <script>
-import { MaxInput } from '@/vue/mixins'
 import { mapState } from 'vuex'
+import { CommonSitemap } from '@/vue/pages/sitemaps/mixins'
+
 export default {
-	mixins : [ MaxInput ],
+	mixins : [ CommonSitemap ],
 	data () {
 		return {
 			pagePostOptions : [],

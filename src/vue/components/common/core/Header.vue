@@ -41,6 +41,12 @@
 					v-if="actions"
 					class="header-actions"
 				>
+					<transition name="fade-percent-circle">
+						<core-percent-circle
+							v-if="canShowPercentCircle"
+							@click.native="toggleProcessingPopup"
+						/>
+					</transition>
 					<span
 						class="round"
 						@click.stop="toggleNotifications"
@@ -92,10 +98,19 @@ export default {
 	},
 	computed : {
 		...mapGetters([ 'settings', 'activeNotificationsCount', 'isUnlicensed', 'helpPanel' ]),
-		...mapState([ 'notifications', 'pong' ])
+		...mapState([ 'notifications', 'pong' ]),
+		...mapState('linkAssistant', [ 'suggestionsScan' ]),
+		canShowPercentCircle () {
+			return this.$addons.isActive('aioseo-link-assistant') &&
+				!this.$addons.requiresUpgrade('aioseo-link-assistant') &&
+				this.$addons.hasMinimumVersion('aioseo-link-assistant') &&
+				('links-report' === this.$route.name || 'overview' === this.$route.name) &&
+				100 !== this.suggestionsScan.percent
+		}
 	},
 	methods : {
 		...mapMutations([ 'toggleNotifications' ]),
+		...mapMutations('linkAssistant', [ 'toggleProcessingPopup' ]),
 		debounce (fn) {
 			let frame
 			return (...params) => {
@@ -235,6 +250,13 @@ html:not([data-scroll='0']) {
 				}
 			}
 		}
+	}
+
+	.fade-percent-circle-enter-active, .fade-percent-circle-leave-active {
+		transition: opacity .5s;
+	}
+	.fade-percent-circle-enter, .fade-percent-circle-leave-to {
+		opacity: 0;
 	}
 }
 </style>

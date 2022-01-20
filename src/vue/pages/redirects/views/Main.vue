@@ -16,7 +16,9 @@ import Logs from './AIOSEO_VERSION/Logs'
 import Logs404 from './AIOSEO_VERSION/Logs404'
 import Redirects from './Redirects'
 import Settings from './AIOSEO_VERSION/Settings'
+import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
 export default {
+	mixins     : [ RequiresActivation, RequiresUpdate ],
 	components : {
 		FullSiteRedirect,
 		ImportExport,
@@ -42,17 +44,10 @@ export default {
 				'import-export' !== this.$route.name
 		},
 		excludeTabs () {
-			if (!this.$addons.isActive('aioseo-redirects') || this.$addons.requiresUpgrade('aioseo-redirects')) {
-				return [
-					'full-site-redirect',
-					'logs',
-					'logs-404',
-					'import-export',
-					'settings'
-				]
-			}
+			const exclude = !this.$addons.isActive('aioseo-redirects')
+				? this.getExcludedActivationTabs('aioseo-redirects')
+				: this.getExcludedUpdateTabs('aioseo-redirects')
 
-			const exclude = []
 			if (!this.options.logs.log404.enabled) {
 				exclude.push('logs-404')
 			}

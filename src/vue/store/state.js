@@ -19,6 +19,7 @@ export default {
 	plugins           : {},
 	showNotifications : false,
 	loading           : false,
+	analyzer          : null,
 	analyzing         : false,
 	analyzeError      : null,
 	htaccessError     : null,

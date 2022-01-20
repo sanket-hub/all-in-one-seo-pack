@@ -1137,12 +1137,12 @@ export const WIZARD_FEATURES = [
 		upgrade     : 'aioseo-redirects'
 	},
 	{
-		value       : 'internal-links',
-		name        : __('Internal Link Building Assistant', td),
+		value       : 'link-assistant',
+		name        : __('Link Assistant', td),
 		description : __('', td),
 		required    : false,
 		pro         : true,
-		upgrade     : false
+		upgrade     : 'aioseo-link-assistant'
 	},
 	{
 		value       : 'advanced-schema',

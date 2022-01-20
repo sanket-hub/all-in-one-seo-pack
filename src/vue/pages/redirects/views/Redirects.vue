@@ -1,39 +1,44 @@
 <template>
 	<div class="aioseo-redirects-main">
 		<redirects
-			v-if="!isUnlicensed && $addons.isActive('aioseo-redirects') && !$addons.requiresUpgrade('aioseo-redirects')"
+			v-if="shouldShowMain"
 		/>
 
-		<redirects-activate
-			v-if="!isUnlicensed && !$addons.isActive('aioseo-redirects') && $addons.canActivate('aioseo-redirects') && !$addons.requiresUpgrade('aioseo-redirects')"
+		<activate
+			v-if="shouldShowActivate"
 		/>
 
-		<redirects-lite
-			v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-redirects')"
+		<update
+			v-if="shouldShowUpdate"
+		/>
+
+		<lite
+			v-if="shouldShowLite"
 		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import Redirects from './AIOSEO_VERSION/Redirects'
-import RedirectsActivate from './AIOSEO_VERSION/RedirectsActivate'
-import RedirectsLite from './lite/Redirects'
+import { mapState } from 'vuex'
+import Activate from './AIOSEO_VERSION/redirects/Activate'
+import Lite from './lite/redirects/Redirects'
+import Redirects from './AIOSEO_VERSION/redirects/Redirects'
+import Update from './AIOSEO_VERSION/redirects/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
+		Activate,
+		Lite,
 		Redirects,
-		RedirectsActivate,
-		RedirectsLite
+		Update
 	},
 	data () {
 		return {
-			strings : {
-				locationsSettings : this.$t.__('Redirects Settings', this.$td)
-			}
+			addonSlug : 'aioseo-redirects'
 		}
 	},
 	computed : {
-		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'options', 'settings' ])
 	}
 }

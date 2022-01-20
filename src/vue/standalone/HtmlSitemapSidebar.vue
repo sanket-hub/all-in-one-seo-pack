@@ -18,7 +18,10 @@
 				</base-toggle>
 			</div>
 
-			<div class="aioseo-sidebar-row" v-if="!$root.$data.archives">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<base-toggle
 					v-model="$root.$data.show_label"
 				>
@@ -26,7 +29,10 @@
 				</base-toggle>
 			</div>
 
-			<div class="aioseo-sidebar-row" v-if="!$root.$data.archives">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<base-toggle
 					v-model="$root.$data.publication_date"
 				>
@@ -42,7 +48,10 @@
 				</base-toggle>
 			</div> -->
 
-			<div class="aioseo-sidebar-row">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<p class="aioseo-sidebar-title">{{ strings.postTypes }}</p>
 				<html-sitemap-included-objects
 					type="post_types"
@@ -50,14 +59,20 @@
 				/>
 			</div>
 
-			<div class="aioseo-sidebar-row">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<p class="aioseo-sidebar-title">{{ strings.taxonomies }}</p>
 				<html-sitemap-included-objects
 					type="taxonomies"
 				/>
 			</div>
 
-			<div class="aioseo-sidebar-row" v-if="!$root.$data.archives">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<p class="aioseo-sidebar-title">{{ strings.sortOrder }}</p>
 				<base-select
 					size="medium"
@@ -79,14 +94,20 @@
 				/>
 			</div>
 
-			<div class="aioseo-sidebar-row">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<p class="aioseo-sidebar-title">{{ strings.excludePostsPages }}</p>
 				<html-sitemap-exclude-objects
 					type="posts"
 				/>
 			</div>
 
-			<div class="aioseo-sidebar-row">
+			<div
+				class="aioseo-sidebar-row"
+				v-if="!$root.$data.archives"
+			>
 				<p class="aioseo-sidebar-title">{{ strings.excludeTerms }}</p>
 				<html-sitemap-exclude-objects
 					type="terms"

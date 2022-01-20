@@ -175,8 +175,7 @@ export default {
 			return this.features
 				// Hiding the following for now since we do not support them in this launch.
 				.filter(f => 'breadcrumbs' !== f.value)
-				.filter(f => 'internal-links' !== f.value)
-				.filter(f => 'advanced-schema' !== f.value)
+				.filter(f => 'link-assistant' !== f.value)
 				.map(f => {
 					f.selected = false
 					if (this.presetFeatures.includes(f.value)) {

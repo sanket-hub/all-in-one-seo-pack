@@ -20,7 +20,7 @@
 		</template>
 
 		<template #extra>
-			<svg-file/>
+			<svg-file />
 			<p>{{ strings.page }}</p>
 		</template>
 

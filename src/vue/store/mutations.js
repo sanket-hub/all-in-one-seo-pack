@@ -8,6 +8,9 @@ export default {
 	isDirty (state, payload) {
 		this._vm.$set(state, 'isDirty', payload)
 	},
+	analyzer (state, payload) {
+		this._vm.$set(state, 'analyzer', payload)
+	},
 	analyzing (state, payload) {
 		this._vm.$set(state, 'analyzing', payload)
 	},
@@ -76,6 +79,9 @@ export default {
 	},
 	openModal (state, value) {
 		this._vm.$set(state.currentPost, 'modalOpen', value)
+	},
+	toggleLinkAssistantModal (state) {
+		this._vm.$set(state.currentPost.linkAssistant, 'modalOpen', !state.currentPost.linkAssistant.modalOpen)
 	},
 	changeGeneralPreview (state, value) {
 		this._vm.$set(state.currentPost, 'generalMobilePrev', value)

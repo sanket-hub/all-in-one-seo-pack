@@ -3,11 +3,12 @@
 		<core-main-tabs
 			:tabs="getTabs"
 			:showSaveButton="false"
-			:active="this.activeTab"
+			:active="activeTab"
 			internal
 			disableMobile
 			@changed="value => processChangeTab(value)"
 		/>
+
 		<transition name="route-fade" mode="out-in">
 			<component
 				:is="activeTab"
@@ -34,20 +35,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 import { getParams, removeParam } from '@/vue/utils/params'
 import Advanced from './Advanced'
 import General from './General'
 import Schema from './Schema'
 import Social from './Social'
 import ModalContent from './ModalContent'
+import Links from './Links'
+
 export default {
 	components : {
 		Advanced,
 		General,
 		Schema,
 		Social,
-		ModalContent
+		ModalContent,
+		Links
 	},
 	data () {
 		return {
@@ -56,8 +60,21 @@ export default {
 			strings   : {
 				pageName   : 'General',
 				modalTitle : this.$t.__('Preview Snippet Editor', this.$td)
-			},
-			tabs : [
+			}
+		}
+	},
+	watch : {
+		currentPost : {
+			deep : true,
+			handler () {
+				this.savePostState()
+			}
+		}
+	},
+	computed : {
+		...mapState([ 'currentPost' ]),
+		tabs () {
+			const tabs = [
 				{
 					slug : 'general',
 					icon : 'svg-settings',
@@ -79,18 +96,16 @@ export default {
 					name : 'Advanced'
 				}
 			]
-		}
-	},
-	watch : {
-		currentPost : {
-			deep : true,
-			handler () {
-				this.savePostState()
+
+			if (!this.currentPost.linkAssistant || !this.currentPost.linkAssistant.isExcludedPost) {
+				tabs.splice(3, 0, {
+					slug : 'links',
+					icon : 'svg-link-suggestion',
+					name : 'Link Assistant'
+				})
 			}
-		}
-	},
-	computed : {
-		...mapState([ 'currentPost' ]),
+			return tabs
+		},
 		initTab : function () {
 			if ('sidebar' === this.$root._data.screenContext) {
 				return (this.currentPost.tabs.tab_sidebar && this.$allowed(`aioseo_page_${this.currentPost.tabs.tab_sidebar}_settings`)) ? this.currentPost.tabs.tab_sidebar : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
@@ -98,13 +113,30 @@ export default {
 			return (this.currentPost.tabs.tab && this.$allowed(`aioseo_page_${this.currentPost.tabs.tab}_settings`)) ? this.currentPost.tabs.tab : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
 		},
 		getTabs () {
-			if ('term' === this.currentPost.context || this.currentPost.isWooCommercePage) {
-				return this.tabs.filter((tab) => 'schema' !== tab.slug && this.$allowed(`aioseo_page_${tab.slug}_settings`))
+			if ('term' === this.currentPost.context || this.currentPost.isWooCommercePageWithoutSchema) {
+				return this.tabs.filter((tab) => {
+					const slug = 'links' !== tab.slug ? tab.slug : 'link_assistant'
+					return 'schema' !== slug && this.$allowed(`aioseo_page_${slug}_settings`)
+				})
 			}
-			return this.tabs.filter(tab => ('general' === tab.slug && (this.$allowed('aioseo_page_analysis') || this.$allowed(`aioseo_page_${tab.slug}_settings`))) || this.$allowed(`aioseo_page_${tab.slug}_settings`))
+			return this.tabs.filter(tab => {
+				const slug = 'links' !== tab.slug ? tab.slug : 'link_assistant'
+				if (this.$allowed(`aioseo_page_${slug}_settings`)) {
+					return true
+				}
+
+				return (
+					'general' === slug &&
+					(
+						this.$allowed('aioseo_page_analysis') ||
+						this.$allowed(`aioseo_page_${slug}_settings`)
+					)
+				)
+			})
 		}
 	},
 	methods : {
+		...mapMutations([ 'toggleLinkAssistantModal' ]),
 		...mapActions([ 'openModal', 'updateState', 'savePostState' ]),
 		processChangeTab (newTabValue) {
 			this.activeTab = newTabValue
@@ -115,6 +147,15 @@ export default {
 				default :
 					this.$set(this.currentPost.tabs, 'tab', newTabValue)
 					break
+			}
+
+			if (
+				this.currentPost.linkAssistant &&
+				!this.currentPost.linkAssistant.modalOpen &&
+				'links' === newTabValue &&
+				'sidebar' === this.$root._data.screenContext
+			) {
+				this.toggleLinkAssistantModal()
 			}
 		},
 		closeModal () {
@@ -171,7 +212,8 @@ export default {
 			color: $black2 !important;
 			&.md-active {
 				color: $black !important;
-				font-weight: bold !important;
+				-webkit-text-stroke-width: 0.2px;
+				-webkit-text-stroke-color: $black;
 			}
 			.icon {
 				display: none;

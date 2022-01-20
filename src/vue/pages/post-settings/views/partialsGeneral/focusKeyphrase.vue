@@ -21,7 +21,7 @@
 			</base-button>
 
 			<core-tooltip
-				v-if="!currentPost.keyphrases.focus.keyphrase"
+				v-if="!currentPost.keyphrases.focus || !currentPost.keyphrases.focus.keyphrase"
 			>
 				<div
 					class="disabled-button gray"
@@ -60,7 +60,7 @@
 		/>
 
 		<core-tooltip
-			v-if="!currentPost.loading.focus && currentPost.keyphrases.focus.keyphrase && $isPro && isUnlicensed"
+			v-if="!currentPost.loading.focus && currentPost.keyphrases.focus && currentPost.keyphrases.focus.keyphrase && $isPro && isUnlicensed"
 		>
 			<div
 				class="disabled-button gray"
@@ -77,7 +77,7 @@
 		</core-tooltip>
 
 		<core-tooltip
-			v-if="!currentPost.loading.focus && currentPost.keyphrases.focus.keyphrase && (!$isPro || !isUnlicensed)"
+			v-if="!currentPost.loading.focus && currentPost.keyphrases.focus && currentPost.keyphrases.focus.keyphrase && (!$isPro || !isUnlicensed)"
 			:disabled="!showSemrushTooltip || $isPro"
 			:force-show="showSemrushTooltip && !$isPro"
 		>
@@ -245,10 +245,22 @@
 
 												<core-alert
 													type="red"
-													v-if="semrush.error"
+													v-if="semrush.error && !semrush.error.includes('TOTAL LIMIT EXCEEDED')"
 												>
 													{{ semrushError }}
 												</core-alert>
+
+												<template
+													v-if="semrush.error && semrush.error.includes('TOTAL LIMIT EXCEEDED')"
+												>
+													<div class="semrush-logo">
+														<svg-logo-semrush />
+													</div>
+													<div class="semrush-upsell">
+														<span><strong v-html="strings.youHaveExceededSemrush" /></span>{{ ' ' }}
+														<span v-html="strings.inOrderToUpgradeSemrush" />
+													</div>
+												</template>
 											</div>
 										</td>
 									</tr>
@@ -303,7 +315,11 @@ export default {
 				// Translators: 1 - Semrush.
 				semrushTooltip                 : this.$t.sprintf(this.$t.__('Get Additional Keyphrases with %1$s!', this.$td), 'Semrush'),
 				// Translators: 1 - Opening link tag, 2 - Closing link tag, 3 - Semrush.
-				semrushTooltipLicenseKey       : this.$t.sprintf(this.$t.__('%1$sA valid license key is required%2$s in order to connect with %3$s.', this.$td), '<a href="' + this.$aioseo.urls.aio.settings + '">', '</a>', 'Semrush')
+				semrushTooltipLicenseKey       : this.$t.sprintf(this.$t.__('%1$sA valid license key is required%2$s in order to connect with %3$s.', this.$td), '<a href="' + this.$aioseo.urls.aio.settings + '">', '</a>', 'Semrush'),
+				// Translators: 1 - Semrush.
+				youHaveExceededSemrush         : this.$t.sprintf(this.$t.__('You have exceeded the number of requests allowed by your %1$s plan.', this.$td), 'Semrush'),
+				// Translators: 1 - Link to learn more.
+				inOrderToUpgradeSemrush        : this.$t.sprintf(this.$t.__('In order to continue searching for additional keyphrases, you\'ll need to upgrade. %1$s', this.$td), this.$links.getUpsellLink('semrush-pricing', this.$constants.GLOBAL_STRINGS.learnMore, 'semrushPricing', true))
 			}
 		}
 	},
@@ -747,6 +763,11 @@ export default {
 							display: flex;
 							align-items: center;
 							justify-content: center;
+						}
+
+						.semrush-logo {
+							padding: 0 30px 0 0;
+							min-width: 150px;
 						}
 					}
 				}

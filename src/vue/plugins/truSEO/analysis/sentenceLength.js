@@ -47,7 +47,7 @@ function sentenceLength (content) {
 
 	if (percentage <= parameters.slightlyTooMany) {
 		return {
-			title       : __('Sentences Length', td),
+			title       : __('Sentences length', td),
 			description : __('Sentence length is looking great!', td),
 			score       : scores.correctLength,
 			maxScore    : scores.correctLength,
@@ -56,7 +56,7 @@ function sentenceLength (content) {
 	}
 
 	return {
-		title       : __('Sentences Length', td),
+		title       : __('Sentences length', td),
 		// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
 		description : sprintf(__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td), `${percentage}%`, parameters.recommendedWordCount, `${parameters.slightlyTooMany}%`),
 		score       : scores.slightlyCorrect,

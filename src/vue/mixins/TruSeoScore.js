@@ -8,7 +8,7 @@ export const TruSeoScore = {
 				needsImprovement           : this.$t.sprintf(this.$t.__('Needs%1$sImprovement!', this.$td), '<br>'),
 				veryGood                   : this.$t.__('Very Good!', this.$td),
 				excellent                  : this.$t.__('Excellent!', this.$td),
-				criticalIssues             : this.$t.__('Critical Issues', this.$td),
+				criticalIssues             : this.$t.__('Important Issues', this.$td),
 				recommendedImprovements    : this.$t.__('Recommended Improvements', this.$td),
 				goodResults                : this.$t.__('Good Results', this.$td),
 				completeSiteAuditChecklist : this.$t.__('Complete Site Audit Checklist', this.$td),

@@ -4,17 +4,20 @@
 			v-for="(keyphrase, index) in analysisItems"
 			:key="index"
 		>
-			<p class="title">
+			<p
+				class="title"
+				:class="0 === keyphrase.error ? 'toggled' : ''"
+				v-if="keyphrase.title"
+				>
 				<svg-circle-check width="12" v-if="0 === keyphrase.error" />
 				<svg-circle-close width="12" v-if="1 === keyphrase.error" />
 				{{ keyphrase.title }}
 				<svg-caret
-					v-if="1 === keyphrase.error"
 					width="16"
 					@click="toggleDescriptionEv"
 				/>
 			</p>
-			<p class="description" v-if="1 === keyphrase.error">{{ keyphrase.description }}</p>
+			<p class="description">{{ keyphrase.description }}</p>
 		</li>
 	</ul>
 </template>
@@ -76,7 +79,7 @@ export default {
 		.title {
 			margin-bottom: 6px !important;
 			&.toggled {
-				svg {
+				.aioseo-caret {
 					transform: rotate(-90deg)
 				}
 				&+ .description {

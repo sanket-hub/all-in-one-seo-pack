@@ -2,7 +2,8 @@
  * External dependencies
  */
 import classnames from 'classnames'
-import { noop, startsWith } from 'lodash'
+import noop from 'lodash/noop'
+import startsWith from 'lodash/startsWith'
 
 /**
  * WordPress dependencies
@@ -158,6 +159,7 @@ const makeCancelable = (promise) => {
 function LinkControl ({
 	value,
 	settings,
+	selectedText,
 	onChange = noop,
 	showSuggestions = true,
 	showInitialSuggestions,
@@ -319,7 +321,7 @@ function LinkControl ({
 				title : val, // must match the existing `<input>`s text value
 				url   : val, // must match the existing `<input>`s text value
 				type  : CREATE_TYPE
-			  })
+			})
 	}
 
 	/**
@@ -517,7 +519,12 @@ function LinkControl ({
 								index={ index }
 								onClick={ () => {
 									stopEditing()
-									onChange({ ...value, ...suggestion })
+									onChange({
+										...value,
+										...suggestion,
+										// Manually override the title with the selected text.
+										title : selectedText
+									})
 								} }
 								isSelected={ index === selectedSuggestion }
 								isURL={ directLinkEntryTypes.includes(
@@ -611,6 +618,7 @@ function LinkControl ({
 				value={ value }
 				settings={ settings }
 				onChange={ onChange }
+				selectedText={ selectedText }
 			/>
 		</div>
 	)

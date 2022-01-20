@@ -15,8 +15,16 @@
 export default function (matchString, positiveLookAhead = false, extraWordBoundary = '', locale = '') {
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd
 
+	const symbols = [
+		'\u00AE', // Registered sign
+		'\u2122', // Trademark sign
+		'\u2120', // Service mark
+		'\u00A9', // Copyright sign
+		'\u2117'  // Sound recording copyright
+	].join('')
+
 	if ('id_ID' === locale) {
-		wordBoundary = '[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„"+;!¡?¿:\/»«‹›' + extraWordBoundary + '<>'
+		wordBoundary = '[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„"+;!¡?¿:\/»«‹›' + symbols + extraWordBoundary + '<>'
 	} else {
 		/*
 		 * \u00a0 - no-break space
@@ -25,7 +33,7 @@ export default function (matchString, positiveLookAhead = false, extraWordBounda
          * \u060C - Arabic comma
          * \u061B - Arabic semicolon
          */
-		wordBoundary = '[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„"+\\-;!¡?¿:\/»«‹›' + extraWordBoundary + '<>'
+		wordBoundary = '[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„"+\\-;!¡?¿:\/»«‹›' + symbols + extraWordBoundary + '<>'
 	}
 
 	wordBoundaryStart = '(^|' + wordBoundary + '\'‘’‛`])'

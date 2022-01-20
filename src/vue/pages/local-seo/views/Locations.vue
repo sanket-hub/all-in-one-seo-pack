@@ -1,33 +1,41 @@
 <template>
 	<div class="aioseo-locations">
 		<locations
-			v-if="!isUnlicensed && $addons.isActive('aioseo-local-business') && !$addons.requiresUpgrade('aioseo-local-business')"
+			v-if="shouldShowMain"
 		/>
 
-		<locations-activate
-			v-if="!isUnlicensed && !$addons.isActive('aioseo-local-business') && $addons.canActivate('aioseo-local-business') && !$addons.requiresUpgrade('aioseo-local-business')"
+		<activate
+			v-if="shouldShowActivate"
 		/>
 
-		<locations-lite
-			v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-local-business')"
+		<update
+			v-if="shouldShowUpdate"
 		/>
 
+		<lite
+			v-if="shouldShowLite"
+		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import LocationsActivate from './AIOSEO_VERSION/LocationsActivate'
-import LocationsLite from './lite/Locations'
-import Locations from './AIOSEO_VERSION/Locations'
+import Locations from './AIOSEO_VERSION/locations/Locations'
+import Activate from './AIOSEO_VERSION/locations/Activate'
+import Lite from './lite/locations/Locations'
+import Update from './AIOSEO_VERSION/locations/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
-		LocationsActivate,
-		LocationsLite,
-		Locations
+		Locations,
+		Activate,
+		Lite,
+		Update
 	},
-	computed : {
-		...mapGetters([ 'isUnlicensed' ])
+	data () {
+		return {
+			addonSlug : 'aioseo-local-business'
+		}
 	}
 }
 </script>

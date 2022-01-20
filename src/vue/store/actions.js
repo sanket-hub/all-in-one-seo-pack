@@ -147,6 +147,7 @@ export default {
 			})
 	},
 	runSiteAnalyzer ({ commit }, payload = {}) {
+		commit('analyzer', 'competitor-site')
 		return this._vm.$http.post(this._vm.$links.restUrl('analyze'))
 			.send({
 				url     : payload.url,
@@ -173,6 +174,27 @@ export default {
 				commit('analyzeError', message)
 			})
 	},
+	runHeadlineAnalyzer ({ commit }, payload = {}) {
+		commit('analyzer', 'headline')
+		return this._vm.$http.post(this._vm.$links.restUrl('analyze_headline'))
+			.send({
+				headline            : payload.headline,
+				shouldStoreHeadline : payload.shouldStoreHeadline
+			})
+			.then(response => {
+				commit('updateInternalOption', { groups: [ 'internal', 'headlineAnalysis' ], key: 'headlines', value: response.body })
+				commit('analyzing', false)
+			})
+			.catch(error => {
+				commit('analyzing', false)
+				let message = __('We couldn\'t analyze your title, please try again later.', td)
+				if (error.response.body && error.response.body.message) {
+					message = error.response.body.message
+				}
+
+				commit('analyzeError', message)
+			})
+	},
 	deleteCompetitorSite ({ commit }, url) {
 		return this._vm.$http.post(this._vm.$links.restUrl('analyze/delete-site'))
 			.send({
@@ -180,6 +202,16 @@ export default {
 			})
 			.then(response => {
 				commit('updateInternalOption', { groups: [ 'internal', 'siteAnalysis' ], key: 'competitors', value: response.body })
+				commit('analyzing', false)
+			})
+	},
+	deleteHeadline ({ commit }, headline) {
+		return this._vm.$http.post(`${this._vm.$aioseo.urls.restUrl}aioseo/v1/analyze_headline/delete/`)
+			.send({
+				headline
+			})
+			.then(response => {
+				commit('updateInternalOption', { groups: [ 'internal', 'siteAnalysis' ], key: 'headlines', value: response.body })
 				commit('analyzing', false)
 			})
 	},
@@ -270,8 +302,17 @@ export default {
 			network        : this._vm.$aioseo.data.network
 		}
 
-		if ('redirects' === this._vm.$aioseo.page) {
-			options.redirectOptions = state.redirects.options
+		switch (this._vm.$aioseo.page) {
+			case 'redirects': {
+				options.redirectOptions = state.redirects.options
+				break
+			}
+			case 'link-assistant': {
+				options.linkAssistantOptions = state.linkAssistant.options
+				break
+			}
+			default:
+				break
 		}
 		return this._vm.$http.post(this._vm.$links.restUrl('options'))
 			.send(options)
@@ -326,6 +367,26 @@ export default {
 
 				Object.keys(response.body.completed).forEach(sku => {
 					const basename = response.body.completed[sku]
+					const addon    = state.addons.find(item => sku === item.sku)
+					if (addon) {
+						addon.basename = basename
+						commit('updateAddon', addon)
+					}
+				})
+
+				return response
+			})
+	},
+	upgradePlugins ({ state, commit }, payload) {
+		return this._vm.$http.post(this._vm.$links.restUrl('plugins/upgrade'))
+			.send(payload)
+			.then(response => {
+				if (!response.body.success) {
+					throw new Error(response.body.message)
+				}
+
+				Object.keys(response.body.completed).forEach(sku => {
+					const basename = response.body.completed[sku].basename
 					const addon    = state.addons.find(item => sku === item.sku)
 					if (addon) {
 						addon.basename = basename

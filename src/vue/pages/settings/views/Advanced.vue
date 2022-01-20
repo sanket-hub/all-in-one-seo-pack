@@ -284,7 +284,7 @@ export default {
 				truSeo                      : this.$t.__('TruSEO Score & Content', this.$td),
 				truSeoDescription           : this.$t.__('Enable our TruSEO score to help you optimize your content for maximum traffic.', this.$td),
 				headlineAnalyzer            : this.$t.__('Headline Analyzer', this.$td),
-				headlineAnalyzerDescription : this.$t.__('Enable our Headline Analyzer to help you write irrestible headlines and rank better in search results.', this.$td),
+				headlineAnalyzerDescription : this.$t.__('Enable our Headline Analyzer to help you write irresistible headlines and rank better in search results.', this.$td),
 				seoAnalysis                 : this.$t.__('SEO Analysis', this.$td),
 				postTypeColumns             : this.$t.__('Post Type Columns', this.$td),
 				includeAllPostTypes         : this.$t.__('Include All Post Types', this.$td),

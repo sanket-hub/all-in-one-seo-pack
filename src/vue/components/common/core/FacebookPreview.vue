@@ -167,6 +167,7 @@ export default {
 				background-color: $fb-background2;
 				padding: 9px 13px;
 				color: #606770;
+				min-width: 0;
 
 				.site-domain {
 					font-size: 13px;

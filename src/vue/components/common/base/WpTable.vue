@@ -14,16 +14,19 @@
 						<a
 							v-if="!filter.active"
 							href="#"
-							@click.prevent="$emit('filter-table', filter)"
-						>{{ filter.name }}</a>
+							@click.prevent="processFilter(filter)"
+						>
+							{{ filter.name }}
+							<span>({{ $numbers.numberFormat(filter.count) }})</span>
+						</a>
 
 						<template
 							v-if="filter.active"
 						>
 							{{ filter.name }}
+							<span>({{ $numbers.numberFormat(filter.count) }})</span>
 						</template>
 
-						({{ filter.count }})
 					</span>
 					<span
 						class="separator"
@@ -40,21 +43,21 @@
 					type="search"
 					id="post-search-input"
 					name="s"
-					v-model="search"
-					@keyup.enter="searchForUrl"
+					v-model="searchTerm"
+					@keyup.enter="$emit('search', searchTerm)"
 				/>
 				<input
 					type="submit"
 					id="search-submit"
 					class="button"
 					:value="searchLabel"
-					@click.prevent="searchForUrl"
+					@click.prevent="$emit('search', searchTerm)"
 				/>
 			</p>
 
 			<div class="tablenav top">
 				<base-wp-bulk-actions
-					v-if="bulkOptions && bulkOptions.length"
+					v-if="showBulkActions && bulkOptions && bulkOptions.length"
 					:bulk-options="bulkOptions"
 					@process-bulk-action="processBulkAction"
 				/>
@@ -62,25 +65,28 @@
 				<base-wp-additional-filters
 					v-if="additionalFilters && additionalFilters.length"
 					:additional-filters="additionalFilters"
+					@change="value => $emit('additional-filter-option-selected', value)"
 					@process-additional-filters="processAdditionalFilters"
 				/>
 
-				<div class="tablenav-pages pagination">
-					<span class="displaying-num">{{ totals.total }} {{ strings.items }}</span>
+				<div class="tablenav-pages pagination"
+					v-if="showPagination"
+				>
+					<span class="displaying-num">{{ $numbers.numberFormat(totals.total) }} {{ strings.items }}</span>
 					<span class="pagination-links">
 						<component
-							:is="totals.page === 1 ? 'span' : 'a'"
-							:class="totals.page === 1 ? 'tablenav-pages-navspan button disabled' : 'first-page button'"
+							:is="pageNumber === 1 ? 'span' : 'a'"
+							:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'first-page button'"
 							href="#"
-							@click.prevent="totals.page === 1 ? null : toPage(1)"
+							@click.prevent="pageNumber === 1 ? null : toPage(1)"
 						>
 							&laquo;
 						</component>
 						<component
-							:is="totals.page === 1 ? 'span' : 'a'"
-							:class="totals.page === 1 ? 'tablenav-pages-navspan button disabled' : 'prev-page button'"
+							:is="pageNumber === 1 ? 'span' : 'a'"
+							:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'prev-page button'"
 							href="#"
-							@click.prevent="totals.page === 1 ? null : toPage(totals.page - 1)"
+							@click.prevent="pageNumber === 1 ? null : toPage(pageNumber - 1)"
 						>&lsaquo;</component>
 						<span class="paging-input">
 							<input
@@ -89,29 +95,30 @@
 								name="paged"
 								v-model="pageNumber"
 								size="2"
-								min="1"
-								step="1"
+								:min="1"
 								:max="totals.pages"
+								:step="1"
 								aria-describedby="table-paging"
 								@keyup.enter="toPage(pageNumber)"
+								:disabled="!totals.pages"
 							/>
 							<span class="tablenav-paging-text">
 								{{ strings.of }} {{ totals.pages }}
 							</span>
 						</span>
 						<component
-							:is="totals.page === totals.pages ? 'span' : 'a'"
-							:class="totals.page === totals.pages ? 'tablenav-pages-navspan button disabled' : 'next-page button'"
+							:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
+							:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'next-page button'"
 							href="#"
-							@click.prevent="totals.page === totals.pages ? null : toPage(totals.page + 1)"
+							@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(pageNumber + 1)"
 						>
 							&rsaquo;
 						</component>
 						<component
-							:is="totals.page === totals.pages ? 'span' : 'a'"
-							:class="totals.page === totals.pages ? 'tablenav-pages-navspan button disabled' : 'last-page button'"
+							:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
+							:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'last-page button'"
 							href="#"
-							@click.prevent="totals.page === totals.pages ? null : toPage(totals.pages)"
+							@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(totals.pages)"
 						>
 							&raquo;
 						</component>
@@ -122,19 +129,18 @@
 		</div>
 
 		<div class="wp-table">
-			<div
-				class="loader-overlay"
-				v-if="loading"
-			>
-				<core-loader />
-			</div>
 			<table
 				class="wp-list-table widefat fixed"
 				ref="table"
+				cellpadding=0
+				cellspacing=0
 			>
 				<thead>
 					<tr>
-						<td class="manage-column column-cb check-column">
+						<td
+							class="manage-column column-cb check-column"
+							v-if="showBulkActions"
+						>
 							<input
 								type="checkbox"
 								:disabled="loading"
@@ -146,15 +152,15 @@
 							:key="index"
 							:style="{ width: column.width }"
 							class="manage-column"
-							:class="{
+							:class="[{
 								sortable : column.sortable,
 								asc      : 'asc' === column.sortDir && column.sortable,
 								desc     : 'desc' === column.sortDir && column.sortable,
-								sorted   : column.sortable && column.sorted
-							}"
+								sorted   : column.sortable && column.sorted,
+							}, column.slug]"
 						>
 							<template
-								v-if="column.sortable"
+								v-if="!column.tooltipIcon && column.sortable"
 							>
 								<a
 									href="#"
@@ -166,9 +172,23 @@
 							</template>
 
 							<template
-								v-if="!column.sortable"
+								v-if="!column.tooltipIcon && !column.sortable"
 							>
 								{{ column.label }}
+							</template>
+
+							<template
+								v-if="column.tooltipIcon"
+							>
+								<div class="aioseo-table-header-tooltip-icon">
+									<core-tooltip class="action" type="action">
+										<component :is="column.tooltipIcon"></component>
+
+										<template #tooltip>
+											{{ column.label }}
+										</template>
+									</core-tooltip>
+								</div>
 							</template>
 						</th>
 					</tr>
@@ -178,6 +198,13 @@
 					id="the-list"
 					v-if="rows"
 				>
+					<div
+						class="loader-overlay"
+						v-if="loading"
+					>
+						<core-loader />
+					</div>
+
 					<template
 						v-for="(row, index) in rows"
 					>
@@ -188,10 +215,14 @@
 								even    : 0 === index % 2,
 								enabled : row.enabled ||!row.hasOwnProperty('enabled')
 							}"
-							:data-row-id="row.id"
+							:data-row-id="row.id || index"
 						>
-							<th scope="row" class="check-column">
-								<input type="checkbox" />
+							<th
+								scope="row"
+								class="check-column"
+								v-if="showBulkActions"
+							>
+								<input type="checkbox"/>
 							</th>
 							<td
 								v-for="(column, i) in columns"
@@ -206,6 +237,7 @@
 										:column="row[column.slug]"
 										:editRow="editRow"
 										:index="index"
+										:editRowActive="activeRow === index"
 									/>
 								</template>
 
@@ -248,15 +280,20 @@
 					>
 						<td :colspan="columns.length + 1">
 							<div class="no-results">
-								{{ strings.noResults }}
+								<span v-if="!loading">{{ strings.noResults }}</span>
 							</div>
 						</td>
 					</template>
 				</tbody>
 
-				<tfoot>
+				<tfoot
+					v-if="showTableFooter"
+				>
 					<tr>
-						<td class="manage-column column-cb check-column">
+						<td
+							class="manage-column column-cb check-column"
+							v-if="showBulkActions"
+						>
 							<input
 								type="checkbox"
 								:disabled="loading"
@@ -276,14 +313,19 @@
 			</table>
 		</div>
 
-		<div class="tablenav bottom">
+		<div
+			class="tablenav bottom"
+			v-if="showTableFooter"
+		>
 			<base-wp-bulk-actions
-				v-if="bulkOptions.length"
+				v-if="showBulkActions && bulkOptions && bulkOptions.length"
 				:bulk-options="bulkOptions"
 				@process-bulk-action="processBulkAction"
 			/>
 			<div class="alignleft actions"></div>
-			<div class="tablenav-pages">
+			<div class="tablenav-pages"
+				v-if="showPagination"
+			>
 				<span class="displaying-num">{{ totals.total }} {{ strings.items }}</span>
 			</div>
 			<br class="clear" />
@@ -292,7 +334,6 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
 export default {
 	props : {
 		columns : {
@@ -305,14 +346,32 @@ export default {
 		},
 		filters : {
 			type     : Array,
-			required : true
+			required : false
 		},
 		totals : {
 			type     : Object,
-			required : true
+			required : false
 		},
 		loading    : Boolean,
 		showSearch : {
+			type : Boolean,
+			default () {
+				return true
+			}
+		},
+		showBulkActions : {
+			type : Boolean,
+			default () {
+				return true
+			}
+		},
+		showPagination : {
+			type : Boolean,
+			default () {
+				return true
+			}
+		},
+		showTableFooter : {
 			type : Boolean,
 			default () {
 				return true
@@ -324,12 +383,24 @@ export default {
 				return this.$t.__('Search', this.$td)
 			}
 		},
+		initialPageNumber : {
+			type : Number,
+			default () {
+				return 1
+			}
+		},
+		initialSearchTerm : {
+			type : String,
+			default () {
+				return ''
+			}
+		},
 		bulkOptions       : Array,
 		additionalFilters : Array
 	},
 	data () {
 		return {
-			search     : null,
+			searchTerm : '',
 			pageNumber : 1,
 			activeRow  : null,
 			strings    : {
@@ -340,32 +411,22 @@ export default {
 		}
 	},
 	watch : {
-		search (newVal) {
-			this.setSearchTerm(newVal)
-		},
 		pageNumber (newVal) {
 			if (Math.abs(newVal) !== newVal) {
 				this.pageNumber = Math.floor(newVal)
 				return
 			}
-			if (newVal > this.totals.pages) {
+			if (this.totals && newVal > this.totals.pages) {
 				this.pageNumber = this.totals.pages
 				return
 			}
 
 			if (1 > newVal) {
 				this.pageNumber = 1
-				return
 			}
-
-			this.setPaginatedPageNumber(newVal)
 		}
 	},
-	computed : {
-		...mapState('redirects', [ 'searchTerm', 'paginatedPage' ])
-	},
 	methods : {
-		...mapMutations('redirects', [ 'setSearchTerm', 'setPaginatedPageNumber' ]),
 		editRow (index) {
 			if (null === index || this.activeRow === index) {
 				this.activeRow = null
@@ -382,7 +443,14 @@ export default {
 
 			this.resetSelectedItems()
 		},
+		processFilter (filter) {
+			this.pageNumber = 1
+			this.searchTerm = ''
+			this.$emit('filter-table', filter)
+		},
 		processAdditionalFilters (filters) {
+			this.pageNumber = 1
+			this.searchTerm = ''
 			this.$emit('process-additional-filters', {
 				filters
 			})
@@ -396,7 +464,6 @@ export default {
 					selectedRows.push(row.dataset.rowId)
 				}
 			})
-
 			return selectedRows
 		},
 		resetSelectedItems () {
@@ -406,23 +473,16 @@ export default {
 			}
 		},
 		toPage (page) {
-			if (this.pageNumber !== page) {
-				this.pageNumber = page
-			}
-
+			this.pageNumber = page
 			this.$emit('paginate', page, this.searchTerm)
 		},
-		searchForUrl () {
-			if (!this.searchTerm) {
-				return
-			}
-
-			this.$emit('search', this.searchTerm)
+		setPageNumber (newPageNumber) {
+			this.pageNumber = newPageNumber
 		}
 	},
 	mounted () {
-		this.search     = this.searchTerm
-		this.pageNumber = this.paginatedPage
+		this.pageNumber = this.initialPageNumber
+		this.searchTerm = this.initialSearchTerm
 	}
 }
 </script>
@@ -461,6 +521,7 @@ export default {
 			color: $gray3;
 			font-size: 13px;
 			font-weight: 600;
+			margin-left: 2px;
 
 			> span {
 				display: inline-flex;
@@ -471,12 +532,20 @@ export default {
 			}
 
 			.active {
-				font-weight: 700;
+				padding: 0.2em;
+				-webkit-text-stroke-width: 0.2px;
+				-webkit-text-stroke-color: $black;
 				color: $black;
 			}
 
 			a {
 				text-decoration: none;
+				span {
+					color: $gray3;
+					&:hover {
+						text-decoration: none;
+					}
+				}
 
 				&:hover {
 					text-decoration: underline;
@@ -518,12 +587,14 @@ export default {
 		width: 100%;
 		position: relative;
 
+		tbody {
+			position: relative;
+		}
+
 		.loader-overlay {
 			position: absolute;
-			top: 46px;
-			right: 0;
-			bottom: 36px;
-			left: 0;
+			height: 100%;
+			width: 100%;
 			background: rgba(0, 0, 0, 0.3);
 			z-index: 1;
 			display: flex;
@@ -542,6 +613,17 @@ export default {
 		}
 
 		tr {
+			th {
+				.aioseo-table-header-tooltip-icon {
+					display: flex;
+					justify-content: center;
+
+					.aioseo-tooltip {
+						margin: 0;
+					}
+				}
+			}
+
 			&.even {
 				background-color: $box-background;
 			}

@@ -39,7 +39,8 @@ export default {
 			addons,
 			license,
 			currentPost,
-			tags
+			tags,
+			linkAssistant
 		} = await getOptions(this.$http)
 		this.$set(this.$store.state, 'internalOptions', merge({ ...this.$store.state.internalOptions }, { ...internalOptions }))
 		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
@@ -51,6 +52,7 @@ export default {
 		this.$set(this.$store.state, 'license', merge({ ...this.$store.state.license }, { ...license }))
 		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
 		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
+		this.$set(this.$store.state, 'linkAssistant', merge({ ...this.$store.state.linkAssistant }, { ...linkAssistant }))
 	}
 }
 </script>

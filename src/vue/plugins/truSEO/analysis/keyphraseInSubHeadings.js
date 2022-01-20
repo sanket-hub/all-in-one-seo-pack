@@ -72,7 +72,7 @@ function keyphraseInSubHeadings (content, keyphrase) {
 
 	if (hasTooFewMatches()) {
 		return {
-			title       : __('Focus Keyphrase in Subheadings', td),
+			title       : __('Focus keyphrase in Subheadings', td),
 			description : __('Use more focus keyphrases in your H2 and H3 subheadings!', td),
 			score       : scores.tooFewMatches,
 			maxScore    : scores.goodNumberOfMatches,
@@ -81,7 +81,7 @@ function keyphraseInSubHeadings (content, keyphrase) {
 	}
 	if (hasTooManyMatches()) {
 		return {
-			title       : __('Focus Keyphrase in Subheadings', td),
+			title       : __('Focus keyphrase in Subheadings', td),
 			description : __('More than 75% of your H2 and H3 subheadings reflect the topic of your copy. That\'s too much. Don\'t over-optimize!', td),
 			score       : scores.tooManyMatches,
 			maxScore    : scores.goodNumberOfMatches,
@@ -90,7 +90,7 @@ function keyphraseInSubHeadings (content, keyphrase) {
 	}
 	if (isOneOfOne()) {
 		return {
-			title       : __('Focus Keyphrase in Subheadings', td),
+			title       : __('Focus keyphrase in Subheadings', td),
 			description : __('Your H2 or H3 subheading reflects the topic of your copy. Good job!', td),
 			score       : scores.goodNumberOfMatches,
 			maxScore    : scores.goodNumberOfMatches,
@@ -99,7 +99,7 @@ function keyphraseInSubHeadings (content, keyphrase) {
 	}
 	if (hasGoodNumberOfMatches()) {
 		return {
-			title       : __('Focus Keyphrase in Subheadings', td),
+			title       : __('Focus keyphrase in Subheadings', td),
 			description : __('Your H2 and H3 subheadings reflects the topic of your copy. Good job!', td),
 			score       : scores.goodNumberOfMatches,
 			maxScore    : scores.goodNumberOfMatches,
@@ -108,7 +108,7 @@ function keyphraseInSubHeadings (content, keyphrase) {
 	}
 
 	return {
-		title       : __('Focus Keyphrase in Subheadings', td),
+		title       : __('Focus keyphrase in Subheadings', td),
 		description : __('Use your focus keyphrase more in your H2 and H3 subheadings.', td),
 		score       : scores.noMatches,
 		maxScore    : scores.goodNumberOfMatches,

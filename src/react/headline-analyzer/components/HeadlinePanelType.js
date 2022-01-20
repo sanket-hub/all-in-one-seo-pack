@@ -13,13 +13,12 @@ const HeadlinePanelType = (props) => {
 	)
 	const typeLinkText = sprintf(
 		__(
-			'Headlines that are lists and how-to get more engagement on average than other types of headlines. %1sRead more about %2sdifferent types of headlines here%3s →%4s',
+			'Headlines that are lists and how-to get more engagement on average than other types of headlines. %1s%2sLearn More%3s →',
 			process.env.VUE_APP_TEXTDOMAIN
 		),
-		'<br/><br/>',
+		'<br /><br />',
 		'<a href="https://optinmonster.com/why-these-21-headlines-went-viral-and-how-you-can-copy-their-success/" target="_blank" className="aioseo-headline-analyzer-link"><span>',
-		'</span>',
-		'</a>'
+		'</span></a>'
 	)
 
 	return (

@@ -1,5 +1,10 @@
 import { __ } from '@wordpress/i18n'
 
+import {
+	RequiresActivation,
+	RequiresUpdate
+} from '@/vue/router/middleware'
+
 const td       = process.env.VUE_APP_TEXTDOMAIN
 const loadView = view => {
 	return () => import(/* webpackChunkName: "redirects-[request]" */ '@/vue/pages/redirects/views/' + view + '.vue')
@@ -24,8 +29,13 @@ export default [
 		name      : 'full-site-redirect',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_manage',
-			name   : __('Full Site Redirect', td)
+			access         : 'aioseo_redirects_manage',
+			name           : __('Full Site Redirect', td),
+			middleware     : [ RequiresActivation, RequiresUpdate ],
+			middlewareData : {
+				addon     : 'aioseo-redirects',
+				routeName : 'redirects'
+			}
 		}
 	},
 	{
@@ -33,8 +43,13 @@ export default [
 		name      : 'logs',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_manage',
-			name   : __('Logs', td)
+			access         : 'aioseo_redirects_manage',
+			name           : __('Logs', td),
+			middleware     : [ RequiresActivation, RequiresUpdate ],
+			middlewareData : {
+				addon     : 'aioseo-redirects',
+				routeName : 'redirects'
+			}
 		}
 	},
 	{
@@ -42,8 +57,13 @@ export default [
 		name      : 'logs-404',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_manage',
-			name   : __('404 Logs', td)
+			access         : 'aioseo_redirects_manage',
+			name           : __('404 Logs', td),
+			middleware     : [ RequiresActivation, RequiresUpdate ],
+			middlewareData : {
+				addon     : 'aioseo-redirects',
+				routeName : 'redirects'
+			}
 		}
 	},
 	{
@@ -51,8 +71,13 @@ export default [
 		name      : 'import-export',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
-			name   : __('Import / Export', td)
+			access         : 'aioseo_redirects_settings',
+			name           : __('Import / Export', td),
+			middleware     : [ RequiresActivation, RequiresUpdate ],
+			middlewareData : {
+				addon     : 'aioseo-redirects',
+				routeName : 'redirects'
+			}
 		}
 	},
 	{
@@ -60,8 +85,13 @@ export default [
 		name      : 'settings',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_redirects_settings',
-			name   : __('Settings', td)
+			access         : 'aioseo_redirects_settings',
+			name           : __('Settings', td),
+			middleware     : [ RequiresActivation, RequiresUpdate ],
+			middlewareData : {
+				addon     : 'aioseo-redirects',
+				routeName : 'redirects'
+			}
 		}
 	}
 ]

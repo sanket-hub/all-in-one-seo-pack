@@ -33,7 +33,8 @@ export default {
 		textSm   : { type: String, validator: v => [ 'left', 'center', 'right' ].includes(v) },
 		textMd   : { type: String, validator: v => [ 'left', 'center', 'right' ].includes(v) },
 		textLg   : { type: String, validator: v => [ 'left', 'center', 'right' ].includes(v) },
-		textXl   : { type: String, validator: v => [ 'left', 'center', 'right' ].includes(v) }
+		textXl   : { type: String, validator: v => [ 'left', 'center', 'right' ].includes(v) },
+		oneFifth : { type: Boolean, required: false, default: false }
 	},
 	computed : {
 		classes () {
@@ -58,6 +59,7 @@ export default {
 			c += this.textMd ? ' text-md-' + this.textMd : ''
 			c += this.textLg ? ' text-lg-' + this.textLg : ''
 			c += this.textXl ? ' text-xl-' + this.textXl : ''
+			c += this.oneFifth ? ' col-md-24' : ''
 			return c
 		}
 	}
@@ -511,6 +513,7 @@ export default {
 		&.col-md,
 		&.col-md-1,
 		&.col-md-2,
+		&.col-md-24,
 		&.col-md-3,
 		&.col-md-4,
 		&.col-md-5,
@@ -524,6 +527,7 @@ export default {
 		&.col-md-offset-0,
 		&.col-md-offset-1,
 		&.col-md-offset-2,
+		&.col-md-offset-24,
 		&.col-md-offset-3,
 		&.col-md-offset-4,
 		&.col-md-offset-5,
@@ -557,6 +561,11 @@ export default {
 			-ms-flex-preferred-size: 16.66666667%;
 			flex-basis: 16.66666667%;
 			max-width: 16.66666667%;
+		}
+		&.col-md-24 {
+			-ms-flex-preferred-size: 20%;
+			flex-basis: 20%;
+			max-width: 20%;
 		}
 		&.col-md-3 {
 			-ms-flex-preferred-size: 25%;
@@ -616,6 +625,9 @@ export default {
 		}
 		&.col-md-offset-2 {
 			margin-left: 16.66666667%;
+		}
+		&.col-md-offset-24 {
+			margin-left: 20%;
 		}
 		&.col-md-offset-3 {
 			margin-left: 25%;

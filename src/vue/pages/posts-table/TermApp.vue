@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="aioseo-meta-options"
+		class="aioseo-details-column"
 		:class="{
 			editing: showEditTitle || showEditDescription
 		}"
@@ -172,7 +172,7 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-meta-options {
+.aioseo-details-column {
 	float: left;
 	display: block;
 	opacity: 1;

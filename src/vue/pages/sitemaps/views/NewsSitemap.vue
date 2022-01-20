@@ -1,34 +1,41 @@
 <template>
 	<div class="aioseo-news-sitemap">
 		<news-sitemap
-			v-if="!isUnlicensed && $addons.isActive('aioseo-news-sitemap') && !$addons.requiresUpgrade('aioseo-news-sitemap')"
+			v-if="shouldShowMain"
 		/>
 
-		<news-sitemap-activate
-			v-if="!isUnlicensed && !$addons.isActive('aioseo-news-sitemap') && $addons.canActivate('aioseo-news-sitemap') && !$addons.requiresUpgrade('aioseo-news-sitemap')"
+		<activate
+			v-if="shouldShowActivate"
 		/>
 
-		<news-sitemap-lite
-			v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-news-sitemap')"
+		<update
+			v-if="shouldShowUpdate"
 		/>
 
+		<lite
+			v-if="shouldShowLite"
+		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import NewsSitemap from './AIOSEO_VERSION/NewsSitemap'
-import NewsSitemapActivate from './AIOSEO_VERSION/NewsSitemapActivate'
-import NewsSitemapLite from './lite/NewsSitemap'
+import Activate from './AIOSEO_VERSION/news-sitemap/Activate'
+import Lite from './lite/news-sitemap/NewsSitemap'
+import NewsSitemap from './AIOSEO_VERSION/news-sitemap/NewsSitemap'
+import Update from './AIOSEO_VERSION/news-sitemap/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
+		Activate,
+		Lite,
 		NewsSitemap,
-		NewsSitemapActivate,
-		NewsSitemapLite
+		Update
 	},
-	computed : {
-		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'options', 'settings' ])
+	data () {
+		return {
+			addonSlug : 'aioseo-news-sitemap'
+		}
 	}
 }
 </script>

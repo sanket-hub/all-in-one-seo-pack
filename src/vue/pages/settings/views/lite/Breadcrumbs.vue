@@ -6,7 +6,7 @@
 		>
 			<template #header>
 				{{ strings.breadcrumbTemplates }}
-				<core-pro-badge/>
+				<core-pro-badge />
 			</template>
 			<template #tooltip>
 				{{ strings.breadcrumbTemplatesTooltip }}

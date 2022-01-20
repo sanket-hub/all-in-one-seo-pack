@@ -21,7 +21,7 @@ function lengthContent (content) {
 	if (!content) {
 		return {
 			error       : 1,
-			title       : __('Content Length', td),
+			title       : __('No content yet', td),
 			description : __('Please add some content first.', td),
 			score       : 1,
 			maxScore    : 5
@@ -32,7 +32,7 @@ function lengthContent (content) {
 
 	if (wordAssesment.recommendedMinimum < wordCount) {
 		return {
-			title       : __('Content Length', td),
+			title       : __('Content length', td),
 			description : __('The content length is ok. Good job!', td),
 			score       : 9,
 			maxScore    : 9,
@@ -48,7 +48,7 @@ function lengthContent (content) {
 		}
 
 		return {
-			title       : __('Content Length', td),
+			title       : __('Content length', td),
 			description : __('This is far below the recommended minimum of words.', td),
 			score       : badScore,
 			maxScore    : 9,
@@ -58,7 +58,7 @@ function lengthContent (content) {
 
 	if (inRange(wordCount, wordAssesment.slightlyBelowMinimum, wordAssesment.recommendedMinimum)) {
 		return {
-			title       : __('Content Length', td),
+			title       : __('Content length', td),
 			description : __('The content is below the minimum of words. Add more content.', td),
 			score       : 6,
 			maxScore    : 9,
@@ -67,7 +67,7 @@ function lengthContent (content) {
 	}
 
 	return {
-		title       : __('Content Length', td),
+		title       : __('Content length', td),
 		description : __('The content is below the minimum of words. Add more content.', td),
 		score       : 3,
 		maxScore    : 9,

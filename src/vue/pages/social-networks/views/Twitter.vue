@@ -233,6 +233,24 @@
 					</div>
 				</template>
 			</core-settings-row>
+
+			<core-settings-row
+				:name="strings.useDataFromFacebook"
+			>
+				<template #content>
+					<base-radio-toggle
+						v-model="options.social.twitter.general.useOgData"
+						name="useOgData"
+						:options="[
+							{ label: $constants.GLOBAL_STRINGS.no, value: false, activeClass: 'dark' },
+							{ label: $constants.GLOBAL_STRINGS.yes, value: true }
+						]"
+					/>
+					<div class="aioseo-description">
+						{{ strings.useOgDataDescription }}
+					</div>
+				</template>
+			</core-settings-row>
 		</core-card>
 
 		<core-card
@@ -424,6 +442,8 @@ export default {
 				// Translators: 1 - The plugin name ("All in One SEO").
 				description                   : this.$t.sprintf(this.$t.__('Enable this feature if you want Twitter to display a preview card with images and a text excerpt when a link to your site is shared.', this.$td), process.env.VUE_APP_NAME),
 				enableTwitterCard             : this.$t.__('Enable Twitter Card', this.$td),
+				useDataFromFacebook           : this.$t.__('Use Data from Facebook Tab', this.$td),
+				useOgDataDescription          : this.$t.__('Choose whether you want to use the OG data from the Facebook tab in your individual pages/posts by default.', this.$td),
 				defaultCardType               : this.$t.__('Default Card Type', this.$td),
 				summary                       : this.$t.__('Summary', this.$td),
 				summaryLarge                  : this.$t.__('Summary with Large Image', this.$td),

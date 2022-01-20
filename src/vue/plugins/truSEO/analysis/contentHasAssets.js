@@ -32,7 +32,7 @@ function contentHasAssets (text) {
 	if (!text) {
 		return {
 			error       : 1,
-			title       : __('Images/Videos in content', td),
+			title       : __('No content yet', td),
 			description : __('Please add some content first.', td),
 			score       : 1,
 			maxScore    : 5
@@ -45,7 +45,7 @@ function contentHasAssets (text) {
 	if (0 < images || 0 < videos) {
 		return {
 			error       : 0,
-			title       : __('Images/Videos in content', td),
+			title       : __('Images/videos in content', td),
 			description : __('Your content contains images and/or video(s).', td),
 			score       : 5,
 			maxScore    : 5
@@ -53,7 +53,7 @@ function contentHasAssets (text) {
 	}
 	return {
 		error       : 1,
-		title       : __('Images/Videos in content', td),
+		title       : __('Images/videos in content', td),
 		description : __('You are not using rich media like images or videos.', td),
 		score       : 1,
 		maxScore    : 5

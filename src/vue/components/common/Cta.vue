@@ -223,11 +223,11 @@ export default {
 		ctaButtonLoading : Boolean,
 		ctaLink          : {
 			type     : String,
-			required : true
+			required : false
 		},
 		learnMoreLink : {
 			type     : String,
-			required : true
+			required : false
 		},
 		buttonText : {
 			type     : String,

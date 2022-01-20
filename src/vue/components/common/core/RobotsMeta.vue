@@ -116,12 +116,14 @@ export default {
 			}
 		},
 		default (newVal) {
-			if (this.mainOptions) {
-				this.mainOptions.show = !this.noindex
+			if (!this.mainOptions) {
+				return
+			}
 
-				if (newVal) {
-					this.mainOptions.show = true
-				}
+			if (newVal) {
+				this.mainOptions.show = true
+			} else {
+				this.mainOptions.show = !this.noindex
 			}
 		}
 	},

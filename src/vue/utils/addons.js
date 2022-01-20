@@ -1,28 +1,35 @@
 import upperFirst from 'lodash/upperFirst'
 import store from '@/vue/store'
 
+const getAddon = slug => store.state.addons.find(item => slug === item.sku)
+
 const isActive = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return addon && addon.isActive
 }
 
+const isInstalled = slug => {
+	const addon = getAddon(slug)
+	return addon && addon.installed
+}
+
 const requiresUpgrade = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return !addon || addon.requiresUpgrade
 }
 
 const canActivate = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return addon && !addon.isActive
 }
 
 const userCanActivate = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return addon && addon.installed && !addon.isActive && addon.canActivate
 }
 
 const userCanInstall = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return addon && !addon.installed && addon.canInstall
 }
 
@@ -30,8 +37,13 @@ const userCanInstallOrActivate = slug => {
 	return userCanInstall(slug) || userCanActivate(slug)
 }
 
+const userCanUpdate = slug => {
+	const addon = getAddon(slug)
+	return addon && addon.canUpdate
+}
+
 const currentPlans = slug => {
-	const addon = store.state.addons.find(item => slug === item.sku)
+	const addon = getAddon(slug)
 	return !addon
 		? null
 		: addon.currentLevels
@@ -39,12 +51,21 @@ const currentPlans = slug => {
 			.join(', ')
 }
 
+const hasMinimumVersion = slug => {
+	const addon = store.state.addons.find(item => slug === item.sku)
+	return addon && addon.hasMinimumVersion
+}
+
 export default {
-	isActive,
-	requiresUpgrade,
 	canActivate,
 	currentPlans,
+	getAddon,
+	hasMinimumVersion,
+	isActive,
+	isInstalled,
+	requiresUpgrade,
 	userCanActivate,
 	userCanInstall,
-	userCanInstallOrActivate
+	userCanInstallOrActivate,
+	userCanUpdate
 }

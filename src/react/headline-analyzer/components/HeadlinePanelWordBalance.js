@@ -86,7 +86,7 @@ const HeadlinePanelWordBalance = props => {
 	const classOnPowerWordsBg =
 		0 === props.data.result.powerWords.length ? 'orange' : 'green-bg'
 	const guideLineOnPowerWords = __(
-		'Headlines with Power Words are more likely to get clicks.',
+		'Headlines with power words are more likely to get clicks.',
 		td
 	)
 	const textCommonWords = __('Common Words', td)

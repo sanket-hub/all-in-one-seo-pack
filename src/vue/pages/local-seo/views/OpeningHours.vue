@@ -1,39 +1,41 @@
 <template>
 	<div class="aioseo-opening-hours">
 		<opening-hours
-			v-if="!isUnlicensed && $addons.isActive('aioseo-local-business') && !$addons.requiresUpgrade('aioseo-local-business')"
+			v-if="shouldShowMain"
 		/>
 
-		<opening-hours-activate
-			v-if="!isUnlicensed && !$addons.isActive('aioseo-local-business') && $addons.canActivate('aioseo-local-business') && !$addons.requiresUpgrade('aioseo-local-business')"
+		<activate
+			v-if="shouldShowActivate"
 		/>
 
-		<opening-hours-lite
-			v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-local-business')"
+		<update
+			v-if="shouldShowUpdate"
+		/>
+
+		<lite
+			v-if="shouldShowLite"
 		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import OpeningHoursActivate from './AIOSEO_VERSION/OpeningHoursActivate'
-import OpeningHoursLite from './lite/OpeningHours'
-import OpeningHours from './AIOSEO_VERSION/OpeningHours'
+import OpeningHours from './AIOSEO_VERSION/opening-hours/OpeningHours'
+import Activate from './AIOSEO_VERSION/opening-hours/Activate'
+import Lite from './lite/opening-hours/OpeningHours'
+import Update from './AIOSEO_VERSION/opening-hours/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
-		OpeningHoursActivate,
-		OpeningHoursLite,
-		OpeningHours
+		OpeningHours,
+		Activate,
+		Lite,
+		Update
 	},
 	data () {
 		return {
-			strings : {
-				localSeo : this.$t.__('Opening Hours Settings', this.$td)
-			}
+			addonSlug : 'aioseo-local-business'
 		}
-	},
-	computed : {
-		...mapGetters([ 'isUnlicensed' ])
 	}
 }
 </script>

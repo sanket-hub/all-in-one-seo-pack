@@ -7,6 +7,27 @@ import { __ } from '@wordpress/i18n'
 
 const td = process.env.VUE_APP_TEXTDOMAIN
 
+// Creates a `nextMiddleware()` function which not only
+// runs the default `next()` callback but also triggers
+// the subsequent Middleware function.
+const nextFactory = (context, middleware, index) => {
+	const subsequentMiddleware = middleware[index]
+	// If no subsequent Middleware exists,
+	// the default `next()` callback is returned.
+	if (!subsequentMiddleware) {
+		return context.next
+	}
+
+	return (...parameters) => {
+		// Run the default Vue Router `next()` callback first.
+		context.next(...parameters)
+		// Then run the subsequent Middleware with a new
+		// `nextMiddleware()` callback.
+		const nextMiddleware = nextFactory(context, middleware, index + 1)
+		subsequentMiddleware({ ...context, next: nextMiddleware })
+	}
+}
+
 export default paths => {
 	Vue.use(Router)
 
@@ -38,9 +59,11 @@ export default paths => {
 				tags,
 				license,
 				backups,
-				redirects
+				redirects,
+				linkAssistant
 			} = await getOptions(router.app.$http)
 			router.app.$set(store.state, 'redirects', merge({ ...store.state.redirects }, { ...redirects }))
+			router.app.$set(store.state, 'linkAssistant', merge({ ...store.state.linkAssistant }, { ...linkAssistant }))
 			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
 			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
 			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))
@@ -81,6 +104,20 @@ export default paths => {
 
 		if (!router.app.$allowed(access)) {
 			return to.meta.home !== from.name ? router.replace({ name: to.meta.home }) : null
+		}
+
+		if (to.meta.middleware) {
+			const middleware = Array.isArray(to.meta.middleware) ? to.meta.middleware : [ to.meta.middleware ]
+
+			const context = {
+				from,
+				next,
+				router,
+				to
+			}
+			const nextMiddleware = nextFactory(context, middleware, 1)
+
+			return middleware[0]({ ...context, next: nextMiddleware })
 		}
 
 		// Reset state here.

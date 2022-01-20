@@ -20,7 +20,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				pageName : this.$t.__('About', this.$td)
+				pageName : this.$t.__('About Us', this.$td)
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { startsWith } from 'lodash'
+import startsWith from 'lodash/startsWith'
 
 const wp = window.wp
 

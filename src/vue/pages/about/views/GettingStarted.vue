@@ -106,7 +106,7 @@
 					md="6"
 				>
 					<div class="d-flex">
-						<svg-book/>
+						<svg-book />
 						<a
 							:href="doc.url"
 							target="_blank"
@@ -135,12 +135,16 @@ export default {
 					features : [
 						this.$t.__('Smart Schema', this.$td),
 						this.$t.__('Local SEO', this.$td),
+						this.$t.__('Redirection Manager', this.$t),
+						this.$t.__('Link Assistant', this.$td),
+						this.$t.__('News Sitemap', this.$td),
+						this.$t.__('Video Sitemap', this.$td),
+						this.$t.__('Image SEO', this.$td),
+						this.$t.__('Custom Breadcrumb Templates', this.$td),
 						this.$t.__('Advanced support for e-commerce', this.$td),
-						this.$t.__('Video SEO Module', this.$td),
+						this.$t.__('User Access Control', this.$td),
 						this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
-						this.$t.__('Social Meta for Categories, Tags and Custom Taxonomies', this.$td),
-						this.$t.__('Advanced Google Analytics tracking', this.$td),
-						this.$t.__('Greater control over display settings', this.$td),
+						this.$t.__('Social meta for Categories, Tags and Custom Taxonomies', this.$td),
 						this.$t.__('Ad free (no banner adverts)', this.$td)
 					]
 				},

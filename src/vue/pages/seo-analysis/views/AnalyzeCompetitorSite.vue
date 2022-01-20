@@ -1,56 +1,30 @@
 <template>
 	<div class="aioseo-analyze-competitor-site">
 		<core-analyze-competitor-site-header>
-			<div class="analyze-main">
-				<div class="analyze-header">
-					{{ strings.enterCompetitorUrl }}
-				</div>
-				<div>
-					{{ strings.performInDepthAnalysis }}
-				</div>
-				<div class="analyze-input">
-					<base-input
-						v-model="competitorUrl"
-						placeholder="https://competitorwebsite.com"
-						:class="{ 'aioseo-error' : inputError }"
-						@keyup.enter="startAnalyzing"
-					/>
-
-					<base-button
-						type="green"
-						@click="startAnalyzing"
-						:loading="isAnalyzing"
-						:disabled="!competitorUrl"
-					>
-						{{ strings.analyze }}
-					</base-button>
-				</div>
-
-				<div
-					v-if="inputError"
-					class="aioseo-description aioseo-error"
-				>
-					{{ strings.pleaseEnterValidUrl }}
-				</div>
-
-				<div
-					class="analyze-errors aioseo-description aioseo-error"
-					v-if="analyzeError"
-					v-html="getError"
-				/>
-
-				<div
-					v-if="isAnalyzing"
-					class="analyze-progress"
-				>
+			<core-analyze
+				:header="strings.enterCompetitorUrl"
+				:description="strings.performInDepthAnalysis"
+				:inputError="inputError"
+				:isAnalyzing="isAnalyzing"
+				:analyzeTime="analyzeTime"
+				placeholder="https://competitorwebsite.com"
+				@startAnalyzing="startAnalyzing"
+			>
+				<template #errors>
 					<div
-						class="analyze-progress-value"
-						:style="{
-							animationDuration : `${analyzeTime}s`
-						}"
-					></div>
-				</div>
-			</div>
+						v-if="inputError"
+						class="aioseo-description aioseo-error"
+					>
+						{{ strings.pleaseEnterValidUrl }}
+					</div>
+
+					<div
+						class="analyze-errors aioseo-description aioseo-error"
+						v-if="'competitor-site' === analyzer && analyzeError"
+						v-html="analyzeError"
+					/>
+				</template>
+			</core-analyze>
 
 			<template #competitor-results>
 				<core-card
@@ -61,7 +35,7 @@
 					:save-toggle-status="false"
 				>
 					<template #header>
-						<core-analyze-competitor-site-score
+						<core-analyze-score
 							:score="parseResults(results).score"
 						/>
 						{{ site }}
@@ -123,7 +97,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options', 'analyzing', 'analyzeError' ]),
+		...mapState([ 'options', 'analyzer', 'analyzing', 'analyzeError' ]),
 		...mapGetters([ 'getCompetitorSiteAnalysisResults', 'goodCount', 'recommendedCount', 'criticalCount' ]),
 		getError () {
 			switch (this.analyzeError) {
@@ -156,10 +130,10 @@ export default {
 				good        : this.goodCount(results)
 			}
 		},
-		startAnalyzing () {
+		startAnalyzing (competitorUrl) {
 			this.inputError = false
 
-			this.competitorUrl = this.competitorUrl.replace('http://', 'https://')
+			this.competitorUrl = competitorUrl.replace('http://', 'https://')
 			if (!this.competitorUrl.startsWith('https://')) {
 				this.competitorUrl = 'https://' + this.competitorUrl
 			}
@@ -254,59 +228,6 @@ export default {
 
 <style lang="scss">
 .aioseo-analyze-competitor-site {
-	.analyze-main {
-		padding: 30px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-self: center;
-		font-size: 16px;
-
-		.analyze-header {
-			font-size: 18px;
-			font-weight: 600;
-			margin-bottom: 16px;
-		}
-
-		.analyze-input {
-			margin-top: 30px;
-			display: flex;
-			align-items: center;
-
-			.aioseo-input {
-				min-width: 430px;
-				margin-right: 10px;
-			}
-		}
-	}
-
-	.analyze-progress {
-		min-width: 548px;
-		margin-top: 30px;
-		background: $gray;
-		justify-content: flex-start;
-		border-radius: 100px;
-		align-items: center;
-		position: relative;
-		padding: 0;
-		display: flex;
-		height: 10px;
-		width: 500px;
-
-		.analyze-progress-value {
-			animation: analyze-load 2s normal forwards;
-			border-radius: 100px;
-			background: $blue;
-			height: 10px;
-			width: 0;
-		}
-
-		@keyframes analyze-load {
-			0% { width: 0; }
-			100% { width: 100%; }
-		}
-	}
-
 	.aioseo-trash {
 		width: 20px;
 		height: 20px;

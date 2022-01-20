@@ -35,16 +35,18 @@ const HeadlineAnalyzer = () => {
 
 		http(window.aioseo.nonce).post(restUrl('analyze_headline'))
 			.send({
-				title : postTitle
+				headline            : postTitle,
+				shouldStoreHeadline : false
 			})
 			.then(response => {
 				const newAnalyzerData = {
 					dataExist : false
 				}
 
-				if (response.body.analysed) {
-					newAnalyzerData.currentHeadlineData = response.body
-					newAnalyzerData.headlineData = response.body
+				const headlineResult = JSON.parse(response.body[Object.keys(response.body)[0]])
+				if (headlineResult.analysed) {
+					newAnalyzerData.currentHeadlineData = headlineResult
+					newAnalyzerData.headlineData = headlineResult
 					newAnalyzerData.dataExist = true
 					if ('undefined' !== typeof analyzer.headlineData) {
 						newAnalyzerData.previousHeadlinesData = [

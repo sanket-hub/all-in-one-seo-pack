@@ -27,5 +27,14 @@ export default [
 			access : 'aioseo_seo_analysis_settings',
 			name   : __('Analyze Competitor Site', td)
 		}
+	},
+	{
+		path      : '/headline-analyzer',
+		name      : 'headline-analyzer',
+		component : loadView('Main'),
+		meta      : {
+			access : 'aioseo_seo_analysis_settings',
+			name   : __('Headline Analyzer', td)
+		}
 	}
 ]

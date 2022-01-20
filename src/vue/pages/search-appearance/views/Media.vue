@@ -66,41 +66,50 @@
 			:header-text="strings.imageSeo"
 		>
 			<image-seo
-				v-if="!isUnlicensed && $addons.isActive('aioseo-image-seo') && !$addons.requiresUpgrade('aioseo-image-seo')"
+				v-if="shouldShowMain"
 			/>
 
-			<image-seo-activate
-				v-if="!isUnlicensed && !$addons.isActive('aioseo-image-seo') && $addons.canActivate('aioseo-image-seo') && !$addons.requiresUpgrade('aioseo-image-seo')"
+			<activate
+				v-if="shouldShowActivate"
 			/>
 
-			<image-seo-lite
-				v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-image-seo')"
+			<update
+				v-if="shouldShowUpdate"
+			/>
+
+			<lite
+				v-if="shouldShowLite"
 			/>
 		</core-card>
 	</div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import Activate from './AIOSEO_VERSION/image-seo/Activate'
 import Advanced from './partials/Advanced'
 import CustomFields from './partials/AIOSEO_VERSION/CustomFields'
+import ImageSeo from './AIOSEO_VERSION/image-seo/ImageSeo'
+import Lite from './lite/image-seo/ImageSeo'
 import Schema from './partials/Schema'
 import TitleDescription from './partials/TitleDescription'
-import ImageSeo from './AIOSEO_VERSION/ImageSeo'
-import ImageSeoActivate from './AIOSEO_VERSION/ImageSeoActivate'
-import ImageSeoLite from './lite/ImageSeo'
+import Update from './AIOSEO_VERSION/image-seo/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
+		Activate,
 		Advanced,
 		CustomFields,
+		ImageSeo,
+		Lite,
 		Schema,
 		TitleDescription,
-		ImageSeo,
-		ImageSeoActivate,
-		ImageSeoLite
+		Update
 	},
 	data () {
 		return {
+			addonSlug        : 'aioseo-image-seo',
 			internalDebounce : false,
 			strings          : {
 				redirectAttachmentUrls    : this.$t.__('Redirect Attachment URLs', this.$td),
@@ -132,7 +141,6 @@ export default {
 		}
 	},
 	computed : {
-		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'options', 'dynamicOptions', 'settings' ]),
 		postType () {
 			return this.$aioseo.postData.postTypes

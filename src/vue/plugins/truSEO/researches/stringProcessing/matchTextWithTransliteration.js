@@ -14,7 +14,7 @@ import { replaceTurkishIsMemoized } from './specialCharacterMappings'
  * @returns {RegExp} Regular expression of the keyword with word boundaries.
  */
 var toRegex = function (keyword, locale) {
-	keyword = addWordBoundary(keyword, false, '', locale)
+	keyword = addWordBoundary(keyword, false, '\\]\\[', locale)
 	return new RegExp(keyword, 'ig')
 }
 

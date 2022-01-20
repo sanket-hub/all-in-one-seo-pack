@@ -74,6 +74,7 @@ class Connect {
 
 		if ( 'aioseo-connect-pro' === wp_unslash( $_GET['page'] ) ) { // phpcs:ignore HM.Security.ValidatedSanitizedInput.InputNotSanitized
 			$this->loadConnectPro();
+
 			return;
 		}
 
@@ -299,6 +300,7 @@ class Connect {
 		if ( ! is_wp_error( $active ) ) {
 			// Deactivate plugin.
 			deactivate_plugins( plugin_basename( AIOSEO_FILE ), false, false );
+
 			return [
 				'error' => esc_html__( 'Pro version is already installed.', 'all-in-one-seo-pack' )
 			];
@@ -466,30 +468,5 @@ class Connect {
 		deactivate_plugins( plugin_basename( AIOSEO_FILE ), false, $network );
 
 		wp_send_json_success( $success );
-	}
-
-	/**
-	 * Adds our capabilities to all roles on the next request and the installing user on the current request after upgrading to Pro.
-	 * See #2267 and #2288 for context.
-	 *
-	 * @since 4.1.4.4
-	 *
-	 * @return void
-	 */
-	private function addCapabilitiesOnUpgrade() {
-		// We need to set this transient here because the regular activation hooks won't run and Pro otherwise won't clear the cache and add the required capabilities.
-		aioseo()->transients->update( 'pro_just_deactivated_lite', true );
-
-		// Doing the above isn't sufficient because the logged in user will be lacking the capabilities on the first request and see an error. Therefore, we add them manually just for him.
-		$userId = aioseo()->transients->get( 'connect_active_user' );
-		$user   = get_userdata( $userId );
-		if ( is_object( $user ) ) {
-			$capabilities = aioseo()->access->getCapabilityList();
-			foreach ( $capabilities as $capability ) {
-				$user->add_cap( $capability );
-			}
-		}
-
-		aioseo()->transients->delete( 'connect_active_user' );
 	}
 }

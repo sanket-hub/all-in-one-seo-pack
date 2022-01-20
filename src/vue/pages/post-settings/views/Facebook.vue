@@ -13,11 +13,11 @@
 					</template>
 
 					<template #site-title>
-						<span>{{ truncate(parseTags(currentPost.og_title || currentPost.tags.title || '#post_title #separator_sa #site_title'), 100) }}</span>
+						<span>{{ truncate(parseTags(currentPost.og_title || currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title'), 100) }}</span>
 					</template>
 
 					<template #site-description>
-						<span>{{ truncate(parseTags(currentPost.og_description || currentPost.tags.description || '#post_content')) }}</span>
+						<span>{{ truncate(parseTags(currentPost.og_description || currentPost.description || currentPost.tags.description || '#post_content')) }}</span>
 					</template>
 				</core-facebook-preview>
 			</template>

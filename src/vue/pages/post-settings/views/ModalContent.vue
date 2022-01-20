@@ -119,10 +119,6 @@ export default {
 		}
 	}
 	> .aioseo-settings-row.mobile-radio-buttons {
-		position: sticky;
-		top: 60px;
-		z-index: 10;
-		padding-bottom: 0;
 		.md-button {
 			max-height: 46px;
 		}

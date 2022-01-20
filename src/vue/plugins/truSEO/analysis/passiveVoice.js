@@ -32,7 +32,7 @@ function passiveVoice (content) {
 	}
 	if (7 <= score) {
 		return {
-			title       : __('Passive Voice', td),
+			title       : __('Passive voice', td),
 			description : __('You\'re using enough active voice. That\'s great!', td),
 			score       : score,
 			maxScore    : 9,
@@ -40,7 +40,7 @@ function passiveVoice (content) {
 		}
 	}
 	return {
-		title       : __('Passive Voice', td),
+		title       : __('Passive voice', td),
 		// Translators: 1 - Percentage of the sentences, 2 - Expected maximum percentage of sentences.
 		description : sprintf(__('%1$s of the sentences contain passive voice, which is more than the recommended maximum of %2$s. Try to use their active counterparts.', td), `${percentage}%`, `${recommendedValue}%`),
 		score       : score,

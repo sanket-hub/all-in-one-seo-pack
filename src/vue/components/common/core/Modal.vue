@@ -148,15 +148,11 @@ export default {
 				}
 			}
 
-			.modal-body .aioseo-post-general,
-			.modal-body .aioseo-post-social {
-				height: calc( 90vh - 120px );
-				max-height: 600px;
+			.modal-body {
 				overflow-y: auto;
 				overflow-x: hidden;
-			}
+				max-height: 80vh;
 
-			.modal-body {
 				.aioseo-modal-content {
 					&.has-padding {
 						padding: 40px;

@@ -55,13 +55,19 @@
 			:class="{ 'upgrade-required': feature.requiresUpgrade || !$aioseo.license.isActive }"
 		>
 			<div
-				v-if="!feature.requiresUpgrade && $aioseo.license.isActive"
+				v-if="!feature.requiresUpgrade && $aioseo.license.isActive && (!feature.installed || feature.hasMinimumVersion)"
 				class="feature-card-install-activate"
 			>
 				<core-loader
 					v-if="loading"
 					dark
 				/>
+				<span
+					v-if="!loading && feature.installedVersion"
+					class="version"
+				>
+					{{ strings.version }} {{ feature.installedVersion }}
+				</span>
 				<span class="status">
 					{{ activated ? strings.activated : (feature.installed || feature.canInstall ? strings.deactivated : strings.notInstalled) }}
 				</span>
@@ -87,6 +93,37 @@
 					<span v-if="!$isPro">{{ strings.upgradeToPro }}</span>
 				</base-button>
 			</div>
+
+			<div
+				v-if="!feature.requiresUpgrade && feature.installed && !feature.hasMinimumVersion"
+				class="feature-card-upgrade-cta"
+			>
+				<core-tooltip
+					v-if="activated && !loading"
+				>
+					<span class="version">
+						{{ strings.updateToVersion }} {{ feature.minimumVersion }}
+					</span>
+
+					<template #tooltip>
+						{{ strings.updateRequired }}
+						<strong
+							v-if="!$addons.userCanUpdate(feature.sku)"
+						>
+							{{ strings.permissionWarning }}
+						</strong>
+					</template>
+				</core-tooltip>
+				<base-button
+					type="blue"
+					size="medium"
+					@click="processUpgradeFeature"
+					:loading="featureUpgrading"
+					:disabled="!$addons.userCanUpdate(feature.sku)"
+				>
+					{{ strings.updateFeature }}
+				</base-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -94,7 +131,7 @@
 <script>
 import { getParams } from '@/vue/utils/params'
 import { Url } from '@/vue/mixins'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
 	mixins : [ Url ],
 	props  : {
@@ -118,22 +155,29 @@ export default {
 	},
 	data () {
 		return {
-			failed    : false,
-			loading   : false,
-			activated : false,
-			strings   : {
-				activated       : this.$t.__('Activated', this.$td),
-				deactivated     : this.$t.__('Deactivated', this.$td),
-				notInstalled    : this.$t.__('Not Installed', this.$td),
-				upgradeToPro    : this.$t.__('Upgrade to Pro', this.$td),
-				upgradeYourPlan : this.$t.__('Upgrade Your Plan', this.$td),
-				manage          : this.$t.__('Manage', this.$td),
-				activateError   : this.$t.__('An error occurred while activating the addon. Please upload it manually or contact support for more information.', this.$td)
+			failed           : false,
+			loading          : false,
+			activated        : false,
+			featureUpgrading : false,
+			strings          : {
+				version           : this.$t.__('Version', this.$td),
+				updateToVersion   : this.$t.__('Update to version', this.$td),
+				activated         : this.$t.__('Activated', this.$td),
+				deactivated       : this.$t.__('Deactivated', this.$td),
+				notInstalled      : this.$t.__('Not Installed', this.$td),
+				upgradeToPro      : this.$t.__('Upgrade to Pro', this.$td),
+				upgradeYourPlan   : this.$t.__('Upgrade Your Plan', this.$td),
+				updateFeature     : this.$t.__('Update Addon', this.$td),
+				permissionWarning : this.$t.__('You currently don\'t have permission to update this addon. Please ask a site administrator to update.', this.$td),
+				manage            : this.$t.__('Manage', this.$td),
+				activateError     : this.$t.__('An error occurred while activating the addon. Please upload it manually or contact support for more information.', this.$td),
+				updateRequired    : this.$t.sprintf(this.$t.__('An update is required for this addon to continue to work with %1$s %2$s.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
 			}
 		}
 	},
 	methods : {
-		...mapActions([ 'deactivatePlugins', 'installPlugins' ]),
+		...mapActions([ 'deactivatePlugins', 'installPlugins', 'upgradePlugins' ]),
+		...mapMutations([ 'updateAddon' ]),
 		processStatusChange () {
 			this.failed    = false
 			this.loading   = true
@@ -150,6 +194,31 @@ export default {
 				.catch(() => {
 					this.loading   = false
 					this.activated = !this.activated
+				})
+		},
+		processUpgradeFeature () {
+			this.failed           = false
+			this.featureUpgrading = true
+			const addon           = this.$addons.getAddon(this.feature.sku)
+			this.upgradePlugins([ { plugin: this.feature.sku } ])
+				.then(response => {
+					this.featureUpgrading = false
+					if (response.body.failed.length) {
+						this.activated = false
+						this.failed    = true
+						return
+					}
+
+					this.activated          = true
+					const updatedAddon      = response.body.completed[addon.sku]
+					addon.hasMinimumVersion = true
+					addon.isActive          = true
+					addon.installedVersion  = updatedAddon.installedVersion
+					this.updateAddon(addon)
+				})
+				.catch(() => {
+					this.featureUpgrading = false
+					this.activated        = false
 				})
 		}
 	},
@@ -222,7 +291,7 @@ export default {
 		&:not(.upgrade-required) {
 			border: 2px solid #fff;
 			background-color: $box-background;
-			padding: 12px;
+			padding: 12px 20px;
 			min-height: 43px;
 		}
 
@@ -236,6 +305,10 @@ export default {
 			.aioseo-loading-spinner {
 				position: absolute;
 				left: 0;
+			}
+
+			.version {
+				flex: 1;
 			}
 
 			.status {
@@ -255,6 +328,19 @@ export default {
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
+
+			.aioseo-tooltip {
+				margin: 0;
+				display: inline-block;
+				flex: 1;
+
+				.version {
+					cursor: pointer;
+					color: $blue;
+					font-weight: 600;
+					text-decoration: underline;
+				}
+			}
 		}
 
 		&.installed {

@@ -13,7 +13,7 @@ const pageKeys = [
 	'connect-pro',
 	'dashboard',
 	'feature-manager',
-	// 'internal-links',
+	'link-assistant',
 	'local-business-seo',
 	'local-seo',
 	'monsterinsights',
@@ -123,7 +123,9 @@ module.exports = {
 			},
 			output : {
 				jsonpFunction : 'aioseopjsonp'
-			}
+			},
+			// Prevent Lodash from being leaked to window.
+			amd : false
 		}
 	},
 	css : {
@@ -138,7 +140,7 @@ module.exports = {
 		},
 		extract : {
 			filename      : 'css/[name].css',
-			chunkFilename : 'css/[name].css?ver=[chunkHash:8]'
+			chunkFilename : 'css/[name].css'
 		}
 	},
 	pages : {
@@ -173,7 +175,10 @@ module.exports = {
 				}
 			}
 		})
-		config.output.chunkFilename('js/[name].js?ver=[chunkHash:8]')
+
+		// if (!process.env.AIOSEO_LOCAL_DEV) {
+		// 	config.output.chunkFilename('js/[name].js?ver=[chunkHash:8]')
+		// }
 	},
 	parallel : !('linux' === process.platform && os.release().includes('Microsoft'))
 }

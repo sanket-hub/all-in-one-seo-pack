@@ -19,6 +19,7 @@ export default {
 		return value
 	},
 	getCompetitorSiteAnalysisResults : state => state.internalOptions.internal.siteAnalysis.competitors || {},
+	getHeadlineAnalysisResults       : state => state.internalOptions.internal.headlineAnalysis.headlines || {},
 	getNetworkRobotsRules            : state => state.networkOptions.tools ? parse(state.networkOptions.tools.robots.rules) : [],
 	allItemsCount                    : (state, getters) => results => getters.recommendedCount(results) + getters.criticalCount(results) + getters.goodCount(results),
 	recommendedCount                 : (state, getters) => results => {

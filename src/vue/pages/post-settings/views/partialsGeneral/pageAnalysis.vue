@@ -60,16 +60,16 @@ export default {
 </script>
 
 <style lang="scss">
-.page-analysis-panel {
+.aioseo-app .aioseo-post-general .page-analysis-panel {
 	.aioseo-tabs {
-		background: #fff !important;
+		background: #fff;
 
 		.md-button-content {
 			display: flex;
 		}
 
 		.md-button {
-			font-weight: 700 !important;
+			font-weight: 700;
 		}
 	}
 }

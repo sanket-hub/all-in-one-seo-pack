@@ -142,7 +142,7 @@ export default {
 			pluginData : {
 				optinMonster : {
 					name        : 'OptinMonster',
-					description : this.$t.__('Our high-converting optin forms like Exit-Intent® popups, Fullscreen Welcome Mats, and Scroll boxes help you dramatically boost conversions and get more email subscribers.', this.$td),
+					description : this.$t.__('Instantly get more subscribers, leads, and sales with the #1 conversion optimization toolkit. Create high converting popups, announcement bars, spin a wheel, and more with smart targeting and personalization.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/om.png'),
 					installed   : false,
 					canInstall  : false,
@@ -151,7 +151,7 @@ export default {
 				},
 				wpForms : {
 					name        : 'WPForms',
-					description : this.$t.__('WPForms allows you to create beautiful contact forms for your site in minutes, not hours!', this.$td),
+					description : this.$t.__('The best drag & drop WordPress form builder. Easily create beautiful contact forms, surveys, payment forms, and more with our 100+ form templates. Trusted by over 4 million websites as the best forms plugin.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/wpforms.png'),
 					installed   : false,
 					canInstall  : false,
@@ -168,7 +168,7 @@ export default {
 				},
 				miLite : {
 					name        : 'MonsterInsights',
-					description : this.$t.__('MonsterInsights makes it “effortless” to properly connect your WordPress site with Google Analytics, so you can start making data-driven decisions to grow your business.', this.$td),
+					description : this.$t.__('The leading WordPress analytics plugin that shows you how people find and use your website, so you can make data driven decisions to grow your business. Properly set up Google Analytics without writing code.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/mi.png'),
 					installed   : false,
 					canInstall  : false,
@@ -202,7 +202,7 @@ export default {
 				},
 				wpMail : {
 					name        : 'WP Mail SMTP',
-					description : this.$t.__('Make sure your website\'s emails reach the inbox. Our goal is to make email deliverability easy and reliable. Trusted by over 2 million websites.', this.$td),
+					description : this.$t.__('Improve your WordPress email deliverability and make sure that your website emails reach user’s inbox with the #1 SMTP plugin for WordPress. Over 2 million websites use it to fix WordPress email issues.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/smtp.png'),
 					installed   : false,
 					canInstall  : false,
@@ -219,7 +219,7 @@ export default {
 				},
 				seedProd : {
 					name        : 'SeedProd Coming Soon',
-					description : this.$t.__('Create a simple Coming Soon Page, Under Construction or Maintenance Mode Page. Work on your site in private while visitors see a “Coming Soon” or “Maintenance Mode” page.', this.$td),
+					description : this.$t.__('The fastest drag & drop landing page builder for WordPress. Create custom landing pages without writing code, connect them with your CRM, collect subscribers, and grow your audience. Trusted by 1 million sites.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/sp.png'),
 					installed   : false,
 					canInstall  : false,
@@ -236,7 +236,7 @@ export default {
 				},
 				trustPulse : {
 					name        : 'TrustPulse',
-					description : this.$t.__('TrustPulse uses FOMO (Fear of Missing Out) to boost your sales and conversions with social proof notifications. Use it to boost sales on your Woocommerce store, increase signups on your membership site, get more email subscribers, and more.', this.$td),
+					description : this.$t.__('Boost your sales and conversions by up to 15% with real-time social proof notifications. TrustPulse helps you show live user activity and purchases to help convince other users to purchase.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/tp.png'),
 					installed   : false,
 					canInstall  : false,
@@ -245,7 +245,7 @@ export default {
 				},
 				rafflePress : {
 					name        : 'RafflePress',
-					description : this.$t.__('Turn your visitors into brand ambassadors! Easily grow your email list, website traffic, and social media followers with powerful viral giveaways & contests.', this.$td),
+					description : this.$t.__('Turn your website visitors into brand ambassadors! Easily grow your email list, website traffic, and social media followers with the most powerful giveaways & contests plugin for WordPress.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/rafflepress.png'),
 					installed   : false,
 					canInstall  : false,
@@ -261,8 +261,8 @@ export default {
 					loading    : false
 				},
 				facebookFeed : {
-					name        : 'Facebook Feed',
-					description : this.$t.__('Display completely customizable Facebook feeds of any public Facebook page or Group.', this.$td),
+					name        : 'Smash Balloon Facebook Feeds',
+					description : this.$t.__('Easily display Facebook content on your WordPress site without writing any code. Comes with multiple templates, ability to embed albums, group content, reviews, live videos, comments, and reactions.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/ff.png'),
 					installed   : false,
 					canInstall  : false,
@@ -270,7 +270,7 @@ export default {
 					loading     : false
 				},
 				facebookFeedPro : {
-					name       : 'Facebook Feed Pro',
+					name       : 'Smash Balloon Facebook Feeds Pro',
 					free       : 'facebookFeed',
 					installed  : false,
 					canInstall : false,
@@ -278,8 +278,8 @@ export default {
 					loading    : false
 				},
 				instagramFeed : {
-					name        : 'Instagram Feed',
-					description : this.$t.__('Display beautifully clean, customizable, and responsive Instagram feeds from multiple Instagram accounts.', this.$td),
+					name        : 'Smash Balloon Instagram Feeds',
+					description : this.$t.__('Easily display Instagram content on your WordPress site without writing any code. Comes with multiple templates, ability to show content from multiple accounts, hashtags, and more. Trusted by 1 million websites.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/if.png'),
 					installed   : false,
 					canInstall  : false,
@@ -287,7 +287,7 @@ export default {
 					loading     : false
 				},
 				instagramFeedPro : {
-					name       : 'Instagram Feed Pro',
+					name       : 'Smash Balloon Instagram Feeds Pro',
 					free       : 'instagramFeed',
 					installed  : false,
 					canInstall : false,
@@ -295,8 +295,8 @@ export default {
 					loading    : false
 				},
 				twitterFeed : {
-					name        : 'Twitter Feed',
-					description : this.$t.__('Display completely customizable, responsive and search engine crawlable Twitter feeds on your website.', this.$td),
+					name        : 'Smash Balloon Twitter Feeds',
+					description : this.$t.__('Easily display Twitter content in WordPress without writing any code. Comes with multiple layouts, ability to combine multiple Twitter feeds, Twitter card support, tweet moderation, and more.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/tf.png'),
 					installed   : false,
 					canInstall  : false,
@@ -304,7 +304,7 @@ export default {
 					loading     : false
 				},
 				twitterFeedPro : {
-					name       : 'Twitter Feed Pro',
+					name       : 'Smash Balloon Twitter Feeds Pro',
 					free       : 'twitterFeed',
 					installed  : false,
 					canInstall : false,
@@ -312,8 +312,8 @@ export default {
 					loading    : false
 				},
 				youTubeFeed : {
-					name        : 'Feeds for YouTube',
-					description : this.$t.__('The Feeds for YouTube plugin allows you to display customizable YouTube feeds from any YouTube channel.', this.$td),
+					name        : 'Smash Balloon YouTube Feeds',
+					description : this.$t.__('Easily display YouTube videos on your WordPress site without writing any code. Comes with multiple layouts, ability to embed live streams, video filtering, ability to combine multiple channel videos, and more.', this.$td),
 					icon        : require('@/vue/assets/images/about/plugins/yf.png'),
 					installed   : false,
 					canInstall  : false,
@@ -321,8 +321,80 @@ export default {
 					loading     : false
 				},
 				youTubeFeedPro : {
-					name       : 'Feeds for YouTube Pro',
+					name       : 'Smash Balloon YouTube Feeds Pro',
 					free       : 'youTubeFeed',
+					installed  : false,
+					canInstall : false,
+					activated  : false,
+					loading    : false
+				},
+				pushEngage : {
+					name        : 'PushEngage',
+					description : this.$t.__('Connect with your visitors after they leave your website with the leading web push notification software. Over 10,000+ businesses worldwide use PushEngage to send 9 billion notifications each month.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/pe.png'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false
+				},
+				searchWp : {
+					name        : 'SearchWP',
+					description : this.$t.__('The most advanced WordPress search plugin. Customize your WordPress search algorithm, reorder search results, track search metrics, and everything you need to leverage search to grow your business.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/swp.svg'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false,
+					installUrl  : this.$links.utmUrl('aioseo', 'about-us', 'https://searchwp.com/')
+				},
+				affiliateWp : {
+					name        : 'AffiliateWP',
+					description : this.$t.__('The #1 affiliate management plugin for WordPress. Easily create an affiliate program for your eCommerce store or membership site within minutes and start growing your sales with the power of referral marketing.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/afwp.png'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false,
+					installUrl  : this.$links.utmUrl('aioseo', 'about-us', 'https://affiliatewp.com/')
+				},
+				wpSimplePay : {
+					name        : 'WP Simple Pay',
+					description : this.$t.__('The #1 Stripe payments plugin for WordPress. Start accepting one-time and recurring payments on your WordPress site without setting up a shopping cart. No code required.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/wpsp.png'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false
+				},
+				wpSimplePayPro : {
+					name       : 'WP Simple Pay Pro',
+					free       : 'wpSimplePay',
+					installed  : false,
+					canInstall : false,
+					activated  : false,
+					loading    : false
+				},
+				easyDigitalDownloads : {
+					name        : 'Easy Digital Downloads',
+					description : this.$t.__('The best WordPress eCommerce plugin for selling digital downloads. Start selling eBooks, software, music, digital art, and more within minutes. Accept payments, manage subscriptions, advanced access control, and more.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/edd.png'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false
+				},
+				sugarCalendar : {
+					name        : 'Sugar Calendar',
+					description : this.$t.__('A simple & powerful event calendar plugin for WordPress that comes with all the event management features including payments, scheduling, timezones, ticketing, recurring events, and more.', this.$td),
+					icon        : require('@/vue/assets/images/about/plugins/sc.png'),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false
+				},
+				sugarCalendarPro : {
+					name       : 'Sugar Calendar Pro',
+					free       : 'sugarCalendar',
 					installed  : false,
 					canInstall : false,
 					activated  : false,
@@ -334,6 +406,11 @@ export default {
 	methods : {
 		...mapActions([ 'installPlugins' ]),
 		activate (pluginName) {
+			if (!this.plugins[pluginName].installed && this.plugins[pluginName].installUrl) {
+				window.open(this.plugins[pluginName].installUrl, '_blank').focus()
+				return
+			}
+
 			this.plugins[pluginName].loading = true
 			this.installPlugins([
 				{
@@ -345,6 +422,8 @@ export default {
 				if (Object.keys(response.body.completed).length) {
 					this.plugins[pluginName].installed = true
 					this.plugins[pluginName].activated = true
+				} else if (Object.keys(response.body.failed).length) {
+					throw new Error(response.body.failed)
 				}
 			})
 				.catch(error => {
@@ -450,6 +529,7 @@ export default {
 				flex-grow: 1;
 
 				img {
+					width: 50px;
 					margin: 0 30px 0 0;
 					max-width: 50px;
 					max-height: 50px;

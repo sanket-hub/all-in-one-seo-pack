@@ -12,6 +12,7 @@
 				:key="index + '_select'"
 				:name="filter.name"
 				v-model="selectedFilters[filter.name]"
+				@change="event => $emit('change', {name : filter.name, selectedValue : event.target.value})"
 			>
 				<option
 					v-for="(option, index) in filter.options"
@@ -51,11 +52,19 @@ export default {
 		...mapState('redirects', [ 'selectedFilters' ])
 	},
 	mounted () {
-		this.additionalFilters.forEach(filter => {
-			if (!this.selectedFilters[filter.name]) {
-				this.$set(this.selectedFilters, filter.name, filter.options[0].value)
-			}
-		})
+		this.setInitialOptions()
+	},
+	updated () {
+		this.setInitialOptions()
+	},
+	methods : {
+		setInitialOptions () {
+			this.additionalFilters.forEach(filter => {
+				if (!this.selectedFilters[filter.name]) {
+					this.$set(this.selectedFilters, filter.name, filter.options[0].value)
+				}
+			})
+		}
 	}
 }
 </script>

@@ -105,13 +105,16 @@ const docLinks = {
 	htmlSitemap                   : `${marketingSite}docs/html-sitemap/`,
 	htmlSitemapShortcode          : `${marketingSite}docs/shortcode-html-sitemap/`,
 	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap/`,
-	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives/`
+	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives/`,
+	linkAssistant                 : `${marketingSite}docs/link-assistant`,
+	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant#post-types/`
 }
 
 const upsellLinks = {
-	home        : marketingSite,
-	liteUpgrade : `${marketingSite}lite-upgrade/`,
-	pricing     : `${marketingSite}pricing/`
+	home           : marketingSite,
+	liteUpgrade    : `${marketingSite}lite-upgrade/`,
+	pricing        : `${marketingSite}pricing/`,
+	semrushPricing : `${marketingSite}semrush-pricing/`
 }
 
 const getUpsellUrl = (medium, content = null, link) => {
@@ -213,11 +216,11 @@ const rawUrlEncode = (url) => {
 }
 
 const unForwardSlashIt = str => {
-	return str.replace(/^\//, '')
+	return str ? str.replace(/^\//, '') : str
 }
 
 const unTrailingSlashIt = str => {
-	return str.replace(/\/$/, '')
+	return str ? str.replace(/\/$/, '') : str
 }
 
 const trailingSlashIt = str => {

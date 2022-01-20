@@ -87,7 +87,7 @@ export default {
 				},
 				{
 					slug    : 'critical',
-					name    : this.$t.__('Critical Issues', this.$td),
+					name    : this.$t.__('Important Issues', this.$td),
 					analyze : {
 						classColor : 'red',
 						count      : siteAnalysis.score

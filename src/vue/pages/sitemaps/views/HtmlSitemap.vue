@@ -232,14 +232,6 @@ export default {
 				extra : {
 					desc : this.$t.__('Display the sitemap on a dedicated page:', this.$td)
 				},
-				shortcode : {
-					copy : '[aioseo_html_sitemap]',
-					desc : this.$t.sprintf(
-						// Translators: 1 - Learn more link.
-						this.$t.__('Use the following shortcode to display the HTML Sitemap. %1$s', this.$td),
-						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'htmlSitemapShortcode', true)
-					)
-				},
 				block : {
 					copy : '',
 					desc : this.$t.sprintf(
@@ -248,6 +240,14 @@ export default {
 						'<strong>',
 						process.env.VUE_APP_SHORT_NAME,
 						'</strong>'
+					)
+				},
+				shortcode : {
+					copy : '[aioseo_html_sitemap]',
+					desc : this.$t.sprintf(
+						// Translators: 1 - Learn more link.
+						this.$t.__('Use the following shortcode to display the HTML Sitemap. %1$s', this.$td),
+						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'htmlSitemapShortcode', true)
 					)
 				},
 				widget : {

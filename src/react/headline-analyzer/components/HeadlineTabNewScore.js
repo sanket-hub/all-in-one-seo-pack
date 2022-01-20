@@ -34,12 +34,14 @@ const HeadlineTabNewScore = props => {
 
 		http(window.aioseo.nonce).post(restUrl('analyze_headline'))
 			.send({
-				title : headline
+				headline            : headline,
+				shouldStoreHeadline : false
 			})
 			.then(response => {
+				const headlineResult = JSON.parse(response.body[Object.keys(response.body)[0]])
 				props.setAnalyzer({
-					newHeadlineData       : response.body,
-					headlineData          : response.body,
+					newHeadlineData       : headlineResult,
+					headlineData          : headlineResult,
 					previousHeadlinesData : [
 						props.analyzer.headlineData,
 						...previousScores

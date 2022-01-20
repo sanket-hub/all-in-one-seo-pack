@@ -9,9 +9,11 @@ import VueClipboard from './vue-clipboard'
 import { allowed } from '@/vue/utils/AIOSEO_VERSION'
 import links from '@/vue/utils/links'
 import { optionsFromArray } from '@/vue/utils/options'
+import numbers from '@/vue/utils/numbers'
 import tags from '@/vue/utils/tags'
 import addons from '@/vue/utils/addons'
 import TruSEO from '@/vue/plugins/truSEO'
+import LinkAssistant from '@/vue/plugins/link-assistant'
 import '@/vue/plugins/breadcrumbs'
 import '@/vue/plugins/html-sitemap'
 
@@ -71,9 +73,11 @@ Vue.prototype.$http             = http
 Vue.prototype.$isPro            = 'pro' === process.env.VUE_APP_VERSION.toLowerCase()
 Vue.prototype.$links            = links
 Vue.prototype.$moment           = moment
+Vue.prototype.$numbers          = numbers
 Vue.prototype.$optionsFromArray = optionsFromArray
 Vue.prototype.$t                = translate
 Vue.prototype.$tags             = tags
 Vue.prototype.$td               = process.env.VUE_APP_TEXTDOMAIN
 Vue.prototype.$tdPro            = process.env.VUE_APP_TEXTDOMAIN_PRO
 Vue.prototype.$truSEO           = new TruSEO()
+Vue.prototype.$linkAssistant    = new LinkAssistant()

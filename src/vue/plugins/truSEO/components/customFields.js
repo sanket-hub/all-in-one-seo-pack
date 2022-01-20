@@ -54,7 +54,7 @@ export const customFieldsContent = () => {
 					return ''
 				}
 
-				let fieldEl = acfField.querySelector(`[name="acf[${acfField.dataset.key}]"]`)
+				let fieldEl = acfField.querySelector(`[id^="acf"][name$="[${acfField.dataset.key}]"]`)
 
 				if ('image' === acfField.dataset.type) {
 					fieldEl = acfField.querySelector('.has-value img')
@@ -142,7 +142,7 @@ export const customFieldsContent = () => {
 			}
 
 			if (content) {
-				fieldsContent += content
+				fieldsContent += `${content} `
 			}
 		})
 	}

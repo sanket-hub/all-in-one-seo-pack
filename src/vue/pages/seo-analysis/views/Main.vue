@@ -10,10 +10,12 @@
 <script>
 import AnalyzeCompetitorSite from './AnalyzeCompetitorSite'
 import SeoAuditChecklist from './SeoAuditChecklist'
+import HeadlineAnalyzer from './HeadlineAnalyzer'
 export default {
 	components : {
 		AnalyzeCompetitorSite,
-		SeoAuditChecklist
+		SeoAuditChecklist,
+		HeadlineAnalyzer
 	},
 	data () {
 		return {

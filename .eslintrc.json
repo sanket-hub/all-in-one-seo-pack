@@ -122,7 +122,7 @@
 			"error",
 			{
 				"var": "always",
-				"let": "always",
+				"let": "always", // TODO: Set this to "never"
 				"const": "never"
 			}
 		],

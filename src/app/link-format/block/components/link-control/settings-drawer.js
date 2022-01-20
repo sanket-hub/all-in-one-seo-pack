@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import { useState } from '@wordpress/element'
 
 /**
@@ -41,7 +41,8 @@ const defaultSettings = [
 const LinkControlSettingsDrawer = ({
 	value,
 	onChange = noop,
-	settings = defaultSettings
+	settings = defaultSettings,
+	selectedText
 }) => {
 	if (!settings || !settings.length) {
 		return null
@@ -52,6 +53,11 @@ const LinkControlSettingsDrawer = ({
 			...value,
 			[setting.id] : newValue
 		})
+	}
+
+	// If we are adding a link, we want to set the default title attribute to the selected text.
+	if (value.isAddingLink) {
+		value.title = selectedText
 	}
 
 	const theSettings = settings.map((setting) => {
@@ -66,6 +72,11 @@ const LinkControlSettingsDrawer = ({
 					setTextValue(val)
 				} }
 				onBlur={(event) => {
+					// This prevents the link drawer from crashing if no URL is set.
+					if (!value.url) {
+						setTextValue(event.target.value)
+						return
+					}
 					onChange({
 						...value,
 						[setting.id] : event.target.value

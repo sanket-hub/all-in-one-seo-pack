@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { uniqueId } from 'lodash'
+import uniqueId from 'lodash/uniqueId'
 
 /**
  * WordPress dependencies
@@ -53,6 +53,9 @@ function InlineLinkUI ({
 	 */
 	const [ nextLinkValue, setNextLinkValue ] = useState()
 
+	// Set the selected text from the value string.
+	const selectedText = value.text.substring(value.start, value.end)
+
 	const anchorRef = useMemo(() => {
 		const selection = window.getSelection()
 
@@ -85,6 +88,7 @@ function InlineLinkUI ({
 		sponsored     : activeAttributes.rel ? activeAttributes.rel.includes('sponsored') : false,
 		ugc           : activeAttributes.rel ? activeAttributes.rel.includes('ugc') : false,
 		title         : activeAttributes.title,
+		isAddingLink  : !activeAttributes.url,
 		...nextLinkValue
 	}
 
@@ -177,6 +181,7 @@ function InlineLinkUI ({
 				value={ linkValue }
 				onChange={ onChangeLink }
 				forceIsEditingLink={ addingLink }
+				selectedText={ selectedText }
 			/>
 		</Popover>
 	)

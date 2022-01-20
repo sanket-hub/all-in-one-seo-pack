@@ -38,7 +38,7 @@
 					size="medium"
 					type="black"
 				>
-					<svg-circle-plus/>
+					<svg-circle-plus />
 					{{ strings.uploadOrSelectImage }}
 				</base-button>
 

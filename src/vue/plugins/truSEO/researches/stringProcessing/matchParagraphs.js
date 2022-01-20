@@ -9,12 +9,13 @@ import { getBlocks } from '../helpers/html'
  * @param {string} text The text to match paragraph in.
  * @returns {Array} An array containing all paragraphs texts.
  */
-var getParagraphsInTags = function (text) {
-	var paragraphs = [],
-		// Matches everything between the <p> and </p> tags.
-	 regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig,
-	 match
+const getParagraphsInTags = function (text) {
+	const paragraphs = []
+	// Get paragraph content by matching everything between <p> tags.
+	// We'll also include shortcodes as those aren't wrapped in any tags and we want to consider them when looking for keyphrases.
+	const regex = /(<p(?:[^>]+)?>(.*?)<\/p>|\[.*](.*?)\[.*])/ig
 
+	let match
 	while (null !== (match = regex.exec(text))) {
 		paragraphs.push(match)
 	}
@@ -31,14 +32,14 @@ var getParagraphsInTags = function (text) {
  * @returns {Array} The array containing all paragraphs from the text.
  */
 export default function (text) {
-	var paragraphs = getParagraphsInTags(text)
+	let paragraphs = getParagraphsInTags(text)
 
 	if (0 < paragraphs.length) {
 		return paragraphs
 	}
 
 	// If no <p> tags found, split on double linebreaks.
-	var blocks = getBlocks(text)
+	let blocks = getBlocks(text)
 
 	blocks = filter(blocks, function (block) {
 		// Match explicit paragraph tags, or if a block has no HTML tags.

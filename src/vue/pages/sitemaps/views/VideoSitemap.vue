@@ -1,34 +1,41 @@
 <template>
 	<div class="aioseo-video-sitemap">
 		<video-sitemap
-			v-if="!isUnlicensed && $addons.isActive('aioseo-video-sitemap') && !$addons.requiresUpgrade('aioseo-video-sitemap')"
+			v-if="shouldShowMain"
 		/>
 
-		<video-sitemap-activate
-			v-if="!isUnlicensed && !$addons.isActive('aioseo-video-sitemap') && $addons.canActivate('aioseo-video-sitemap') && !$addons.requiresUpgrade('aioseo-video-sitemap')"
+		<activate
+			v-if="shouldShowActivate"
 		/>
 
-		<video-sitemap-lite
-			v-if="isUnlicensed || $addons.requiresUpgrade('aioseo-video-sitemap')"
+		<update
+			v-if="shouldShowUpdate"
 		/>
 
+		<lite
+			v-if="shouldShowLite"
+		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import VideoSitemap from './AIOSEO_VERSION/VideoSitemap'
-import VideoSitemapActivate from './AIOSEO_VERSION/VideoSitemapActivate'
-import VideoSitemapLite from './lite/VideoSitemap'
+import Activate from './AIOSEO_VERSION/video-sitemap/Activate'
+import Lite from './lite/video-sitemap/VideoSitemap'
+import VideoSitemap from './AIOSEO_VERSION/video-sitemap/VideoSitemap'
+import Update from './AIOSEO_VERSION/video-sitemap/Update'
+import { AddonConditions } from '@/vue/mixins'
 export default {
+	mixins     : [ AddonConditions ],
 	components : {
+		Activate,
+		Lite,
 		VideoSitemap,
-		VideoSitemapActivate,
-		VideoSitemapLite
+		Update
 	},
-	computed : {
-		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'options', 'settings' ])
+	data () {
+		return {
+			addonSlug : 'aioseo-video-sitemap'
+		}
 	}
 }
 </script>

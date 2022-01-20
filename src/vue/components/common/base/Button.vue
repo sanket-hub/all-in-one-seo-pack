@@ -23,6 +23,11 @@
 				:dark="'gray' === type"
 			/>
 		</slot>
+
+		<component
+			:is="icon"
+		/>
+
 		<slot></slot>
 	</component>
 </template>
@@ -63,6 +68,11 @@ export default {
 		to : {
 			type        : [ Object, String ],
 			description : 'The router link object or string'
+		},
+		icon : {
+			type     : String,
+			required : false
+
 		}
 	},
 	methods : {
@@ -222,6 +232,10 @@ export default {
 			background-color: $blue3;
 			color: $blue3;
 
+			svg {
+				color: $blue3;
+			}
+
 			&:hover {
 				background-color: $blue3;
 				color: $blue3;
@@ -231,6 +245,10 @@ export default {
 		&.green {
 			background-color: $green3;
 			color: $green3;
+
+			svg {
+				color: $green3;
+			}
 
 			&:hover {
 				background-color: $green3;
@@ -242,6 +260,10 @@ export default {
 			background-color: $background;
 			color: $background;
 
+			svg {
+				color: $background;
+			}
+
 			&:hover {
 				background-color: $background;
 				color: $background;
@@ -251,6 +273,10 @@ export default {
 		&.black {
 			background-color: $black;
 			color: $black;
+
+			svg {
+				color: $black;
+			}
 
 			&:hover {
 				background-color: $black;
@@ -266,7 +292,7 @@ export default {
 		cursor: default;
 
 		&.gray {
-			&:hover {
+			&:hover:not(.loading) {
 				color: $placeholder-color;
 			}
 		}

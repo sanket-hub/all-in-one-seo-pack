@@ -230,14 +230,6 @@ export default {
 	data () {
 		return {
 			displayInfo : {
-				shortcode : {
-					copy : '[aioseo_breadcrumbs]',
-					desc : this.$t.sprintf(
-						// Translators: 1 - Learn more link.
-						this.$t.__('Use the following shortcode to display the current breadcrumbs. %1$s', this.$td),
-						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsShortcode', true)
-					)
-				},
 				block : {
 					copy : '',
 					desc : this.$t.sprintf(
@@ -247,12 +239,12 @@ export default {
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsDisplay', true)
 					)
 				},
-				php : {
-					copy : '<?php if( function_exists( \'aioseo_breadcrumbs\' ) ) aioseo_breadcrumbs(); ?>',
+				shortcode : {
+					copy : '[aioseo_breadcrumbs]',
 					desc : this.$t.sprintf(
 						// Translators: 1 - Learn more link.
-						this.$t.__('Use the following PHP code anywhere in your theme (in the loop) to display the breadcrumbs. %1$s', this.$td),
-						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsFunction', true)
+						this.$t.__('Use the following shortcode to display the current breadcrumbs. %1$s', this.$td),
+						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsShortcode', true)
 					)
 				},
 				widget : {
@@ -263,6 +255,14 @@ export default {
 						`<a href="${this.$aioseo.urls.admin.widgets}" target="_blank">`, '</a>',
 						process.env.VUE_APP_SHORT_NAME,
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsDisplay', true)
+					)
+				},
+				php : {
+					copy : '<?php if( function_exists( \'aioseo_breadcrumbs\' ) ) aioseo_breadcrumbs(); ?>',
+					desc : this.$t.sprintf(
+						// Translators: 1 - Learn more link.
+						this.$t.__('Use the following PHP code anywhere in your theme (in the loop) to display the breadcrumbs. %1$s', this.$td),
+						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsFunction', true)
 					)
 				}
 			},

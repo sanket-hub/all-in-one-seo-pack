@@ -15,19 +15,19 @@
 					<slot name="extra" />
 				</template>
 				<template #shortcode>
-					<svg-shortcode/>
+					<svg-shortcode />
 					<p>{{ strings.shortcode }}</p>
 				</template>
 				<template #block>
-					<svg-gutenberg-block/>
+					<svg-gutenberg-block />
 					<p>{{ strings.gutenbergBlock }}</p>
 				</template>
 				<template #php>
-					<svg-php/>
+					<svg-php />
 					<p>{{ strings.phpCode }}</p>
 				</template>
 				<template #widget>
-					<svg-widget/>
+					<svg-widget />
 					<p>{{ strings.widget }}</p>
 				</template>
 			</base-box-toggle>
@@ -94,11 +94,11 @@ export default {
 			type : Object,
 			default () {
 				return {
-					extra     : { copy: '', desc: '', input: false },
-					shortcode : { copy: '', desc: '', input: false },
 					block     : { copy: '', desc: '', input: false },
+					shortcode : { copy: '', desc: '', input: false },
+					widget    : { copy: '', desc: '', input: false },
 					php       : { copy: '', desc: '', input: false },
-					widget    : { copy: '', desc: '', input: false }
+					extra     : { copy: '', desc: '', input: false }
 				}
 			}
 		}
@@ -109,11 +109,11 @@ export default {
 			errors               : [],
 			showAdvancedSettings : false,
 			strings              : {
-				shortcode        : this.$t.__('Shortcode', this.$td),
+				advancedSettings : this.$t.__('Advanced Settings', this.$td),
 				gutenbergBlock   : this.$t.__('Gutenberg Block', this.$td),
 				phpCode          : this.$t.__('PHP Code', this.$td),
-				widget           : this.$t.__('Widget', this.$td),
-				advancedSettings : this.$t.__('Advanced Settings', this.$td)
+				shortcode        : this.$t.__('Shortcode', this.$td),
+				widget           : this.$t.__('Widget', this.$td)
 			}
 		}
 	},

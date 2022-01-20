@@ -15,14 +15,7 @@ import { sync } from 'vuex-router-sync'
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
-// We need to do a manual check for licensed users here, though this could change after runtime.
-const isUnlicensed = 'pro' !== process.env.VUE_APP_VERSION.toLowerCase() || !window.aioseo.license.isActive
-const isActive = !!window.aioseo.addons.find(addon => 'aioseo-redirects' === addon.sku && addon.isActive)
-
 const filteredPaths = paths
-	.filter(p => !p.name || 'redirects' === p.name || (isActive && !isUnlicensed))
-	.filter(p => 'logs-404' !== p.name || (window.aioseo.redirects && window.aioseo.redirects.options.logs.log404.enabled))
-	.filter(p => 'logs' !== p.name || (window.aioseo.redirects && window.aioseo.redirects.options.logs.redirects.enabled && 'server' !== window.aioseo.redirects.options.main.method))
 	.filter(p => !p.name || ('undefined' !== typeof p.meta && window.aioseo.user.capabilities[p.meta.access]))
 
 filteredPaths[0].redirect = filteredPaths[1].path

@@ -137,7 +137,7 @@ export default {
 			this.toggleRadio({ slug: this.showMoreSlug, value: newValue })
 		},
 		customSeparator (newVal) {
-			if (!newVal) {
+			if (null === newVal) {
 				return
 			}
 

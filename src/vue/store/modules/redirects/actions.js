@@ -1,7 +1,7 @@
 import { setOptions } from '@/vue/utils/options'
 
 export default {
-	filter ({ state, commit }, { slug, additional }) {
+	filter ({ state, commit }, { slug, additional, page }) {
 		if ('404' === slug || 'logs' === slug) {
 			commit('resetSelectedFilters')
 		}
@@ -10,7 +10,7 @@ export default {
 			.send({
 				additional,
 				searchTerm : state.searchTerm,
-				page       : state.paginatedPage
+				page       : page
 			})
 			.then(response => {
 				if ('404' === slug) {
@@ -121,21 +121,19 @@ export default {
 				if (paginate404) {
 					commit('updateLogs404', response.body.rows)
 					commit('updateTotals404', response.body.totals)
-					commit('setPaginatedPageNumber', response.body.totals.page)
 					return
 				}
 				if (paginateLogs) {
 					commit('updateLogs', response.body.rows)
 					commit('updateTotalsLogs', response.body.totals)
-					commit('setPaginatedPageNumber', response.body.totals.page)
 					return
 				}
 				commit('updateRows', response.body.rows)
 				commit('updateTotals', response.body.totals)
-				commit('setPaginatedPageNumber', response.body.totals.page)
 			})
 	},
 	search ({ state, commit }, { searchTerm, page }) {
+		searchTerm = encodeURIComponent(searchTerm)
 		commit('resetSelectedFilters')
 		return this._vm.$http.get(this._vm.$links.restUrl(`redirects/search/${searchTerm}/${page}/`))
 			.then(response => {
@@ -231,6 +229,7 @@ export default {
 			.then(response => {
 				if (response.body.options) {
 					commit('updateOptions', response.body.options)
+					commit('original/setOriginalRedirectOptions', JSON.parse(JSON.stringify(response.body.options)), { root: true })
 					const redirects     = this._vm.$aioseo.redirects
 					redirects.importers = response.body.importers
 					setOptions({

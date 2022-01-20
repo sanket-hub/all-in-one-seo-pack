@@ -167,10 +167,14 @@
 							:feature-list="[
 								strings.smartSchema,
 								strings.localSeo,
+								strings.redirects,
+								strings.linkAssistant,
+								strings.newsSitemap,
+								strings.videoSitemap,
+								strings.imageSeo,
+								strings.breadcrumbs,
 								strings.advancedSupportForEcommerce,
-								strings.advancedGATracking,
-								strings.videoSeoModule,
-								strings.greaterControlOverDisplay,
+								strings.accessControl,
 								strings.seoForCats,
 								strings.socialMetaCats,
 								strings.adFree
@@ -199,15 +203,6 @@ export default {
 			dismissed            : false,
 			visibleNotifications : 3,
 			strings              : {
-				smartSchema                  : this.$t.__('Smart Schema', this.$td),
-				localSeo                     : this.$t.__('Local SEO', this.$td),
-				advancedSupportForEcommerce  : this.$t.__('Advanced support for e-commerce', this.$td),
-				advancedGATracking           : this.$t.__('Advanced Google Analytics tracking', this.$td),
-				videoSeoModule               : this.$t.__('Video SEO Module', this.$td),
-				greaterControlOverDisplay    : this.$t.__('Greater control over display settings', this.$td),
-				seoForCats                   : this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
-				socialMetaCats               : this.$t.__('Social meta for Categories, Tags and Custom Taxonomies', this.$td),
-				adFree                       : this.$t.__('Ad free (no banner adverts)', this.$td),
 				pageName                     : this.$t.__('Dashboard', this.$td),
 				noNewNotificationsThisMoment : this.$t.__('There are no new notifications at this moment.', this.$td),
 				seeAllDismissedNotifications : this.$t.__('See all dismissed notifications.', this.$td),
@@ -237,7 +232,21 @@ export default {
 				// Translators: 1 - "Pro", 2 - A percentage ("50%").
 				ctaButton                    : this.$t.sprintf(this.$t.__('Upgrade to %1$s and Save %2$s', this.$td), 'Pro', '50%'),
 				dismissAll                   : this.$t.__('Dismiss All', this.$td),
-				relaunchSetupWizard          : this.$t.__('Relaunch Setup Wizard', this.$td)
+				relaunchSetupWizard          : this.$t.__('Relaunch Setup Wizard', this.$td),
+				smartSchema                  : this.$t.__('Smart Schema', this.$td),
+				localSeo                     : this.$t.__('Local SEO', this.$td),
+				imageSeo                     : this.$t.__('Image SEO', this.$td),
+				breadcrumbs                  : this.$t.__('Custom Breadcrumb Templates', this.$td),
+				advancedSupportForEcommerce  : this.$t.__('Advanced support for e-commerce', this.$td),
+				accessControl                : this.$t.__('User Access Control', this.$td),
+				seoForCats                   : this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
+				socialMetaCats               : this.$t.__('Social meta for Categories, Tags and Custom Taxonomies', this.$td),
+				adFree                       : this.$t.__('Ad free (no banner adverts)', this.$td),
+				newsSitemap                  : this.$t.__('News Sitemap', this.$td),
+				videoSitemap                 : this.$t.__('Video Sitemap', this.$td),
+				linkAssistant                : this.$t.__('Link Assistant', this.$td),
+				redirects                    : this.$t.__('Redirection Manager', this.$t)
+
 			}
 		}
 	},

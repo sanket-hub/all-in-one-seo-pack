@@ -1,9 +1,8 @@
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export const ToolsSettings = {
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'addons' ]),
 		toolsSettings () {
 			const settings = [
 				{
@@ -92,18 +91,30 @@ export const ToolsSettings = {
 				})
 			}
 
+			if (!this.isUnlicensed && this.showLinkAssistantReset) {
+				settings.push({
+					value  : 'linkAssistant',
+					label  : this.$t.__('Link Assistant', this.$td),
+					access : 'aioseo_link_assistant_settings'
+				})
+			}
+
 			return settings.filter(setting => this.$allowed(setting.access))
 		},
 		showImageSeoReset () {
-			const addon = this.addons.find(item => 'aioseo-image-seo' === item.sku)
+			const addon = this.$addons.getAddon('aioseo-image-seo')
 			return addon && addon.isActive && !addon.requiresUpgrade
 		},
 		showLocalBusinessReset () {
-			const addon = this.addons.find(item => 'aioseo-local-business' === item.sku)
+			const addon = this.$addons.getAddon('aioseo-local-business')
 			return addon && addon.isActive && !addon.requiresUpgrade
 		},
 		showRedirectsReset () {
-			const addon = this.addons.find(item => 'aioseo-redirects' === item.sku)
+			const addon = this.$addons.getAddon('aioseo-redirects')
+			return addon && addon.isActive && !addon.requiresUpgrade
+		},
+		showLinkAssistantReset () {
+			const addon = this.$addons.getAddon('aioseo-link-assistant')
 			return addon && addon.isActive && !addon.requiresUpgrade
 		}
 	}

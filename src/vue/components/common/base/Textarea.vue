@@ -44,7 +44,11 @@ export default {
 	},
 	computed : {
 		computedStyles () {
-			if (!this.autosize) return {}
+			if (!this.autosize) {
+				return {
+					height : this.minHeight ? this.minHeight + 'px' : ''
+				}
+			}
 			return {
 				resize   : !this.isResizeImportant ? 'none' : 'none !important',
 				height   : this.height,

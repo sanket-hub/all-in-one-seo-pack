@@ -83,12 +83,15 @@
 
 <script>
 import { mapState } from 'vuex'
+import { addTags, removeTags } from '@/vue/plugins/quill/quill-auto-tagger'
 import Quill from 'quill'
 import '@/vue/plugins/quill/quill-line-numbers'
 import '@/vue/plugins/quill/quill-mention'
 import 'quill/dist/quill.snow.css'
-import '@/vue/plugins/quill/quill-single-line'
+import '@/vue/plugins/quill/quill-clipboard'
 import '@/vue/plugins/quill/quill-character-counter'
+import '@/vue/plugins/quill/quill-auto-link'
+import '@/vue/plugins/quill/quill-phrase-editor-formats'
 
 export default {
 	props : {
@@ -110,15 +113,23 @@ export default {
 		forceUpdates           : Boolean,
 		monospace              : Boolean,
 		defaultMenuOrientation : String,
-		description            : Boolean
+		description            : Boolean,
+		showToolbar            : Boolean,
+		autoLink               : {
+			type : [ Object, Boolean ],
+			default () {
+				return false
+			}
+		}
 	},
 	data () {
 		return {
-			localTags   : [],
-			quill       : null,
-			html        : '',
-			insertExact : false,
-			strings     : {
+			localTags    : [],
+			quill        : null,
+			html         : '',
+			insertExact  : false,
+			cachedPhrase : '',
+			strings      : {
 				searchPlaceholder    : this.$t.__('Search for an item...', this.$td),
 				enterCustomFieldName : this.$t.__('Enter a custom field name...', this.$td)
 			}
@@ -285,7 +296,7 @@ export default {
 		startup (reset = false) {
 			this.quill = new Quill(this.$refs.quill, {
 				modules : {
-					toolbar     : [],
+					toolbar     : !this.showToolbar ? [] : [ 'bold', 'italic', 'underline', 'autoLink'/* , { list: 'bullet' }, { list: 'ordered' } */ ],
 					lineNumbers : this.lineNumbers
 						? {
 							container     : this.$refs['line-numbers'],
@@ -311,26 +322,24 @@ export default {
 								return `${item.menuHtml}`
 							},
 							source : (searchTerm, renderList, mentionChar, returnItem = false, customValue = '') => {
-								const values = [ ...this.localTags ]
-								for (let i = 0; i < values.length; i++) {
-									if (values[i].custom) {
-										values[i].customValue = customValue
-									}
+								const tags = [ ...this.localTags ]
+								if (tags[0].custom) {
+									tags[0].customValue = customValue
 								}
 
 								if (0 === searchTerm.length) {
-									return renderList(values, searchTerm, returnItem, this.insertExact)
-								} else {
-									const matches = []
-									for (let i = 0; i < values.length; i++) {
-										if (
-											~values[i].name.toLowerCase().indexOf(searchTerm.toLowerCase()) ||
-										~values[i].id.toLowerCase().indexOf(searchTerm.toLowerCase())
-										) { matches.push(values[i]) }
-									}
-
-									return renderList(matches, searchTerm, returnItem, this.insertExact)
+									return renderList(tags, searchTerm, returnItem, this.insertExact)
 								}
+
+								const matches = []
+								for (let i = 0; i < tags.length; i++) {
+									if (
+										~tags[i].name.toLowerCase().indexOf(searchTerm.toLowerCase()) ||
+									~tags[i].id.toLowerCase().indexOf(searchTerm.toLowerCase())
+									) { matches.push(tags[i]) }
+								}
+
+								return renderList(matches, searchTerm, returnItem, this.insertExact)
 							}
 						}
 						: {},
@@ -341,6 +350,11 @@ export default {
 						: null,
 					clipboard : {
 						newLines : !this.single
+					},
+					autoLink : {
+						enabled : !!this.autoLink,
+						...this.autoLink
+
 					},
 					keyboard : {
 						bindings : {
@@ -354,7 +368,7 @@ export default {
 					}
 				},
 				theme   : 'snow',
-				formats : [ 'mention' ]
+				formats : !this.showToolbar ? [ 'mention' ] : [ 'bold', 'underline', 'italic', 'link', 'list', 'autoLink', 'aioseoInline' ]
 			})
 
 			if (reset) {
@@ -398,6 +412,12 @@ export default {
 				if ('api' === source) {
 					this.update()
 				}
+
+				this.$emit('selection-change', {
+					range,
+					oldRange,
+					source
+				})
 			})
 
 			document.addEventListener('click', this.maybeCloseMenu)
@@ -409,6 +429,29 @@ export default {
 			if (!reset) {
 				this.quill.history.clear()
 			}
+		},
+		setPhrase (value) {
+			// We are caching the phrase at this point, so we can use it later to undo the next few lines.
+			this.cachedPhrase = value
+
+			value = addTags(value)
+			value = value.replace(/<span([^>]*)>/g, '<aioseo-inline$1>').replace(/<\/span>/g, '</aioseo-inline>')
+
+			this.quill.clipboard.dangerouslyPasteHTML(value)
+		},
+		getPhrase () {
+			return this.quill.getText()
+		},
+		getPhraseWithFormats () {
+			return this.quill.getContents()
+		},
+		getPhraseHtml () {
+			let value = this.quill.root.childNodes[0].innerHTML
+
+			value = value.replace(/<aioseo-inline([^>]*)>/g, '<span$1>').replace(/<\/aioseo-inline>/g, '</span>')
+			value = removeTags(this.cachedPhrase, value)
+
+			return value
 		}
 	},
 	mounted () {
@@ -480,6 +523,10 @@ export default {
 	.ql-disabled {
 		pointer-events: none;
 		background-color: $box-background;
+	}
+
+	.ql-toolbar.ql-snow {
+		display: none;
 	}
 
 	.ql-editor {
@@ -622,10 +669,6 @@ export default {
 		}
 	}
 
-	.ql-toolbar {
-		display: none;
-	}
-
 	.ql-clipboard {
 		left: -100000px;
 		height: 1px;
@@ -634,19 +677,14 @@ export default {
 		top: 50%;
 	}
 
-	.ql-snow .ql-hidden {
-		display: none;
-	}
-
 	.ql-container {
-		&.ql-snow {
-			border: none;
-		}
-
 		p {
 			font-size: 16px;
 			margin: 0;
 			line-height: 25px;
+		}
+		&.ql-snow {
+			border: 0;
 		}
 	}
 }
