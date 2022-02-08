@@ -1,0 +1,54 @@
+.aioseo-elementor-panel {
+	.aioseo-app {
+		border-top: 2px solid #E8E8EB;
+		font-family: $font-family;
+	}
+
+	.aioseo-tab-content {
+		padding-bottom: 0 !important;
+	}
+}
+
+.elementor-tab-control-aioseo {
+	a::before {
+		@include icon;
+		height: 16px;
+		width: 16px;
+	}
+}
+
+.aioseo-element-menu-icon {
+	display: inline-flex;
+
+	&::before {
+		@include icon;
+		height: 20px;
+		width: 20px;
+	}
+}
+
+.aioseo-elementor-dark {
+	.aioseo-elementor-panel {
+		color: $gray3;
+		input {
+			color: $gray3;
+			background-color: $white;
+		}
+	}
+
+	.elementor-tab-control-aioseo {
+		a::before {
+			background-color: $white;
+		}
+	}
+
+	.aioseo-element-menu-icon {
+		&::before {
+			background-color: $white;
+		}
+	}
+
+	.modal-container {
+		color: $gray3;
+	}
+}

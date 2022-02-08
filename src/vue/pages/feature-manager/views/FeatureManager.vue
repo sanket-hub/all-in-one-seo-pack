@@ -156,19 +156,19 @@ export default {
 			},
 			descriptions : {
 				aioseoImageSeo : {
-					description : this.$t.__('Globally control the Title attribute and Alt text for images in your content. These attributes are essential for both accessibility and SEO.', this.$td),
+					description : '<p>' + this.$t.__('Globally control the Title attribute and Alt text for images in your content. These attributes are essential for both accessibility and SEO.', this.$td) + '</p>',
 					version     : 0
 				},
 				aioseoVideoSitemap : {
-					description : this.$t.__('The Video Sitemap works in much the same way as the XML Sitemap module, it generates an XML Sitemap specifically for video content on your site. Search engines use this information to display rich snippet information in search results.', this.$td),
+					description : '<p>' + this.$t.__('The Video Sitemap works in much the same way as the XML Sitemap module, it generates an XML Sitemap specifically for video content on your site. Search engines use this information to display rich snippet information in search results.', this.$td) + '</p>',
 					version     : 0
 				},
 				aioseoNewsSitemap : {
-					description : this.$t.__('Our Google News Sitemap lets you control which content you submit to Google News and only contains articles that were published in the last 48 hours. In order to submit a News Sitemap to Google, you must have added your site to Google’s Publisher Center and had it approved.', this.$td),
+					description : '<p>' + this.$t.__('Our Google News Sitemap lets you control which content you submit to Google News and only contains articles that were published in the last 48 hours. In order to submit a News Sitemap to Google, you must have added your site to Google’s Publisher Center and had it approved.', this.$td) + '</p>',
 					version     : 0
 				},
 				aioseoLocalBusiness : {
-					description : this.$t.__('Local Business schema markup enables you to tell Google about your business, including your business name, address and phone number, opening hours and price range. This information may be displayed as a Knowledge Graph card or business carousel.', this.$td),
+					description : '<p>' + this.$t.__('Local Business schema markup enables you to tell Google about your business, including your business name, address and phone number, opening hours and price range. This information may be displayed as a Knowledge Graph card or business carousel.', this.$td) + '</p>',
 					version     : 0
 				}
 			}

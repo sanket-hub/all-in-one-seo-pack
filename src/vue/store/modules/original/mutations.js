@@ -10,5 +10,8 @@ export default {
 	},
 	setOriginalRedirectOptions (state, payload) {
 		this._vm.$set(state, 'redirectOptions', payload)
+	},
+	setOriginalIndexNowOptions (state, payload) {
+		this._vm.$set(state, 'indexNowOptions', payload)
 	}
 }

@@ -35,7 +35,6 @@
 						<base-select
 							:disabled="isUnlicensed"
 							size="medium"
-							:open-direction="getOpenDirection"
 							:options="getPriorityOptions"
 							:value="isUnlicensed ? getPriority('default') : getPriority(currentPost.priority)"
 							@input="value => isUnlicensed ? null : savePriority(value.value)"
@@ -50,7 +49,6 @@
 						<base-select
 							:disabled="isUnlicensed"
 							size="medium"
-							:open-direction="getOpenDirection"
 							:options="getFrequencyOptions"
 							:value="isUnlicensed ? getFrequency('default') : getFrequency(currentPost.frequency)"
 							@input="value => isUnlicensed ? null : saveFrequency(value.value)"
@@ -128,9 +126,6 @@ export default {
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'currentPost', 'options' ]),
-		getOpenDirection () {
-			return ('sidebar' === this.$root._data.screenContext) ? 'bottom' : 'top'
-		},
 		getPriorityOptions () {
 			return [ { label: this.$t.__('default', this.$td), value: 'default' } ].concat(this.$constants.PRIORITY_OPTIONS)
 		},

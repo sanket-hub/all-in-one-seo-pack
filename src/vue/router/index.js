@@ -60,10 +60,12 @@ export default paths => {
 				license,
 				backups,
 				redirects,
-				linkAssistant
+				linkAssistant,
+				indexNow
 			} = await getOptions(router.app.$http)
 			router.app.$set(store.state, 'redirects', merge({ ...store.state.redirects }, { ...redirects }))
 			router.app.$set(store.state, 'linkAssistant', merge({ ...store.state.linkAssistant }, { ...linkAssistant }))
+			router.app.$set(store.state, 'index-now', merge({ ...store.state['index-now'] }, { ...indexNow }))
 			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
 			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
 			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))
@@ -84,6 +86,10 @@ export default paths => {
 
 			if (store.state.redirects && store.state.redirects.options) {
 				store.commit('original/setOriginalRedirectOptions', JSON.parse(JSON.stringify(store.state.redirects.options)))
+			}
+
+			if (store.state['index-now'] && store.state['index-now'].options) {
+				store.commit('original/setOriginalIndexNowOptions', JSON.parse(JSON.stringify(store.state['index-now'].options)))
 			}
 
 			window.addEventListener('beforeunload', event => {

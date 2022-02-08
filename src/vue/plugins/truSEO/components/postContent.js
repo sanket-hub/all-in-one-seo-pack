@@ -2,9 +2,35 @@ import Vue from 'vue'
 import store from '@/vue/store'
 import { customFieldsContent } from './customFields'
 import { getPostEditedPermalink } from './postPermalink'
-import { isBlockEditor, isClassicEditor  } from './helpers'
+import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
+import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
+import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
 
 const base64regex = /base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)/g
+
+/**
+ * Returns the post content from page builders.
+ *
+ * @returns {string} Post Content.
+ */
+const getEditorContent = () => {
+	let postContent = ''
+
+	if (isElementorEditor()) {
+		postContent = getElementorData().content
+	}
+
+	if (isDiviEditor()) {
+		postContent = getDiviData().content
+	}
+
+	if (isSeedProdEditor()) {
+		postContent = getSeedProdData().content
+	}
+
+	return postContent
+}
 
 /**
  * Returns the stored post content.
@@ -38,8 +64,13 @@ export const getPostContent = () => {
 			}, 50)
 		}
 	}
+
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getCurrentPost().content
+	}
+
+	if (!postContent) {
+		postContent = getEditorContent()
 	}
 
 	if (customFieldsContent()) {
@@ -77,6 +108,10 @@ export const getPostEditedContent = () => {
 	}
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getEditedPostContent()
+	}
+
+	if (!postContent) {
+		postContent = getEditorContent()
 	}
 
 	if (customFieldsContent()) {

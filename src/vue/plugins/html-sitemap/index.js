@@ -107,39 +107,39 @@ import HtmlSitemapSidebar from '../../standalone/HtmlSitemapSidebar'
 				return null
 			},
 			edit : function (props) {
-				const { setAttributes, attributes, className, clientId } = props
+				const { setAttributes, attributes, className, clientId, isSelected } = props
 				const vueAioseoHtmlSitemapID = 'aioseo-' + clientId
 
-				if (null === vueInitialState) {
+				if (isSelected) {
 					vueInitialState = {}
 					Object.keys(attributes).forEach(function (key) {
 						vueInitialState[key] = attributes[key]
 					})
-				}
 
-				observeElement({
-					id      : vueAioseoHtmlSitemapID,
-					parent  : document.querySelector('.block-editor'),
-					subtree : true,
-					done    : function (el) {
-						new Vue({
-							store,
-							el   : el,
-							data : function () {
-								return vueInitialState
-							},
-							watch : {
-								$data : {
-									handler : function (val) {
-										setAttributes(val)
-									},
-									deep : true
-								}
-							},
-							render : h => h(HtmlSitemapSidebar)
-						})
-					}
-				})
+					observeElement({
+						id      : vueAioseoHtmlSitemapID,
+						parent  : document.querySelector('.block-editor'),
+						subtree : true,
+						done    : function (el) {
+							new Vue({
+								store,
+								el   : el,
+								data : function () {
+									return vueInitialState
+								},
+								watch : {
+									$data : {
+										handler : function (val) {
+											setAttributes(val)
+										},
+										deep : true
+									}
+								},
+								render : h => h(HtmlSitemapSidebar)
+							})
+						}
+					})
+				}
 
 				const sidebar = el(
 					InspectorControls,

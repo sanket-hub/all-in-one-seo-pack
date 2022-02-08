@@ -12,7 +12,11 @@ export default {
 	data () {
 		return {
 			strings : {
-				boldText : this.$t.sprintf('<strong>%1$s %2$s</strong>', process.env.VUE_APP_SHORT_NAME, this.$t.__('Pro', this.$td)),
+				boldText : this.$t.sprintf(
+					'<strong>%1$s %2$s</strong>',
+					process.env.VUE_APP_SHORT_NAME,
+					this.$isPro ? this.$t.__('Pro', this.$td) : ''
+				),
 				linkText : this.$t.__('Click here to learn more', this.$td)
 			}
 		}

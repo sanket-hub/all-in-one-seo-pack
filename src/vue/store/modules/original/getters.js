@@ -17,19 +17,31 @@ const replacer = (key, value) => {
 export default {
 	isDirty : (state, getters, rootState) => {
 		// We need to stringify, then parse, then stringify in order to make a clone of these options.
-		const originalOptions          = JSON.stringify(JSON.parse(JSON.stringify(state.options)), replacer)
-		const rootOptions              = JSON.stringify(JSON.parse(JSON.stringify(rootState.options)), replacer)
-		const originalOptionsNetwork   = JSON.stringify(JSON.parse(JSON.stringify(state.options)), replacer)
-		const rootOptionsNetwork       = JSON.stringify(JSON.parse(JSON.stringify(rootState.options)), replacer)
-		const originalOptionsRedirects = JSON.stringify(JSON.parse(JSON.stringify(state.redirectOptions)), replacer)
-		const rootOptionsRedirects     = JSON.stringify(JSON.parse(JSON.stringify(rootState.redirects.options)), replacer)
-		const originalOptionsDynamic   = JSON.stringify(JSON.parse(JSON.stringify(state.dynamicOptions)), replacer)
-		const rootOptionsDynamic       = JSON.stringify(JSON.parse(JSON.stringify(rootState.dynamicOptions)), replacer)
+		const normalize = object => {
+			if (!object) {
+				return {}
+			}
+
+			return JSON.stringify(JSON.parse(JSON.stringify(object)), replacer)
+		}
+
+		const originalOptions          = normalize(state.options)
+		const rootOptions              = normalize(rootState.options)
+		const originalOptionsNetwork   = normalize(state.options)
+		const rootOptionsNetwork       = normalize(rootState.options)
+		const originalOptionsRedirects = normalize(state.redirectOptions)
+		const rootOptionsRedirects     = normalize(rootState.redirects.options)
+		const originalOptionsIndexNow  = normalize(state.indexNowOptions)
+		const rootOptionsIndexNow      = normalize(rootState['index-now'].options)
+		const originalOptionsDynamic   = normalize(state.dynamicOptions)
+		const rootOptionsDynamic       = normalize(rootState.dynamicOptions)
+
 		return !(
 			originalOptions === rootOptions &&
 			originalOptionsNetwork === rootOptionsNetwork &&
 			originalOptionsRedirects === rootOptionsRedirects &&
-			originalOptionsDynamic === rootOptionsDynamic
+			originalOptionsDynamic === rootOptionsDynamic &&
+			originalOptionsIndexNow === rootOptionsIndexNow
 		)
 	}
 }

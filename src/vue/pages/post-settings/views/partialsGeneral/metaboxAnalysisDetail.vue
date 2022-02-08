@@ -51,9 +51,7 @@ export default {
 		padding-left: 24px;
 		position: relative;
 		margin-bottom: 24px;
-		&:last-of-type {
-			margin-bottom: 0;
-		}
+
 		svg {
 			position: relative;
 			left: 0;
@@ -106,6 +104,8 @@ export default {
 		}
 		.description {
 			font-size: 13px;
+			line-height: 1.5;
+			color: $gray3;
 		}
 	}
 }

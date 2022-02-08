@@ -33,7 +33,12 @@ const standaloneKeys = [
 	'app',
 	'notifications',
 	'publish-panel',
-	'flyout-menu'
+	'flyout-menu',
+	// Third-party
+	'divi',
+	'divi-admin',
+	'elementor',
+	'seedprod'
 ]
 
 const pages = () => {

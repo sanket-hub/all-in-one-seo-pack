@@ -3,6 +3,7 @@ export default {
 		options         : {},
 		dynamicOptions  : {},
 		networkOptions  : {},
-		redirectOptions : {}
+		redirectOptions : {},
+		indexNowOptions : {}
 	}
 }

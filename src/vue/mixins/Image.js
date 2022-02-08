@@ -1,8 +1,9 @@
 export const ImageSourceOptions = {
 	data () {
 		return {
-			excludedTermOptions       : [ 'featured', 'attach', 'content', 'author', 'auto' ],
-			excludedAttachmentOptions : [ 'featured', 'content', 'author' ]
+			excludedTermOptions        : [ 'featured', 'attach', 'content', 'author', 'auto' ],
+			excludedAttachmentOptions  : [ 'featured', 'content', 'author' ],
+			excludedPageBuilderOptions : [ 'auto' ]
 		}
 	},
 	computed : {
@@ -31,6 +32,12 @@ export const ImageSourceOptions = {
 			}
 			if ('post' === this.currentPost.context && 'attachment' === this.currentPost.postType) {
 				return options.filter(option => !this.excludedAttachmentOptions.includes(option.value))
+			}
+			if (this.$aioseo.integration) {
+				if ('seedprod' === this.$aioseo.integration) {
+					this.excludedPageBuilderOptions.push('featured', 'custom')
+				}
+				return options.filter(option => !this.excludedPageBuilderOptions.includes(option.value))
 			}
 			return options
 		}

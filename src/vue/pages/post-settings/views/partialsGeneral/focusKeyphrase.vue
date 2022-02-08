@@ -500,7 +500,7 @@ export default {
 			}, 2000)
 		},
 		onDeleted () {
-			this.currentPost.keyphrases.focus = {}
+			this.currentPost.keyphrases.focus.keyphrase = null
 			this.currentPost.loading.focus = true
 			setTimeout(() => {
 				this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })

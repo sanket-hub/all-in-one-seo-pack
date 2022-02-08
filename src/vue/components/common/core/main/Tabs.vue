@@ -398,6 +398,7 @@ export default {
 			font-size: 11px;
 			font-weight: 700;
 			padding-left: 12px;
+			-webkit-text-stroke-width: 0;
 			&.green {
 				color: $green;
 			}

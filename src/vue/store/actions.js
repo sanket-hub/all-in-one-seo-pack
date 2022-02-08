@@ -3,6 +3,19 @@ import { __ } from '@wordpress/i18n'
 
 const td = process.env.VUE_APP_TEXTDOMAIN
 
+let cachedCurrentPost = null
+
+const prepareCachedCurrentPost = (currentPost) => {
+	const ignore = [ 'modalOpen', 'seo_score', 'page_analysis' ]
+	const copy   = JSON.parse(JSON.stringify(currentPost))
+
+	ignore.forEach((property) => {
+		delete copy[property]
+	})
+
+	return JSON.stringify(copy)
+}
+
 const clearLicenseNotices = () => {
 	const addLicenseKey1 = document.querySelector('.aioseo-submenu-highlight.red')
 	if (addLicenseKey1) {
@@ -93,9 +106,6 @@ export default {
 		setOptions({
 			currentPost : state.currentPost
 		})
-		return this._vm.$http.post(this._vm.$links.restUrl('post'))
-			.send(state.currentPost)
-			.then(() => {})
 	},
 	openModal ({ commit }, value) {
 		commit('openModal', value)
@@ -293,7 +303,8 @@ export default {
 			redirects      : state.redirects,
 			options        : state.options,
 			dynamicOptions : state.dynamicOptions,
-			settings       : state.settings
+			settings       : state.settings,
+			indexNow       : state['index-now']
 		})
 
 		const options = {
@@ -311,6 +322,10 @@ export default {
 				options.linkAssistantOptions = state.linkAssistant.options
 				break
 			}
+			case 'settings': {
+				options.indexNowOptions = state['index-now'].options
+				break
+			}
 			default:
 				break
 		}
@@ -325,6 +340,10 @@ export default {
 					commit('original/setOriginalRedirectOptions', JSON.parse(JSON.stringify(state.redirects.options)), { root: true })
 				}
 
+				if (state['index-now'] && state['index-now'].options) {
+					commit('original/setOriginalIndexNowOptions', JSON.parse(JSON.stringify(state['index-now'].options)), { root: true })
+				}
+
 				if (response.body.redirection) {
 					if ('reload' === response.body.redirection) {
 						window.location.reload()
@@ -332,6 +351,7 @@ export default {
 						window.location.href = response.body.redirection
 					}
 				}
+
 				return response
 			})
 	},
@@ -561,6 +581,16 @@ export default {
 		// In some contexts, the state might not have loaded fully and still be an Observer object.
 		if (!state || !state.currentPost || !Object.keys(state.currentPost).length) {
 			return
+		}
+
+		// Cache a stringified version the state.currentPost so we don't have a reference of the original state anymore.
+		if (null === cachedCurrentPost) {
+			cachedCurrentPost = prepareCachedCurrentPost(state.currentPost)
+		}
+
+		// If the currentPost changed, emit a global event.
+		if (cachedCurrentPost !== prepareCachedCurrentPost(state.currentPost)) {
+			this._vm.$bus.$emit('postSettingsUpdated')
 		}
 
 		dispatch('updateState', state.currentPost)

@@ -3,7 +3,33 @@ import store from '@/vue/store'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 import { getPostEditedContent } from './postContent'
 import { getPostEditedPermalink } from './postPermalink'
-import { isBlockEditor, isClassicEditor  } from './helpers'
+import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
+import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
+import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
+
+/**
+ * Returns the post slug from page builders.
+ *
+ * @returns {string} Post Slug.
+ */
+const getEditorSlug = () => {
+	let postSlug = ''
+
+	if (isElementorEditor()) {
+		postSlug = getElementorData().slug
+	}
+
+	if (isDiviEditor()) {
+		postSlug = getDiviData().slug
+	}
+
+	if (isSeedProdEditor()) {
+		postSlug = getSeedProdData().slug
+	}
+
+	return postSlug
+}
 
 /**
  * Returns the stored post slug.
@@ -16,19 +42,26 @@ export const getPostSlug = () => {
 	}
 
 	let postSlug = ''
+
 	if (isClassicEditor()) {
 		const classicSlug = document.querySelector('#post_name')
 		if (classicSlug) {
 			postSlug = cleanForSlug(classicSlug.value)
 		}
 	}
+
 	if (isBlockEditor()) {
 		postSlug = window.wp.data.select('core/editor').getCurrentPost().slug
+	}
+
+	if (!postSlug) {
+		postSlug = getEditorSlug()
 	}
 
 	if (postSlug) {
 		store.commit('live-tags/updatePermalinkSlug', postSlug)
 	}
+
 	return postSlug
 }
 
@@ -39,15 +72,29 @@ export const getPostSlug = () => {
  */
 export const getPostEditedSlug = () => {
 	let postSlug = ''
+
 	if (isClassicEditor()) {
 		const classicSlug = document.querySelector('#post_name')
 		if (classicSlug) {
 			postSlug = cleanForSlug(classicSlug.value)
 		}
 	}
+
 	if (isBlockEditor()) {
 		postSlug = window.wp.data.select('core/editor').getEditedPostAttribute('slug')
 	}
+
+	if (isElementorEditor()) {
+		const postTitle = window.elementor.settings.page.model.get('post_title')
+		if (postTitle) {
+			postSlug = cleanForSlug(postTitle)
+		}
+	}
+
+	if (!postSlug) {
+		postSlug = getEditorSlug()
+	}
+
 	return postSlug
 }
 

@@ -2,7 +2,33 @@ import Vue from 'vue'
 import store from '@/vue/store'
 import { getPostEditedContent } from './postContent'
 import { getPostEditedPermalink } from './postPermalink'
-import { isBlockEditor, isClassicEditor  } from './helpers'
+import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
+import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
+import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
+
+/**
+ * Returns the post title from page builders.
+ *
+ * @returns {string} Post Title.
+ */
+const getEditorTitle = () => {
+	let postTitle = ''
+
+	if (isElementorEditor()) {
+		postTitle = getElementorData().title
+	}
+
+	if (isDiviEditor()) {
+		postTitle = getDiviData().title
+	}
+
+	if (isSeedProdEditor()) {
+		postTitle = getSeedProdData().title
+	}
+
+	return postTitle
+}
 
 /**
  * Returns the stored post title.
@@ -15,17 +41,24 @@ export const getPostTitle = () => {
 	}
 
 	let postTitle
+
 	if (isClassicEditor()) {
 		const titleInput = document.querySelector('#post input#title')
 		postTitle = titleInput ? titleInput.value : ''
 	}
+
 	if (isBlockEditor()) {
 		postTitle = window.wp.data.select('core/editor').getCurrentPost().title
+	}
+
+	if (!postTitle) {
+		postTitle = getEditorTitle()
 	}
 
 	if (postTitle) {
 		store.commit('live-tags/updatePostTitle', postTitle)
 	}
+
 	return postTitle
 }
 
@@ -36,13 +69,20 @@ export const getPostTitle = () => {
  */
 export const getPostEditedTitle = () => {
 	let postTitle
+
 	if (isClassicEditor()) {
 		const titleInput = document.querySelector('#post input#title')
 		postTitle = titleInput ? titleInput.value : ''
 	}
+
 	if (isBlockEditor()) {
 		postTitle = window.wp.data.select('core/editor').getEditedPostAttribute('title')
 	}
+
+	if (!postTitle) {
+		postTitle = getEditorTitle()
+	}
+
 	return postTitle
 }
 

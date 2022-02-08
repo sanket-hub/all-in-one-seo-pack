@@ -22,6 +22,11 @@ export default {
 	height: 35px;
 	position: absolute;
 
+	.edit-post-sidebar & {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	.double-bounce1, .double-bounce2 {
 		width: 100%;
 		height: 100%;

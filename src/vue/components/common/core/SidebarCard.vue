@@ -19,6 +19,7 @@
 					<span
 						class="card-score"
 						:class="getScoreClass(focusScore)"
+						v-if="null !== focusScore"
 					>
 						{{ focusScore }}/100
 					</span>

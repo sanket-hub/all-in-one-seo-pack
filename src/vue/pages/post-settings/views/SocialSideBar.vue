@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss">
 	.open-social-modal {
-		margin-top: 12px;
+		margin: 12px 0 12px 0;
 		border: 1px solid $gray;
 		svg {
 			margin-right: 5px;

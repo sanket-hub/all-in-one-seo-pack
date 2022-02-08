@@ -93,7 +93,7 @@ import { addQueryArgs } from '@wordpress/url'
 					locations : locations
 				}
 			})(function (props) {
-				const { setAttributes, attributes, className, clientId, locations } = props
+				const { setAttributes, attributes, className, clientId, locations, isSelected } = props
 				const vueAioseoId   = 'aioseo-location-map-' + clientId
 
 				if (!multipleLocations && attributes.locationId) {
@@ -133,36 +133,38 @@ import { addQueryArgs } from '@wordpress/url'
 				const location = locations.find(item => item.id === attributes.locationId)
 				const locationMap = isLocationPostType ? window.aioseo.currentPost.local_seo.maps : (location ? location.maps : null)
 
-				const vueInitialState = {}
-				Object.keys(attributes).forEach(function (key) {
-					vueInitialState[key] = attributes[key]
-				})
-				vueInitialState.locations = locations
+				if (isSelected) {
+					const vueInitialState = {}
+					Object.keys(attributes).forEach(function (key) {
+						vueInitialState[key] = attributes[key]
+					})
+					vueInitialState.locations = locations
 
-				observeElement({
-					id      : vueAioseoId,
-					parent  : document.querySelector('.block-editor'),
-					subtree : true,
-					done    : function (el) {
-						new Vue({
-							el   : el,
-							data : function () {
-								return vueInitialState
-							},
-							watch : {
-								$data : {
-									handler : function (val) {
-										debounce(() => {
-											setAttributes(val)
-										}, 1000)
-									},
-									deep : true
-								}
-							},
-							render : h => h(LocationMapSidebar)
-						})
-					}
-				})
+					observeElement({
+						id      : vueAioseoId,
+						parent  : document.querySelector('.block-editor'),
+						subtree : true,
+						done    : function (el) {
+							new Vue({
+								el   : el,
+								data : function () {
+									return vueInitialState
+								},
+								watch : {
+									$data : {
+										handler : function (val) {
+											debounce(() => {
+												setAttributes(val)
+											}, 1000)
+										},
+										deep : true
+									}
+								},
+								render : h => h(LocationMapSidebar)
+							})
+						}
+					})
+				}
 
 				if (isLocationPostType) {
 					observeElement({

@@ -185,7 +185,7 @@
 		<core-sidebar-card
 			v-if="displayTruSeoSidebarKeyphraseCard"
 			slug="focus"
-			:focusScore="currentPost.keyphrases.focus.score"
+			:focusScore="focusKeyphraseScore"
 			class="card-focus-keyphrase"
 		>
 			<template #header>
@@ -338,6 +338,13 @@ export default {
 				return true
 			}
 			return false
+		},
+		focusKeyphraseScore () {
+			if (!this.currentPost.keyphrases.focus.keyphrase) {
+				return null
+			}
+
+			return this.currentPost.keyphrases.focus.score
 		}
 	},
 	methods : {
@@ -431,9 +438,11 @@ export default {
 		margin: 0!important;
 		padding: 0!important;
 		border: 0;
+
 		> .aioseo-col {
 			padding: 0;
 		}
+
 		.aioseo-radio-toggle {
 			justify-content: flex-end;
 			&> div {
@@ -441,9 +450,11 @@ export default {
 			}
 		}
 	}
+
 	.ismobile {
 		max-width: 375px;
 	}
+
 	.edit-snippet,
 	.add-keyphrase {
 		margin-top: 12px;
@@ -480,13 +491,16 @@ export default {
 			margin-right: 5px;
 		}
 	}
+
 	.aioseo-toggle {
 		display: block;
+
 		.toggle-content input:checked + .toggle-switch {
 			border: 1px solid $green;
 			background-color: $green;
 		}
 	}
+
 	.aioseo-keyphrase-tag {
 		display: inline-block;
 		margin-right: 10px;
@@ -497,6 +511,7 @@ export default {
 
 		&.selected {
 			position: relative;
+
 			&:before,
 			&:after {
 				content: '';
@@ -506,11 +521,13 @@ export default {
 				bottom: -17px;
 				border-style: solid;
 			}
+
 			&:before {
 				left: calc( 50% - 6px );
 				border-width: 0 10px 10px 10px;
 				border-color: transparent transparent $border transparent;
 			}
+
 			&:after {
 				left: calc( 50% - 4px );
 				border-width: 0 8px 8px 8px;
@@ -525,40 +542,50 @@ export default {
 			border-radius: 3px;
 			background: $background;
 			cursor: pointer;
+
 			&.hidden {
 				opacity: 0;
 				height: 0;
 				padding: 0
 			}
 		}
+
 		.keyphrase-name {
 			cursor: pointer;
 		}
+
 		.keyphrase-edit {
 			opacity: 0;
 			margin: 0 8px;
 			cursor: pointer;
 		}
+
 		.keyphrase-score {
 			cursor: pointer;
+
 			&.score-green {
 				color: $green
 			}
+
 			&.score-orange {
 				color: $orange
 			}
+
 			&.score-red {
 				color: $red
 			}
 		}
+
 		.aioseo-edit-keyphrase-tag {
 			position: relative;
+
 			> input {
 				width: 100%;
 				padding: 8px 10px;
 				border: 1px solid $border;
 				border-radius: 3px;
 			}
+
 			.keyphrase-delete {
 				position: absolute;
 				top: 2px;
@@ -572,40 +599,49 @@ export default {
 				}
 			}
 		}
+
 		&:hover {
 			.keyphrase-edit {
 				opacity: 1;
 			}
 		}
 	}
+
 	.focus-keyphrase-panel {
 		.aioseo-analysis-detail {
 			margin-bottom: 0;
 		}
 	}
+
 	.analysis-wrapper {
 		border-top: 1px solid $border;
 	}
+
 	.analysis-loading {
 		position: relative;
 		margin-top: 16px;
 	}
 }
+
 .edit-post-sidebar {
 	.aioseo-google-search-preview {
 		padding: 10px;
 	}
+
 	.aioseo-button.edit-snippet {
 		display: inline-flex;
 	}
+
 	.snippet-focus-keyphrases-row {
 		border-bottom: none;
 		margin-bottom: 0 !important;
 	}
+
 	.snippet-preview-row {
 		padding-bottom: 0 !important;
 		border-bottom: none;
 	}
+
 	.card-focus-keyphrase,
 	.card-additional-keyphrase,
 	.card-basic-seo,
@@ -615,24 +651,29 @@ export default {
 		box-shadow: none;
 		border: none;
 		border-top: 1px solid $border;
+
 		.header {
 			padding: 1rem;
 			border-bottom: none;
 			font-size: 14px;
 			font-weight: 700;
 		}
+
 		.content {
 			padding: 24px 16px;
 			font-size: 14px;
 			border-top: 1px solid $border;
 		}
+
 		.aioseo-analysis-detail:last-of-type {
 			margin-bottom: 0;
+
 			.title {
 				margin-bottom: 0;
 			}
 		}
 	}
+
 	.card-focus-keyphrase {
 		.aioseo-analysis-detail {
 			margin: 16px 0 !important;
@@ -640,45 +681,57 @@ export default {
 				margin: 16px;
 			}
 		}
+
 		.add-keyphrase {
 			width: 100%;
 		}
 	}
+
+	.card-focus-keyphrase,
 	.card-additional-keyphrase {
 		.aioseo-analysis-detail {
 			margin: 0 0 16px !important;
 		}
+
 		.add-keyphrase {
 			width: 100%;
 			margin-bottom: 16px;
 		}
 	}
+
 	.card-readability-seo {
 		border-bottom: 1px solid $border;
 	}
+
 	.aioseo-keyphrase-tag {
 		display: block;
 		margin-right: 0;
 		margin-bottom: 10px;
+
 		&:after {
 			content: none !important;
 		}
+
 		&.selected {
 			border: 2px solid $border;
+
 			&:before,
 			&:after {
 				content: none;
 			}
 		}
+
 		.aioseo-add-keyphrase-tag {
 			display: flex;
 			width: 100%;
+
 			.keyphrase-score {
 				flex: 1;
 				text-align: right
 			}
 		}
 	}
+
 	.card-basic-seo,
 	.card-title-seo,
 	.card-readability-seo {
@@ -686,15 +739,18 @@ export default {
 			margin-top: 0;
 		}
 	}
+
 	.analysis-wrapper {
 		border-top: none;
 	}
 }
+
 .aioseo-modal-content {
 	> .aioseo-settings-row {
 		border: none;
 		margin-bottom: 0!important;
 	}
+
 	.aioseo-post-general > .mobile-radio-buttons {
 		position: absolute;
 		right: 40px;
@@ -702,26 +758,32 @@ export default {
 		margin-bottom: 0;
 		padding-bottom: 0;
 	}
+
 	.settings-name .name {
 		font-size: 16px!important;
 		margin-bottom: 6px!important;
 	}
+
 	.snippet-title-row,
 	.snippet-description-row {
 		position: relative;
 		display: block;
 		margin-top: 32px;
+
 		.settings-name {
 			margin-bottom: 8px;
 		}
+
 		.aioseo-description {
 			display: none;
 		}
+
 		.add-tags {
 			position: absolute;
 			top: 0;
 			right: 8px;
 			margin: 0;
+
 			.aioseo-add-template-tag {
 				@media screen and (max-width: 520px) {
 					display: none;
@@ -729,38 +791,47 @@ export default {
 			}
 		}
 	}
+
 	.snippet-title-row {
 		margin-top: 24px;
 		padding-bottom: 24px !important;
 	}
+
 	.snippet-preview-row,
 	.snippet-description-row {
 		border: none;
 		margin-bottom: 0!important;
 		padding-bottom: 0!important;
 	}
+
 	.snippet-pillar-row {
 		display: none;
 	}
+
 	.component-wrapper {
 		.aioseo-settings-row>.aioseo-col {
 			padding-top: .5rem!important;
 		}
+
 		.aioseo-google-search-preview {
 			padding: 32px 28px!important;
 		}
+
 		.aioseo-tabs .md-button {
 			&:not(.md-active) {
 				min-width: 72px!important;
 				margin: 0 !important;
 			}
+
 			&:hover {
 				background-color: #e2e3e6;
 			}
+
 			&:before {
 				border-radius: 100%!important;
 				display: none;
 			}
+
 			.label {
 				display: inline!important;
 			}
@@ -769,6 +840,7 @@ export default {
 	.mobile-radio-buttons {
 		.aioseo-tabs .md-button:not(.md-active) {
 			margin: 0!important;
+
 			&:before {
 				top: 0!important;
 			}

@@ -1,5 +1,5 @@
 <template>
-	<div class="aioseo-app">
+	<div class="aioseo-app aioseo-post-settings">
 		<core-main-tabs
 			:tabs="getTabs"
 			:showSaveButton="false"
@@ -97,7 +97,10 @@ export default {
 				}
 			]
 
-			if (!this.currentPost.linkAssistant || !this.currentPost.linkAssistant.isExcludedPost) {
+			if (
+				!this.$aioseo.integration &&
+				(!this.currentPost.linkAssistant || !this.currentPost.linkAssistant.isExcludedPost)
+			) {
 				tabs.splice(3, 0, {
 					slug : 'links',
 					icon : 'svg-link-suggestion',
@@ -197,9 +200,10 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-app,
-.aioseo-metabox .aioseo-app {
+.aioseo-post-settings,
+.aioseo-metabox .aioseo-post-settings {
 	background: #fff;
+	color: $black;
 	.aioseo-tabs {
 		border-bottom-width: 2px;
 		background: $background;

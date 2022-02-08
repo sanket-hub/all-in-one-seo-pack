@@ -25,10 +25,12 @@
 							{ connected: isConnected(tool) }
 						]"
 					>
-						<component
-							class="logo-svg"
-							:is="tool.svg"
-						/>
+						<div class="logo">
+							<component
+								class="logo-svg"
+								:is="tool.svg"
+							/>
+						</div>
 						<div
 							v-html="tool.name"
 						/>
@@ -61,6 +63,7 @@
 									<core-settings-row
 										noSideMargin
 										align-small
+										v-if="'indexNow' !== tool.slug"
 									>
 										<template #name>
 											{{ setting.label }}
@@ -163,6 +166,87 @@
 											</core-alert>
 										</template>
 									</core-settings-row>
+
+									<core-settings-row
+										v-if="'indexNow' === tool.slug"
+										noSideMargin
+										align-small
+									>
+										<template #name>
+											{{ strings.indexNowApiKey }}
+										</template>
+
+										<template #content>
+											<div class="aioseo-index-now-key">
+												<base-input
+													size="small"
+													v-model="indexNow.apiKey"
+													:disabled="!isIndexNowEnabled"
+												/>
+
+												<base-button
+													v-if="isIndexNowEnabled"
+													type="blue"
+													size="small"
+													@click="regenerateApiKey"
+													:loading="regeneratingApiKey"
+												>
+													{{ strings.regenerateApiKey }}
+												</base-button>
+											</div>
+
+											<p
+												v-if="isIndexNowEnabled"
+												v-html="strings.indexNowDescription"
+												class="aioseo-description"
+											/>
+
+											<core-alert
+												class="inline-upsell"
+												v-if="isIndexNowLite || isIndexNowActivate || isIndexNowUpdate"
+												type="blue"
+											>
+												<div
+													v-if="isIndexNowLite"
+													v-html="strings.indexNowUpsell"
+												/>
+
+												<template
+													v-if="isIndexNowActivate"
+												>
+													<div>
+														{{ strings.activateIndexNowDescription }}
+													</div>
+
+													<base-button
+														:loading="installingPlugin"
+														type="blue"
+														size="medium"
+														@click="activateIndexNow"
+													>
+														{{ strings.activateIndexNow }}
+													</base-button>
+												</template>
+
+												<template
+													v-if="isIndexNowUpdate"
+												>
+													<div>
+														{{ strings.indexNowUpdateRequired }}
+													</div>
+
+													<base-button
+														:loading="installingPlugin"
+														type="blue"
+														size="medium"
+														@click="updateIndexNow"
+													>
+														{{ strings.updateIndexNow }}
+													</base-button>
+												</template>
+											</core-alert>
+										</template>
+									</core-settings-row>
 								</div>
 							</template>
 						</template>
@@ -229,19 +313,24 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import { MetaTag } from '@/vue/mixins'
 export default {
 	mixins : [ MetaTag ],
 	data () {
 		return {
-			showMiPromo      : true,
-			installingPlugin : false,
-			miInstalled      : false,
-			heightOkay       : false,
-			activeTool       : null,
-			columnsPerRow    : 4,
-			strings          : {
+			indexNow : {
+				apiKey : null
+			},
+			indexNowFailed     : false,
+			regeneratingApiKey : false,
+			showMiPromo        : true,
+			installingPlugin   : false,
+			miInstalled        : false,
+			heightOkay         : false,
+			activeTool         : null,
+			columnsPerRow      : 4,
+			strings            : {
 				miscellaneousVerification            : this.$t.__('Miscellaneous Verification', this.$td),
 				// Translators: 1 - "<head></head>".
 				miscellaneousVerificationDescription : this.$t.sprintf(this.$t.__('The code above will be added between the %1$s tags on every page on your website.', this.$td), '<em>&lt;head&gt; &lt/head&gt;</em>'),
@@ -257,13 +346,31 @@ export default {
 				manageGa                             : this.$t.__('Manage Google Analytics', this.$td),
 				startGa                              : this.$t.__('Get Started', this.$td),
 				// Translators: 1 - Learn more link.
-				unfilteredHtmlError                  : this.$t.sprintf(this.$t.__('Your user account role does not have access to edit this field. %1$s', this.$td), this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'unfilteredHtml', true))
+				unfilteredHtmlError                  : this.$t.sprintf(this.$t.__('Your user account role does not have access to edit this field. %1$s', this.$td), this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'unfilteredHtml', true)),
+				indexNowApiKey                       : this.$t.__('IndexNow API Key', this.$td),
+				// Translators: 1 - The plugin short name name ("AIOSEO"), 2 - "Learn more".
+				indexNowUpsell                       : this.$t.sprintf(this.$t.__('This feature is only for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('webmaster-tools', this.$constants.GLOBAL_STRINGS.learnMore, 'index-now', true)),
+				activateIndexNow                     : this.$t.__('Activate IndexNow', this.$td),
+				activateIndexNowDescription          : this.$t.__('The IndexNow addon is required to use this feature.', this.$td),
+				// Translators: 1 - Plugin Short Name ("AIOSEO"), 2 - Pro, 3 - Version Number ("1.0.0"), 4 - Addon name ("Redirects"), 5 - Version Number ("1.0.0").
+				indexNowUpdateRequired               : this.$t.sprintf(this.$t.__('The IndexNow addon requires an update. %1$s %2$s requires a minimum version of %3$s for the %4$s addon. You currently have %5$s installed.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro', this.$addons.getAddon('aioseo-index-now').minimumVersion, 'IndexNow', this.$addons.getAddon('aioseo-index-now').installedVersion),
+				updateIndexNow                       : this.$t.__('Update IndexNow', this.$td),
+				regenerateApiKey                     : this.$t.__('Regenerate API Key', this.$td),
+				indexNowDescription                  : this.$t.__('You can manually set an API key here, but if left blank a new one will be auto-generated.', this.$td)
 			}
+		}
+	},
+	watch : {
+		'indexNow.apiKey' (newValue) {
+			this.updateApiKey(newValue)
 		}
 	},
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'options', 'internalOptions' ]),
+		...mapState('index-now', {
+			indexNowOptions : 'options'
+		}),
 		miPromo () {
 			// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
 			return this.$t.sprintf(this.$t.__('We recommend using the %1$sFree MonsterInsights%2$s plugin to get the most out of Google Analytics.', this.$td), '<strong>', '</strong>')
@@ -357,6 +464,19 @@ export default {
 						{
 							option      : 'pinterest',
 							label       : this.$t.__('Pinterest Verification Code', this.$td),
+							// Translators: 1 - "Pinterest account".
+							description : this.$t.sprintf(this.$t.__('Get your Pinterest verification code in your %1$s.', this.$td), this.$links.getDocLink(this.$t.__('Pinterest account', this.$td), 'pinterestSiteVerification'))
+						}
+					]
+				},
+				{
+					slug     : 'indexNow',
+					name     : this.$t.__('IndexNow', this.$td),
+					svg      : 'svg-logo-index-now',
+					settings : [
+						{
+							option      : 'apiKey',
+							label       : this.$t.__('IndexNow API Key', this.$td),
 							// Translators: 1 - "Pinterest account".
 							description : this.$t.sprintf(this.$t.__('Get your Pinterest verification code in your %1$s.', this.$td), this.$links.getDocLink(this.$t.__('Pinterest account', this.$td), 'pinterestSiteVerification'))
 						}
@@ -659,10 +779,38 @@ export default {
 					]
 				}
 			]
+		},
+		isIndexNowEnabled () {
+			return !this.isUnlicensed &&
+				this.$addons.isActive('aioseo-index-now') &&
+				!this.$addons.requiresUpgrade('aioseo-index-now') &&
+				this.$addons.hasMinimumVersion('aioseo-index-now')
+		},
+		isIndexNowLite () {
+			return this.isUnlicensed || this.$addons.requiresUpgrade('aioseo-index-now')
+		},
+		isIndexNowActivate () {
+			return !this.isUnlicensed &&
+				!this.$addons.isActive('aioseo-index-now') &&
+				this.$addons.canActivate('aioseo-index-now') &&
+				!this.$addons.requiresUpgrade('aioseo-index-now') &&
+				(
+					this.$addons.hasMinimumVersion('aioseo-index-now') ||
+					!this.$addons.isInstalled('aioseo-index-now')
+				)
+		},
+		isIndexNowUpdate () {
+			return !this.isUnlicensed &&
+				this.$addons.isInstalled('aioseo-index-now') &&
+				!this.$addons.requiresUpgrade('aioseo-index-now') &&
+				!this.$addons.hasMinimumVersion('aioseo-index-now')
 		}
 	},
 	methods : {
-		...mapActions([ 'installPlugins' ]),
+		...mapActions([ 'installPlugins', 'upgradePlugins' ]),
+		...mapActions('index-now', [ 'generateApiKey', 'getApiKey' ]),
+		...mapMutations('index-now', [ 'updateApiKey' ]),
+		...mapMutations([ 'updateAddon' ]),
 		updateValue (checked, setting, option) {
 			if (checked) {
 				const users = this.options.deprecated.webmasterTools[setting.parent][setting.option]
@@ -678,6 +826,60 @@ export default {
 		},
 		getValue (setting, option) {
 			return this.options.deprecated.webmasterTools[setting.parent][setting.option].includes(option.value)
+		},
+		activateIndexNow () {
+			this.indexNowFailed   = false
+			this.installingPlugin = true
+			const addon = this.$addons.getAddon('aioseo-index-now')
+			this.installPlugins([ { plugin: addon.basename } ])
+				.then(response => {
+					if (response.body.failed.length) {
+						this.installingPlugin = false
+						this.indexNowFailed   = true
+						return
+					}
+
+					this.getApiKey()
+						.then(apiKey => {
+							this.indexNow.apiKey  = apiKey
+							this.installingPlugin = false
+							addon.isActive        = true
+							this.updateAddon(addon)
+						})
+				})
+				.catch(error => {
+					console.error(error)
+				})
+		},
+		updateIndexNow () {
+			this.indexNowFailed   = false
+			this.installingPlugin = true
+			const addon = this.$addons.getAddon('aioseo-index-now')
+			this.upgradePlugins([ { plugin: addon.sku } ])
+				.then(response => {
+					this.installingPlugin = false
+					if (response.body.failed.length) {
+						this.indexNowFailed = true
+						return
+					}
+
+					const updatedAddon      = response.body.completed[addon.sku]
+					addon.hasMinimumVersion = true
+					addon.isActive          = true
+					addon.installedVersion  = updatedAddon.installedVersion
+					this.updateAddon(addon)
+				})
+				.catch(error => {
+					console.error(error)
+				})
+		},
+		regenerateApiKey () {
+			this.regeneratingApiKey = true
+			this.generateApiKey()
+				.then(apiKey => {
+					this.indexNow.apiKey    = apiKey
+					this.regeneratingApiKey = false
+				})
 		},
 		installMi () {
 			this.installingPlugin = true
@@ -757,7 +959,7 @@ export default {
 		isConnected (tool) {
 			return tool.settings[0].parent
 				? (this.options.deprecated.webmasterTools[tool.settings[0].parent][tool.settings[0].option] && !this.$aioseo.plugins.miLite.activated)
-				: this.options.webmasterTools[tool.settings[0].option]
+				: this.options.webmasterTools[tool.settings[0].option] || ('indexNow' === tool.slug && this.indexNowOptions.indexNow && this.indexNowOptions.indexNow.apiKey)
 		},
 		shouldDisplaySetting (setting) {
 			// Pro checks first.
@@ -801,6 +1003,8 @@ export default {
 			this.getOrder(tool, true)
 		}))
 
+		this.indexNow.apiKey = this.indexNowOptions.indexNow.apiKey
+
 		window.addEventListener('resize', this.maybeChangeColumnsPerRow)
 	}
 }
@@ -808,6 +1012,15 @@ export default {
 
 <style lang="scss">
 .aioseo-webmaster-tools {
+	.inline-upsell {
+		display: inline-block;
+		margin-top: 20px;
+
+		> div {
+			margin-bottom: 10px;
+		}
+	}
+
 	.no-access {
 		margin-bottom: 20px;
 	}
@@ -850,7 +1063,7 @@ export default {
 			height: 165px;
 			border: 1px solid $border;
 			border-radius: 3px;
-			padding: 20px 20px 40px;
+			padding: 20px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -859,10 +1072,16 @@ export default {
 			text-align: center;
 			position: relative;
 
-			svg {
-				max-width: 100%;
-				max-height: 100%;
-				margin: 0 40px
+			.logo {
+				flex: 1;
+				padding: 10px;
+
+				.logo-svg {
+					max-width: 100%;
+					max-height: 100%;
+					width: auto;
+					height: 100%;
+				}
 			}
 
 			&.connected {
@@ -884,7 +1103,7 @@ export default {
 			}
 
 			&.active {
-				padding: 19px 19px 38px;
+				padding: 19px;
 				font-weight: 600;
 				border: 2px solid $blue;
 				box-shadow: 0px 5px 10px rgba(0, 90, 224, 0.1);
@@ -926,6 +1145,10 @@ export default {
 					height: 14px;
 					margin-right: 10px;
 				}
+			}
+
+			.aioseo-index-now-key {
+				display: flex;
 			}
 		}
 	}

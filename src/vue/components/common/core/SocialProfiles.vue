@@ -178,7 +178,7 @@ export default {
 					url        : 'https://linkedin.com/in',
 					svg        : 'svg-icon-linkedin',
 					validation : [
-						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?linkedin\.[a-z.]+\/(?:in|company|school|groups)\/.*$/.test(v) || this.$t.__('Your LinkedIn URL is invalid. Please check the format and try again.', this.$td)
+						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?linkedin\.[a-z.]+\/(?:in|company|school|groups|showcase)\/.*$/.test(v) || this.$t.__('Your LinkedIn URL is invalid. Please check the format and try again.', this.$td)
 					],
 					error : ''
 				},

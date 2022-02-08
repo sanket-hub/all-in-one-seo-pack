@@ -115,7 +115,7 @@ import { __, sprintf } from '@wordpress/i18n';
 				}
 			}
 			)(function (props) {
-				const { setAttributes, attributes, className, clientId, locations } = props
+				const { setAttributes, attributes, className, clientId, locations, isSelected } = props
 				const vueAIOSEOSettingsId = `aioseo-${clientId}-settings`
 
 				if (!multipleLocations && attributes.locationId) {
@@ -151,36 +151,36 @@ import { __, sprintf } from '@wordpress/i18n';
 				// Force locationId if we're in the local-business post type.
 				attributes.locationId = (!attributes.locationId && window.aioseo.currentPost.postType === window.aioseo.localBusiness.postTypeName) ? window.aioseo.currentPost.id : attributes.locationId
 
-				if (null === vueInitialState) {
+				if (isSelected) {
 					vueInitialState = {}
 					Object.keys(attributes).forEach(function (key) {
 						vueInitialState[key] = attributes[key]
 					})
 					vueInitialState.locations = locations
-				}
 
-				observeElement({
-					id      : vueAIOSEOSettingsId,
-					parent  : document.querySelector('.block-editor'),
-					subtree : true,
-					done    : function (el) {
-						new Vue({
-							el   : el,
-							data : function () {
-								return vueInitialState
-							},
-							watch : {
-								$data : {
-									handler : function (val) {
-										setAttributes(val)
-									},
-									deep : true
-								}
-							},
-							render : h => h(OpeningHoursSidebar)
-						})
-					}
-				})
+					observeElement({
+						id      : vueAIOSEOSettingsId,
+						parent  : document.querySelector('.block-editor'),
+						subtree : true,
+						done    : function (el) {
+							new Vue({
+								el   : el,
+								data : function () {
+									return vueInitialState
+								},
+								watch : {
+									$data : {
+										handler : function (val) {
+											setAttributes(val)
+										},
+										deep : true
+									}
+								},
+								render : h => h(OpeningHoursSidebar)
+							})
+						}
+					})
+				}
 
 				if (window.aioseo.currentPost.postType === window.aioseo.localBusiness.postTypeName) {
 					observeElement({

@@ -194,8 +194,12 @@ class TruSEO {
 
 		focusAnalysis.keyphraseInTitle = analyzers.keyphraseInTitle(this.postParsedTitle, keyphrase)
 		focusAnalysis.keyphraseInDescription = analyzers.keyphraseInDescription(this.postParsedDescription, keyphrase, 'focus')
-		focusAnalysis.keyphraseInURL = analyzers.keyphraseInURL(this.postSlug, keyphrase)
 		focusAnalysis.keyphraseLength = analyzers.keyphraseLength(keyphrase, 'focus')
+
+		// Skip this if we're dealing with the static homepage.
+		if (postId !== window.aioseo.data.staticHomePage) {
+			focusAnalysis.keyphraseInURL = analyzers.keyphraseInURL(this.postSlug, keyphrase)
+		}
 
 		if (this.postContent) {
 			focusAnalysis.keyphraseInIntroduction = analyzers.keyphraseInIntroduction(this.postContent, keyphrase, 'focus')

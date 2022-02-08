@@ -17,7 +17,8 @@ export const getOptions = () => new Promise(resolve => {
 			tags            : window.aioseo.tags,
 			plugins         : window.aioseo.plugins,
 			redirects       : window.aioseo.redirects,
-			linkAssistant   : window.aioseo.linkAssistant
+			linkAssistant   : window.aioseo.linkAssistant,
+			indexNow        : window.aioseo.indexNow
 		}))
 	}
 })
@@ -37,7 +38,8 @@ export const setOptions = ({
 	plugins,
 	backups,
 	redirects,
-	linkAssistant
+	linkAssistant,
+	indexNow
 }) => {
 	internalOptions = merge({ ...window.aioseo.internalOptions }, { ...internalOptions })
 	options         = merge({ ...window.aioseo.options }, { ...options })
@@ -54,6 +56,7 @@ export const setOptions = ({
 	plugins         = merge({ ...window.aioseo.plugins }, { ...plugins })
 	redirects       = merge({ ...window.aioseo.redirects }, { ...redirects })
 	linkAssistant   = merge({ ...window.aioseo.linkAssistant }, { ...linkAssistant })
+	indexNow        = merge({ ...window.aioseo.indexNow }, { ...indexNow })
 
 	const aioseo = {
 		translations : {},
@@ -71,7 +74,8 @@ export const setOptions = ({
 		helpPanel,
 		plugins,
 		redirects,
-		linkAssistant
+		linkAssistant,
+		indexNow
 	}
 
 	window.aioseo         = aioseo
@@ -94,7 +98,8 @@ export const setOptions = ({
 		plugins,
 		backups,
 		redirects,
-		linkAssistant
+		linkAssistant,
+		indexNow
 	}
 }
 

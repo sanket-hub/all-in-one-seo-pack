@@ -344,13 +344,13 @@ export default {
 		...mapState([ 'options' ]),
 		...mapGetters([ 'isUnlicensed' ]),
 		getSearchForText () {
-			return this.options.breadcrumbs.searchResultFormat.replace('#breadcrumb_search_string', `<strong>${this.strings.searchKeyword}</strong>`)
+			return this.options.breadcrumbs.searchResultFormat.replace(new RegExp('#breadcrumb_search_string', 'g'), `<strong>${this.strings.searchKeyword}</strong>`)
 		},
 		getArchivesOfText () {
-			return this.options.breadcrumbs.archiveFormat.replace('#breadcrumb_archive_post_type_name', `<strong>${this.strings.categoryName}</strong>`)
+			return this.options.breadcrumbs.archiveFormat.replace(new RegExp('#breadcrumb_archive_post_type_name', 'g'), `<strong>${this.strings.categoryName}</strong>`)
 		},
 		getPagedText () {
-			return this.options.breadcrumbs.pagedFormat.replace('#breadcrumb_format_page_number', '<strong>2</strong>')
+			return this.options.breadcrumbs.pagedFormat.replace(new RegExp('#breadcrumb_format_page_number', 'g'), '<strong>2</strong>')
 		},
 		previews () {
 			return [
@@ -396,16 +396,6 @@ export default {
 
 	svg.aioseo-php {
 		width: 110px;
-	}
-
-	.copy-box {
-		padding-top: 0.5rem;
-
-		> div {
-			padding: 30px;
-			border-radius: 3px;
-			background-color: $box-background;
-		}
 	}
 
 	.current-item {

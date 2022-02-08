@@ -62,7 +62,7 @@ import { __, sprintf } from '@wordpress/i18n';
 					categories : categories
 				}
 			})(function (props) {
-				const { setAttributes, attributes, className, clientId, categories } = props
+				const { setAttributes, attributes, className, clientId, categories, isSelected } = props
 				const vueAioseoId   = 'aioseo-' + clientId
 
 				if (null === categories) {
@@ -95,36 +95,36 @@ import { __, sprintf } from '@wordpress/i18n';
 					)
 				}
 
-				if (null === vueInitialState) {
+				if (isSelected) {
 					vueInitialState = {}
 					Object.keys(attributes).forEach(function (key) {
 						vueInitialState[key] = attributes[key]
 					})
 					vueInitialState.categories = categories
-				}
 
-				observeElement({
-					id      : vueAioseoId,
-					parent  : document.querySelector('.block-editor'),
-					subtree : true,
-					done    : function (el) {
-						new Vue({
-							el   : el,
-							data : function () {
-								return vueInitialState
-							},
-							watch : {
-								$data : {
-									handler : function (val) {
-										setAttributes(val)
-									},
-									deep : true
-								}
-							},
-							render : h => h(LocationsSidebar)
-						})
-					}
-				})
+					observeElement({
+						id      : vueAioseoId,
+						parent  : document.querySelector('.block-editor'),
+						subtree : true,
+						done    : function (el) {
+							new Vue({
+								el   : el,
+								data : function () {
+									return vueInitialState
+								},
+								watch : {
+									$data : {
+										handler : function (val) {
+											setAttributes(val)
+										},
+										deep : true
+									}
+								},
+								render : h => h(LocationsSidebar)
+							})
+						}
+					})
+				}
 
 				const sidebar = el(
 					InspectorControls,

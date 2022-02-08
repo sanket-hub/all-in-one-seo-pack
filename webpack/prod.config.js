@@ -20,6 +20,7 @@ module.exports = {
 	prod : merge(config.base, {
 		entry : {
 			plugins                 : './src/app/plugins/Plugins.js',
+			'aioseo-integrations'   : './src/vue/assets/scss/integrations/main.scss',
 			'aioseo-admin-bar'      : './src/vue/assets/scss/app/admin-bar.scss',
 			'link-format-block'     : './src/app/link-format/block/index.js',
 			'link-format-block-old' : './src/app/link-format/block-old/index.js',
