@@ -9,11 +9,13 @@
 			]"
 			ref="quill"
 		/>
+
 		<div
 			v-if="lineNumbers"
 			ref="line-numbers"
 			class="aioseo-line-numbers"
 		/>
+
 		<template
 			v-for="(tag, index) in $tags.context(tagsContext)"
 		>
@@ -26,17 +28,20 @@
 					class="aioseo-tag"
 				>
 					<span class="tag-name">{{ tag.name }}</span>
+
 					<span
 						v-if="tag.custom && tag.customValue"
 						class="tag-custom"
 					>
 						- {{ tag.customValue }}
 					</span>
+
 					<span class="tag-toggle">
 						<svg-caret />
 					</span>
 				</span>
 			</div>
+
 			<div
 				v-show="false"
 				:key="`menu-${index}`"
@@ -46,10 +51,12 @@
 					<div>
 						<svg-plus />
 					</div>
+
 					<div>
 						<div class="aioseo-tag-title">
 							{{ tag.name }}
 						</div>
+
 						<div class="aioseo-tag-description">
 							{{ tag.description }}
 						</div>
@@ -202,7 +209,7 @@ export default {
 			const frag    = document.createRange().createContextualFragment(html)
 			const fragNew = document.createRange().createContextualFragment('')
 			frag.childNodes.forEach(node => {
-				// quill wraps everything in <p /> tags so we are going to loop through those.
+				// Quill wraps everything in <p /> tags so we are going to loop through those.
 				if ('P' !== node.tagName) {
 					return
 				}
@@ -245,6 +252,8 @@ export default {
 
 			html = div.innerHTML.replace(/<br\s*[/]?>/gi, this.single ? '' : '\n').trim()
 
+			// Trim off the spaces we might have appended after smart tags at startup.
+			html = html.replace(/&nbsp;/gi, ' ').trim()
 			this.$emit('input', html)
 		},
 		insertTag (tagId) {
@@ -252,7 +261,22 @@ export default {
 			const textBefore = mention.getTextBeforeCursor()
 			this.insertExact = true
 			const tag  = tagId ? this.localTags.find(t => t.id === tagId) : null
-			const text = tag ? `#${tag.id}` : '#' === textBefore.charAt(textBefore.length - 1) ? '' : '#'
+			let   text = tag ? `#${tag.id}` : '#' === textBefore.charAt(textBefore.length - 1) ? '' : '#'
+
+			const delta = this.quill.getContents(0, mention.cursorPos)
+			if (
+				delta.ops.length &&
+				(
+					'string' !== typeof delta.ops.pop().insert ||
+					!textBefore.match(/\s$/)
+				)
+			) {
+				console.log('text before does not have a space')
+				// If there's no space in front of the tag yet, add one.
+				// Also check if there actually is any text before the tag so that we don't add a space to the beginning of the value.
+				text = ' ' + text
+			}
+
 			this.quill.focus()
 
 			if (tagId) {
@@ -375,21 +399,25 @@ export default {
 				this.quill.setText('')
 			}
 
-			// Make sure newlines are kept intact.
 			let value = this.value
-				? (
-					this.single
-						? this.value.replace('\n', ' ')
-						: '<p>' + this.value
-							.split('\n')
-							.map(v => '' === v ? '<br>' : v)
-							.join('</p><p>') + '</p>'
-				)
-				: this.value
-
-			if (value && value.length) {
+			if (value && value.length && value.match(/#[^\s]*$/)) {
+				// If the value ends with a smart tag, append a space on startup to prevent weird input behaviour.
+				// https://github.com/awesomemotive/aioseo/issues/1351
 				value = value.trim() + '&nbsp;'
 			}
+
+			// Make sure newlines are kept intact.
+			value = value
+				? (
+					this.single
+						? value.replace('\n', ' ')
+						: '<p>' +
+							value.split('\n')
+								.map(v => '' === v ? '<br>' : v)
+								.join('</p><p>') +
+							'</p>'
+				)
+				: value
 
 			// Stop auto scrolling to the editor on paste of the HTML.
 			const scrollTop = document.documentElement.scrollTop
@@ -429,6 +457,8 @@ export default {
 			if (!reset) {
 				this.quill.history.clear()
 			}
+
+			this.removeTrailingNewLine()
 		},
 		setPhrase (value) {
 			// We are caching the phrase at this point, so we can use it later to undo the next few lines.
@@ -452,6 +482,13 @@ export default {
 			value = removeTags(this.cachedPhrase, value)
 
 			return value
+		},
+		removeTrailingNewLine () {
+			// Remove the trailing new line that Quill adds by default.
+			if (this.description) {
+				document.querySelector('.aioseo-editor-description .ql-editor').innerHTML =
+					document.querySelector('.aioseo-editor-description .ql-editor').innerHTML.replace(/<p><br><\/p>$/i, '')
+			}
 		}
 	},
 	mounted () {

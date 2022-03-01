@@ -3,6 +3,7 @@
 		<core-card
 			slug="videoSitemap"
 			:header-text="strings.video"
+			:noSlide="true"
 		>
 			<blur />
 

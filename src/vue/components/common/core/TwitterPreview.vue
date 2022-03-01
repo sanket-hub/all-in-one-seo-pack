@@ -26,7 +26,10 @@
 						}"
 					>
 						<svg-book
-							v-if="!image || !canShowImage"
+							v-if="!loading && (!image || !canShowImage)"
+						/>
+						<core-loader
+							v-if="loading"
 						/>
 						<base-img
 							v-show="'summary_large_image' === getCard && canShowImage"
@@ -57,8 +60,14 @@
 import { mapState } from 'vuex'
 export default {
 	props : {
-		image : String,
-		card  : String
+		image   : String,
+		card    : String,
+		loading : {
+			type : Boolean,
+			default () {
+				return false
+			}
+		}
 	},
 	data () {
 		return {

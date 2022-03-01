@@ -1,7 +1,7 @@
 import { setOptions } from '@/vue/utils/options'
 
 export default {
-	filter ({ state, commit }, { slug, additional, page }) {
+	filter ({ state, commit, rootState }, { slug, additional, page }) {
 		if ('404' === slug || 'logs' === slug) {
 			commit('resetSelectedFilters')
 		}
@@ -10,7 +10,9 @@ export default {
 			.send({
 				additional,
 				searchTerm : state.searchTerm,
-				page       : page
+				page       : page,
+				id         : rootState.currentPost ? rootState.currentPost.id : null,
+				context    : rootState.currentPost ? rootState.currentPost.context : null
 			})
 			.then(response => {
 				if ('404' === slug) {
@@ -41,7 +43,7 @@ export default {
 				commit('updateTotals', response.body.totals)
 			})
 	},
-	bulk ({ getters, state, commit }, { action, rowIds }) {
+	bulk ({ getters, state, commit, rootState }, { action, rowIds }) {
 		const { rows, selectedFilters } = state
 		// First, let's remove any rows that are already set to this action.
 		rowIds = rowIds.filter(rowId => {
@@ -84,7 +86,9 @@ export default {
 				currentPage : state.totals.main.page,
 				currentSlug : filter.slug,
 				additional  : selectedFilters,
-				rowIds      : rowIdsWithHashes
+				rowIds      : rowIdsWithHashes,
+				id          : rootState.currentPost ? rootState.currentPost.id : null,
+				context     : rootState.currentPost ? rootState.currentPost.context : null
 			})
 			.then(response => {
 				commit('updateFilters', response.body.filters)
@@ -259,6 +263,14 @@ export default {
 				testing : false,
 				failed  : true
 			})
+		})
+	},
+	getPostRedirects ({ commit, rootState }) {
+		return this._vm.$http.get(this._vm.$links.restUrl('redirects/' + rootState.currentPost.context + '/' + rootState.currentPost.id)).then(response => {
+			commit('updateRows', response.body.rows)
+			commit('updatePostPermalinkPath', response.body.permalinkPath, { root: true })
+			commit('updatePostStatus', response.body.postStatus, { root: true })
+		}).catch(() => {
 		})
 	}
 }

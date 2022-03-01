@@ -31,10 +31,10 @@ export default {
 			isAnalyzing : false,
 			strings     : {
 				overallScore   : this.$t.__('Overall Score', this.$td),
-				// Translators: 1 - Opening bold HTML tag. 2 - Closing bold HTML tag.
-				veryGoodScore  : this.$t.sprintf(this.$t.__('A very good score is between %1$s60 and 80%2$s.', this.$td), '<strong>', '</strong>'),
-				// Translators: 1 - Opening bold HTML tag. 2 - Closing bold HTML tag.
-				forBestResults : this.$t.sprintf(this.$t.__('For best results, you should strive for %1$s70 and above%2$s.', this.$td), '<strong>', '</strong>')
+				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Initial score range, 4 - Final score range.
+				veryGoodScore  : this.$t.sprintf(this.$t.__('A very good score is between %1$s%3$d and %4$d%2$s.', this.$td), '<strong>', '</strong>', 70, 90),
+				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Score.
+				forBestResults : this.$t.sprintf(this.$t.__('For best results, you should strive for %1$s%3$d and above%2$s.', this.$td), '<strong>', '</strong>', 70)
 			}
 		}
 	}

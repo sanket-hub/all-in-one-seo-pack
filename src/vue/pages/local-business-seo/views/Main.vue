@@ -1,5 +1,5 @@
 <template>
-	<div class="aioseo-app">
+	<div class="aioseo-app aioseo-post-settings">
 		<core-main-tabs
 			:tabs="tabs"
 			:showSaveButton="false"

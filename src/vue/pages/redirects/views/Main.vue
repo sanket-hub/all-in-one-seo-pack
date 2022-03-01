@@ -82,7 +82,7 @@ export default {
 		td {
 			padding: 16px 8px !important;
 			background: $white;
-			vertical-align: middle;
+			vertical-align: middle !important;
 
 			&:first-child {
 				padding-left: 16px !important;

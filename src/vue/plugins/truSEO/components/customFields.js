@@ -148,3 +148,55 @@ export const customFieldsContent = () => {
 	}
 	return fieldsContent
 }
+
+/**
+ * Get custom field image URL.
+ *
+ * @param   {string} fieldKey The field key.
+ * @returns {string}          URL of the image.
+ */
+export const customFieldImage = (fieldKey) => {
+	if (!fieldKey) {
+		return ''
+	}
+
+	const customField    = document.querySelector(`#${fieldKey}`)
+	const wpCustomFields = document.querySelectorAll('#the-list > tr')
+	const acfFields      = document.querySelectorAll('.acf-field')
+	const inputTypes     = [ 'INPUT', 'TEXTAREA', 'IMG' ]
+	let url = ''
+
+	if (customField && (-1 !== inputTypes.indexOf(customField.tagName))) {
+		// Make sure it isn't an acf-field
+		if (!customField.closest('.acf-field')) {
+			// We have a meta_box, add the value.
+			url = 'IMG' === customField.tagName ? customField.getAttribute('src') : customField.value
+		}
+	}
+
+	if (wpCustomFields.length) {
+		// Maybe we have a core meta_box, get the value.
+		wpCustomFields.forEach((row) => {
+			const inputKey   = row.querySelector(`#${row.id}-key`)
+			const inputValue = row.querySelector(`#${row.id}-value`)
+
+			if (inputValue && (-1 !== inputTypes.indexOf(inputValue.tagName)) && inputKey.value === fieldKey) {
+				url = 'IMG' === inputValue.tagName ? inputValue.getAttribute('src') : inputValue.value
+			}
+		})
+	}
+
+	if (acfFields.length) {
+		// We have an acf meta_box. Add the values.
+		acfFields.forEach((acfField) => {
+			if (fieldKey !== acfField.dataset.name) {
+				return
+			}
+
+			const customField = acfField.querySelector(`[data-key="${acfField.dataset.key}"] img`)
+			url = 'IMG' === customField.tagName ? customField.getAttribute('src') : customField.value
+		})
+	}
+
+	return url
+}

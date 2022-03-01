@@ -1062,6 +1062,14 @@ export const CONTACT_TYPES = [
 
 export const WIZARD_FEATURES = [
 	{
+		value       : 'optimized-search-appearance',
+		name        : __('Optimized Search Appearance', td),
+		description : __('Get all the right tools to make sure your website shows up in Google Search.', td),
+		required    : true,
+		pro         : false,
+		upgrade     : false
+	},
+	{
 		value       : 'sitemaps',
 		name        : __('Sitemaps', td),
 		description : __(
@@ -1071,14 +1079,6 @@ export const WIZARD_FEATURES = [
 		required : true,
 		pro      : false,
 		upgrade  : false
-	},
-	{
-		value       : 'optimized-search-appearance',
-		name        : __('Optimized Search Appearance', td),
-		description : __('Get all the right tools to make sure your website shows up in Google Search.', td),
-		required    : true,
-		pro         : false,
-		upgrade     : false
 	},
 	{
 		value       : 'analytics',

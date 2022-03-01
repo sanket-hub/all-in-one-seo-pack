@@ -41,8 +41,7 @@ const defaultSettings = [
 const LinkControlSettingsDrawer = ({
 	value,
 	onChange = noop,
-	settings = defaultSettings,
-	selectedText
+	settings = defaultSettings
 }) => {
 	if (!settings || !settings.length) {
 		return null
@@ -55,17 +54,12 @@ const LinkControlSettingsDrawer = ({
 		})
 	}
 
-	// If we are adding a link, we want to set the default title attribute to the selected text.
-	if (value.isAddingLink) {
-		value.title = selectedText
-	}
-
 	const theSettings = settings.map((setting) => {
 		if ('TextControl' === setting.type) {
 			const [ textValue, setTextValue ] = useState()
 			return <TextControl
 				data-aioseop="true"
-				className="block-editor-link-control__setting"
+				className="block-editor-link-control__setting aioseo-link-title"
 				key={ setting.id }
 				label={ setting.title }
 				onChange={ (val) => {

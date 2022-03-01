@@ -151,10 +151,28 @@ export default {
 	},
 	watch : {
 		show (newVal) {
-			this.options.advanced.robotsMeta.noindex = !newVal
-			if (!newVal) {
-				this.options.advanced.robotsMeta.default = false
+			if (newVal) {
+				this.options.advanced.robotsMeta.noindex = false
+
+				// We should turn the default settings back on, but only if all the robot settings are already the same as our defaults.
+				if (
+					false === this.options.advanced.robotsMeta.nofollow &&
+					false === this.options.advanced.robotsMeta.noarchive &&
+					false === this.options.advanced.robotsMeta.notranslate &&
+					false === this.options.advanced.robotsMeta.noimageindex &&
+					false === this.options.advanced.robotsMeta.nosnippet &&
+					false === this.options.advanced.robotsMeta.noodp &&
+					-1 === parseInt(this.options.advanced.robotsMeta.maxSnippet) &&
+					-1 === parseInt(this.options.advanced.robotsMeta.maxVideoPreview) &&
+					'large' === this.options.advanced.robotsMeta.maxImagePreview.toLowerCase()
+				) {
+					this.options.advanced.robotsMeta.default = true
+				}
+				return
 			}
+
+			this.options.advanced.robotsMeta.default = false
+			this.options.advanced.robotsMeta.noindex = true
 		}
 	},
 	computed : {

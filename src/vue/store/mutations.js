@@ -1,3 +1,5 @@
+import { setOptions } from '@/vue/utils/options'
+
 export default {
 	setPong (state, payload) {
 		this._vm.$set(state, 'pong', payload)
@@ -46,6 +48,9 @@ export default {
 		if (-1 !== addonIndex) {
 			addons[addonIndex] = addon
 			this._vm.$set(state, 'addons', addons)
+			setOptions({
+				addons : addons
+			})
 		}
 	},
 	updateOption (state, { groups, key, value }) {
@@ -83,6 +88,9 @@ export default {
 	toggleLinkAssistantModal (state) {
 		this._vm.$set(state.currentPost.linkAssistant, 'modalOpen', !state.currentPost.linkAssistant.modalOpen)
 	},
+	toggleRedirectsModal (state) {
+		this._vm.$set(state.currentPost.redirects, 'modalOpen', !state.currentPost.redirects.modalOpen)
+	},
 	changeGeneralPreview (state, value) {
 		this._vm.$set(state.currentPost, 'generalMobilePrev', value)
 	},
@@ -112,5 +120,11 @@ export default {
 	},
 	updateBackups (state, backups) {
 		this._vm.$set(state, 'backups', backups)
+	},
+	updatePostPermalinkPath (state, slug) {
+		this._vm.$set(state.currentPost, 'permalinkPath', slug)
+	},
+	updatePostStatus (state, status) {
+		this._vm.$set(state.currentPost, 'postStatus', status)
 	}
 }

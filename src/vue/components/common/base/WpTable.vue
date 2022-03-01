@@ -1,6 +1,9 @@
 <template>
 	<div class="aioseo-wp-table">
-		<div class="header">
+		<div
+			v-if="showHeader"
+			class="header"
+		>
 			<ul class="subsubsub">
 				<li
 					v-for="(filter, index) in filters"
@@ -254,7 +257,7 @@
 							:class="{ even: 0 === index % 2 }"
 						>
 							<td
-								:colspan="columns.length + 1"
+								:colspan="showBulkActions ? columns.length + 1 : columns.length"
 								class="edit-row-content"
 							>
 								<transition-slide
@@ -372,6 +375,12 @@ export default {
 			}
 		},
 		showTableFooter : {
+			type : Boolean,
+			default () {
+				return true
+			}
+		},
+		showHeader : {
 			type : Boolean,
 			default () {
 				return true
@@ -656,7 +665,7 @@ export default {
 				}
 
 				td {
-					padding: 0 30px 0 10px;
+					padding: 0 15px 0 15px;
 				}
 			}
 

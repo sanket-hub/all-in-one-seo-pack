@@ -3,7 +3,7 @@
 
 /**
  * Allows users to add nofollow, sponsored and title attributes to links in the Classic Editor.
- * 
+ *
  * @since 3.4.0
  * @link https://github.com/WordPress/WordPress/blob/master/wp-includes/js/wplink.js
  */
@@ -24,6 +24,7 @@
 		return null;
 	}
 
+	window.wpLinkL10n = aioseoL10n;
 	window.wpLink = {
 		timeToTriggerRiver: 150,
 		minRiverAJAXDuration: 200,
@@ -35,11 +36,11 @@
 
 		init: function () {
 			// All in One SEO Pack - Begin
-			$("#wp-link .link-target").append('<br><label style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-nofollow">' + aioseoL10n.noFollow + "</label>");
-			$("#wp-link .link-target").append('<br><label style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-sponsored">' + aioseoL10n.sponsored + '</label>');
-			$("#wp-link .link-target").append('<br><label style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-ugc">' + aioseoL10n.ugc + '</label><br>');
+			$("#wp-link .link-target").append('<br><label class="aioseo-link-target" style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-nofollow">' + aioseoL10n.noFollow + "</label>");
+			$("#wp-link .link-target").append('<br><label class="aioseo-link-target" style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-sponsored">' + aioseoL10n.sponsored + '</label>');
+			$("#wp-link .link-target").append('<br><label class="aioseo-link-target" style="padding-left: 4px;"><span>&nbsp;</span><input type="checkbox" id="aioseop-add-ugc">' + aioseoL10n.ugc + '</label><br>');
 			$(".wp-link-text-field").before('<div class="link-title-field"><label><span style="padding-left: 4px;">' + aioseoL10n.labelTitle + '</span><input id="wp-link-title" type="text" name="linktitle" /></label></div>');
-			$('<style type="text/css"> .has-text-field #wp-link .query-results { top: 256px !important; } #wp-link-wrap.search-panel-visible {height: 549px !important;}</style>').appendTo("head");
+			$('<style type="text/css"> .has-text-field #wp-link .query-results { top: 256px !important; } #wp-link-wrap.search-panel-visible {height: 549px !important;} #wp-link .link-target .aioseo-link-target[style*="none"] + br {display: none;}</style>').appendTo("head");
 			// All in One SEO Pack - End
 
 			inputs.wrap = $('#wp-link-wrap');
@@ -121,6 +122,14 @@
 		},
 
 		open: function (editorId, url, text) {
+			if ('acf-link-textarea' === editorId) {
+				$('.aioseo-link-target').hide();
+				$('.link-title-field').hide();
+			} else {
+				$('.aioseo-link-target').show();
+				$('.link-title-field').show();
+			}
+
 			var ed,
 				$body = $(document.body);
 

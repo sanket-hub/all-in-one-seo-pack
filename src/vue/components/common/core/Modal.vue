@@ -112,7 +112,7 @@ export default {
 
 			.modal-header {
 				color: $black;
-				position: sticky;
+				position: relative;
 				top: 0;
 				z-index: 15;
 				padding: 0 0 0 30px;

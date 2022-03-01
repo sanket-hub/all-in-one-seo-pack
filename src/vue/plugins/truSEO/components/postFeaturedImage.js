@@ -1,0 +1,82 @@
+import store from '@/vue/store'
+import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
+
+/**
+ * Get the Classic Editor featured image.
+ *
+ * @returns {string} The featured image
+ */
+const getClassicEditorFeaturedImage = () => {
+	const image = document.querySelector('#set-post-thumbnail img')
+	if (image) {
+		return image.getAttribute('src')
+	}
+
+	return ''
+}
+
+/**
+ * Get the Block Editor featured image ID.
+ *
+ * @param   {boolean} edited If should retrieve the ID for edited or saved post.
+ * @returns {int}            The media ID.
+ */
+const getBlockEditorFeaturedMediaId = async (edited = false) => {
+	const coreEditor = window.wp.data.select('core/editor')
+	const mediaId    = edited ? coreEditor.getEditedPostAttribute('featured_media') : coreEditor.getCurrentPost().featured_media
+
+	// Try again if the Block Editor API is not fully loaded yet.
+	if ('undefined' === typeof mediaId) {
+		return new Promise(resolve => setTimeout(() => resolve(getBlockEditorFeaturedMediaId(edited)), 1000))
+	}
+
+	return mediaId
+}
+
+/**
+ * Returns the featured image URL.
+ *
+ * @returns {string} The featured image
+ */
+export const getPostFeaturedImage = async () => {
+	if (isClassicEditor()) {
+		return getClassicEditorFeaturedImage()
+	}
+
+	if (isBlockEditor()) {
+		const mediaId = await getBlockEditorFeaturedMediaId().then(id => id)
+		if (isNaN(mediaId) || 0 === mediaId) {
+			return ''
+		}
+
+		return await store.dispatch('getMediaData', { mediaId }).then(media => {
+			return media.source_url
+		})
+	}
+
+	return ''
+}
+
+/**
+ * Returns the edited featured image URL.
+ *
+ * @returns {string} The featured image
+ */
+export const getPostEditedFeaturedImage = async () => {
+	if (isClassicEditor()) {
+		return getClassicEditorFeaturedImage()
+	}
+
+	if (isBlockEditor()) {
+		const mediaId = await getBlockEditorFeaturedMediaId(true).then(id => id)
+		if (isNaN(mediaId) || 0 === mediaId) {
+			return ''
+		}
+
+		return await store.dispatch('getMediaData', { mediaId }).then(media => {
+			return media.source_url
+		})
+	}
+
+	return ''
+}

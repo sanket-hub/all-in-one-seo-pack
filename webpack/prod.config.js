@@ -22,7 +22,7 @@ module.exports = {
 			plugins                 : './src/app/plugins/Plugins.js',
 			'aioseo-integrations'   : './src/vue/assets/scss/integrations/main.scss',
 			'aioseo-admin-bar'      : './src/vue/assets/scss/app/admin-bar.scss',
-			'link-format-block'     : './src/app/link-format/block/index.js',
+			'link-format-block'     : [ './src/app/link-format/block/index.js', './src/app/link-format/block/assets/styles.scss' ],
 			'link-format-block-old' : './src/app/link-format/block-old/index.js',
 			'link-format-classic'   : './src/app/link-format/classic/index.js',
 			'headline-analyzer'     : [ './src/react/headline-analyzer/index.js', './src/react/assets/scss/main.scss' ]

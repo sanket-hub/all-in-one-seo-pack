@@ -3,6 +3,7 @@
 		<core-card
 			slug="newsSitemap"
 			:header-text="strings.news"
+			:noSlide="true"
 		>
 			<blur />
 

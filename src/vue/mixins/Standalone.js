@@ -1,6 +1,10 @@
+import { mapState } from 'vuex'
 import { getOptions } from '@/vue/utils/options'
 import merge from 'lodash/merge'
 export const Standalone = {
+	computed : {
+		...mapState([ 'currentPost', 'options', 'dynamicOptions' ])
+	},
 	methods : {
 		updateAioseo () {
 			this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...window.aioseo.currentPost }))

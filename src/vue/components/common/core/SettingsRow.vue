@@ -1,7 +1,11 @@
 <template>
 	<grid-row
 		class="aioseo-settings-row"
-		:class="{ 'no-side-margin': noSideMargin }"
+		:class="{
+			'no-horizontal-margin': noHorizontalMargin,
+			'no-vertical-margin': noVerticalMargin,
+			'no-border': noBorder
+		}"
 	>
 		<slot name="header" />
 
@@ -42,10 +46,18 @@
 <script>
 export default {
 	props : {
-		align        : Boolean,
-		alignSmall   : Boolean,
-		name         : String,
-		noSideMargin : {
+		align              : Boolean,
+		alignSmall         : Boolean,
+		name               : String,
+		noHorizontalMargin : {
+			type    : Boolean,
+			default : false
+		},
+		noVerticalMargin : {
+			type    : Boolean,
+			default : false
+		},
+		noBorder : {
 			type    : Boolean,
 			default : false
 		},
@@ -87,9 +99,14 @@ export default {
 		border: none;
 	}
 
-	&.no-side-margin {
+	&.no-horizontal-margin {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
+	}
+
+	&.no-vertical-margin {
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
 	}
 
 	.settings-name {

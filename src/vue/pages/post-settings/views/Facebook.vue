@@ -1,15 +1,30 @@
 <template>
 	<div class="tab-facebook">
 		<core-settings-row
+			noBorder
+			noVerticalMargin
+		>
+			<template #content>
+				<core-alert
+					class="facebook-disabled-warning"
+					v-if="!options.social.facebook.general.enable"
+					v-html="strings.facebookDisabled"
+					type="red"
+				/>
+			</template>
+		</core-settings-row>
+
+		<core-settings-row
 			:name="strings.tabName"
 		>
 			<template #content>
 				<core-facebook-preview
-					:image="currentPost.og_image_custom_url || currentPost.og_image"
+					:image="imageUrl"
+					:loading="loading"
 					:class="{ ismobilecard: currentPost.socialMobilePreview }"
 				>
 					<template #site-url>
-						<span>{{ liveTags.permalink }}</span>
+						<span>{{ permalink }}</span>
 					</template>
 
 					<template #site-title>
@@ -215,10 +230,10 @@
 </template>
 
 <script>
-import { ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
+import { ImageSourceOptions, ImagePreview, JsonValues, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader, IsDirty ],
+	mixins : [ ImageSourceOptions, ImagePreview, JsonValues, MaxCounts, Tags, Uploader, IsDirty ],
 	props  : {
 		isMobilePreview : {
 			type : Boolean,
@@ -250,7 +265,17 @@ export default {
 				clickToAddHomePageDescription : this.$t.__('Click on the tags below to insert variables into your meta description.', this.$td),
 				articleSection                : this.$t.__('Article Section', this.$td),
 				articleTags                   : this.$t.__('Article Tags', this.$td),
-				tagPlaceholder                : this.$t.__('Press enter to create an article tag', this.$td)
+				tagPlaceholder                : this.$t.__('Press enter to create an article tag', this.$td),
+				facebookDisabled              : this.$t.sprintf(
+					// Translators: 1 - "Open Graph", 2 - "Go to Social Networks ->".
+					this.$t.__('No %1$s markup will be output for your post because it is currently disabled. You can enable %1$s markup in the Social Networks settings. %2$s', this.$td),
+					this.$t.__('Open Graph', this.$td),
+					this.$t.sprintf(
+						'<a href="%1$s" target="_blank">%2$s<span class="link-right-arrow">&nbsp;&rarr;</span></a>',
+						this.$aioseo.urls.aio.socialNetworks + '#facebook',
+						this.$t.__('Go to Social Networks', this.$td)
+					)
+				)
 			}
 		}
 	},
@@ -267,6 +292,10 @@ export default {
 					'default' === this.currentPost.og_object_type &&
 					'article' === this.dynamicOptions.social.facebook.general[context][this.currentPost.postType || this.currentPost.termType].objectType
 				)
+		},
+		permalink () {
+			const permalink = this.liveTags.permalink
+			return permalink.substr(permalink.indexOf('://') + 3)
 		}
 	},
 	methods : {
@@ -298,6 +327,14 @@ export default {
 			this.$store.commit('isDirty', true)
 		}
 	},
+	watch : {
+		'currentPost.og_image_type' () {
+			this.setImageUrl()
+		},
+		'currentPost.og_image_custom_url' () {
+			this.setImageUrl()
+		}
+	},
 	mounted () {
 		this.scrollToElement()
 	}
@@ -324,13 +361,6 @@ export default {
 			}
 		}
 	}
-
-	//.facebook-object-type,
-	//.facebook-image-source {
-	//  .aioseo-select {
-	//      max-width: 400px;
-	//  }
-	//}
 
 	.facebook-image {
 		img {

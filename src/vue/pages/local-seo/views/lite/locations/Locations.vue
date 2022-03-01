@@ -3,6 +3,7 @@
 		<core-card
 			slug="localBusinessInfo"
 			class="aioseo-locations-card"
+			:noSlide="true"
 		>
 
 			<template #header>

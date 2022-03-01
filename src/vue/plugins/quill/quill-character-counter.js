@@ -44,7 +44,7 @@ class Counter {
 		const div = document.createElement('div')
 		div.appendChild(fragNew.cloneNode(true))
 
-		html = div.innerHTML.replace(/<br\s*[/]?>/gi, this.single ? '' : '\n').trim()
+		html = div.innerHTML.replace(/&nbsp;/gi, ' ').replace(/<br\s*[/]?>/gi, this.single ? '' : '\n').trim()
 		return { length: this.decodeHTMLEntities(html).length, text: html }
 	}
 

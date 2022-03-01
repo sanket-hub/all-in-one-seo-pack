@@ -613,5 +613,13 @@ export default {
 				return Promise.reject(new Error(`Task ${actionName} could not be completed.`))
 			}
 		})
+	},
+	async getFirstAttachedImage (context, { postId }) {
+		return await this._vm.$http.get(this._vm.$links.restUrl(`post/${postId}/first-attached-image`))
+			.then(response => 200 === response.statusCode ? response.body.url : '')
+	},
+	async getMediaData (context, { mediaId }) {
+		return await this._vm.$http.get(this._vm.$links.restUrl(`media/${mediaId}`, 'wp/v2'))
+			.then(response => 200 === response.statusCode ? response.body : {})
 	}
 }

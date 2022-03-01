@@ -3,10 +3,6 @@
 		border-top: 2px solid #E8E8EB;
 		font-family: $font-family;
 	}
-
-	.aioseo-tab-content {
-		padding-bottom: 0 !important;
-	}
 }
 
 .elementor-tab-control-aioseo {
@@ -50,5 +46,22 @@
 
 	.modal-container {
 		color: $gray3;
+	}
+}
+
+.elementor-editor-active {
+	.aioseo-app {
+		input,
+		textarea {
+			color: $black !important;
+
+			&::placeholder {
+				color: $placeholder-color !important;
+			}
+
+			&:disabled {
+				color: $placeholder-color !important;
+			}
+		}
 	}
 }

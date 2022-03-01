@@ -2,6 +2,7 @@
 	<div class="aioseo-opening-hours">
 		<core-card
 			slug="localBusinessOpeningHours"
+			:noSlide="true"
 		>
 
 			<template #header>

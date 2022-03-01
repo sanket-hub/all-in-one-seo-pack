@@ -1,3 +1,7 @@
+import Vue from 'vue'
+import store from '@/vue/store'
+import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldImage } from '../plugins/truSEO/components'
+
 export const ImageSourceOptions = {
 	data () {
 		return {
@@ -51,6 +55,128 @@ export const ImageSourceOptions = {
 		},
 		getImageSourceOptionFiltered (option) {
 			return this.imageSourceOptionsFiltered.find(o => o.value === option)
+		}
+	}
+}
+
+const getFirstImageInContent = () => {
+	let image = null
+	const images = /<img.*?src=['"](.*?)['"].*?>/i.exec(getPostEditedContent())
+	if (images && images[1]) {
+		image = images[1]
+	}
+
+	return image
+}
+
+const getFirstAvailableImage = async (currentPost, type, prefix) => {
+	let image = customFieldImage(currentPost[`${prefix}image_custom_fields`])
+
+	if (!image) {
+		await getPostEditedFeaturedImage().then(url => {
+			image = url
+		})
+	}
+
+	if (!image) {
+		await store.dispatch('getFirstAttachedImage', { postId: currentPost.id }).then((url) => {
+			image = url
+		})
+	}
+
+	if (!image) {
+		image = getFirstImageInContent()
+	}
+
+	if (!image) {
+		image = this.options.social[type].homePage.image
+	}
+
+	return image
+}
+
+const getAuthorImage = () => {
+	const authorId = getPostEditedAuthor()
+	const authorData = Vue.prototype.$aioseo.user.siteAuthors.find(user => authorId === user.id)
+
+	if (authorData && authorData.gravatar) {
+		const url = new URL(authorData.gravatar)
+		// We need to add .jpg extension to the end of URL on Gravatar.
+		return `${url.origin + url.pathname}.jpg${url.search}`
+	}
+
+	return ''
+}
+
+export const ImagePreview = {
+	data () {
+		return {
+			imageUrl : '',
+			loading  : false
+		}
+	},
+	async mounted () {
+		await this.setImageUrl()
+	},
+	methods : {
+		async setImageUrl () {
+			const currentPost = this.currentPost
+			const tab = currentPost.tabs.tab_social
+			const prefix = 'facebook' === tab || ('twitter' === tab && currentPost.twitter_use_og) ? 'og_' : 'twitter_'
+
+			let imageSource = currentPost[`${prefix}image_type`] || 'default'
+			if ('default' === imageSource) {
+				imageSource = this.options.social[tab].general.defaultImageSourcePosts
+			}
+
+			this.imageUrl = ''
+
+			switch (imageSource) {
+				case 'featured':
+					this.loading = true
+					await getPostEditedFeaturedImage().then(url => {
+						this.imageUrl = url
+						this.loading = false
+					})
+					break
+
+				case 'attach':
+					this.loading = true
+					await store.dispatch('getFirstAttachedImage', { postId: currentPost.id }).then((url) => {
+						this.imageUrl = url
+						this.loading = false
+					})
+					break
+
+				case 'content':
+					this.imageUrl = getFirstImageInContent()
+					break
+
+				case 'author':
+					this.imageUrl = getAuthorImage()
+					break
+
+				case 'auto':
+					this.loading = true
+					await getFirstAvailableImage(currentPost, tab, prefix).then(url => {
+						this.imageUrl = url
+						this.loading = false
+					})
+					break
+
+				case 'custom':
+					this.imageUrl = customFieldImage(currentPost[`${prefix}image_custom_fields`])
+					break
+
+				case 'custom_image':
+					this.imageUrl = currentPost[`${prefix}image_custom_url`]
+					break
+
+				case 'default':
+				default:
+					this.imageUrl = this.options.social[tab].general.defaultImagePosts
+					break
+			}
 		}
 	}
 }

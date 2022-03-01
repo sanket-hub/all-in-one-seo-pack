@@ -1,11 +1,26 @@
 <template>
 	<div class="tab-twitter">
 		<core-settings-row
+			noBorder
+			noVerticalMargin
+		>
+			<template #content>
+				<core-alert
+					class="twitter-disabled-warning"
+					v-if="!options.social.twitter.general.enable"
+					v-html="strings.twitterDisabled"
+					type="red"
+				/>
+			</template>
+		</core-settings-row>
+
+		<core-settings-row
 			:name="strings.twitterPreview"
 		>
 			<template #content>
 				<core-twitter-preview
-					:image="currentPost.twitter_use_og ? (currentPost.og_image_custom_url || currentPost.og_image) : (currentPost.twitter_image_custom_url || currentPost.twitter_image)"
+					:image="imageUrl"
+					:loading="loading"
 					:card="currentPost.twitter_card"
 					:class="{ ismobilecard: currentPost.socialMobilePreview }"
 				>
@@ -22,8 +37,6 @@
 
 		<core-settings-row
 			:name="strings.useFB"
-			leftSize=5
-			rightSize=7
 			class="use-facebook"
 		>
 			<template #content>
@@ -93,8 +106,6 @@
 			v-if="!currentPost.twitter_use_og"
 			class="twitter-image-source"
 			:name="strings.imageSource"
-			leftSize=5
-			rightSize=7
 			align
 		>
 			<template #content>
@@ -111,8 +122,6 @@
 			v-if="!currentPost.twitter_use_og && 'custom' === currentPost.twitter_image_type"
 			class="twitter-custom-field"
 			:name="strings.customFieldsName"
-			leftSize=5
-			rightSize=7
 			align
 		>
 			<template #content>
@@ -171,8 +180,6 @@
 		<core-settings-row
 			class="twitter-card-type"
 			:name="strings.twitterCardType"
-			leftSize=5
-			rightSize=7
 			align
 		>
 			<template #content>
@@ -190,10 +197,10 @@
 </template>
 
 <script>
-import { ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
+import { ImageSourceOptions, ImagePreview, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState } from 'vuex'
 export default {
-	mixins : [ ImageSourceOptions, MaxCounts, Tags, Uploader, IsDirty ],
+	mixins : [ ImageSourceOptions, ImagePreview, MaxCounts, Tags, Uploader, IsDirty ],
 	props  : {
 		isMobilePreview : {
 			type : Boolean,
@@ -219,8 +226,17 @@ export default {
 				uploadOrSelectImage         : this.$t.__('Upload or Select Image', this.$td),
 				remove                      : this.$t.__('Remove', this.$td),
 				minimumSizeSummary          : this.$t.__('Minimum size: 144px x 144px, ideal ratio 1:1, 5MB max. JPG, PNG, WEBP and GIF formats only.', this.$td),
-				minimumSizeSummaryWithLarge : this.$t.__('Minimum size: 300px x 157px, ideal ratio 2:1, 5MB max. JPG, PNG, WEBP and GIF formats only.', this.$td)
-
+				minimumSizeSummaryWithLarge : this.$t.__('Minimum size: 300px x 157px, ideal ratio 2:1, 5MB max. JPG, PNG, WEBP and GIF formats only.', this.$td),
+				twitterDisabled             : this.$t.sprintf(
+					// Translators: 1 - "Open Graph", 2 - "Go to Social Networks ->".
+					this.$t.__('No %1$s markup will be output for your post because it is currently disabled. You can enable %1$s markup in the Social Networks settings. %2$s', this.$td),
+					this.$t.__('Twitter', this.$td),
+					this.$t.sprintf(
+						'<a href="%1$s" target="_blank">%2$s<span class="link-right-arrow">&nbsp;&rarr;</span></a>',
+						this.$aioseo.urls.aio.socialNetworks + '#twitter',
+						this.$t.__('Go to Social Networks', this.$td)
+					)
+				)
 			}
 		}
 	},
@@ -263,6 +279,14 @@ export default {
 			this.$store.commit('isDirty', true)
 		}
 	},
+	watch : {
+		'currentPost.twitter_image_type' () {
+			this.setImageUrl()
+		},
+		'currentPost.twitter_image_custom_url' () {
+			this.setImageUrl()
+		}
+	},
 	mounted () {
 		this.scrollToElement()
 	}
@@ -290,12 +314,6 @@ export default {
 			}
 		}
 	}
-
-	// .twitter-image-source, .twitter-card-type {
-	//  .aioseo-select {
-	//      max-width: 400px;
-	//  }
-	// }
 
 	.twitter-image {
 		img {

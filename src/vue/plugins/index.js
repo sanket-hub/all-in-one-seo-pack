@@ -14,6 +14,7 @@ import tags from '@/vue/utils/tags'
 import addons from '@/vue/utils/addons'
 import TruSEO from '@/vue/plugins/truSEO'
 import LinkAssistant from '@/vue/plugins/link-assistant'
+import Redirects from '@/vue/plugins/redirects'
 import '@/vue/plugins/breadcrumbs'
 import '@/vue/plugins/html-sitemap'
 
@@ -81,3 +82,4 @@ Vue.prototype.$td               = process.env.VUE_APP_TEXTDOMAIN
 Vue.prototype.$tdPro            = process.env.VUE_APP_TEXTDOMAIN_PRO
 Vue.prototype.$truSEO           = new TruSEO()
 Vue.prototype.$linkAssistant    = new LinkAssistant()
+Vue.prototype.$redirects        = new Redirects()

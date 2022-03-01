@@ -58,9 +58,10 @@ export default {
 				return
 			}
 
+			const url        = new URL(this.src)
 			const pattern    = /\.(jpg|jpeg|png|gif|svg|webp)$/
-			const escapedUrl = this.src.replace('/', '\\/')
-			if (!this.src.match(pattern, escapedUrl)) {
+			const escapedUrl = url.pathname.replace('/', '\\/')
+			if (!escapedUrl.match(pattern)) {
 				return
 			}
 

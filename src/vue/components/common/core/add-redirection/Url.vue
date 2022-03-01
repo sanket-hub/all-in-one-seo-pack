@@ -8,7 +8,7 @@
 			@input="value => updateSourceUrl(value)"
 			@keyup="searchChange"
 			@focus="showResults = true"
-			:disabled="log404"
+			:disabled="log404 || disableSource"
 			size="medium"
 			placeholder="/source-page/"
 			:class="{
@@ -88,7 +88,7 @@
 					</grid-column>
 					<grid-column
 						xs="4"
-						v-if="!log404"
+						v-if="!log404 && !disableSource"
 					>
 						<base-checkbox
 							size="medium"
@@ -149,9 +149,10 @@ export default {
 				}
 			}
 		},
-		allowDelete : Boolean,
-		targetUrl   : String,
-		log404      : Boolean
+		allowDelete   : Boolean,
+		targetUrl     : String,
+		log404        : Boolean,
+		disableSource : Boolean
 	},
 	data () {
 		return {

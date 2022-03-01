@@ -223,7 +223,6 @@ $modal-width: 400px;
 		overflow: hidden;
 		overflow-y: auto;
 		max-height: calc(100vh - #{$adminbar-height} - #{$settings-bar-height} - #{$modal-spacing} - #{$modal-header-height});
-		min-height: 750px;
 
 		p {
 			padding-bottom: 0;

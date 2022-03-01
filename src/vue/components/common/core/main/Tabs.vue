@@ -17,6 +17,9 @@
 				<template #md-tab="{ tab }">
 					<slot name="md-tab" :tab="tab">
 						<component
+							:class="[
+								{ warning: tab.data.warning }
+							]"
 							:is="tab.icon"
 						/>
 						<span class="label">{{ tab.label }}</span>
@@ -41,6 +44,15 @@
 							/>
 							{{ getErrorDisplay(currentPost.page_analysis.analysis[tab.data.slug].errors) }}
 						</span>
+						<span
+							v-if="tab.data.warning && 'sidebar' !== $root._data.screenContext"
+							class="warning"
+						>
+							<svg-circle-information
+								width="15"
+								height="15"
+							/>
+						</span>
 					</slot>
 				</template>
 
@@ -55,9 +67,9 @@
 						pro         : tab.pro,
 						analyze     : tab.analyze,
 						errorCount  : tab.errorCount,
-						slug        : tab.slug
+						slug        : tab.slug,
+						warning     : tab.warning
 					}"
-					@click="value => processClickTab(value, tab.slug)"
 				/>
 
 			</md-tabs>
@@ -206,16 +218,6 @@ export default {
 
 				this.showMobileMenu = false
 			})
-		},
-		processClickTab (newTabValue, tabName) {
-			if (
-				false === this.currentPost.modalOpen &&
-				'social' === tabName &&
-				'sidebar' === this.$root._data.screenContext
-			) {
-				this.$store.commit('changeTabSettings', { setting: 'tab_modal', value: 'social' })
-				this.openModal(true)
-			}
 		}
 	},
 	beforeDestroy () {
@@ -290,7 +292,7 @@ export default {
 				.md-button {
 					color: $black;
 					max-width: 264px;
-					min-width: 72px;
+					min-width: 68px;
 					height: 60px;
 					margin: 0;
 					border-radius: 0;
@@ -411,6 +413,17 @@ export default {
 			svg {
 				display: inline;
 				margin-right: 7px;
+			}
+		}
+
+		.warning {
+			color: $orange !important;
+			svg {
+				position: relative;
+				top: 2px;
+				left: 5px;
+				display: inline;
+				color: $orange !important;
 			}
 		}
 	}

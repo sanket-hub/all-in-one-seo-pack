@@ -42,7 +42,8 @@ import General from './General'
 import Schema from './Schema'
 import Social from './Social'
 import ModalContent from './ModalContent'
-import Links from './Links'
+import LinkAssistant from './Links'
+import Redirects from './Redirects'
 
 export default {
 	components : {
@@ -51,7 +52,8 @@ export default {
 		Schema,
 		Social,
 		ModalContent,
-		Links
+		LinkAssistant,
+		Redirects
 	},
 	data () {
 		return {
@@ -60,7 +62,8 @@ export default {
 			strings   : {
 				pageName   : 'General',
 				modalTitle : this.$t.__('Preview Snippet Editor', this.$td)
-			}
+			},
+			sidebarFirstOpen : false
 		}
 	},
 	watch : {
@@ -72,7 +75,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost' ]),
+		...mapState([ 'currentPost', 'redirects' ]),
 		tabs () {
 			const tabs = [
 				{
@@ -91,6 +94,13 @@ export default {
 					name : 'Schema'
 				},
 				{
+					slug       : 'redirects',
+					icon       : 'svg-redirect-crossed-arrows',
+					name       : 'Redirects',
+					warning    : ('undefined' !== typeof this.redirects && 0 < this.redirects.rows.filter(row => !!row.enabled).length),
+					permission : 'aioseo_page_redirects_manage'
+				},
+				{
 					slug : 'advanced',
 					icon : 'svg-build',
 					name : 'Advanced'
@@ -99,47 +109,50 @@ export default {
 
 			if (
 				!this.$aioseo.integration &&
+				'post' === this.currentPost.context &&
 				(!this.currentPost.linkAssistant || !this.currentPost.linkAssistant.isExcludedPost)
 			) {
 				tabs.splice(3, 0, {
-					slug : 'links',
+					slug : 'linkAssistant',
 					icon : 'svg-link-suggestion',
 					name : 'Link Assistant'
 				})
 			}
+
 			return tabs
 		},
 		initTab : function () {
+			let tabPermission = this.getTabPermission(this.currentPost.tabs.tab)
 			if ('sidebar' === this.$root._data.screenContext) {
-				return (this.currentPost.tabs.tab_sidebar && this.$allowed(`aioseo_page_${this.currentPost.tabs.tab_sidebar}_settings`)) ? this.currentPost.tabs.tab_sidebar : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
+				tabPermission = this.getTabPermission(this.currentPost.tabs.tab_sidebar)
+				return (this.currentPost.tabs.tab_sidebar && this.$allowed(tabPermission, true)) ? this.currentPost.tabs.tab_sidebar : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
 			}
-			return (this.currentPost.tabs.tab && this.$allowed(`aioseo_page_${this.currentPost.tabs.tab}_settings`)) ? this.currentPost.tabs.tab : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
+			return (this.currentPost.tabs.tab && this.$allowed(tabPermission, true)) ? this.currentPost.tabs.tab : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
 		},
 		getTabs () {
 			if ('term' === this.currentPost.context || this.currentPost.isWooCommercePageWithoutSchema) {
 				return this.tabs.filter((tab) => {
-					const slug = 'links' !== tab.slug ? tab.slug : 'link_assistant'
-					return 'schema' !== slug && this.$allowed(`aioseo_page_${slug}_settings`)
+					return 'schema' !== tab.slug && this.$allowed(this.getTabPermission(tab.slug), true)
 				})
 			}
+
 			return this.tabs.filter(tab => {
-				const slug = 'links' !== tab.slug ? tab.slug : 'link_assistant'
-				if (this.$allowed(`aioseo_page_${slug}_settings`)) {
+				if (this.$allowed(this.getTabPermission(tab.slug), true)) {
 					return true
 				}
 
 				return (
-					'general' === slug &&
+					'general' === tab.slug &&
 					(
 						this.$allowed('aioseo_page_analysis') ||
-						this.$allowed(`aioseo_page_${slug}_settings`)
+						this.$allowed(this.getTabPermission(tab.slug), true)
 					)
 				)
 			})
 		}
 	},
 	methods : {
-		...mapMutations([ 'toggleLinkAssistantModal' ]),
+		...mapMutations([ 'toggleLinkAssistantModal', 'toggleRedirectsModal' ]),
 		...mapActions([ 'openModal', 'updateState', 'savePostState' ]),
 		processChangeTab (newTabValue) {
 			this.activeTab = newTabValue
@@ -152,20 +165,46 @@ export default {
 					break
 			}
 
-			if (
-				this.currentPost.linkAssistant &&
-				!this.currentPost.linkAssistant.modalOpen &&
-				'links' === newTabValue &&
-				'sidebar' === this.$root._data.screenContext
-			) {
-				this.toggleLinkAssistantModal()
+			if (this.sidebarFirstOpen) {
+				this.sidebarFirstOpen = false
+				return
+			}
+
+			if ('sidebar' !== this.$root._data.screenContext) {
+				return
+			}
+
+			switch (newTabValue) {
+				case 'social':
+					if (!this.currentPost.modalOpen) {
+						this.$store.commit('changeTabSettings', { setting: 'tab_modal', value: 'social' })
+						this.openModal(true)
+					}
+					break
+				case 'linkAssistant':
+					if (this.currentPost.linkAssistant && !this.currentPost.linkAssistant.modalOpen) {
+						this.toggleLinkAssistantModal()
+					}
+					break
+				case 'redirects':
+					if (this.currentPost.redirects  && !this.currentPost.redirects.modalOpen) {
+						this.toggleRedirectsModal()
+					}
+					break
+				default:
+					break
 			}
 		},
 		closeModal () {
 			this.openModal(false)
+		},
+		getTabPermission (slug) {
+			const tab = this.tabs.find(tab => tab.slug === slug)
+			return 'undefined' !== typeof tab.permission ? tab.permission : `aioseo_page_${tab.slug}_settings`
 		}
 	},
 	created () {
+		this.sidebarFirstOpen = true
 		this.modal = getParams()['aioseo-modaltab'] || this.modal
 		if (this.modal) {
 			this.$set(this.currentPost.tabs, 'tab_modal', this.modal)
@@ -177,6 +216,12 @@ export default {
 
 		this.$bus.$on('open-post-settings', (param) => {
 			this.processChangeTab(param.tab)
+		})
+
+		this.$bus.$on('standalone-update-post', (param) => {
+			Object.keys(param).forEach(option => {
+				this.$set(this.currentPost, option, param[option])
+			})
 		})
 
 		switch (this.$root._data.screenContext) {
@@ -236,10 +281,16 @@ export default {
 		background: #fff;
 		border-top: 0;
 		padding: 30px;
+		font-size: 13px;
 	}
 	.aioseo-settings-row {
 		margin-bottom: 16px;
 		padding-bottom: 16px;
+	}
+	.aioseo-sidebar-content-title {
+		font-weight: bold;
+		font-size: 14px;
+		padding-bottom: 5px;
 	}
 }
 .edit-post-sidebar {
@@ -259,6 +310,7 @@ export default {
 	}
 	.tabs-scroller {
 		display: block!important;
+		width: 100%;
 	}
 	.aioseo-tabs {
 		background: #FAFAFA;
@@ -280,8 +332,19 @@ export default {
 			}
 			&.md-active {
 				color: $black !important;
-				.label {
+				/*.label {
 					display: inline;
+				}*/
+			}
+			svg {
+				display: inline;
+				width: 16px;
+				height: 16px;
+				margin-top: 4px;
+				color: $placeholder-color;
+				&.aioseo-crossed-arrows {
+					width: 14px;
+					height: 14px;
 				}
 			}
 			&:not(.md-active) {
@@ -292,13 +355,6 @@ export default {
 					border-radius: 50%;
 					height: 36px;
 					color: $black;
-				}
-				svg {
-					display: inline;
-					width: 16px;
-					height: 16px;
-					margin-top: 4px;
-					color: $placeholder-color;
 				}
 				&:hover,
 				&:focus {
@@ -385,6 +441,14 @@ export default {
 				max-width: 66.66666667% !important;
 			}
 		}
+	}
+}
+.aioseo-redirects-modal {
+	.bd {
+		padding: 20px;
+	}
+	.modal-mask .modal-wrapper .modal-container {
+		max-width: 1000px;
 	}
 }
 </style>

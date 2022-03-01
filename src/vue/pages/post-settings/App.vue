@@ -40,7 +40,8 @@ export default {
 			license,
 			currentPost,
 			tags,
-			linkAssistant
+			linkAssistant,
+			redirects
 		} = await getOptions(this.$http)
 		this.$set(this.$store.state, 'internalOptions', merge({ ...this.$store.state.internalOptions }, { ...internalOptions }))
 		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
@@ -53,6 +54,7 @@ export default {
 		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
 		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
 		this.$set(this.$store.state, 'linkAssistant', merge({ ...this.$store.state.linkAssistant }, { ...linkAssistant }))
+		this.$set(this.$store.state, 'redirects', merge({ ...this.$store.state.redirects }, { ...redirects }))
 	}
 }
 </script>

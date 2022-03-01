@@ -2,8 +2,10 @@ export const observeElement = (params) => {
 	new MutationObserver(function () {
 		const el = params.id ? document.getElementById(params.id) : document.querySelector(params.selector)
 		if (el) {
-			this.disconnect()
 			params.done(el)
+			if (!params.loop) {
+				this.disconnect()
+			}
 		}
 	}).observe(params.parent || document, {
 		subtree   : !!params.subtree || !params.parent,

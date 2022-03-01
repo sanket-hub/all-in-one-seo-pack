@@ -61,7 +61,7 @@
 									:key="index"
 								>
 									<core-settings-row
-										noSideMargin
+										noHorizontalMargin
 										align-small
 										v-if="'indexNow' !== tool.slug"
 									>
@@ -169,7 +169,7 @@
 
 									<core-settings-row
 										v-if="'indexNow' === tool.slug"
-										noSideMargin
+										noHorizontalMargin
 										align-small
 									>
 										<template #name>
@@ -356,7 +356,8 @@ export default {
 				indexNowUpdateRequired               : this.$t.sprintf(this.$t.__('The IndexNow addon requires an update. %1$s %2$s requires a minimum version of %3$s for the %4$s addon. You currently have %5$s installed.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro', this.$addons.getAddon('aioseo-index-now').minimumVersion, 'IndexNow', this.$addons.getAddon('aioseo-index-now').installedVersion),
 				updateIndexNow                       : this.$t.__('Update IndexNow', this.$td),
 				regenerateApiKey                     : this.$t.__('Regenerate API Key', this.$td),
-				indexNowDescription                  : this.$t.__('You can manually set an API key here, but if left blank a new one will be auto-generated.', this.$td)
+				// Translators: 1 - Learn more link.
+				indexNowDescription                  : this.$t.sprintf(this.$t.__('You can manually set an API key here, but if left blank a new one will be auto-generated. %1$s', this.$td), this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'indexNow', true))
 			}
 		}
 	},

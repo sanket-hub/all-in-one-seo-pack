@@ -19,7 +19,7 @@ import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/truSEO/component
 		return
 	}
 
-	registerPlugin('aioseo', {
+	registerPlugin('aioseo-publish-panel', {
 		render : () => {
 			return wp.element.createElement(wp.element.Fragment, {},
 				wp.element.createElement(

@@ -235,6 +235,7 @@
 			</core-settings-row>
 
 			<core-settings-row
+				v-if="options.social.twitter.general.enable"
 				:name="strings.useDataFromFacebook"
 			>
 				<template #content>

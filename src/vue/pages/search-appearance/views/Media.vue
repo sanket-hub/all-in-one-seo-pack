@@ -64,6 +64,7 @@
 		<core-card
 			slug="imageSeo"
 			:header-text="strings.imageSeo"
+			:noSlide="!shouldShowMain"
 		>
 			<image-seo
 				v-if="shouldShowMain"

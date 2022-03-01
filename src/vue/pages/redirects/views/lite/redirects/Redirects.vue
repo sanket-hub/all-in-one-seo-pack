@@ -1,11 +1,13 @@
 <template>
 	<div class="aioseo-redirects">
-		<blur />
+		<blur
+			:noCoreCard="noCoreCard"
+		/>
 
 		<cta
-			:cta-link="$links.getPricingUrl('redirects', 'redirects-upsell')"
+			:cta-link="$links.getPricingUrl('redirects', 'redirects-upsell', parentComponentContext ? parentComponentContext : null)"
 			:button-text="strings.ctaButtonText"
-			:learn-more-link="$links.getUpsellUrl('redirects', null, 'home')"
+			:learn-more-link="$links.getUpsellUrl('redirects', parentComponentContext ? parentComponentContext : null, 'home')"
 			:feature-list="[
 				strings.serverRedirects,
 				strings.automaticRedirects,
@@ -45,7 +47,9 @@ export default {
 		Blur
 	},
 	props : {
-		hasMinimumVersion : Boolean
+		hasMinimumVersion      : Boolean,
+		noCoreCard             : Boolean,
+		parentComponentContext : String
 	},
 	data () {
 		return {

@@ -74,7 +74,6 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost', 'options', 'dynamicOptions' ]),
 		...mapState('live-tags', [ 'liveTags' ]),
 		tips () {
 			const tips = [

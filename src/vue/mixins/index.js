@@ -1,5 +1,5 @@
 import { AddonConditions } from './AddonConditions'
-import { ImageSourceOptions, Uploader } from './Image'
+import { ImageSourceOptions, Uploader, ImagePreview } from './Image'
 import { JsonValues } from './JsonValues'
 import { License } from './License'
 import { MaxCounts } from './MaxCounts'
@@ -22,6 +22,7 @@ import { ToolsSettings } from './ToolsSettings'
 export {
 	AddonConditions,
 	ImageSourceOptions,
+	ImagePreview,
 	IsDirty,
 	JsonValues,
 	License,

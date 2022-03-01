@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import HeadlinePieChart from './HeadlinePieChart'
 
-const { __ } = window.wp.i18n
+const { __, sprintf } = window.wp.i18n
 const { Fragment } = window.wp.element
 const { PanelBody, PanelRow } = window.wp.components
 const td = process.env.VUE_APP_TEXTDOMAIN
@@ -9,10 +9,10 @@ const td = process.env.VUE_APP_TEXTDOMAIN
 const HeadlineNewScorePanel = props => {
 	const postTitle = props.analyzer.currentHeadlineData.sentence
 	const textPanelTitle = __('New Score', td)
-	const textGuideline = __(
-		'A good score is between 40 and 60. For best results, you should strive for 70 and above.',
-		td
-	)
+	// Translators: 1 - Initial score range, 2 - Final score range.
+	const veryGoodScore = sprintf(__('A very good score is between %1$d and %2$d.', td), 70, 90)
+	// Translators: 1 - Score.
+	const forBetterResults = sprintf(__('For best results, you should strive for %1$d and above.', td), 70)
 	const textCurrentScore = __(
 		'Current Score',
 		td
@@ -66,7 +66,7 @@ const HeadlineNewScorePanel = props => {
 				<PanelRow>
 					<div className="aioseo-headline-analyzer-panel-first-block">
 						<div className="aioseo-headline-analyzer-new-score-panel">
-							<p>{textGuideline}</p>
+							<p>{veryGoodScore} {forBetterResults}</p>
 							<h4>“{newTitle}”</h4>
 							<div className="aioseo-headline-analyzer-pie-chart-container">
 								<span

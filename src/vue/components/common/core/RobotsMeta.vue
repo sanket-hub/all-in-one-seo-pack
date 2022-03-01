@@ -122,9 +122,10 @@ export default {
 
 			if (newVal) {
 				this.mainOptions.show = true
-			} else {
-				this.mainOptions.show = !this.noindex
+				return
 			}
+
+			this.mainOptions.show = !this.noindex
 		}
 	},
 	computed : {

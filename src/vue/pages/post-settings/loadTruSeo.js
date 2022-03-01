@@ -58,15 +58,7 @@ export default (populateHiddenField = true) => {
 			}
 
 			if (isClassicEditor()) {
-				const interval = window.setInterval(() => {
-					if (!window.tinyMCE) {
-						return
-					}
-					if (window.tinyMCE.get('content')) {
-						window.clearInterval(interval)
-						watchClassicEditor()
-					}
-				}, 50)
+				watchClassicEditor()
 			}
 
 			// Attachemet Page

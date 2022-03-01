@@ -29,6 +29,10 @@
 					@images="results => images = results"
 				/>
 
+				<div v-if="loading" class="loader">
+					<core-loader />
+				</div>
+
 				<div class="facebook-site-description">
 					<div class="site-domain">
 						<slot name="site-url">
@@ -52,7 +56,13 @@
 <script>
 export default {
 	props : {
-		image : String
+		image   : String,
+		loading : {
+			type : Boolean,
+			default () {
+				return false
+			}
+		}
 	},
 	data () {
 		return {
@@ -151,6 +161,22 @@ export default {
 				height: auto;
 			}
 
+			.loader {
+				width: 100%;
+				height: 100px;
+				align-self: stretch;
+				background-color: $fb-background2;
+				position: relative;
+
+				.aioseo-loading-spinner {
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					margin: auto;
+				}
+			}
+
 			&.vertical {
 				flex-direction: row;
 
@@ -158,6 +184,11 @@ export default {
 					max-width: 158px;
 					max-height: 158px;
 					width: auto;
+					height: auto;
+				}
+
+				.loader {
+					max-width: 158px;
 					height: auto;
 				}
 			}

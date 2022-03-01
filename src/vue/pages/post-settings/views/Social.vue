@@ -104,10 +104,12 @@ export default {
 	.aioseo-col.col-md-9 {
 		position: relative;
 	}
+
 	.mobile-radio-buttons {
 		margin: 0;
 		padding: 0;
 		border: 0;
+
 		.aioseo-radio-toggle {
 			justify-content: flex-end;
 			position: absolute;
@@ -117,26 +119,31 @@ export default {
 				margin-left: 10px;
 			}
 		}
+
 		.col-md-9 {
 			padding-left: 4px;
 			padding-right: 0;
 		}
 	}
+
 	.ismobile {
 		max-width: 375px;
 	}
+
 	.ismobilecard {
 		.facebook-post,
 		.twitter-post {
 			max-width: 375px;
 		}
 	}
+
 	.aioseo-tabs {
 		background: #fff!important;
 		border: none!important;
 		border-bottom: 2px solid $border !important;
 	}
 }
+
 .edit-post-sidebar {
 	.tab-facebook,
 	.tab-twitter,
@@ -144,10 +151,11 @@ export default {
 		display: none;
 	}
 }
+
 .aioseo-modal-content {
 	.mobile-radio-buttons {
-		// margin-bottom: 4px !important;
 		padding-bottom: 0 !important;
+
 		.aioseo-radio-toggle {
 			right: 0 !important;
 			top: 8px !important;
@@ -160,6 +168,7 @@ export default {
 	.tab-facebook,
 	.tab-twitter {
 		display: block;
+
 		.aioseo-settings-row:first-of-type {
 			border-bottom: 0;
 			padding-bottom: 0;
@@ -167,11 +176,14 @@ export default {
 				display: none;
 			}
 		}
+
 		.aioseo-html-tags-editor {
 			margin-top: 0;
+
 			.aioseo-description {
 				display: none;
 			}
+
 			.add-tags {
 				position: absolute;
 				top: -40px;
@@ -179,6 +191,7 @@ export default {
 				margin: 0;
 			}
 		}
+
 		.facebook-title-settings,
 		.facebook-description-settings,
 		.twitter-title-settings,

@@ -518,12 +518,17 @@ function LinkControl ({
 								suggestion={ suggestion }
 								index={ index }
 								onClick={ () => {
+									let title = suggestion.title
+									if (isNaN(parseInt(suggestion.id))) {
+										// Manually override the title with the selected text.
+										title = selectedText
+									}
+
 									stopEditing()
 									onChange({
 										...value,
 										...suggestion,
-										// Manually override the title with the selected text.
-										title : selectedText
+										title
 									})
 								} }
 								isSelected={ index === selectedSuggestion }
@@ -547,7 +552,7 @@ function LinkControl ({
 		<div
 			tabIndex={ -1 }
 			ref={ wrapperNode }
-			className="block-editor-link-control"
+			className="block-editor-link-control aioseo-link-format"
 		>
 			{ isResolvingLink && (
 				<div className="block-editor-link-control__loading">

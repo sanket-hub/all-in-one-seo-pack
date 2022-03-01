@@ -52,7 +52,7 @@
 
 <script>
 import { debounce } from '@/vue/utils/debounce'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
 	props : {
 		url      : String,
@@ -79,6 +79,9 @@ export default {
 				this.value = this.url
 			}
 		}
+	},
+	computed : {
+		...mapState([ 'currentPost' ])
 	},
 	methods : {
 		...mapActions('redirects', [ 'getPosts' ]),
@@ -116,7 +119,7 @@ export default {
 			}, 500)
 		},
 		ajaxSearch (query) {
-			return this.getPosts({ query })
+			return this.getPosts({ query, postId: this.currentPost.id })
 				.then((response) => {
 					this.results = response.body.objects
 				})

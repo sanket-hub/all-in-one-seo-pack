@@ -44,22 +44,13 @@ export const getPostContent = () => {
 
 	let postContent = ''
 	if (isClassicEditor()) {
-		if (window.tinyMCE) {
+		if (window.tinyMCE || document.querySelector('#wp-content-wrap.html-active')) {
 			postContent = classicContent()
 		} else {
 			const classicInterval = window.setInterval(() => {
 				if (window.tinyMCE) {
 					window.clearInterval(classicInterval)
 					postContent = classicContent()
-
-					if (customFieldsContent()) {
-						postContent = postContent + customFieldsContent()
-					}
-
-					if (postContent) {
-						store.commit('live-tags/updatePostContent', postContent)
-					}
-					return postContent
 				}
 			}, 50)
 		}
@@ -93,9 +84,9 @@ export const getPostContent = () => {
  * @returns {string} Post content
  */
 export const getPostEditedContent = () => {
-	let postContent
+	let postContent = ''
 	if (isClassicEditor()) {
-		if (window.tinyMCE) {
+		if (window.tinyMCE || document.querySelector('#wp-content-wrap.html-active')) {
 			postContent = classicContent()
 		} else {
 			const classicInterval = window.setInterval(() => {
@@ -119,7 +110,7 @@ export const getPostEditedContent = () => {
 	}
 
 	// Replace base64 stuff, since we don't need it to analyze the content.
-	postContent = postContent ? postContent.replace(base64regex, '') : postContent
+	postContent = postContent.replace(base64regex, '')
 
 	return postContent
 }
@@ -144,7 +135,7 @@ export const maybeUpdatePostContent = async (run = true) => {
 const classicContent = () => {
 	let classicContent = ''
 
-	const editor = window.tinyMCE.get('content')
+	const editor = window.tinyMCE ? window.tinyMCE.get('content') : ''
 	if (document.querySelector('#wp-content-wrap.tmce-active') && editor) {
 		// tinyMCE
 		classicContent = editor.getContent({ format: 'raw' })

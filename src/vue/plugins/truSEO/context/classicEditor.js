@@ -6,33 +6,31 @@ import {
 } from '@/vue/plugins/truSEO/components'
 
 export const watchClassicEditor = () => {
-	if (!window.tinyMCE) {
-		return
-	}
-
 	let isAnalyzing = false
 
 	if (document.querySelector('#wp-content-wrap.tmce-active')) {
 		// Run Analysis once tinyMCE loads.
 		const mceActiveInterval = window.setInterval(() => {
-			if (!window.tinyMCE.activeEditor) {
+			if (!window.tinyMCE || !window.tinyMCE.activeEditor) {
 				return
 			}
 			window.clearInterval(mceActiveInterval)
 			maybeUpdatePost()
-		}, 50)
-
-		// tinyMCE Content Update.
-		if (window.tinyMCE) {
 			window.tinyMCE.get('content').on('keyup', () => {
 				maybeUpdatePost(2000)
 			})
-		}
+			window.tinyMCE.get('content').on('paste', () => {
+				maybeUpdatePost(2000)
+			})
+		}, 50)
 	} else {
 		// No TinyMCE. Look for a proper #content textarea.
 		const textEditor = document.querySelector('textarea#content')
 		if (textEditor) {
 			textEditor.addEventListener('keyup', () => {
+				maybeUpdatePost(2000)
+			})
+			textEditor.addEventListener('paste', () => {
 				maybeUpdatePost(2000)
 			})
 		}
@@ -90,10 +88,16 @@ export const watchClassicEditor = () => {
 					window.tinyMCE.get('content').on('keyup', () => {
 						maybeUpdatePost(2000)
 					})
+					window.tinyMCE.get('content').on('paste', () => {
+						maybeUpdatePost(2000)
+					})
 				}
 				const textEditor = document.querySelector('#content')
 				if (textEditor) {
 					textEditor.addEventListener('keyup', () => {
+						maybeUpdatePost(2000)
+					})
+					textEditor.addEventListener('paste', () => {
 						maybeUpdatePost(2000)
 					})
 				}

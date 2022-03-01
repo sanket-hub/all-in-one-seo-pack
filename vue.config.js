@@ -34,6 +34,7 @@ const standaloneKeys = [
 	'notifications',
 	'publish-panel',
 	'flyout-menu',
+	'limit-modified-date',
 	// Third-party
 	'divi',
 	'divi-admin',

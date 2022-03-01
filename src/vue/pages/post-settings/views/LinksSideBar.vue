@@ -5,6 +5,7 @@
 			class="snippet-description-row open-link-assistant-copy"
 		>
 			<template #content>
+				<div class="aioseo-sidebar-content-title">{{ strings.title }}</div>
 				<p>{{ strings.description }}</p>
 				<base-button
 					class="open-link-assistant-modal gray small"
@@ -24,6 +25,7 @@ export default {
 	data () {
 		return {
 			strings : {
+				title       : this.$t.__('Link Assistant', this.$td),
 				description : this.$t.__('Here you can view an overview of your existing links as well as find suggestions for new internal links. Click on the button below to view the Link Assistant panel.', this.$td),
 				button      : this.$t.__('Open Link Assistant', this.$td)
 			}

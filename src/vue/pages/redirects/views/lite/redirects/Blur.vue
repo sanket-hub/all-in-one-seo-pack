@@ -1,8 +1,10 @@
 <template>
 	<div class="aioseo-redirects-blur">
 		<core-card
+			v-if="!noCoreCard"
 			slug="addNewRedirection"
 			:header-text="strings.addNewRedirection"
+			:noSlide="true"
 		>
 			<core-blur>
 				<core-add-redirection
@@ -13,6 +15,17 @@
 				/>
 			</core-blur>
 		</core-card>
+
+		<core-blur
+			v-if="noCoreCard"
+		>
+			<core-add-redirection
+				:type="$constants.REDIRECT_TYPES[0].value"
+				:query="$constants.REDIRECT_QUERY_PARAMS[0].value"
+				:slash="true"
+				:case="true"
+			/>
+		</core-blur>
 
 		<core-blur>
 			<base-wp-table
@@ -34,6 +47,9 @@
 
 <script>
 export default {
+	props : {
+		noCoreCard : Boolean
+	},
 	data () {
 		return {
 			strings : {

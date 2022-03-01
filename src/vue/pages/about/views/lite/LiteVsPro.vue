@@ -77,8 +77,8 @@ export default {
 				},
 				cta : {
 					title       : this.$t.__('Upgrade to Pro to Unlock Powerful SEO Features', this.$td),
-					// Translators: 1 - Plugin name ("All in One SEO"), 2 - Plugin short name ("AIOSEO").
-					description : this.$t.sprintf(this.$t.__('%1$s is the best WordPress SEO plugin. Join over 2,000,000+ Professionals who are already using %2$s to improve their website search rankings.', this.$td), process.env.VUE_APP_NAME, process.env.VUE_APP_SHORT_NAME),
+					// Translators: 1 - Plugin name ("All in One SEO"), 2 - The number of active users, 3 - Plugin short name ("AIOSEO").
+					description : this.$t.sprintf(this.$t.__('%1$s is the best WordPress SEO plugin. Join over %2$s Professionals who are already using %3$s to improve their website search rankings.', this.$td), process.env.VUE_APP_NAME, '3,000,000+', process.env.VUE_APP_SHORT_NAME),
 					// Translators: 1 - "Pro".
 					button      : this.$t.sprintf(this.$t.__('Upgrade to %1$s Today', this.$td), 'Pro'),
 					bonus       : this.$t.sprintf(

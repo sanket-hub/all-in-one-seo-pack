@@ -10,6 +10,7 @@ const docLinks = {
 	yandexWebmasterVerification   : `${marketingSite}docs/how-to-verify-your-site-with-yandex-webmaster-tools/`,
 	baiduWebmasterVerification    : `${marketingSite}docs/baidu-webmaster-tools-verification/`,
 	pinterestSiteVerification     : `${marketingSite}docs/how-to-verify-your-site-with-pinterest/`,
+	indexNow                      : `${marketingSite}docs/integrating-with-indexnow-to-instantly-re-index-your-content/`,
 	googleAnalytics               : `${marketingSite}docs/how-to-connect-your-site-with-google-analytics/`,
 	advancedGoogleAnalytics       : `${marketingSite}docs/advanced-settings-for-google-analytics/`,
 	trackingDomain                : `${marketingSite}docs/advanced-settings-for-google-analytics/#tracking-domain`,
@@ -227,9 +228,9 @@ const trailingSlashIt = str => {
 	return unTrailingSlashIt(str) + '/'
 }
 
-const restUrl = (path) => {
+const restUrl = (path, namespace = 'aioseo/v1') => {
 	path = window.aioseo.data.hasUrlTrailingSlash ? trailingSlashIt(path) : unTrailingSlashIt(path)
-	return trailingSlashIt(window.aioseo.urls.restUrl) + trailingSlashIt('aioseo/v1') + unForwardSlashIt(path)
+	return trailingSlashIt(window.aioseo.urls.restUrl) + trailingSlashIt(namespace) + unForwardSlashIt(path)
 }
 
 export default {

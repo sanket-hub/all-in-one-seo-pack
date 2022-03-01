@@ -30,10 +30,11 @@
 						@remove-url="removeUrl(index)"
 						:target-url="targetUrl"
 						:log404="log404"
+						:disableSource="disableSource"
 					>
 						<template
 							#source-url-description
-							v-if="edit"
+							v-if="edit && !disableSource"
 						>
 							<div
 								class="aioseo-description source-description"
@@ -43,7 +44,7 @@
 					</core-add-redirection-url>
 
 					<base-button
-						v-if="!edit && !log404"
+						v-if="!edit && !log404 && !disableSource"
 						size="small"
 						type="gray"
 						@click="addUrl"
@@ -109,7 +110,7 @@
 			</div>
 
 			<template
-				v-if="!edit && !log404"
+				v-if="!edit && !log404 && !disableSource"
 			>
 				<div class="break" />
 
@@ -124,7 +125,10 @@
 			</template>
 		</div>
 
-		<div class="settings">
+		<div
+			class="settings"
+			:class="{ advanced : showAdvancedSettings }"
+		>
 			<div class="all-settings">
 				<div class="all-settings-content">
 					<div class="redirect-type">
@@ -157,13 +161,13 @@
 						@click.prevent="showAdvancedSettings = !showAdvancedSettings"
 					>{{ strings.advancedSettings }}</a>
 				</div>
-				<transition-slide
-					class="advanced-settings"
-					:active="showAdvancedSettings"
-				>
-					<custom-rules :edit-custom-rules="customRules" />
-				</transition-slide>
 			</div>
+			<transition-slide
+				class="advanced-settings"
+				:active="showAdvancedSettings"
+			>
+				<custom-rules :edit-custom-rules="customRules" />
+			</transition-slide>
 			<div
 				class="actions"
 				:class="{ advanced : showAdvancedSettings }"
@@ -193,22 +197,25 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { debounce } from '@/vue/utils/debounce'
 import CustomRules from './CustomRules'
+import { JsonValues } from '@/vue/mixins'
 export default {
 	components : { CustomRules },
+	mixins     : [ JsonValues ],
 	props      : {
-		edit   : Boolean,
-		log404 : Boolean,
-		url    : Object,
-		urls   : Array,
-		target : String,
-		type   : Number,
-		query  : String,
-		slash  : Boolean,
-		case   : Boolean,
-		rules  : {
+		edit          : Boolean,
+		log404        : Boolean,
+		disableSource : Boolean,
+		url           : Object,
+		urls          : Array,
+		target        : String,
+		type          : Number,
+		query         : String,
+		slash         : Boolean,
+		case          : Boolean,
+		rules         : {
 			type : Array,
 			default () {
 				return []
@@ -251,6 +258,7 @@ export default {
 		}
 	},
 	computed : {
+		...mapState('redirects', [ 'options' ]),
 		saveIsDisabled () {
 			return !!this.sourceUrls.filter(url => !url.url).length ||
 				!!this.sourceUrls.filter(url => 0 < url.errors.length).length ||
@@ -311,6 +319,26 @@ export default {
 
 			return warnings
 		},
+		getDefaultRedirectType () {
+			let option = this.getJsonValue(this.options.redirectDefaults.redirectType)
+			if (!option) {
+				option = this.$constants.REDIRECT_TYPES[0]
+			}
+			return option
+		},
+		getDefaultQueryParam () {
+			let option = this.getJsonValue(this.options.redirectDefaults.queryParam)
+			if (!option) {
+				option = this.$constants.REDIRECT_QUERY_PARAMS[0]
+			}
+			return option
+		},
+		getDefaultSlash () {
+			return this.options.redirectDefaults.ignoreSlash
+		},
+		getDefaultCase () {
+			return this.options.redirectDefaults.ignoreCase
+		},
 		getDefaultSourceUrls () {
 			return [ JSON.parse(JSON.stringify(this.getDefaultSourceUrl)) ]
 		},
@@ -319,8 +347,8 @@ export default {
 				id          : null,
 				url         : null,
 				regex       : false,
-				ignoreSlash : this.slash || false,
-				ignoreCase  : this.case || false,
+				ignoreSlash : this.slash || this.getDefaultSlash || false,
+				ignoreCase  : this.case || this.getDefaultCase || false,
 				errors      : [],
 				warnings    : []
 			}
@@ -378,6 +406,7 @@ export default {
 			})
 				.then(() => {
 					this.$emit('added-redirect')
+					this.$bus.$emit('added-redirect')
 					this.reset()
 				})
 				.catch(error => {
@@ -508,18 +537,14 @@ export default {
 			this.customRules = this.rules
 		}
 
-		if (null !== this.type) {
-			const redirectType = this.$constants.REDIRECT_TYPES.find(t => t.value === this.type)
-			if (redirectType) {
-				this.redirectType = redirectType
-			}
+		const redirectType = this.$constants.REDIRECT_TYPES.find(t => t.value === this.type) || this.getDefaultRedirectType
+		if (redirectType) {
+			this.redirectType = redirectType
 		}
 
-		if (this.query) {
-			const queryParam = this.$constants.REDIRECT_QUERY_PARAMS.find(t => t.value === this.query)
-			if (queryParam) {
-				this.queryParam = queryParam
-			}
+		const queryParam = this.$constants.REDIRECT_QUERY_PARAMS.find(t => t.value === this.query) || this.getDefaultQueryParam
+		if (queryParam) {
+			this.queryParam = queryParam
 		}
 	}
 }
@@ -528,18 +553,12 @@ export default {
 <style lang="scss">
 .aioseo-add-redirection {
 	&.edit-url {
-		margin-bottom: 30px;
-
 		.urls {
 			align-items: flex-start;
 
 			.url-arrow {
 				margin: -8px 30px 0;
 			}
-		}
-
-		.advanced-settings-link {
-			margin-top: 21px;
 		}
 	}
 
@@ -571,7 +590,7 @@ export default {
 	.urls {
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-start;
 		flex-wrap: wrap;
 
 		.break {
@@ -651,19 +670,23 @@ export default {
 
 	.settings {
 		display: flex;
-		flex-direction: column;
-		align-items: center;
+		flex-direction: row;
 		margin-top: 24px;
 
+		&.advanced {
+			flex-direction: column;
+		}
+
 		.all-settings {
-			width: 100%;
+			flex-grow: 1;
 			.all-settings-content {
 				display: flex;
 				align-items: center;
 				flex-wrap: wrap;
+				margin-right: 10px;
 
 				.advanced-settings-link {
-					margin: 16px 0 0 16px;
+					margin: 16px 0 0 0;
 					color: $placeholder-color;
 				}
 
@@ -674,11 +697,28 @@ export default {
 		}
 
 		> .actions {
-			align-self: flex-end;
-			margin-top: -50px;
+			margin-top: 13px;
+			flex-grow: 1;
+			text-align: right;
+			align-self: center;
+
+			.postbox & {
+				@media (max-width: 1071px) {
+					margin-top: 24px;
+				}
+			}
+
+			@media (max-width: 767px) {
+				margin-top: 24px;
+			}
+
+			button:not(:first-child) {
+				margin-top: 6px;
+			}
 
 			&.advanced {
-				margin-top: 24px;
+				margin-top: 18px;
+				align-self: flex-end;
 			}
 		}
 
