@@ -11,6 +11,7 @@ const docLinks = {
 	baiduWebmasterVerification    : `${marketingSite}docs/baidu-webmaster-tools-verification/`,
 	pinterestSiteVerification     : `${marketingSite}docs/how-to-verify-your-site-with-pinterest/`,
 	indexNow                      : `${marketingSite}docs/integrating-with-indexnow-to-instantly-re-index-your-content/`,
+	microsoftClarityDocumentation : `${marketingSite}docs/how-to-verify-your-site-with-microsoft-clarity/`,
 	googleAnalytics               : `${marketingSite}docs/how-to-connect-your-site-with-google-analytics/`,
 	advancedGoogleAnalytics       : `${marketingSite}docs/advanced-settings-for-google-analytics/`,
 	trackingDomain                : `${marketingSite}docs/advanced-settings-for-google-analytics/#tracking-domain`,
@@ -108,7 +109,10 @@ const docLinks = {
 	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap/`,
 	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives/`,
 	linkAssistant                 : `${marketingSite}docs/link-assistant`,
-	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant#post-types/`
+	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant#post-types/`,
+	updateWordPress               : `${marketingSite}docs/update-wordpress/`,
+	runningShortcodes             : `${marketingSite}docs/running-shortcodes/`,
+	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`
 }
 
 const upsellLinks = {
@@ -136,13 +140,49 @@ const getDocUrl = (link) => {
 }
 
 const getUpsellLink = (medium, text, link, addArrow = false) => {
-	const arrow = addArrow ? sprintf('<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>', utmUrl(medium, link, upsellLinks[link])) : ''
-	return sprintf('<a href="%1$s" target="_blank">%2$s</a>%3$s', utmUrl(medium, link, upsellLinks[link]), text, arrow)
+	const arrow = addArrow
+		? sprintf(
+			'<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>',
+			utmUrl(medium, link, upsellLinks[link])
+		)
+		: ''
+	return sprintf(
+		'<a href="%1$s" target="_blank">%2$s</a>%3$s',
+		utmUrl(medium, link, upsellLinks[link]),
+		text,
+		arrow
+	)
+}
+
+const getPlainLink = (text, url, addArrow = false) => {
+	const arrow = addArrow
+		? sprintf(
+			'<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>',
+			url
+		)
+		: ''
+
+	return sprintf(
+		'<a href="%1$s" target="_blank">%2$s</a>%3$s',
+		url,
+		text,
+		arrow
+	)
 }
 
 const getDocLink = (text, link, addArrow = false) => {
-	const arrow = addArrow ? sprintf('<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>', utmUrl('documentation', link, docLinks[link])) : ''
-	return sprintf('<a href="%1$s" target="_blank">%2$s</a>%3$s', utmUrl('documentation', link, docLinks[link]), text, arrow)
+	const arrow = addArrow
+		? sprintf(
+			'<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>',
+			utmUrl('documentation', link, docLinks[link])
+		)
+		: ''
+	return sprintf(
+		'<a href="%1$s" target="_blank">%2$s</a>%3$s',
+		utmUrl('documentation', link, docLinks[link]),
+		text,
+		arrow
+	)
 }
 
 const getPricingUrl = (feature, medium, content, url = `${marketingSite}pricing/`) => {
@@ -151,7 +191,7 @@ const getPricingUrl = (feature, medium, content, url = `${marketingSite}pricing/
 
 const utmUrl = (medium, content = null, url = `${marketingSite}pricing/`) => {
 	let isUpgradeUrl = false
-	if (`${marketingSite}pricing/` === url && 'pro' !== process.env.VUE_APP_VERSION.toLowerCase()) {
+	if (`${marketingSite}pricing/` === url && 'pro' !== import.meta.env.VITE_VERSION.toLowerCase()) {
 		isUpgradeUrl = (upgradeUrl !== marketingSite)
 		url = `${marketingSite}lite-upgrade/`
 	}
@@ -161,7 +201,7 @@ const utmUrl = (medium, content = null, url = `${marketingSite}pricing/`) => {
 	// Generate the new arguments.
 	const args = [
 		{ key: 'utm_source', value: 'WordPress' },
-		{ key: 'utm_campaign', value: 'pro' === process.env.VUE_APP_VERSION.toLowerCase() ? 'proplugin' : 'liteplugin' },
+		{ key: 'utm_campaign', value: 'pro' === import.meta.env.VITE_VERSION.toLowerCase() ? 'proplugin' : 'liteplugin' },
 		{ key: 'utm_medium', value: medium }
 	]
 
@@ -237,12 +277,13 @@ export default {
 	docLinks,
 	getDocLink,
 	getDocUrl,
+	getPlainLink,
 	getPricingUrl,
 	getUpsellLink,
 	getUpsellUrl,
+	restUrl,
+	trailingSlashIt,
 	unForwardSlashIt,
 	unTrailingSlashIt,
-	trailingSlashIt,
-	utmUrl,
-	restUrl
+	utmUrl
 }

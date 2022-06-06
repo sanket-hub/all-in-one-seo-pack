@@ -73,18 +73,38 @@
 
 <script>
 import { mapActions } from 'vuex'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgBook from '@/vue/components/common/svg/Book'
+import SvgClose from '@/vue/components/common/svg/Close'
+import SvgRocket from '@/vue/components/common/svg/Rocket'
+import SvgSetupWizardBg from '@/vue/components/common/svg/SetupWizardBg'
 export default {
+	components : {
+		GridColumn,
+		GridRow,
+		SvgBook,
+		SvgClose,
+		SvgRocket,
+		SvgSetupWizardBg
+	},
 	props : {
 		disableClose : Boolean
 	},
 	data () {
 		return {
 			strings : {
-				howToGetStarted   : this.$t.__('How to Get Started', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				welcomeToAio      : this.$t.sprintf(this.$t.__('Welcome to %1$s', this.$td), process.env.VUE_APP_NAME),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				welcomeText       : this.$t.sprintf(this.$t.__('Thank you for choosing the best WordPress SEO plugin. %1$s default settings works great out of the box. We created the setup wizard to guide you through some important configuration settings & custom-tailored SEO best practices for your site to help you improve rankings.', this.$td), process.env.VUE_APP_NAME),
+				howToGetStarted : this.$t.__('How to Get Started', this.$td),
+				welcomeToAio    : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('Welcome to %1$s', this.$td),
+					import.meta.env.VITE_NAME
+				),
+				welcomeText : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('Thank you for choosing the best WordPress SEO plugin. %1$s default settings works great out of the box. We created the setup wizard to guide you through some important configuration settings & custom-tailored SEO best practices for your site to help you improve rankings.', this.$td),
+					import.meta.env.VITE_NAME
+				),
 				launchSetupWizard : this.$t.__('Launch the Setup Wizard', this.$td),
 				readSetupGuide    : this.$t.__('Read the Setup Guide', this.$td)
 			}
@@ -115,6 +135,7 @@ export default {
 	}
 
 	.getting-started-wrapper {
+		position: relative;
 		display: flex;
 
 		.video {

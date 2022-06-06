@@ -6,7 +6,10 @@
 	],
 	"rules": {
 		"vue/experimental-script-setup-vars": "off",
+		"vue/script-setup-uses-vars": "off",
 		"vue/no-mutating-props": "off",
+		"vue/no-v-for-template-key": "off",
+		"vue/multi-word-component-names": "off",
 		"no-empty": [
 			2,
 			{

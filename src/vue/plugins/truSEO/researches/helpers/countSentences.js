@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import flow from 'lodash/flow'
-import filter from 'lodash/filter'
+import { flow, filter } from 'lodash-es'
 import English from 'parse-english'
 
 /**
@@ -20,9 +19,9 @@ import stripConnectors from './stripConnectors'
  *
  * @param {string} text Text to count sentences.
  *
- * @return {number} Count of sentences.
+ * @returns {number} Count of sentences.
  */
-export default ( text ) => {
+export default (text) => {
 	text = flow(
 		[
 			stripTags,
@@ -30,14 +29,14 @@ export default ( text ) => {
 			stripShortcodes,
 			stripSpaces,
 			stripHTMLEntities,
-			stripConnectors,
+			stripConnectors
 		]
-	)( text )
+	)(text)
 
-	if ( '' === text ) {
+	if ('' === text) {
 		return 0
 	}
 
-	const paragraphs = new English().tokenizeParagraph( text ).children
-	return filter( paragraphs, { type: 'SentenceNode' } ).length
+	const paragraphs = new English().tokenizeParagraph(text).children
+	return filter(paragraphs, { type: 'SentenceNode' }).length
 }

@@ -1,5 +1,4 @@
-import get from 'lodash/get'
-import includes from 'lodash/includes'
+import { get, includes } from 'lodash-es'
 import functionWordsEnglishFactory from '../english/functionWords'
 import functionWordsFrenchFactory from '../french/functionWords'
 import functionWordsItalianFactory from '../italian/functionWords'

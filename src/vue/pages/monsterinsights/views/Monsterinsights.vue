@@ -1,14 +1,21 @@
 <template>
 	<div class="aioseo-analytics">
 		<div id="aioseo-analytics" class="aioseo-wrap aioseo-plugin-landing">
-			<section class="aioseo-card aioseo-card--intro">
-				<div class="content aioseo-analytics__intro">
+			<core-card
+				slug="monsterinsights-intro"
+				:hideHeader="true"
+				:noSlide="true"
+				:cardClass="{
+					'aioseo-card--intro': true
+				}"
+			>
+				<div class="aioseo-analytics__intro">
 					<template v-if="prefersEm">
 						<div class="intro-image">
 							<svg-aioseo-logo-gear />
 							<span>♥</span>
 							<img
-								src="@/vue/assets/images/about/plugins/em.png"
+								:src="$getImgUrl(emLogoImg)"
 								height="90"
 								alt="ExactMetrics"
 							/>
@@ -21,7 +28,7 @@
 						</p>
 						<div class="preview-list">
 							<img
-								src="@/vue/assets/images/plugins/em-graph-preview.png"
+								:src="$getImgUrl(emGraphImg)"
 								height="200"
 								alt="mi-graph-preview"
 							/>
@@ -46,7 +53,7 @@
 							<svg-aioseo-logo-gear />
 							<span>♥</span>
 							<img
-								src="@/vue/assets/images/plugins/mi-logo.png"
+								:src="$getImgUrl(miLogoImg)"
 								height="90"
 								alt="MonsterInsights"
 							/>
@@ -59,7 +66,7 @@
 						</p>
 						<div class="preview-list">
 							<img
-								src="@/vue/assets/images/plugins/mi-graph-preview.png"
+								:src="$getImgUrl(miGraphImg)"
 								height="200"
 								alt="mi-graph-preview"
 							/>
@@ -84,7 +91,7 @@
 						</div>
 					</template>
 				</div>
-			</section>
+			</core-card>
 			<section
 				:class="justInstalled || gaActivated ? 'aioseo-card step step--completed' : 'aioseo-card step step--current'"
 			>
@@ -93,7 +100,7 @@
 				</div>
 				<div class="content">
 					<h2 class="step-title">
-						<template v-if="!gaInstalled">{{ strings.miemInstallH }} </template>
+						<template v-if="!gaInstalled">{{ strings.miemInstallH }}</template>
 						<template v-if="prefersEm">{{ strings.emInstallH }}</template>
 						<template v-else>{{ strings.miInstallH }}</template>
 					</h2>
@@ -167,54 +174,122 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
+import emLogoImg from '@/vue/assets/images/about/plugins/em.png'
+import emGraphImg from '@/vue/assets/images/plugins/em-graph-preview.png'
+import miLogoImg from '@/vue/assets/images/plugins/mi-logo.png'
+import miGraphImg from '@/vue/assets/images/plugins/mi-graph-preview.png'
+import CoreCard from '@/vue/components/common/core/Card'
+import SvgAioseoLogoGear from '@/vue/components/common/svg/aioseo/LogoGear'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	components : {
+		CoreCard,
+		SvgAioseoLogoGear,
+		SvgCircleCheck,
+		SvgExternal
+	},
 	data () {
 		return {
+			emLogoImg,
+			emGraphImg,
+			miLogoImg,
+			miGraphImg,
 			installingPlugin : false,
 			justInstalled    : false,
 			strings          : {
-				miLink       : this.$t.sprintf('<strong>%1$s</strong>', this.$t.__('Click here', this.$td)),
-				// Translators: 1 - The addon or plugin name.
-				installMi    : this.$t.sprintf(this.$t.__('Install %1$s', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				activateMi   : this.$t.sprintf(this.$t.__('Activate %1$s', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				activateEm   : this.$t.sprintf(this.$t.__('Activate %1$s', this.$td), 'ExactMetrics'),
-				// Translators: 1 - The name of one of our partner plugins.
-				miInstalled  : this.$t.sprintf(this.$t.__('%1$s is Installed & Active', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				emInstalled  : this.$t.sprintf(this.$t.__('%1$s is Installed & Active', this.$td), 'ExactMetrics'),
-				setupGA      : this.$t.__('Launch Setup Wizard', this.$td),
-				emIntroH     : this.$t.__('The Best Google Analytics Plugin for WordPress', this.$td),
-				// Translators: 1 - The name of one of our partner plugins, 2 - The name of one of our partner plugins.
-				emIntroP     : this.$t.sprintf(this.$t.__('%1$s connects AIOSEO to Google Analytics, providing a powerful integration. %2$s is a sister company of AIOSEO.', this.$td), 'ExactMetrics', 'ExactMetrics'),
-				emIntroLi1   : this.$t.__('Quick & Easy Google Analytics Setup', this.$td),
-				emIntroLi2   : this.$t.__('Google Analytics Dashboard + Real Time Stats', this.$td),
-				emIntroLi3   : this.$t.__('Google Analytics Enhanced Ecommerce Tracking', this.$td),
-				// Translators: 1 - The name of one of our partner plugins.
-				emInstallH   : this.$t.sprintf(this.$t.__('Activate %1$s', this.$td), 'ExactMetrics'),
-				// Translators: 1 - The name of one of our partner plugins.
-				emInstallP   : this.$t.sprintf(this.$t.__('%1$s shows you exactly which content gets the most visits, so you can analyze and optimize it for higher conversions.', this.$td), 'ExactMetrics'),
-				miIntroH     : this.$t.__('The Best Google Analytics Plugin for WordPress', this.$td),
-				// Translators: 1 - The name of one of our partner plugins, 2 - The name of one of our partner plugins.
-				miIntroP     : this.$t.sprintf(this.$t.__('%1$s connects AIOSEO to Google Analytics, providing a powerful integration. %2$s is a sister company of AIOSEO.', this.$td), 'MonsterInsights', 'MonsterInsights'),
+				miLink : this.$t.sprintf(
+					'<strong>%1$s</strong>',
+					this.$t.__('Click here', this.$td)
+				),
+				installMi : this.$t.sprintf(
+					// Translators: 1 - The addon or plugin name.
+					this.$t.__('Install %1$s', this.$td),
+					'MonsterInsights'
+				),
+				activateMi : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Activate %1$s', this.$td),
+					'MonsterInsights'
+				),
+				activateEm : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Activate %1$s', this.$td),
+					'ExactMetrics'
+				),
+				miInstalled : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s is Installed & Active', this.$td),
+					'MonsterInsights'
+				),
+				emInstalled : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s is Installed & Active', this.$td),
+					'ExactMetrics'),
+				setupGA : this.$t.__('Launch Setup Wizard', this.$td
+				),
+				emIntroH : this.$t.__('The Best Google Analytics Plugin for WordPress', this.$td),
+				emIntroP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins, 2 - The name of one of our partner plugins.
+					this.$t.__('%1$s connects AIOSEO to Google Analytics, providing a powerful integration. %2$s is a sister company of AIOSEO.', this.$td),
+					'ExactMetrics',
+					'ExactMetrics'
+				),
+				emIntroLi1 : this.$t.__('Quick & Easy Google Analytics Setup', this.$td),
+				emIntroLi2 : this.$t.__('Google Analytics Dashboard + Real Time Stats', this.$td),
+				emIntroLi3 : this.$t.__('Google Analytics Enhanced Ecommerce Tracking', this.$td),
+				emInstallH : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Activate %1$s', this.$td),
+					'ExactMetrics'
+				),
+				emInstallP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s shows you exactly which content gets the most visits, so you can analyze and optimize it for higher conversions.', this.$td),
+					'ExactMetrics'
+				),
+				miIntroH : this.$t.__('The Best Google Analytics Plugin for WordPress', this.$td),
+				miIntroP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins, 2 - The name of one of our partner plugins.
+					this.$t.__('%1$s connects AIOSEO to Google Analytics, providing a powerful integration. %2$s is a sister company of AIOSEO.', this.$td),
+					'MonsterInsights',
+					'MonsterInsights'
+				),
 				miIntroLi1   : this.$t.__('Quick & Easy Google Analytics Setup', this.$td),
 				miIntroLi2   : this.$t.__('Google Analytics Dashboard + Real Time Stats', this.$td),
 				miIntroLi3   : this.$t.__('Google Analytics Enhanced Ecommerce Tracking', this.$td),
 				miIntroLi4   : this.$t.__('Universal Tracking for AMP and Instant Articles', this.$td),
 				miemInstallH : this.$t.__('Install &', this.$td),
-				// Translators: 1 - The name of one of our partner plugins.
-				miInstallH   : this.$t.sprintf(this.$t.__('Activate %1$s', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				miInstallP   : this.$t.sprintf(this.$t.__('%1$s shows you exactly which content gets the most visits, so you can analyze and optimize it for higher conversions.', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				emWizardH    : this.$t.sprintf(this.$t.__('Setup %1$s', this.$td), 'ExactMetrics'),
-				// Translators: 1 - The name of one of our partner plugins.
-				miWizardH    : this.$t.sprintf(this.$t.__('Setup %1$s', this.$td), 'MonsterInsights'),
-				// Translators: 1 - The name of one of our partner plugins.
-				emWizardP    : this.$t.sprintf(this.$t.__('%1$s has an intuitive setup wizard to guide you through the setup process.', this.$td), 'ExactMetrics'),
-				// Translators: 1 - The name of one of our partner plugins.
-				miWizardP    : this.$t.sprintf(this.$t.__('%1$s has an intuitive setup wizard to guide you through the setup process.', this.$td), 'MonsterInsights')
+				miInstallH   : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Activate %1$s', this.$td),
+					'MonsterInsights'
+				),
+				miInstallP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s shows you exactly which content gets the most visits, so you can analyze and optimize it for higher conversions.', this.$td),
+					'MonsterInsights'
+				),
+				emWizardH : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Setup %1$s', this.$td),
+					'ExactMetrics'
+				),
+				miWizardH : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('Setup %1$s', this.$td),
+					'MonsterInsights'
+				),
+				emWizardP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s has an intuitive setup wizard to guide you through the setup process.', this.$td),
+					'ExactMetrics'
+				),
+				miWizardP : this.$t.sprintf(
+					// Translators: 1 - The name of one of our partner plugins.
+					this.$t.__('%1$s has an intuitive setup wizard to guide you through the setup process.', this.$td),
+					'MonsterInsights'
+				)
 			}
 		}
 	},

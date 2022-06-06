@@ -188,11 +188,10 @@ export const Uploader = {
 		}
 	},
 	methods : {
-		openUploadModal (uploader, options) {
-			const option   = this.$optionsFromArray(this, options)
+		openUploadModal (uploader, setter) {
 			const callback = () => {
 				const attachment = this.customUploader[uploader].state().get('selection').first().toJSON()
-				this.$set(option.option, option.index, attachment.url)
+				setter(attachment.url)
 			}
 
 			// If the uploader object has already been created, reopen the dialog

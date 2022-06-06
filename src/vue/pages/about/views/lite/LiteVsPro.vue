@@ -62,26 +62,46 @@
 </template>
 
 <script>
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		SvgCircleCheck,
+		SvgClose
+	},
 	data () {
 		return {
 			strings : {
 				header : {
-					// Translators: 1 - The abbreviated plugin name ("AIOSEO").
-					title       : this.$t.sprintf(this.$t.__('%1$s Lite vs. Pro', this.$td), process.env.VUE_APP_SHORT_NAME),
-					// Translators: 1 - The plugin name ("All in One SEO").
-					description : this.$t.sprintf(this.$t.__('Get the most out of %1$s by upgrading to Pro and unlocking all of the powerful features.', this.$td), process.env.VUE_APP_NAME)
+					title : this.$t.sprintf(
+						// Translators: 1 - The abbreviated plugin name ("AIOSEO").
+						this.$t.__('%1$s Lite vs. Pro', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					),
+					description : this.$t.sprintf(
+						// Translators: 1 - The plugin name ("All in One SEO").
+						this.$t.__('Get the most out of %1$s by upgrading to Pro and unlocking all of the powerful features.', this.$td),
+						import.meta.env.VITE_NAME
+					)
 				},
 				grid : {
 					features : this.$t.__('Features:', this.$td)
 				},
 				cta : {
 					title       : this.$t.__('Upgrade to Pro to Unlock Powerful SEO Features', this.$td),
-					// Translators: 1 - Plugin name ("All in One SEO"), 2 - The number of active users, 3 - Plugin short name ("AIOSEO").
-					description : this.$t.sprintf(this.$t.__('%1$s is the best WordPress SEO plugin. Join over %2$s Professionals who are already using %3$s to improve their website search rankings.', this.$td), process.env.VUE_APP_NAME, '3,000,000+', process.env.VUE_APP_SHORT_NAME),
-					// Translators: 1 - "Pro".
-					button      : this.$t.sprintf(this.$t.__('Upgrade to %1$s Today', this.$td), 'Pro'),
-					bonus       : this.$t.sprintf(
+					description : this.$t.sprintf(
+						// Translators: 1 - Plugin name ("All in One SEO"), 2 - The number of active users, 3 - Plugin short name ("AIOSEO").
+						this.$t.__('%1$s is the best WordPress SEO plugin. Join over %2$s Professionals who are already using %3$s to improve their website search rankings.', this.$td),
+						import.meta.env.VITE_NAME,
+						'3,000,000+',
+						import.meta.env.VITE_SHORT_NAME
+					),
+					button : this.$t.sprintf(
+						// Translators: 1 - "Pro".
+						this.$t.__('Upgrade to %1$s Today', this.$td),
+						'Pro'
+					),
+					bonus : this.$t.sprintf(
 						// Translators: 1 - Opening bold tag, 2 - Closing bold tag, 3 - "Pro", 4 - Opening bold tag, 5 - A percentage ("50%"), 6 - Closing bold tag.
 						this.$t.__('%1$sBonus:%2$s You can upgrade to the %3$s plan today and %4$ssave %5$s off%6$s (discount auto-applied).', this.$td),
 						'<strong>',
@@ -193,7 +213,7 @@ export default {
 				localSeo : {
 					name : this.$t.__('Local SEO', this.$td),
 					lite : {
-						title : this.$t.__('Not available', this.$td)
+						title : this.$t.__('Not Available', this.$td)
 					},
 					pro : {
 						title       : this.$t.__('Available as Addon Plugin', this.$td),
@@ -218,6 +238,16 @@ export default {
 					pro : {
 						title       : this.$t.__('Available as Addon Plugin', this.$td),
 						description : this.$t.__('View detailed link & domain reports, manage existing links and discover new internal linking opportunities through smart suggestions (Pro & Elite plans only)', this.$td)
+					}
+				},
+				restApi : {
+					name : this.$t.__('REST API', this.$td),
+					lite : {
+						title : this.$t.__('Not Available', this.$td)
+					},
+					pro : {
+						title       : this.$t.__('Available as Addon Plugin', this.$td),
+						description : this.$t.__('Manage your post and term SEO meta via the WordPress REST API. This addon also works seamlessly with headless WordPress installs. (Plus, Pro & Elite plans only)', this.$td)
 					}
 				},
 				support : {

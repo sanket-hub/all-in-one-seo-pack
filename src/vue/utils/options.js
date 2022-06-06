@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import merge from 'lodash/merge'
+import { merge } from 'lodash-es'
 
 export const getOptions = () => new Promise(resolve => {
 	if (window.aioseo.options) {

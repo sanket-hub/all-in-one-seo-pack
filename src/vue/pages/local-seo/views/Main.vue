@@ -7,15 +7,16 @@
 </template>
 
 <script>
-import '@/vue/components/AIOSEO_VERSION'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import Locations from './Locations'
-import OpeningHours from './OpeningHours'
 import Maps from './Maps'
+import OpeningHours from './OpeningHours'
 export default {
 	components : {
+		CoreMain,
 		Locations,
-		OpeningHours,
-		Maps
+		Maps,
+		OpeningHours
 	},
 	data () {
 		return {

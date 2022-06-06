@@ -10,8 +10,8 @@ import transliterationsMap from '../config/transliterations.js'
  * @returns {string} The text with all special characters replaced.
  */
 export default function (text, locale) {
-	var map = transliterationsMap(locale)
-	for (var i = 0; i < map.length; i++) {
+	const map = transliterationsMap(locale)
+	for (let i = 0; i < map.length; i++) {
 		text = text.replace(
 			map[i].letter,
 			map[i].alternative

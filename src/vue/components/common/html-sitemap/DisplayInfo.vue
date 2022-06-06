@@ -115,8 +115,27 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 import { mapState } from 'vuex'
-
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAttributesList from '@/vue/components/common/core/AttributesList'
+import CoreDisplayInfo from '@/vue/components/common/core/DisplayInfo'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgExternal from '@/vue/components/common/svg/External'
+import SvgFile from '@/vue/components/common/svg/File'
 export default {
+	components : {
+		CoreAlert,
+		CoreAttributesList,
+		CoreDisplayInfo,
+		CoreLoader,
+		CoreTooltip,
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgExternal,
+		SvgFile
+	},
 	props : {
 		displayOptions : {
 			type     : Object,
@@ -136,9 +155,13 @@ export default {
 			showResults          : false,
 			showAdvancedSettings : false,
 			strings              : {
-				label                          : this.$t.__('Display HTML Sitemap', this.$td),
-				page                           : this.$t.__('Dedicated Page', this.$td),
-				placeholder                    : this.$t.sprintf(this.$t.__('e.g. %1$s', this.$td), `${this.$aioseo.urls.home}/new-page`),
+				label       : this.$t.__('Display HTML Sitemap', this.$td),
+				page        : this.$t.__('Dedicated Page', this.$td),
+				placeholder : this.$t.sprintf(
+					// Translators: 1 - A URL.
+					this.$t.__('e.g. %1$s', this.$td),
+					`${this.$aioseo.urls.home}/new-page`
+				),
 				pageButton                     : this.$t.__('Open HTML Sitemap', this.$td),
 				errorMessage                   : this.$t.__('The page that you have entered already exists. Please enter a page with a unique slug.', this.$td),
 				shortcodeAttributesDescription : this.$t.__('The following shortcode attributes can be used to override the default settings:', this.$td),

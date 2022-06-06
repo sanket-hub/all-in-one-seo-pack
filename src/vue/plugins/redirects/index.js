@@ -1,7 +1,7 @@
 import store from '@/vue/store'
 import { isBlockEditor, isWooCommerceProduct } from '@/vue/utils/context'
 import { getPostEditedSlug, getPostStatus } from '@/vue/plugins/truSEO/components'
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 
 export default class Redirects {
 	previousPostSlug
@@ -67,3 +67,5 @@ export default class Redirects {
 		})
 	}, 2500)
 }
+
+new Redirects()

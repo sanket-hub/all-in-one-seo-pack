@@ -7,10 +7,10 @@
  * @param {string} [stem]           The stem / base form of the word, defaults to the word.
  * @param {number} [occurrences]    The number of occurrences, defaults to 0.
  */
-function ProminentWord( word, stem, occurrences ) {
-	this._word = word;
-	this._stem = stem ? stem : word;
-	this._occurrences = occurrences || 0;
+function ProminentWord (word, stem, occurrences) {
+	this._word = word
+	this._stem = stem || word
+	this._occurrences = occurrences || 0
 }
 
 /**
@@ -20,27 +20,27 @@ function ProminentWord( word, stem, occurrences ) {
  *
  * @returns {void}.
  */
-ProminentWord.prototype.setWord = function( word ) {
-	this._word = word;
-};
+ProminentWord.prototype.setWord = function (word) {
+	this._word = word
+}
 
 /**
  * Returns the word.
  *
  * @returns {string} The word.
  */
-ProminentWord.prototype.getWord = function() {
-	return this._word;
-};
+ProminentWord.prototype.getWord = function () {
+	return this._word
+}
 
 /**
  * Returns the stem of the word.
  *
  * @returns {string} The stem.
  */
-ProminentWord.prototype.getStem = function() {
-	return this._stem;
-};
+ProminentWord.prototype.getStem = function () {
+	return this._stem
+}
 
 /**
  * Sets the number of occurrences to the word.
@@ -49,32 +49,32 @@ ProminentWord.prototype.getStem = function() {
  *
  * @returns {void}.
  */
-ProminentWord.prototype.setOccurrences = function( numberOfOccurrences ) {
-	this._occurrences = numberOfOccurrences;
-};
+ProminentWord.prototype.setOccurrences = function (numberOfOccurrences) {
+	this._occurrences = numberOfOccurrences
+}
 
 /**
  * Returns the amount of occurrences of this word combination.
  *
  * @returns {number} The number of occurrences.
  */
-ProminentWord.prototype.getOccurrences = function() {
-	return this._occurrences;
-};
+ProminentWord.prototype.getOccurrences = function () {
+	return this._occurrences
+}
 
 /**
  * Serializes the ProminentWord instance to an object.
  *
  * @returns {Object} The serialized ProminentWord.
  */
-ProminentWord.prototype.serialize = function() {
+ProminentWord.prototype.serialize = function () {
 	return {
-		_parseClass: "ProminentWord",
-		word: this._word,
-		stem: this._stem,
-		occurrences: this._occurrences,
-	};
-};
+		_parseClass : 'ProminentWord',
+		word        : this._word,
+		stem        : this._stem,
+		occurrences : this._occurrences
+	}
+}
 
 /**
  * Parses the object to a WordCombination.
@@ -83,8 +83,8 @@ ProminentWord.prototype.serialize = function() {
  *
  * @returns {ProminentWord} The parsed WordCombination.
  */
-ProminentWord.parse = function( serialized ) {
-	return new ProminentWord( serialized.word, serialized.stem, serialized.occurrences );
-};
+ProminentWord.parse = function (serialized) {
+	return new ProminentWord(serialized.word, serialized.stem, serialized.occurrences)
+}
 
-export default ProminentWord;
+export default ProminentWord

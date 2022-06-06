@@ -4,8 +4,7 @@ import { stripFullTags as stripTags } from './stripHTMLTags.js'
 
 import stripSpaces from './stripSpaces.js'
 import removePunctuation from './removePunctuation.js'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
+import { map, filter } from 'lodash-es'
 
 /**
  * Returns an array with words used in the text.
@@ -19,7 +18,7 @@ export default function (text) {
 		return []
 	}
 
-	var words = text.split(/\s/g)
+	let words = text.split(/\s/g)
 
 	words = map(words, function (word) {
 		return removePunctuation(word)

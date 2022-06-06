@@ -93,6 +93,9 @@
 </template>
 
 <script>
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 const matchDefaults = {
 	type  : null,
 	key   : null,
@@ -100,6 +103,11 @@ const matchDefaults = {
 	regex : null
 }
 export default {
+	components : {
+		CoreTooltip,
+		SvgCirclePlus,
+		SvgTrash
+	},
 	props : {
 		editCustomRules : Array
 	},

@@ -1,14 +1,13 @@
-import uniq from "lodash/uniq";
+import { uniq } from 'lodash-es'
 
-import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
-import getWordIndices from "../getIndicesWithRegex.js";
+import arrayToRegex from '../../../stringProcessing/createRegexFromArray.js'
+import getWordIndices from '../getIndicesWithRegex.js'
 
-import cannotBeBetweenAuxiliaryAndParticiplePolishFactory from "../../../polish/functionWords.js";
+import cannotBeBetweenAuxiliaryAndParticiplePolishFactory from '../../../polish/functionWords.js'
+import { getIndicesByWordListSorted } from '../../../stringProcessing/indices.js'
 
 const cannotBeBetweenAuxiliaryAndParticiplePolish =
-cannotBeBetweenAuxiliaryAndParticiplePolishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple;
-import { getIndicesByWordListSorted } from "../../../stringProcessing/indices.js";
-
+cannotBeBetweenAuxiliaryAndParticiplePolishFactory().cannotBeBetweenPassiveAuxiliaryAndParticiple
 
 /**
  * Checks whether there are any exception words in between the auxiliary and participle. If there are, it doesn't return a passive.
@@ -21,36 +20,36 @@ import { getIndicesByWordListSorted } from "../../../stringProcessing/indices.js
  * @returns {boolean} Returns true if a word from the 'cannot be between passive auxiliary and participle' exception list
  * appears anywhere in between the last (closest to participle) auxiliary and the participle.
  */
-export default function( sentencePart, participle, auxiliaries, language ) {
-	const auxiliariesUnique = uniq( auxiliaries );
+export default function (sentencePart, participle, auxiliaries, language) {
+	const auxiliariesUnique = uniq(auxiliaries)
 
-	const auxiliaryIndices = getIndicesByWordListSorted( auxiliariesUnique, sentencePart );
+	const auxiliaryIndices = getIndicesByWordListSorted(auxiliariesUnique, sentencePart)
 
-	const participleIndex = sentencePart.indexOf( participle );
-	let nonDirectParticiplePrecendenceExceptionRegex;
+	const participleIndex = sentencePart.indexOf(participle)
+	let nonDirectParticiplePrecendenceExceptionRegex
 
-	switch ( language ) {
-		case "pl":
-			nonDirectParticiplePrecendenceExceptionRegex = arrayToRegex( cannotBeBetweenAuxiliaryAndParticiplePolish );
-			break;
+	switch (language) {
+		case 'pl':
+			nonDirectParticiplePrecendenceExceptionRegex = arrayToRegex(cannotBeBetweenAuxiliaryAndParticiplePolish)
+			break
 	}
 
 	// This exception is only applicable for passive constructions in which the auxiliary precedes the participle.
-	const matches = auxiliaryIndices.filter( auxiliaryIndex => auxiliaryIndex.index < participleIndex );
+	const matches = auxiliaryIndices.filter(auxiliaryIndex => auxiliaryIndex.index < participleIndex)
 
 	// If there are no auxiliaries before the participle, this exception is not applicable.
-	if ( matches.length === 0 ) {
-		return false;
+	if (0 === matches.length) {
+		return false
 	}
 
 	// We pick the auxiliary closest to the participle, since that is most likely the one belonging to the participle.
-	const participleAuxiliary = matches[ matches.length - 1 ];
+	const participleAuxiliary = matches[matches.length - 1]
 
-	const precedenceExceptionIndices = getWordIndices( sentencePart, nonDirectParticiplePrecendenceExceptionRegex );
+	const precedenceExceptionIndices = getWordIndices(sentencePart, nonDirectParticiplePrecendenceExceptionRegex)
 
 	// Check whether there are any precendence words between the auxiliary and the participle.
-	const remaningPrecedenceExceptionIndices = precedenceExceptionIndices.filter( precedenceExceptionIndex =>
-		( precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex ) );
+	const remaningPrecedenceExceptionIndices = precedenceExceptionIndices.filter(precedenceExceptionIndex =>
+		(precedenceExceptionIndex.index > participleAuxiliary.index && precedenceExceptionIndex.index < participleIndex))
 
-	return remaningPrecedenceExceptionIndices.length > 0;
+	return 0 < remaningPrecedenceExceptionIndices.length
 }

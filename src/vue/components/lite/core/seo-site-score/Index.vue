@@ -33,7 +33,13 @@
 import { popup } from '@/vue/utils/popup'
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions, mapState, mapGetters } from 'vuex'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSiteScoreDashboard from '@/vue/components/common/core/site-score/Dashboard'
 export default {
+	components : {
+		CoreBlur,
+		CoreSiteScoreDashboard
+	},
 	mixins   : [ SeoSiteScore ],
 	computed : {
 		...mapState([ 'internalOptions', 'analyzing' ]),

@@ -1,27 +1,24 @@
 /** @module config/syllables */
 
-import getLanguage from '../helpers/getLanguage.js';
+import getLanguage from '../helpers/getLanguage.js'
+import de from './syllables/de.json'
+import en from './syllables/en.json'
+import nl from './syllables/nl.json'
+import it from './syllables/it.json'
+import ru from './syllables/ru.json'
+import fr from './syllables/fr.json'
+import es from './syllables/es.json'
+import pt from './syllables/pt.json'
 
-import isUndefined from "lodash/isUndefined";
+const languages = { de, nl, en, it, ru, fr, es, pt }
 
-import de from './syllables/de.json';
-import en from './syllables/en.json';
-import nl from './syllables/nl.json';
-import it from './syllables/it.json';
-import ru from './syllables/ru.json';
-import fr from './syllables/fr.json';
-import es from './syllables/es.json';
-import pt from './syllables/pt.json';
+export default function (locale = 'en_US') {
+	const language = getLanguage(locale)
 
-let languages = { de, nl, en, it, ru, fr, es, pt };
-
-export default function( locale = "en_US" ) {
-	let language = getLanguage( locale );
-
-	if( languages.hasOwnProperty( language ) ) {
-		return languages[ language ];
+	if (Object.prototype.hasOwnProperty.call(languages, language)) {
+		return languages[language]
 	}
 
 	// If an unknown locale is used, default to English.
-	return languages[ "en" ];
+	return languages.en
 };

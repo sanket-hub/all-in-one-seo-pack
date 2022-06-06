@@ -1,7 +1,7 @@
-import uniq from 'lodash/uniq'
+import { uniq } from 'lodash-es'
 import getKeyphraseType from '../researches/helpers/getKeyphraseType'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	noMatches           : 3,
@@ -25,24 +25,36 @@ function keyphraseInImageAlt (content, keyphrase, type) {
 
 	if (null !== content.toLowerCase().match(regex)) {
 		return {
-			// Translators: 1 - Focus Keyphrase or Keyphrase.
-			title       : sprintf(__('%1$s in image alt attributes', td), keyphraseType),
-			// Translators: 1 - Focus Keyphrase or Keyphrase.
-			description : sprintf(__('%1$s found in image alt attribute(s).', td), keyphraseType),
-			score       : scores.goodNumberOfMatches,
-			maxScore    : scores.goodNumberOfMatches,
-			error       : 0
+			title : sprintf(
+				// Translators: 1 - Focus Keyphrase or Keyphrase.
+				__('%1$s in image alt attributes', td),
+				keyphraseType
+			),
+			description : sprintf(
+				// Translators: 1 - Focus Keyphrase or Keyphrase.
+				__('%1$s found in image alt attribute(s).', td),
+				keyphraseType
+			),
+			score    : scores.goodNumberOfMatches,
+			maxScore : scores.goodNumberOfMatches,
+			error    : 0
 		}
 	}
 
 	return {
-		// Translators: 1 - Focus Keyphrase or Keyphrase.
-		title       : sprintf(__('%1$s in image alt attributes', td), keyphraseType),
-		// Translators: 1 - Focus Keyphrase or Keyphrase.
-		description : sprintf(__('%1$s not found in image alt attribute(s). Add an image with your %1$s as alt text.', td), keyphraseType),
-		score       : scores.noMatches,
-		maxScore    : scores.goodNumberOfMatches,
-		error       : 1
+		title : sprintf(
+			// Translators: 1 - Focus Keyphrase or Keyphrase.
+			__('%1$s in image alt attributes', td),
+			keyphraseType
+		),
+		description : sprintf(
+			// Translators: 1 - Focus Keyphrase or Keyphrase.
+			__('%1$s not found in image alt attribute(s). Add an image with your %1$s as alt text.', td),
+			keyphraseType
+		),
+		score    : scores.noMatches,
+		maxScore : scores.goodNumberOfMatches,
+		error    : 1
 	}
 }
 

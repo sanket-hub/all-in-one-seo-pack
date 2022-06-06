@@ -53,7 +53,19 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 import { mapActions, mapState } from 'vuex'
+import CoreAddRedirectionUrlResults from '@/vue/components/common/core/add-redirection/UrlResults'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
 export default {
+	components : {
+		CoreAddRedirectionUrlResults,
+		CoreLoader,
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleExclamation
+	},
 	props : {
 		url      : String,
 		errors   : Array,

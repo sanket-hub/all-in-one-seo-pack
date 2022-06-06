@@ -3,7 +3,11 @@
 		<template
 			v-if="showGooglePreview && 'all-items' === section"
 		>
-			<div v-html="allResults.advanced.searchPreview" />
+			<core-google-search-preview
+				:domain="searchPreviewDomain"
+				:title="allResults.basic.title.value"
+				:description="allResults.basic.description.value"
+			/>
 		</template>
 		<template
 			v-if="allResults.basic.keywords && 'all-items' === section"
@@ -87,7 +91,13 @@
 </template>
 
 <script>
+import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
+import CoreSeoSiteAnalysisResult from '@/vue/components/common/core/SeoSiteAnalysisResult'
 export default {
+	components : {
+		CoreGoogleSearchPreview,
+		CoreSeoSiteAnalysisResult
+	},
 	props : {
 		section : {
 			type     : String,
@@ -102,7 +112,8 @@ export default {
 	},
 	data () {
 		return {
-			strings : {
+			searchPreviewDomain : null,
+			strings             : {
 				basic       : this.$t.__('Basic SEO', this.$td),
 				advanced    : this.$t.__('Advanced SEO', this.$td),
 				performance : this.$t.__('Performance', this.$td),
@@ -147,6 +158,17 @@ export default {
 		},
 		shouldShowGroup (group) {
 			return Object.keys(this.filterResults(this.allResults[group])).length
+		}
+	},
+	mounted () {
+		if (this.allResults.advanced.searchPreview) {
+			const div = document.createElement('div')
+			div.innerHTML = this.allResults.advanced.searchPreview
+
+			const domain = div.querySelector('.domain')
+			if (domain) {
+				this.searchPreviewDomain = domain.innerText
+			}
 		}
 	}
 }

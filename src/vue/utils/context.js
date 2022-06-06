@@ -1,5 +1,5 @@
 export const isBlockEditor = () => {
-	return document.body.classList.contains('block-editor-page') && window.wp.data
+	return document.body.classList.contains('block-editor-page') && window.wp.data && canLoadBlocks()
 }
 
 export const isClassicEditor = () => {
@@ -38,4 +38,9 @@ export const isSeedProdEditor = () => {
 
 export const isWooCommerceProduct = () => {
 	return (window.aioseo.data.isWooCommerceActive && window.aioseo.currentPost && 'product' === window.aioseo.currentPost.postType)
+}
+
+export const canLoadBlocks = () => {
+	const wp = window.wp
+	return ('undefined' !== typeof wp && 'undefined' !== typeof wp.blocks && 'undefined' !== typeof wp.blockEditor)
 }

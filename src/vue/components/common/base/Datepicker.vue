@@ -21,6 +21,9 @@
 				v-if="picker.startDate || picker.endDate"
 				@click.native="clearDates($event)"
 			/>
+			<svg-news-channel
+				v-if="!picker.startDate && !picker.endDate"
+			/>
 		</template>
 	</date-range-picker>
 </template>
@@ -28,9 +31,16 @@
 <script>
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import DateRangePicker from 'vue2-daterange-picker'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgNewsChannel from '@/vue/components/common/svg/NewsChannel'
+
 export default {
-	components : { DateRangePicker },
-	props      : {
+	components : {
+		DateRangePicker,
+		SvgCircleClose,
+		SvgNewsChannel
+	},
+	props : {
 		value : String,
 		size  : {
 			type        : String,
@@ -96,6 +106,7 @@ export default {
 		border: 1px solid $input-border;
 		position: relative;
 
+		svg.aioseo-news-channel,
 		svg.aioseo-circle-close {
 			position: absolute;
 			right: 10px;

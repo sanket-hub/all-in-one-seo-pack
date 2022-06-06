@@ -61,7 +61,13 @@
 </template>
 
 <script>
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgSearch from '@/vue/components/common/svg/Search'
 export default {
+	components : {
+		SvgCircleCheck,
+		SvgSearch
+	},
 	props : {
 		value        : [ String, Number ],
 		appendIcon   : String,

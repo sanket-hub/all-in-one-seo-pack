@@ -42,12 +42,22 @@
 
 <script>
 import '@/vue/assets/scss/main.scss'
-import '@/vue/components/AIOSEO_VERSION'
-// import { debounce } from '@/vue/utils/debounce' // @TODO: [V4+] If we auto-save in the future, add this back in.
 import { getParams, removeParam } from '@/vue/utils/params'
 import { SaveChanges } from '@/vue/mixins'
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import CoreHeader from '@/vue/components/common/core/Header'
+import CoreHelp from '@/vue/components/common/core/Help'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
+import CoreNotifications from '@/vue/components/common/core/Notifications'
+import GridContainer from '@/vue/components/common/grid/Container'
 export default {
+	components : {
+		CoreHeader,
+		CoreHelp,
+		CoreMainTabs,
+		CoreNotifications,
+		GridContainer
+	},
 	mixins : [ SaveChanges ],
 	props  : {
 		pageName : {
@@ -88,7 +98,7 @@ export default {
 	},
 	computed : {
 		...mapGetters([ 'settings' ]),
-		...mapState([ 'loading', 'options', 'showNotifications', 'helpPanel' ]),
+		...mapState([ 'loading', 'options', 'showNotifications', 'helpPanel', 'notifications' ]),
 		tabs () {
 			return this.$router.options.routes
 				.filter(route => route.name && route.meta && route.meta.name)
@@ -124,7 +134,7 @@ export default {
 		}
 	},
 	methods : {
-		...mapMutations([ 'toggleNotifications' ])
+		...mapMutations([ 'toggleNotifications', 'disableForceShowNotifications' ])
 	},
 	mounted () {
 		if (getParams().notifications) {
@@ -135,6 +145,14 @@ export default {
 			setTimeout(() => {
 				removeParam('notifications')
 			}, 500)
+		}
+
+		if (this.notifications.force && this.notifications.active.length) {
+			// First, disable the force show.
+			this.disableForceShowNotifications()
+
+			// Then show the notifications.
+			this.toggleNotifications()
 		}
 	}
 }

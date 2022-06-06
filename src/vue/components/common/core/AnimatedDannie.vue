@@ -7,7 +7,13 @@
 </template>
 
 <script>
+import SvgDannieLabAnimateOne from '@/vue/components/common/svg/dannie/LabAnimateOne'
+import SvgDannieLabAnimateTwo from '@/vue/components/common/svg/dannie/LabAnimateTwo'
 export default {
+	components : {
+		SvgDannieLabAnimateOne,
+		SvgDannieLabAnimateTwo
+	},
 	props : {
 		mascot : {
 			type     : String,

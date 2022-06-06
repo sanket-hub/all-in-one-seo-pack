@@ -39,7 +39,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import SvgBook from '@/vue/components/common/svg/Book'
 export default {
+	components : {
+		CoreSiteScore,
+		SvgBook
+	},
 	props : {
 		score       : Number,
 		loading     : Boolean,
@@ -54,11 +60,22 @@ export default {
 	data () {
 		return {
 			strings : {
-				yourOverallSiteScore       : this.$t.__('Your Overall Site Score', this.$td),
-				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Initial score range, 4 - Final score range.
-				goodResult                 : this.$t.sprintf(this.$t.__('A very good score is between %1$s%3$d and %4$d%2$s.', this.$td), '<strong>', '</strong>', 50, 75),
-				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Score.
-				forBestResults             : this.$t.sprintf(this.$t.__('For best results, you should strive for %1$s%3$d and above%2$s.', this.$td), '<strong>', '</strong>', 70),
+				yourOverallSiteScore : this.$t.__('Your Overall Site Score', this.$td),
+				goodResult           : this.$t.sprintf(
+					// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Initial score range, 4 - Final score range.
+					this.$t.__('A very good score is between %1$s%3$d and %4$d%2$s.', this.$td),
+					'<strong>',
+					'</strong>',
+					50,
+					75
+				),
+				forBestResults : this.$t.sprintf(
+					// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Score.
+					this.$t.__('For best results, you should strive for %1$s%3$d and above%2$s.', this.$td),
+					'<strong>',
+					'</strong>',
+					70
+				),
 				anErrorOccurred            : this.$t.__('An error occurred while analyzing your site.', this.$td),
 				criticalIssues             : this.$t.__('Important Issues', this.$td),
 				warnings                   : this.$t.__('Warnings', this.$td),
@@ -82,8 +99,11 @@ export default {
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'seoAnalyzerIssues', true)
 					)
 				case 'invalid-token':
-					// Translators: 1 - The plugin short name ('AIOSEO').
-					return this.$t.sprintf(this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td), process.env.VUE_APP_SHORT_NAME)
+					return this.$t.sprintf(
+						// Translators: 1 - The plugin short name ('AIOSEO').
+						this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					)
 			}
 
 			return this.analyzeError

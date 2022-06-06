@@ -4,9 +4,17 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb2792624cd6baec636de541302e58ba0
+class ComposerStaticInite5e701195ac120fda24ead3115780422
 {
+    public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -19,6 +27,10 @@ class ComposerStaticInitb2792624cd6baec636de541302e58ba0
         array (
             'InstituteWeb\\ComposerScripts\\' => 29,
         ),
+        'D' => 
+        array (
+            'Dotenv\\' => 7,
+        ),
         'A' => 
         array (
             'AIOSEO\\Plugin\\' => 14,
@@ -26,6 +38,10 @@ class ComposerStaticInitb2792624cd6baec636de541302e58ba0
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -38,6 +54,10 @@ class ComposerStaticInitb2792624cd6baec636de541302e58ba0
         array (
             0 => __DIR__ . '/..' . '/instituteweb/composer-scripts/src',
         ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
         'AIOSEO\\Plugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -47,6 +67,10 @@ class ComposerStaticInitb2792624cd6baec636de541302e58ba0
     public static $prefixesPsr0 = array (
         'P' => 
         array (
+            'PhpOption\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoption/phpoption/src',
+            ),
             'PHPInsight' => 
             array (
                 0 => __DIR__ . '/..' . '/jwhennessey/phpinsight/lib',
@@ -169,10 +193,10 @@ class ComposerStaticInitb2792624cd6baec636de541302e58ba0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb2792624cd6baec636de541302e58ba0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb2792624cd6baec636de541302e58ba0::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb2792624cd6baec636de541302e58ba0::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb2792624cd6baec636de541302e58ba0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite5e701195ac120fda24ead3115780422::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite5e701195ac120fda24ead3115780422::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInite5e701195ac120fda24ead3115780422::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInite5e701195ac120fda24ead3115780422::$classMap;
 
         }, null, ClassLoader::class);
     }

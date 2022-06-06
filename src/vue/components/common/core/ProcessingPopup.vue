@@ -16,7 +16,13 @@
 </template>
 
 <script>
+import CorePercentCircle from '@/vue/components/common/core/PercentCircle'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		CorePercentCircle,
+		SvgClose
+	},
 	data () {
 		return {
 			strings : {

@@ -1,57 +1,54 @@
-import forEach from "lodash/forEach";
-import isEmpty from "lodash/isEmpty";
-import map from "lodash/map";
+import { forEach, isEmpty, map } from 'lodash-es'
 
-import arrayToRegex from "../../stringProcessing/createRegexFromArray.js";
-import stripSpaces from "../../stringProcessing/stripSpaces.js";
+import arrayToRegex from '../../stringProcessing/createRegexFromArray.js'
+import stripSpaces from '../../stringProcessing/stripSpaces.js'
 
 // German-specific imports.
-import SentencePartGerman from "../../german/passiveVoice/SentencePart.js";
+import SentencePartGerman from '../../german/passiveVoice/SentencePart.js'
 
-import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
-
-const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries;
-import stopwordsGermanFactory from "../../german/passiveVoice/stopwords.js";
-const stopwordsGerman = stopwordsGermanFactory();
+import auxiliariesGermanFactory from '../../german/passiveVoice/auxiliaries.js'
+import stopwordsGermanFactory from '../../german/passiveVoice/stopwords.js'
 
 // Dutch-specific imports.
-import SentencePartDutch from "../../dutch/passiveVoice/SentencePart.js";
+import SentencePartDutch from '../../dutch/passiveVoice/SentencePart.js'
 
-import stopwordsDutchFactory from "../../dutch/passiveVoice/stopwords.js";
-const stopwordsDutch = stopwordsDutchFactory();
-import auxiliariesDutchFactory from "../../dutch/passiveVoice/auxiliaries.js";
-const auxiliariesDutch = auxiliariesDutchFactory();
+import stopwordsDutchFactory from '../../dutch/passiveVoice/stopwords.js'
+import auxiliariesDutchFactory from '../../dutch/passiveVoice/auxiliaries.js'
 
 // Polish-specific imports.
-import SentencePartPolish from "../../polish/passiveVoice/SentencePart.js";
+import SentencePartPolish from '../../polish/passiveVoice/SentencePart.js'
 
-import stopwordsPolishFactory from "../../polish/passiveVoice/stopwords.js";
-const stopwordsPolish = stopwordsPolishFactory();
-import auxiliariesPolishFactory from "../../polish/passiveVoice/auxiliaries.js";
-const auxiliariesPolish = auxiliariesPolishFactory();
+import stopwordsPolishFactory from '../../polish/passiveVoice/stopwords.js'
+import auxiliariesPolishFactory from '../../polish/passiveVoice/auxiliaries.js'
 
+const auxiliariesGerman = auxiliariesGermanFactory().allAuxiliaries
+const stopwordsGerman = stopwordsGermanFactory()
+const stopwordsDutch = stopwordsDutchFactory()
+const auxiliariesDutch = auxiliariesDutchFactory()
+const stopwordsPolish = stopwordsPolishFactory()
+const auxiliariesPolish = auxiliariesPolishFactory()
 
 // The language-specific variables.
 const languageVariables = {
-	de: {
-		SentencePart: SentencePartGerman,
-		stopwordRegex: arrayToRegex( stopwordsGerman ),
-		auxiliaryRegex: arrayToRegex( auxiliariesGerman ),
-		locale: "de_DE",
+	de : {
+		SentencePart   : SentencePartGerman,
+		stopwordRegex  : arrayToRegex(stopwordsGerman),
+		auxiliaryRegex : arrayToRegex(auxiliariesGerman),
+		locale         : 'de_DE'
 	},
-	nl: {
-		SentencePart: SentencePartDutch,
-		stopwordRegex: arrayToRegex( stopwordsDutch ),
-		auxiliaryRegex: arrayToRegex( auxiliariesDutch ),
-		locale: "nl_NL",
+	nl : {
+		SentencePart   : SentencePartDutch,
+		stopwordRegex  : arrayToRegex(stopwordsDutch),
+		auxiliaryRegex : arrayToRegex(auxiliariesDutch),
+		locale         : 'nl_NL'
 	},
-	pl: {
-		SentencePart: SentencePartPolish,
-		stopwordRegex: arrayToRegex( stopwordsPolish ),
-		auxiliaryRegex: arrayToRegex( auxiliariesPolish ),
-		locale: "pl_PL",
-	},
-};
+	pl : {
+		SentencePart   : SentencePartPolish,
+		stopwordRegex  : arrayToRegex(stopwordsPolish),
+		auxiliaryRegex : arrayToRegex(auxiliariesPolish),
+		locale         : 'pl_PL'
+	}
+}
 
 /**
  * Strips spaces from the auxiliary matches.
@@ -59,10 +56,10 @@ const languageVariables = {
  * @param {Array} matches A list with matches of auxiliaries.
  * @returns {Array} A list with matches with spaces removed.
  */
-function sanitizeMatches( matches ) {
-	return map( matches, function( match ) {
-		return stripSpaces( match );
-	} );
+function sanitizeMatches (matches) {
+	return map(matches, function (match) {
+		return stripSpaces(match)
+	})
 }
 
 /**
@@ -72,23 +69,23 @@ function sanitizeMatches( matches ) {
  * @param {Array} stopwords The array with matched stopwords.
  * @returns {Array} The array with sentence parts.
  */
-function splitOnWords( sentence, stopwords ) {
-	const splitSentences = [];
+function splitOnWords (sentence, stopwords) {
+	const splitSentences = []
 
 	// Split the sentence on each found stopword and push this part in an array.
-	forEach( stopwords, function( stopword ) {
-		const sentenceSplit = sentence.split( stopword );
-		if ( ! isEmpty( sentenceSplit[ 0 ] ) ) {
-			splitSentences.push( sentenceSplit[ 0 ] );
+	forEach(stopwords, function (stopword) {
+		const sentenceSplit = sentence.split(stopword)
+		if (!isEmpty(sentenceSplit[0])) {
+			splitSentences.push(sentenceSplit[0])
 		}
-		const startIndex = sentence.indexOf( stopword );
-		const endIndex = sentence.length;
-		sentence = stripSpaces( sentence.substr( startIndex, endIndex ) );
-	} );
+		const startIndex = sentence.indexOf(stopword)
+		const endIndex = sentence.length
+		sentence = stripSpaces(sentence.substr(startIndex, endIndex))
+	})
 
 	// Push the remainder of the sentence in the sentence parts array.
-	splitSentences.push( sentence );
-	return splitSentences;
+	splitSentences.push(sentence)
+	return splitSentences
 }
 
 /**
@@ -99,15 +96,15 @@ function splitOnWords( sentence, stopwords ) {
  *
  * @returns {Array} The array with sentence parts.
  */
-function createSentenceParts( sentences, language ) {
-	const auxiliaryRegex = languageVariables[ language ].auxiliaryRegex;
-	const SentencePart = languageVariables[ language ].SentencePart;
-	const sentenceParts = [];
-	forEach( sentences, function( part ) {
-		const foundAuxiliaries = sanitizeMatches( part.match( auxiliaryRegex || [] ) );
-		sentenceParts.push( new SentencePart( part, foundAuxiliaries, languageVariables[ language ].locale ) );
-	} );
-	return sentenceParts;
+function createSentenceParts (sentences, language) {
+	const auxiliaryRegex = languageVariables[language].auxiliaryRegex
+	const SentencePart = languageVariables[language].SentencePart
+	const sentenceParts = []
+	forEach(sentences, function (part) {
+		const foundAuxiliaries = sanitizeMatches(part.match(auxiliaryRegex || []))
+		sentenceParts.push(new SentencePart(part, foundAuxiliaries, languageVariables[language].locale))
+	})
+	return sentenceParts
 }
 
 /**
@@ -118,11 +115,11 @@ function createSentenceParts( sentences, language ) {
  *
  * @returns {Array} The array with sentence parts.
  */
-function splitSentence( sentence, language ) {
-	const stopwordRegex = languageVariables[ language ].stopwordRegex;
-	const stopwords = sentence.match( stopwordRegex ) || [];
-	const splitSentences = splitOnWords( sentence, stopwords );
-	return createSentenceParts( splitSentences, language );
+function splitSentence (sentence, language) {
+	const stopwordRegex = languageVariables[language].stopwordRegex
+	const stopwords = sentence.match(stopwordRegex) || []
+	const splitSentences = splitOnWords(sentence, stopwords)
+	return createSentenceParts(splitSentences, language)
 }
 
-export default splitSentence;
+export default splitSentence

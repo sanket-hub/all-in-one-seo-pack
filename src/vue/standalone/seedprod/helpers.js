@@ -1,5 +1,6 @@
 /* globals seedprod_data */
-import get from 'lodash/get'
+import { get } from 'lodash-es'
+import { getText, getImages } from '@/vue/utils/html'
 
 /**
  * Get the HTML for a given block object.
@@ -98,7 +99,16 @@ export const getContent = () => {
 				col.blocks.forEach(block => {
 					const html = getBlockHTML(block)
 
-					html && content.push(html.outerHTML)
+					if (!html) {
+						return
+					}
+
+					// Skip if there's no text or images, just HTML markup.
+					if ('' === getText(html) && 0 === getImages(html).length) {
+						return
+					}
+
+					content.push(html.outerHTML)
 				})
 			})
 		})

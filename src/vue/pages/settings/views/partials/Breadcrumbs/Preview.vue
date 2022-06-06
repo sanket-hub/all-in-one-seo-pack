@@ -1,5 +1,5 @@
 <template>
-	<div class="preview-box">
+	<div class="aioseo-preview-box">
 		<span class="label" v-if="label">
 			{{ label }}:
 		</span>
@@ -58,3 +58,7 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+
+</style>

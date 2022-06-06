@@ -9,9 +9,11 @@
 </template>
 
 <script>
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import Monsterinsights from './Monsterinsights'
 export default {
 	components : {
+		CoreMain,
 		Monsterinsights
 	},
 	data () {

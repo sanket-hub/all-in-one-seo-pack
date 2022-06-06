@@ -1,7 +1,4 @@
 import superagent from 'superagent'
-import { debounce } from '../../vue/utils/debounce'
-
-export { debounce }
 
 export const http = (nonce) => superagent
 	.agent()

@@ -47,7 +47,15 @@
 
 <script>
 import { VideoSitemap } from '@/vue/pages/sitemaps/mixins'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	components : {
+		CoreBlur,
+		CoreSettingsRow,
+		SvgExternal
+	},
 	mixins : [ VideoSitemap ]
 }
 </script>

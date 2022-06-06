@@ -9,9 +9,9 @@ import diacriticsRemovalMap from '../config/diacritics.js'
  * @returns {string} The text with all diacritics replaced.
  */
 export default function (text) {
-	var map = diacriticsRemovalMap()
+	const map = diacriticsRemovalMap()
 
-	for (var i = 0; i < map.length; i++) {
+	for (let i = 0; i < map.length; i++) {
 		text = text.replace(
 			map[i].letters,
 			map[i].base

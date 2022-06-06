@@ -1,4 +1,4 @@
-import indexOf from 'lodash/indexOf'
+import { indexOf } from 'lodash-es'
 
 import getLanguage from './getLanguage.js'
 
@@ -10,6 +10,6 @@ import getLanguage from './getLanguage.js'
  * @returns {boolean} Returns true if the language is found in the array.
  */
 export default function (locale, languages) {
-	var language = getLanguage(locale)
+	const language = getLanguage(locale)
 	return -1 < indexOf(languages, language)
 }

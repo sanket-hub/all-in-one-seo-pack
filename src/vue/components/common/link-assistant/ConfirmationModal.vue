@@ -39,7 +39,13 @@
 </template>
 
 <script>
+import CoreModal from '@/vue/components/common/core/Modal'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		CoreModal,
+		SvgClose
+	},
 	props : {
 		showModal : {
 			type     : Boolean,

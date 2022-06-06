@@ -197,7 +197,7 @@ trait WpContext {
 	 * @param  WP_Post|int $post The post (optional).
 	 * @return string            The post content.
 	 */
-	public function getContent( $post = null ) {
+	public function getPostContent( $post = null ) {
 		$post = ( $post && is_object( $post ) ) ? $post : $post = $this->getPost( $post );
 
 		static $content = [];
@@ -225,6 +225,10 @@ trait WpContext {
 	 * @return string              The parsed post content.
 	 */
 	public function theContent( $postContent ) {
+		if ( ! aioseo()->options->searchAppearance->advanced->runShortcodes ) {
+			return $postContent;
+		}
+
 		// The order of the function calls below is intentional and should NOT change.
 		$postContent = function_exists( 'do_blocks' ) ? do_blocks( $postContent ) : $postContent; // phpcs:ignore AIOSEO.WpFunctionUse.NewFunctions.do_blocksFound
 		$postContent = wpautop( $postContent );
@@ -249,18 +253,13 @@ trait WpContext {
 			return $content[ $post->ID ];
 		}
 
-		if ( empty( $post->post_content ) ) {
-			return $post->post_content;
+		if ( empty( $post->post_content ) || ! empty( $post->post_password ) ) {
+			$content[ $post->ID ] = '';
+
+			return $content[ $post->ID ];
 		}
 
-		$postContent = $post->post_content;
-		if (
-			! in_array( 'runShortcodesInDescription', aioseo()->internalOptions->deprecatedOptions, true ) ||
-			aioseo()->options->deprecated->searchAppearance->advanced->runShortcodesInDescription
-		) {
-			$postContent = $this->theContent( $postContent );
-		}
-
+		$postContent          = $this->getPostContent( $post );
 		$postContent          = wp_trim_words( $postContent, 55, '' );
 		$postContent          = str_replace( ']]>', ']]&gt;', $postContent );
 		$postContent          = preg_replace( '#(<figure.*\/figure>|<img.*\/>)#', '', $postContent );
@@ -339,16 +338,31 @@ trait WpContext {
 	 * @return int The page number.
 	 */
 	public function getPageNumber() {
-		$page  = get_query_var( 'page' );
-		$paged = get_query_var( 'paged' );
+		$page = get_query_var( 'page' );
+		if ( ! empty( $page ) ) {
+			return (int) $page;
+		}
 
-		return ! empty( $page )
-			? $page
-			: (
-				! empty( $paged )
-					? $paged
-					: 1
-			);
+		$paged = get_query_var( 'paged' );
+		if ( ! empty( $paged ) ) {
+			return (int) $paged;
+		}
+
+		return 1;
+	}
+
+
+	/**
+	 * Returns the page number for the comment page.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return int|false The page number or false if we're not on a comment page.
+	 */
+	public function getCommentPageNumber() {
+		$cpage = get_query_var( 'cpage' );
+
+		return ! empty( $cpage ) ? (int) $cpage : false;
 	}
 
 	/**
@@ -369,12 +383,23 @@ trait WpContext {
 			$post = get_post( $post );
 		}
 
-		// In order to prevent recursion, we are skipping scheduled-action posts.
+		// No post, no go.
+		if ( empty( $post ) ) {
+			return false;
+		}
+
+		// In order to prevent recursion, we are skipping scheduled-action posts and revisions.
 		if (
-			empty( $post ) ||
 			'scheduled-action' === $post->post_type ||
-			'revision' === $post->post_type ||
-			! in_array( $post->post_status, $allowedPostStatuses, true )
+			'revision' === $post->post_type
+		) {
+			return false;
+		}
+
+		// Ensure this post has the proper post status.
+		if (
+			! in_array( $post->post_status, $allowedPostStatuses, true ) &&
+			! in_array( 'all', $allowedPostStatuses, true )
 		) {
 			return false;
 		}
@@ -407,9 +432,9 @@ trait WpContext {
 	 * @return int|boolean       The attachment ID or false if no attachment could be found.
 	 */
 	public function attachmentUrlToPostId( $url ) {
-		$cacheName = sha1( "aioseo_attachment_url_to_post_id_$url" );
+		$cacheName = 'attachment_url_to_post_id_' . sha1( "aioseo_attachment_url_to_post_id_$url" );
 
-		$cachedId = aioseo()->cache->get( $cacheName );
+		$cachedId = aioseo()->core->cache->get( $cacheName );
 		if ( $cachedId ) {
 			return 'none' !== $cachedId && is_numeric( $cachedId ) ? (int) $cachedId : false;
 		}
@@ -426,7 +451,7 @@ trait WpContext {
 		}
 
 		if ( ! $this->isValidAttachment( $path ) ) {
-			aioseo()->cache->update( $cacheName, 'none' );
+			aioseo()->core->cache->update( $cacheName, 'none' );
 
 			return false;
 		}
@@ -435,7 +460,7 @@ trait WpContext {
 			$path = substr( $path, strlen( $uploadDirInfo['baseurl'] . '/' ) );
 		}
 
-		$results = aioseo()->db->start( 'postmeta' )
+		$results = aioseo()->core->db->start( 'postmeta' )
 			->select( 'post_id' )
 			->where( 'meta_key', '_wp_attached_file' )
 			->where( 'meta_value', $path )
@@ -444,12 +469,12 @@ trait WpContext {
 			->result();
 
 		if ( empty( $results[0]->post_id ) ) {
-			aioseo()->cache->update( $cacheName, 'none' );
+			aioseo()->core->cache->update( $cacheName, 'none' );
 
 			return false;
 		}
 
-		aioseo()->cache->update( $cacheName, $results[0]->post_id );
+		aioseo()->core->cache->update( $cacheName, $results[0]->post_id );
 
 		return $results[0]->post_id;
 	}
@@ -544,5 +569,36 @@ trait WpContext {
 		}
 
 		return get_current_screen();
+	}
+
+	/**
+	 * Checks whether the current site is a multisite subdomain.
+	 *
+	 * @since 4.1.9
+	 *
+	 * @return bool Whether the current site is a subdomain.
+	 */
+	public function isSubdomain() {
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		return apply_filters( 'aioseo_multisite_subdomain', is_subdomain_install() );
+	}
+
+	/**
+	 * Returns if the current page is the login or register page.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return bool Login or register page.
+	 */
+	public function isWpLoginPage() {
+		$self = ! empty( $_SERVER['PHP_SELF'] ) ? wp_unslash( $_SERVER['PHP_SELF'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( preg_match( '/wp-login\.php$|wp-register\.php$/', $self ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -3,7 +3,9 @@
 		<div class="twitter-post">
 			<div class="twitter-header">
 				<div class="profile-photo">
-					<img src="@/vue/assets/images/aio/dannie-profile.png" />
+					<img
+						:src="$getImgUrl(dannieProfileImg)"
+					/>
 				</div>
 				<div class="poster">
 					<div class="poster-name">
@@ -58,7 +60,16 @@
 
 <script>
 import { mapState } from 'vuex'
+import dannieProfileImg from '@/vue/assets/images/aio/dannie-profile.png'
+import BaseImg from '@/vue/components/common/base/Img'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import SvgBook from '@/vue/components/common/svg/Book'
 export default {
+	components : {
+		BaseImg,
+		CoreLoader,
+		SvgBook
+	},
 	props : {
 		image   : String,
 		card    : String,
@@ -71,13 +82,14 @@ export default {
 	},
 	data () {
 		return {
+			dannieProfileImg,
 			canShowImage : false
 		}
 	},
 	computed : {
 		...mapState([ 'options' ]),
 		appName () {
-			return process.env.VUE_APP_NAME
+			return import.meta.env.VITE_NAME
 		},
 		getCard () {
 			if ('default' === this.card) {

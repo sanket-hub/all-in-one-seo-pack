@@ -42,9 +42,13 @@
 
 <script>
 import Blur from './Blur'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
-		Blur
+		Blur,
+		CoreAlert,
+		Cta
 	},
 	props : {
 		hasMinimumVersion      : Boolean,
@@ -54,8 +58,13 @@ export default {
 	data () {
 		return {
 			strings : {
-				ctaButtonText        : this.$t.__('Upgrade to Pro and Unlock Redirects', this.$td),
-				ctaHeader            : this.$t.sprintf(this.$t.__('Redirects are only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
+				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Redirects', this.$td),
+				ctaHeader     : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - Pro.
+					this.$t.__('Redirects are only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
 				serverRedirects      : this.$t.__('Fast Server Redirects', this.$td),
 				automaticRedirects   : this.$t.__('Automatic Redirects', this.$td),
 				redirectMonitoring   : this.$t.__('Redirect Monitoring', this.$td),

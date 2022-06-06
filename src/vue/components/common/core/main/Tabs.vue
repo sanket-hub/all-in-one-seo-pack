@@ -16,12 +16,7 @@
 			>
 				<template #md-tab="{ tab }">
 					<slot name="md-tab" :tab="tab">
-						<component
-							:class="[
-								{ warning: tab.data.warning }
-							]"
-							:is="tab.icon"
-						/>
+						<slot name="md-tab-icon" :tab="tab" />
 						<span class="label">{{ tab.label }}</span>
 						<md-tooltip
 							v-if="'sidebar' === $root._data.screenContext && getActiveTabName() !== tab.label"
@@ -148,7 +143,19 @@
 <script>
 import { SaveChanges, TruSeoScore } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleInformation from '@/vue/components/common/svg/circle/Information'
+import SvgEllipse from '@/vue/components/common/svg/Ellipse'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		SvgCaret,
+		SvgCircleCheck,
+		SvgCircleInformation,
+		SvgEllipse,
+		TransitionSlide
+	},
 	mixins : [ SaveChanges, TruSeoScore ],
 	props  : {
 		tabs : {

@@ -19,7 +19,9 @@
 		>
 			<slot name="no-notifications">
 				<div class="no-notifications">
-					<img src="@/vue/assets/images/aio/dannie-detective.png" />
+					<img
+						:src="$getImgUrl(dannieDetectiveImg)"
+					/>
 
 					<div class="great-scott">
 						{{ strings.greatScott }}
@@ -42,7 +44,16 @@
 </template>
 
 <script>
+import dannieDetectiveImg from '@/vue/assets/images/aio/dannie-detective.png'
+import CoreNotification from '@/vue/components/common/core/Notification'
+import NotificationsReview from '@/vue/components/common/notifications/Review'
+import NotificationsUnlicensedAddons from '@/vue/components/common/notifications/UnlicensedAddons'
 export default {
+	components : {
+		CoreNotification,
+		NotificationsReview,
+		NotificationsUnlicensedAddons
+	},
 	props : {
 		dismissedCount : {
 			type     : Number,
@@ -55,6 +66,7 @@ export default {
 	},
 	data () {
 		return {
+			dannieDetectiveImg,
 			strings : {
 				greatScott         : this.$t.__('Great Scott! Where\'d they all go?', this.$td),
 				noNewNotifications : this.$t.__('You have no new notifications.', this.$td),

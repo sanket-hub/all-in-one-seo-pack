@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import flow from 'lodash/flow'
-import isUndefined from 'lodash/isUndefined'
+import { flow, isUndefined } from 'lodash-es'
 
 /**
  * Internal dependencies
@@ -20,19 +19,21 @@ import stripHTMLEntities from './stripHTMLEntities'
  *
  * @param {string} text Text to clean.
  *
- * @return {string} The clean text.
+ * @returns {string} The clean text.
  */
-export function cleanHTML( text ) {
-	return isUndefined( text ) ? '' : flow(
-		[
-			stripStyle,
-			stripScript,
-			stripHTMLComments,
-			stripHTMLEntities,
-			stripSpaces,
-			normalizeQuotes,
-		]
-	)( text )
+export function cleanHTML (text) {
+	return isUndefined(text)
+		? ''
+		: flow(
+			[
+				stripStyle,
+				stripScript,
+				stripHTMLComments,
+				stripHTMLEntities,
+				stripSpaces,
+				normalizeQuotes
+			]
+		)(text)
 }
 
 /**
@@ -40,20 +41,22 @@ export function cleanHTML( text ) {
  *
  * @param {string} text Text to clean.
  *
- * @return {string} The clean text.
+ * @returns {string} The clean text.
  */
-export function cleanText( text ) {
-	return isUndefined( text ) ? '' : flow(
-		[
-			stripStyle,
-			stripScript,
-			stripTags,
-			stripHTMLComments,
-			stripHTMLEntities,
-			stripSpaces,
-			normalizeQuotes,
-		]
-	)( text )
+export function cleanText (text) {
+	return isUndefined(text)
+		? ''
+		: flow(
+			[
+				stripStyle,
+				stripScript,
+				stripTags,
+				stripHTMLComments,
+				stripHTMLEntities,
+				stripSpaces,
+				normalizeQuotes
+			]
+		)(text)
 }
 
 /**
@@ -61,15 +64,17 @@ export function cleanText( text ) {
  *
  * @param {string} text Text to clean.
  *
- * @return {string} The clean text.
+ * @returns {string} The clean text.
  */
-export function cleanTagsOnly( text ) {
-	return isUndefined( text ) ? '' : flow(
-		[
-			stripTags,
-			stripSpaces,
-		]
-	)( text )
+export function cleanTagsOnly (text) {
+	return isUndefined(text)
+		? ''
+		: flow(
+			[
+				stripTags,
+				stripSpaces
+			]
+		)(text)
 }
 
 /**
@@ -77,14 +82,14 @@ export function cleanTagsOnly( text ) {
  *
  * @param {string} text The text to strip spaces from.
  *
- * @return {string} The text without double spaces
+ * @returns {string} The text without double spaces
  */
-function stripSpaces2( text ) {
+function stripSpaces2 (text) {
 	return text
-		.replace( /&nbsp;|&#160;/gi, ' ' )
-		.replace( /\s{2,}/g, ' ' ) // Replace multiple spaces with single space
-		.replace( /\s\./g, '.' ) // Replace spaces followed by periods with only the period.
-		.replace( /(\r\n|\n|\r)/gm, '' )
+		.replace(/&nbsp;|&#160;/gi, ' ')
+		.replace(/\s{2,}/g, ' ') // Replace multiple spaces with single space
+		.replace(/\s\./g, '.') // Replace spaces followed by periods with only the period.
+		.replace(/(\r\n|\n|\r)/gm, '')
 }
 
 /**
@@ -92,18 +97,20 @@ function stripSpaces2( text ) {
  *
  * @param {string} text Text to clean.
  *
- * @return {string} The clean text.
+ * @returns {string} The clean text.
  */
-export function sanitizeText( text ) {
-	return isUndefined( text ) ? '' : flow(
-		[
-			stripStyle,
-			stripScript,
-			stripTags,
-			stripHTMLComments,
-			stripSpaces2,
-		]
-	)( text )
+export function sanitizeText (text) {
+	return isUndefined(text)
+		? ''
+		: flow(
+			[
+				stripStyle,
+				stripScript,
+				stripTags,
+				stripHTMLComments,
+				stripSpaces2
+			]
+		)(text)
 }
 
 /**
@@ -111,15 +118,17 @@ export function sanitizeText( text ) {
  *
  * @param {string} text Text to clean.
  *
- * @return {string} The clean text.
+ * @returns {string} The clean text.
  */
-export function sanitizeAppData( text ) {
-	return isUndefined( text ) ? '' : flow(
-		[
-			stripStyle,
-			stripScript,
-			stripTags,
-			stripHTMLComments,
-		]
-	)( text )
+export function sanitizeAppData (text) {
+	return isUndefined(text)
+		? ''
+		: flow(
+			[
+				stripStyle,
+				stripScript,
+				stripTags,
+				stripHTMLComments
+			]
+		)(text)
 }

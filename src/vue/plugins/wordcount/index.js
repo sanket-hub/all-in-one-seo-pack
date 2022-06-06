@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import extend from 'lodash/extend'
-import flow from 'lodash/flow'
+import { extend, flow } from 'lodash-es'
 
 /**
  * Internal dependencies

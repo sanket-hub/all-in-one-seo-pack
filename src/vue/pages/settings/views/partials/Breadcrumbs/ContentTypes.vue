@@ -128,10 +128,19 @@
 
 <script>
 import { mapState } from 'vuex'
-import preview from './Preview'
-
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import Preview from './Preview'
 export default {
-	components : { preview },
+	components : {
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		GridColumn,
+		GridRow,
+		Preview
+	},
 	data () {
 		return {
 			strings : {
@@ -186,7 +195,12 @@ export default {
 			return template.replace(new RegExp('#breadcrumb_post_title', 'g'), postType.singular + ' Parent')
 		},
 		getPostTypeTemplate (postType) {
-			const template = this.dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.dynamicOptions.breadcrumbs.postTypes[postType.name].template
+			let template = this.dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate ? this.$aioseo.breadcrumbs.defaultTemplates.postTypes[postType.name] : this.dynamicOptions.breadcrumbs.postTypes[postType.name].template
+			if ('product' === postType.name) {
+				template = template.replace(new RegExp('#breadcrumb_wc_product_sku', 'g'), 'SKU')
+				template = template.replace(new RegExp('#breadcrumb_wc_product_price', 'g'), '$10.00')
+				template = template.replace(new RegExp('#breadcrumb_wc_product_brand', 'g'), 'Brand')
+			}
 			return template.replace(new RegExp('#breadcrumb_post_title', 'g'), postType.singular)
 		},
 		getPostTaxonomyOptions (postType) {

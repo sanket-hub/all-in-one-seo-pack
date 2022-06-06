@@ -25,11 +25,20 @@
 
 <script>
 import BackupSettings from './partials/BackupSettings'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 import ExportSettings from './partials/ExportSettings'
 import ImportAioseo from './partials/ImportAioseo'
 import ImportOthers from './partials/ImportOthers'
 export default {
-	components : { BackupSettings, ExportSettings, ImportAioseo, ImportOthers },
+	components : {
+		BackupSettings,
+		GridColumn,
+		GridRow,
+		ExportSettings,
+		ImportAioseo,
+		ImportOthers
+	},
 	data () {
 		return {
 			strings : {

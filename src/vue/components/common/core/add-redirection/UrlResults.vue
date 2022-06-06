@@ -38,7 +38,13 @@
 </template>
 
 <script>
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	components : {
+		CoreProBadge,
+		SvgExternal
+	},
 	props : {
 		results : {
 			type     : Array,

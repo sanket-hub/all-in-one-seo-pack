@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from '@/vue/store'
 import { customFieldsContent } from './customFields'
 import { getPostEditedPermalink } from './postPermalink'
+import { flattenBlocks } from '@/vue/utils/helpers'
 import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
 import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
 import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
@@ -33,6 +34,33 @@ const getEditorContent = () => {
 }
 
 /**
+ * Parses postContent for reusable blocks and replaces their refs with content.
+ *
+ * @param {string} content Content from the block editor.
+ *
+ * @returns {string} Post content with reusable block refs replaced by their content.
+ */
+const getReusableBlockContent = (content) => {
+	if (!content.includes('<!-- wp:block {"ref":')) {
+		return content
+	}
+
+	const allBlocks = window.wp.blocks?.rawHandler({ HTML: content })
+	const blocksWithChildren = flattenBlocks(allBlocks)
+	blocksWithChildren.forEach(block => {
+		if ('core/block' === block.name) {
+			const reData = window.wp.data.select('core').getEntityRecord('postType', 'wp_block', block.attributes?.ref)
+
+			if (reData?.content?.raw) {
+				content = content.replace(`<!-- wp:block {"ref":${block.attributes?.ref}} /-->`, reData.content.raw)
+			}
+		}
+	})
+
+	return content
+}
+
+/**
  * Returns the stored post content.
  *
  * @returns {string} Post Content
@@ -58,6 +86,7 @@ export const getPostContent = () => {
 
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getCurrentPost().content
+		postContent = getReusableBlockContent(postContent)
 	}
 
 	if (!postContent) {
@@ -99,6 +128,7 @@ export const getPostEditedContent = () => {
 	}
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getEditedPostContent()
+		postContent = getReusableBlockContent(postContent)
 	}
 
 	if (!postContent) {

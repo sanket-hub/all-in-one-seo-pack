@@ -3,7 +3,7 @@ import { stripFullTags as stripTags } from '../researches/stringProcessing/strip
 import { getSubheadingContentsTopLevel } from '../researches/stringProcessing/getSubheadings'
 import { inRangeStartEndInclusive } from '../researches/helpers/inRange'
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const parameters = {
 	lowerBoundary : 0.3,

@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n'
 
-const td       = process.env.VUE_APP_TEXTDOMAIN
+const td       = import.meta.env.VITE_TEXTDOMAIN
 const loadView = view => {
-	return () => import(/* webpackChunkName: "local-seo-[request]" */ '@/vue/pages/local-seo/views/' + view + '.vue')
+	return () => import('../views/' + view + '.vue')
 }
 
 export default [

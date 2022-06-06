@@ -1,48 +1,43 @@
-import find from "lodash/find";
-import forEach from "lodash/forEach";
-import memoize from "lodash/memoize";
-import includes from "lodash/includes";
-import flattenDeep from "lodash/flattenDeep";
+import { find, forEach, memoize, includes, flattenDeep } from 'lodash-es'
 
-import irregularsEnglishFactory from "../../english/passiveVoice/irregulars";
-const irregularsEnglish = irregularsEnglishFactory();
+import irregularsEnglishFactory from '../../english/passiveVoice/irregulars'
 
-import irregularsFrenchFactory from "../../french/passiveVoice/irregulars";
+import irregularsFrenchFactory from '../../french/passiveVoice/irregulars'
 
-const irregularsFrench = irregularsFrenchFactory();
+import spanishParticiplesFactory from '../../spanish/passiveVoice/participles'
+import portugueseParticiplesFactory from '../../portuguese/passiveVoice/participles'
+import italianParticiplesFactory from '../../italian/passiveVoice/participles'
+import irregularsDutchFactory from '../../dutch/passiveVoice/irregulars'
+import polishParticiplesFactory from '../../polish/passiveVoice/participles'
+const irregularsEnglish = irregularsEnglishFactory()
 
-const irregularsRegularFrench = irregularsFrench.irregularsRegular;
-const irregularsIrregularFrench = irregularsFrench.irregularsIrregular;
-const irregularsEndingInSFrench = irregularsFrench.irregularsEndingInS;
+const irregularsFrench = irregularsFrenchFactory()
 
-import spanishParticiplesFactory from "../../spanish/passiveVoice/participles";
-const spanishParticiples = spanishParticiplesFactory();
-import portugueseParticiplesFactory from "../../portuguese/passiveVoice/participles";
-const portugueseParticiples = portugueseParticiplesFactory();
-import italianParticiplesFactory from "../../italian/passiveVoice/participles";
-const italianParticiples = italianParticiplesFactory();
-import irregularsDutchFactory from "../../dutch/passiveVoice/irregulars";
-const irregularsDutch = irregularsDutchFactory();
-const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
-import polishParticiplesFactory from "../../polish/passiveVoice/participles";
-const polishParticiples = polishParticiplesFactory();
-
+const irregularsRegularFrench = irregularsFrench.irregularsRegular
+const irregularsIrregularFrench = irregularsFrench.irregularsIrregular
+const irregularsEndingInSFrench = irregularsFrench.irregularsEndingInS
+const spanishParticiples = spanishParticiplesFactory()
+const portugueseParticiples = portugueseParticiplesFactory()
+const italianParticiples = italianParticiplesFactory()
+const irregularsDutch = irregularsDutchFactory()
+const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig
+const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig
+const polishParticiples = polishParticiplesFactory()
 
 // The language-specific participle regexes.
 const languageVariables = {
-	en: {
-		regularParticiplesRegex: /\w+ed($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+	en : {
+		regularParticiplesRegex : /\w+ed($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig
 	},
-	fr: {
-		regularParticiplesRegex: /\S+(é|ée|és|ées)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
+	fr : {
+		regularParticiplesRegex : /\S+(é|ée|és|ées)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig
 	},
-	nl: {
-		regularParticipleRegexPattern1: nlRegex1,
-		regularParticipleRegexPattern2: nlRegex2,
-	},
-};
-const languagesWithoutRegularParticiples = [ "es", "it", "pl", "pt" ];
+	nl : {
+		regularParticipleRegexPattern1 : nlRegex1,
+		regularParticipleRegexPattern2 : nlRegex2
+	}
+}
+const languagesWithoutRegularParticiples = [ 'es', 'it', 'pl', 'pt' ]
 
 /**
  * Returns words that have been determined to be a regular participle.
@@ -52,26 +47,26 @@ const languagesWithoutRegularParticiples = [ "es", "it", "pl", "pt" ];
  *
  * @returns {Array} A list with the matches.
  */
-const regularParticiples = function( word, language ) {
+const regularParticiples = function (word, language) {
 	// In certain languages we don't match participles with a regular regex pattern.
-	if ( languagesWithoutRegularParticiples.includes( language ) ) {
-		return [];
+	if (languagesWithoutRegularParticiples.includes(language)) {
+		return []
 	}
 
 	// Matches word with language-specific participle regexes.
-	let matches = [];
+	let matches = []
 
-	Object.keys( languageVariables[ language ] ).forEach( function( regex ) {
-		const match = word.match( languageVariables[ language ][ regex ] );
-		if ( match !== null ) {
-			matches.push( match );
+	Object.keys(languageVariables[language]).forEach(function (regex) {
+		const match = word.match(languageVariables[language][regex])
+		if (null !== match) {
+			matches.push(match)
 		}
-	} );
+	})
 
-	matches = flattenDeep( matches );
+	matches = flattenDeep(matches)
 
-	return matches;
-};
+	return matches
+}
 
 /**
  * Returns an array of matches of irregular participles with suffixes.
@@ -82,17 +77,17 @@ const regularParticiples = function( word, language ) {
  *
  * @returns {Array} A list with matched irregular participles.
  */
-const matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
-	const matches = [];
-	forEach( irregulars, function( irregular ) {
-		const irregularParticiplesRegex = new RegExp( "^" + irregular + suffixes + "?$", "ig" );
-		const participleMatch = word.match( irregularParticiplesRegex );
-		if ( participleMatch ) {
-			matches.push( participleMatch[ 0 ] );
+const matchFrenchParticipleWithSuffix = function (word, irregulars, suffixes) {
+	const matches = []
+	forEach(irregulars, function (irregular) {
+		const irregularParticiplesRegex = new RegExp('^' + irregular + suffixes + '?$', 'ig')
+		const participleMatch = word.match(irregularParticiplesRegex)
+		if (participleMatch) {
+			matches.push(participleMatch[0])
 		}
-	} );
-	return matches;
-};
+	})
+	return matches
+}
 
 /**
  * Returns the matches for a word in the list of irregulars.
@@ -102,71 +97,71 @@ const matchFrenchParticipleWithSuffix = function( word, irregulars, suffixes ) {
  *
  * @returns {Array} A list with the matches.
  */
-const irregularParticiples = function( word, language ) {
-	let matches = [];
+const irregularParticiples = function (word, language) {
+	let matches = []
 
-	switch ( language ) {
-		case "fr":
+	switch (language) {
+		case 'fr':
 			// Match different classes of participles with suffixes.
-			matches = matches.concat( matchFrenchParticipleWithSuffix( word, irregularsRegularFrench, "(e|s|es)" ) );
-			matches = matches.concat( matchFrenchParticipleWithSuffix( word, irregularsEndingInSFrench, "(e|es)" ) );
+			matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsRegularFrench, '(e|s|es)'))
+			matches = matches.concat(matchFrenchParticipleWithSuffix(word, irregularsEndingInSFrench, '(e|es)'))
 
 			// Match irregular participles that don't require adding a suffix.
-			find( irregularsIrregularFrench, function( irregularParticiple ) {
-				if ( irregularParticiple === word ) {
-					matches.push( irregularParticiple );
+			find(irregularsIrregularFrench, function (irregularParticiple) {
+				if (irregularParticiple === word) {
+					matches.push(irregularParticiple)
 				}
-			} );
-			break;
-		case "es":
+			})
+			break
+		case 'es':
 			// In Spanish, we only match passives from a word list.
-			if ( includes( spanishParticiples, word ) ) {
-				matches.push( word );
+			if (includes(spanishParticiples, word)) {
+				matches.push(word)
 			}
-			break;
-		case "it":
+			break
+		case 'it':
 			// In Italian, we only match passives from a word list.
-			if ( includes( italianParticiples, word ) ) {
-				matches.push( word );
+			if (includes(italianParticiples, word)) {
+				matches.push(word)
 			}
-			break;
-		case "nl":
-			if ( includes( irregularsDutch, word ) ) {
-				matches.push( word );
+			break
+		case 'nl':
+			if (includes(irregularsDutch, word)) {
+				matches.push(word)
 			}
-			break;
-		case "pl":
+			break
+		case 'pl':
 			// In Polish, we only match passives from a word list.
-			if ( includes( polishParticiples, word ) ) {
-				matches.push( word );
+			if (includes(polishParticiples, word)) {
+				matches.push(word)
 			}
-			break;
-		case "pt":
+			break
+		case 'pt':
 			// In Portuguese, we only match passives from a word list.
-			if ( includes( portugueseParticiples, word ) ) {
-				matches.push( word );
+			if (includes(portugueseParticiples, word)) {
+				matches.push(word)
 			}
-			break;
-		case "en":
+			break
+		case 'en':
 		default:
-			find( irregularsEnglish, function( irregularParticiple ) {
-				if ( irregularParticiple === word ) {
-					matches.push( irregularParticiple );
+			find(irregularsEnglish, function (irregularParticiple) {
+				if (irregularParticiple === word) {
+					matches.push(irregularParticiple)
 				}
-			} );
-			break;
+			})
+			break
 	}
-	return matches;
-};
+	return matches
+}
 
 /**
  * Returns methods to return participles for a language.
  *
  * @returns {Object} Methods to return participles in a language.
  */
-export default function() {
+export default function () {
 	return {
-		regularParticiples: memoize( regularParticiples ),
-		irregularParticiples: memoize( irregularParticiples ),
-	};
+		regularParticiples   : memoize(regularParticiples),
+		irregularParticiples : memoize(irregularParticiples)
+	}
 }

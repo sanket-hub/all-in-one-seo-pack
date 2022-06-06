@@ -1,32 +1,31 @@
 import core from 'tokenizer2/core'
-import forEach from 'lodash/forEach'
-import memoize from 'lodash/memoize'
+import { forEach, memoize } from 'lodash-es'
 
-var blockElements = [ 'address', 'article', 'aside', 'blockquote', 'canvas', 'dd', 'div', 'dl', 'fieldset', 'figcaption',
-		'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'li', 'main', 'nav',
-		'noscript', 'ol', 'output', 'p', 'pre', 'section', 'table', 'tfoot', 'ul', 'video' ],
-	inlineElements = [ 'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong',
-		'samp', 'time', 'var', 'a', 'bdo', 'br', 'img', 'map', 'object', 'q', 'script', 'span', 'sub', 'sup', 'button',
-		'input', 'label', 'select', 'textarea' ],
+const blockElements = [ 'address', 'article', 'aside', 'blockquote', 'canvas', 'dd', 'div', 'dl', 'fieldset', 'figcaption',
+	'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'li', 'main', 'nav',
+	'noscript', 'ol', 'output', 'p', 'pre', 'section', 'table', 'tfoot', 'ul', 'video' ]
+const inlineElements = [ 'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong',
+	'samp', 'time', 'var', 'a', 'bdo', 'br', 'img', 'map', 'object', 'q', 'script', 'span', 'sub', 'sup', 'button',
+	'input', 'label', 'select', 'textarea' ]
 
-	blockElementsRegex = new RegExp('^(' + blockElements.join('|') + ')$', 'i'),
-	inlineElementsRegex = new RegExp('^(' + inlineElements.join('|') + ')$', 'i'),
+const blockElementsRegex = new RegExp('^(' + blockElements.join('|') + ')$', 'i')
+const inlineElementsRegex = new RegExp('^(' + inlineElements.join('|') + ')$', 'i')
 
-	blockElementStartRegex = new RegExp('^<(' + blockElements.join('|') + ')[^>]*?>$', 'i'),
-	blockElementEndRegex = new RegExp('^</(' + blockElements.join('|') + ')[^>]*?>$', 'i'),
+const blockElementStartRegex = new RegExp('^<(' + blockElements.join('|') + ')[^>]*?>$', 'i')
+const blockElementEndRegex = new RegExp('^</(' + blockElements.join('|') + ')[^>]*?>$', 'i')
 
-	inlineElementStartRegex = new RegExp('^<(' + inlineElements.join('|') + ')[^>]*>$', 'i'),
-	inlineElementEndRegex = new RegExp('^</(' + inlineElements.join('|') + ')[^>]*>$', 'i'),
+const inlineElementStartRegex = new RegExp('^<(' + inlineElements.join('|') + ')[^>]*>$', 'i')
+const inlineElementEndRegex = new RegExp('^</(' + inlineElements.join('|') + ')[^>]*>$', 'i')
 
-	otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/,
-	otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/,
+const otherElementStartRegex = /^<([^>\s/]+)[^>]*>$/
+const otherElementEndRegex = /^<\/([^>\s]+)[^>]*>$/
 
-	contentRegex = /^[^<]+$/,
-	greaterThanContentRegex = /^<[^><]*$/,
+const contentRegex = /^[^<]+$/
+const greaterThanContentRegex = /^<[^><]*$/
 
-	commentRegex = /<!--(.|[\r\n])*?-->/g,
+const commentRegex = /<!--(.|[\r\n])*?-->/g
 
-	tokens = [],
+let tokens = [],
 	htmlBlockTokenizer
 
 /**
@@ -80,7 +79,8 @@ function isInlineElement (htmlElementName) {
  * @returns {Array} A list of blocks based on HTML block elements.
  */
 function getBlocks (text) {
-	var blocks = [], depth = 0,
+	const blocks = []
+	let depth = 0,
 		blockStartTag = '',
 		currentBlock = '',
 		blockEndTag = ''
@@ -93,7 +93,7 @@ function getBlocks (text) {
 	htmlBlockTokenizer.end()
 
 	forEach(tokens, function (token, i) {
-		var nextToken = tokens[i + 1]
+		const nextToken = tokens[i + 1]
 
 		switch (token.type) {
 			case 'content':

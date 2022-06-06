@@ -60,15 +60,17 @@ trait WpUri {
 			}
 		}
 
-		if ( ! $url ) {
-			global $wp;
+		if ( $url ) {
+			return $url;
+		}
 
-			if ( $wp->did_permalink ) {
-				$url = trailingslashit( home_url( $wp->request ) );
-			} else {
-				// Fall back to request URI if site uses plain permalinks..
-				$url = trailingslashit( home_url( $_SERVER['REQUEST_URI'] ) );
-			}
+		global $wp, $wp_rewrite;
+		// Permalink url without the query string.
+		$url = user_trailingslashit( home_url( $wp->request ) );
+
+		// If permalinks are not being used we need to append the query string to the home url.
+		if ( ! $wp_rewrite->using_permalinks() ) {
+			$url = home_url( ! empty( $wp->query_string ) ? '?' . $wp->query_string : '' );
 		}
 
 		return $url;
@@ -87,6 +89,10 @@ trait WpUri {
 			return $canonicalUrl;
 		}
 
+		if ( is_404() || is_search() ) {
+			return apply_filters( 'aioseo_canonical_url', '' );
+		}
+
 		$metaData = [];
 		$post     = $this->getPost();
 		if ( $post ) {
@@ -98,12 +104,19 @@ trait WpUri {
 		}
 
 		if ( $metaData && ! empty( $metaData->canonical_url ) ) {
-			return $this->makeUrlAbsolute( $metaData->canonical_url );
+			return apply_filters( 'aioseo_canonical_url', $this->makeUrlAbsolute( $metaData->canonical_url ) );
 		}
 
-		$url = $this->getUrl( true );
-		if ( aioseo()->options->searchAppearance->advanced->noPaginationForCanonical && 1 < $this->getPageNumber() ) {
-			$url = preg_replace( '#(\d+\/|(?<=\/)page\/\d+\/)$#', '', $url );
+		$url                      = $this->getUrl( true );
+		$noPaginationForCanonical = aioseo()->options->searchAppearance->advanced->noPaginationForCanonical;
+		$pageNumber               = $this->getPageNumber();
+		if ( $noPaginationForCanonical ) {
+			if ( 1 < $pageNumber ) {
+				$url = preg_replace( '/(\d+\/|(?<=\/)page\/\d+\/)$/', '', $url );
+			}
+
+			// Comment pages.
+			$url = preg_replace( '/((?<=\/)comment-page-\d+\/*(#comments)*)$/', '', $url );
 		}
 
 		$url = $this->maybeRemoveTrailingSlash( $url );
@@ -112,11 +125,6 @@ trait WpUri {
 		if ( ! apply_filters( 'aioseo_disable_canonical_url_amp', false ) ) {
 			$url = preg_replace( '/\/amp$/', '', $url );
 			$url = preg_replace( '/\/amp\/$/', '/', $url );
-		}
-
-		$searchTerm = get_query_var( 's' );
-		if ( is_search() && ! empty( $searchTerm ) ) {
-			$url = add_query_arg( 's', $searchTerm, $url );
 		}
 
 		return apply_filters( 'aioseo_canonical_url', $url );
@@ -276,7 +284,7 @@ trait WpUri {
 		$postTypes = is_array( $postType ) ? $postType : [ $postType, 'attachment' ];
 		$postTypes = "'" . implode( "','", $postTypes ) . "'";
 
-		$posts = aioseo()->db->start( 'posts' )
+		$posts = aioseo()->core->db->start( 'posts' )
 			->select( 'ID, post_name, post_parent, post_type' )
 			->whereRaw( "post_name in ( $postNames )" )
 			->whereRaw( "post_type in ( $postTypes )" )

@@ -42,39 +42,75 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SettingsLicenseKey from '@/vue/components/AIOSEO_VERSION/settings/LicenseKey'
+import SvgRocket from '@/vue/components/common/svg/Rocket'
 export default {
+	components : {
+		CoreCard,
+		CoreGettingStarted,
+		CoreSettingsRow,
+		SettingsLicenseKey,
+		SvgRocket
+	},
 	data () {
 		return {
 			strings : {
-				license           : this.$t.__('License', this.$td),
-				boldText          : this.$t.sprintf('<strong>%1$s %2$s</strong>', process.env.VUE_APP_NAME, this.$t.__('Free', this.$td)),
-				purchasedBoldText : this.$t.sprintf('<strong>%1$s %2$s</strong>', process.env.VUE_APP_NAME, this.$t.__('Pro', this.$td)),
-				// Translators: 1 - "Pro".
-				linkText          : this.$t.sprintf(this.$t.__('upgrading to %1$s', this.$td), 'Pro'),
-				moreBoldText      : this.$t.sprintf(
+				license  : this.$t.__('License', this.$td),
+				boldText : this.$t.sprintf(
+					'<strong>%1$s %2$s</strong>',
+					import.meta.env.VITE_NAME,
+					this.$t.__('Free', this.$td)
+				),
+				purchasedBoldText : this.$t.sprintf(
+					'<strong>%1$s %2$s</strong>',
+					import.meta.env.VITE_NAME,
+					'Pro'
+				),
+				linkText : this.$t.sprintf(
+					// Translators: 1 - "Pro".
+					this.$t.__('upgrading to %1$s', this.$td),
+					'Pro'
+				),
+				moreBoldText : this.$t.sprintf(
 					'<strong>%1$s</strong>',
 					// Translators: This refers to a discount ("As a valued user you receive 50%, automatically applied at checkout!").
 					'50% ' + this.$t.__('off', this.$td)
 				),
 				setupWizard         : this.$t.__('Setup Wizard', this.$td),
 				relaunchSetupWizard : this.$t.__('Relaunch Setup Wizard', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO")
-				setupWizardText     : this.$t.sprintf(this.$t.__('Use our configuration wizard to properly set up %1$s with your WordPress website.', this.$td), process.env.VUE_APP_NAME)
+				setupWizardText     : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO")
+					this.$t.__('Use our configuration wizard to properly set up %1$s with your WordPress website.', this.$td),
+					import.meta.env.VITE_NAME
+				)
 			}
 		}
 	},
 	computed : {
 		...mapGetters([ 'settings' ]),
 		link () {
-			return this.$t.sprintf('<strong><a href="%1$s" target="_blank">%2$s</a></strong>', this.$links.utmUrl('general-settings', 'license-box-tooltip'), this.strings.linkText)
+			return this.$t.sprintf(
+				'<strong><a href="%1$s" target="_blank">%2$s</a></strong>',
+				this.$links.utmUrl('general-settings', 'license-box-tooltip'),
+				this.strings.linkText
+			)
 		},
 		tooltipText () {
-			// Translators: 1 - "upgrading to Pro".
-			return this.$t.sprintf(this.$t.__('To unlock more features, consider %1$s.', this.$td), this.link)
+			return this.$t.sprintf(
+				// Translators: 1 - "upgrading to Pro".
+				this.$t.__('To unlock more features, consider %1$s.', this.$td),
+				this.link
+			)
 		},
 		moreToolTipText () {
-			// Translators: 1 - "50% off".
-			return this.$t.sprintf(this.$t.__('As a valued user you receive %1$s, automatically applied at checkout!', this.$td), this.strings.moreBoldText)
+			return this.$t.sprintf(
+				// Translators: 1 - "50% off".
+				this.$t.__('As a valued user you receive %1$s, automatically applied at checkout!', this.$td),
+				this.strings.moreBoldText
+			)
 		}
 	}
 }

@@ -30,6 +30,38 @@
 		</core-settings-row>
 
 		<core-settings-row
+			v-if="'taxonomies' === type && 'category' === object.name"
+			align
+		>
+			<template #name>
+				{{ strings.removeCatBase }}
+				<core-pro-badge
+					v-if="isUnlicensed"
+				/>
+			</template>
+
+			<template #content>
+				<base-radio-toggle
+					:disabled="isUnlicensed"
+					v-model="removeCatBase"
+					name="removeCatBase"
+					:options="[
+						{ label: $constants.GLOBAL_STRINGS.no, value: false, activeClass: 'dark' },
+						{ label: $constants.GLOBAL_STRINGS.yes, value: true }
+					]"
+				/>
+
+				<core-alert
+					class="inline-upsell"
+					v-if="isUnlicensed"
+					type="blue"
+				>
+					<div v-html="strings.removeCatBaseUpsell" />
+				</core-alert>
+			</template>
+		</core-settings-row>
+
+		<core-settings-row
 			v-if="!noMetaBox && (!isUnlicensed || 'taxonomies' !== type)"
 			:name="strings.otherOptions"
 		>
@@ -80,7 +112,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { JsonValues, MaxCounts } from '@/vue/mixins'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreRobotsMeta from '@/vue/components/common/core/RobotsMeta'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseRadioToggle,
+		CoreRobotsMeta,
+		CoreSettingsRow
+	},
 	mixins : [ JsonValues, MaxCounts ],
 	props  : {
 		type : {
@@ -109,7 +149,14 @@ export default {
 				readOnly                : this.$t.__('Read Only', this.$td),
 				otherOptions            : this.$t.__('Other Options', this.$td),
 				showDateInGooglePreview : this.$t.__('Show Date in Google Preview', this.$td),
-				keywords                : this.$t.__('Keywords', this.$td)
+				keywords                : this.$t.__('Keywords', this.$td),
+				removeCatBase           : this.$t.__('Remove Category Base Prefix', this.$td),
+				removeCatBaseUpsell     : this.$t.sprintf(
+					// Translators: 1 - The plugin short name name ("AIOSEO") + Pro, 2 - "Learn more".
+					this.$t.__('This feature is only for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('search-appearance-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'remove-category-base-prefix', true)
+				)
 			}
 		}
 	},
@@ -120,17 +167,34 @@ export default {
 		...mapGetters([
 			'isUnlicensed'
 		]),
+		removeCatBase : {
+			get () {
+				return this.$isPro ? this.mainOptions.searchAppearance.advanced.removeCatBase : false
+			},
+			set (newValue) {
+				this.mainOptions.searchAppearance.advanced.removeCatBase = newValue
+			}
+		},
 		title () {
-			// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
-			return this.$t.sprintf(this.$t.__('%1$s Title', this.$td), this.object.singular)
+			return this.$t.sprintf(
+				// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
+				this.$t.__('%1$s Title', this.$td),
+				this.object.singular
+			)
 		},
 		showPostThumbnailInSearch () {
-			// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
-			return this.$t.sprintf(this.$t.__('Show %1$s Thumbnail in Google Custom Search', this.$td), this.object.singular)
+			return this.$t.sprintf(
+				// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
+				this.$t.__('Show %1$s Thumbnail in Google Custom Search', this.$td),
+				this.object.singular
+			)
 		},
 		showMetaBox () {
-			// Translators: 1 - The plugin name ("All in One SEO")
-			return this.$t.sprintf(this.$t.__('Show %1$s Meta Box', this.$td), process.env.VUE_APP_SHORT_NAME)
+			return this.$t.sprintf(
+				// Translators: 1 - The plugin name ("All in One SEO")
+				this.$t.__('Show %1$s Meta Box', this.$td),
+				import.meta.env.VITE_SHORT_NAME
+			)
 		}
 	}
 }
@@ -138,6 +202,12 @@ export default {
 
 <style lang="scss">
 .aioseo-sa-ct-advanced {
+	.inline-upsell {
+		display: inline-flex;
+
+		margin-top: 20px;
+	}
+
 	.other-options {
 		margin-top: 10px;
 

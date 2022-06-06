@@ -58,7 +58,17 @@
 </template>
 
 <script>
+import BaseHighlightToggle from '@/vue/components/common/base/HighlightToggle'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 export default {
+	components : {
+		BaseHighlightToggle,
+		CoreTooltip,
+		GridColumn,
+		GridRow
+	},
 	props : {
 		type : {
 			type     : String,

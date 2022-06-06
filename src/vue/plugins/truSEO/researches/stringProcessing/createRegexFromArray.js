@@ -1,6 +1,6 @@
 /** @module stringProcessing/createRegexFromArray */
 
-import map from 'lodash/map'
+import { map } from 'lodash-es'
 import addWordBoundary from './addWordboundary.js'
 import replaceDiacritics from './replaceDiacritics'
 import sanitizeString from './sanitizeString'

@@ -106,8 +106,19 @@
 <script>
 import { mapActions } from 'vuex'
 import { ToolsSettings } from '@/vue/mixins'
-
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreCard from '@/vue/components/common/core/Card'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgUpload from '@/vue/components/common/svg/Upload'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreCard,
+		GridColumn,
+		GridRow,
+		SvgUpload
+	},
 	mixins : [ ToolsSettings ],
 	data () {
 		return {

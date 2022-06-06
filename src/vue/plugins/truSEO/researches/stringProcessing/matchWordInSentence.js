@@ -1,6 +1,5 @@
 import wordBoundariesFactory from '../config/wordBoundaries.js'
-import escapeRegExp from 'lodash/escapeRegExp'
-import includes from 'lodash/includes'
+import { escapeRegExp, includes } from 'lodash-es'
 import addWordBoundary from './addWordboundary.js'
 const wordBoundaries = wordBoundariesFactory()
 

@@ -2,7 +2,8 @@
 	<div
 		class="aioseo-card"
 		:class="{
-			'disabled' : disabled
+			'disabled' : disabled,
+			...cardClass
 		}"
 	>
 		<div
@@ -70,7 +71,19 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
+import SvgClose from '@/vue/components/common/svg/Close'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		CoreTooltip,
+		SvgCaret,
+		SvgCircleQuestionMark,
+		SvgClose,
+		TransitionSlide
+	},
 	props : {
 		slug : {
 			type     : String,
@@ -92,7 +105,13 @@ export default {
 				return true
 			}
 		},
-		disabled : Boolean
+		disabled  : Boolean,
+		cardClass : {
+			type : Object,
+			default () {
+				return {}
+			}
+		}
 	},
 	watch : {
 		toggles (value) {

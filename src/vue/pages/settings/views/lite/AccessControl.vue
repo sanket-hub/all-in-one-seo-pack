@@ -60,7 +60,19 @@
 
 <script>
 import { AccessControl } from '@/vue/pages/settings/mixins'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
+	components : {
+		CoreBlur,
+		CoreCard,
+		CoreProBadge,
+		CoreSettingsRow,
+		Cta
+	},
 	mixins : [ AccessControl ],
 	data () {
 		return {
@@ -71,8 +83,12 @@ export default {
 				defaultSettings : this.$t.__('Default settings that just work', this.$td),
 				granularControl : this.$t.__('Granular controls per role', this.$td),
 				ctaButtonText   : this.$t.__('Upgrade to Pro and Unlock Access Control', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader       : this.$t.sprintf(this.$t.__('Access Control is only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+				ctaHeader       : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Access Control is only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				)
 			}
 		}
 	}

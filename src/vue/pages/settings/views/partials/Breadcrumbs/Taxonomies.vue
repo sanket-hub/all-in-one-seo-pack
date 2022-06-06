@@ -95,10 +95,19 @@
 
 <script>
 import { mapState } from 'vuex'
-import preview from './Preview'
-
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import Preview from './Preview'
 export default {
-	components : { preview },
+	components : {
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		GridColumn,
+		GridRow,
+		Preview
+	},
 	data () {
 		return {
 			strings : {

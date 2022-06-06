@@ -93,9 +93,9 @@ class Ping {
 			$sitemapUrls[] = aioseo()->sitemap->helpers->getUrl( 'rss' );
 		}
 
-		foreach ( aioseo()->sitemap->addons as $classes ) {
-			if ( ! empty( $classes['ping'] ) ) {
-				$sitemapUrls = $sitemapUrls + $classes['ping']->getPingUrls();
+		foreach ( aioseo()->addons->getLoadedAddons() as $loadedAddon ) {
+			if ( ! empty( $loadedAddon->ping ) && method_exists( $loadedAddon->ping, 'getPingUrls' ) ) {
+				$sitemapUrls = $sitemapUrls + $loadedAddon->ping->getPingUrls();
 			}
 		}
 

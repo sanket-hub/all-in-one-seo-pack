@@ -362,4 +362,122 @@ trait ThirdParty {
 
 		return $acfFields;
 	}
+
+	/**
+	 * Checks whether the Smash Balloon Custom Facebook Feed plugin is active.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return bool Whether the SB CFF plugin is active.
+	 */
+	public function isSbCustomFacebookFeedActive() {
+		static $isActive = null;
+		if ( null !== $isActive ) {
+			return $isActive;
+		}
+
+		$isActive = defined( 'CFFVER' ) || is_plugin_active( 'custom-facebook-feed/custom-facebook-feed.php' );
+
+		return $isActive;
+	}
+
+	/**
+	 * Returns the access token for Facebook from Smash Balloon if there is one.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return string|false The access token or false if there is none.
+	 */
+	public function getSbAccessToken() {
+		static $accessToken = null;
+		if ( null !== $accessToken ) {
+			return $accessToken;
+		}
+
+		if ( ! $this->isSbCustomFacebookFeedActive() ) {
+			$accessToken = false;
+
+			return $accessToken;
+		}
+
+		$oembedTokenData = get_option( 'cff_oembed_token', [] );
+		if ( ! $oembedTokenData || empty( $oembedTokenData['access_token'] ) ) {
+			$accessToken = false;
+
+			return $accessToken;
+		}
+
+		$sbFacebookDataEncryptionInstance = new \CustomFacebookFeed\SB_Facebook_Data_Encryption;
+		$accessToken                      = $sbFacebookDataEncryptionInstance->maybe_decrypt( $oembedTokenData['access_token'] );
+
+		return $accessToken;
+	}
+
+	/**
+	* Returns the homepage URL for a language code.
+	*
+	* @since 4.2.1
+	*
+	* @param  string|int $identifier The language code or the post id to return the url.
+	* @return string                 The home URL.
+	*/
+	public function wpmlHomeUrl( $identifier ) {
+		foreach ( $this->wpmlHomePages() as $langCode => $wpmlHomePage ) {
+			if (
+				( is_string( $identifier ) && $langCode === $identifier ) ||
+				( is_numeric( $identifier ) && $wpmlHomePage['id'] === $identifier )
+			) {
+				return $wpmlHomePage['url'];
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the homepage IDs.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return array An array of home page ids.
+	 */
+	public function wpmlHomePages() {
+		global $sitepress;
+		static $homePages = [];
+
+		if ( ! $this->isWpmlActive() || empty( $sitepress ) || ! method_exists( $sitepress, 'language_url' ) ) {
+			return $homePages;
+		}
+
+		if ( empty( $homePages ) ) {
+			$languages  = apply_filters( 'wpml_active_languages', [] );
+			$homePageId = (int) get_option( 'page_on_front' );
+			foreach ( $languages as $language ) {
+				$homePages[ $language['code'] ] = [
+					'id'  => apply_filters( 'wpml_object_id', $homePageId, 'page', false, $language['code'] ),
+					'url' => $sitepress->language_url( $language['code'] )
+				];
+			}
+		}
+
+		return $homePages;
+	}
+
+	/**
+	 * Returns if the post id os a WPML home page.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param  int  $postId The post ID.
+	 * @return bool         Is the post id a home page.
+	 */
+	public function wpmlIsHomePage( $postId ) {
+		foreach ( $this->wpmlHomePages() as $wpmlHomePage ) {
+			if ( $wpmlHomePage['id'] === $postId ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

@@ -1,4 +1,4 @@
-import forEach from "lodash/forEach";
+import { forEach } from 'lodash-es'
 
 /**
  * Checks if the participles make the sentence part passive.
@@ -6,13 +6,12 @@ import forEach from "lodash/forEach";
  * @param {Array} participles A list of participles.
  * @returns {boolean} Returns true if the sentence part is passive.
  */
-export default function( participles ) {
-	let passive = false;
-	forEach( participles, function( participle ) {
-		if ( participle.determinesSentencePartIsPassive() ) {
-			passive = true;
-			return;
+export default function (participles) {
+	let passive = false
+	forEach(participles, function (participle) {
+		if (participle.determinesSentencePartIsPassive()) {
+			passive = true
 		}
-	} );
-	return passive;
+	})
+	return passive
 }

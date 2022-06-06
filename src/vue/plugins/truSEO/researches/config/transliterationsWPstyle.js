@@ -4,7 +4,7 @@
 
 import getLanguage from '../helpers/getLanguage.js'
 
-import isUndefined from 'lodash/isUndefined'
+import { isUndefined } from 'lodash-es'
 
 const transliterationsGeneral =	[
 	/*

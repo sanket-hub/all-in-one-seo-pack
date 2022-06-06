@@ -39,9 +39,6 @@ export default {
 			this.maybeShowImage()
 		},
 		canShow (val) {
-			if (val) {
-				// this.maybeShowImage()
-			}
 			this.$emit('can-show', val)
 		},
 		images : {
@@ -58,7 +55,13 @@ export default {
 				return
 			}
 
-			const url        = new URL(this.src)
+			let url = null
+			try {
+				url = new URL(this.src)
+			} catch {
+				return
+			}
+
 			const pattern    = /\.(jpg|jpeg|png|gif|svg|webp)$/
 			const escapedUrl = url.pathname.replace('/', '\\/')
 			if (!escapedUrl.match(pattern)) {

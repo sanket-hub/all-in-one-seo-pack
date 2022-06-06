@@ -59,7 +59,19 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
+import CoreSeoSiteAnalysisResults from '@/vue/components/common/core/SeoSiteAnalysisResults'
+import CoreSeoSiteScoreAnalyze from '@/vue/components/AIOSEO_VERSION/core/seo-site-score/Analyze'
+import SvgRefresh from '@/vue/components/common/svg/Refresh'
 export default {
+	components : {
+		CoreCard,
+		CoreMainTabs,
+		CoreSeoSiteAnalysisResults,
+		CoreSeoSiteScoreAnalyze,
+		SvgRefresh
+	},
 	data () {
 		return {
 			internalDebounce : false,

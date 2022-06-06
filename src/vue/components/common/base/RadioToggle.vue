@@ -155,4 +155,26 @@ export default {
 		}
 	}
 }
+
+// The RTL classes override this so we need to target it specifically.
+[dir] {
+	.aioseo-radio-toggle {
+		&.circle {
+			label {
+				background: #fff;
+				color: $placeholder-color;
+			}
+			input + label {
+				border-radius: 50%;
+				width: 36px;
+				height: 36px;
+				padding: 8px;
+			}
+			input:checked + label {
+				background: $border;
+				color: $black2-hover;
+			}
+		}
+	}
+}
 </style>

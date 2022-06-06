@@ -16,6 +16,10 @@ export const Wizard = {
 			return [ ...this.$constants.WIZARD_FEATURES ]
 		},
 		getSelectedUpsellFeatures () {
+			if (!this.presetFeatures) {
+				return []
+			}
+
 			return this.presetFeatures
 				.filter(feature => {
 					return this.needsUpsell(this.features.find(f => f.value === feature))

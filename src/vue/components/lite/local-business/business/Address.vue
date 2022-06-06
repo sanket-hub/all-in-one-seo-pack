@@ -54,10 +54,10 @@ export default {
 			strings : {
 				streetAddress  : this.$t.__('Address Line 1', this.$td),
 				streetAddress2 : this.$t.__('Address Line 2', this.$td),
-				zipCode        : this.$t.__('Zip code:', this.$td),
-				city           : this.$t.__('City:', this.$td),
-				state          : this.$t.__('State:', this.$td),
-				country        : this.$t.__('Country:', this.$td)
+				zipCode        : this.$t.__('Zip Code', this.$td),
+				city           : this.$t.__('City', this.$td),
+				state          : this.$t.__('State', this.$td),
+				country        : this.$t.__('Country', this.$td)
 			}
 		}
 	}

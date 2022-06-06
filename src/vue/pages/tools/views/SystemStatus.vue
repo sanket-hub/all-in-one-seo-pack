@@ -104,7 +104,25 @@
 
 <script>
 import { mapActions } from 'vuex'
+import CoreCard from '@/vue/components/common/core/Card'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgCheckmark from '@/vue/components/common/svg/Checkmark'
+import SvgCopy from '@/vue/components/common/svg/Copy'
+import SvgDownload from '@/vue/components/common/svg/Download'
+import TableColumn from '@/vue/components/common/table/Column'
+import TableRow from '@/vue/components/common/table/Row'
 export default {
+	components : {
+		CoreCard,
+		GridColumn,
+		GridRow,
+		SvgCheckmark,
+		SvgCopy,
+		SvgDownload,
+		TableColumn,
+		TableRow
+	},
 	data () {
 		return {
 			copied       : false,

@@ -145,18 +145,39 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { debounce } from '@/vue/utils/debounce'
+import CoreApiBar from '@/vue/components/common/core/ApiBar'
+import CoreLicenseKeyBar from '@/vue/components/AIOSEO_VERSION/core/LicenseKeyBar'
+import CoreUpgradeBar from '@/vue/components/lite/core/UpgradeBar'
+import SvgAioseoLogo from '@/vue/components/common/svg/aioseo/Logo'
+import SvgClose from '@/vue/components/common/svg/Close'
+import SvgDescription from '@/vue/components/common/svg/Description'
+import SvgFolderOpen from '@/vue/components/common/svg/FolderOpen'
+import SvgSupport from '@/vue/components/common/svg/Support'
 export default {
+	components : {
+		CoreApiBar,
+		CoreLicenseKeyBar,
+		CoreUpgradeBar,
+		SvgAioseoLogo,
+		SvgClose,
+		SvgDescription,
+		SvgFolderOpen,
+		SvgSupport
+	},
 	data () {
 		return {
 			searchItem : null,
 			strings    : {
-				close                : this.$t.__('Close', this.$td),
-				search               : this.$t.__('Search', this.$td),
-				viewAll              : this.$t.__('View All', this.$td),
-				docs                 : this.$t.__('Docs', this.$td),
-				viewDocumentation    : this.$t.__('View Documentation', this.$td),
-				// Translators: 1 - The plugin short name ("AIOEO").
-				browseDocumentation  : this.$t.sprintf(this.$t.__('Browse documentation, reference material, and tutorials for %1$s.', this.$td), process.env.VUE_APP_SHORT_NAME),
+				close               : this.$t.__('Close', this.$td),
+				search              : this.$t.__('Search', this.$td),
+				viewAll             : this.$t.__('View All', this.$td),
+				docs                : this.$t.__('Docs', this.$td),
+				viewDocumentation   : this.$t.__('View Documentation', this.$td),
+				browseDocumentation : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOEO").
+					this.$t.__('Browse documentation, reference material, and tutorials for %1$s.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 				viewAllDocumentation : this.$t.__('View All Documentation', this.$td),
 				getSupport           : this.$t.__('Get Support', this.$td),
 				submitTicket         : this.$t.__('Submit a ticket and our world class support team will be in touch soon.', this.$td),

@@ -191,8 +191,19 @@
 
 <script>
 import DebugMixin from '@/vue/mixins/Debug.js'
-
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreModal from '@/vue/components/common/core/Modal'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		CoreAlert,
+		CoreCard,
+		CoreModal,
+		CoreSettingsRow,
+		SvgClose
+	},
 	mixins : [ DebugMixin ]
 }
 </script>

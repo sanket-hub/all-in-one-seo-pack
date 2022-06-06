@@ -1,0 +1,524 @@
+@import 'maz-ui/lib/scss/style-helpers/variables/index.scss';
+@import 'maz-ui/lib/scss/style-helpers/mixins/index.scss';
+
+$LG_SIZE: 3.571rem !default;
+$MD_SIZE: 2.857rem !default;
+$SM_SIZE: 2.286rem !default;
+
+.maz-input {
+	position: relative;
+
+	&__label {
+		position: absolute;
+		top: .2857rem;
+		cursor: pointer;
+		outline: none;
+		left: .8571rem;
+		transform: translateY(25%);
+		opacity: 0;
+		transition: all .25s cubic-bezier(.645, .045, .355, 1);
+		font-size: .786rem;
+		color: $placeholder-color;
+	}
+
+	&__input {
+		cursor: pointer;
+		background-color: $bg-color;
+		transition-duration: .3s;
+		position: relative;
+		width: 100%;
+		padding: 0 .8571rem;
+		font-weight: 400;
+		appearance: none;
+		outline: none;
+		border-radius: $border-radius;
+		font-size: 1rem;
+		z-index: 0;
+
+		&:not(.maz-textarea) {
+			height: $MD_SIZE;
+			min-height: $MD_SIZE;
+		}
+
+		&.maz-textarea {
+			padding: .5714rem .8571rem 0 .8571rem;
+			min-height: 6.429rem !important;
+			resize: vertical;
+
+			@include font_family();
+		}
+
+		&::-webkit-input-placeholder {
+			color: $placeholder-color;
+		}
+
+		&::-moz-placeholder {
+			color: $placeholder-color;
+		}
+
+		&:-ms-input-placeholder {
+			color: $placeholder-color;
+		}
+
+		&::-ms-input-placeholder {
+			color: $placeholder-color;
+		}
+
+		&:-moz-placeholder {
+			color: $placeholder-color;
+		}
+
+		&::placeholder {
+			color: $placeholder-color;
+		}
+	}
+
+	&__icon {
+		position: absolute;
+		z-index: 1;
+		color: $input-icon-color;
+		font-size: 1.286rem;
+		top: 0;
+		bottom: 0;
+		cursor: pointer;
+
+		&.left {
+			left: .5714rem;
+		}
+
+		&.right {
+			right: .5714rem;
+		}
+	}
+
+	&__toggle-btn {
+		$clear-size: 1.714rem;
+
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: .5714rem;
+		margin: auto 0;
+		width: $clear-size;
+		height: $clear-size;
+		appearance: none;
+		border: none;
+		background: transparent;
+		color: $input-icon-color;
+		border-radius: $clear-size;
+		cursor: pointer;
+		font-size: 1rem;
+		transition: all 300ms ease-in-out;
+
+		&:focus {
+			outline: none;
+		}
+
+		&__icon {
+			position: relative;
+			font-size: 1.286rem;
+		}
+
+		&.has-right-icon {
+			right: 2.857rem;
+		}
+
+		&.password.has-clear-btn {
+			right: 2.857rem;
+
+			&.has-right-icon {
+				right: 5rem;
+			}
+		}
+
+		&:hover {
+			color: white;
+			background-color: $input-icon-color;
+		}
+	}
+
+	&.has-left-icon {
+		.maz-input__input {
+			padding-left: 2.857rem;
+		}
+
+		.maz-input__label {
+			left: 2.857rem;
+		}
+	}
+
+	&.has-1-right-icon {
+		.maz-input__input {
+			padding-right: 2.5rem;
+		}
+	}
+
+	&.has-2-right-icon {
+		.maz-input__input {
+			padding-right: 4.643rem;
+		}
+	}
+
+	&.has-3-right-icon {
+		.maz-input__input {
+			padding-right: 6.786rem;
+		}
+	}
+
+	&.is-focused {
+		@each $name, $color in $color_types {
+			&.maz-input--#{$name} {
+				.maz-input {
+					&__input {
+						border-color: $color;
+					}
+
+					&__label {
+						color: $color;
+					}
+
+					&__icon {
+						color: $color;
+
+						path.arrow {
+							fill: $color;
+						}
+					}
+				}
+			}
+		}
+
+		&.has-error {
+			.maz-input {
+				&__input {
+					border-color: $danger-color;
+				}
+
+				&__icon {
+					color: $danger-color;
+
+					path.arrow {
+						fill: $danger-color;
+					}
+				}
+			}
+		}
+
+		&.has-warning {
+			.maz-input {
+				&__input {
+					border-color: $warning-color;
+				}
+
+				&__icon {
+					color: $warning-color;
+
+					path.arrow {
+						fill: $warning-color;
+					}
+				}
+			}
+		}
+
+		&.is-valid {
+			&__input {
+				border-color: $success-color;
+			}
+
+			.maz-input {
+				&__icon {
+					color: $success-color;
+
+					path.arrow {
+						fill: $success-color;
+					}
+				}
+			}
+		}
+	}
+
+	&.has-value,
+	&.has-hint {
+		.maz-input__label {
+			opacity: 1;
+			transform: translateY(0);
+			font-size: .786rem;
+		}
+
+		&:not(.has-no-label) {
+			.maz-input__input {
+				padding-top: 1rem;
+
+				&.maz-textarea {
+					padding-top: 1.429rem;
+				}
+			}
+		}
+	}
+
+	&.is-disabled {
+		cursor: not-allowed;
+
+		$disabled-color-text: darken($disabled-color, 20%);
+
+		.maz-input__input {
+			border-color: $border-color;
+			background-color: $disabled-color;
+			color: $disabled-color-text;
+
+			&::-webkit-input-placeholder {
+				color: $disabled-color-text;
+			}
+
+			&::-moz-placeholder {
+				color: $disabled-color-text;
+			}
+
+			&:-ms-input-placeholder {
+				color: $disabled-color-text;
+			}
+
+			&::-ms-input-placeholder {
+				color: $disabled-color-text;
+			}
+
+			&:-moz-placeholder {
+				color: $disabled-color-text;
+			}
+
+			&::placeholder {
+				color: $disabled-color-text;
+			}
+		}
+
+		.maz-input__label,
+		.maz-input__input,
+		.maz-input__toggle__arrow {
+			cursor: not-allowed;
+			color: $disabled-color-text;
+		}
+	}
+
+	&.sm {
+		.maz-input__input {
+			font-size: .857rem;
+
+			&:not(.maz-textarea) {
+				height: $SM_SIZE;
+				min-height: $SM_SIZE;
+			}
+		}
+
+		.maz-input__label {
+			font-size: .714rem;
+		}
+
+		&.has-value:not(.has-no-label) {
+			.maz-input__input {
+				padding-top: .8571rem;
+
+				&.maz-textarea {
+					padding-top: 1.286rem;
+				}
+			}
+		}
+	}
+
+	&.lg {
+		.maz-input__input {
+			font-size: 1.143rem;
+
+			&:not(.maz-textarea) {
+				height: $LG_SIZE;
+				min-height: $LG_SIZE;
+			}
+		}
+
+		.maz-input__label {
+			font-size: 1rem;
+		}
+
+		&.has-value:not(.has-no-label) {
+			.maz-input__input {
+				padding-top: 1.143rem;
+
+				&.maz-textarea {
+					padding-top: 1.857rem;
+				}
+			}
+		}
+	}
+
+	&__loader {
+		bottom: 1px;
+		height: $border-width;
+		left: calc($border-radius / 2);
+		width: calc(100% - .5714rem);
+		position: absolute;
+		overflow: hidden;
+		border-radius: $border-radius;
+
+		&.maz-textarea {
+			bottom: .4286rem;
+		}
+
+		&__progress-bar {
+			display: block;
+			position: absolute;
+			content: '';
+			left: -200px;
+			width: 200px;
+			height: .1429rem;
+			animation: loading 2s linear infinite;
+		}
+	}
+
+	@each $name, $color in $color_types {
+		&--#{$name} {
+			.maz-input {
+				&__loader__progress-bar {
+					background-color: $color;
+				}
+
+				&__input {
+					caret-color: $primary-color;
+				}
+			}
+		}
+	}
+
+	&.is-valid {
+		.maz-input__input,
+		.maz-input__input:hover,
+		.maz-input__input:focus {
+			border-color: $success-color !important;
+		}
+
+		.maz-input__label {
+			color: $success-color !important;
+		}
+
+		.maz-input__icon {
+			color: $success-color;
+
+			path.arrow {
+				fill: $success-color;
+			}
+		}
+	}
+
+	&.has-warning {
+		.maz-input__input,
+		.maz-input__input:hover,
+		.maz-input__input:focus {
+			border-color: $warning-color;
+		}
+
+		.maz-input__label {
+			color: $warning-color !important;
+		}
+
+		.maz-input__icon {
+			color: $warning-color;
+
+			path.arrow {
+				fill: $warning-color;
+			}
+		}
+	}
+
+	&.has-error {
+		.maz-input__input,
+		.maz-input__input:hover,
+		.maz-input__input:focus {
+			border-color: $danger-color;
+		}
+
+		.maz-input__label {
+			color: $danger-color !important;
+		}
+
+		.maz-input__icon {
+			color: $danger-color;
+
+			path.arrow {
+				fill: $danger-color;
+			}
+		}
+	}
+
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+		-webkit-text-fill-color: $text-color;
+		box-shadow: 0 0 0 1000px $bg-color inset;
+	}
+}
+
+.maz-is-dark .maz-input,
+.maz-is-dark.maz-input {
+	&__label {
+		color: $placeholder-color-dark;
+	}
+
+	&__input {
+		background-color: $bg-color-dark-light;
+		color: $text-color-dark;
+
+		&::-webkit-input-placeholder {
+			color: $placeholder-color-dark;
+		}
+
+		&::-moz-placeholder {
+			color: $placeholder-color-dark;
+		}
+
+		&:-ms-input-placeholder {
+			color: $placeholder-color-dark;
+		}
+
+		&::-ms-input-placeholder {
+			color: $placeholder-color-dark;
+		}
+
+		&:-moz-placeholder {
+			color: $placeholder-color-dark;
+		}
+
+		&::placeholder {
+			color: $placeholder-color-dark;
+		}
+	}
+
+	&__icon {
+		color: $input-icon-color-dark;
+	}
+
+	&__toggle-btn {
+		color: $input-icon-color-dark;
+
+		&:hover {
+			color: $text-color-dark;
+			background-color: lighten($hover-bg-color-dark-l, 10%);
+		}
+	}
+
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+		-webkit-text-fill-color: $text-color-dark;
+		box-shadow: 0 0 0 1000px $bg-color-dark-light inset;
+	}
+}

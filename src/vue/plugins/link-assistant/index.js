@@ -1,6 +1,6 @@
 import store from '@/vue/store'
 import { isBlockEditor, isClassicEditor, isWooCommerceProduct } from '@/vue/utils/context'
-import { debounce } from 'lodash'
+import { debounce } from 'lodash-es'
 
 export default class LinkAssistant {
 	previousPostContent
@@ -132,3 +132,5 @@ export default class LinkAssistant {
 		return window.wp.data.select('core/editor').getEditedPostContent()
 	}
 }
+
+new LinkAssistant()

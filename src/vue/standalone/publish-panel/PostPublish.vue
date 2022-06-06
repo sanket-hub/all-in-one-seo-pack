@@ -22,7 +22,17 @@
 <script>
 import { mapState } from 'vuex'
 import { Standalone } from '@/vue/mixins/Standalone'
+import SvgFacebookRounded from '@/vue/components/common/svg/facebook/Rounded'
+import SvgLinkedinRounded from '@/vue/components/common/svg/LinkedinRounded'
+import SvgPinterestRounded from '@/vue/components/common/svg/PinterestRounded'
+import SvgTwitterRounded from '@/vue/components/common/svg/TwitterRounded'
 export default {
+	components : {
+		SvgFacebookRounded,
+		SvgLinkedinRounded,
+		SvgPinterestRounded,
+		SvgTwitterRounded
+	},
 	mixins : [ Standalone ],
 	data () {
 		return {

@@ -5,9 +5,9 @@ import {
 	RequiresUpdate
 } from '@/vue/router/middleware'
 
-const td       = process.env.VUE_APP_TEXTDOMAIN
+const td = import.meta.env.VITE_TEXTDOMAIN
 const loadView = view => {
-	return () => import('@/vue/pages/link-assistant/views/' + view + '.vue')
+	return () => import('../views/' + view + '.vue')
 }
 
 export default [

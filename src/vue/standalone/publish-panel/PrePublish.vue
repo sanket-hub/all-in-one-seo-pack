@@ -63,7 +63,21 @@
 <script>
 import { mapState } from 'vuex'
 import { Standalone } from '@/vue/mixins/Standalone'
+import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
+import SvgExternal from '@/vue/components/common/svg/External'
+import SvgPencil from '@/vue/components/common/svg/Pencil'
 export default {
+	components : {
+		CoreGoogleSearchPreview,
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleExclamation,
+		SvgExternal,
+		SvgPencil
+	},
 	mixins : [ Standalone ],
 	data () {
 		return {
@@ -164,8 +178,11 @@ export default {
 
 					value = this.currentPost.page_analysis.analysis.readability.errors
 					if (value && 0 < value) {
-						// Translators: 1 - How many errors were found.
-						result.value = this.$t.sprintf(this.$t._n('%1$s error found!', '%1$s errors found!', value, this.$td), value)
+						result.value = this.$t.sprintf(
+							// Translators: 1 - How many errors were found.
+							this.$t._n('%1$s error found!', '%1$s errors found!', value, this.$td),
+							value
+						)
 						result.type  = 'error'
 					}
 					break

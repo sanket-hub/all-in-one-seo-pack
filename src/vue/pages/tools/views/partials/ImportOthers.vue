@@ -110,7 +110,21 @@
 
 <script>
 import { mapActions } from 'vuex'
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgDownload from '@/vue/components/common/svg/Download'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreAlert,
+		CoreCard,
+		GridColumn,
+		GridRow,
+		SvgDownload
+	},
 	data () {
 		return {
 			importSuccess : false,
@@ -120,12 +134,15 @@ export default {
 			loading       : false,
 			strings       : {
 				importSettingsFromOtherPlugins : this.$t.__('Import Settings From Other Plugins', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO").
-				importOthersDescription        : this.$t.sprintf(this.$t.__('Choose a plugin to import SEO data directly into %1$s.', this.$td), process.env.VUE_APP_SHORT_NAME),
-				selectPlugin                   : this.$t.__('Select a plugin...', this.$td),
-				import                         : this.$t.__('Import', this.$td),
-				allSettings                    : this.$t.__('All Settings', this.$td),
-				notInstalled                   : this.$t.__('not installed', this.$td)
+				importOthersDescription        : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO").
+					this.$t.__('Choose a plugin to import SEO data directly into %1$s.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				selectPlugin : this.$t.__('Select a plugin...', this.$td),
+				import       : this.$t.__('Import', this.$td),
+				allSettings  : this.$t.__('All Settings', this.$td),
+				notInstalled : this.$t.__('not installed', this.$td)
 			}
 		}
 	},
@@ -171,12 +188,18 @@ export default {
 			return passed.some(a => a)
 		},
 		importSuccessful () {
-			// Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
-			return this.$t.sprintf(this.$t.__('%1$s was successfully imported!', this.$td), this.plugin.label)
+			return this.$t.sprintf(
+				// Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
+				this.$t.__('%1$s was successfully imported!', this.$td),
+				this.plugin.label
+			)
 		},
 		importErrorMessage () {
-			// Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
-			return this.$t.sprintf(this.$t.__('An error occurred while importing %1$s. Please try again.', this.$td), this.plugin.label)
+			return this.$t.sprintf(
+				// Translators: 1 - The name of the plugin being imported (e.g "Yoast SEO").
+				this.$t.__('An error occurred while importing %1$s. Please try again.', this.$td),
+				this.plugin.label
+			)
 		}
 	},
 	methods : {
@@ -218,8 +241,12 @@ export default {
 				})
 		},
 		invalidVersion (plugin) {
-			// Translators: 1 - The name of the plugin (e.g. "Yoast SEO"), 2 - The version of the plugin (e.g. "10.2.3").
-			return this.$t.sprintf(this.$t.__('We do not support importing from the currently installed version of %1$s (%2$s). Please upgrade to the latest version and try again.', this.$td), plugin.label, plugin.version)
+			return this.$t.sprintf(
+				// Translators: 1 - The name of the plugin (e.g. "Yoast SEO"), 2 - The version of the plugin (e.g. "10.2.3").
+				this.$t.__('We do not support importing from the currently installed version of %1$s (%2$s). Please upgrade to the latest version and try again.', this.$td),
+				plugin.label,
+				plugin.version
+			)
 		}
 	}
 }

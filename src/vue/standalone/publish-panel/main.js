@@ -1,22 +1,19 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
+
 import '@/vue/components/common'
+import '@/vue/components/AIOSEO_VERSION'
 
 import PrePublish from './PrePublish.vue'
 import PostPublish from './PostPublish.vue'
 
 import store from '@/vue/store'
 import './registerPublishPanel.js'
-import loadTruSeo from '@/vue/pages/post-settings/loadTruSeo'
-
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
+import loadTruSeo from '@/vue/standalone/post-settings/loadTruSeo'
 
 import { elemLoaded } from '@/vue/utils/elemLoaded'
-import camelCase from 'lodash/camelCase'
-
-Vue.config.productionTip = false
+import { camelCase } from 'lodash-es'
 
 if (window.aioseo.currentPost && 'post' === window.aioseo.currentPost.context) {
 	const blockEditorMap = [

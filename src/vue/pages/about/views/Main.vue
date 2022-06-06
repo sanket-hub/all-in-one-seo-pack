@@ -9,11 +9,13 @@
 
 <script>
 import AboutUs from './AboutUs'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import GettingStarted from './GettingStarted'
 import LiteVsPro from './AIOSEO_VERSION/LiteVsPro'
 export default {
 	components : {
 		AboutUs,
+		CoreMain,
 		GettingStarted,
 		LiteVsPro
 	},

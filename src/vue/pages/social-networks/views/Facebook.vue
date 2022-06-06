@@ -65,9 +65,10 @@
 							v-model="options.social.facebook.general.defaultImagePosts"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('defaultImagePosts', ['options', 'social', 'facebook', 'general', 'defaultImagePosts'])"
+							@click="openUploadModal('defaultImagePosts', (imageUrl) => options.social.facebook.general.defaultImagePosts = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -152,9 +153,10 @@
 							v-model="options.social.facebook.general.defaultImageTerms"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('defaultImageTerms', ['options', 'social', 'facebook', 'general', 'defaultImageTerms'])"
+							@click="openUploadModal('defaultImageTerms', (imageUrl) => options.social.facebook.general.defaultImageTerms = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -366,9 +368,10 @@
 							v-model="options.social.facebook.homePage.image"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('homePageImage', ['options', 'social', 'facebook', 'homePage', 'image'])"
+							@click="openUploadModal('homePageImage', (imageUrl) => options.social.facebook.homePage.image = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -656,7 +659,31 @@
 <script>
 import { ImageSourceOptions, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapGetters, mapState } from 'vuex'
+import BaseImg from '@/vue/components/common/base/Img'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreFacebookPreview from '@/vue/components/common/core/FacebookPreview'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgBook from '@/vue/components/common/svg/Book'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import TableColumn from '@/vue/components/common/table/Column'
+import TableRow from '@/vue/components/common/table/Row'
 export default {
+	components : {
+		BaseImg,
+		BaseRadioToggle,
+		CoreAlert,
+		CoreCard,
+		CoreFacebookPreview,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		SvgBook,
+		SvgCirclePlus,
+		TableColumn,
+		TableRow
+	},
 	mixins : [ ImageSourceOptions, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
@@ -666,24 +693,27 @@ export default {
 			option           : null,
 			pagePostOptions  : [],
 			strings          : {
-				generalFacebookSettings       : this.$t.__('General Facebook Settings', this.$td),
-				description                   : this.$t.sprintf(this.$t.__('Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', this.$td), process.env.VUE_APP_NAME),
-				enableOpenGraph               : this.$t.__('Enable Open Graph Markup', this.$td),
-				defaultImageSourcePosts       : this.$t.__('Default Post Image Source', this.$td),
-				defaultImageSourceTerms       : this.$t.__('Default Term Image Source', this.$td),
-				width                         : this.$t.__('Width', this.$td),
-				height                        : this.$t.__('Height', this.$td),
-				postCustomFieldName           : this.$t.__('Post Custom Field Name', this.$td),
-				termsCustomFieldName          : this.$t.__('Term Custom Field Name', this.$td),
-				defaultFacebookImagePosts     : this.$t.__('Default Post Facebook Image', this.$td),
-				defaultFacebookImageTerms     : this.$t.__('Default Term Facebook Image', this.$td),
-				uploadOrSelectImage           : this.$t.__('Upload or Select Image', this.$td),
-				pasteYourImageUrl             : this.$t.__('Paste your image URL or select a new image', this.$td),
-				minimumSize                   : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 8MB max. (eg: 1640px x 856px or 3280px x 1712px for retina screens)', this.$td),
-				homePageSettings              : this.$t.__('Home Page Settings', this.$td),
-				exampleSiteTitle              : this.$t.__('The Title of the Page or Site you are Sharing', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				exampleSiteDescription        : this.$t.sprintf(this.$t.__('This is what your page configured with %1$s will look like when shared via Facebook. The site title and description will be automatically added.', this.$td), process.env.VUE_APP_SHORT_NAME),
+				generalFacebookSettings   : this.$t.__('General Facebook Settings', this.$td),
+				description               : this.$t.__('Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', this.$td),
+				enableOpenGraph           : this.$t.__('Enable Open Graph Markup', this.$td),
+				defaultImageSourcePosts   : this.$t.__('Default Post Image Source', this.$td),
+				defaultImageSourceTerms   : this.$t.__('Default Term Image Source', this.$td),
+				width                     : this.$t.__('Width', this.$td),
+				height                    : this.$t.__('Height', this.$td),
+				postCustomFieldName       : this.$t.__('Post Custom Field Name', this.$td),
+				termsCustomFieldName      : this.$t.__('Term Custom Field Name', this.$td),
+				defaultFacebookImagePosts : this.$t.__('Default Post Facebook Image', this.$td),
+				defaultFacebookImageTerms : this.$t.__('Default Term Facebook Image', this.$td),
+				uploadOrSelectImage       : this.$t.__('Upload or Select Image', this.$td),
+				pasteYourImageUrl         : this.$t.__('Paste your image URL or select a new image', this.$td),
+				minimumSize               : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 8MB max. (eg: 1640px x 856px or 3280px x 1712px for retina screens)', this.$td),
+				homePageSettings          : this.$t.__('Home Page Settings', this.$td),
+				exampleSiteTitle          : this.$t.__('The Title of the Page or Site you are Sharing', this.$td),
+				exampleSiteDescription    : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('This is what your page configured with %1$s will look like when shared via Facebook. The site title and description will be automatically added.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 				homePageImage                 : this.$t.__('Image', this.$td),
 				siteName                      : this.$t.__('Site Name', this.$td),
 				homePageTitle                 : this.$t.__('Title', this.$td),
@@ -707,17 +737,29 @@ export default {
 				showFacebookAuthor            : this.$t.__('Show Facebook Author', this.$td),
 				postTypeObjectTypes           : this.$t.__('Default Post Type Object Types', this.$td),
 				taxonomyObjectTypes           : this.$t.__('Default Taxonomy Object Types', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
-				taxonomyObjectTypesUpsell     : this.$t.sprintf(this.$t.__('Default Taxonomy Object Types are only available for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-taxonomy-object-types', true)),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
-				defaultTermImageSourceUpsell  : this.$t.sprintf(this.$t.__('Default Term Image Source is only available for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-term-image-soruce', true)),
-				generateArticleTags           : this.$t.__('Automatically Generate Article Tags', this.$td),
-				useKeywordsInTags             : this.$t.__('Use Keywords in Article Tags', this.$td),
-				useCategoriesInTags           : this.$t.__('Use Categories in Article Tags', this.$td),
-				usePostTagsInTags             : this.$t.__('Use Post Tags in Article Tags', this.$td),
-				// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
-				homePageDisabledDescription   : this.$t.sprintf(this.$t.__('The home page settings below have been disabled because you are using a static home page. You can %1$sedit your home page settings%2$s directly to change the title, meta and image.', this.$td), `<a href="${this.$aioseo.urls.staticHomePage}">`, '</a>'),
-				objectType                    : this.$t.__('Object Type', this.$td)
+				taxonomyObjectTypesUpsell     : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
+					this.$t.__('Default Taxonomy Object Types are only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-taxonomy-object-types', true)
+				),
+				defaultTermImageSourceUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
+					this.$t.__('Default Term Image Source is only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-term-image-soruce', true)
+				),
+				generateArticleTags         : this.$t.__('Automatically Generate Article Tags', this.$td),
+				useKeywordsInTags           : this.$t.__('Use Keywords in Article Tags', this.$td),
+				useCategoriesInTags         : this.$t.__('Use Categories in Article Tags', this.$td),
+				usePostTagsInTags           : this.$t.__('Use Post Tags in Article Tags', this.$td),
+				homePageDisabledDescription : this.$t.sprintf(
+					// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
+					this.$t.__('You are using a static home page which is found under Pages. You can %1$sedit your home page settings%2$s directly to change the title, meta and image.', this.$td),
+					`<a href="${this.$aioseo.urls.staticHomePage}">`,
+					'</a>'
+				),
+				objectType : this.$t.__('Object Type', this.$td)
 			}
 		}
 	},

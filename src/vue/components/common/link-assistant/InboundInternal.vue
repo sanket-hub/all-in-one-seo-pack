@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<base-wp-table
+		<core-wp-table
 			:class="{'link-assistant-inner-table' : !postReport}"
 			:columns="columns"
 			:rows="rows"
@@ -25,7 +25,7 @@
 				>
 					<span class="view">
 						<a
-							:href="row.url"
+							:href="row.context.permalink"
 							target="_blank"
 						>{{ strings.viewPost }}</a> |
 					</span>
@@ -64,7 +64,7 @@
 					</template>
 				</core-tooltip>
 			</template>
-		</base-wp-table>
+		</core-wp-table>
 
 		<div
 			class="links-bottom"
@@ -76,8 +76,8 @@
 					type="blue"
 					tag="button"
 					@click.native="$emit('openSuggestions')"
-					icon="svg-link-suggestion"
 				>
+					<svg-link-suggestion />
 					{{ strings.outboundSuggestions }}
 				</base-button>
 				<div
@@ -119,9 +119,24 @@
 </template>
 
 <script>
-import LinksMixin from '@/vue/mixins/pro/link-assistant/Links.js'
-
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import CoreWpTable from '@/vue/components/common/core/wp/Table'
+import LinksMixin from '@/vue/mixins/link-assistant/Links.js'
+import LinkAssistantConfirmationModal from '@/vue/components/common/link-assistant/ConfirmationModal'
+import LinkAssistantPhrase from '@/vue/components/common/link-assistant/Phrase'
+import SvgLinkExternal from '@/vue/components/common/svg/link/External'
+import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	components : {
+		CoreTooltip,
+		CoreWpTable,
+		LinkAssistantConfirmationModal,
+		LinkAssistantPhrase,
+		SvgLinkExternal,
+		SvgLinkSuggestion,
+		SvgTrash
+	},
 	mixins : [ LinksMixin ],
 	data () {
 		return {

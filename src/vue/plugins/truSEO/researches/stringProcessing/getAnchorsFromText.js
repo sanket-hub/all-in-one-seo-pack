@@ -7,7 +7,7 @@
  * @returns {Array} The matched links in text.
  */
 export default function (text) {
-	var matches
+	let matches
 
 	// Regex matches everything between <a> and </a>
 	matches = text.match(/<a(?:[^>]+)?>(.*?)<\/a>/ig)

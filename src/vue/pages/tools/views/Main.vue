@@ -9,6 +9,7 @@
 
 <script>
 import BadBotBlocker from './BadBotBlocker'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import DatabaseTools from './DatabaseTools'
 import Debug from './Debug'
 import HtaccessEditor from './HtaccessEditor'
@@ -18,6 +19,7 @@ import SystemStatus from './SystemStatus'
 export default {
 	components : {
 		BadBotBlocker,
+		CoreMain,
 		DatabaseTools,
 		Debug,
 		HtaccessEditor,

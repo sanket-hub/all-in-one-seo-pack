@@ -46,12 +46,17 @@
 
 <script>
 import { mapState } from 'vuex'
+import { SeoSiteScore } from '@/vue/mixins'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
 export default {
-	props : {
-		score       : Number,
-		loading     : Boolean,
-		description : String,
-		summary     : {
+	components : {
+		CoreSiteScore
+	},
+	mixins : [ SeoSiteScore ],
+	props  : {
+		score   : Number,
+		loading : Boolean,
+		summary : {
 			type : Object,
 			default () {
 				return {}
@@ -79,8 +84,11 @@ export default {
 				case 'missing-content':
 					return this.$t.__('We were unable to parse the content for this site.', this.$td)
 				case 'invalid-token':
-					// Translators: 1 - The plugin short name ('AIOSEO').
-					return this.$t.sprintf(this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td), process.env.VUE_APP_SHORT_NAME)
+					return this.$t.sprintf(
+						// Translators: 1 - The plugin short name ('AIOSEO').
+						this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					)
 			}
 
 			return this.analyzeError

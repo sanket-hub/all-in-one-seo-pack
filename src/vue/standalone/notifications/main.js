@@ -3,18 +3,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from '@/vue/store'
 
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-
 import translate from '@/vue/plugins/translations'
 
 const newNotifications = document.querySelector('#aioseo-menu-new-notifications')
 if (newNotifications) {
 	Vue.prototype.$t     = translate
-	Vue.prototype.$td    = process.env.VUE_APP_TEXTDOMAIN
-	Vue.prototype.$tdPro = process.env.VUE_APP_TEXTDOMAIN_PRO
-
-	Vue.config.productionTip = false
+	Vue.prototype.$td    = import.meta.env.VITE_TEXTDOMAIN
+	Vue.prototype.$tdPro = import.meta.env.VITE_TEXTDOMAIN_PRO
 
 	new Vue({
 		store,

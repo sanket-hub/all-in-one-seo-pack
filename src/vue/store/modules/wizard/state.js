@@ -73,7 +73,7 @@ export default {
 	},
 	smartRecommendations : {
 		accountInfo   : null,
-		usageTracking : false
+		usageTracking : true
 	},
 	licenseKey : null
 }

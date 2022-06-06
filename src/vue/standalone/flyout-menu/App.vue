@@ -39,7 +39,21 @@
 <script>
 import { Standalone } from '@/vue/mixins/Standalone'
 import { mapState } from 'vuex'
+import SvgFlyoutDannie from '@/vue/components/common/svg/flyout-dannie/Index.vue'
+import SvgFlyoutDannieUp from '@/vue/components/common/svg/flyout-dannie/Up'
+import SvgLightBulb from '@/vue/components/common/svg/LightBulb'
+import SvgMessage from '@/vue/components/common/svg/Message'
+import SvgStar from '@/vue/components/common/svg/Star'
+import SvgSupport from '@/vue/components/common/svg/Support'
 export default {
+	components : {
+		SvgFlyoutDannie,
+		SvgFlyoutDannieUp,
+		SvgLightBulb,
+		SvgMessage,
+		SvgStar,
+		SvgSupport
+	},
 	mixins : [ Standalone ],
 	data () {
 		return {
@@ -86,9 +100,13 @@ export default {
 
 			if (!this.$isPro && this.pong) {
 				items.unshift({
-					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
-					label : this.$t.sprintf(this.$t.__('Upgrade to %1$s %2$s', this.$td), process.env.VUE_APP_SHORT_NAME, this.$t.__('Pro', this.$td)),
-					url   : this.$links.utmUrl(
+					label : this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
+						this.$t.__('Upgrade to %1$s %2$s', this.$td),
+						import.meta.env.VITE_SHORT_NAME,
+						'Pro'
+					),
+					url : this.$links.utmUrl(
 						'flyout-menu',
 						'upgrade-to-pro'
 					),

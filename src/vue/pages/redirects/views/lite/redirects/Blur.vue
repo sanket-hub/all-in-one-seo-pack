@@ -28,7 +28,7 @@
 		</core-blur>
 
 		<core-blur>
-			<base-wp-table
+			<core-wp-table
 				:filters="[]"
 				:totals="{
 					total : 0,
@@ -46,7 +46,17 @@
 </template>
 
 <script>
+import CoreAddRedirection from '@/vue/components/common/core/add-redirection/Index.vue'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreWpTable from '@/vue/components/common/core/wp/Table'
 export default {
+	components : {
+		CoreAddRedirection,
+		CoreBlur,
+		CoreCard,
+		CoreWpTable
+	},
 	props : {
 		noCoreCard : Boolean
 	},

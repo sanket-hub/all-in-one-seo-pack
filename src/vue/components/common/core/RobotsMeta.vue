@@ -72,7 +72,15 @@
 </template>
 
 <script>
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 export default {
+	components : {
+		BaseCheckbox,
+		GridColumn,
+		GridRow
+	},
 	props : {
 		options : {
 			type     : Object,

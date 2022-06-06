@@ -7,48 +7,48 @@
  *
  * @constructor
  */
-var SentencePart = function( sentencePartText, auxiliaries, locale ) {
-	this._sentencePartText = sentencePartText;
-	this._auxiliaries = auxiliaries;
-	this._locale = locale;
-	this._isPassive = false;
-};
+const SentencePart = function (sentencePartText, auxiliaries, locale) {
+	this._sentencePartText = sentencePartText
+	this._auxiliaries = auxiliaries
+	this._locale = locale
+	this._isPassive = false
+}
 
 /**
  * Returns the sentence part string.
  *
  * @returns {string} The sentence part.
  */
-SentencePart.prototype.getSentencePartText = function() {
-	return this._sentencePartText;
-};
+SentencePart.prototype.getSentencePartText = function () {
+	return this._sentencePartText
+}
 
 /**
  * Returns the passiveness of a sentence part.
  *
  * @returns {boolean} returns true if passive, otherwise returns false.
  */
-SentencePart.prototype.isPassive = function() {
-	return this._isPassive;
-};
+SentencePart.prototype.isPassive = function () {
+	return this._isPassive
+}
 
 /**
  * Returns the list of auxiliaries from a sentence part.
  *
  * @returns {Array} The list of auxiliaries.
  */
-SentencePart.prototype.getAuxiliaries = function() {
-	return this._auxiliaries;
-};
+SentencePart.prototype.getAuxiliaries = function () {
+	return this._auxiliaries
+}
 
 /**
  * Returns the locale of the sentence part.
  *
  * @returns {string} The locale of the sentence part.
  */
-SentencePart.prototype.getLocale = function() {
-	return this._locale;
-};
+SentencePart.prototype.getLocale = function () {
+	return this._locale
+}
 
 /**
  * Sets the passiveness of the sentence part.
@@ -56,24 +56,24 @@ SentencePart.prototype.getLocale = function() {
  * @param {boolean} passive Whether the sentence part is passive or not.
  * @returns {void}
  */
-SentencePart.prototype.setPassive = function( passive ) {
-	this._isPassive = passive;
-};
+SentencePart.prototype.setPassive = function (passive) {
+	this._isPassive = passive
+}
 
 /**
  * Serializes the SentencePart instance to an object.
  *
  * @returns {Object} The serialized SentencePart.
  */
-SentencePart.prototype.serialize = function() {
+SentencePart.prototype.serialize = function () {
 	return {
-		_parseClass: "SentencePart",
-		sentencePartText: this._sentencePartText,
-		auxiliaries: this._auxiliaries,
-		locale: this._locale,
-		isPassive: this._isPassive,
-	};
-};
+		_parseClass      : 'SentencePart',
+		sentencePartText : this._sentencePartText,
+		auxiliaries      : this._auxiliaries,
+		locale           : this._locale,
+		isPassive        : this._isPassive
+	}
+}
 
 /**
  * Parses the object to a SentencePart.
@@ -82,11 +82,11 @@ SentencePart.prototype.serialize = function() {
  *
  * @returns {SentencePart} The parsed SentencePart.
  */
-SentencePart.parse = function( serialized ) {
-	const sentencePart = new SentencePart( serialized.sentencePartText, serialized.auxiliaries, serialized.locale );
-	sentencePart.setPassive( serialized.isPassive );
+SentencePart.parse = function (serialized) {
+	const sentencePart = new SentencePart(serialized.sentencePartText, serialized.auxiliaries, serialized.locale)
+	sentencePart.setPassive(serialized.isPassive)
 
-	return sentencePart;
-};
+	return sentencePart
+}
 
-export default SentencePart;
+export default SentencePart

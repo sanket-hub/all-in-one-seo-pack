@@ -1,8 +1,8 @@
-import inRange from 'lodash/inRange'
+import { inRange } from 'lodash-es'
 import getPassiveVoice from '../researches/getPassiveVoice'
 import formatNumber from '../researches/helpers/formatNumber'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 function passiveVoice (content) {
 	if (!content) {
@@ -41,11 +41,15 @@ function passiveVoice (content) {
 	}
 	return {
 		title       : __('Passive voice', td),
-		// Translators: 1 - Percentage of the sentences, 2 - Expected maximum percentage of sentences.
-		description : sprintf(__('%1$s of the sentences contain passive voice, which is more than the recommended maximum of %2$s. Try to use their active counterparts.', td), `${percentage}%`, `${recommendedValue}%`),
-		score       : score,
-		maxScore    : 9,
-		error       : 1
+		description : sprintf(
+			// Translators: 1 - Percentage of the sentences, 2 - Expected maximum percentage of sentences.
+			__('%1$s of the sentences contain passive voice, which is more than the recommended maximum of %2$s. Try to use their active counterparts.', td),
+			`${percentage}%`,
+			`${recommendedValue}%`
+		),
+		score    : score,
+		maxScore : 9,
+		error    : 1
 	}
 }
 

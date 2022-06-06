@@ -1,6 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
-import forEach from 'lodash/forEach'
-import includes from 'lodash/includes'
+import { isEmpty, forEach, includes } from 'lodash-es'
 
 /**
  * Checks whether a given word is directly preceded by a word from a list of words.
@@ -17,15 +15,15 @@ export default function (precedingWords, matchIndex, addSpace = true) {
 	(because the end word boundary is not included in the match).
 	0 if the preceding word is a contraction.
 	*/
-	var space = addSpace ? 1 : 0
+	const space = addSpace ? 1 : 0
 
 	if (isEmpty(precedingWords)) {
 		return false
 	}
 
-	var precedingWordsEndIndices = []
+	const precedingWordsEndIndices = []
 	forEach(precedingWords, function (precedingWord) {
-		var precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + space
+		const precedingWordsEndIndex = precedingWord.index + precedingWord.match.length + space
 		precedingWordsEndIndices.push(precedingWordsEndIndex)
 	})
 	return includes(precedingWordsEndIndices, matchIndex)

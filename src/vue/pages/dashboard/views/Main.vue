@@ -18,10 +18,18 @@
 						md="6"
 					>
 						<core-card
-							slug="dashboardSeoSiteScore"
-							:header-text="strings.seoSiteScore"
+							slug="dashboardOverview"
+							:header-text="strings.seoOverview"
 						>
-							<core-seo-site-score />
+							<core-overview />
+						</core-card>
+
+						<core-card
+							v-if="!$aioseo.setupWizard.isCompleted"
+							slug="dashboardSeoSetup"
+							:header-text="strings.seoSetup"
+						>
+							<core-seo-setup />
 						</core-card>
 
 						<grid-row v-if="quickLinks.length > 0">
@@ -69,6 +77,13 @@
 					<grid-column
 						md="6"
 					>
+						<core-card
+							slug="dashboardSeoSiteScore"
+							:header-text="strings.seoSiteScore"
+						>
+							<core-seo-site-score />
+						</core-card>
+
 						<core-card
 							class="dashboard-notifications"
 							slug="dashboardNotifications"
@@ -164,21 +179,7 @@
 							:type="3"
 							:floating="false"
 							:cta-link="$links.utmUrl('dashboard-cta')"
-							:feature-list="[
-								strings.smartSchema,
-								strings.localSeo,
-								strings.redirects,
-								strings.linkAssistant,
-								strings.newsSitemap,
-								strings.videoSitemap,
-								strings.imageSeo,
-								strings.breadcrumbs,
-								strings.advancedSupportForEcommerce,
-								strings.accessControl,
-								strings.seoForCats,
-								strings.socialMetaCats,
-								strings.adFree
-							]"
+							:feature-list="$constants.UPSELL_FEATURE_LIST"
 							:button-text="strings.ctaButton"
 							:learn-more-link="$links.getUpsellUrl('dashboard-cta', null, 'home')"
 						>
@@ -196,7 +197,63 @@
 <script>
 import { Notifications } from '@/vue/mixins'
 import { mapActions, mapGetters, mapState } from 'vuex'
+
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreFeatureCard from '@/vue/components/common/core/FeatureCard'
+import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreNotificationCards from '@/vue/components/common/core/NotificationCards'
+import CoreOverview from '@/vue/components/common/core/Overview.vue'
+import CoreSeoSetup from '@/vue/components/common/core/SeoSetup.vue'
+import CoreSeoSiteScore from '@/vue/components/AIOSEO_VERSION/core/seo-site-score/Index.vue'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import Cta from '@/vue/components/common/cta/Index.vue'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgBook from '@/vue/components/common/svg/Book'
+import SvgBuild from '@/vue/components/common/svg/Build'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
+import SvgClipboardCheckmark from '@/vue/components/common/svg/ClipboardCheckmark'
+import SvgHistory from '@/vue/components/common/svg/History'
+import SvgLinkAssistant from '@/vue/components/common/svg/link/Assistant'
+import SvgLocationPin from '@/vue/components/common/svg/LocationPin'
+import SvgMessage from '@/vue/components/common/svg/Message'
+import SvgRedirect from '@/vue/components/common/svg/Redirect'
+import SvgRocket from '@/vue/components/common/svg/Rocket'
+import SvgShare from '@/vue/components/common/svg/Share'
+import SvgSitemapsPro from '@/vue/components/common/svg/SitemapsPro'
+import SvgTitleAndMeta from '@/vue/components/common/svg/TitleAndMeta'
+import SvgVideoCamera from '@/vue/components/common/svg/VideoCamera'
+
 export default {
+	components : {
+		CoreCard,
+		CoreFeatureCard,
+		CoreGettingStarted,
+		CoreMain,
+		CoreNotificationCards,
+		CoreOverview,
+		CoreSeoSetup,
+		CoreSeoSiteScore,
+		CoreTooltip,
+		Cta,
+		GridColumn,
+		GridRow,
+		SvgBook,
+		SvgBuild,
+		SvgCircleQuestionMark,
+		SvgClipboardCheckmark,
+		SvgHistory,
+		SvgLinkAssistant,
+		SvgLocationPin,
+		SvgMessage,
+		SvgRedirect,
+		SvgRocket,
+		SvgShare,
+		SvgSitemapsPro,
+		SvgTitleAndMeta,
+		SvgVideoCamera
+	},
 	mixins : [ Notifications ],
 	data () {
 		return {
@@ -207,46 +264,54 @@ export default {
 				noNewNotificationsThisMoment : this.$t.__('There are no new notifications at this moment.', this.$td),
 				seeAllDismissedNotifications : this.$t.__('See all dismissed notifications.', this.$td),
 				seoSiteScore                 : this.$t.__('SEO Site Score', this.$td),
-				support                      : this.$t.__('Support', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				readSeoUserGuide             : this.$t.sprintf(this.$t.__('Read the %1$s user guide', this.$td), process.env.VUE_APP_NAME),
-				accessPremiumSupport         : this.$t.__('Access our Premium Support', this.$td),
-				viewChangelog                : this.$t.__('View the Changelog', this.$td),
-				watchVideoTutorials          : this.$t.__('Watch video tutorials', this.$td),
-				gettingStarted               : this.$t.__('Getting started? Read the Beginners Guide', this.$td),
-				quicklinks                   : this.$t.__('Quicklinks', this.$td),
-				quicklinksTooltip            : this.$t.__('You can use these quicklinks to quickly access our settings pages to adjust your site\'s SEO settings.', this.$td),
-				searchAppearance             : this.$t.__('Search Appearance', this.$td),
-				manageSearchAppearance       : this.$t.__('Configure how your website content will look in Google, Bing and other search engines.', this.$td),
-				seoAnalysis                  : this.$t.__('SEO Analysis', this.$td),
-				manageSeoAnalysis            : this.$t.__('Check how your site scores with our SEO analyzer and compare against your competitor\'s site.', this.$td),
-				manageLocalSeo               : this.$t.__('Improve local SEO rankings with schema for business address, open hours, contact, and more.', this.$td),
-				socialNetworks               : this.$t.__('Social Networks', this.$td),
-				manageSocialNetworks         : this.$t.__('Setup Open Graph for Facebook, Twitter, etc. to show the right content / thumbnail preview.', this.$td),
-				tools                        : this.$t.__('Tools', this.$td),
-				manageTools                  : this.$t.__('Fine-tune your site with our powerful tools including Robots.txt editor, import/export and more.', this.$td),
-				sitemap                      : this.$t.__('Sitemaps', this.$td),
-				manageSitemap                : this.$t.__('Manage all of your sitemap settings, including XML, Video, News and more.', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeaderText                : this.$t.sprintf(this.$t.__('Get more features in %1$s %2$s:', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				// Translators: 1 - "Pro", 2 - A percentage ("50%").
-				ctaButton                    : this.$t.sprintf(this.$t.__('Upgrade to %1$s and Save %2$s', this.$td), 'Pro', '50%'),
-				dismissAll                   : this.$t.__('Dismiss All', this.$td),
-				relaunchSetupWizard          : this.$t.__('Relaunch Setup Wizard', this.$td),
-				smartSchema                  : this.$t.__('Smart Schema', this.$td),
-				localSeo                     : this.$t.__('Local SEO', this.$td),
-				imageSeo                     : this.$t.__('Image SEO', this.$td),
-				breadcrumbs                  : this.$t.__('Custom Breadcrumb Templates', this.$td),
-				advancedSupportForEcommerce  : this.$t.__('Advanced support for e-commerce', this.$td),
-				accessControl                : this.$t.__('User Access Control', this.$td),
-				seoForCats                   : this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
-				socialMetaCats               : this.$t.__('Social meta for Categories, Tags and Custom Taxonomies', this.$td),
-				adFree                       : this.$t.__('Ad free (no banner adverts)', this.$td),
-				newsSitemap                  : this.$t.__('News Sitemap', this.$td),
-				videoSitemap                 : this.$t.__('Video Sitemap', this.$td),
-				linkAssistant                : this.$t.__('Link Assistant', this.$td),
-				redirects                    : this.$t.__('Redirection Manager', this.$t)
-
+				seoOverview                  : this.$t.sprintf(
+					// Translators: 1 - The plugin shortname ("AIOSEO").
+					this.$t.__('%1$s Overview', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				seoSetup         : this.$t.__('SEO Setup', this.$td),
+				support          : this.$t.__('Support', this.$td),
+				readSeoUserGuide : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('Read the %1$s user guide', this.$td),
+					import.meta.env.VITE_NAME
+				),
+				accessPremiumSupport   : this.$t.__('Access our Premium Support', this.$td),
+				viewChangelog          : this.$t.__('View the Changelog', this.$td),
+				watchVideoTutorials    : this.$t.__('Watch video tutorials', this.$td),
+				gettingStarted         : this.$t.__('Getting started? Read the Beginners Guide', this.$td),
+				quicklinks             : this.$t.__('Quicklinks', this.$td),
+				quicklinksTooltip      : this.$t.__('You can use these quicklinks to quickly access our settings pages to adjust your site\'s SEO settings.', this.$td),
+				searchAppearance       : this.$t.__('Search Appearance', this.$td),
+				manageSearchAppearance : this.$t.__('Configure how your website content will look in Google, Bing and other search engines.', this.$td),
+				seoAnalysis            : this.$t.__('SEO Analysis', this.$td),
+				manageSeoAnalysis      : this.$t.__('Check how your site scores with our SEO analyzer and compare against your competitor\'s site.', this.$td),
+				localSeo               : this.$t.__('Local SEO', this.$td),
+				manageLocalSeo         : this.$t.__('Improve local SEO rankings with schema for business address, open hours, contact, and more.', this.$td),
+				socialNetworks         : this.$t.__('Social Networks', this.$td),
+				manageSocialNetworks   : this.$t.__('Setup Open Graph for Facebook, Twitter, etc. to show the right content / thumbnail preview.', this.$td),
+				tools                  : this.$t.__('Tools', this.$td),
+				manageTools            : this.$t.__('Fine-tune your site with our powerful tools including Robots.txt editor, import/export and more.', this.$td),
+				sitemap                : this.$t.__('Sitemaps', this.$td),
+				manageSitemap          : this.$t.__('Manage all of your sitemap settings, including XML, Video, News and more.', this.$td),
+				linkAssistant          : this.$t.__('Link Assistant', this.$td),
+				manageLinkAssistant    : this.$t.__('Manage existing links, get relevant suggestions for adding internal links to older content, discover orphaned posts and more.', this.$td),
+				redirects              : this.$t.__('Redirection Manager', this.$td),
+				manageRedirects        : this.$t.__('Easily create and manage redirects for your broken links to avoid confusing search engines and users, as well as losing valuable backlinks.', this.$td),
+				ctaHeaderText          : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Get more features in %1$s %2$s:', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaButton : this.$t.sprintf(
+					// Translators: 1 - "Pro", 2 - A percentage ("50%").
+					this.$t.__('Upgrade to %1$s and Save %2$s', this.$td),
+					'Pro',
+					'50%'
+				),
+				dismissAll          : this.$t.__('Dismiss All', this.$td),
+				relaunchSetupWizard : this.$t.__('Relaunch Setup Wizard', this.$td)
 			}
 		}
 	},
@@ -254,8 +319,11 @@ export default {
 		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'settings' ]),
 		moreNotifications () {
-			// Translators: 1 - A number representing the remaining notifications.
-			return this.$t.sprintf(this.$t.__('You have %1$s more notifications', this.$td), this.remainingNotificationsCount)
+			return this.$t.sprintf(
+				// Translators: 1 - A number representing the remaining notifications.
+				this.$t.__('You have %1$s more notifications', this.$td),
+				this.remainingNotificationsCount
+			)
 		},
 		remainingNotificationsCount () {
 			return this.notifications.length - this.visibleNotifications
@@ -329,6 +397,20 @@ export default {
 					name        : this.strings.sitemap,
 					manageUrl   : this.$aioseo.urls.aio.sitemaps,
 					access      : 'aioseo_sitemap_settings'
+				},
+				{
+					icon        : 'svg-link-assistant',
+					description : this.strings.manageLinkAssistant,
+					name        : this.strings.linkAssistant,
+					manageUrl   : this.$aioseo.urls.aio.linkAssistant,
+					access      : 'aioseo_link_assistant_settings'
+				},
+				{
+					icon        : 'svg-redirect',
+					description : this.strings.manageRedirects,
+					name        : this.strings.redirects,
+					manageUrl   : this.$aioseo.urls.aio.redirects,
+					access      : 'aioseo_redirects_settings'
 				}
 			].filter(link => this.$allowed(link.access))
 		}

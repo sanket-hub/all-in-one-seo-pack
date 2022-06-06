@@ -24,17 +24,17 @@
 			/>
 		</slot>
 
-		<component
-			:is="icon"
-		/>
-
 		<slot></slot>
 	</component>
 </template>
 
 <script>
+import CoreLoader from '@/vue/components/common/core/Loader'
 export default {
-	name  : 'base-button',
+	name       : 'base-button',
+	components : {
+		CoreLoader
+	},
 	props : {
 		color : String,
 		tag   : {
@@ -49,7 +49,7 @@ export default {
 		type     : {
 			type        : String,
 			default     : 'default',
-			description : 'Button type (blue|green|gred|gray|wp-blue)'
+			description : 'Button type (blue|black|green|red|gray|wp-blue)'
 		},
 		nativeType : {
 			type        : String,
@@ -68,11 +68,6 @@ export default {
 		to : {
 			type        : [ Object, String ],
 			description : 'The router link object or string'
-		},
-		icon : {
-			type     : String,
-			required : false
-
 		}
 	},
 	methods : {
@@ -82,6 +77,7 @@ export default {
 	}
 }
 </script>
+
 <style lang="scss">
 .aioseo-button {
 	flex-shrink: 0;
@@ -285,7 +281,8 @@ export default {
 		}
 	}
 
-	&:disabled {
+	&:disabled,
+	&.disabled {
 		border: 1px solid $gray;
 		color: $placeholder-color;
 		background-color: $background;
@@ -310,6 +307,10 @@ export default {
 		&:hover {
 			background-color: $background;
 		}
+	}
+
+	&.disabled {
+		pointer-events: none;
 	}
 }
 </style>

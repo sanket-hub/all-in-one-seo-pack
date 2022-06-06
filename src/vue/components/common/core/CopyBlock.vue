@@ -31,7 +31,15 @@
 </template>
 
 <script>
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCircleCheckSolid from '@/vue/components/common/svg/circle/CheckSolid'
+import SvgCopy from '@/vue/components/common/svg/Copy'
 export default {
+	components : {
+		CoreTooltip,
+		SvgCircleCheckSolid,
+		SvgCopy
+	},
 	props : {
 		message : {
 			type     : String,

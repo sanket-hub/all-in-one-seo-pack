@@ -1,6 +1,4 @@
-import map from 'lodash/map'
-import isUndefined from 'lodash/isUndefined'
-import isNaN from 'lodash/isNaN'
+import { map, isUndefined, isNaN } from 'lodash-es'
 
 import core from 'tokenizer2/core'
 
@@ -407,9 +405,15 @@ export default class SentenceTokenizer {
 					 * - The block end is preceded by a valid sentence ending, but not followed by a valid sentence beginning.
 					 */
 					if (
-						hasNextSentence && this.isNumber(nextCharacters[0]) ||
-						(this.isSentenceEnding(previousToken) &&
-							(!(this.isValidSentenceBeginning(nextSentenceStart) || this.isSentenceStart(nextToken))))
+						(
+							hasNextSentence &&
+							this.isNumber(nextCharacters[0])
+						) ||
+						(
+							this.isSentenceEnding(previousToken) &&
+							!this.isValidSentenceBeginning(nextSentenceStart) &&
+							!this.isSentenceStart(nextToken)
+						)
 					) {
 						break
 					}

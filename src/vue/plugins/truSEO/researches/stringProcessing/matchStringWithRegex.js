@@ -8,8 +8,8 @@
  * @returns {Array} Array with matches, empty array if no matches found.
  */
 export default function (text, regexString) {
-	var regex = new RegExp(regexString, 'ig'),
-	 matches = text.match(regex)
+	const regex = new RegExp(regexString, 'ig')
+	let matches = text.match(regex)
 
 	if (null === matches) {
 		matches = []

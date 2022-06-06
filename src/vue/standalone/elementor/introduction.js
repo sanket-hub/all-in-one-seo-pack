@@ -16,20 +16,25 @@ export default () => {
 		dialogType      : 'alert',
 		dialogOptions   : {
 			id            : 'aioseo-introduction',
-			// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The Elementor plugin name ("Elementor").
-			headerMessage : sprintf(__('New: %1$s %2$s integration', process.env.VUE_APP_TEXTDOMAIN), process.env.VUE_APP_SHORT_NAME, 'Elementor'),
-			// Translators: 1 - The plugin name ("All in One SEO"), 2 - The Elementor plugin name ("Elementor").
-			message       : sprintf(
-				__('You can now manage your SEO settings inside of %1$s via %2$s before you publish your post!', process.env.VUE_APP_TEXTDOMAIN),
+			headerMessage : sprintf(
+				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The Elementor plugin name ("Elementor").
+				__('New: %1$s %2$s integration',
+					import.meta.env.VITE_TEXTDOMAIN),
+				import.meta.env.VITE_SHORT_NAME,
+				'Elementor'
+			),
+			message : sprintf(
+				// Translators: 1 - The plugin name ("All in One SEO"), 2 - The Elementor plugin name ("Elementor").
+				__('You can now manage your SEO settings inside of %1$s via %2$s before you publish your post!', import.meta.env.VITE_TEXTDOMAIN),
 				'Elementor',
-				process.env.VUE_APP_NAME
+				import.meta.env.VITE_NAME
 			),
 			position : {
 				my : 'center center',
 				at : 'center center'
 			},
 			strings : {
-				confirm : __('Got It!', process.env.VUE_APP_TEXTDOMAIN)
+				confirm : __('Got It!', import.meta.env.VITE_TEXTDOMAIN)
 			},
 			hide : {
 				onButtonClick : false

@@ -1,6 +1,6 @@
 import getParagraphs from '../researches/helpers/getParagraphs'
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	incorrect     : 0,

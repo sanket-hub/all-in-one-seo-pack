@@ -12,7 +12,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import SvgAioseoLogo from '@/vue/components/common/svg/aioseo/Logo'
+import WizardProgress from '@/vue/components/common/wizard/Progress'
 export default {
+	components : {
+		SvgAioseoLogo,
+		WizardProgress
+	},
 	computed : {
 		...mapGetters('wizard', [ 'getCurrentStageCount', 'getTotalStageCount' ]),
 		steps () {

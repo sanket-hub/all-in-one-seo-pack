@@ -80,7 +80,15 @@
 <script>
 import { JsonValues } from '@/vue/mixins'
 import { mapActions } from 'vuex'
+import SvgAddPlus from '@/vue/components/common/svg/AddPlus'
+import SvgClose from '@/vue/components/common/svg/Close'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	components : {
+		SvgAddPlus,
+		SvgClose,
+		SvgExternal
+	},
 	mixins : [ JsonValues ],
 	props  : {
 		options : {

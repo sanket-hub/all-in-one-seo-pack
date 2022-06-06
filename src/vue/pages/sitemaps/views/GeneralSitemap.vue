@@ -222,27 +222,7 @@
 			</core-settings-row>
 		</core-card>
 
-		<core-card
-			v-if="options.sitemap.general.enable"
-			slug="additionalPages"
-			:toggles="options.sitemap.general.additionalPages.enable"
-		>
-			<template #header>
-				<base-toggle
-					v-model="options.sitemap.general.additionalPages.enable"
-				/>
-
-				{{ strings.additionalPages }}
-			</template>
-
-			<template #tooltip>
-				{{ strings.additionalPagesTooltip }}
-			</template>
-
-			<core-additional-pages
-				:pages="options.sitemap.general.additionalPages.pages"
-			/>
-		</core-card>
+		<AdditionalPages />
 
 		<core-card
 			v-if="options.sitemap.general.enable"
@@ -407,15 +387,41 @@
 import { mapState } from 'vuex'
 import { CommonSitemap } from '@/vue/pages/sitemaps/mixins'
 
+import AdditionalPages from './AdditionalPages.vue'
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreExcludePosts from '@/vue/components/common/core/ExcludePosts'
+import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
+import CorePriorityScore from '@/vue/components/common/core/PriorityScore'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgExternal from '@/vue/components/common/svg/External'
+
 export default {
-	mixins : [ CommonSitemap ],
+	mixins     : [ CommonSitemap ],
+	components : {
+		AdditionalPages,
+		BaseCheckbox,
+		BaseRadioToggle,
+		CoreAlert,
+		CoreCard,
+		CoreExcludePosts,
+		CorePostTypeOptions,
+		CorePriorityScore,
+		CoreSettingsRow,
+		SvgExternal
+	},
 	data () {
 		return {
 			pagePostOptions : [],
 			strings         : {
-				general                        : this.$t.__('General Sitemap', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				description                    : this.$t.sprintf(this.$t.__('An XML Sitemap is a list of all your content that search engines use when they crawl your site. This is an essential part of SEO because it contains some important pieces of information that search engines need when crawling your site. The XML Sitemap created by %1$s tells search engines where to find all of the content on your site.', this.$td), process.env.VUE_APP_NAME),
+				general     : this.$t.__('General Sitemap', this.$td),
+				description : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('An XML Sitemap is a list of all your content that search engines use when they crawl your site. This is an essential part of SEO because it contains some important pieces of information that search engines need when crawling your site. The XML Sitemap created by %1$s tells search engines where to find all of the content on your site.', this.$td),
+					import.meta.env.VITE_NAME
+				),
 				enableSitemap                  : this.$t.__('Enable Sitemap', this.$td),
 				sitemapSettings                : this.$t.__('Sitemap Settings', this.$td),
 				enableSitemapIndexes           : this.$t.__('Enable Sitemap Indexes', this.$td),
@@ -436,8 +442,6 @@ export default {
 				selectPostTypes                : this.$t.__('Select which Post Types appear in your sitemap.', this.$td),
 				includeAllTaxonomies           : this.$t.__('Include All Taxonomies', this.$td),
 				selectTaxonomies               : this.$t.__('Select which Taxonomies appear in your sitemap.', this.$td),
-				additionalPages                : this.$t.__('Additional Pages', this.$td),
-				additionalPagesTooltip         : this.$t.__('You can use this section to add any URLs to your sitemap which aren’t a part of your WordPress installation. For example, if you have a contact form that you would like to be included on your sitemap you can enter the information manually.', this.$td),
 				advancedSettings               : this.$t.__('Advanced Settings', this.$td),
 				excludePostsPages              : this.$t.__('Exclude Posts / Pages', this.$td),
 				excludeTerms                   : this.$t.__('Exclude Terms', this.$td),

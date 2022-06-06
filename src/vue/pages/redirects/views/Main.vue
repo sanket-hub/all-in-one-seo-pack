@@ -10,16 +10,17 @@
 
 <script>
 import { mapState } from 'vuex'
+import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import FullSiteRedirect from './AIOSEO_VERSION/FullSiteRedirect'
 import ImportExport from './AIOSEO_VERSION/ImportExport'
 import Logs from './AIOSEO_VERSION/Logs'
 import Logs404 from './AIOSEO_VERSION/Logs404'
 import Redirects from './Redirects'
 import Settings from './AIOSEO_VERSION/Settings'
-import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
 export default {
-	mixins     : [ RequiresActivation, RequiresUpdate ],
 	components : {
+		CoreMain,
 		FullSiteRedirect,
 		ImportExport,
 		Logs,
@@ -27,6 +28,7 @@ export default {
 		Redirects,
 		Settings
 	},
+	mixins : [ RequiresActivation, RequiresUpdate ],
 	data () {
 		return {
 			strings : {

@@ -82,7 +82,17 @@
 
 <script>
 import { mapState } from 'vuex'
+import BaseTextarea from '@/vue/components/common/base/Textarea'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseTextarea,
+		CoreAlert,
+		CoreCard,
+		CoreSettingsRow
+	},
 	data () {
 		return {
 			strings : {
@@ -94,8 +104,11 @@ export default {
 				userAgentBlocklist    : this.$t.__('User Agent Blocklist', this.$td),
 				refererBlockList      : this.$t.__('Referer Blocklist', this.$td),
 				blockedBotsLog        : this.$t.__('Blocked Bots Log', this.$td),
-				// Translators: 1 - The location of the log file.
-				logLocation           : this.$t.sprintf(this.$t.__('The log for the blocked bots is located here: %1$s', this.$td), '<br><a href="' + this.$aioseo.urls.blockedBotsLogUrl + '" target="_blank">' + this.$aioseo.urls.blockedBotsLogUrl + '</a>')
+				logLocation           : this.$t.sprintf(
+					// Translators: 1 - The location of the log file.
+					this.$t.__('The log for the blocked bots is located here: %1$s', this.$td),
+					'<br><a href="' + this.$aioseo.urls.blockedBotsLogUrl + '" target="_blank">' + this.$aioseo.urls.blockedBotsLogUrl + '</a>'
+				)
 			}
 		}
 	},

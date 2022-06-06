@@ -1,6 +1,4 @@
-import filter from 'lodash/filter'
-import includes from 'lodash/includes'
-import memoize from 'lodash/memoize'
+import { filter, includes, memoize } from 'lodash-es'
 import getWords from './getWords'
 
 /**

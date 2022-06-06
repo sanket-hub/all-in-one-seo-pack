@@ -1,11 +1,18 @@
 import Vue from 'vue'
+
 import '@/vue/plugins'
+import TruSEO from '@/vue/plugins/truSEO'
 import '@/vue/components/common'
+import '@/vue/components/AIOSEO_VERSION'
+
 import initWatcher from './watcher'
 import initIntroduction from './introduction'
 
-import App from '@/vue/pages/post-settings/App.vue'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/truSEO/components'
+import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
+
+Vue.prototype.$truSEO = new TruSEO()
 
 /**
  * Add to the body a class to identify the Elementor color schema.
@@ -50,6 +57,9 @@ const mountComponent = () => {
 			}).$mount('#elementor-panel-page-settings-controls')
 
 			document.getElementById('elementor-panel-page-settings').classList.add('edit-post-sidebar', 'aioseo-elementor-panel')
+
+			// Update the post data and run the analysis when our panel loads.
+			updatePostData()
 		}
 	})
 }
@@ -65,7 +75,7 @@ const addMenuShortcut = () => {
 	menu.addItem({
 		name     : 'aioseo',
 		icon     : 'aioseo aioseo-element-menu-icon aioseo-element-menu-icon-' + theme,
-		title    : process.env.VUE_APP_NAME,
+		title    : import.meta.env.VITE_NAME,
 		type     : 'page',
 		callback : () => {
 			try {
@@ -98,7 +108,17 @@ const init = () => {
 	initWatcher()
 }
 
+let preload = false
+if (window.elementor) {
+	setTimeout(init)
+	preload = true
+}
+
 (function ($) {
+	if (preload) {
+		return
+	}
+
 	$(window).on('elementor:init', () => {
 		window.elementor.on('panel:init', () => {
 			setTimeout(init)

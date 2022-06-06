@@ -21,7 +21,7 @@
 
 		<core-site-score-analyze
 			v-if="internalOptions.internal.siteAnalysis.connectToken"
-			:score="internalOptions.internal.siteAnalysis.score"
+			:score="score"
 			:description="description"
 			:loading="analyzing"
 			:summary="getSummary"
@@ -33,8 +33,24 @@
 import { popup } from '@/vue/utils/popup'
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions, mapState, mapGetters } from 'vuex'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSiteScoreAnalyze from '@/vue/components/common/core/site-score/Analyze'
 export default {
-	mixins   : [ SeoSiteScore ],
+	components : {
+		CoreBlur,
+		CoreSiteScoreAnalyze
+	},
+	mixins : [ SeoSiteScore ],
+	data () {
+		return {
+			score : 0
+		}
+	},
+	watch : {
+		'internalOptions.internal.siteAnalysis.score' (newVal) {
+			this.score = newVal
+		}
+	},
 	computed : {
 		...mapState([ 'internalOptions', 'analyzing' ]),
 		...mapGetters([ 'goodCount', 'recommendedCount', 'criticalCount' ]),
@@ -76,6 +92,8 @@ export default {
 			this.$store.commit('analyzing', true)
 			this.runSiteAnalyzer()
 		}
+
+		this.score = this.internalOptions.internal.siteAnalysis.score
 	}
 }
 </script>

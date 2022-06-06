@@ -9,9 +9,9 @@ import getSentences from '../stringProcessing/getSentences.js'
  * @returns {number} The number of sentences in the text.
  */
 export default function (text) {
-	var sentences = getSentences(text),
-	 sentenceCount = 0
-	for (var i = 0; i < sentences.length; i++) {
+	const sentences = getSentences(text)
+	let sentenceCount = 0
+	for (let i = 0; i < sentences.length; i++) {
 		sentenceCount++
 	}
 	return sentenceCount

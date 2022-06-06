@@ -3,7 +3,9 @@
 		<div class="facebook-post">
 			<div class="facebook-header">
 				<div class="profile-photo">
-					<img src="@/vue/assets/images/aio/dannie-profile.png" />
+					<img
+						:src="$getImgUrl(dannieProfileImg)"
+					/>
 				</div>
 				<div class="poster">
 					<div class="poster-name">
@@ -54,7 +56,14 @@
 </template>
 
 <script>
+import dannieProfileImg from '@/vue/assets/images/aio/dannie-profile.png'
+import BaseImg from '@/vue/components/common/base/Img'
+import CoreLoader from '@/vue/components/common/core/Loader'
 export default {
+	components : {
+		BaseImg,
+		CoreLoader
+	},
 	props : {
 		image   : String,
 		loading : {
@@ -66,12 +75,13 @@ export default {
 	},
 	data () {
 		return {
+			dannieProfileImg,
 			images : {}
 		}
 	},
 	computed : {
 		appName () {
-			return process.env.VUE_APP_NAME
+			return import.meta.env.VITE_NAME
 		},
 		date () {
 			const today = new Date()

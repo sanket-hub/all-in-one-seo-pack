@@ -2,7 +2,10 @@ import { mapActions } from 'vuex'
 
 export default {
 	data () {
-		const scheduledActionsLink = this.$t.sprintf('<a href="%1$s" target="_blank">Scheduled Actions</a>', this.$aioseo.urls.admin.scheduledActions)
+		const scheduledActionsLink = this.$t.sprintf(
+			'<a href="%1$s" target="_blank">Scheduled Actions</a>',
+			this.$aioseo.urls.admin.scheduledActions
+		)
 		return {
 			showAreYouSureModal : false,
 			loading             : {

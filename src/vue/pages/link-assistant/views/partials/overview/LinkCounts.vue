@@ -61,10 +61,15 @@
 </template>
 
 <script>
+import CoreCard from '@/vue/components/common/core/Card'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 import LinkCount from './LinkCount'
-
 export default {
 	components : {
+		CoreCard,
+		GridColumn,
+		GridRow,
 		LinkCount
 	},
 	props : {

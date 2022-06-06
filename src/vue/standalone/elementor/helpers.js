@@ -1,4 +1,5 @@
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
+import { getText, getImages } from '@/vue/utils/html'
 
 /**
  * Gets the post content.
@@ -18,6 +19,11 @@ export const getContent = () => {
 
 		// Remove the wrapper <p> if there's just an image inside it.
 		html = html.replaceAll(/<p.*>(<img.*>)<\/p>/g, '$1')
+
+		// Skip if there's no text or images, just HTML markup.
+		if ('' === getText(html) && 0 === getImages(html).length) {
+			return
+		}
 
 		content.push(html)
 	})

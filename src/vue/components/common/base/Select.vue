@@ -79,9 +79,13 @@
 import { debounce } from '@/vue/utils/debounce'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
 import Multiselect from 'vue-multiselect'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
 	components : {
-		Multiselect
+		Multiselect,
+		SvgCaret,
+		SvgClose
 	},
 	props : {
 		options : {
@@ -157,7 +161,6 @@ export default {
 
 			this.$refs['aioseo-select'].$el.focus()
 		},
-		// @TODO: [V4+] Need to debounce this.
 		searchChange (query) {
 			if (!query) {
 				return

@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { getOptions } from '@/vue/utils/options'
 import store from '@/vue/store'
-import merge from 'lodash/merge'
+import { merge } from 'lodash-es'
 import { __ } from '@wordpress/i18n'
 
-const td = process.env.VUE_APP_TEXTDOMAIN
+const td = import.meta.env.VITE_TEXTDOMAIN
 
 // Creates a `nextMiddleware()` function which not only
 // runs the default `next()` callback but also triggers

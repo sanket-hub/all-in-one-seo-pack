@@ -77,7 +77,17 @@
 </template>
 
 <script>
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseRadioToggle,
+		CoreBlur,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow
+	},
 	data () {
 		return {
 			strings : {

@@ -82,7 +82,13 @@
 <script>
 import { Notifications } from '@/vue/mixins'
 import { mapActions, mapState, mapMutations } from 'vuex'
+import CoreNotificationCards from '@/vue/components/common/core/NotificationCards'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		CoreNotificationCards,
+		SvgClose
+	},
 	mixins : [ Notifications ],
 	data () {
 		return {

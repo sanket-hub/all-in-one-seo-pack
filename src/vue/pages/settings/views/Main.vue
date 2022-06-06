@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import '@/vue/components/AIOSEO_VERSION'
 import AccessControl from './AccessControl'
 import Advanced from './Advanced'
 import Breadcrumbs from './Breadcrumbs'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import GeneralSettings from './GeneralSettings'
 import RssContent from './RssContent'
 import WebmasterTools from './WebmasterTools'
@@ -19,6 +19,7 @@ export default {
 		AccessControl,
 		Advanced,
 		Breadcrumbs,
+		CoreMain,
 		GeneralSettings,
 		RssContent,
 		WebmasterTools

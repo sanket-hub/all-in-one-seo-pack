@@ -13,7 +13,7 @@
 			:button-text="strings.cta.button"
 			:cta-link="$links.utmUrl('getting-started', 'main-cta')"
 			:learn-more-link="$links.getUpsellUrl('getting-started', 'main-cta', 'home')"
-			:feature-list="strings.cta.features"
+			:feature-list="$constants.UPSELL_FEATURE_LIST"
 			:showLink="false"
 		>
 			<template slot="header-text">
@@ -25,7 +25,9 @@
 			</template>
 
 			<template #featured-image>
-				<img src="@/vue/assets/images/upsells/news-sitemap.png" />
+				<img
+					:src="$getImgUrl(ctaImg)"
+				/>
 			</template>
 		</cta>
 
@@ -66,7 +68,9 @@
 						:href="video.url"
 						:title="video.title"
 					>
-						<img src="@/vue/assets/images/about/thumbnail.jpg" />
+						<img
+							:src="$getImgUrl(thumbnailImg)"
+						/>
 						<div>{{ video.title }}</div>
 					</a>
 				</grid-column>
@@ -121,32 +125,44 @@
 </template>
 
 <script>
+import ctaImg from '@/vue/assets/images/upsells/news-sitemap.png'
+// import thumbnailImg from '@/vue/assets/images/about/thumbnail.jpg'
+import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
+import Cta from '@/vue/components/common/cta/Index.vue'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgBook from '@/vue/components/common/svg/Book'
 export default {
+	components : {
+		CoreGettingStarted,
+		Cta,
+		GridColumn,
+		GridRow,
+		SvgBook
+	},
 	data () {
 		return {
+			ctaImg,
+			// thumbnailImg,
 			strings : {
 				cta : {
-					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
-					title    : this.$t.sprintf(this.$t.__('Get %1$s %2$s and Unlock all the Powerful Features', this.$td), process.env.VUE_APP_SHORT_NAME, this.$t.__('Pro', this.$td)),
-					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
-					header   : this.$t.sprintf(this.$t.__('Get %1$s %2$s and Unlock all the Powerful Features.', this.$td), process.env.VUE_APP_SHORT_NAME, this.$t.__('Pro', this.$td)),
-					// Translators: 1 - "Pro".
-					button   : this.$t.sprintf(this.$t.__('Upgrade to %1$s Today', this.$td), 'Pro'),
-					features : [
-						this.$t.__('Smart Schema', this.$td),
-						this.$t.__('Local SEO', this.$td),
-						this.$t.__('Redirection Manager', this.$t),
-						this.$t.__('Link Assistant', this.$td),
-						this.$t.__('News Sitemap', this.$td),
-						this.$t.__('Video Sitemap', this.$td),
-						this.$t.__('Image SEO', this.$td),
-						this.$t.__('Custom Breadcrumb Templates', this.$td),
-						this.$t.__('Advanced support for e-commerce', this.$td),
-						this.$t.__('User Access Control', this.$td),
-						this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
-						this.$t.__('Social meta for Categories, Tags and Custom Taxonomies', this.$td),
-						this.$t.__('Ad free (no banner adverts)', this.$td)
-					]
+					title : this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
+						this.$t.__('Get %1$s %2$s and Unlock all the Powerful Features', this.$td),
+						import.meta.env.VITE_SHORT_NAME,
+						'Pro'
+					),
+					header : this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro" string.
+						this.$t.__('Get %1$s %2$s and Unlock all the Powerful Features.', this.$td),
+						import.meta.env.VITE_SHORT_NAME,
+						'Pro'
+					),
+					button : this.$t.sprintf(
+						// Translators: 1 - "Pro".
+						this.$t.__('Upgrade to %1$s Today', this.$td),
+						'Pro'
+					)
 				},
 				videos : {
 					title    : this.$t.__('Video Tutorials', this.$td),
@@ -154,8 +170,11 @@ export default {
 					linkUrl  : 'https://changeme'
 				},
 				documentation : {
-					// Translators: 1 - The plugin short name ("AIOSEO").
-					title    : this.$t.sprintf(this.$t.__('%1$s Documentation', this.$td), process.env.VUE_APP_SHORT_NAME),
+					title : this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO").
+						this.$t.__('%1$s Documentation', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					),
 					linkText : this.$t.__('See our full documentation', this.$td),
 					linkUrl  : this.$links.getDocUrl('home')
 				}
@@ -178,9 +197,13 @@ export default {
 					url   : 'https://changeme'
 				},
 				video5 : {
-					// Translators: 1 - The plugin short name ("AIOSEO Pro"), 2 - "Pro" string.
-					title : this.$t.sprintf(this.$t.__('Installing %1$s %2$s', this.$td), process.env.VUE_APP_SHORT_NAME, this.$t.__('Pro', this.$td)),
-					url   : 'https://changeme'
+					title : this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO Pro"), 2 - "Pro" string.
+						this.$t.__('Installing %1$s %2$s', this.$td),
+						import.meta.env.VITE_SHORT_NAME,
+						'Pro'
+					),
+					url : 'https://changeme'
 				},
 				video6 : {
 					title : this.$t.__('Optimizing your Content Headings', this.$td),
@@ -225,8 +248,12 @@ export default {
 	},
 	computed : {
 		upgradeToday () {
-			// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
-			return this.$t.sprintf(this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+			return this.$t.sprintf(
+				// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
+				this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td),
+				import.meta.env.VITE_SHORT_NAME,
+				'Pro'
+			)
 		}
 	}
 }

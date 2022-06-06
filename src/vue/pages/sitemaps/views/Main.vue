@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import GeneralSitemap from './GeneralSitemap'
 import HtmlSitemap from './HtmlSitemap'
 import NewsSitemap from './NewsSitemap'
@@ -14,6 +15,7 @@ import RssSitemap from './RssSitemap'
 import VideoSitemap from './VideoSitemap'
 export default {
 	components : {
+		CoreMain,
 		GeneralSitemap,
 		HtmlSitemap,
 		NewsSitemap,

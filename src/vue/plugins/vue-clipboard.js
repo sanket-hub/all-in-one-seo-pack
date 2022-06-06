@@ -1,4 +1,4 @@
-const Clipboard = require('clipboard/dist/clipboard.min.js')
+import Clipboard from 'clipboard/dist/clipboard.min.js'
 
 const VueClipboardConfig = {
 	autoSetContainer : false,
@@ -78,4 +78,4 @@ const VueClipboard = {
 	config : VueClipboardConfig
 }
 
-module.exports = VueClipboard
+export default VueClipboard

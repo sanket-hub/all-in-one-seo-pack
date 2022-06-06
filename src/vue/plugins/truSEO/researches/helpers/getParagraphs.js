@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import filter from 'lodash/filter'
+import { filter } from 'lodash-es'
 
 /**
  * Internal dependencies
@@ -15,16 +15,16 @@ import matchParagraphs from './matchParagraphs'
  *
  * @param {string} content The text to get paragraphs from.
  *
- * @return {Array} The array containing an object with the paragraph word count and paragraph text.
+ * @returns {Array} The array containing an object with the paragraph word count and paragraph text.
  */
-export default ( content ) => {
+export default (content) => {
 	const paragraphsLength = []
-	matchParagraphs( content ).map( ( paragraph ) => paragraphsLength.push(
+	matchParagraphs(content).map((paragraph) => paragraphsLength.push(
 		{
-			wordCount: wordCount( paragraph ),
-			text: paragraph,
+			wordCount : wordCount(paragraph),
+			text      : paragraph
 		}
-	) )
+	))
 
-	return filter( paragraphsLength, ( paragraphLength ) => 0 < paragraphLength.wordCount )
+	return filter(paragraphsLength, (paragraphLength) => 0 < paragraphLength.wordCount)
 }

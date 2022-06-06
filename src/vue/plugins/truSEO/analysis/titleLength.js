@@ -1,6 +1,6 @@
 import { count } from '@/vue/plugins/wordcount'
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const recommendedMaximumLength = 40
 const maximumLength = 60

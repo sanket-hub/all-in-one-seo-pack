@@ -25,10 +25,17 @@
 
 <script>
 import { mapState } from 'vuex'
-import preview from './Preview'
-
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import Preview from './Preview'
 export default {
-	components : { preview },
+	components : {
+		CoreSettingsRow,
+		GridColumn,
+		GridRow,
+		Preview
+	},
 	data () {
 		return {
 			strings : {

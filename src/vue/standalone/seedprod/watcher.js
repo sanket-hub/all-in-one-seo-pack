@@ -1,5 +1,5 @@
 import store from '@/vue/store'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from 'lodash-es'
 
 /**
  * Save SEO Settings when SeedProd editor is saved.

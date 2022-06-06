@@ -7,19 +7,19 @@
 </template>
 
 <script>
-// @NOTE: It's important to leave these importing in this order as it
-// prevents the compiler from throwing errors with mini-css-extract-plugin.
-import GlobalSettings from './GlobalSettings'
+import Advanced from './Advanced'
+import Archives from './Archives'
 import ContentTypes from './ContentTypes'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import GlobalSettings from './GlobalSettings'
 import Media from './Media'
 import Taxonomies from './Taxonomies'
-import Archives from './Archives'
-import Advanced from './Advanced'
 export default {
 	components : {
 		Advanced,
 		Archives,
 		ContentTypes,
+		CoreMain,
 		GlobalSettings,
 		Media,
 		Taxonomies

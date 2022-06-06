@@ -84,7 +84,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 export default {
+	components : {
+		GridColumn,
+		GridRow
+	},
 	props : {
 		optionsSeparator : {
 			type     : String,

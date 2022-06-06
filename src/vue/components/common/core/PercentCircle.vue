@@ -41,7 +41,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import UtilAnimatedNumber from '@/vue/components/common/util/AnimatedNumber'
 export default {
+	components : {
+		UtilAnimatedNumber
+	},
 	data () {
 		return {
 			fromNumber : 0,

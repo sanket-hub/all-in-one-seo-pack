@@ -155,7 +155,7 @@ class Robots {
 	 */
 	public function metaHelper( $array = false ) {
 		$pageNumber = aioseo()->helpers->getPageNumber();
-		if ( 1 < $pageNumber || 0 < (int) get_query_var( 'cpage', 0 ) ) {
+		if ( 1 < $pageNumber || aioseo()->helpers->getCommentPageNumber() ) {
 			if (
 				aioseo()->options->searchAppearance->advanced->globalRobotsMeta->default ||
 				aioseo()->options->searchAppearance->advanced->globalRobotsMeta->noindexPaginated

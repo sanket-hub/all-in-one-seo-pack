@@ -1,7 +1,7 @@
 import { setOptions } from '@/vue/utils/options'
 import { __ } from '@wordpress/i18n'
 
-const td = process.env.VUE_APP_TEXTDOMAIN
+const td = import.meta.env.VITE_TEXTDOMAIN
 
 let cachedCurrentPost = null
 

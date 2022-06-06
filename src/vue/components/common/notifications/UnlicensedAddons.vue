@@ -34,7 +34,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		SvgCircleClose,
+		TransitionSlide
+	},
 	props : {
 		notification : {
 			type     : Object,
@@ -45,8 +51,12 @@ export default {
 		return {
 			active  : true,
 			strings : {
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Addons".
-				title     : this.$t.sprintf(this.$t.__('%1$s %2$s Not Configured Properly', this.$td), process.env.VUE_APP_SHORT_NAME, 'Addons'),
+				title : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Addons".
+					this.$t.__('%1$s %2$s Not Configured Properly', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Addons'
+				),
 				learnMore : this.$t.__('Learn More', this.$td),
 				upgrade   : this.$t.__('Upgrade', this.$td)
 			}
@@ -57,7 +67,7 @@ export default {
 		content () {
 			let addonsList = '<ul>'
 			this.notification.addons.forEach(addon => {
-				addonsList += '<li><strong>' + process.env.VUE_APP_SHORT_NAME + ' - ' + addon.name + '</strong></li>'
+				addonsList += '<li><strong>' + import.meta.env.VITE_SHORT_NAME + ' - ' + addon.name + '</strong></li>'
 			})
 			addonsList += '</ul>'
 			return this.notification.message + addonsList

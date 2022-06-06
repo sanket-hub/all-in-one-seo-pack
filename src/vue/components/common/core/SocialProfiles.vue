@@ -88,7 +88,41 @@
 </template>
 
 <script>
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgIconFacebook from '@/vue/components/common/svg/icon/Facebook'
+import SvgIconInstagram from '@/vue/components/common/svg/icon/Instagram'
+import SvgIconLinkedin from '@/vue/components/common/svg/icon/Linkedin'
+import SvgIconMyspace from '@/vue/components/common/svg/icon/Myspace'
+import SvgIconPinterest from '@/vue/components/common/svg/icon/Pinterest'
+import SvgIconSoundCloud from '@/vue/components/common/svg/icon/SoundCloud'
+import SvgIconTumblr from '@/vue/components/common/svg/icon/Tumblr'
+import SvgIconTwitter from '@/vue/components/common/svg/icon/Twitter'
+import SvgIconWikipedia from '@/vue/components/common/svg/icon/Wikipedia'
+import SvgIconYelp from '@/vue/components/common/svg/icon/Yelp'
+import SvgIconYoutube from '@/vue/components/common/svg/icon/Youtube'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreAlert,
+		CoreSettingsRow,
+		GridColumn,
+		GridRow,
+		SvgIconFacebook,
+		SvgIconInstagram,
+		SvgIconLinkedin,
+		SvgIconMyspace,
+		SvgIconPinterest,
+		SvgIconSoundCloud,
+		SvgIconTumblr,
+		SvgIconTwitter,
+		SvgIconWikipedia,
+		SvgIconYelp,
+		SvgIconYoutube
+	},
 	props : {
 		options : {
 			type     : Object,

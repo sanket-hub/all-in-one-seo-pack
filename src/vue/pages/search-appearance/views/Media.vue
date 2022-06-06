@@ -63,9 +63,13 @@
 
 		<core-card
 			slug="imageSeo"
-			:header-text="strings.imageSeo"
 			:noSlide="!shouldShowMain"
 		>
+			<template #header>
+				{{ strings.imageSeo }}
+				<core-pro-badge />
+			</template>
+
 			<image-seo
 				v-if="shouldShowMain"
 			/>
@@ -89,6 +93,11 @@
 import { mapActions, mapState } from 'vuex'
 import Activate from './AIOSEO_VERSION/image-seo/Activate'
 import Advanced from './partials/Advanced'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CustomFields from './partials/AIOSEO_VERSION/CustomFields'
 import ImageSeo from './AIOSEO_VERSION/image-seo/ImageSeo'
 import Lite from './lite/image-seo/ImageSeo'
@@ -101,6 +110,11 @@ export default {
 	components : {
 		Activate,
 		Advanced,
+		BaseRadioToggle,
+		CoreCard,
+		CoreMainTabs,
+		CoreProBadge,
+		CoreSettingsRow,
 		CustomFields,
 		ImageSeo,
 		Lite,
@@ -116,7 +130,7 @@ export default {
 				redirectAttachmentUrls    : this.$t.__('Redirect Attachment URLs', this.$td),
 				attachment                : this.$t.__('Attachment', this.$td),
 				attachmentParent          : this.$t.__('Attachment Parent', this.$td),
-				attachmentUrlsDescription : this.$t.__('We recommended redirecting attachment URL\'s back to the attachment since the default WordPress attachment pages have little SEO value.', this.$td),
+				attachmentUrlsDescription : this.$t.__('We recommended redirecting attachment URLs back to the attachment since the default WordPress attachment pages have little SEO value.', this.$td),
 				imageSeo                  : this.$t.__('Image SEO', this.$td)
 			},
 			tabs : [

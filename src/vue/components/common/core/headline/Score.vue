@@ -20,7 +20,11 @@
 
 <script>
 import { HeadlineScore } from '@/vue/mixins'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
 export default {
+	components : {
+		CoreSiteScore
+	},
 	mixins : [ HeadlineScore ],
 	props  : {
 		score   : Number,
@@ -30,11 +34,22 @@ export default {
 		return {
 			isAnalyzing : false,
 			strings     : {
-				overallScore   : this.$t.__('Overall Score', this.$td),
-				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Initial score range, 4 - Final score range.
-				veryGoodScore  : this.$t.sprintf(this.$t.__('A very good score is between %1$s%3$d and %4$d%2$s.', this.$td), '<strong>', '</strong>', 70, 90),
-				// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Score.
-				forBestResults : this.$t.sprintf(this.$t.__('For best results, you should strive for %1$s%3$d and above%2$s.', this.$td), '<strong>', '</strong>', 70)
+				overallScore  : this.$t.__('Overall Score', this.$td),
+				veryGoodScore : this.$t.sprintf(
+					// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Initial score range, 4 - Final score range.
+					this.$t.__('A very good score is between %1$s%3$d and %4$d%2$s.', this.$td),
+					'<strong>',
+					'</strong>',
+					70,
+					90
+				),
+				forBestResults : this.$t.sprintf(
+					// Translators: 1 - Opening bold HTML tag, 2 - Closing bold HTML tag, 3 - Score.
+					this.$t.__('For best results, you should strive for %1$s%3$d and above%2$s.', this.$td),
+					'<strong>',
+					'</strong>',
+					70
+				)
 			}
 		}
 	}

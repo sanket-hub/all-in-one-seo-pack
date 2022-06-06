@@ -53,7 +53,15 @@
 </template>
 
 <script>
+import BaseEditor from '@/vue/components/common/base/Editor'
+import CoreAddTemplateTag from '@/vue/components/common/core/AddTemplateTag'
+import CoreAlertUnfilteredHtml from '@/vue/components/common/core/alert/UnfilteredHtml'
 export default {
+	components : {
+		BaseEditor,
+		CoreAddTemplateTag,
+		CoreAlertUnfilteredHtml
+	},
 	props : {
 		single      : Boolean,
 		lineNumbers : {

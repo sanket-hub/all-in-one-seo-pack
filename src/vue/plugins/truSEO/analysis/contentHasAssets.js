@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 function getImages (content) {
 	const images = [].concat(

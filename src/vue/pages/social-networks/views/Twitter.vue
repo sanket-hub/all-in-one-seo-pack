@@ -79,9 +79,10 @@
 							v-model="options.social.twitter.general.defaultImagePosts"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('defaultImagePosts', ['options', 'social', 'twitter', 'general', 'defaultImagePosts'])"
+							@click="openUploadModal('defaultImagePosts', (imageUrl) => options.social.twitter.general.defaultImagePosts = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -167,9 +168,10 @@
 							v-model="options.social.twitter.general.defaultImageTerms"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('defaultImageTerms', ['options', 'social', 'twitter', 'general', 'defaultImageTerms'])"
+							@click="openUploadModal('defaultImageTerms', (imageUrl) => options.social.twitter.general.defaultImageTerms = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -237,6 +239,7 @@
 			<core-settings-row
 				v-if="options.social.twitter.general.enable"
 				:name="strings.useDataFromFacebook"
+				align
 			>
 				<template #content>
 					<base-radio-toggle
@@ -336,9 +339,10 @@
 							v-model="options.social.twitter.homePage.image"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('homePageImage', ['options', 'social', 'twitter', 'homePage', 'image'])"
+							@click="openUploadModal('homePageImage', (imageUrl) => options.social.twitter.homePage.image = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -430,7 +434,25 @@
 <script>
 import { ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapState, mapGetters } from 'vuex'
+import BaseImg from '@/vue/components/common/base/Img'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import CoreTwitterPreview from '@/vue/components/common/core/TwitterPreview'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 export default {
+	components : {
+		BaseImg,
+		BaseRadioToggle,
+		CoreAlert,
+		CoreCard,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		CoreTwitterPreview,
+		SvgCirclePlus
+	},
 	mixins : [ ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
@@ -440,8 +462,7 @@ export default {
 			pagePostOptions  : [],
 			strings          : {
 				twitterCardSettings           : this.$t.__('Twitter Card Settings', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				description                   : this.$t.sprintf(this.$t.__('Enable this feature if you want Twitter to display a preview card with images and a text excerpt when a link to your site is shared.', this.$td), process.env.VUE_APP_NAME),
+				description                   : this.$t.__('Enable this feature if you want Twitter to display a preview card with images and a text excerpt when a link to your site is shared.', this.$td),
 				enableTwitterCard             : this.$t.__('Enable Twitter Card', this.$td),
 				useDataFromFacebook           : this.$t.__('Use Data from Facebook Tab', this.$td),
 				useOgDataDescription          : this.$t.__('Choose whether you want to use the OG data from the Facebook tab in your individual pages/posts by default.', this.$td),
@@ -470,13 +491,21 @@ export default {
 				clickToAddHomePageDescription : this.$t.__('Click on the tags below to insert variables into your description.', this.$td),
 				remove                        : this.$t.__('Remove', this.$td),
 				showTwitterAuthor             : this.$t.__('Show Twitter Author', this.$td),
-				// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
-				homePageDisabledDescription   : this.$t.sprintf(this.$t.__('The home page settings below have been disabled because you are using a static home page. You can %1$sedit your home page settings%2$s directly to change the title, meta and image.', this.$td), `<a href="${this.$aioseo.urls.staticHomePage}">`, '</a>'),
-				cardType                      : this.$t.__('Card Type', this.$td),
-				additionalData                : this.$t.__('Additional Data', this.$td),
-				additionalDataDescription     : this.$t.__('Enable this option to show additional Twitter data on your posts and pages (i.e., who the post was written by and how long it might take to read the article).', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
-				defaultTermImageSourceUpsell  : this.$t.sprintf(this.$t.__('Default Term Image Source is only available for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-term-image-soruce', true))
+				homePageDisabledDescription   : this.$t.sprintf(
+					// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
+					this.$t.__('You are using a static home page which is found under Pages. You can %1$sedit your home page settings%2$s directly to change the title, meta and image.', this.$td),
+					`<a href="${this.$aioseo.urls.staticHomePage}">`,
+					'</a>'
+				),
+				cardType                     : this.$t.__('Card Type', this.$td),
+				additionalData               : this.$t.__('Additional Data', this.$td),
+				additionalDataDescription    : this.$t.__('Enable this option to show additional Twitter data on your posts and pages (i.e., who the post was written by and how long it might take to read the article).', this.$td),
+				defaultTermImageSourceUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - Learn more link.
+					this.$t.__('Default Term Image Source is only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-facebook-settings', this.$constants.GLOBAL_STRINGS.learnMore, 'default-term-image-soruce', true)
+				)
 			}
 		}
 	},

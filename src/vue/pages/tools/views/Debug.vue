@@ -11,7 +11,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Debug from './pro/Debug'
+import Debug from './AIOSEO_VERSION/Debug'
 import DebugLite from './lite/Debug'
 
 export default {

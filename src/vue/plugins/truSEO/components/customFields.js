@@ -22,130 +22,139 @@ export const customFieldsContent = () => {
 	const updateValues = () => {
 		maybeUpdatePost(2000)
 	}
-	const truFieldsArray = truFields.replace(/\n/g, ' ').split(' ')
+	const truFieldsArray = truFields.replace(/\n/g, ',').split(',')
 	const fields         = []
 	const inputTypes     = [ 'INPUT', 'TEXTAREA', 'IMG' ]
+
+	// Check if a selector is valid CSS syntax.
+	const isSelectorValid = (selector) => {
+		try {
+			document.createDocumentFragment().querySelector(selector)
+		} catch {
+			return false
+		}
+		return true
+	}
+
 	truFieldsArray.forEach((truField) => {
-		const customField    = document.querySelector(`#${truField}`)
+		truField = truField.trim()
+		const customField    = isSelectorValid(`#${truField}`) ? document.querySelector(`#${truField}`) : false
 		const WpCustomFields = document.querySelectorAll('#the-list > tr')
 		const acfFields      = document.querySelectorAll('.acf-field')
 
-		if (customField && (-1 !== inputTypes.indexOf(customField.tagName))) {
-			// make sure it isn't an acf-field
-			if (!customField.closest('.acf-field')) {
-				// We have a meta_box. Add the value.
-				fields.push(customField)
-			}
-		} else if (WpCustomFields.length) {
+		// make sure it's one of our input types and isn't an acf-field
+		if (inputTypes.includes(customField?.tagName) && !customField?.closest('.acf-field')) {
+			fields.push(customField)
+		} else {
 			// Maybe we have a core meta_box. Add the values.
 			WpCustomFields.forEach((row) => {
 				const key   = row.querySelector(`#${row.id}-key`)
 				const value = row.querySelector(`#${row.id}-value`)
 
-				if (value && (-1 !== inputTypes.indexOf(value.tagName)) && (-1 !== truFieldsArray.indexOf(key.value))) {
+				if (inputTypes.includes(value?.tagName) && truFieldsArray.includes(key?.value)) {
 					fields.push(value)
 				}
 			})
 		}
-		if (acfFields.length) {
-			// We have an acf meta_box. Add the values.
-			acfFields.forEach((acfField) => {
-				if (truField !== acfField.dataset.name) {
-					return ''
-				}
 
-				let fieldEl = acfField.querySelector(`[id^="acf"][name$="[${acfField.dataset.key}]"]`)
+		// If we have an acf meta_box. Add the values.
+		acfFields.forEach((acfField) => {
+			if (truField !== acfField.dataset.name) {
+				return ''
+			}
 
-				if ('image' === acfField.dataset.type) {
-					fieldEl = acfField.querySelector('.has-value img')
-				}
+			let fieldEl = acfField.querySelector(`[id^="acf"][name$="[${acfField.dataset.key}]"]`)
 
-				if ('gallery' === acfField.dataset.type) {
-					fieldEl = acfField.querySelector('.acf-gallery-attachment img')
-				}
+			if ('image' === acfField.dataset.type) {
+				fieldEl = acfField.querySelector('.has-value img')
+			}
 
-				if (!fieldEl) {
-					return ''
-				}
+			if ('gallery' === acfField.dataset.type) {
+				fieldEl = acfField.querySelector('.acf-gallery-attachment img')
+			}
 
-				if (fieldEl.type && 'hidden' === fieldEl.type) {
-					return ''
-				}
+			if (!fieldEl) {
+				return ''
+			}
 
-				if ('wysiwyg' === acfField.dataset.type) {
-					const acfTmceInterval = window.setInterval(() => {
-						if (window.tinyMCE && window.tinyMCE.activeEditor) {
-							window.clearInterval(acfTmceInterval)
-							window.tinyMCE.activeEditor.on('keyup', function () {
-								if (!window.tinyMCE.activeEditor.acf) {
-									return
-								}
-								maybeUpdatePost(2000)
-							})
-						}
-					}, 50)
-					// Watch for switching between tinyMCE and the text editor.
-					const acfTmceSwitch = function (mutationsList) {
-						mutationsList.forEach(mutation => {
-							if ('class' === mutation.attributeName) {
-								if (acfField.querySelector('.wp-editor-wrap.tmce-active')) {
-									if (window.tinyMCE && window.tinyMCE.activeEditor) {
-										window.tinyMCE.activeEditor.on('keyup', function () {
-											maybeUpdatePost(2000)
-										})
-									}
-								}
-								const textEditor = acfField.querySelector(`[name="acf[${acfField.dataset.key}]"]`)
-								if (textEditor) {
-									textEditor.addEventListener('keyup', () => {
-										maybeUpdatePost(2000)
-									})
-								}
+			if (fieldEl.type && 'hidden' === fieldEl.type) {
+				return ''
+			}
+
+			if ('wysiwyg' === acfField.dataset.type) {
+				const acfTmceInterval = window.setInterval(() => {
+					if (window.tinyMCE && window.tinyMCE.activeEditor) {
+						window.clearInterval(acfTmceInterval)
+						window.tinyMCE.activeEditor.on('keyup', function () {
+							if (!window.tinyMCE.activeEditor.acf) {
+								return
 							}
+							maybeUpdatePost(2000)
 						})
 					}
-					const mutationObserver = new MutationObserver(acfTmceSwitch)
-					const contentWrap = acfField.querySelector('.wp-editor-wrap')
-					if (contentWrap) {
-						mutationObserver.observe(contentWrap, { attributes: true })
-					}
+				}, 50)
+				// Watch for switching between tinyMCE and the text editor.
+				const acfTmceSwitch = function (mutationsList) {
+					mutationsList.forEach(mutation => {
+						if (
+							'class' === mutation.attributeName &&
+							acfField.querySelector('.wp-editor-wrap.tmce-active') &&
+							window.tinyMCE?.activeEditor
+						) {
+							window.tinyMCE.activeEditor.on('keyup', function () {
+								maybeUpdatePost(2000)
+							})
+							const textEditor = acfField.querySelector(`[name="acf[${acfField.dataset.key}]"]`)
+							if (textEditor) {
+								textEditor.addEventListener('keyup', () => {
+									maybeUpdatePost(2000)
+								})
+								textEditor.addEventListener('paste', () => {
+									maybeUpdatePost(2000)
+								})
+							}
+						}
+					})
 				}
+				const mutationObserver = new MutationObserver(acfTmceSwitch)
+				const contentWrap = acfField.querySelector('.wp-editor-wrap')
+				if (contentWrap) {
+					mutationObserver.observe(contentWrap, { attributes: true })
+				}
+			}
 
-				if (-1 !== inputTypes.indexOf(fieldEl.tagName)) {
-					fields.push(fieldEl)
-				}
-			})
-		}
+			if (inputTypes.includes(fieldEl.tagName)) {
+				fields.push(fieldEl)
+			}
+		})
 	})
 
 	let fieldsContent = ''
 
-	if (fields.length) {
-		fields.forEach((field) => {
-			let content = ''
+	fields.forEach((field) => {
+		let content = ''
 
-			if (field.tagName && (-1 !== inputTypes.indexOf(field.tagName))) {
-				field.addEventListener('keyup', updateValues)
-			}
+		if (inputTypes.includes(field.tagName)) {
+			field.addEventListener('keyup', updateValues)
+		}
 
-			if (field.value) {
-				content = field.value
-			}
+		if (field.value) {
+			content = field.value
+		}
 
-			if ('IMG' === field.tagName && field.src) {
-				const alt = field.alt ? `alt="${field.alt}"` : ''
-				content = `<img src="${field.src}" ${alt}>`
-			}
+		if ('IMG' === field.tagName && field.src) {
+			const alt = field.alt ? `alt="${field.alt}"` : ''
+			content = `<img src="${field.src}" ${alt}>`
+		}
 
-			if (field.value && field.type && 'url' === field.type) {
-				content = `<a href="${content}">${content}</a>`
-			}
+		if (field.value && field.type && 'url' === field.type) {
+			content = `<a href="${content}">${content}</a>`
+		}
 
-			if (content) {
-				fieldsContent += `${content} `
-			}
-		})
-	}
+		if (content) {
+			fieldsContent += `${content} `
+		}
+	})
 	return fieldsContent
 }
 

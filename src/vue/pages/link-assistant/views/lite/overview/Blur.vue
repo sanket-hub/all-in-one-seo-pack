@@ -35,11 +35,23 @@
 </template>
 
 <script>
+import CoreBlur from '@/vue/components/common/core/Blur'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 import LinkCounts from '../../partials/overview/LinkCounts'
-import LinkingOpportunities from '../../partials/overview/LinkingOpportunities'
 import LinkRatio from '../../partials/overview/LinkRatio'
+import LinkingOpportunities from '../../partials/overview/LinkingOpportunities'
 import MostLinkedDomains from '../../partials/overview/MostLinkedDomains'
 export default {
+	components : {
+		CoreBlur,
+		GridColumn,
+		GridRow,
+		LinkCounts,
+		LinkRatio,
+		LinkingOpportunities,
+		MostLinkedDomains
+	},
 	props : {
 		showTotals : {
 			type : Boolean,
@@ -47,12 +59,6 @@ export default {
 				return true
 			}
 		}
-	},
-	components : {
-		LinkCounts,
-		LinkingOpportunities,
-		LinkRatio,
-		MostLinkedDomains
 	},
 	computed : {
 		totals () {

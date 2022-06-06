@@ -3,6 +3,6 @@
  *
  * @param {string} text String to escape
  *
- * @return {string} The escaped string.
+ * @returns {string} The escaped string.
  */
-export default ( text ) => text.replace( /[\\^$*+?.()|[\]{}]/g, '\\$&' )
+export default (text) => text.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&')

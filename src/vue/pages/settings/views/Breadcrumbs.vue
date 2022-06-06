@@ -53,6 +53,7 @@
 
 			<core-settings-row
 				:name="strings.separator"
+				align
 			>
 				<template #content>
 					<core-settings-separator
@@ -65,6 +66,7 @@
 
 			<core-settings-row
 				:name="strings.homepageLink"
+				align
 			>
 				<template #content>
 					<div class="homepage-link">
@@ -95,6 +97,7 @@
 
 			<core-settings-row
 				:name="strings.breadcrumbPrefix"
+				align
 			>
 				<template #content>
 					<base-input
@@ -171,6 +174,7 @@
 
 			<core-settings-row
 				:name="strings.errorFormat404"
+				align
 			>
 				<template #content>
 					<base-input
@@ -185,6 +189,7 @@
 
 			<core-settings-row
 				:name="strings.currentItem"
+				align
 			>
 				<template #content>
 					<div class="aioseo-description first">
@@ -217,15 +222,26 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import Breadcrumbs from './AIOSEO_VERSION/Breadcrumbs'
 import BreadcrumbsLite from './lite/Breadcrumbs'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreDisplayInfo from '@/vue/components/common/core/DisplayInfo'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import CoreSettingsSeparator from '@/vue/components/common/core/SettingsSeparator'
 import Preview from './partials/Breadcrumbs/Preview'
-
 export default {
 	components : {
-		Preview,
+		BaseRadioToggle,
 		Breadcrumbs,
-		BreadcrumbsLite
+		BreadcrumbsLite,
+		CoreCard,
+		CoreDisplayInfo,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		CoreSettingsSeparator,
+		Preview
 	},
 	data () {
 		return {
@@ -235,7 +251,7 @@ export default {
 					desc : this.$t.sprintf(
 						// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Learn More" link.
 						this.$t.__('To add this block, edit a page or post and search for the "%1$s - Breadcrumbs" block. %2$s', this.$td),
-						process.env.VUE_APP_SHORT_NAME,
+						import.meta.env.VITE_SHORT_NAME,
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsDisplay', true)
 					)
 				},
@@ -253,7 +269,7 @@ export default {
 						// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag, 3 - The plugin short name ("AIOSEO"), 4 - "Learn More" link.
 						this.$t.__('To add this widget, visit the %1$swidgets page%2$s and look for the "%3$s - Breadcrumbs" widget. %4$s', this.$td),
 						`<a href="${this.$aioseo.urls.admin.widgets}" target="_blank">`, '</a>',
-						process.env.VUE_APP_SHORT_NAME,
+						import.meta.env.VITE_SHORT_NAME,
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'breadcrumbsDisplay', true)
 					)
 				},
@@ -269,7 +285,7 @@ export default {
 			strings : {
 				description : this.$t.sprintf(
 					// Translators: 1 - The plugin name ("AIOSEO").
-					this.$t.__('Breadcrumbs are an essential part of SEO. By default %1$s will automatically add breadcrumbs to the schema markup that we add to your site and you don\'t need to make any changes for that to work. Breadcrumbs can also be used as a secondary navigation system that tells users where they are on a website relative to the homepage.', this.$td), process.env.VUE_APP_SHORT_NAME
+					this.$t.__('Breadcrumbs are an essential part of SEO. By default %1$s will automatically add breadcrumbs to the schema markup that we add to your site and you don\'t need to make any changes for that to work. Breadcrumbs can also be used as a secondary navigation system that tells users where they are on a website relative to the homepage.', this.$td), import.meta.env.VITE_SHORT_NAME
 				),
 				descriptionTooltip           : this.$t.__('The purpose of breadcrumb navigation is to help users navigate around your website. It also helps search engines understand the structure and hierarchy of links on a web page.', this.$td),
 				enableBreadcrumbs            : this.$t.__('Enable Breadcrumbs', this.$td),
@@ -277,7 +293,7 @@ export default {
 				breadcrumbSettings           : this.$t.__('Breadcrumb Settings', this.$td),
 				breadcrumbTooltip            : this.$t.sprintf(
 					// Translators: 1 - The plugin name ("AIOSEO").
-					this.$t.__('These settings will affect all the breadcrumbs displayed by %1$s throughout your site.', this.$td), process.env.VUE_APP_SHORT_NAME
+					this.$t.__('These settings will affect all the breadcrumbs displayed by %1$s throughout your site.', this.$td), import.meta.env.VITE_SHORT_NAME
 				),
 				separator                     : this.$t.__('Separator', this.$td),
 				homepageLink                  : this.$t.__('Homepage Link', this.$td),
@@ -402,11 +418,12 @@ export default {
 		margin-right: 10px;
 	}
 
-	.preview-box {
+	.aioseo-preview-box {
 		padding: 22px 24px;
 		border: 1px solid $border;
 		margin-bottom: 16px;
 		width: 100%;
+		min-height:41px;
 
 		@media only screen and (max-width: 782px) {
 			padding: 10px;
@@ -468,12 +485,12 @@ export default {
 	}
 
 	.previews-box {
-		.preview-box:not(:last-child) {
+		.aioseo-preview-box:not(:last-child) {
 			margin-bottom: 0;
 			padding-bottom: 0;
 			border-bottom: 0;
 		}
-		.preview-box:not(:first-child) {
+		.aioseo-preview-box:not(:first-child) {
 			border-top: 0;
 			padding-top: 20px;
 		}

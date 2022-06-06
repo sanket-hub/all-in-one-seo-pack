@@ -1,59 +1,59 @@
-import transitionWordsEnglishFactory from "../english/transitionWords.js";
-const transitionWordsEnglish = transitionWordsEnglishFactory().allWords;
-import twoPartTransitionWordsEnglish from "../english/twoPartTransitionWords.js";
+import transitionWordsEnglishFactory from '../english/transitionWords.js'
+import twoPartTransitionWordsEnglish from '../english/twoPartTransitionWords.js'
 
-import transitionWordsGermanFactory from "../german/transitionWords.js";
-const transitionWordsGerman = transitionWordsGermanFactory().allWords;
-import twoPartTransitionWordsGerman from "../german/twoPartTransitionWords.js";
+import transitionWordsGermanFactory from '../german/transitionWords.js'
+import twoPartTransitionWordsGerman from '../german/twoPartTransitionWords.js'
 
-import transitionWordsFrenchFactory from "../french/transitionWords.js";
-const transitionWordsFrench = transitionWordsFrenchFactory().allWords;
-import twoPartTransitionWordsFrench from "../french/twoPartTransitionWords.js";
+import transitionWordsFrenchFactory from '../french/transitionWords.js'
+import twoPartTransitionWordsFrench from '../french/twoPartTransitionWords.js'
 
-import transitionWordsSpanishFactory from "../spanish/transitionWords.js";
-const transitionWordsSpanish = transitionWordsSpanishFactory().allWords;
-import twoPartTransitionWordsSpanish from "../spanish/twoPartTransitionWords.js";
+import transitionWordsSpanishFactory from '../spanish/transitionWords.js'
+import twoPartTransitionWordsSpanish from '../spanish/twoPartTransitionWords.js'
 
-import transitionWordsDutchFactory from "../dutch/transitionWords.js";
-const transitionWordsDutch = transitionWordsDutchFactory().allWords;
-import twoPartTransitionWordsDutch from "../dutch/twoPartTransitionWords.js";
+import transitionWordsDutchFactory from '../dutch/transitionWords.js'
+import twoPartTransitionWordsDutch from '../dutch/twoPartTransitionWords.js'
 
-import transitionWordsItalianFactory from "../italian/transitionWords.js";
-const transitionWordsItalian = transitionWordsItalianFactory().allWords;
-import twoPartTransitionWordsItalian from "../italian/twoPartTransitionWords.js";
+import transitionWordsItalianFactory from '../italian/transitionWords.js'
+import twoPartTransitionWordsItalian from '../italian/twoPartTransitionWords.js'
 
-import transitionWordsPortugueseFactory from "../portuguese/transitionWords.js";
-const transitionWordsPortuguese = transitionWordsPortugueseFactory().allWords;
-import twoPartTransitionWordsPortuguese from "../portuguese/twoPartTransitionWords.js";
+import transitionWordsPortugueseFactory from '../portuguese/transitionWords.js'
+import twoPartTransitionWordsPortuguese from '../portuguese/twoPartTransitionWords.js'
 
-import transitionWordsRussianFactory from "../russian/transitionWords.js";
-const transitionWordsRussian = transitionWordsRussianFactory().allWords;
-import twoPartTransitionWordsRussian from "../russian/twoPartTransitionWords.js";
+import transitionWordsRussianFactory from '../russian/transitionWords.js'
+import twoPartTransitionWordsRussian from '../russian/twoPartTransitionWords.js'
 
-import transitionWordsCatalanFactory from "../catalan/transitionWords.js";
-const transitionWordsCatalan = transitionWordsCatalanFactory().allWords;
-import twoPartTransitionWordsCatalan from "../catalan/twoPartTransitionWords.js";
+import transitionWordsCatalanFactory from '../catalan/transitionWords.js'
+import twoPartTransitionWordsCatalan from '../catalan/twoPartTransitionWords.js'
 
-import transitionWordsPolishFactory from "../polish/transitionWords.js";
-const transitionWordsPolish = transitionWordsPolishFactory().allWords;
-import twoPartTransitionWordsPolish from "../polish/twoPartTransitionWords.js";
-import transitionWordsSwedishFactory from "../swedish/transitionWords.js";
-const transitionWordsSwedish = transitionWordsSwedishFactory().allWords;
-import twoPartTransitionWordsSwedish from "../swedish/twoPartTransitionWords.js";
+import transitionWordsPolishFactory from '../polish/transitionWords.js'
+import twoPartTransitionWordsPolish from '../polish/twoPartTransitionWords.js'
+import transitionWordsSwedishFactory from '../swedish/transitionWords.js'
+import twoPartTransitionWordsSwedish from '../swedish/twoPartTransitionWords.js'
 
-import transitionWordsHungarianFactory from "../hungarian/transitionWords.js";
-const transitionWordsHungarian = transitionWordsHungarianFactory().allWords;
-import twoPartTransitionWordsHungarian from "../hungarian/twoPartTransitionWords.js";
+import transitionWordsHungarianFactory from '../hungarian/transitionWords.js'
+import twoPartTransitionWordsHungarian from '../hungarian/twoPartTransitionWords.js'
 
-import transitionWordsIndonesianFactory from "../indonesian/transitionWords.js";
-const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords;
-import twoPartTransitionWordsIndonesian from "../indonesian/twoPartTransitionWords.js";
+import transitionWordsIndonesianFactory from '../indonesian/transitionWords.js'
+import twoPartTransitionWordsIndonesian from '../indonesian/twoPartTransitionWords.js'
 
-import getLanguage from "./getLanguage.js";
+import getLanguage from './getLanguage.js'
 
-import transitionWordsArabicFactory from "../arabic/transitionWords.js";
-const transitionWordsArabic = transitionWordsArabicFactory().allWords;
-import twoPartTransitionWordsArabic from "../arabic/twoPartTransitionWords.js";
+import transitionWordsArabicFactory from '../arabic/transitionWords.js'
+import twoPartTransitionWordsArabic from '../arabic/twoPartTransitionWords.js'
+const transitionWordsEnglish = transitionWordsEnglishFactory().allWords
+const transitionWordsGerman = transitionWordsGermanFactory().allWords
+const transitionWordsFrench = transitionWordsFrenchFactory().allWords
+const transitionWordsSpanish = transitionWordsSpanishFactory().allWords
+const transitionWordsDutch = transitionWordsDutchFactory().allWords
+const transitionWordsItalian = transitionWordsItalianFactory().allWords
+const transitionWordsPortuguese = transitionWordsPortugueseFactory().allWords
+const transitionWordsRussian = transitionWordsRussianFactory().allWords
+const transitionWordsCatalan = transitionWordsCatalanFactory().allWords
+const transitionWordsPolish = transitionWordsPolishFactory().allWords
+const transitionWordsSwedish = transitionWordsSwedishFactory().allWords
+const transitionWordsHungarian = transitionWordsHungarianFactory().allWords
+const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords
+const transitionWordsArabic = transitionWordsArabicFactory().allWords
 
 /**
  * Returns transition words for a specific locale.
@@ -62,78 +62,78 @@ import twoPartTransitionWordsArabic from "../arabic/twoPartTransitionWords.js";
  *
  * @returns {Object} The function words for a locale.
  */
-export default function( locale ) {
-	switch ( getLanguage( locale ) ) {
-		case "de":
+export default function (locale) {
+	switch (getLanguage(locale)) {
+		case 'de':
 			return {
-				transitionWords: transitionWordsGerman,
-				twoPartTransitionWords: twoPartTransitionWordsGerman,
-			};
-		case "es":
+				transitionWords        : transitionWordsGerman,
+				twoPartTransitionWords : twoPartTransitionWordsGerman
+			}
+		case 'es':
 			return {
-				transitionWords: transitionWordsSpanish,
-				twoPartTransitionWords: twoPartTransitionWordsSpanish,
-			};
-		case "fr":
+				transitionWords        : transitionWordsSpanish,
+				twoPartTransitionWords : twoPartTransitionWordsSpanish
+			}
+		case 'fr':
 			return {
-				transitionWords: transitionWordsFrench,
-				twoPartTransitionWords: twoPartTransitionWordsFrench,
-			};
-		case "nl":
+				transitionWords        : transitionWordsFrench,
+				twoPartTransitionWords : twoPartTransitionWordsFrench
+			}
+		case 'nl':
 			return {
-				transitionWords: transitionWordsDutch,
-				twoPartTransitionWords: twoPartTransitionWordsDutch,
-			};
-		case "it":
+				transitionWords        : transitionWordsDutch,
+				twoPartTransitionWords : twoPartTransitionWordsDutch
+			}
+		case 'it':
 			return {
-				transitionWords: transitionWordsItalian,
-				twoPartTransitionWords: twoPartTransitionWordsItalian,
-			};
-		case "pt":
+				transitionWords        : transitionWordsItalian,
+				twoPartTransitionWords : twoPartTransitionWordsItalian
+			}
+		case 'pt':
 			return {
-				transitionWords: transitionWordsPortuguese,
-				twoPartTransitionWords: twoPartTransitionWordsPortuguese,
-			};
-		case "ru":
+				transitionWords        : transitionWordsPortuguese,
+				twoPartTransitionWords : twoPartTransitionWordsPortuguese
+			}
+		case 'ru':
 			return {
-				transitionWords: transitionWordsRussian,
-				twoPartTransitionWords: twoPartTransitionWordsRussian,
-			};
-		case "ca":
+				transitionWords        : transitionWordsRussian,
+				twoPartTransitionWords : twoPartTransitionWordsRussian
+			}
+		case 'ca':
 			return {
-				transitionWords: transitionWordsCatalan,
-				twoPartTransitionWords: twoPartTransitionWordsCatalan,
-			};
-		case "pl":
+				transitionWords        : transitionWordsCatalan,
+				twoPartTransitionWords : twoPartTransitionWordsCatalan
+			}
+		case 'pl':
 			return {
-				transitionWords: transitionWordsPolish,
-				twoPartTransitionWords: twoPartTransitionWordsPolish,
-			};
-		case "sv":
+				transitionWords        : transitionWordsPolish,
+				twoPartTransitionWords : twoPartTransitionWordsPolish
+			}
+		case 'sv':
 			return {
-				transitionWords: transitionWordsSwedish,
-				twoPartTransitionWords: twoPartTransitionWordsSwedish,
-			};
-		case "hu":
+				transitionWords        : transitionWordsSwedish,
+				twoPartTransitionWords : twoPartTransitionWordsSwedish
+			}
+		case 'hu':
 			return {
-				transitionWords: transitionWordsHungarian,
-				twoPartTransitionWords: twoPartTransitionWordsHungarian,
-			};
-		case "id":
+				transitionWords        : transitionWordsHungarian,
+				twoPartTransitionWords : twoPartTransitionWordsHungarian
+			}
+		case 'id':
 			return {
-				transitionWords: transitionWordsIndonesian,
-				twoPartTransitionWords: twoPartTransitionWordsIndonesian,
-			};
-		case "ar":
+				transitionWords        : transitionWordsIndonesian,
+				twoPartTransitionWords : twoPartTransitionWordsIndonesian
+			}
+		case 'ar':
 			return {
-				transitionWords: transitionWordsArabic,
-				twoPartTransitionWords: twoPartTransitionWordsArabic,
-			};
+				transitionWords        : transitionWordsArabic,
+				twoPartTransitionWords : twoPartTransitionWordsArabic
+			}
+		case 'en':
 		default:
-		case "en":
 			return {
-				transitionWords: transitionWordsEnglish,
-				twoPartTransitionWords: twoPartTransitionWordsEnglish,
-			};
+				transitionWords        : transitionWordsEnglish,
+				twoPartTransitionWords : twoPartTransitionWordsEnglish
+			}
 	}
 }

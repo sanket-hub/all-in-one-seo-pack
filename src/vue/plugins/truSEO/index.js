@@ -2,7 +2,7 @@ import { analyzers } from './analysis'
 import { isBlockEditor, getPostEditedContent, getPostEditedPermalink, getPostEditedTitle } from '@/vue/plugins/truSEO/components'
 
 import store from '@/vue/store'
-import forEach from 'lodash/forEach'
+import { forEach } from 'lodash-es'
 
 class TruSEO {
 	postId                = null

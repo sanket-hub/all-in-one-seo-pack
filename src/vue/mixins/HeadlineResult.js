@@ -1,4 +1,20 @@
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
+import SvgFaceNegative from '@/vue/components/common/svg/face/Negative'
+import SvgFaceNeutral from '@/vue/components/common/svg/face/Neutral'
+import SvgFaceSmile from '@/vue/components/common/svg/face/Smile'
+import SvgList from '@/vue/components/common/svg/List'
 export const HeadlineResult = {
+	components : {
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleExclamation,
+		SvgFaceNegative,
+		SvgFaceNeutral,
+		SvgFaceSmile,
+		SvgList
+	},
 	data () {
 		return {
 			strings : {
@@ -182,7 +198,7 @@ export const HeadlineResult = {
 				class     : 'blue',
 				guideline : this.$t.sprintf(
 					// Translators: 1 - HTML line break tag, 2 - Opening HTML link tag, 3 - Closing HTML link tag.
-					this.$t.__('Headlines that are lists and how-to get more engagement on average than other types of headlines. %1s%2sLearn More%3s →', this.$td),
+					this.$t.__('Headlines that are lists and how-to get more engagement on average than other types of headlines. %1$s%2$sLearn More%3$s →', this.$td),
 					'<br/><br/>',
 					'<a href="https://optinmonster.com/why-these-21-headlines-went-viral-and-how-you-can-copy-their-success/" target="_blank" className="aioseo-headline-analyzer-link"><span>',
 					'</span></a>'

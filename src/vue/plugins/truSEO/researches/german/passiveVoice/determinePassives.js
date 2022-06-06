@@ -1,10 +1,10 @@
-import arrayToRegex from "../../../stringProcessing/createRegexFromArray.js";
-import auxiliariesGermanFactory from "../../german/passiveVoice/auxiliaries.js";
-const germanAuxiliaries = auxiliariesGermanFactory().allAuxiliaries;
-import getParticiples from "./getParticiples.js";
-import determineSentencePartIsPassive from "../../passiveVoice/periphrastic/determineSentencePartIsPassive.js";
+import arrayToRegex from '../../../stringProcessing/createRegexFromArray.js'
+import auxiliariesGermanFactory from '../../german/passiveVoice/auxiliaries.js'
+import getParticiples from './getParticiples.js'
+import determineSentencePartIsPassive from '../../passiveVoice/periphrastic/determineSentencePartIsPassive.js'
+const germanAuxiliaries = auxiliariesGermanFactory().allAuxiliaries
 
-var auxiliaryRegex = arrayToRegex( germanAuxiliaries );
+const auxiliaryRegex = arrayToRegex(germanAuxiliaries)
 
 /**
  * Determines whether a sentence part is passive.
@@ -15,12 +15,12 @@ var auxiliaryRegex = arrayToRegex( germanAuxiliaries );
 
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
-export default function( sentencePartText, auxiliaries, language ) {
-	var passive = false;
-	var auxiliaryMatches = sentencePartText.match( auxiliaryRegex );
-	if ( auxiliaryMatches === null ) {
-		return passive;
+export default function (sentencePartText, auxiliaries, language) {
+	const passive = false
+	const auxiliaryMatches = sentencePartText.match(auxiliaryRegex)
+	if (null === auxiliaryMatches) {
+		return passive
 	}
-	var participles = getParticiples( sentencePartText, auxiliaries, language );
-	return determineSentencePartIsPassive( participles );
+	const participles = getParticiples(sentencePartText, auxiliaries, language)
+	return determineSentencePartIsPassive(participles)
 }

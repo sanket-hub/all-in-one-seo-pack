@@ -24,11 +24,20 @@
 				<template #content>
 					<base-toggle
 						v-model="options.advanced.headlineAnalyzer"
+						:disabled="versionCompare($aioseo.wpVersion, '5.2', '<')"
 					/>
 
 					<div class="aioseo-description">
 						{{ strings.headlineAnalyzerDescription }}
 					</div>
+
+					<core-alert
+						class="warning"
+						v-if="versionCompare($aioseo.wpVersion, '5.2', '<')"
+						type="yellow"
+					>
+						<div v-html="strings.headlineAnalyzerWarning"/>
+					</core-alert>
 				</template>
 			</core-settings-row>
 
@@ -157,7 +166,7 @@
 				align
 			>
 				<template #name>
-					{{ strings.dashboardWidget }}
+					{{ strings.dashboardWidgets }}
 					<core-pro-badge
 						v-if="isUnlicensed"
 					/>
@@ -165,8 +174,8 @@
 				<template #content>
 					<base-radio-toggle
 						:disabled="isUnlicensed"
-						v-model="dashboardWidget"
-						name="dashboardWidget"
+						v-model="dashboardWidgets"
+						name="dashboardWidgets"
 						:options="[
 							{ label: $constants.GLOBAL_STRINGS.hide, value: false, activeClass: 'dark' },
 							{ label: $constants.GLOBAL_STRINGS.show, value: true }
@@ -174,7 +183,7 @@
 					/>
 
 					<div class="aioseo-description">
-						{{ strings.dashboardWidgetDescription }}
+						{{ strings.dashboardWidgetsDescription }}
 					</div>
 
 					<core-alert
@@ -182,7 +191,7 @@
 						v-if="isUnlicensed"
 						type="blue"
 					>
-						<div v-html="strings.dashboardWidgetUpsell" />
+						<div v-html="strings.dashboardWidgetsUpsell" />
 					</core-alert>
 				</template>
 			</core-settings-row>
@@ -276,7 +285,30 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { versionCompare } from '@/vue/utils/helpers'
+
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
+
 export default {
+	components : {
+		BaseCheckbox,
+		BaseRadioToggle,
+		CoreAlert,
+		CoreCard,
+		CorePostTypeOptions,
+		CoreProBadge,
+		CoreSettingsRow,
+		CoreTooltip,
+		SvgCircleQuestionMark
+	},
 	data () {
 		return {
 			strings : {
@@ -288,40 +320,84 @@ export default {
 				seoAnalysis                 : this.$t.__('SEO Analysis', this.$td),
 				postTypeColumns             : this.$t.__('Post Type Columns', this.$td),
 				includeAllPostTypes         : this.$t.__('Include All Post Types', this.$td),
-				// Translators: 1 - Plugin Short Name ("AIOSEO").
-				selectPostTypes             : this.$t.sprintf(this.$t.__('Select which Post Types you want to use the %1$s columns with.', this.$td), process.env.VUE_APP_SHORT_NAME),
-				usageTracking               : this.$t.__('Usage Tracking', this.$td),
-				adminBarMenu                : this.$t.__('Admin Bar Menu', this.$td),
-				// Translators: 1 - Plugin Short Name ("AIOSEO").
-				adminBarMenuDescription     : this.$t.sprintf(this.$t.__('This adds %1$s to the admin toolbar for easy access to your SEO settings.', this.$td), process.env.VUE_APP_SHORT_NAME),
-				dashboardWidget             : this.$t.__('Dashboard Widget', this.$td),
-				dashboardWidgetDescription  : this.$t.__('This displays an SEO News widget on the dashboard.', this.$td),
-				announcements               : this.$t.__('Announcements', this.$td),
-				announcementsDescription    : this.$t.__('This allows you to hide plugin announcements and update details.', this.$td),
-				automaticUpdates            : this.$t.__('Automatic Updates', this.$td),
-				all                         : this.$t.__('All (recommended)', this.$td),
-				allDescription              : this.$t.__('You are getting the latest features, bugfixes, and security updates as they are released.', this.$td),
-				minor                       : this.$t.__('Minor Only', this.$td),
-				minorDescription            : this.$t.__('You are getting bugfixes and security updates, but not major features.', this.$td),
-				none                        : this.$t.__('None', this.$td),
-				noneDescription             : this.$t.__('You will need to manually update everything.', this.$td),
-				usageTrackingDescription    : this.$t.__('By allowing us to track usage data we can better help you because we know with which WordPress configurations, themes and plugins we should test.', this.$td),
-				// Translators: 1 - Opening HTML link and bold tag, 2 - Closing HTML link and bold tag.
-				usageTrackingTooltip        : this.$t.sprintf(this.$t.__('Complete documentation on usage tracking is available %1$shere%2$s.', this.$td), this.$t.sprintf('<strong><a href="%1$s" target="_blank">', this.$links.getDocUrl('usageTracking')), '</a></strong>'),
-				// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
-				adminBarMenuUpsell          : this.$t.sprintf(this.$t.__('This Admin Bar feature is only available for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'admin-bar-menu', true)),
-				// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
-				dashboardWidgetUpsell       : this.$t.sprintf(this.$t.__('The Dashboard Widget feature is only available for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'dashboard-widget', true)),
-				taxonomyColumns             : this.$t.__('Taxonomy Columns', this.$td),
-				includeAllTaxonomies        : this.$t.__('Include All Taxonomies', this.$td),
-				// Translators: 1 - Plugin Short Name ("AIOSEO").
-				selectTaxonomies            : this.$t.sprintf(this.$t.__('Select which Taxonomies you want to use the %1$s columns with.', this.$td), process.env.VUE_APP_SHORT_NAME),
-				// Translators: 1 - The plugin short name name ("AIOSEO"), 2 - "Learn more".
-				taxonomyColumnsUpsell       : this.$t.sprintf(this.$t.__('This feature is only for licensed %1$s users. %2$s', this.$td), `<strong>${process.env.VUE_APP_SHORT_NAME} Pro</strong>`, this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'taxonomy-columns', true)),
-				// Translators: 1 - Plugin Short Name ("AIOSEO").
-				uninstallAioseo             : this.$t.sprintf(this.$t.__('Uninstall %1$s', this.$td), process.env.VUE_APP_SHORT_NAME),
-				// Translators: 1 - Plugin Short Name ("AIOSEO").
-				uninstallAioseoDescription  : this.$t.sprintf(this.$t.__('Check this if you would like to remove ALL %1$s data upon plugin deletion. All settings and SEO data will be unrecoverable.', this.$td), process.env.VUE_APP_SHORT_NAME)
+				selectPostTypes             : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('Select which Post Types you want to use the %1$s columns with.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				usageTracking           : this.$t.__('Usage Tracking', this.$td),
+				adminBarMenu            : this.$t.__('Admin Bar Menu', this.$td),
+				adminBarMenuDescription : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('This adds %1$s to the admin toolbar for easy access to your SEO settings.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				dashboardWidgets            : this.$t.__('Dashboard Widgets', this.$td),
+				dashboardWidgetsDescription : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('This displays %1$s widgets on the dashboard.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				announcements            : this.$t.__('Announcements', this.$td),
+				announcementsDescription : this.$t.__('This allows you to hide plugin announcements and update details.', this.$td),
+				automaticUpdates         : this.$t.__('Automatic Updates', this.$td),
+				all                      : this.$t.__('All (recommended)', this.$td),
+				allDescription           : this.$t.__('You are getting the latest features, bugfixes, and security updates as they are released.', this.$td),
+				minor                    : this.$t.__('Minor Only', this.$td),
+				minorDescription         : this.$t.__('You are getting bugfixes and security updates, but not major features.', this.$td),
+				none                     : this.$t.__('None', this.$td),
+				noneDescription          : this.$t.__('You will need to manually update everything.', this.$td),
+				usageTrackingDescription : this.$t.__('By allowing us to track usage data we can better help you because we know with which WordPress configurations, themes and plugins we should test.', this.$td),
+				usageTrackingTooltip     : this.$t.sprintf(
+					// Translators: 1 - Opening HTML link and bold tag, 2 - Closing HTML link and bold tag.
+					this.$t.__('Complete documentation on usage tracking is available %1$shere%2$s.', this.$td),
+					this.$t.sprintf(
+						'<strong><a href="%1$s" target="_blank">',
+						this.$links.getDocUrl('usageTracking')
+					),
+					'</a></strong>'
+				),
+				adminBarMenuUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
+					this.$t.__('This Admin Bar feature is only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'admin-bar-menu', true)
+				),
+				dashboardWidgetsUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
+					this.$t.__('The Dashboard Widget feature is only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'dashboard-widget', true)
+				),
+				taxonomyColumns      : this.$t.__('Taxonomy Columns', this.$td),
+				includeAllTaxonomies : this.$t.__('Include All Taxonomies', this.$td),
+				selectTaxonomies     : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('Select which Taxonomies you want to use the %1$s columns with.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				taxonomyColumnsUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin short name name ("AIOSEO") + Pro, 2 - "Learn more".
+					this.$t.__('This feature is only for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'taxonomy-columns', true)
+				),
+				uninstallAioseo : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('Uninstall %1$s', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				uninstallAioseoDescription : this.$t.sprintf(
+					// Translators: 1 - Plugin Short Name ("AIOSEO").
+					this.$t.__('Check this if you would like to remove ALL %1$s data upon plugin deletion. All settings and SEO data will be unrecoverable.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				headlineAnalyzerWarning : this.$t.sprintf(
+					// Translators: 1 - "WordPress 5.2", 2 - "Learn More".
+					this.$t.__('The Headline Analyzer is only available in %1$s and up. %2$s', this.$td),
+					'WordPress 5.2',
+					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'updateWordPress', true)
+				)
 			}
 		}
 	},
@@ -336,21 +412,25 @@ export default {
 				this.options.advanced.adminBarMenu = newValue
 			}
 		},
-		dashboardWidget : {
+		dashboardWidgets : {
 			get () {
-				return !this.isUnlicensed ? this.options.advanced.dashboardWidget : true
+				return !this.isUnlicensed ? this.options.advanced.dashboardWidgets : true
 			},
 			set (newValue) {
-				this.options.advanced.dashboardWidget = newValue
+				this.options.advanced.dashboardWidgets = newValue
 			}
 		}
+	},
+	methods : {
+		versionCompare : versionCompare
 	}
 }
 </script>
 
 <style lang="scss">
 .aioseo-advanced {
-	.inline-upsell {
+	.inline-upsell,
+	.warning {
 		display: inline-flex;
 
 		margin-top: 20px;

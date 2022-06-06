@@ -67,13 +67,13 @@ class Api {
 			'notification/blog-visibility-reminder'               => [ 'callback' => [ 'Notifications', 'blogVisibilityReminder' ], 'access' => 'any' ],
 			'notification/description-format-reminder'            => [ 'callback' => [ 'Notifications', 'descriptionFormatReminder' ], 'access' => 'any' ],
 			'notification/conflicting-plugins-reminder'           => [ 'callback' => [ 'Notifications', 'conflictingPluginsReminder' ], 'access' => 'any' ],
-			'notification/deprecated-filters-reminder'            => [ 'callback' => [ 'Notifications', 'deprecatedFiltersReminder' ], 'access' => 'any' ],
 			'notification/install-addons-reminder'                => [ 'callback' => [ 'Notifications', 'installAddonsReminder' ], 'access' => 'any' ],
 			'notification/install-aioseo-image-seo-reminder'      => [ 'callback' => [ 'Notifications', 'installImageSeoReminder' ], 'access' => 'any' ],
 			'notification/install-aioseo-local-business-reminder' => [ 'callback' => [ 'Notifications', 'installLocalBusinessReminder' ], 'access' => 'any' ],
 			'notification/install-aioseo-news-sitemap-reminder'   => [ 'callback' => [ 'Notifications', 'installNewsSitemapReminder' ], 'access' => 'any' ],
 			'notification/install-aioseo-video-sitemap-reminder'  => [ 'callback' => [ 'Notifications', 'installVideoSitemapReminder' ], 'access' => 'any' ],
 			'notification/install-mi-reminder'                    => [ 'callback' => [ 'Notifications', 'installMiReminder' ], 'access' => 'any' ],
+			'notification/install-om-reminder'                    => [ 'callback' => [ 'Notifications', 'installOmReminder' ], 'access' => 'any' ],
 			'notification/v3-migration-custom-field-reminder'     => [ 'callback' => [ 'Notifications', 'migrationCustomFieldReminder' ], 'access' => 'any' ],
 			'notification/v3-migration-schema-number-reminder'    => [ 'callback' => [ 'Notifications', 'migrationSchemaNumberReminder' ], 'access' => 'any' ],
 			'notifications/dismiss'                               => [ 'callback' => [ 'Notifications', 'dismissNotifications' ], 'access' => 'any' ],
@@ -217,6 +217,11 @@ class Api {
 		$routeData = $this->getRouteData( $request );
 		if ( empty( $routeData ) || empty( $routeData['access'] ) ) {
 			return false;
+		}
+
+		// Admins always have access.
+		if ( aioseo()->access->isAdmin() ) {
+			return true;
 		}
 
 		switch ( $routeData['access'] ) {

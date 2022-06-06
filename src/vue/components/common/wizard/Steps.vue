@@ -11,8 +11,12 @@ export default {
 		...mapState('wizard', [ 'currentStage' ]),
 		...mapGetters('wizard', [ 'getCurrentStageCount', 'getTotalStageCount' ]),
 		getSteps () {
-			// Translators: 1 - The current step count. 2 - The total step count.
-			return this.$t.sprintf(this.$t.__('Step %1$s of %2$s', this.$td), this.getCurrentStageCount, this.getTotalStageCount)
+			return this.$t.sprintf(
+				// Translators: 1 - The current step count. 2 - The total step count.
+				this.$t.__('Step %1$s of %2$s', this.$td),
+				this.getCurrentStageCount,
+				this.getTotalStageCount
+			)
 		}
 	}
 }

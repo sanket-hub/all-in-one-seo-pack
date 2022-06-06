@@ -1,8 +1,7 @@
-import partition from 'lodash/partition'
-import sortBy from 'lodash/sortBy'
+import { partition, sortBy } from 'lodash-es'
 import getSentenceBeginnings from '../researches/helpers/getSentenceBeginnings'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const maximumConsecutiveDuplicates = 2
 
@@ -29,11 +28,14 @@ export default function consecutiveSentences (content) {
 	if (0 < groupedSentenceBeginnings.total) {
 		return {
 			title       : __('Consecutive sentences', td),
-			// Translators: 1 - Number of sentences.
-			description : sprintf(__('The text contains %1$d consecutive sentences starting with the same word. Try to mix things up!', td), groupedSentenceBeginnings.lowestCount),
-			score       : 3,
-			maxScore    : 9,
-			error       : 1
+			description : sprintf(
+				// Translators: 1 - Number of sentences.
+				__('The text contains %1$d consecutive sentences starting with the same word. Try to mix things up!', td),
+				groupedSentenceBeginnings.lowestCount
+			),
+			score    : 3,
+			maxScore : 9,
+			error    : 1
 		}
 	}
 

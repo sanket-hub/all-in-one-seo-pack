@@ -122,7 +122,27 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreModal from '@/vue/components/common/core/Modal'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import SvgClose from '@/vue/components/common/svg/Close'
+import SvgHistory from '@/vue/components/common/svg/History'
+import SvgRefresh from '@/vue/components/common/svg/Refresh'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	components : {
+		CoreAlert,
+		CoreCard,
+		CoreModal,
+		CoreTooltip,
+		SvgCirclePlus,
+		SvgClose,
+		SvgHistory,
+		SvgRefresh,
+		SvgTrash
+	},
 	data () {
 		return {
 			timeout               : null,

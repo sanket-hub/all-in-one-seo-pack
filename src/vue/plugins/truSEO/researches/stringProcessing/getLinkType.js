@@ -18,8 +18,13 @@ export default function (text, url) {
 	 * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
 	 */
 	const protocol = urlHelper.getProtocol(anchorUrl)
-	if (protocol && !urlHelper.protocolIsHttpScheme(protocol) ||
-		urlHelper.isRelativeFragmentURL(anchorUrl)) {
+	if (
+		(
+			protocol &&
+			!urlHelper.protocolIsHttpScheme(protocol)
+		) ||
+		urlHelper.isRelativeFragmentURL(anchorUrl)
+	) {
 		return 'other'
 	}
 

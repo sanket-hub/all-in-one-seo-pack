@@ -41,6 +41,8 @@ class VueSettings {
 		'showUpgradeBar'  => true,
 		'showSetupWizard' => true,
 		'toggledCards'    => [
+			'dashboardOverview'            => true,
+			'dashboardSeoSetup'            => true,
 			'dashboardSeoSiteScore'        => true,
 			'dashboardNotifications'       => true,
 			'dashboardSupport'             => true,
@@ -83,6 +85,7 @@ class VueSettings {
 			'searchSchema'                 => true,
 			'searchMediaAttachments'       => true,
 			'searchAdvanced'               => true,
+			'searchAdvancedCrawlCleanup'   => true,
 			'authorArchives'               => true,
 			'dateArchives'                 => true,
 			'searchArchives'               => true,

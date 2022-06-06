@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import flow from 'lodash/flow'
-import map from 'lodash/map'
+import { flow, map } from 'lodash-es'
 
 /**
  * WordPress dependencies
@@ -22,20 +21,20 @@ import stripHTMLComments from './stripHTMLComments'
  * @param {string} text The text to match paragraph in.
  * @param {boolean} stripTags Should strip html within paragraphs.
  *
- * @return {Array} An array containing all paragraphs texts.
+ * @returns {Array} An array containing all paragraphs texts.
  */
-const getParagraphsInTags = ( text, stripTags ) => {
+const getParagraphsInTags = (text, stripTags) => {
 	// Matches everything between the <p> and </p> tags.
 	const regex = /<p(?:[^>]+)?>(.*?)<\/p>/ig
 	const paragraphs = []
 
 	let match
-	while ( null !== ( match = regex.exec( text ) ) ) {
-		paragraphs.push( match )
+	while (null !== (match = regex.exec(text))) {
+		paragraphs.push(match)
 	}
 
 	// Returns only the text from within the paragraph tags.
-	return map( paragraphs, ( paragraph ) => stripTags ? cleanText( paragraph[ 1 ] ) : paragraph[ 1 ] )
+	return map(paragraphs, (paragraph) => stripTags ? cleanText(paragraph[1]) : paragraph[1])
 }
 
 /**
@@ -44,24 +43,24 @@ const getParagraphsInTags = ( text, stripTags ) => {
  * @param {string} text The text to match paragraph in.
  * @param {boolean} stripTags Should strip html within paragraphs.
  *
- * @return {Array} The array containing all paragraphs from the text.
+ * @returns {Array} The array containing all paragraphs from the text.
  */
-export default ( text, stripTags ) => {
+export default (text, stripTags) => {
 	text = flow(
 		[
 			stripShortcodes,
 			stripHTMLComments,
-			autop,
+			autop
 		]
-	)( text )
+	)(text)
 	stripTags = stripTags || false
 
-	const paragraphs = getParagraphsInTags( text, stripTags )
+	const paragraphs = getParagraphsInTags(text, stripTags)
 
-	if ( 0 < paragraphs.length ) {
+	if (0 < paragraphs.length) {
 		return paragraphs
 	}
 
 	// If no paragraphs are found, return an array containing the entire text.
-	return [ stripTags ? cleanText( text ) : text ]
+	return [ stripTags ? cleanText(text) : text ]
 }

@@ -51,10 +51,19 @@
 <script>
 import { mapState } from 'vuex'
 import ContentTypesLite from '../partials/Breadcrumbs/ContentTypesLite'
-
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
-		ContentTypesLite
+		ContentTypesLite,
+		CoreBlur,
+		CoreCard,
+		CoreMainTabs,
+		CoreProBadge,
+		Cta
 	},
 	data () {
 		return {
@@ -63,9 +72,13 @@ export default {
 				breadcrumbTemplatesTooltip : this.$t.__('Override the default template for breadcrumbs on your site using our easy-to-use template editor.', this.$td),
 				ctaButtonText              : this.$t.__('Upgrade to Pro and Unlock Breadcrumb Templates', this.$td),
 				ctaHeader1                 : this.$t.__('Breadcrumb Templates are only available', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader2                 : this.$t.sprintf(this.$t.__('for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				ctaDescription             : this.$t.__('Our template editor will allow you to easily customize how breadcrumbs are displayed on your site based on each post type or taxonomy.', this.$td)
+				ctaHeader2                 : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaDescription : this.$t.__('Our template editor will allow you to easily customize how breadcrumbs are displayed on your site based on each post type or taxonomy.', this.$td)
 			},
 			features : [
 				this.$t.__('Custom HTML templates', this.$td),

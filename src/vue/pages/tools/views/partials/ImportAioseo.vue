@@ -68,7 +68,15 @@
 
 <script>
 import { mapActions } from 'vuex'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import SvgDownload from '@/vue/components/common/svg/Download'
 export default {
+	components : {
+		CoreAlert,
+		CoreCard,
+		SvgDownload
+	},
 	data () {
 		return {
 			inputFile     : null,
@@ -78,15 +86,18 @@ export default {
 			uploadSuccess : false,
 			loading       : false,
 			strings       : {
-				// Translators: 1 - The plugin short name ("AIOSEO").
-				importRestoreAioseoSettings : this.$t.sprintf(this.$t.__('Import / Restore %1$s Settings', this.$td), process.env.VUE_APP_SHORT_NAME),
-				fileUploadPlaceholder       : this.$t.__('Import from a JSON or INI file...', this.$td),
-				chooseAFile                 : this.$t.__('Choose a File', this.$td),
-				fileUploadDescription       : this.$t.__('Imported settings will overwrite existing settings and will not be merged.', this.$td),
-				import                      : this.$t.__('Import', this.$td),
-				jsonFileTypeRequired        : this.$t.__('A JSON or INI file is required to import settings.', this.$td),
-				fileUploadedSuccessfully    : this.$t.__('Success! Your settings have been imported.', this.$td),
-				fileUploadFailed            : this.$t.__('There was an error importing your settings. Please make sure you are uploading the correct file or it is in the proper format.', this.$td)
+				importRestoreAioseoSettings : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO").
+					this.$t.__('Import / Restore %1$s Settings', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				fileUploadPlaceholder    : this.$t.__('Import from a JSON or INI file...', this.$td),
+				chooseAFile              : this.$t.__('Choose a File', this.$td),
+				fileUploadDescription    : this.$t.__('Imported settings will overwrite existing settings and will not be merged.', this.$td),
+				import                   : this.$t.__('Import', this.$td),
+				jsonFileTypeRequired     : this.$t.__('A JSON or INI file is required to import settings.', this.$td),
+				fileUploadedSuccessfully : this.$t.__('Success! Your settings have been imported.', this.$td),
+				fileUploadFailed         : this.$t.__('There was an error importing your settings. Please make sure you are uploading the correct file or it is in the proper format.', this.$td)
 			}
 		}
 	},

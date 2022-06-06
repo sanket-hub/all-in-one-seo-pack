@@ -34,9 +34,9 @@ export default {
 		return {
 			currencies : this.$constants.CURRENCY_LIST,
 			strings    : {
-				priceIndicator     : this.$t.__('Price Indicator:', this.$td),
-				currenciesAccepted : this.$t.__('Currencies Accepted:', this.$td),
-				paymentMethods     : this.$t.__('Payment Methods Accepted:', this.$td)
+				priceIndicator     : this.$t.__('Price Indicator', this.$td),
+				currenciesAccepted : this.$t.__('Currencies Accepted', this.$td),
+				paymentMethods     : this.$t.__('Payment Methods Accepted', this.$td)
 			}
 		}
 	}

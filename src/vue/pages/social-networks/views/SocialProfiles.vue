@@ -17,13 +17,19 @@
 
 <script>
 import { mapState } from 'vuex'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreSocialProfiles from '@/vue/components/common/core/SocialProfiles'
 export default {
+	components : {
+		CoreCard,
+		CoreSocialProfiles
+	},
 	data () {
 		return {
 			strings : {
 				// Translators: This refers to social media profiles.
 				socialProfiles : this.$t.__('Social Profiles', this.$td),
-				description    : this.$t.sprintf(this.$t.__('To let search engines know which profiles are associated with this site, enter them below:', this.$td), process.env.VUE_APP_NAME)
+				description    : this.$t.__('To let search engines know which profiles are associated with this site, enter them below:', this.$td)
 			}
 		}
 	},

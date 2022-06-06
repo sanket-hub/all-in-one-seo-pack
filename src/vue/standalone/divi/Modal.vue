@@ -27,31 +27,38 @@
 </template>
 
 <script>
-import PostSettings from '@/vue/pages/post-settings/App.vue'
+import PostSettings from '@/vue/standalone/post-settings/App.vue'
+import SvgClose from '@/vue/components/common/svg/Close'
+import UtilDraggable from '@/vue/components/common/util/Draggable'
 export default {
+	components : {
+		PostSettings,
+		SvgClose,
+		UtilDraggable
+	},
 	data () {
 		return {
 			isOpen  : false,
 			strings : {
-				// Translators: 1 - The plugin name ("All in One SEO").
-				header : this.$t.sprintf(this.$t.__('%1$s settings', this.$td), process.env.VUE_APP_NAME)
+				header : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('%1$s settings', this.$td),
+					import.meta.env.VITE_NAME
+				)
 			}
 		}
 	},
-	components : {
-		PostSettings
-	},
 	methods : {
-		openModal () {
-			this.isOpen = true
+		toggleModal () {
+			this.isOpen = !this.isOpen
 		}
 	},
 	beforeUnmount () {
-		document.removeEventListener('aioseo-divi-toggle-modal', this.openModal)
+		document.removeEventListener('aioseo-divi-toggle-modal', this.toggleModal)
 	},
 	mounted () {
 		this.$nextTick(function () {
-			document.addEventListener('aioseo-divi-toggle-modal', this.openModal)
+			document.addEventListener('aioseo-divi-toggle-modal', this.toggleModal)
 		})
 	}
 }

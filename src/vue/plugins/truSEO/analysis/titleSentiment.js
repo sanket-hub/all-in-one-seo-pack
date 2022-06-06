@@ -1,7 +1,7 @@
 import Sentiment from 'sentiment'
 import { sentimentWords } from '../researches/config/sentimentWords'
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	noSentimentWords       : 5,

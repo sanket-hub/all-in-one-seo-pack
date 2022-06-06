@@ -72,7 +72,23 @@
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { SeoSiteScore } from '@/vue/mixins'
 import { isUrl } from '@/vue/utils/helpers'
+import CoreAnalyze from '@/vue/components/common/core/analyze/Index.vue'
+import CoreAnalyzeScore from '@/vue/components/common/core/analyze/Score'
+import CoreAnalyzeCompetitorSiteHeader from '@/vue/components/AIOSEO_VERSION/core/analyze/CompetitorSiteHeader'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreSeoSiteAnalysisResults from '@/vue/components/common/core/SeoSiteAnalysisResults'
+import CoreSiteScoreCompetitor from '@/vue/components/common/core/site-score/Competitor'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	components : {
+		CoreAnalyze,
+		CoreAnalyzeScore,
+		CoreAnalyzeCompetitorSiteHeader,
+		CoreCard,
+		CoreSeoSiteAnalysisResults,
+		CoreSiteScoreCompetitor,
+		SvgTrash
+	},
 	mixins : [ SeoSiteScore ],
 	data () {
 		return {
@@ -110,8 +126,11 @@ export default {
 						this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'seoAnalyzerIssues', true)
 					)
 				case 'invalid-token':
-					// Translators: 1 - The plugin short name ('AIOSEO').
-					return this.$t.sprintf(this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td), process.env.VUE_APP_SHORT_NAME)
+					return this.$t.sprintf(
+						// Translators: 1 - The plugin short name ('AIOSEO').
+						this.$t.__('Your site is not connected. Please connect to %1$s, then try again.', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					)
 			}
 
 			return this.analyzeError

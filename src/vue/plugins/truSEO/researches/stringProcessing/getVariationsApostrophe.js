@@ -1,5 +1,4 @@
-import uniq from 'lodash/uniq'
-import flatten from 'lodash/flatten'
+import { uniq, flatten } from 'lodash-es'
 
 /**
  * Checks if the input word contains a normalized or a non-normalized apostrophe.

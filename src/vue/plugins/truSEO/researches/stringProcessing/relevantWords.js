@@ -5,16 +5,7 @@ import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js'
 import functionWordListsFactory from '../helpers/getFunctionWords.js'
 import getLanguage from '../helpers/getLanguage.js'
 
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import forEach from 'lodash/forEach'
-import has from 'lodash/has'
-import flatMap from 'lodash/flatMap'
-import values from 'lodash/values'
-import take from 'lodash/take'
-import includes from 'lodash/includes'
-import intersection from 'lodash/intersection'
-import isEmpty from 'lodash/isEmpty'
+import { filter, map, forEach, has, flatMap, values, take, includes, intersection, isEmpty } from 'lodash-es'
 
 const functionWordLists = functionWordListsFactory()
 
@@ -258,8 +249,10 @@ function filterCombinations (combinations, functionWords, language) {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords (text, locale) {
-	let language = getLanguage(locale)
-	if (!functionWordLists.hasOwnProperty(language)) {
+	let language = getLanguage(locale),
+		oneWordCombinations,
+		combinations
+	if (!Object.prototype.hasOwnProperty.call(functionWordLists, language)) {
 		language = 'en'
 	}
 
@@ -268,7 +261,7 @@ function getRelevantWords (text, locale) {
 	const words = getWordCombinations(text, 1, functionWords.all)
 	const wordCount = words.length
 
-	let oneWordCombinations = getRelevantCombinations(
+	oneWordCombinations = getRelevantCombinations(
 		calculateOccurrences(words)
 	)
 
@@ -286,7 +279,7 @@ function getRelevantWords (text, locale) {
 	const fourWordCombinations = calculateOccurrences(getWordCombinations(text, 4, functionWords.all))
 	const fiveWordCombinations = calculateOccurrences(getWordCombinations(text, 5, functionWords.all))
 
-	let combinations = oneWordCombinations.concat(
+	combinations = oneWordCombinations.concat(
 		twoWordCombinations,
 		threeWordCombinations,
 		fourWordCombinations,

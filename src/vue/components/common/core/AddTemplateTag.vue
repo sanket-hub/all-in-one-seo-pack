@@ -5,6 +5,15 @@
 	</div>
 </template>
 
+<script>
+import SvgPlus from '@/vue/components/common/svg/Plus'
+export default {
+	components : {
+		SvgPlus
+	}
+}
+</script>
+
 <style lang="scss">
 .aioseo-add-template-tag {
 	border-radius: 3px;

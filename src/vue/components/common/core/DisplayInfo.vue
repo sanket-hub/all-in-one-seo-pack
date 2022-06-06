@@ -82,7 +82,25 @@
 </template>
 
 <script>
+import BaseBoxToggle from '@/vue/components/common/base/BoxToggle'
+import CoreCopyBlock from '@/vue/components/common/core/CopyBlock'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgGutenbergBlock from '@/vue/components/common/svg/GutenbergBlock'
+import SvgPhp from '@/vue/components/common/svg/Php'
+import SvgShortcode from '@/vue/components/common/svg/Shortcode'
+import SvgWidget from '@/vue/components/common/svg/Widget'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		BaseBoxToggle,
+		CoreCopyBlock,
+		CoreSettingsRow,
+		SvgGutenbergBlock,
+		SvgPhp,
+		SvgShortcode,
+		SvgWidget,
+		TransitionSlide
+	},
 	props : {
 		label : {
 			type : String,

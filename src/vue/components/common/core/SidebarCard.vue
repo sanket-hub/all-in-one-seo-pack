@@ -88,7 +88,21 @@
 <script>
 import { TruSeoScore } from '@/vue/mixins'
 import { mapActions, mapGetters } from 'vuex'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
+import SvgEllipse from '@/vue/components/common/svg/Ellipse'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		CoreTooltip,
+		SvgCaret,
+		SvgCircleCheck,
+		SvgCircleQuestionMark,
+		SvgEllipse,
+		TransitionSlide
+	},
 	mixins : [ TruSeoScore ],
 	props  : {
 		slug : {
@@ -133,24 +147,26 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-sidebar-card {
-	.header {
-		height: 46px;
-		&:hover {
-			cursor: pointer;
+.aioseo-card {
+	&.aioseo-sidebar-card {
+		.header {
+			height: 46px;
+			&:hover {
+				cursor: pointer;
+			}
 		}
-	}
-	.content {
-		padding-bottom: 8px !important;
-	}
-	ul {
-		margin-bottom: 0;
-		li {
-			margin-bottom: 16px;
-			padding-left: 25px;
+		.content {
+			padding-bottom: 8px !important;
 		}
-		.description {
-			margin: 0;
+		ul {
+			margin-bottom: 0;
+			li {
+				margin-bottom: 16px;
+				padding-left: 25px;
+			}
+			.description {
+				margin: 0;
+			}
 		}
 	}
 }

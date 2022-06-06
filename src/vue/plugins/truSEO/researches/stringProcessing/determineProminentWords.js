@@ -1,6 +1,4 @@
-import get from 'lodash/get'
-import memoize from 'lodash/memoize'
-import uniq from 'lodash/uniq'
+import { get, memoize, uniq } from 'lodash-es'
 
 import retrieveStemmer from '../helpers/retrieveStemmer'
 

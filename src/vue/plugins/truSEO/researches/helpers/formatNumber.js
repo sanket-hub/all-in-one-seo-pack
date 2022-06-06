@@ -3,10 +3,10 @@
  * @param {number} number The unrounded number
  * @returns {number} Rounded number
  */
-export default function( number ) {
-	if ( Math.round( number ) === number ) {
-		return Math.round( number );
+export default function (number) {
+	if (Math.round(number) === number) {
+		return Math.round(number)
 	}
 
-	return Math.round( number * 10 ) / 10;
+	return Math.round(number * 10) / 10
 }

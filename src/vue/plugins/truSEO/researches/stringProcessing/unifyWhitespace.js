@@ -5,29 +5,29 @@
  * @param {string} text The string to replace the non breaking space in.
  * @returns {string} The text with unified spaces.
  */
-var unifyNonBreakingSpace = function (text) {
-		return text.replace(/&nbsp;/g, ' ')
-	},
+const unifyNonBreakingSpace = function (text) {
+	return text.replace(/&nbsp;/g, ' ')
+}
 
-	/**
+/**
  * Replaces all whitespaces with a normal space
  * @param {string} text The string to replace the non breaking space in.
  * @returns {string} The text with unified spaces.
  */
-	unifyWhiteSpace = function (text) {
-		return text.replace(/\s/g, ' ')
-	},
+const unifyWhiteSpace = function (text) {
+	return text.replace(/\s/g, ' ')
+}
 
-	/**
+/**
  * Converts all whitespace to spaces.
  *
  * @param {string} text The text to replace spaces.
  * @returns {string} The text with unified spaces.
  */
-	unifyAllSpaces = function (text) {
-		text = unifyNonBreakingSpace(text)
-		return unifyWhiteSpace(text)
-	}
+const unifyAllSpaces = function (text) {
+	text = unifyNonBreakingSpace(text)
+	return unifyWhiteSpace(text)
+}
 
 export {
 	unifyNonBreakingSpace,

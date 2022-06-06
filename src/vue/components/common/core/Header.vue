@@ -77,7 +77,25 @@
 <script>
 import { ScrollAndHighlight } from '@/vue/mixins'
 import { mapGetters, mapMutations, mapState } from 'vuex'
+import CoreApiBar from '@/vue/components/common/core/ApiBar'
+import CorePercentCircle from '@/vue/components/common/core/PercentCircle'
+import CoreLicenseKeyBar from '@/vue/components/AIOSEO_VERSION/core/LicenseKeyBar'
+import CoreUpgradeBar from '@/vue/components/AIOSEO_VERSION/core/UpgradeBar'
+import GridContainer from '@/vue/components/common/grid/Container'
+import SvgAioseoLogo from '@/vue/components/common/svg/aioseo/Logo'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
+import SvgNotifications from '@/vue/components/common/svg/Notifications'
 export default {
+	components : {
+		CoreApiBar,
+		CorePercentCircle,
+		CoreLicenseKeyBar,
+		CoreUpgradeBar,
+		GridContainer,
+		SvgAioseoLogo,
+		SvgCircleQuestionMark,
+		SvgNotifications
+	},
 	mixins : [ ScrollAndHighlight ],
 	props  : {
 		fullWidth : Boolean,

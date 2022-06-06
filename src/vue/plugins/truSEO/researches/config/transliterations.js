@@ -1,7 +1,7 @@
 import getLanguage from '../helpers/getLanguage.js'
-import isUndefined from 'lodash/isUndefined'
+import { isUndefined } from 'lodash-es'
 
-var transliterations = {
+const transliterations = {
 
 	// Language: Spanish.
 	// Source: https://en.wikipedia.org/wiki/Spanish_orthography

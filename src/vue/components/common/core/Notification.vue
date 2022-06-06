@@ -64,7 +64,19 @@
 <script>
 import { Url } from '@/vue/mixins'
 import { mapActions } from 'vuex'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
+import SvgGear from '@/vue/components/common/svg/Gear'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleExclamation,
+		SvgGear,
+		TransitionSlide
+	},
 	mixins : [ Url ],
 	props  : {
 		notification : {

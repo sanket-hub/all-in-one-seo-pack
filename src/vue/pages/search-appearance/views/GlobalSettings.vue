@@ -307,9 +307,10 @@
 							v-model="options.searchAppearance.global.schema.organizationLogo"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('logo', ['options', 'searchAppearance', 'global', 'schema', 'organizationLogo'])"
+							@click="openUploadModal('organizationLogo', (imageUrl) => options.searchAppearance.global.schema.organizationLogo = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -347,9 +348,10 @@
 							v-model="options.searchAppearance.global.schema.personLogo"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
+
 						<base-button
 							class="insert-image"
-							@click="openUploadModal('logo', ['options', 'searchAppearance', 'global', 'schema', 'personLogo'])"
+							@click="openUploadModal('personLogo', (imageUrl) => options.searchAppearance.global.schema.personLogo = imageUrl)"
 							size="medium"
 							type="black"
 						>
@@ -396,17 +398,43 @@
 <script>
 import { JsonValues, MaxCounts, Uploader } from '@/vue/mixins'
 import { mapState } from 'vuex'
+import BaseImg from '@/vue/components/common/base/Img'
+import BasePhone from '@/vue/components/common/base/Phone'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import CoreSettingsSeparator from '@/vue/components/common/core/SettingsSeparator'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import SvgLocalSeo from '@/vue/components/common/svg/local/Seo'
 export default {
+	components : {
+		BaseImg,
+		BasePhone,
+		BaseRadioToggle,
+		CoreCard,
+		CoreGoogleSearchPreview,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow,
+		CoreSettingsSeparator,
+		SvgCirclePlus,
+		SvgLocalSeo
+	},
 	mixins : [ JsonValues, MaxCounts, Uploader ],
 	data () {
 		return {
 			titleCount       : 0,
 			descriptionCount : 0,
 			strings          : {
-				titleSeparator                  : this.$t.__('Title Separator', this.$td),
-				separatorCharacter              : this.$t.__('Separator Character', this.$td),
-				// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
-				homePageDisabledDescription     : this.$t.sprintf(this.$t.__('The home page settings below have been disabled because you are using a static home page. You can %1$sedit your home page settings%2$s directly to change the title and description.', this.$td), `<a href="${this.$aioseo.urls.staticHomePage}">`, '</a>'),
+				titleSeparator              : this.$t.__('Title Separator', this.$td),
+				separatorCharacter          : this.$t.__('Separator Character', this.$td),
+				homePageDisabledDescription : this.$t.sprintf(
+					// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
+					this.$t.__('You are using a static home page which is found under Pages. You can %1$sedit your home page settings%2$s directly to change the title and description.', this.$td),
+					`<a href="${this.$aioseo.urls.staticHomePage}">`,
+					'</a>'
+				),
 				homePage                        : this.$t.__('Home Page', this.$td),
 				siteTitle                       : this.$t.__('Site Title', this.$td),
 				clickToAddSiteTitle             : this.$t.__('Click on the tags below to insert variables into your site title.', this.$td),
@@ -429,12 +457,18 @@ export default {
 				pasteYourImageUrl               : this.$t.__('Paste your image URL or select a new image', this.$td),
 				minimumSize                     : this.$t.__('Minimum size: 112px x 112px, The image must be in JPG, PNG, GIF, SVG, or WEBP format.', this.$td),
 				remove                          : this.$t.__('Remove', this.$td),
-				// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag., 3 - "Pro", 4 - "Pro".
-				goToLocalSeo                    : this.$t.sprintf(this.$t.__('Go to %1$sLocal SEO Settings%2$s and set up your local business info like location address, opening hours (%3$s), and Google Maps settings (%4$s).', this.$td), '<strong>', '</strong>', 'Pro', 'Pro'),
-				goToLocalSeoSettings            : this.$t.__('Go to Local SEO Settings', this.$td),
-				enableSchemaMarkup              : this.$t.__('Enable Schema Markup', this.$td),
-				keywords                        : this.$t.__('Keywords', this.$td),
-				tagPlaceholder                  : this.$t.__('Press enter to create a keyword', this.$td)
+				goToLocalSeo                    : this.$t.sprintf(
+					// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag., 3 - "Pro", 4 - "Pro".
+					this.$t.__('Go to %1$sLocal SEO Settings%2$s and set up your local business info like location address, opening hours (%3$s), and Google Maps settings (%4$s).', this.$td),
+					 '<strong>',
+					'</strong>',
+					'Pro',
+					'Pro'
+				),
+				goToLocalSeoSettings : this.$t.__('Go to Local SEO Settings', this.$td),
+				enableSchemaMarkup   : this.$t.__('Enable Schema Markup', this.$td),
+				keywords             : this.$t.__('Keywords', this.$td),
+				tagPlaceholder       : this.$t.__('Press enter to create a keyword', this.$td)
 			}
 		}
 	},

@@ -32,9 +32,9 @@ class File {
 	 * @return void
 	 */
 	public function generate( $force = false ) {
-		foreach ( aioseo()->sitemap->addons as $classes ) {
-			if ( ! empty( $classes['file'] ) ) {
-				$classes['file']->generate( $force );
+		foreach ( aioseo()->addons->getLoadedAddons() as $loadedAddon ) {
+			if ( ! empty( $loadedAddon->file ) && method_exists( $loadedAddon->file, 'generate' ) ) {
+				$loadedAddon->file->generate( $force );
 			}
 		}
 
@@ -244,20 +244,18 @@ class File {
 
 		ob_start();
 		aioseo()->sitemap->output->output( $entries, $total );
-		foreach ( aioseo()->sitemap->addons as $classes ) {
-			if ( ! empty( $classes['output'] ) ) {
-				$classes['output']->output( $entries, $total );
+		foreach ( aioseo()->addons->getLoadedAddons() as $instance ) {
+			if ( ! empty( $instance->output ) && method_exists( $instance->output, 'output' ) ) {
+				$instance->output->output( $entries, $total );
 			}
 		}
 		$content = ob_get_clean();
 
-		$file = ABSPATH . sanitize_file_name( $filename );
-		$wpfs = aioseo()->helpers->wpfs();
-		if ( $wpfs ) {
-			$fileExists = @$wpfs->exists( $file );
-			if ( ! $fileExists || @$wpfs->is_writable( $file ) ) {
-				@$wpfs->put_contents( $file, $content );
-			}
+		$fs         = aioseo()->core->fs;
+		$file       = ABSPATH . sanitize_file_name( $filename );
+		$fileExists = $fs->exists( $file );
+		if ( ! $fileExists || $fs->isWritable( $file ) ) {
+			$fs->putContents( $file, $content );
 		}
 	}
 

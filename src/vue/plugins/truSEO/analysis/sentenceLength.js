@@ -2,7 +2,7 @@ import checkTooLongSentences from '../researches/stringProcessing/checkForTooLon
 import countSentencesFromText from '../researches/helpers/countSentencesFromText'
 import formatNumber from '../researches/helpers/formatNumber'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const parameters = {
 	recommendedWordCount : 20,
@@ -57,11 +57,16 @@ function sentenceLength (content) {
 
 	return {
 		title       : __('Sentences length', td),
-		// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
-		description : sprintf(__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td), `${percentage}%`, parameters.recommendedWordCount, `${parameters.slightlyTooMany}%`),
-		score       : scores.slightlyCorrect,
-		maxScore    : scores.correctLength,
-		error       : 1
+		description : sprintf(
+			// Translators: 1 - Number of the sentences, 2 - Number of words, 3 - Recommended maximum of words.
+			__('%1$s of the sentences contain more than %2$s words, which is more than the recommended maximum of %3$s. Try to shorten the sentences.', td),
+			`${percentage}%`,
+			parameters.recommendedWordCount,
+			`${parameters.slightlyTooMany}%`
+		),
+		score    : scores.slightlyCorrect,
+		maxScore : scores.correctLength,
+		error    : 1
 	}
 }
 

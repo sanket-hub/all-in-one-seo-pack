@@ -25,7 +25,7 @@ import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/truSEO/component
 				wp.element.createElement(
 					PluginDocumentSettingPanel,
 					{
-						title     : process.env.VUE_APP_SHORT_NAME,
+						title     : import.meta.env.VITE_SHORT_NAME,
 						className : 'aioseo-document-setting aioseo-seo-overview',
 						icon      : wp.element.Fragment
 					},
@@ -39,9 +39,9 @@ import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/truSEO/component
 					PluginPrePublishPanel,
 					{
 						title : [
-							process.env.VUE_APP_SHORT_NAME,
+							import.meta.env.VITE_SHORT_NAME,
 							':',
-							wp.element.createElement('span', { class: 'editor-post-publish-panel__link' })
+							wp.element.createElement('span', { key: 'scoreDescription', className: 'editor-post-publish-panel__link' })
 						],
 						className   : 'aioseo-pre-publish aioseo-seo-overview',
 						initialOpen : true,
@@ -56,7 +56,7 @@ import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/truSEO/component
 				wp.element.createElement(
 					PluginPostPublishPanel,
 					{
-						title       : process.env.VUE_APP_SHORT_NAME,
+						title       : import.meta.env.VITE_SHORT_NAME,
 						initialOpen : true,
 						icon        : wp.element.Fragment
 					},

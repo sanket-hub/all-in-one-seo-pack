@@ -1,12 +1,11 @@
-import getSentences from "../stringProcessing/getSentences";
+import getSentences from '../stringProcessing/getSentences'
 
 /**
  * Returns the sentences from a paper.
  *
- * @param {Paper} paper The paper to analyze.
- *
+ * @param {string} text The text to analyze.
  * @returns {Array} Sentences found in the paper.
  */
-export default function( text ) {
-	return getSentences( text );
+export default function (text) {
+	return getSentences(text)
 }

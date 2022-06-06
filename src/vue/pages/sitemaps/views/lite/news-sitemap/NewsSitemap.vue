@@ -2,9 +2,13 @@
 	<div class="aioseo-news-sitemap-lite">
 		<core-card
 			slug="newsSitemap"
-			:header-text="strings.news"
 			:noSlide="true"
 		>
+			<template #header>
+				{{ strings.news }}
+				<core-pro-badge />
+			</template>
+
 			<blur />
 
 			<cta
@@ -35,13 +39,21 @@
 </template>
 
 <script>
-import Blur from './Blur'
 import { NewsSitemap } from '@/vue/pages/sitemaps/mixins'
+import Blur from './Blur'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
-	mixins     : [ NewsSitemap ],
 	components : {
-		Blur
-	}
+		Blur,
+		CoreAlert,
+		CoreCard,
+		CoreProBadge,
+		Cta
+	},
+	mixins : [ NewsSitemap ]
 }
 </script>
 

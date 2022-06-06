@@ -1,6 +1,6 @@
 import getLinkStats from '../researches/getLinkStats'
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	noMatches           : 3,

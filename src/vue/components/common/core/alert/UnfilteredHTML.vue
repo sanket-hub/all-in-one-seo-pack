@@ -7,12 +7,19 @@
 	/>
 </template>
 <script>
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 export default {
+	components : {
+		CoreAlert
+	},
 	data () {
 		return {
 			strings : {
-				// Translators: 1 - Learn more link.
-				unfilteredHtmlError : this.$t.sprintf(this.$t.__('Your user account role does not have access to edit this field. %1$s', this.$td), this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'unfilteredHtml', true))
+				unfilteredHtmlError : this.$t.sprintf(
+					// Translators: 1 - Learn more link.
+					this.$t.__('Your user account role does not have access to edit this field. %1$s', this.$td),
+					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'unfilteredHtml', true)
+				)
 			}
 		}
 	}

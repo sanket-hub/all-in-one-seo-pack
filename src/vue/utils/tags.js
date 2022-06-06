@@ -1,7 +1,9 @@
 import { __ } from '@wordpress/i18n'
 import store from '@/vue/store'
 
-const td     = process.env.VUE_APP_TEXTDOMAIN
+import { decodeHTMLEntities } from '@/vue/utils/helpers'
+
+const td     = import.meta.env.VITE_TEXTDOMAIN
 const aioseo = window.aioseo || {
 	postData : {
 		postTypes : []
@@ -187,18 +189,6 @@ const getDefaultTags = (type, name, location) => {
 							]
 			}
 	}
-}
-
-const decodeHTMLEntities = string => {
-	const element = document.createElement('div')
-	if (string && 'string' === typeof string) {
-		// strip script/html tags
-		string              = string.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '')
-		string              = string.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '')
-		element.innerHTML   = string
-		string              = element.textContent
-	}
-	return string
 }
 
 export default {

@@ -9,9 +9,11 @@
 </template>
 
 <script>
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import FeatureManager from './FeatureManager'
 export default {
 	components : {
+		CoreMain,
 		FeatureManager
 	},
 	data () {

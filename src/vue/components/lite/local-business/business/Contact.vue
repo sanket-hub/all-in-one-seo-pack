@@ -21,13 +21,17 @@
 </template>
 
 <script>
+import BasePhone from '@/vue/components/common/base/Phone'
 export default {
+	components : {
+		BasePhone
+	},
 	data () {
 		return {
 			strings : {
-				emailAddress : this.$t.__('Email address:', this.$td),
-				phoneNumber  : this.$t.__('Phone number:', this.$td),
-				faxNumber    : this.$t.__('Fax number:', this.$td)
+				emailAddress : this.$t.__('Email Address', this.$td),
+				phoneNumber  : this.$t.__('Phone Number', this.$td),
+				faxNumber    : this.$t.__('Fax Number', this.$td)
 			}
 		}
 	}

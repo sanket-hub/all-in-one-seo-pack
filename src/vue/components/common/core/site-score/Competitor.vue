@@ -51,7 +51,13 @@
 <script>
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions } from 'vuex'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import SvgRefresh from '@/vue/components/common/svg/Refresh'
 export default {
+	components : {
+		CoreSiteScore,
+		SvgRefresh
+	},
 	mixins : [ SeoSiteScore ],
 	props  : {
 		score   : Number,

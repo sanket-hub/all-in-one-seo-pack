@@ -12,24 +12,45 @@
 
 <script>
 import { mapActions } from 'vuex'
+import SvgAioseoLogoGear from '@/vue/components/common/svg/aioseo/LogoGear'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		SvgAioseoLogoGear,
+		SvgClose
+	},
 	data () {
 		return {
 			strings : {
-				boldText : this.$t.sprintf('<strong>%1$s %2$s</strong>', process.env.VUE_APP_NAME, this.$t.__('Free', this.$td)),
+				boldText : this.$t.sprintf(
+					'<strong>%1$s %2$s</strong>',
+					import.meta.env.VITE_NAME,
+					this.$t.__('Free', this.$td)
+				),
 				url      : this.$links.utmUrl('lite-upgrade-bar'),
-				// Translators: 1 - "Pro".
-				linkText : this.$t.sprintf(this.$t.__('upgrading to %1$s', this.$td), 'Pro')
+				linkText : this.$t.sprintf(
+					// Translators: 1 - "Pro".
+					this.$t.__('upgrading to %1$s', this.$td),
+					'Pro'
+				)
 			}
 		}
 	},
 	computed : {
 		link () {
-			return this.$t.sprintf('<strong><a href="%1$s" target="_blank" class="text-white">%2$s</a> <a href="%1$s" target="_blank" class="text-white upgrade-arrow">&rarr;</a></strong>', this.strings.url, this.strings.linkText)
+			return this.$t.sprintf(
+				'<strong><a href="%1$s" target="_blank" class="text-white">%2$s</a> <a href="%1$s" target="_blank" class="text-white upgrade-arrow">&rarr;</a></strong>',
+				this.strings.url,
+				this.strings.linkText
+			)
 		},
 		upgradeText () {
-			// Translators: 1 - The plugin name ("All in One SEO"), 2 - "upgrading to Pro".
-			return this.$t.sprintf(this.$t.__('You\'re using %1$s. To unlock more features, consider %2$s', this.$td), this.strings.boldText, this.link)
+			return this.$t.sprintf(
+				// Translators: 1 - The plugin name ("All in One SEO"), 2 - "upgrading to Pro".
+				this.$t.__('You\'re using %1$s. To unlock more features, consider %2$s', this.$td),
+				this.strings.boldText,
+				this.link
+			)
 		}
 	},
 	methods : {

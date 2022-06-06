@@ -2,10 +2,16 @@ export const SeoSiteScore = {
 	data () {
 		return {
 			strings : {
-				// Translators: 1 - HTML Line break tag.
-				weveGotWorkToDo         : this.$t.sprintf(this.$t.__('We\'ve got some%1$swork to do!', this.$td), '<br>'),
-				// Translators: 1 - HTML Line break tag.
-				needsImprovement        : this.$t.sprintf(this.$t.__('Needs%1$sImprovement!', this.$td), '<br>'),
+				weveGotWorkToDo : this.$t.sprintf(
+					// Translators: 1 - HTML Line break tag.
+					this.$t.__('We\'ve got some%1$swork to do!', this.$td),
+					'<br>'
+				),
+				needsImprovement : this.$t.sprintf(
+					// Translators: 1 - HTML Line break tag.
+					this.$t.__('Needs%1$sImprovement!', this.$td),
+					'<br>'
+				),
 				veryGood                : this.$t.__('Very Good!', this.$td),
 				excellent               : this.$t.__('Excellent!', this.$td),
 				toSeeYourSiteScore      : this.$t.__('to see your Site Score.', this.$td),
@@ -16,8 +22,11 @@ export const SeoSiteScore = {
 	},
 	computed : {
 		connectWithAioseo () {
-			// Translators: 1 - The plugin short name ("AIOSEO").
-			return this.$t.sprintf(this.$t.__('Connect with %1$s', this.$td), process.env.VUE_APP_SHORT_NAME)
+			return this.$t.sprintf(
+				// Translators: 1 - The plugin short name ("AIOSEO").
+				this.$t.__('Connect with %1$s', this.$td),
+				import.meta.env.VITE_SHORT_NAME
+			)
 		},
 		description () {
 			return 25 >= this.score

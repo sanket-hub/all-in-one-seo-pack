@@ -65,7 +65,21 @@
 
 <script>
 import SiteAnalysis from '@/vue/classes/SiteAnalysis'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleInformation from '@/vue/components/common/svg/circle/Information'
+import SvgGear from '@/vue/components/common/svg/Gear'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		SvgCaret,
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleInformation,
+		SvgGear,
+		TransitionSlide
+	},
 	props : {
 		test : {
 			type     : String,

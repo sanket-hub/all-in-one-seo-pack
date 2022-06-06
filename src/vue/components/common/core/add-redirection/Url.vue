@@ -133,7 +133,33 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 import { mapActions } from 'vuex'
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreAddRedirectionUrlResults from '@/vue/components/common/core/add-redirection/UrlResults'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
+import SvgGear from '@/vue/components/common/svg/Gear'
+import SvgTrash from '@/vue/components/common/svg/Trash'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreAddRedirectionUrlResults,
+		CoreAlert,
+		CoreLoader,
+		GridColumn,
+		GridRow,
+		SvgCircleCheck,
+		SvgCircleClose,
+		SvgCircleExclamation,
+		SvgGear,
+		SvgTrash,
+		TransitionSlide
+	},
 	props : {
 		url : {
 			type : Object,
@@ -236,8 +262,11 @@ export default {
 
 			const warnings = []
 			if ('http' !== this.url.url.substr(0, 4) && '/' !== this.url.url.substr(0, 1) && 0 < this.url.url.length && !this.url.regex) {
-				// Translators: 1 - Adds a html tag with an option like: <code>/</code>
-				warnings.push(this.$t.sprintf(this.$t.__('The source URL should probably start with a %1$s', this.$td), '<code>/</code>'))
+				warnings.push(this.$t.sprintf(
+					// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
+					this.$t.__('The source URL should probably start with a %1$s', this.$td),
+					'<code>/</code>'
+				))
 			}
 
 			if (-1 !== this.url.url.indexOf('#')) {
@@ -245,29 +274,46 @@ export default {
 			}
 
 			if (!this.log404 && this.maybeRegex && !this.url.regex) {
-				// Translators: 1 - Adds a html tag with an option like: <code>Regex</code>
-				warnings.push(this.$t.sprintf(this.$t.__('Remember to enable the %1$s option if this is a regular expression.', this.$td), '<code>Regex</code>'))
+				warnings.push(this.$t.sprintf(
+					// Translators: 1 - Adds a html tag with an option like: <code>Regex</code>
+					this.$t.__('Remember to enable the %1$s option if this is a regular expression.', this.$td),
+					'<code>Regex</code>'
+				))
 			}
 
 			if (this.url.regex) {
 				if (-1 === this.url.url.indexOf('^') && -1 === this.url.url.indexOf('$')) {
-					// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
-					warnings.push(this.$t.sprintf(this.$t.__('To prevent a greedy regular expression you can use %1$s to anchor it to the start of the URL. For example: %2$s', this.$td), '<code>^/</code>', '<code>^/' + this.url.url.replace(/^\//, '') + '</code>'))
+					warnings.push(this.$t.sprintf(
+						// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
+						this.$t.__('To prevent a greedy regular expression you can use %1$s to anchor it to the start of the URL. For example: %2$s', this.$td),
+						'<code>^/</code>', '<code>^/' + this.url.url.replace(/^\//, '') + '</code>'
+					))
 				}
 
 				if (0 < this.url.url.indexOf('^')) {
-					// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
-					warnings.push(this.$t.sprintf(this.$t.__('The caret %1$s should be at the start. For example: %2$s', this.$td), '<code>^/</code>', '<code>^/' + this.url.url.replace('^', '').replace(/^\//, '') + '</code>'))
+					warnings.push(this.$t.sprintf(
+						// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
+						this.$t.__('The caret %1$s should be at the start. For example: %2$s', this.$td),
+						'<code>^/</code>',
+						'<code>^/' + this.url.url.replace('^', '').replace(/^\//, '') + '</code>'
+					))
 				}
 
 				if (0 === this.url.url.indexOf('^') && -1 === this.url.url.indexOf('^/')) {
-					// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
-					warnings.push(this.$t.sprintf(this.$t.__('The source URL should probably start with a %1$s', this.$td), '<code>^/</code>'))
+					warnings.push(this.$t.sprintf(
+						// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
+						this.$t.__('The source URL should probably start with a %1$s', this.$td),
+						'<code>^/</code>'
+					))
 				}
 
 				if (this.url.url.length - 1 !== this.url.url.indexOf('$') && -1 !== this.url.url.indexOf('$')) {
-					// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
-					warnings.push(this.$t.sprintf(this.$t.__('The dollar symbol %1$s should be at the end. For example: %2$s', this.$td), '<code>$</code>', '<code>' + this.url.url.replace(/\$/g, '') + '$</code>'))
+					warnings.push(this.$t.sprintf(
+						// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
+						this.$t.__('The dollar symbol %1$s should be at the end. For example: %2$s', this.$td),
+						'<code>$</code>',
+						'<code>' + this.url.url.replace(/\$/g, '') + '$</code>'
+					))
 				}
 			}
 

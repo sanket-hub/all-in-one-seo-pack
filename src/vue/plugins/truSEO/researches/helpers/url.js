@@ -2,7 +2,7 @@
  * External dependencies
  */
 import urlMethods from 'url'
-import includes from 'lodash/includes'
+import { includes } from 'lodash-es'
 
 const urlFromAnchorRegex = /href=(["'])([^"']+)\1/i
 
@@ -11,10 +11,10 @@ const urlFromAnchorRegex = /href=(["'])([^"']+)\1/i
  *
  * @param {string} url Link to check.
  *
- * @return {boolean} Whether link is relative or not.
+ * @returns {boolean} Whether link is relative or not.
  */
-function isRelativeFragmentURL( url ) {
-	return '#' === url[ 0 ]
+function isRelativeFragmentURL (url) {
+	return '#' === url[0]
 }
 
 /**
@@ -22,10 +22,10 @@ function isRelativeFragmentURL( url ) {
  *
  * @param {string} url Link to extract from.
  *
- * @return {string} Protocol.
+ * @returns {string} Protocol.
  */
-function getProtocol( url ) {
-	return urlMethods.parse( url ).protocol
+function getProtocol (url) {
+	return urlMethods.parse(url).protocol // eslint-disable-line
 }
 
 /**
@@ -33,12 +33,12 @@ function getProtocol( url ) {
  *
  * @param {string} anchorTag Anchor tag string.
  *
- * @return {string} Url.
+ * @returns {string} Url.
  */
-function getFromAnchorTag( anchorTag ) {
-	const urlMatch = urlFromAnchorRegex.exec( anchorTag )
+function getFromAnchorTag (anchorTag) {
+	const urlMatch = urlFromAnchorRegex.exec(anchorTag)
 
-	return ( null === urlMatch ) ? '' : urlMatch[ 2 ]
+	return (null === urlMatch) ? '' : urlMatch[2]
 }
 
 /**
@@ -46,14 +46,14 @@ function getFromAnchorTag( anchorTag ) {
  *
  * @param {string} protocol Protol string to validate.
  *
- * @return {boolean} Has valid protocol or not.
+ * @returns {boolean} Has valid protocol or not.
  */
-function isHttpScheme( protocol ) {
-	if ( ! protocol ) {
+function isHttpScheme (protocol) {
+	if (!protocol) {
 		return true
 	}
 
-	return ( 'http:' === protocol || 'https:' === protocol )
+	return ('http:' === protocol || 'https:' === protocol)
 }
 
 /**
@@ -62,23 +62,23 @@ function isHttpScheme( protocol ) {
  * @param {string} url  Url to check.
  * @param {string} host Site url.
  *
- * @return {boolean} Whether internal or not.
+ * @returns {boolean} Whether internal or not.
  */
-function isInternalLink( url, host ) {
+function isInternalLink (url, host) {
 	// Check if the URL starts with a single slash.
-	if ( ! includes( url, '//' ) && '/' === url[ 0 ] ) {
+	if (!includes(url, '//') && '/' === url[0]) {
 		return true
 	}
 
 	// Check if the URL starts with a # indicating a fragment.
-	if ( isRelativeFragmentURL( url ) ) {
+	if (isRelativeFragmentURL(url)) {
 		return false
 	}
 
-	const parsedUrl = urlMethods.parse( url, false, true )
+	const parsedUrl = urlMethods.parse(url, false, true) // eslint-disable-line
 
 	// No host indicates an internal link.
-	if ( ! parsedUrl.host ) {
+	if (!parsedUrl.host) {
 		return true
 	}
 
@@ -91,21 +91,21 @@ function isInternalLink( url, host ) {
  * @param {string} text Text to get links from.
  * @param {string} url  Base link.
  *
- * @return {string} Link type.
+ * @returns {string} Link type.
  */
-export function getLinkType( text, url ) {
-	const anchorUrl = getFromAnchorTag( text )
+export function getLinkType (text, url) {
+	const anchorUrl = getFromAnchorTag(text)
 
 	/**
 	 * A link is "Other" if:
 	 * - The protocol is neither null, nor http, nor https.
 	 * - The link is a relative fragment URL (starts with #), because it won't navigate to another page.
 	 */
-	if ( ! isHttpScheme( getProtocol( anchorUrl ) ) || isRelativeFragmentURL( anchorUrl ) ) {
+	if (!isHttpScheme(getProtocol(anchorUrl)) || isRelativeFragmentURL(anchorUrl)) {
 		return 'other'
 	}
 
-	if ( isInternalLink( anchorUrl, url ) ) {
+	if (isInternalLink(anchorUrl, url)) {
 		return 'internal'
 	}
 
@@ -118,16 +118,16 @@ export function getLinkType( text, url ) {
  * @param {string} anchorHTML Anchor tag html.
  * @param {string} linkType   Link type
  *
- * @return {string} Nofollow or Dofollow.
+ * @returns {string} Nofollow or Dofollow.
  */
-export function checkNofollow( anchorHTML, linkType ) {
+export function checkNofollow (anchorHTML) {
 	anchorHTML = anchorHTML.toLowerCase()
 
-	if ( ! includes( anchorHTML, '<a' ) || ! includes( anchorHTML, 'rel=' ) ) {
+	if (!includes(anchorHTML, '<a') || !includes(anchorHTML, 'rel=')) {
 		return 'Dofollow'
 	}
 
-	return includes( anchorHTML, 'nofollow' ) ? 'Nofollow' : 'Dofollow'
+	return includes(anchorHTML, 'nofollow') ? 'Nofollow' : 'Dofollow'
 }
 
 /**
@@ -135,8 +135,8 @@ export function checkNofollow( anchorHTML, linkType ) {
  *
  * @param {string} text Text to parse for anchor tags.
  *
- * @return {Array} Found anchor tags.
+ * @returns {Array} Found anchor tags.
  */
-export function getLinks( text ) {
-	return text.match( /<a(?:[^>]+)?>/gi )
+export function getLinks (text) {
+	return text.match(/<a(?:[^>]+)?>/gi)
 }

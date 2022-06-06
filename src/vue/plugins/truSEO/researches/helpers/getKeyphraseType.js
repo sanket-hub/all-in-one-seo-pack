@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
-export default function( keyphrase ) {
+export default function (keyphrase) {
 	if ('focus' === keyphrase) {
 		return __('Focus keyphrase', td)
 	}

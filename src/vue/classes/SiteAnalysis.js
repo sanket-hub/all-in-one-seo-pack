@@ -1,6 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n'
 
-const td = process.env.VUE_APP_TEXTDOMAIN
+const td = import.meta.env.VITE_TEXTDOMAIN
 
 class SiteAnalysis {
 	personalize = false
@@ -30,23 +30,41 @@ class SiteAnalysis {
 			return __('We couldn\'t find an SEO Title.', td)
 		} else if ('title-too-short' === result.error) {
 			return this.personalize
-				// Translators: 1 - The length of the SEO title as a number.
-				? sprintf(__('Your SEO title is only %1$d characters long, which is too short.', td), result.value.length)
-				// Translators: 1 - The length of the SEO title as a number.
-				: sprintf(__('The SEO title is only %1$d characters long, which is too short.', td), result.value.length)
+				? sprintf(
+					// Translators: 1 - The length of the SEO title as a number.
+					__('Your SEO title is only %1$d characters long, which is too short.', td),
+					result.value.length
+				)
+				: sprintf(
+					// Translators: 1 - The length of the SEO title as a number.
+					__('The SEO title is only %1$d characters long, which is too short.', td),
+					result.value.length
+				)
 		} else if ('title-too-long' === result.error) {
 			return this.personalize
-				// Translators: 1 - The length of the SEO title as a number.
-				? sprintf(__('Your SEO title is %1$d characters long, which is too long.', td), result.value.length)
-				// Translators: 1 - The length of the SEO title as a number.
-				: sprintf(__('The SEO title is %1$d characters long, which is too long.', td), result.value.length)
+				? sprintf(
+					// Translators: 1 - The length of the SEO title as a number.
+					__('Your SEO title is %1$d characters long, which is too long.', td),
+					result.value.length
+				)
+				: sprintf(
+					// Translators: 1 - The length of the SEO title as a number.
+					__('The SEO title is %1$d characters long, which is too long.', td),
+					result.value.length
+				)
 		}
 
 		return this.personalize
-			// Translators: 1 - The length of the SEO title as a number.
-			? sprintf(__('Your SEO title is set and is %1$d characters long.', td), result.value.length)
-			// Translators: 1 - The length of the SEO title as a number.
-			: sprintf(__('The SEO title is set and is %1$d characters long.', td), result.value.length)
+			? sprintf(
+				// Translators: 1 - The length of the SEO title as a number.
+				__('Your SEO title is set and is %1$d characters long.', td),
+				result.value.length
+			)
+			: sprintf(
+				// Translators: 1 - The length of the SEO title as a number.
+				__('The SEO title is set and is %1$d characters long.', td),
+				result.value.length
+			)
 	}
 
 	titleBody = result => {
@@ -67,23 +85,41 @@ class SiteAnalysis {
 				: __('No meta description was found for the page.', td)
 		} else if ('description-too-short' === result.error) {
 			return this.personalize
-				// Translators: 1 - The length of the meta description as a number.
-				? sprintf(__('Your meta description is only %1$d characters long, which is too short.', td), result.value.length)
-				// Translators: 1 - The length of the meta description as a number.
-				: sprintf(__('The meta description is only %1$d characters long, which is too short.', td), result.value.length)
+				? sprintf(
+					// Translators: 1 - The length of the meta description as a number.
+					__('Your meta description is only %1$d characters long, which is too short.', td),
+					result.value.length
+				)
+				: sprintf(
+					// Translators: 1 - The length of the meta description as a number.
+					__('The meta description is only %1$d characters long, which is too short.', td),
+					result.value.length
+				)
 		} else if ('description-too-long' === result.error) {
 			return this.personalize
-				// Translators: 1 - The length of the meta description as a number.
-				? sprintf(__('Your meta description is %1$d characters long, which is too long.', td), result.value.length)
-				// Translators: 1 - The length of the meta description as a number.
-				: sprintf(__('The meta description is %1$d characters long, which is too long.', td), result.value.length)
+				? sprintf(
+					// Translators: 1 - The length of the meta description as a number.
+					__('Your meta description is %1$d characters long, which is too long.', td),
+					result.value.length
+				)
+				: sprintf(
+					// Translators: 1 - The length of the meta description as a number.
+					__('The meta description is %1$d characters long, which is too long.', td),
+					result.value.length
+				)
 		}
 
 		return this.personalize
-			// Translators: 1 - The length of the meta description as a number.
-			? sprintf(__('Your meta description is set and is %1$d characters long.', td), result.value.length)
-			// Translators: 1 - The length of the meta description as a number.
-			: sprintf(__('The meta description is set and is %1$d characters long.', td), result.value.length)
+			? sprintf(
+				// Translators: 1 - The length of the meta description as a number.
+				__('Your meta description is set and is %1$d characters long.', td),
+				result.value.length
+			)
+			: sprintf(
+				// Translators: 1 - The length of the meta description as a number.
+				__('The meta description is set and is %1$d characters long.', td),
+				result.value.length
+			)
 	}
 
 	descriptionBody = result => {
@@ -138,11 +174,13 @@ class SiteAnalysis {
 		if ('h1-missing' === result.error) {
 			return __('No H1 tag was found.', td) + ' ' + __('For the best SEO results there should be exactly one H1 tag on each page.', td)
 		} else if ('h1-too-many' === result.error) {
-			// Translators: 1 - The number of H1 tags found.
-			return sprintf(__('%1$d H1 tags were found.', td), result.value.length) + ' ' + __('For the best SEO results there should be exactly one H1 tag on each page.', td)
+			return sprintf(
+				// Translators: 1 - The number of H1 tags found.
+				__('%1$d H1 tags were found.', td),
+				result.value.length
+			) + ' ' + __('For the best SEO results there should be exactly one H1 tag on each page.', td)
 		}
 
-		// Translators: 1 - The length of the meta description as a number.
 		return this.personalize
 			? __('One H1 tag was found on your page.', td)
 			: __('One H1 tag was found on the page.', td)
@@ -335,9 +373,16 @@ class SiteAnalysis {
 
 	robotsRulesBody = result => {
 		const body = {
-			code       : 'no-robots' === result.error ? null : result.value,
-			// Translators: 1 - The Plugin short name ("AIOSEO").
-			message    : __('Make sure that you only block parts you don\'t want to be indexed.', td) + '<br><br>' + __('You can manually create a robots.txt file and upload it to your site\'s web root. A simpler option is to use a plugin for your CMS platform.', td) + '<br><br>' + sprintf(__('%1$s has a full suite of tools to manage the robots.txt file, along with other related technologies, like XML Sitemaps.', td), process.env.VUE_APP_SHORT_NAME),
+			code    : 'no-robots' === result.error ? null : result.value,
+			message : __('Make sure that you only block parts you don\'t want to be indexed.', td) +
+				'<br><br>' +
+				__('You can manually create a robots.txt file and upload it to your site\'s web root. A simpler option is to use a plugin for your CMS platform.', td) +
+				'<br><br>' +
+				sprintf(
+					// Translators: 1 - The Plugin short name ("AIOSEO").
+					__('%1$s has a full suite of tools to manage the robots.txt file, along with other related technologies, like XML Sitemaps.', td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 			buttonText : __('Edit Your Page', td),
 			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
 		}
@@ -357,9 +402,14 @@ class SiteAnalysis {
 
 	openGraphBody = result => {
 		const body = {
-			code       : result.value ? result.value.join('<br>') : null,
-			// Translators: 1 - The Plugin short name ("AIOSEO").
-			message    : __('Insert a customized Open Graph meta tag for each important page on your site. The standard is very well documented - you can learn more from Facebook\'s developer pages.', td) + '<br><br>' + sprintf(__('%1$s provides a simple but powerful interface to craft your Open Graph data. You get immediate feedback with an interactive preview, and you don\'t have to mess around with raw HTML markup.', td), process.env.VUE_APP_SHORT_NAME),
+			code    : result.value ? result.value.join('<br>') : null,
+			message : __('Insert a customized Open Graph meta tag for each important page on your site. The standard is very well documented - you can learn more from Facebook\'s developer pages.', td) +
+				'<br><br>' +
+				sprintf(
+					// Translators: 1 - The Plugin short name ("AIOSEO").
+					__('%1$s provides a simple but powerful interface to craft your Open Graph data. You get immediate feedback with an interactive preview, and you don\'t have to mess around with raw HTML markup.', td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 			buttonText : __('Edit Your Page', td),
 			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : window.aioseo.urls.aio.socialNetworks + '#/facebook'
 		}
@@ -381,8 +431,11 @@ class SiteAnalysis {
 
 	schemaBody = () => {
 		const body = {
-			// Translators: 1 - The Plugin short name ("AIOSEO").
-			message    : sprintf(__('%1$s makes it extremely easy to add highly relevant Schema.org markup to your site. It has a simple graphical interface, so you don\'t have to get your hands dirty with complex HTML markup.', td), process.env.VUE_APP_SHORT_NAME),
+			message : sprintf(
+				// Translators: 1 - The Plugin short name ("AIOSEO").
+				__('%1$s makes it extremely easy to add highly relevant Schema.org markup to your site. It has a simple graphical interface, so you don\'t have to get your hands dirty with complex HTML markup.', td),
+				import.meta.env.VITE_SHORT_NAME
+			),
 			buttonText : __('Edit Your Page', td),
 			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
 		}
@@ -446,10 +499,16 @@ class SiteAnalysis {
 
 	pageObjectsHead = result => {
 		const pageRequests = this.personalize
-			// Translators: 1 - The total number of page requests.
-			? sprintf(__('Your page makes %1$d requests.', td), result.total)
-			// Translators: 1 - The total number of page requests.
-			: sprintf(__('The page makes %1$d requests.', td), result.total)
+			? sprintf(
+				// Translators: 1 - The total number of page requests.
+				__('Your page makes %1$d requests.', td),
+				result.total
+			)
+			: sprintf(
+				// Translators: 1 - The total number of page requests.
+				__('The page makes %1$d requests.', td),
+				result.total
+			)
 		if ('page-objects-too-many' === result.error) {
 			return pageRequests + ' ' + __('More than 20 requests can result in slow page loading.', td)
 		}
@@ -467,8 +526,11 @@ class SiteAnalysis {
 	}
 
 	pageSizeHead = result => {
-		// Translators: 1 - The total number of page requests.
-		let pageSize = sprintf(__('The size of the HTML document is %1$d Kb.', td), Math.round(result.value / 1000))
+		let pageSize = sprintf(
+			// Translators: 1 - The total number of page requests.
+			__('The size of the HTML document is %1$d Kb.', td),
+			Math.round(result.value / 1000)
+		)
 		if ('page-size-too-big' === result.error) {
 			return pageSize + ' ' + __('This is over our recommendation of 50 Kb.', td)
 		}
@@ -491,10 +553,16 @@ class SiteAnalysis {
 	responseTimeHead = result => {
 		if ('response-time-too-long' === result.error) {
 			return this.personalize
-				// Translators: 1 - The total number of page requests.
-				? sprintf(__('The response time of your page is %1$f seconds. It is recommended to keep it equal to or below 0.2 seconds.', td), result.value)
-				// Translators: 1 - The total number of page requests.
-				: sprintf(__('The response time of the page is %1$f seconds. It is recommended to keep it equal to or below 0.2 seconds.', td), result.value)
+				? sprintf(
+					// Translators: 1 - The total number of page requests.
+					__('The response time of your page is %1$f seconds. It is recommended to keep it equal to or below 0.2 seconds.', td),
+					result.value
+				)
+				: sprintf(
+					// Translators: 1 - The total number of page requests.
+					__('The response time of the page is %1$f seconds. It is recommended to keep it equal to or below 0.2 seconds.', td),
+					result.value
+				)
 		}
 
 		return this.personalize
@@ -534,10 +602,16 @@ class SiteAnalysis {
 	visibleThemesHead = result => {
 		if ('themes-visible' === result.error) {
 			return this.personalize
-				// Translators: 1 - The name of the theme.
-				? sprintf(__('Anyone can see that you are using the %1$s theme.', td), result.value[0])
-				// Translators: 1 - The name of the theme.
-				: sprintf(__('Anyone can see that they are using the %1$s theme.', td), result.value[0])
+				? sprintf(
+					// Translators: 1 - The name of the theme.
+					__('Anyone can see that you are using the %1$s theme.', td),
+					result.value[0]
+				)
+				: sprintf(
+					// Translators: 1 - The name of the theme.
+					__('Anyone can see that they are using the %1$s theme.', td),
+					result.value[0]
+				)
 		}
 
 		return this.personalize

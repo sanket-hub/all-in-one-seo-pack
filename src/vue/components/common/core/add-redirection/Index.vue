@@ -199,12 +199,24 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { debounce } from '@/vue/utils/debounce'
-import CustomRules from './CustomRules'
 import { JsonValues } from '@/vue/mixins'
+import CoreAddRedirectionTargetUrl from '@/vue/components/common/core/add-redirection/TargetUrl'
+import CoreAddRedirectionUrl from '@/vue/components/common/core/add-redirection/Url'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CustomRules from './CustomRules'
+import SvgRightArrow from '@/vue/components/common/svg/right-arrow/Index.vue'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
-	components : { CustomRules },
-	mixins     : [ JsonValues ],
-	props      : {
+	components : {
+		CoreAddRedirectionTargetUrl,
+		CoreAddRedirectionUrl,
+		CoreAlert,
+		CustomRules,
+		SvgRightArrow,
+		TransitionSlide
+	},
+	mixins : [ JsonValues ],
+	props  : {
 		edit          : Boolean,
 		log404        : Boolean,
 		disableSource : Boolean,
@@ -239,13 +251,16 @@ export default {
 				targetUrl            : this.$t.__('Target URL', this.$td),
 				targetUrlDescription : this.$t.__('Enter a URL or start by typing a page or post title, slug or ID.', this.$td),
 				addUrl               : this.$t.__('Add URL', this.$td),
-				// Translators: 1 - Oening link tag, 2 - Closing link tag.
-				sourceUrlDescription : this.$t.sprintf(this.$t.__('Enter a relative URL to redirect from or start by typing in page or post title, slug or ID. You can also use regex (%1$s)', this.$td), this.$links.getDocLink(this.$t.__('what\'s this?', this.$td), 'redirectManagerRegex')),
-				advancedSettings     : this.$t.__('Advanced Settings', this.$td),
-				queryParams          : this.$t.__('Query Parameters:', this.$td),
-				saveChanges          : this.$t.__('Save Changes', this.$td),
-				cancel               : this.$t.__('Cancel', this.$td),
-				genericErrorMessage  : this.$t.__('An error occurred while adding your redirects. Please try again later.', this.$td)
+				sourceUrlDescription : this.$t.sprintf(
+					// Translators: 1 - Oening link tag, 2 - Closing link tag.
+					this.$t.__('Enter a relative URL to redirect from or start by typing in page or post title, slug or ID. You can also use regex (%1$s)', this.$td),
+					this.$links.getDocLink(this.$t.__('what\'s this?', this.$td), 'redirectManagerRegex')
+				),
+				advancedSettings    : this.$t.__('Advanced Settings', this.$td),
+				queryParams         : this.$t.__('Query Parameters:', this.$td),
+				saveChanges         : this.$t.__('Save Changes', this.$td),
+				cancel              : this.$t.__('Cancel', this.$td),
+				genericErrorMessage : this.$t.__('An error occurred while adding your redirects. Please try again later.', this.$td)
 			}
 		}
 	},
@@ -274,7 +289,7 @@ export default {
 			return null
 		},
 		sourceUrl () {
-			return 1 < this.sourceUrls.length ? this.$t.__('Source URL\'s', this.$td) : this.$t.__('Source URL', this.$td)
+			return 1 < this.sourceUrls.length ? this.$t.__('Source URLs', this.$td) : this.$t.__('Source URL', this.$td)
 		},
 		addRedirect () {
 			return 1 < this.sourceUrls.length ? this.$t.__('Add Redirects', this.$td) : this.$t.__('Add Redirect', this.$td)
@@ -291,17 +306,24 @@ export default {
 				!this.beginsWith(this.targetUrl, 'http://') &&
 				'/' !== this.targetUrl.substr(0, 1)
 			) {
-				// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
-				errors.push(this.$t.sprintf(this.$t.__('Your target URL should be an absolute URL like %1$s or start with a slash.', this.$td), '<code>https://domain.com/' + this.targetUrl + '</code>', '<code>/' + this.targetUrl + '</code>'))
+				errors.push(this.$t.sprintf(
+					// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
+					this.$t.__('Your target URL should be an absolute URL like %1$s or start with a slash.', this.$td),
+					'<code>https://domain.com/' + this.targetUrl + '</code>',
+					'<code>/' + this.targetUrl + '</code>'
+				))
 			}
 
 			const matches = this.targetUrl.match(/[|\\$]/g)
 			if (null !== matches) {
-				// Let's make sure that all URL's have regex enabled or else we fail.
+				// Let's make sure that all URLs have regex enabled or else we fail.
 				const regex = this.sourceUrls.map(u => u.regex)
 				if (!regex.every(a => a)) {
-					// Translators: 1 - Adds a html tag with an option like: <code>^</code>.
-					errors.push(this.$t.sprintf(this.$t.__('Your target URL contains the invalid character(s) %1$s', this.$td), '<code>' + matches + '</code>'))
+					errors.push(this.$t.sprintf(
+						// Translators: 1 - Adds a html tag with an option like: <code>^</code>.
+						this.$t.__('Your target URL contains the invalid character(s) %1$s', this.$td),
+						'<code>' + matches + '</code>'
+					))
 				}
 			}
 
@@ -314,7 +336,12 @@ export default {
 
 			const warnings = []
 			if (this.getRelativeAbsolute) {
-				warnings.push(this.$t.sprintf(this.$t.__('Your URL appears to contain a domain inside the path: %1$s. Did you mean to use %2$s instead?', this.$td), '<code>' + this.getRelativeAbsolute + '</code>', '<code>https:/' + this.getRelativeAbsolute + '</code>'))
+				warnings.push(this.$t.sprintf(
+					// Translators: 1 - Domain URL, 2 - Domain URL.
+					this.$t.__('Your URL appears to contain a domain inside the path: %1$s. Did you mean to use %2$s instead?', this.$td),
+					'<code>' + this.getRelativeAbsolute + '</code>',
+					'<code>https:/' + this.getRelativeAbsolute + '</code>'
+				))
 			}
 
 			return warnings
@@ -506,7 +533,7 @@ export default {
 				if (
 					urls.includes(u.url.replace(/\/$/, ''))
 				) {
-					this.sourceUrls[i].errors.push(this.$t.__('This is a duplicate of a URL you are already adding. You can only add unique source URL\'s.', this.$td))
+					this.sourceUrls[i].errors.push(this.$t.__('This is a duplicate of a URL you are already adding. You can only add unique source URLs.', this.$td))
 					return
 				}
 

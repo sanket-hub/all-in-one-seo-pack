@@ -7,7 +7,7 @@ import removePunctuation from '../stringProcessing/removePunctuation.js'
 import { unifyAllSpaces as unifyWhitespace } from '../stringProcessing/unifyWhitespace.js'
 import matchStringWithTransliteration from '../stringProcessing/matchTextWithTransliteration.js'
 import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js'
-import map from 'lodash/map'
+import { map } from 'lodash-es'
 
 /**
  * Returns the number of matches in a given string

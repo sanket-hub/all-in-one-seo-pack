@@ -8,14 +8,18 @@
 </template>
 
 <script>
+import SvgAioseoLogoGear from '@/vue/components/common/svg/aioseo/LogoGear'
 export default {
+	components : {
+		SvgAioseoLogoGear
+	},
 	data () {
 		return {
 			strings : {
 				boldText : this.$t.sprintf(
 					'<strong>%1$s %2$s</strong>',
-					process.env.VUE_APP_SHORT_NAME,
-					this.$isPro ? this.$t.__('Pro', this.$td) : ''
+					import.meta.env.VITE_SHORT_NAME,
+					this.$isPro ? 'Pro' : ''
 				),
 				linkText : this.$t.__('Click here to learn more', this.$td)
 			}
@@ -23,11 +27,19 @@ export default {
 	},
 	computed : {
 		link () {
-			return this.$t.sprintf('<strong><a href="%1$s" target="_blank" class="text-white">%2$s</a></strong>', this.$links.getDocUrl('restApi'), this.strings.linkText)
+			return this.$t.sprintf(
+				'<strong><a href="%1$s" target="_blank" class="text-white">%2$s</a></strong>',
+				this.$links.getDocUrl('restApi'),
+				this.strings.linkText
+			)
 		},
 		upgradeText () {
-			// Translators: 1 - The plugin name ("All in One SEO"), 2 - "upgrading to Pro".
-			return this.$t.sprintf(this.$t.__('%1$s relies on the WordPress Rest API and your site might have it disabled. %2$s.', this.$td), this.strings.boldText, this.link)
+			return this.$t.sprintf(
+				// Translators: 1 - The plugin name ("All in One SEO"), 2 - "upgrading to Pro".
+				this.$t.__('%1$s relies on the WordPress Rest API and your site might have it disabled. %2$s.', this.$td),
+				this.strings.boldText,
+				this.link
+			)
 		}
 	},
 	mounted () {

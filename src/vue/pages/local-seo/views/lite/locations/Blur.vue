@@ -101,7 +101,15 @@
 </template>
 
 <script>
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 export default {
+	components : {
+		CoreBlur,
+		CoreSettingsRow,
+		SvgCirclePlus
+	},
 	data () {
 		return {
 			strings : {

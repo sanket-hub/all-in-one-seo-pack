@@ -33,7 +33,13 @@
 </template>
 
 <script>
+import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index.vue'
+import SvgSeoSiteScoreLoading from '@/vue/components/common/svg/seo-site-score/Loading'
 export default {
+	components : {
+		SvgSeoSiteScore,
+		SvgSeoSiteScoreLoading
+	},
 	props : {
 		score       : Number,
 		loading     : Boolean,

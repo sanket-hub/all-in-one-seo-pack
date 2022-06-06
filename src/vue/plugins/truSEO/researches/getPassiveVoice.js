@@ -1,17 +1,17 @@
-import getSentences from "./stringProcessing/getSentences.js";
-import { stripFullTags as stripHTMLTags } from "./stringProcessing/stripHTMLTags.js";
-import getLanguage from "./helpers/getLanguage.js";
-import Sentence from "../values/Sentence.js";
+import getSentences from './stringProcessing/getSentences.js'
+import { stripFullTags as stripHTMLTags } from './stringProcessing/stripHTMLTags.js'
+import getLanguage from './helpers/getLanguage.js'
+import Sentence from '../values/Sentence.js'
 
-import forEach from "lodash/forEach";
+import { forEach } from 'lodash-es'
 
-import isPassiveSentencePart from "./passiveVoice/periphrastic/determinePassiveSentencePart.js";
-import isPassiveSentence from "./passiveVoice/morphological/determinePassiveSentence.js";
-import getPeriphrasticSentencePartsDefault from "./passiveVoice/periphrastic/getSentenceParts.js";
-import getPeriphrasticSentencePartsSplitOnStopwords from "./passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js";
+import isPassiveSentencePart from './passiveVoice/periphrastic/determinePassiveSentencePart.js'
+import isPassiveSentence from './passiveVoice/morphological/determinePassiveSentence.js'
+import getPeriphrasticSentencePartsDefault from './passiveVoice/periphrastic/getSentenceParts.js'
+import getPeriphrasticSentencePartsSplitOnStopwords from './passiveVoice/periphrastic/getSentencePartsSplitOnStopwords.js'
 
-const morphologicalLanguages = [ "ru", "tr", "sv", "id", "ar" ];
-const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", "pl" ];
+const morphologicalLanguages = [ 'ru', 'tr', 'sv', 'id', 'ar' ]
+const periphrasticLanguages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'cn', 'pl' ]
 
 /* Languages that employ both morphological and periphrastic passive voice marking have not been implemented yet.
  * const morphologicalAndPeriphrasticLanguages = [ "da", "nb" ];
@@ -24,22 +24,22 @@ const periphrasticLanguages = [ "en", "de", "nl", "fr", "es", "it", "pt", "cn", 
  * @param {string} language Language of the text.
  * @returns {Object} The found passive sentences.
  */
-const getMorphologicalPassives = function( sentences, language ) {
-	const passiveSentences = [];
+const getMorphologicalPassives = function (sentences, language) {
+	const passiveSentences = []
 
-	forEach( sentences, function( sentence ) {
-		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+	forEach(sentences, function (sentence) {
+		const strippedSentence = stripHTMLTags(sentence.getSentenceText()).toLocaleLowerCase()
 
-		sentence.setPassive( isPassiveSentence( strippedSentence, language ) );
+		sentence.setPassive(isPassiveSentence(strippedSentence, language))
 
-		if ( sentence.isPassive() === true ) {
-			passiveSentences.push( sentence.getSentenceText() );
+		if (true === sentence.isPassive()) {
+			passiveSentences.push(sentence.getSentenceText())
 		}
-	} );
+	})
 	return {
-		passiveSentences,
-	};
-};
+		passiveSentences
+	}
+}
 
 /**
  * Looks for periphrastic passive voice.
@@ -48,59 +48,60 @@ const getMorphologicalPassives = function( sentences, language ) {
  * @param {string} language Language of the text.
  * @returns {Object} The found passive sentences.
  */
-const getPeriphrasticPassives = function( sentences, language ) {
-	const passiveSentences = [];
+const getPeriphrasticPassives = function (sentences, language) {
+	const passiveSentences = []
 
-	forEach( sentences, function( sentence ) {
-		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
+	forEach(sentences, function (sentence) {
+		const strippedSentence = stripHTMLTags(sentence.getSentenceText()).toLocaleLowerCase()
 
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
-		let sentenceParts = [];
+		let sentenceParts = [],
+			passive       = false
 
-		if ( language === "de" || language === "nl" || language === "pl" ) {
-			sentenceParts = getPeriphrasticSentencePartsSplitOnStopwords( strippedSentence, language );
+		if ('de' === language || 'nl' === language || 'pl' === language) {
+			sentenceParts = getPeriphrasticSentencePartsSplitOnStopwords(strippedSentence, language)
 		} else {
-			sentenceParts = getPeriphrasticSentencePartsDefault( strippedSentence, language );
+			sentenceParts = getPeriphrasticSentencePartsDefault(strippedSentence, language)
 		}
 
-		let passive = false;
-		forEach( sentenceParts, function( sentencePart ) {
-			sentencePart.setPassive( isPassiveSentencePart( sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language ) );
-			passive = passive || sentencePart.isPassive();
-		} );
-		if ( passive ) {
-			passiveSentences.push( sentence.getSentenceText() );
+		forEach(sentenceParts, function (sentencePart) {
+			sentencePart.setPassive(isPassiveSentencePart(sentencePart.getSentencePartText(), sentencePart.getAuxiliaries(), language))
+			passive = passive || sentencePart.isPassive()
+		})
+		if (passive) {
+			passiveSentences.push(sentence.getSentenceText())
 		}
-	} );
+	})
 	return {
-		passiveSentences,
-	};
-};
+		passiveSentences
+	}
+}
 
 /**
  * Determines the number of passive sentences in the text.
  *
- * @param {Paper} paper The paper object to get the text from.
+ * @param {string} text The text to lookup.
+ * @param {string} locale The locale to use.
  * @returns {Object} The total number of sentences in the text and the found passive sentences.
  */
-export default function( text, locale ) {
-	const language = getLanguage( locale );
-	const sentences = getSentences( text )
-		.map( function( sentence ) {
-			return new Sentence( sentence );
-		} );
-	const totalNumberSentences = sentences.length;
+export default function (text, locale) {
+	const language = getLanguage(locale)
+	const sentences = getSentences(text)
+		.map(function (sentence) {
+			return new Sentence(sentence)
+		})
+	const totalNumberSentences = sentences.length
 
-	if ( morphologicalLanguages.includes( language ) ) {
+	if (morphologicalLanguages.includes(language)) {
 		return {
-			total: totalNumberSentences,
-			passives: getMorphologicalPassives( sentences, language ).passiveSentences,
-		};
+			total    : totalNumberSentences,
+			passives : getMorphologicalPassives(sentences, language).passiveSentences
+		}
 	}
-	if ( periphrasticLanguages.includes( language ) ) {
+	if (periphrasticLanguages.includes(language)) {
 		return {
-			total: totalNumberSentences,
-			passives: getPeriphrasticPassives( sentences, language ).passiveSentences,
-		};
+			total    : totalNumberSentences,
+			passives : getPeriphrasticPassives(sentences, language).passiveSentences
+		}
 	}
 }

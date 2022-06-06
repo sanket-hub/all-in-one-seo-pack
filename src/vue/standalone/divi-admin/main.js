@@ -1,15 +1,12 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
+
 import '@/vue/components/common'
+import '@/vue/components/AIOSEO_VERSION'
 
 import App from './App.vue'
 import store from '@/vue/store'
-
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-
-Vue.config.productionTip = false
 
 /**
  * Mount the Alert component inside each tab of the SEO settings from Divi.

@@ -119,7 +119,9 @@
 			</template>
 
 			<template #featured-image>
-				<img src="@/vue/assets/images/upsells/news-sitemap.png" />
+				<img
+					:src="$getImgUrl(ctaImg)"
+				/>
 			</template>
 		</cta>
 	</div>
@@ -128,27 +130,58 @@
 <script>
 import { License } from '@/vue/mixins'
 import { mapActions, mapGetters, mapState } from 'vuex'
+
+import ctaImg from '@/vue/assets/images/upsells/news-sitemap.png'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreFeatureCard from '@/vue/components/common/core/FeatureCard'
+import Cta from '@/vue/components/common/cta/Index.vue'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgCode from '@/vue/components/common/svg/Code'
+import SvgImageSeo from '@/vue/components/common/svg/ImageSeo'
+import SvgLinkAssistant from '@/vue/components/common/svg/link/Assistant'
+import SvgLocalBusiness from '@/vue/components/common/svg/local/Business'
+import SvgRedirect from '@/vue/components/common/svg/Redirect'
+import SvgSitemapsPro from '@/vue/components/common/svg/SitemapsPro'
+
 export default {
+	components : {
+		CoreAlert,
+		CoreFeatureCard,
+		Cta,
+		GridColumn,
+		GridRow,
+		SvgCode,
+		SvgImageSeo,
+		SvgLinkAssistant,
+		SvgLocalBusiness,
+		SvgRedirect,
+		SvgSitemapsPro
+	},
 	mixins : [ License ],
 	data () {
 		return {
+			ctaImg,
 			search  : null,
 			loading : {
 				activateAll   : false,
 				deactivateAll : false
 			},
 			strings : {
-				videoNewsSitemaps       : this.$t.__('Video and News Sitemaps', this.$td),
-				imageSeoOptimization    : this.$t.__('Image SEO Optimization', this.$td),
-				localBusinessSeo        : this.$t.__('Local Business SEO', this.$td),
-				advancedWooCommerce     : this.$t.__('Advanced WooCommerce', this.$td),
-				customTaxonomies        : this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
-				andMore                 : this.$t.__('And many more...', this.$td),
-				activateAllFeatures     : this.$t.__('Activate All Features', this.$td),
-				deactivateAllFeatures   : this.$t.__('Deactivate All Features', this.$td),
-				searchForFeatures       : this.$t.__('Search for Features...', this.$td),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				ctaHeaderText           : this.$t.sprintf(this.$t.__('Upgrade %1$s to Pro and Unlock all Features!', this.$td), process.env.VUE_APP_SHORT_NAME),
+				videoNewsSitemaps     : this.$t.__('Video and News Sitemaps', this.$td),
+				imageSeoOptimization  : this.$t.__('Image SEO Optimization', this.$td),
+				localBusinessSeo      : this.$t.__('Local Business SEO', this.$td),
+				advancedWooCommerce   : this.$t.__('Advanced WooCommerce', this.$td),
+				customTaxonomies      : this.$t.__('SEO for Categories, Tags and Custom Taxonomies', this.$td),
+				andMore               : this.$t.__('And many more...', this.$td),
+				activateAllFeatures   : this.$t.__('Activate All Features', this.$td),
+				deactivateAllFeatures : this.$t.__('Deactivate All Features', this.$td),
+				searchForFeatures     : this.$t.__('Search for Features...', this.$td),
+				ctaHeaderText         : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('Upgrade %1$s to Pro and Unlock all Features!', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 				ctaButtonText           : this.$t.__('Upgrade to Pro and Unlock All Features', this.$td),
 				aValidLicenseIsRequired : this.$t.__('A valid license key is required in order to use our addons.', this.$td),
 				enterLicenseKey         : this.$t.__('Enter License Key', this.$td),
@@ -178,8 +211,12 @@ export default {
 		...mapGetters([ 'isUnlicensed' ]),
 		...mapState([ 'addons' ]),
 		upgradeToday () {
-			// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
-			return this.$t.sprintf(this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+			return this.$t.sprintf(
+				// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
+				this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td),
+				import.meta.env.VITE_SHORT_NAME,
+				'Pro'
+			)
 		},
 		getAddons () {
 			return this.addons

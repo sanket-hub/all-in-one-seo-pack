@@ -2,7 +2,7 @@
 	<div class="aioseo-google-search-preview">
 		<div class="domain">
 			<slot name="domain">
-				{{ $aioseo.urls.domain }}
+				{{ domain }}
 			</slot>
 		</div>
 
@@ -31,10 +31,13 @@ export default {
 			type     : String,
 			required : true
 		},
-		separator : {
-			type     : String,
-			required : true
-		}
+		domain : {
+			type : String,
+			default () {
+				return this.$aioseo.urls.domain
+			}
+		},
+		separator : String
 	}
 }
 </script>

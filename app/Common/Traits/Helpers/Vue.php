@@ -26,6 +26,17 @@ trait Vue {
 	 * @return array                The data.
 	 */
 	public function getVueData( $page = null, $staticPostId = null, $integration = null ) {
+		static $showNotificationsDrawer = null;
+		if ( null === $showNotificationsDrawer ) {
+			$showNotificationsDrawer = aioseo()->core->cache->get( 'show_notifications_drawer' ) ? true : false;
+
+			// IF this is set to true, let's disable it now so it doesn't pop up again.
+			if ( $showNotificationsDrawer ) {
+				aioseo()->core->cache->delete( 'show_notifications_drawer' );
+			}
+		}
+
+		global $wp_version;
 		$screen = aioseo()->helpers->getCurrentScreen();
 
 		$isStaticHomePage = 'page' === get_option( 'show_on_front' );
@@ -49,31 +60,42 @@ trait Vue {
 				'mainSiteUrl'       => $this->getSiteUrl(),
 				'home'              => home_url(),
 				'restUrl'           => rest_url(),
-				'publicPath'        => plugin_dir_url( AIOSEO_FILE ),
-				'rssFeedUrl'        => get_bloginfo( 'rss2_url' ),
+				'editScreen'        => admin_url( 'edit.php' ),
+				'publicPath'        => aioseo()->core->assets->normalizeAssetsHost( plugin_dir_url( AIOSEO_FILE ) ),
+				'assetsPath'        => aioseo()->core->assets->getAssetsPath(),
 				'generalSitemapUrl' => aioseo()->sitemap->helpers->getUrl( 'general' ),
 				'rssSitemapUrl'     => aioseo()->sitemap->helpers->getUrl( 'rss' ),
 				'robotsTxtUrl'      => $this->getSiteUrl() . '/robots.txt',
 				'blockedBotsLogUrl' => wp_upload_dir()['baseurl'] . '/aioseo/logs/aioseo-bad-bot-blocker.log',
 				'upgradeUrl'        => apply_filters( 'aioseo_upgrade_link', AIOSEO_MARKETING_URL ),
 				'staticHomePage'    => 'page' === get_option( 'show_on_front' ) ? get_edit_post_link( get_option( 'page_on_front' ), 'url' ) : null,
+				'feeds'             => [
+					'rdf'            => get_bloginfo( 'rdf_url' ),
+					'rss'            => get_bloginfo( 'rss_url' ),
+					'atom'           => get_bloginfo( 'atom_url' ),
+					'global'         => get_bloginfo( 'rss2_url' ),
+					'globalComments' => get_bloginfo( 'comments_rss2_url' ),
+					'staticBlogPage' => $this->getBlogPageId() ? trailingslashit( get_permalink( $this->getBlogPageId() ) ) . 'feed' : ''
+				],
 				'connect'           => add_query_arg( [
 					'siteurl'  => site_url(),
 					'homeurl'  => home_url(),
 					'redirect' => rawurldecode( base64_encode( admin_url( 'index.php?page=aioseo-connect' ) ) )
 				], defined( 'AIOSEO_CONNECT_URL' ) ? AIOSEO_CONNECT_URL : 'https://connect.aioseo.com' ),
 				'aio'               => [
-					'wizard'           => admin_url( 'index.php?page=aioseo-setup-wizard' ),
 					'dashboard'        => admin_url( 'admin.php?page=aioseo' ),
-					'settings'         => admin_url( 'admin.php?page=aioseo-settings' ),
-					'localSeo'         => admin_url( 'admin.php?page=aioseo-local-seo' ),
 					'featureManager'   => admin_url( 'admin.php?page=aioseo-feature-manager' ),
-					'sitemaps'         => admin_url( 'admin.php?page=aioseo-sitemaps' ),
-					'seoAnalysis'      => admin_url( 'admin.php?page=aioseo-seo-analysis' ),
+					'linkAssistant'    => admin_url( 'admin.php?page=aioseo-link-assistant' ),
+					'localSeo'         => admin_url( 'admin.php?page=aioseo-local-seo' ),
+					'monsterinsights'  => admin_url( 'admin.php?page=aioseo-monsterinsights' ),
+					'redirects'        => admin_url( 'admin.php?page=aioseo-redirects' ),
 					'searchAppearance' => admin_url( 'admin.php?page=aioseo-search-appearance' ),
+					'seoAnalysis'      => admin_url( 'admin.php?page=aioseo-seo-analysis' ),
+					'settings'         => admin_url( 'admin.php?page=aioseo-settings' ),
+					'sitemaps'         => admin_url( 'admin.php?page=aioseo-sitemaps' ),
 					'socialNetworks'   => admin_url( 'admin.php?page=aioseo-social-networks' ),
 					'tools'            => admin_url( 'admin.php?page=aioseo-tools' ),
-					'monsterinsights'  => admin_url( 'admin.php?page=aioseo-monsterinsights' )
+					'wizard'           => admin_url( 'index.php?page=aioseo-setup-wizard' )
 				],
 				'admin'             => [
 					'widgets'          => admin_url( 'widgets.php' ),
@@ -103,7 +125,7 @@ trait Vue {
 				'multisite'           => is_multisite(),
 				'network'             => is_network_admin(),
 				'mainSite'            => is_main_site(),
-				'subdomain'           => apply_filters( 'aioseo_multisite_subdomain', defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ),
+				'subdomain'           => $this->isSubdomain(),
 				'isWooCommerceActive' => $this->isWooCommerceActive(),
 				'isBBPressActive'     => class_exists( 'bbPress' ),
 				'staticHomePage'      => $isStaticHomePage ? $staticHomePage : false,
@@ -129,9 +151,12 @@ trait Vue {
 				'archives'     => $this->getPublicPostTypes( false, true, true ),
 				'postStatuses' => $this->getPublicPostStatuses()
 			],
-			'notifications'    => Models\Notification::getNotifications( false ),
+			'notifications'    => array_merge( Models\Notification::getNotifications( false ), [
+				'force' => $showNotificationsDrawer ? true : false
+			] ),
 			'addons'           => aioseo()->addons->getAddons(),
 			'version'          => AIOSEO_VERSION,
+			'wpVersion'        => $wp_version,
 			'helpPanel'        => json_decode( aioseo()->help->getDocs() ),
 			'scheduledActions' => [
 				'sitemaps' => []
@@ -163,9 +188,7 @@ trait Vue {
 				'title'                          => ! empty( $post->title ) ? $post->title : aioseo()->meta->title->getPostTypeTitle( $postTypeObj->name ),
 				'description'                    => ! empty( $post->description ) ? $post->description : aioseo()->meta->description->getPostTypeDescription( $postTypeObj->name ),
 				'keywords'                       => ! empty( $post->keywords ) ? $post->keywords : wp_json_encode( [] ),
-				'keyphrases'                     => ! empty( $post->keyphrases )
-					? json_decode( $post->keyphrases )
-					: Models\Post::getKeyphrasesDefaults(),
+				'keyphrases'                     => Models\Post::getKeyphrasesDefaults( $post->keyphrases ),
 				'page_analysis'                  => ! empty( $post->page_analysis )
 					? json_decode( $post->page_analysis )
 					: Models\Post::getPageAnalysisDefaults(),
@@ -252,6 +275,13 @@ trait Vue {
 			}
 		}
 
+		if ( 'dashboard' === $page ) {
+			$data['setupWizard']['isCompleted'] = aioseo()->standalone->setupWizard->isCompleted();
+			$data['rssFeed']                    = aioseo()->dashboard->getAioseoRssFeed();
+			$data['seoOverview']                = aioseo()->postSettings->getPostTypesOverview();
+			$data['importers']                  = aioseo()->importExport->plugins();
+		}
+
 		if ( 'sitemaps' === $page ) {
 			try {
 				if ( as_next_scheduled_action( 'aioseo_static_sitemap_regeneration' ) ) {
@@ -265,6 +295,10 @@ trait Vue {
 		if ( 'setup-wizard' === $page ) {
 			$data['users']     = $this->getSiteUsers( [ 'administrator', 'editor', 'author' ] );
 			$data['importers'] = aioseo()->importExport->plugins();
+			$data['data'] += [
+				'staticHomePageTitle'       => $isStaticHomePage ? aioseo()->meta->title->getTitle( $staticHomePage ) : '',
+				'staticHomePageDescription' => $isStaticHomePage ? aioseo()->meta->description->getDescription( $staticHomePage ) : '',
+			];
 		}
 
 		if ( 'search-appearance' === $page ) {
@@ -306,6 +340,12 @@ trait Vue {
 
 		if ( 'settings' === $page ) {
 			$data['breadcrumbs']['defaultTemplate'] = aioseo()->helpers->encodeOutputHtml( aioseo()->breadcrumbs->frontend->getDefaultTemplate() );
+		}
+
+		if ( 'divi' === $integration ) {
+			// This needs to be dropped in order to prevent JavaScript errors in Divi's visual builder.
+			// Some of the data from the site analysis can contain HTML tags, e.g. the search preview, and somehow that causes JSON.parse to fail on our localized Vue data.
+			unset( $data['internalOptions']['internal']['siteAnalysis'] );
 		}
 
 		return $data;

@@ -91,6 +91,7 @@
 			<core-settings-row
 				:name="strings.sortOrder"
 				class="aioseo-sort-order"
+				align
 			>
 				<template #content>
 					<base-select
@@ -105,6 +106,7 @@
 			<core-settings-row
 				:name="strings.sortDirection"
 				class="aioseo-sort-direction"
+				align
 			>
 				<template #content>
 					<base-select
@@ -118,6 +120,7 @@
 
 			<core-settings-row
 				:name="strings.publicationDate"
+				align
 			>
 				<template #content>
 					<base-radio-toggle
@@ -137,6 +140,7 @@
 
 			<core-settings-row
 				:name="strings.compactArchives"
+				align
 			>
 				<template #content>
 					<base-radio-toggle
@@ -187,6 +191,7 @@
 				<core-settings-row
 					:name="strings.excludePostsPages"
 					class="aioseo-exclude-pages-posts"
+					align
 				>
 					<template #content>
 						<core-exclude-posts
@@ -199,6 +204,7 @@
 				<core-settings-row
 					:name="strings.excludeTerms"
 					class="aioseo-exclude-terms"
+					align
 				>
 					<template #content>
 						<core-exclude-posts
@@ -214,8 +220,23 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreExcludePosts from '@/vue/components/common/core/ExcludePosts'
+import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import HtmlSitemapDisplayInfo from '@/vue/components/common/html-sitemap/DisplayInfo'
 export default {
+	components : {
+		BaseCheckbox,
+		BaseRadioToggle,
+		CoreCard,
+		CoreExcludePosts,
+		CorePostTypeOptions,
+		CoreSettingsRow,
+		HtmlSitemapDisplayInfo
+	},
 	data () {
 		return {
 			sortOrders : [
@@ -238,7 +259,7 @@ export default {
 						// Translators: 1 - Opening HTML strong tag, 2 - The plugin short name ("AIOSEO"), 3 - Closing HTML strong tag.
 						this.$t.__('To add this block, edit a page or post and search for the %1$s"%2$s - HTML Sitemap"%3$s block.', this.$td),
 						'<strong>',
-						process.env.VUE_APP_SHORT_NAME,
+						import.meta.env.VITE_SHORT_NAME,
 						'</strong>'
 					)
 				},
@@ -257,7 +278,7 @@ export default {
 						this.$t.__('To add this widget, visit the %1$swidgets page%2$s and look for the %3$s"%4$s - HTML Sitemap"%5$s widget.', this.$td),
 						`<a href="${this.$aioseo.urls.admin.widgets}" target="_blank">`, '</a>',
 						'<strong>',
-						process.env.VUE_APP_SHORT_NAME,
+						import.meta.env.VITE_SHORT_NAME,
 						'</strong>'
 					)
 				},
@@ -274,7 +295,7 @@ export default {
 				title                      : this.$t.__('HTML Sitemap', this.$td),
 				enableSitemap              : this.$t.__('Enable Sitemap', this.$td),
 				settings                   : this.$t.__('HTML Sitemap Settings', this.$td),
-				description                : this.$t.sprintf(this.$t.__('Using the custom-built tools below, you can add an HTML sitemap to your website and help visitors discover all your content. Adding an HTML sitemap to your website may also help search engines find your content more easily.', this.$td), process.env.VUE_APP_NAME),
+				description                : this.$t.__('Using the custom-built tools below, you can add an HTML sitemap to your website and help visitors discover all your content. Adding an HTML sitemap to your website may also help search engines find your content more easily.', this.$td),
 				displayLabel               : this.$t.__('Display HTML Sitemap', this.$td),
 				postTypes                  : this.$t.__('Post Types', this.$td),
 				taxonomies                 : this.$t.__('Taxonomies', this.$td),

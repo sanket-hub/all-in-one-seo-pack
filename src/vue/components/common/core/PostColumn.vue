@@ -195,11 +195,19 @@
 
 <script>
 import { getOptions } from '@/vue/utils/options'
-import merge from 'lodash/merge'
+import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
 import { Tags, TruSeoScore } from '@/vue/mixins'
 import { shouldShowTruSeoScore } from '@/vue/plugins/truSEO/components'
+import CoreScoreButton from '@/vue/components/common/core/ScoreButton'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 export default {
+	components : {
+		CoreScoreButton,
+		SvgCircleCheck,
+		SvgCircleClose
+	},
 	mixins : [ Tags, TruSeoScore ],
 	props  : {
 		post : Object

@@ -8,7 +8,9 @@ export default {
 	settings        : {},
 	notifications   : {
 		active    : [],
-		dismissed : []
+		new       : [],
+		dismissed : [],
+		force     : false
 	},
 	currentPost       : {},
 	helpPanel         : {},

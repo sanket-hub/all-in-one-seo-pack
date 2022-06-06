@@ -1,5 +1,5 @@
 // Characters to be removed from input text.
-const removeRegExp = new RegExp( [
+const removeRegExp = new RegExp([
 	'[',
 
 	// Latin-1 Supplement (extract)
@@ -36,14 +36,14 @@ const removeRegExp = new RegExp( [
 
 	// Supplemental Punctuation
 	'\u2E00-\u2E7F',
-	']',
-].join( '' ), 'g' )
+	']'
+].join(''), 'g')
 
 /**
  * Removes items matched in the regex.
  *
  * @param {string} text The string being counted.
  *
- * @return {string} The manipulated text.
+ * @returns {string} The manipulated text.
  */
-export default ( text ) => text.replace( removeRegExp, '' )
+export default (text) => text.replace(removeRegExp, '')

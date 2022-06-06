@@ -353,15 +353,21 @@ if ( '/sitemap.rss' === $sitemapPath ) {
 						<xsl:if test="position() mod 2 != 0">
 							<xsl:attribute name="class">stripe</xsl:attribute>
 						</xsl:if>
+
 						<td class="left">
 							<xsl:variable name="itemURL">
 								<xsl:value-of select="sitemap:loc"/>
 							</xsl:variable>
+
 							<xsl:choose>
-								<xsl:when test="sitemap:loc/@language != ''">
-									<a href="{$itemURL}" class="localized">
-										<xsl:value-of select="sitemap:loc"/>
-									</a> &#160;&#8594; <xsl:value-of select="sitemap:loc/@language"/>
+								<xsl:when test="count(./*[@rel='alternate']) > 0">
+									<xsl:for-each select="./*[@rel='alternate']">
+										<xsl:if test="position() = last()">
+											<a href="{current()/@href}" class="localized">
+												<xsl:value-of select="@href"/>
+											</a> &#160;&#8594; <xsl:value-of select="@hreflang"/>
+										</xsl:if>
+									</xsl:for-each>
 								</xsl:when>
 								<xsl:otherwise>
 									<a href="{$itemURL}">
@@ -369,13 +375,17 @@ if ( '/sitemap.rss' === $sitemapPath ) {
 									</a>
 								</xsl:otherwise>
 							</xsl:choose>
+
 							<xsl:for-each select="./*[@rel='alternate']">
 								<br />
-								<a href="{current()/@href}" class="localized">
-									<xsl:value-of select="@href"/>
-								</a> &#160;&#8594; <xsl:value-of select="@hreflang"/>
+								<xsl:if test="position() != last()">
+									<a href="{current()/@href}" class="localized">
+										<xsl:value-of select="@href"/>
+									</a> &#160;&#8594; <xsl:value-of select="@hreflang"/>
+								</xsl:if>
 							</xsl:for-each>
 						</td>
+
 						<?php if ( ! $advanced || ! apply_filters( 'aioseo_sitemap_images', $excludeImages ) ) : ?>
 						<td>
 							<div class="item-count">

@@ -1,7 +1,7 @@
 import { powerWords } from '../researches/config/powerWords'
-import indexOf from 'lodash/indexOf'
+import { indexOf } from 'lodash-es'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	noPowerWords       : 5,
@@ -19,11 +19,14 @@ function titleHasPowerWords (title) {
 	if (hasPowerWords) {
 		return {
 			title       : __('SEO Title has Power Words', td),
-			// Translators: 1 - Number of power words.
-			description : sprintf(__('Your SEO title contains %1$s power word(s). Booyah!', td), powerWordsInText.length),
-			score       : scores.titleHasPowerWords,
-			maxScore    : scores.titleHasPowerWords,
-			error       : 0
+			description : sprintf(
+				// Translators: 1 - Number of power words.
+				__('Your SEO title contains %1$s power word(s). Booyah!', td),
+				powerWordsInText.length
+			),
+			score    : scores.titleHasPowerWords,
+			maxScore : scores.titleHasPowerWords,
+			error    : 0
 		}
 	}
 

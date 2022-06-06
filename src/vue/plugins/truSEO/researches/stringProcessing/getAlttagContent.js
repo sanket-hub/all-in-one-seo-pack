@@ -2,7 +2,7 @@
 
 import stripSpaces from '../stringProcessing/stripSpaces.js'
 
-var regexAltTag = /alt=(['"])(.*?)\1/i
+const regexAltTag = /alt=(['"])(.*?)\1/i
 
 /**
  * Checks for an alttag in the image and returns its content
@@ -11,9 +11,8 @@ var regexAltTag = /alt=(['"])(.*?)\1/i
  * @returns {string} the contents of the alttag, empty if none is set.
  */
 export default function (text) {
-	var alt = '',
-
-	 matches = text.match(regexAltTag)
+	let alt = ''
+	const matches = text.match(regexAltTag)
 
 	if (null !== matches) {
 		alt = stripSpaces(matches[2])

@@ -1,9 +1,9 @@
 import { count } from '@/vue/plugins/wordcount'
-import inRange from 'lodash/inRange'
+import { inRange } from 'lodash-es'
 import findTransitionWords from '../researches/findTransitionWords'
 import formatNumber from '../researches/helpers/formatNumber'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 function calculateTransitionWordPercentage (sentences) {
 	if (0 === sentences.transitionWordSentences || 0 === sentences.totalSentences) {
@@ -52,11 +52,14 @@ function transitionWords (content) {
 	if (7 > score) {
 		return {
 			title       : __('Transition words', td),
-			// Translators: 1 - Percentage of the sentences.
-			description : sprintf(__('Only %1$s of the sentences contain transition words, which is not enough. Use more of them.', td), `${percentage}%`),
-			score       : formatNumber(score),
-			maxScore    : 9,
-			error       : 1
+			description : sprintf(
+				// Translators: 1 - Percentage of the sentences.
+				__('Only %1$s of the sentences contain transition words, which is not enough. Use more of them.', td),
+				`${percentage}%`
+			),
+			score    : formatNumber(score),
+			maxScore : 9,
+			error    : 1
 		}
 	}
 

@@ -39,12 +39,16 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import Advanced from './partials/Advanced'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CustomFields from './partials/CustomFields'
 import Schema from './partials/Schema'
 import TitleDescription from './partials/TitleDescription'
 export default {
 	components : {
 		Advanced,
+		CoreCard,
+		CoreMainTabs,
 		CustomFields,
 		Schema,
 		TitleDescription

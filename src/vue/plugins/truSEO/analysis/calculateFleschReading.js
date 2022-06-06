@@ -1,8 +1,8 @@
-import inRange from 'lodash/inRange'
+import { inRange } from 'lodash-es'
 import calculateFlesch from '../researches/helpers/calculateFleschReading'
 import getLanguageAvailability from '../researches/helpers/getLanguageAvailability'
 import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const availableLanguages = [ 'en', 'nl', 'de', 'it', 'ru', 'fr', 'es', 'pt' ]
 const borders = {
@@ -73,21 +73,30 @@ export default function calculateFleschReading (content) {
 		if (score >= scores.okay) {
 			return {
 				title       : __('Flesch reading ease', td),
-				// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string.
-				description : sprintf(__('The copy scores %1$s in the test, which is considered %2$s to read.', td), fleschReadingResult, feedback),
-				score       : score,
-				maxScore    : 9,
-				error       : 0
+				description : sprintf(
+					// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string.
+					__('The copy scores %1$s in the test, which is considered %2$s to read.', td),
+					fleschReadingResult,
+					feedback
+				),
+				score    : score,
+				maxScore : 9,
+				error    : 0
 			}
 		}
 
 		return {
 			title       : __('Flesch reading ease', td),
-			// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string, 3 - Note string.
-			description : sprintf(__('The copy scores %1$s in the test, which is considered %2$s to read. %3$s', td), fleschReadingResult, feedback, note),
-			score       : score,
-			maxScore    : 9,
-			error       : 1
+			description : sprintf(
+				// Translators: 1 - Flesch Reading Result Number, 2 - Read difficulty string, 3 - Note string.
+				__('The copy scores %1$s in the test, which is considered %2$s to read. %3$s', td),
+				fleschReadingResult,
+				feedback,
+				note
+			),
+			score    : score,
+			maxScore : 9,
+			error    : 1
 		}
 	}
 

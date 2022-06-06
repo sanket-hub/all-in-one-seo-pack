@@ -1,4 +1,4 @@
-import filter from 'lodash/filter'
+import { filter } from 'lodash-es'
 
 import transliterate from './transliterate.js'
 import getWords from './getWords.js'
@@ -12,9 +12,9 @@ import getWords from './getWords.js'
  * @returns {number} The number of occurrences.
  */
 export default function (text, wordToMatch, locale) {
-	var words = getWords(text),
-	 count = filter(words, function (word) {
-			return (wordToMatch === word || transliterate(wordToMatch, locale) === word)
-		})
+	const words = getWords(text)
+	 const count = filter(words, function (word) {
+		return (wordToMatch === word || transliterate(wordToMatch, locale) === word)
+	})
 	return count.length
 }

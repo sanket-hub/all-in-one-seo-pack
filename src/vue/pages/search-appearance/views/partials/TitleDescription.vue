@@ -110,7 +110,17 @@
 
 <script>
 import { MaxCounts } from '@/vue/mixins'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseRadioToggle,
+		CoreGoogleSearchPreview,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow
+	},
 	mixins : [ MaxCounts ],
 	props  : {
 		type : {
@@ -177,8 +187,11 @@ export default {
 	},
 	computed : {
 		title () {
-			// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
-			return this.$t.sprintf(this.$t.__('%1$s Title', this.$td), this.object.singular)
+			return this.$t.sprintf(
+				// Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
+				this.$t.__('%1$s Title', this.$td),
+				this.object.singular
+			)
 		},
 		show () {
 			return this.options.show

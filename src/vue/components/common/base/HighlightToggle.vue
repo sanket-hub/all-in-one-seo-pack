@@ -22,7 +22,13 @@
 </template>
 
 <script>
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseRadio from '@/vue/components/common/base/Radio'
 export default {
+	components : {
+		BaseCheckbox,
+		BaseRadio
+	},
 	props : {
 		type : {
 			type     : String,

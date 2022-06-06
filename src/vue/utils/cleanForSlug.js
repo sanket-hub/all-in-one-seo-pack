@@ -1,5 +1,4 @@
-import deburr from 'lodash/deburr'
-import trim from 'lodash/trim'
+import { deburr, trim } from 'lodash-es'
 
 /**
  * Performs some basic cleanup of a string for use as a post slug.

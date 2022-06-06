@@ -236,8 +236,27 @@
 <script>
 import { mapActions } from 'vuex'
 import { ToolsSettings } from '@/vue/mixins'
-
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreModal from '@/vue/components/common/core/Modal'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
+import SvgCheckmark from '@/vue/components/common/svg/Checkmark'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreAlert,
+		CoreCard,
+		CoreModal,
+		CoreSettingsRow,
+		GridColumn,
+		GridRow,
+		SvgCheckmark,
+		SvgClose
+	},
 	mixins : [ ToolsSettings ],
 	data () {
 		return {
@@ -252,14 +271,18 @@ export default {
 			showSuccess : false,
 			options     : {},
 			strings     : {
-				resetRestoreSettings   : this.$t.__('Reset / Restore Settings', this.$td),
-				selectSettings         : this.$t.__('Select Settings', this.$td),
-				selectSettingsToReset  : this.$t.__('Select settings that you would like to reset:', this.$td),
-				resetSelectedSettings  : this.$t.__('Reset Selected Settings to Default', this.$td),
-				resetSuccess           : this.$t.__('Your settings have been reset successfully!', this.$td),
-				areYouSureReset        : this.$t.__('Are you sure you want to reset the selected settings to default?', this.$td),
-				// Translators: 1 - Opening bold tag. 2 - Closing bold tag.
-				actionCannotBeUndone   : this.$t.sprintf(this.$t.__('This action cannot be undone. Before taking this action, we recommend that you make a %1$sfull website backup first%2$s.', this.$td), '<strong>', '</strong>'),
+				resetRestoreSettings  : this.$t.__('Reset / Restore Settings', this.$td),
+				selectSettings        : this.$t.__('Select Settings', this.$td),
+				selectSettingsToReset : this.$t.__('Select settings that you would like to reset:', this.$td),
+				resetSelectedSettings : this.$t.__('Reset Selected Settings to Default', this.$td),
+				resetSuccess          : this.$t.__('Your settings have been reset successfully!', this.$td),
+				areYouSureReset       : this.$t.__('Are you sure you want to reset the selected settings to default?', this.$td),
+				actionCannotBeUndone  : this.$t.sprintf(
+					// Translators: 1 - Opening bold tag, 2 - Closing bold tag.
+					this.$t.__('This action cannot be undone. Before taking this action, we recommend that you make a %1$sfull website backup first%2$s.', this.$td),
+					'<strong>',
+					'</strong>'
+				),
 				yesIHaveBackup         : this.$t.__('Yes, I have a backup and want to reset the settings', this.$td),
 				noBackup               : this.$t.__('No, I need to make a backup', this.$td),
 				logs                   : this.$t.__('Logs', this.$td),
@@ -270,9 +293,12 @@ export default {
 				clear404Logs           : this.$t.__('Clear 404 Logs', this.$td),
 				redirectLogs           : this.$t.__('Redirect Logs', this.$td),
 				clearRedirectLogs      : this.$t.__('Clear Redirect Logs', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO").
-				allSettings            : this.$t.sprintf(this.$t.__('All %1$s Settings', this.$td), process.env.VUE_APP_SHORT_NAME),
-				logsTooltip            : this.$t.__('Log sizes may fluctuate and not always be 100% accurate since the results can be cached. Also after clearing a log, it may not show as "0" since database tables also include additional information such as indexes that we don\'t clear.', this.$td)
+				allSettings            : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO").
+					this.$t.__('All %1$s Settings', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				logsTooltip : this.$t.__('Log sizes may fluctuate and not always be 100% accurate since the results can be cached. Also after clearing a log, it may not show as "0" since database tables also include additional information such as indexes that we don\'t clear.', this.$td)
 			}
 		}
 	},

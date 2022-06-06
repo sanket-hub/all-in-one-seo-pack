@@ -99,7 +99,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	components : {
+		SvgCircleCheck,
+		TransitionSlide
+	},
 	props : {
 		notification : {
 			type     : Object,
@@ -130,8 +136,11 @@ export default {
 				case 3:
 					return this.$t.__('Help us improve', this.$td)
 				default:
-					// Translators: 1 = The plugin short name ("AIOSEO")
-					return this.$t.sprintf(this.$t.__('Are you enjoying %1$s?', this.$td), process.env.VUE_APP_SHORT_NAME)
+					return this.$t.sprintf(
+						// Translators: 1 - The plugin short name ("AIOSEO").
+						this.$t.__('Are you enjoying %1$s?', this.$td),
+						import.meta.env.VITE_SHORT_NAME
+					)
 			}
 		},
 		content () {
@@ -139,12 +148,17 @@ export default {
 				case 2:
 					return this.$t.__('Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', this.$td) +
 					'<br><br><strong>~ Syed Balkhi<br>' +
-					// Translators: The plugin name ("All in One SEO").
-					this.$t.sprintf(this.$t.__('CEO of %1$s', this.$td), process.env.VUE_APP_NAME) +
-					'</strong>'
+					this.$t.sprintf(
+						// Translators: The plugin name ("All in One SEO").
+						this.$t.__('CEO of %1$s', this.$td),
+						import.meta.env.VITE_NAME
+					) + '</strong>'
 				case 3:
-					// Translators: The plugin name ("All in One SEO").
-					return this.$t.sprintf(this.$t.__('We\'re sorry to hear you aren\'t enjoying %1$s. We would love a chance to improve. Could you take a minute and let us know what we can do better?', this.$td), process.env.VUE_APP_NAME)
+					return this.$t.sprintf(
+						// Translators: The plugin name ("All in One SEO").
+						this.$t.__('We\'re sorry to hear you aren\'t enjoying %1$s. We would love a chance to improve. Could you take a minute and let us know what we can do better?', this.$td),
+						import.meta.env.VITE_NAME
+					)
 				default:
 					return ''
 			}

@@ -1,13 +1,19 @@
 /* globals seedprod_app */
 import Vue from 'vue'
+
 import '@/vue/plugins'
+import TruSEO from '@/vue/plugins/truSEO'
 import '@/vue/components/common'
+import '@/vue/components/AIOSEO_VERSION'
+
 import initWatcher from './watcher'
 
-import App from '@/vue/pages/post-settings/App.vue'
+import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
 
 import { maybeUpdatePost as updatePostData } from '@/vue/plugins/truSEO/components'
+
+Vue.prototype.$truSEO = new TruSEO()
 
 /**
  * Mount our Component inside the SEO tab.
@@ -43,7 +49,9 @@ const mountComponent = () => {
  */
 const fixStyleTag = () => {
 	const style = document.getElementById('aioseo-seedprod-common-css')
-	style.setAttribute('href', style.getAttribute('data-href'))
+	if (style) {
+		style.setAttribute('href', style.getAttribute('data-href'))
+	}
 }
 
 /**

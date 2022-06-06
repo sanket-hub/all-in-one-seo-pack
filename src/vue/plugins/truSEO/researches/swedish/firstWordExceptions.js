@@ -3,15 +3,15 @@
  *
  * @returns {string[]} The array filled with exceptions.
  */
-export default function() {
+export default function () {
 	return [
 		// Indefinite articles:
-		"ett",
+		'ett',
 		// Definite articles:
-		"det", "den", "de",
+		'det', 'den', 'de',
 		// Numbers 1-10:
-		"en", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio",
+		'en', 'två', 'tre', 'fyra', 'fem', 'sex', 'sju', 'åtta', 'nio', 'tio',
 		// Demonstrative pronouns:
-		"denne", "denna", "detta", "dessa",
-	];
+		'denne', 'denna', 'detta', 'dessa'
+	]
 }

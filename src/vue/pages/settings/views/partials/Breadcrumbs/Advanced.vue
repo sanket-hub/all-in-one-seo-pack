@@ -2,6 +2,7 @@
 	<div class="content">
 		<core-settings-row
 			:name="strings.showPaged"
+			align
 		>
 			<template #content>
 				<base-radio-toggle
@@ -43,6 +44,7 @@
 
 		<core-settings-row
 			:name="strings.taxonomySkipUnselected"
+			align
 		>
 			<template #content>
 				<base-radio-toggle
@@ -63,8 +65,15 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseRadioToggle,
+		CoreHtmlTagsEditor,
+		CoreSettingsRow
+	},
 	data () {
 		return {
 			strings : {

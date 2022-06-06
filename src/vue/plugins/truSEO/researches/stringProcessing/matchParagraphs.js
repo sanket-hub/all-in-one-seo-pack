@@ -1,6 +1,4 @@
-import map from 'lodash/map'
-import flatMap from 'lodash/flatMap'
-import filter from 'lodash/filter'
+import { map, flatMap, filter } from 'lodash-es'
 
 import { getBlocks } from '../helpers/html'
 
@@ -32,14 +30,13 @@ const getParagraphsInTags = function (text) {
  * @returns {Array} The array containing all paragraphs from the text.
  */
 export default function (text) {
-	let paragraphs = getParagraphsInTags(text)
+	let paragraphs = getParagraphsInTags(text),
+		// If no <p> tags found, split on double linebreaks.
+		blocks = getBlocks(text)
 
 	if (0 < paragraphs.length) {
 		return paragraphs
 	}
-
-	// If no <p> tags found, split on double linebreaks.
-	let blocks = getBlocks(text)
 
 	blocks = filter(blocks, function (block) {
 		// Match explicit paragraph tags, or if a block has no HTML tags.

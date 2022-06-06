@@ -39,9 +39,17 @@
 
 <script>
 import Blur from './Blur'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
-		Blur
+		Blur,
+		CoreAlert,
+		CoreCard,
+		CoreProBadge,
+		Cta
 	},
 	data () {
 		return {
@@ -52,11 +60,15 @@ export default {
 				this.$t.__('Detailed Address, Contact and Payment Info', this.$td)
 			],
 			strings : {
-				locationInfo1       : this.$t.__('Local Business schema markup enables you to tell Google about your business, including your business name, address and phone number, opening hours and price range. This information may be displayed as a Knowledge Graph card or business carousel.', this.$td),
-				businessInfo        : this.$t.__('Business Info', this.$td),
-				ctaButtonText       : this.$t.__('Upgrade to Pro and Unlock Local SEO', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader           : this.$t.sprintf(this.$t.__('Local SEO is only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
+				locationInfo1 : this.$t.__('Local Business schema markup enables you to tell Google about your business, including your business name, address and phone number, opening hours and price range. This information may be displayed as a Knowledge Graph card or business carousel.', this.$td),
+				businessInfo  : this.$t.__('Business Info', this.$td),
+				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Local SEO', this.$td),
+				ctaHeader     : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Local SEO is only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
 				thisFeatureRequires : this.$t.__('This feature requires one of the following plans:', this.$td)
 			}
 		}

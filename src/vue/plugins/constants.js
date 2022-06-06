@@ -1,6 +1,8 @@
 import { __ } from '@wordpress/i18n'
 
-const td = process.env.VUE_APP_TEXTDOMAIN
+export const td = import.meta.env.VITE_TEXTDOMAIN
+export const tdPro = import.meta.env.VITE_TEXTDOMAIN_PRO
+
 export const PRIORITY_OPTIONS = [
 	{ label: '0.0', value: '0.0' },
 	{ label: '0.1', value: '0.1' },
@@ -1089,9 +1091,17 @@ export const WIZARD_FEATURES = [
 		upgrade     : false
 	},
 	{
+		value       : 'conversion-tools',
+		name        : __('Conversion Tools', td),
+		description : __('Get the #1 conversion optimization plugin to convert your growing website traffic into subscribers, leads and sales.', td),
+		required    : false,
+		pro         : false,
+		upgrade     : false
+	},
+	{
 		value       : 'breadcrumbs',
 		name        : __('Breadcrumbs', td),
-		description : __('', td),
+		description : '',
 		required    : false,
 		pro         : true,
 		upgrade     : false
@@ -1139,15 +1149,31 @@ export const WIZARD_FEATURES = [
 	{
 		value       : 'link-assistant',
 		name        : __('Link Assistant', td),
-		description : __('', td),
+		description : 'Get relevant suggestions for adding internal links to older content as well as finding any orphaned posts that have no internal links.',
 		required    : false,
 		pro         : true,
 		upgrade     : 'aioseo-link-assistant'
 	},
 	{
+		value       : 'index-now',
+		name        : __('Index Now', td),
+		description : 'Add IndexNow support to instantly notify search engines when your content has changed.',
+		required    : false,
+		pro         : true,
+		upgrade     : 'aioseo-index-now'
+	},
+	{
+		value       : 'rest-api',
+		name        : __('REST API', td),
+		description : 'Manage your post and term SEO meta via the WordPress REST API. This addon also works seamlessly with headless WordPress installs.',
+		required    : false,
+		pro         : true,
+		upgrade     : 'aioseo-rest-api'
+	},
+	{
 		value       : 'advanced-schema',
 		name        : __('Advanced Rich Snippets + Schema Markups', td),
-		description : __('', td),
+		description : '',
 		required    : false,
 		pro         : true,
 		upgrade     : false
@@ -1452,3 +1478,20 @@ export const REDIRECTS_CUSTOM_RULES_LABELS = {
 	loggedin  : __('Logged In', td),
 	loggedout : __('Logged Out', td)
 }
+
+export const UPSELL_FEATURE_LIST = [
+	__('Smart Schema', td),
+	__('Local SEO', td),
+	__('Redirection Manager', td),
+	__('Link Assistant', td),
+	__('News Sitemap', td),
+	__('Video Sitemap', td),
+	__('Image SEO', td),
+	__('Custom Breadcrumb Templates', td),
+	__('Advanced support for e-commerce', td),
+	__('User Access Control', td),
+	__('SEO for Categories, Tags and Custom Taxonomies', td),
+	__('Social meta for Categories, Tags and Custom Taxonomies', td),
+	__('REST API support', td),
+	__('Ad free (no banner adverts)', td)
+]

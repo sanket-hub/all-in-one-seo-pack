@@ -1,7 +1,7 @@
-import includes from 'lodash/includes'
+import { includes } from 'lodash-es'
 import { __ } from '@wordpress/i18n'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { td } from '@/vue/plugins/constants'
 
 const scores = {
 	noMatches : 1,

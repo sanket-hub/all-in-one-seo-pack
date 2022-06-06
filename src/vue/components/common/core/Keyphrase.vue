@@ -25,7 +25,13 @@
 </template>
 
 <script>
+import SvgPencil from '@/vue/components/common/svg/Pencil'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	components : {
+		SvgPencil,
+		SvgTrash
+	},
 	props : {
 		index : {
 			type : Number

@@ -2,15 +2,15 @@
  * Returns an array with exceptions for the sentence beginning researcher.
  * @returns {Array} The array filled with exceptions.
  */
-export default function() {
+export default function () {
 	return [
 		// Definite articles:
-		"the",
+		'the',
 		// Indefinite articles:
-		"a", "an",
+		'a', 'an',
 		// Numbers 1-10:
-		"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+		'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
 		// Demonstrative pronouns:
-		"this", "that", "these", "those",
-	];
+		'this', 'that', 'these', 'those'
+	]
 }

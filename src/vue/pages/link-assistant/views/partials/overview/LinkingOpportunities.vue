@@ -96,7 +96,21 @@
 </template>
 
 <script>
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgLinkInternalInbound from '@/vue/components/common/svg/link/InternalInbound'
+import SvgLinkInternalOutbound from '@/vue/components/common/svg/link/InternalOutbound'
+import TableColumn from '@/vue/components/common/table/Column'
+import TableRow from '@/vue/components/common/table/Row'
 export default {
+	components : {
+		CoreCard,
+		CoreTooltip,
+		SvgLinkInternalInbound,
+		SvgLinkInternalOutbound,
+		TableColumn,
+		TableRow
+	},
 	props : {
 		linkingOpportunities : {
 			type     : Array,
@@ -121,18 +135,26 @@ export default {
 			return [
 				{
 					slug  : 'post-title',
-					label : this.$t.__('Post Title', this.$tdPro)
+					label : this.$t.__('Post Title', this.$td)
 				},
 				{
-					slug        : 'internal-inbound',
-					// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
-					label       : this.$t.sprintf(this.$t.__('%1$sInbound Internal Links%2$sLinks from other posts to this post', this.$tdPro), '<strong>', '</strong><br />'),
+					slug  : 'internal-inbound',
+					label : this.$t.sprintf(
+						// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
+						this.$t.__('%1$sInbound Internal Links%2$sLinks from other posts to this post', this.$tdPro),
+						'<strong>',
+						'</strong><br />'
+					),
 					tooltipIcon : 'svg-link-internal-inbound'
 				},
 				{
-					slug        : 'internal-outbound',
-					// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
-					label       : this.$t.sprintf(this.$t.__('%1$sOutbound Internal Links%2$sLinks from this post to other posts', this.$tdPro), '<strong>', '</strong><br />'),
+					slug  : 'internal-outbound',
+					label : this.$t.sprintf(
+						// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
+						this.$t.__('%1$sOutbound Internal Links%2$sLinks from this post to other posts', this.$tdPro),
+						'<strong>',
+						'</strong><br />'
+					),
 					tooltipIcon : 'svg-link-internal-outbound'
 				}
 			]

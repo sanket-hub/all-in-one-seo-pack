@@ -20,23 +20,24 @@
 </template>
 
 <script>
-import Overview from './Overview'
-import LinksReport from './AIOSEO_VERSION/LinksReport'
-import DomainsReport from './AIOSEO_VERSION/DomainsReport'
-import PostReport from './AIOSEO_VERSION/PostReport'
-import Settings from './AIOSEO_VERSION/Settings'
 import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
-
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import DomainsReport from './AIOSEO_VERSION/DomainsReport'
+import LinksReport from './AIOSEO_VERSION/LinksReport'
+import Overview from './Overview'
+import PostReport from './AIOSEO_VERSION/PostReport'
+import Settings from './AIOSEO_VERSION/Settings'
 export default {
-	mixins     : [ RequiresActivation, RequiresUpdate ],
 	components : {
-		Overview,
-		LinksReport,
+		CoreMain,
 		DomainsReport,
+		LinksReport,
+		Overview,
 		PostReport,
 		Settings
 	},
+	mixins : [ RequiresActivation, RequiresUpdate ],
 	data () {
 		return {
 			strings : {

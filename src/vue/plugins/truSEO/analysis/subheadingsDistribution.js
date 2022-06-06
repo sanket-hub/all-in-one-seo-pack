@@ -1,11 +1,10 @@
-import filter from 'lodash/filter'
-import inRange from 'lodash/inRange'
+import { filter, inRange } from 'lodash-es'
 import getSubheadingTextLengths from '../researches/helpers/getSubheadingTextLengths'
 import isTextTooLong from '../researches/helpers/isValueTooLong'
 import { getSubheadings } from '../researches/stringProcessing/getSubheadings'
 import getWords from '../researches/stringProcessing/getWords'
-import { __, sprintf } from '@wordpress/i18n'
-const td = process.env.VUE_APP_TEXTDOMAIN
+import { __, _n, sprintf } from '@wordpress/i18n'
+import { td } from '@/vue/plugins/constants'
 
 const parameters = {
 	recommendedMaximumWordCount : 300,
@@ -58,21 +57,39 @@ function subheadingsDistribution (content) {
 			if (inRange(longestSubheadingTextLength, parameters.slightlyTooMany, parameters.farTooMany)) {
 				return {
 					title       : __('Subheading distribution', td),
-					// Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
-					description : sprintf(__('%1$d section of your text is longer than %2$d words and is not separated by any subheadings. Add subheadings to improve readability.', td), tooLongTextsNumber, parameters.recommendedMaximumWordCount), // @TODO: [V4+] PLURAL
-					score       : scores.okSubheadings,
-					maxScore    : 9,
-					error       : 1
+					description : sprintf(
+						// Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
+						_n(
+							'%1$d section of your text is longer than %2$d words and is not separated by any subheadings. Add subheadings to improve readability.',
+							'%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. Add subheadings to improve readability.',
+							tooLongTextsNumber,
+							td
+						),
+						tooLongTextsNumber,
+						parameters.recommendedMaximumWordCount
+					),
+					score    : scores.okSubheadings,
+					maxScore : 9,
+					error    : 1
 				}
 			}
 
 			return {
 				title       : __('Subheading distribution', td),
-				// Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
-				description : sprintf(__('%1$d section of your text is longer than %2$d words and is not separated by any subheadings. Add subheadings to improve readability.', td), tooLongTextsNumber, parameters.recommendedMaximumWordCount), // @TODO: [V4+] PLURAL
-				score       : scores.badSubheadings,
-				maxScore    : 9,
-				error       : 1
+				description : sprintf(
+					// Translators: 1 - Expand to the number of text sections not separated by subheadings, 2 - expands to the recommended number of words following a subheading.
+					_n(
+						'%1$d section of your text is longer than %2$d words and is not separated by any subheadings. Add subheadings to improve readability.',
+						'%1$d sections of your text are longer than %2$d words and are not separated by any subheadings. Add subheadings to improve readability.',
+						tooLongTextsNumber,
+						td
+					),
+					tooLongTextsNumber,
+					parameters.recommendedMaximumWordCount
+				),
+				score    : scores.badSubheadings,
+				maxScore : 9,
+				error    : 1
 			}
 		}
 

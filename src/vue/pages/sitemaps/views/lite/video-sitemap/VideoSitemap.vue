@@ -2,9 +2,13 @@
 	<div class="aioseo-video-sitemap-lite">
 		<core-card
 			slug="videoSitemap"
-			:header-text="strings.video"
 			:noSlide="true"
 		>
+			<template #header>
+				{{ strings.video }}
+				<core-pro-badge />
+			</template>
+
 			<blur />
 
 			<cta
@@ -35,13 +39,21 @@
 </template>
 
 <script>
-import Blur from './Blur'
 import { VideoSitemap } from '@/vue/pages/sitemaps/mixins'
+import Blur from './Blur'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
-	mixins     : [ VideoSitemap ],
 	components : {
-		Blur
-	}
+		Blur,
+		CoreAlert,
+		CoreCard,
+		CoreProBadge,
+		Cta
+	},
+	mixins : [ VideoSitemap ]
 }
 </script>
 

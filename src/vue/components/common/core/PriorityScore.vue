@@ -38,7 +38,13 @@
 
 <script>
 import { JsonValues } from '@/vue/mixins'
+import TableColumn from '@/vue/components/common/table/Column'
+import TableRow from '@/vue/components/common/table/Row'
 export default {
+	components : {
+		TableColumn,
+		TableRow
+	},
 	mixins : [ JsonValues ],
 	props  : {
 		priority : {

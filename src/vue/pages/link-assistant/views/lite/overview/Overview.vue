@@ -3,6 +3,7 @@
 		<blur />
 
 		<cta
+			class="aioseo-link-assistant-cta"
 			:cta-link="$links.getPricingUrl('link-assistant', 'link-assistant-upsell', 'overview')"
 			:button-text="strings.ctaButtonText"
 			:learn-more-link="$links.getUpsellUrl('link-assistant', 'overview', 'home')"
@@ -32,17 +33,28 @@
 
 <script>
 import Blur from './Blur'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
-		Blur
+		Blur,
+		CoreAlert,
+		Cta
 	},
 	data () {
 		return {
 			strings : {
-				// Translators: 1 - "Pro".
-				ctaButtonText            : this.$t.sprintf(this.$t.__('Upgrade to %1$s and Unlock Link Assistant', this.$td), 'Pro'),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader                : this.$t.sprintf(this.$t.__('Link Assistant is only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
+				ctaButtonText : this.$t.sprintf(
+					// Translators: 1 - "Pro".
+					this.$t.__('Upgrade to %1$s and Unlock Link Assistant', this.$td),
+					'Pro'
+				),
+				ctaHeader : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Link Assistant is only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
 				linkAssistantDescription : this.$t.__('Get relevant suggestions for adding internal links to all your content as well as finding any orphaned posts that have no internal links.', this.$td),
 				thisFeatureRequires      : this.$t.__('This feature requires one of the following plans:', this.$td),
 				linkOpportunities        : this.$t.__('Actionable Link Suggestions', this.$td),
@@ -54,3 +66,10 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.aioseo-link-assistant-cta.aioseo-cta.floating {
+	top: 200px;
+	transform: translateX(-50%);
+}
+</style>

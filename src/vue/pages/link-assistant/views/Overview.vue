@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import Activate from './pro/overview/Activate'
+import Activate from './AIOSEO_VERSION/overview/Activate'
 import Lite from './lite/overview/Overview'
 import Overview from './AIOSEO_VERSION/overview/Overview'
-import Update from './pro/overview/Update'
+import Update from './AIOSEO_VERSION/overview/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],

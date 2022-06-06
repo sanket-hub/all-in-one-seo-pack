@@ -50,7 +50,17 @@
 </template>
 
 <script>
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
+	components : {
+		BaseRadioToggle,
+		CoreBlur,
+		CoreSettingsRow,
+		Cta
+	},
 	props : {
 		type : {
 			type     : String,
@@ -68,17 +78,25 @@ export default {
 				{ value: 'Article', label: this.$t.__('Article', this.$td) }
 			],
 			strings : {
-				schemaType     : this.$t.__('Schema Type', this.$td),
-				articleType    : this.$t.__('Article Type', this.$td),
-				article        : this.$t.__('Article', this.$td),
-				blogPost       : this.$t.__('Blog Post', this.$td),
-				newsArticle    : this.$t.__('News Article', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader      : this.$t.sprintf(this.$t.__('Advanced Schema Markup is only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaDescription : this.$t.sprintf(this.$t.__('%1$s %2$s allows you to customize the structured data markup for your Posts so that search engines can generate rich snippets for your content in search results.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				ctaButtonText  : this.$t.__('Upgrade to Pro and Unlock Advanced Schema Markup', this.$td),
-				graphs         : [
+				schemaType  : this.$t.__('Schema Type', this.$td),
+				articleType : this.$t.__('Article Type', this.$td),
+				article     : this.$t.__('Article', this.$td),
+				blogPost    : this.$t.__('Blog Post', this.$td),
+				newsArticle : this.$t.__('News Article', this.$td),
+				ctaHeader   : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Advanced Schema Markup is only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaDescription : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('%1$s %2$s allows you to customize the structured data markup for your Posts so that search engines can generate rich snippets for your content in search results.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Advanced Schema Markup', this.$td),
+				graphs        : [
 					this.$t.__('Product (WooCommerce and EDD support)', this.$td),
 					this.$t.__('FAQ Page', this.$td),
 					this.$t.__('Software Application', this.$td),

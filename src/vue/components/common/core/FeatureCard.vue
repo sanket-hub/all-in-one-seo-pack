@@ -27,7 +27,7 @@
 				</div>
 
 				<div
-					v-if="((activated && !feature.requiresUpgrade) || staticCard) && canManage"
+					v-if="feature.manageUrl && ((activated && !feature.requiresUpgrade) || staticCard) && canManage"
 					class="learn-more"
 				>
 					<a :href="getHref(feature.manageUrl)">{{ strings.manage }}</a>
@@ -132,7 +132,15 @@
 import { getParams } from '@/vue/utils/params'
 import { Url } from '@/vue/mixins'
 import { mapActions, mapMutations } from 'vuex'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
 export default {
+	components : {
+		CoreAlert,
+		CoreLoader,
+		CoreTooltip
+	},
 	mixins : [ Url ],
 	props  : {
 		feature : {
@@ -171,7 +179,12 @@ export default {
 				permissionWarning : this.$t.__('You currently don\'t have permission to update this addon. Please ask a site administrator to update.', this.$td),
 				manage            : this.$t.__('Manage', this.$td),
 				activateError     : this.$t.__('An error occurred while activating the addon. Please upload it manually or contact support for more information.', this.$td),
-				updateRequired    : this.$t.sprintf(this.$t.__('An update is required for this addon to continue to work with %1$s %2$s.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+				updateRequired    : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - Pro.
+					this.$t.__('An update is required for this addon to continue to work with %1$s %2$s.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				)
 			}
 		}
 	},

@@ -1,6 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
-import forEach from 'lodash/forEach'
-import includes from 'lodash/includes'
+import { isEmpty, forEach, includes } from 'lodash-es'
 
 /**
  * Checks whether a given word is followed by any word from a given list.
@@ -16,8 +14,8 @@ export default function (followingWords, match) {
 	}
 
 	// The followingWordIndices include the preceding space.
-	var wordAfterMatchIndex = match.index + match.match.length,
-	 followingWordsIndices = []
+	const wordAfterMatchIndex = match.index + match.match.length
+	 const followingWordsIndices = []
 
 	forEach(followingWords, function (followingWord) {
 		followingWordsIndices.push(followingWord.index)

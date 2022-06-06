@@ -5,7 +5,7 @@
 		no-slide
 		:header-text="strings.mostLinkedDomains"
 	>
-		<LinkChartWithLegend
+		<core-donut-chart-with-legend
 			:parts="sortedParts"
 			:total="totals.externalLinks"
 			:label="strings.totalExternalLinks"
@@ -69,11 +69,19 @@
 </template>
 
 <script>
-import LinkChartWithLegend from './LinkChartWithLegend'
 import { mapState } from 'vuex'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import CoreDonutChartWithLegend from '@/vue/components/common/core/DonutChartWithLegend'
+import TableColumn from '@/vue/components/common/table/Column'
+import TableRow from '@/vue/components/common/table/Row'
 export default {
 	components : {
-		LinkChartWithLegend
+		CoreCard,
+		CoreTooltip,
+		CoreDonutChartWithLegend,
+		TableColumn,
+		TableRow
 	},
 	props : {
 		totals : {
@@ -88,13 +96,13 @@ export default {
 	data () {
 		return {
 			strings : {
-				mostLinkedDomains  : this.$t.__('Most Linked to Domains', this.$td),
-				totalExternalLinks : this.$t.__('Total External Links', this.$t.$tdPro),
+				mostLinkedDomains  : this.$t.__('Most Linked to Domains', this.$tdPro),
+				totalExternalLinks : this.$t.__('Total External Links', this.$tdPro),
 				noResults          : this.$t.__('No items found.', this.$td),
 				link               : this.$t.sprintf(
 					'<a href="%1$s">%2$s</a><a href="%1$s"> <span>&rarr;</span></a>',
 					'#/domains-report?fullReport=1',
-					this.$t.__('See a Full Domains Report', this.$t.$tdPro)
+					this.$t.__('See a Full Domains Report', this.$tdPro)
 				)
 			}
 		}
@@ -126,7 +134,7 @@ export default {
 
 			if (otherDomainsCount) {
 				parts.push({
-					name  : this.$t.__('other domains', this.$t.tdPro),
+					name  : this.$t.__('other domains', this.$tdPro),
 					color : '#E8E8EB',
 					count : otherDomainsCount,
 					ratio : (otherDomainsCount / this.totals.externalLinks) * 100,

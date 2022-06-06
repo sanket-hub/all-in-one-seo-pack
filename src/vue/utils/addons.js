@@ -1,4 +1,4 @@
-import upperFirst from 'lodash/upperFirst'
+import { upperFirst } from 'lodash-es'
 import store from '@/vue/store'
 
 const getAddon = slug => store.state.addons.find(item => slug === item.sku)

@@ -99,8 +99,13 @@ import '@/vue/plugins/quill/quill-clipboard'
 import '@/vue/plugins/quill/quill-character-counter'
 import '@/vue/plugins/quill/quill-auto-link'
 import '@/vue/plugins/quill/quill-phrase-editor-formats'
-
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgPlus from '@/vue/components/common/svg/Plus'
 export default {
+	components : {
+		SvgCaret,
+		SvgPlus
+	},
 	props : {
 		value : {
 			type    : String,
@@ -271,7 +276,6 @@ export default {
 					!textBefore.match(/\s$/)
 				)
 			) {
-				console.log('text before does not have a space')
 				// If there's no space in front of the tag yet, add one.
 				// Also check if there actually is any text before the tag so that we don't add a space to the beginning of the value.
 				text = ' ' + text
@@ -317,7 +321,7 @@ export default {
 				mention.removeOrphanedMentionChar()
 			}
 		},
-		startup (reset = false) {
+		async startup (reset = false) {
 			this.quill = new Quill(this.$refs.quill, {
 				modules : {
 					toolbar     : !this.showToolbar ? [] : [ 'bold', 'italic', 'underline', 'autoLink'/* , { list: 'bullet' }, { list: 'ordered' } */ ],
@@ -434,6 +438,11 @@ export default {
 				this.$emit('counter', counter.calculate())
 			}
 
+			this.removeTrailingNewLine()
+
+			// This prevents the editor for turning dirty after we remove the trailing line.
+			await this.$nextTick()
+
 			// We will add the update event here
 			this.quill.on('text-change', () => this.update())
 			this.quill.on('selection-change', (range, oldRange, source) => {
@@ -457,8 +466,6 @@ export default {
 			if (!reset) {
 				this.quill.history.clear()
 			}
-
-			this.removeTrailingNewLine()
 		},
 		setPhrase (value) {
 			// We are caching the phrase at this point, so we can use it later to undo the next few lines.
@@ -485,9 +492,9 @@ export default {
 		},
 		removeTrailingNewLine () {
 			// Remove the trailing new line that Quill adds by default.
-			if (this.description) {
-				document.querySelector('.aioseo-editor-description .ql-editor').innerHTML =
-					document.querySelector('.aioseo-editor-description .ql-editor').innerHTML.replace(/<p><br><\/p>$/i, '')
+			const editor = document.querySelector('.aioseo-editor-description .ql-editor')
+			if (this.description && editor) {
+				editor.innerHTML = editor.innerHTML.replace(/<p><br><\/p>$/i, '')
 			}
 		}
 	},

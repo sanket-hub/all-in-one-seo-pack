@@ -5,7 +5,7 @@ import stripSpaces from '../stringProcessing/stripSpaces.js'
 import removePunctuation from '../stringProcessing/removePunctuation.js'
 import matchTextWithWord from '../stringProcessing/matchTextWithWord'
 import { normalize as normalizeQuotes } from '../stringProcessing/quotes.js'
-import uniq from 'lodash/uniq'
+import { uniq } from 'lodash-es'
 
 /**
  * Matches strings from an array against a given text.

@@ -115,15 +115,26 @@
 <script>
 import { mapState } from 'vuex'
 import { CommonSitemap } from '@/vue/pages/sitemaps/mixins'
-
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import CoreCard from '@/vue/components/common/core/Card'
+import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	components : {
+		BaseCheckbox,
+		CoreCard,
+		CorePostTypeOptions,
+		CoreSettingsRow,
+		SvgExternal
+	},
 	mixins : [ CommonSitemap ],
 	data () {
 		return {
 			pagePostOptions : [],
 			strings         : {
 				rss                            : this.$t.__('RSS Sitemap', this.$td),
-				description                    : this.$t.sprintf(this.$t.__('This option will generate a separate RSS Sitemap which can be submitted to Google, Bing and any other search engines that support this type of sitemap. The RSS Sitemap contains an RSS feed of the latest updates to your site content.  It is not a full sitemap of all your content.', this.$td), process.env.VUE_APP_NAME),
+				description                    : this.$t.__('This option will generate a separate RSS Sitemap which can be submitted to Google, Bing and any other search engines that support this type of sitemap. The RSS Sitemap contains an RSS feed of the latest updates to your site content. It is not a full sitemap of all your content.', this.$td),
 				enableSitemap                  : this.$t.__('Enable Sitemap', this.$td),
 				sitemapSettings                : this.$t.__('Sitemap Settings', this.$td),
 				enableSitemapIndexes           : this.$t.__('Enable Sitemap Indexes', this.$td),

@@ -5,14 +5,14 @@ import core from 'tokenizer2/core'
  *
  * @type {Object}
  */
-var urlTokenizer
+let urlTokenizer,
 
-/**
+	/**
  * Contains the tokens as parsed by the urlTokenizer.
  *
  * @type {Object[]}
  */
-let tokens
+	tokens
 
 /**
  * Matches static parts of a URL, because we use %% as placeholder markers we don't support percentage signs in the URL.
@@ -95,7 +95,7 @@ class UrlStructure {
 	 * @returns {string} A URL part.
 	 */
 	_buildVariablePart (data, urlPartConfig) {
-		if (!data.hasOwnProperty(urlPartConfig.name)) {
+		if (!Object.prototype.hasOwnProperty.call(data, urlPartConfig.name)) {
 			throw new TypeError('Data doesn\'t have required property "' + urlPartConfig.name + '"')
 		}
 

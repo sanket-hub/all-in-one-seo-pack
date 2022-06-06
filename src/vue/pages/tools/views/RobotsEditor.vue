@@ -224,12 +224,32 @@
 import { stringify, mergeRules, parse } from '@/vue/utils/robots'
 import { SaveChanges } from '@/vue/mixins'
 import { mapActions, mapGetters, mapState } from 'vuex'
+import BaseEditor from '@/vue/components/common/base/Editor'
+import BaseRadio from '@/vue/components/common/base/Radio'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import SvgExternal from '@/vue/components/common/svg/External'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 const defaults = {
 	userAgent     : null,
 	rule          : 'allow',
 	directoryPath : null
 }
 export default {
+	components : {
+		BaseEditor,
+		BaseRadio,
+		CoreAlert,
+		CoreCard,
+		CoreSettingsRow,
+		CoreTooltip,
+		SvgCirclePlus,
+		SvgExternal,
+		SvgTrash
+	},
 	mixins : [ SaveChanges ],
 	data () {
 		return {
@@ -237,11 +257,18 @@ export default {
 			deleteLoading : false,
 			errors        : {},
 			strings       : {
-				robotsEditor        : this.$t.__('Robots.txt Editor', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
-				description         : this.$t.sprintf(this.$t.__('The robots.txt editor in %1$s allows you to set up a robots.txt file for your site that will override the default robots.txt file that WordPress creates. By creating a robots.txt file with %2$s you have greater control over the instructions you give web crawlers about your site.', this.$td), process.env.VUE_APP_SHORT_NAME, process.env.VUE_APP_SHORT_NAME),
-				// Translators: 1 - The plugin name ("All in One SEO").
-				description2        : this.$t.sprintf(this.$t.__('Just like WordPress, %1$s generates a dynamic file so there is no static file to be found on your server.  The content of the robots.txt file is stored in your WordPress database.', this.$td), process.env.VUE_APP_NAME),
+				robotsEditor : this.$t.__('Robots.txt Editor', this.$td),
+				description  : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
+					this.$t.__('The robots.txt editor in %1$s allows you to set up a robots.txt file for your site that will override the default robots.txt file that WordPress creates. By creating a robots.txt file with %2$s you have greater control over the instructions you give web crawlers about your site.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					import.meta.env.VITE_SHORT_NAME
+				),
+				description2 : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO").
+					this.$t.__('Just like WordPress, %1$s generates a dynamic file so there is no static file to be found on your server.  The content of the robots.txt file is stored in your WordPress database.', this.$td),
+					import.meta.env.VITE_NAME
+				),
 				enableCustomRobots  : this.$t.__('Enable Custom Robots.txt', this.$td),
 				duplicateOrInvalid  : this.$t.__('Duplicate or invalid entries have been detected! Please check your rules and try again.', this.$td),
 				userAgent           : this.$t.__('User Agent', this.$td),
@@ -253,10 +280,14 @@ export default {
 				deleteRule          : this.$t.__('Delete Rule', this.$td),
 				robotsPreview       : this.$t.__('Robots.txt Preview:', this.$td),
 				openRobotsTxt       : this.$t.__('Open Robots.txt', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
-				physicalRobotsFound : this.$t.sprintf(this.$t.__('%1$s has detected a physical robots.txt file in the root folder of your WordPress installation. We recommend removing this file as it could cause conflicts with WordPress\' dynamically generated one. %2$s can import this file and delete it, or you can simply delete it.', this.$td), process.env.VUE_APP_SHORT_NAME, process.env.VUE_APP_SHORT_NAME),
-				importAndDelete     : this.$t.__('Import and Delete', this.$td),
-				delete              : this.$t.__('Delete', this.$td)
+				physicalRobotsFound : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
+					this.$t.__('%1$s has detected a physical robots.txt file in the root folder of your WordPress installation. We recommend removing this file as it could cause conflicts with WordPress\' dynamically generated one. %2$s can import this file and delete it, or you can simply delete it.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					import.meta.env.VITE_SHORT_NAME
+				),
+				importAndDelete : this.$t.__('Import and Delete', this.$td),
+				delete          : this.$t.__('Delete', this.$td)
 			}
 		}
 	},
@@ -286,18 +317,29 @@ export default {
 			return Object.keys(this.errors).length
 		},
 		subdirectoryAlert () {
-			// Translators: 1 - The url to the main site.
-			return this.$t.sprintf(this.$t.__('This site is running in a sub-directory of your main site located at %1$s. Your robots.txt file should only appear in the root directory of that site.', this.$td), '<a href="' + this.$aioseo.urls.mainSiteUrl + '" target="_blank"><strong>' + this.$aioseo.urls.mainSiteUrl + '</strong></a>')
+			return this.$t.sprintf(
+				// Translators: 1 - The url to the main site.
+				this.$t.__('This site is running in a sub-directory of your main site located at %1$s. Your robots.txt file should only appear in the root directory of that site.', this.$td),
+				'<a href="' + this.$aioseo.urls.mainSiteUrl + '" target="_blank"><strong>' + this.$aioseo.urls.mainSiteUrl + '</strong></a>'
+			)
 		},
 		missingRewriteRules () {
 			const string1 = this.$t.__('It looks like you are missing the proper rewrite rules for the robots.txt file.', this.$td)
 			let string2   = ''
 			if (this.$aioseo.data.server.apache) {
-				// Translators: 1 - Opening link tag. 2 - Closing link tag.
-				string2 = this.$t.sprintf(this.$t.__('It appears that your server is running on Apache, so the fix should be as simple as checking the %1$scorrect .htaccess implementation on wordpress.org%2$s.', this.$td), '<a href="https://wordpress.org/support/article/htaccess/" target="_blank">', '</a>')
+				string2 = this.$t.sprintf(
+					// Translators: 1 - Opening link tag. 2 - Closing link tag.
+					this.$t.__('It appears that your server is running on Apache, so the fix should be as simple as checking the %1$scorrect .htaccess implementation on wordpress.org%2$s.', this.$td),
+					'<a href="https://wordpress.org/support/article/htaccess/" target="_blank">',
+					'</a>'
+				)
 			} else if (this.$aioseo.data.server.nginx) {
-				// Translators: 1 - Opening link tag, 2 - Closing link tag.
-				string2 = string2 = this.$t.sprintf(this.$t.__('It appears that your server is running on nginx, so the fix will most likely require adding the correct rewrite rules to our nginx configuration. %1$sCheck our documentation for more information%2$s.', this.$td), '<a href="' + this.$links.getDocUrl('robotsRewrite') + '" target="_blank">', '</a>')
+				string2 = string2 = this.$t.sprintf(
+					// Translators: 1 - Opening link tag, 2 - Closing link tag.
+					this.$t.__('It appears that your server is running on nginx, so the fix will most likely require adding the correct rewrite rules to our nginx configuration. %1$sCheck our documentation for more information%2$s.', this.$td),
+					'<a href="' + this.$links.getDocUrl('robotsRewrite') + '" target="_blank">',
+					'</a>'
+				)
 			}
 
 			return string1 + ' ' + string2

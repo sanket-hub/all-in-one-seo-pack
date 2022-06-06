@@ -38,6 +38,9 @@ export default {
 			this._vm.$set(state, 'showDismissedNotifications', false)
 		}
 	},
+	disableForceShowNotifications (state) {
+		this._vm.$set(state.notifications, 'force', false)
+	},
 	updateTags (state, tags) {
 		this._vm.$set(state, 'tags', tags)
 	},
@@ -126,5 +129,8 @@ export default {
 	},
 	updatePostStatus (state, status) {
 		this._vm.$set(state.currentPost, 'postStatus', status)
+	},
+	updateAdditionalPages (state, pages) {
+		this._vm.$set(state.options.sitemap.general.additionalPages, 'pages', pages)
 	}
 }

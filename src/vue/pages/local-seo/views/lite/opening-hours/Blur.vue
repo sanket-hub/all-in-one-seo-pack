@@ -276,7 +276,17 @@
 </template>
 
 <script>
+import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
+	components : {
+		BaseCheckbox,
+		BaseRadioToggle,
+		CoreBlur,
+		CoreSettingsRow
+	},
 	data () {
 		return {
 			strings : {

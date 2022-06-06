@@ -60,7 +60,21 @@
 
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
+import CoreAnalyze from '@/vue/components/common/core/analyze/Index.vue'
+import CoreAnalyzeScore from '@/vue/components/common/core/analyze/Score'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreHeadlineResult from '@/vue/components/common/core/headline/Result'
+import CoreHeadlineScore from '@/vue/components/common/core/headline/Score'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	components : {
+		CoreAnalyze,
+		CoreAnalyzeScore,
+		CoreCard,
+		CoreHeadlineResult,
+		CoreHeadlineScore,
+		SvgTrash
+	},
 	data () {
 		return {
 			headline    : null,
@@ -69,10 +83,13 @@ export default {
 			analyzeTime : 2,
 			strings     : {
 				enterYourHeadline             : this.$t.__('Enter Your Headline', this.$td),
-				// Translators: 1 - HTML Line break tag.
 				placeholder                   : this.$t.__('Top 10 Ways to Increase Traffic', this.$td),
-				writeIrresistibleSEOHeadlines : this.$t.sprintf(this.$t.__('Our Headline Analyzer tool enables you to write irresistible SEO headlines%1$sthat drive traffic, shares, and rank better in search results.', this.$td), '<br>'),
-				analyze                       : this.$t.__('Analyze', this.$td)
+				writeIrresistibleSEOHeadlines : this.$t.sprintf(
+					// Translators: 1 - HTML Line break tag.
+					this.$t.__('Our Headline Analyzer tool enables you to write irresistible SEO headlines%1$sthat drive traffic, shares, and rank better in search results.', this.$td),
+					'<br>'
+				),
+				analyze : this.$t.__('Analyze', this.$td)
 			}
 		}
 	},

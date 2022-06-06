@@ -1,5 +1,4 @@
-import forEach from "lodash/forEach";
-import has from "lodash/has";
+import { forEach, has } from 'lodash-es'
 
 /**
  * Returns whether or not the given word is a function word.
@@ -8,8 +7,8 @@ import has from "lodash/has";
  * @param {Function} functionWords The function containing the lists of function words.
  * @returns {boolean} Whether or not the word is a function word.
  */
-function isFunctionWord( word, functionWords ) {
-	return -1 !== functionWords.indexOf( word.toLocaleLowerCase() );
+function isFunctionWord (word, functionWords) {
+	return -1 !== functionWords.indexOf(word.toLocaleLowerCase())
 }
 
 /**
@@ -21,77 +20,77 @@ function isFunctionWord( word, functionWords ) {
  * @param {number} [occurrences] The number of occurrences, defaults to 0.
  * @param {Function} functionWords The function containing the lists of function words.
  */
-function WordCombination( words, occurrences, functionWords ) {
-	this._words = words;
-	this._length = words.length;
-	this._occurrences = occurrences || 0;
-	this._functionWords = functionWords;
+function WordCombination (words, occurrences, functionWords) {
+	this._words = words
+	this._length = words.length
+	this._occurrences = occurrences || 0
+	this._functionWords = functionWords
 }
 
 WordCombination.lengthBonus = {
-	2: 3,
-	3: 7,
-	4: 12,
-	5: 18,
-};
+	2 : 3,
+	3 : 7,
+	4 : 12,
+	5 : 18
+}
 
 /**
  * Returns the base relevance based on the length of this combination.
  *
  * @returns {number} The base relevance based on the length.
  */
-WordCombination.prototype.getLengthBonus = function() {
-	if ( has( WordCombination.lengthBonus, this._length ) ) {
-		return WordCombination.lengthBonus[ this._length ];
+WordCombination.prototype.getLengthBonus = function () {
+	if (has(WordCombination.lengthBonus, this._length)) {
+		return WordCombination.lengthBonus[this._length]
 	}
 
-	return 0;
-};
+	return 0
+}
 
 /**
  * Returns the list with words.
  *
- * @returns {array} The list with words.
+ * @returns {Array} The list with words.
  */
-WordCombination.prototype.getWords = function() {
-	return this._words;
-};
+WordCombination.prototype.getWords = function () {
+	return this._words
+}
 
 /**
  * Returns the word combination length.
  *
  * @returns {number} The word combination length.
  */
-WordCombination.prototype.getLength = function() {
-	return this._length;
-};
+WordCombination.prototype.getLength = function () {
+	return this._length
+}
 
 /**
  * Returns the combination as it occurs in the text.
  *
  * @returns {string} The combination.
  */
-WordCombination.prototype.getCombination = function() {
-	return this._words.join( " " );
-};
+WordCombination.prototype.getCombination = function () {
+	return this._words.join(' ')
+}
 
 /**
  * Returns the amount of occurrences of this word combination.
  *
  * @returns {number} The amount of occurrences.
  */
-WordCombination.prototype.getOccurrences = function() {
-	return this._occurrences;
-};
+WordCombination.prototype.getOccurrences = function () {
+	return this._occurrences
+}
 
 /**
  * Increments the occurrences.
  *
  * @returns {void}
  */
-WordCombination.prototype.incrementOccurrences = function() {
-	this._occurrences += 1;
-};
+WordCombination.prototype.incrementOccurrences = function () {
+	this._occurrences += 1
+}
 
 /**
  * Returns the relevance of the length.
@@ -99,12 +98,12 @@ WordCombination.prototype.incrementOccurrences = function() {
  * @param {number} relevantWordPercentage The relevance of the words within the combination.
  * @returns {number} The relevance based on the length and the word relevance.
  */
-WordCombination.prototype.getMultiplier = function( relevantWordPercentage ) {
-	var lengthBonus = this.getLengthBonus();
+WordCombination.prototype.getMultiplier = function (relevantWordPercentage) {
+	const lengthBonus = this.getLengthBonus()
 
 	// The relevance scales linearly from the relevance of one word to the maximum.
-	return 1 + relevantWordPercentage * lengthBonus;
-};
+	return 1 + relevantWordPercentage * lengthBonus
+}
 
 /**
  * Returns if the given word is a relevant word based on the given word relevance.
@@ -112,48 +111,48 @@ WordCombination.prototype.getMultiplier = function( relevantWordPercentage ) {
  * @param {string} word The word to check if it is relevant.
  * @returns {boolean} Whether or not it is relevant.
  */
-WordCombination.prototype.isRelevantWord = function( word ) {
-	return has( this._relevantWords, word );
-};
+WordCombination.prototype.isRelevantWord = function (word) {
+	return has(this._relevantWords, word)
+}
 
 /**
  * Returns the relevance of the words within this combination.
  *
  * @returns {number} The percentage of relevant words inside this combination.
  */
-WordCombination.prototype.getRelevantWordPercentage = function() {
-	var relevantWordCount = 0, wordRelevance = 1;
+WordCombination.prototype.getRelevantWordPercentage = function () {
+	let relevantWordCount = 0, wordRelevance = 1
 
-	if ( this._length > 1 ) {
-		forEach( this._words, function( word ) {
-			if ( this.isRelevantWord( word ) ) {
-				relevantWordCount += 1;
+	if (1 < this._length) {
+		forEach(this._words, function (word) {
+			if (this.isRelevantWord(word)) {
+				relevantWordCount += 1
 			}
-		}.bind( this ) );
+		}.bind(this))
 
-		wordRelevance = relevantWordCount / this._length;
+		wordRelevance = relevantWordCount / this._length
 	}
 
-	return wordRelevance;
-};
+	return wordRelevance
+}
 
 /**
  * Returns the relevance for this word combination.
  *
  * @returns {number} The relevance of this word combination.
  */
-WordCombination.prototype.getRelevance = function() {
-	if ( this._words.length === 1 && isFunctionWord( this._words[ 0 ], this._functionWords ) ) {
-		return 0;
+WordCombination.prototype.getRelevance = function () {
+	if (1 === this._words.length && isFunctionWord(this._words[0], this._functionWords)) {
+		return 0
 	}
 
-	var wordRelevance = this.getRelevantWordPercentage();
-	if ( wordRelevance === 0 ) {
-		return 0;
+	const wordRelevance = this.getRelevantWordPercentage()
+	if (0 === wordRelevance) {
+		return 0
 	}
 
-	return this.getMultiplier( wordRelevance ) * this._occurrences;
-};
+	return this.getMultiplier(wordRelevance) * this._occurrences
+}
 
 /**
  * Sets the relevance of single words
@@ -161,9 +160,9 @@ WordCombination.prototype.getRelevance = function() {
  * @param {Object} relevantWords A mapping from a word to a relevance.
  * @returns {void}
  */
-WordCombination.prototype.setRelevantWords = function( relevantWords ) {
-	this._relevantWords = relevantWords;
-};
+WordCombination.prototype.setRelevantWords = function (relevantWords) {
+	this._relevantWords = relevantWords
+}
 
 /**
  * Returns the density of this combination within the text.
@@ -171,24 +170,24 @@ WordCombination.prototype.setRelevantWords = function( relevantWords ) {
  * @param {number} wordCount The word count of the text this combination was found in.
  * @returns {number} The density of this combination.
  */
-WordCombination.prototype.getDensity = function( wordCount ) {
-	return this._occurrences / wordCount;
-};
+WordCombination.prototype.getDensity = function (wordCount) {
+	return this._occurrences / wordCount
+}
 
 /**
  * Serializes the WordCombination instance to an object.
  *
  * @returns {Object} The serialized WordCombination.
  */
-WordCombination.prototype.serialize = function() {
+WordCombination.prototype.serialize = function () {
 	return {
-		_parseClass: "WordCombination",
-		words: this._words,
-		occurrences: this._occurrences,
-		functionWords: this._functionWords,
-		relevantWords: this._relevantWords,
-	};
-};
+		_parseClass   : 'WordCombination',
+		words         : this._words,
+		occurrences   : this._occurrences,
+		functionWords : this._functionWords,
+		relevantWords : this._relevantWords
+	}
+}
 
 /**
  * Parses the object to a WordCombination.
@@ -197,11 +196,11 @@ WordCombination.prototype.serialize = function() {
  *
  * @returns {WordCombination} The parsed WordCombination.
  */
-WordCombination.parse = function( serialized ) {
-	const wordCombination = new WordCombination( serialized.words, serialized.occurrences, serialized.functionWords );
-	wordCombination.setRelevantWords( serialized.relevantWords );
+WordCombination.parse = function (serialized) {
+	const wordCombination = new WordCombination(serialized.words, serialized.occurrences, serialized.functionWords)
+	wordCombination.setRelevantWords(serialized.relevantWords)
 
-	return wordCombination;
-};
+	return wordCombination
+}
 
-export default WordCombination;
+export default WordCombination

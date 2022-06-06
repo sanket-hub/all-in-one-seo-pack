@@ -1,5 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
-import forEach from 'lodash/forEach'
+import { isEmpty, forEach } from 'lodash-es'
 
 /**
  * Checks whether a given word precedes a participle directly or indirectly.
@@ -14,13 +13,13 @@ export default function (precedingWords, participleIndex) {
 		return false
 	}
 
-	var precedingWordsIndices = []
+	const precedingWordsIndices = []
 	forEach(precedingWords, function (precedingWord) {
-		var precedingWordsIndex = precedingWord.index
+		const precedingWordsIndex = precedingWord.index
 		precedingWordsIndices.push(precedingWordsIndex)
 	})
 
-	var matches = []
+	const matches = []
 	forEach(precedingWordsIndices, function (precedingWordsIndex) {
 		// + 1 because the beginning word boundary is not included in the passive participle match
 		if (precedingWordsIndex + 1 < participleIndex) {

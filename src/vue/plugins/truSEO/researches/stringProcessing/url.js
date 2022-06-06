@@ -1,5 +1,5 @@
 import urlMethods from 'url'
-var urlFromAnchorRegex = /href=(["'])([^"']+)\1/i
+const urlFromAnchorRegex = /href=(["'])([^"']+)\1/i
 
 /**
  * Removes a hash from a URL, assumes a well formed URL.
@@ -48,7 +48,7 @@ function addTrailingSlash (url) {
  * @returns {string} The URL in the anchor tag.
  */
 function getFromAnchorTag (anchorTag) {
-	var urlMatch = urlFromAnchorRegex.exec(anchorTag)
+	const urlMatch = urlFromAnchorRegex.exec(anchorTag)
 
 	return (null === urlMatch) ? '' : urlMatch[2]
 }
@@ -76,7 +76,7 @@ function areEqual (urlA, urlB) {
  * @returns {string} The domain name of the URL.
  */
 function getHostname (url) {
-	url = urlMethods.parse(url)
+	url = urlMethods.parse(url) // eslint-disable-line
 
 	return url.hostname
 }
@@ -90,7 +90,7 @@ function getHostname (url) {
  * @returns {string|null} The protocol of the URL or null if no protocol is present.
  */
 function getProtocol (url) {
-	return urlMethods.parse(url).protocol
+	return urlMethods.parse(url).protocol // eslint-disable-line
 }
 
 /**
@@ -102,7 +102,7 @@ function getProtocol (url) {
  * @returns {boolean} Whether or not the URL is internal.
  */
 function isInternalLink (url, host) {
-	const parsedUrl = urlMethods.parse(url, false, true)
+	const parsedUrl = urlMethods.parse(url, false, true) // eslint-disable-line
 	// Check if the URL starts with a single slash.
 	if (-1 === url.indexOf('//') && 0 === url.indexOf('/')) {
 		return true

@@ -46,10 +46,14 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import Advanced from './partials/Advanced'
+import CoreCard from '@/vue/components/common/core/Card'
+import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import TitleDescription from './partials/TitleDescription'
 export default {
 	components : {
 		Advanced,
+		CoreCard,
+		CoreMainTabs,
 		TitleDescription
 	},
 	data () {
@@ -57,15 +61,23 @@ export default {
 			internalDebounce : null,
 			strings          : {
 				ctaButtonText  : this.$t.__('Upgrade to Pro and Unlock Custom Taxonomies', this.$td),
-				// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaDescription : this.$t.sprintf(this.$t.__('%1$s %2$s lets you set the SEO title and description for custom taxonomies. You can also control all of the robots meta and other options just like the default category and tags taxonomies.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader      : this.$t.sprintf(this.$t.__('Custom Taxonomy Support is only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+				ctaDescription : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('%1$s %2$s lets you set the SEO title and description for custom taxonomies. You can also control all of the robots meta and other options just like the default category and tags taxonomies.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaHeader : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Custom Taxonomy Support is only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				)
 			},
 			tabs : [
 				{
 					slug   : 'title-description',
-					name   : this.$t.__('Title & Description', this.$tdPro),
+					name   : this.$t.__('Title & Description', this.$td),
 					access : 'aioseo_search_appearance_settings',
 					pro    : false
 				},

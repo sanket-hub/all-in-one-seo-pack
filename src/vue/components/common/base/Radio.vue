@@ -37,7 +37,11 @@
 	</label>
 </template>
 <script>
+import SvgCheckmark from '@/vue/components/common/svg/Checkmark'
 export default {
+	components : {
+		SvgCheckmark
+	},
 	props : {
 		value      : [ String, Boolean ],
 		name       : String,

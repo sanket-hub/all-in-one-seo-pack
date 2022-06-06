@@ -6,7 +6,7 @@ import sentencesLength from '../stringProcessing/sentencesLength'
  * @param {Paper} paper The Paper object to get text from.
  * @returns {Array} The sentences from the text.
  */
-export default function(paper) {
-	var sentences = getSentences(paper)
+export default function (paper) {
+	const sentences = getSentences(paper)
 	return sentencesLength(sentences)
 }

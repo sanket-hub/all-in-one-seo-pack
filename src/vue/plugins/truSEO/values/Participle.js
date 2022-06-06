@@ -1,78 +1,75 @@
-import defaults from "lodash/defaults";
-import forEach from "lodash/forEach";
-import isString from "lodash/isString";
-
-import { getType, isSameType } from "../researches/helpers/types";
+import { defaults, forEach, isString } from 'lodash-es'
+import { getType, isSameType } from '../researches/helpers/types'
 
 /**
  * Default attributes to be used by the Participle if they are left undefined.
  * @type { { auxiliaries: array, type: string } }
  */
-var defaultAttributes = {
-	auxiliaries: [],
-	type: "",
-	language: "",
-};
+const defaultAttributes = {
+	auxiliaries : [],
+	type        : '',
+	language    : ''
+}
 
 /**
  * Validates the type of all attributes. Throws an error if the type is invalid.
  *
- * @param {object} attributes The object containing all attributes.
+ * @param {Object} attributes The object containing all attributes.
  * @returns {void}
  */
-var validateAttributes = function( attributes ) {
-	forEach( attributes, function( attributeValue, attributeName ) {
-		var expectedType = getType( defaultAttributes[ attributeName ] );
-		if ( isSameType( attributeValue, expectedType ) === false ) {
-			throw Error( "Attribute " + attributeName + " has invalid type. Expected " + expectedType + ", got " + getType( attributeValue ) + "." );
+const validateAttributes = function (attributes) {
+	forEach(attributes, function (attributeValue, attributeName) {
+		const expectedType = getType(defaultAttributes[attributeName])
+		if (false === isSameType(attributeValue, expectedType)) {
+			throw Error('Attribute ' + attributeName + ' has invalid type. Expected ' + expectedType + ', got ' + getType(attributeValue) + '.')
 		}
-	} );
-};
+	})
+}
 
 /**
  * Construct the Participle object and set the participle, sentence part, auxiliary and type.
  *
  * @param {string} participle The participle.
  * @param {string} sentencePart The sentence part where the participle is from.
- * @param {object} attributes The object containing all attributes.
+ * @param {Object} attributes The object containing all attributes.
  * @constructor
  */
-var Participle = function( participle, sentencePart, attributes ) {
-	this.setParticiple( participle );
-	this.setSentencePart( sentencePart );
-	this._determinesSentencePartIsPassive = false;
+const Participle = function (participle, sentencePart, attributes) {
+	this.setParticiple(participle)
+	this.setSentencePart(sentencePart)
+	this._determinesSentencePartIsPassive = false
 
-	attributes = attributes || {};
+	attributes = attributes || {}
 
-	defaults( attributes, defaultAttributes );
+	defaults(attributes, defaultAttributes)
 
-	validateAttributes( attributes );
+	validateAttributes(attributes)
 
-	this._attributes = attributes;
-};
+	this._attributes = attributes
+}
 
 /**
  * Sets the participle.
  * @param {string} participle The participle.
  * @returns {void}.
  */
-Participle.prototype.setParticiple = function( participle ) {
-	if ( participle === "" ) {
-		throw Error( "The participle should not be empty." );
+Participle.prototype.setParticiple = function (participle) {
+	if ('' === participle) {
+		throw Error('The participle should not be empty.')
 	}
-	if ( ! isString( participle ) ) {
-		throw Error( "The participle should be a string." );
+	if (!isString(participle)) {
+		throw Error('The participle should be a string.')
 	}
-	this._participle = participle;
-};
+	this._participle = participle
+}
 
 /**
  * Returns the participle.
- * @returns {String} The participle.
+ * @returns {string} The participle.
  */
-Participle.prototype.getParticiple = function() {
-	return this._participle;
-};
+Participle.prototype.getParticiple = function () {
+	return this._participle
+}
 
 /**
  * Sets the SentencePart.
@@ -80,79 +77,79 @@ Participle.prototype.getParticiple = function() {
  * @param {string} sentencePart The sentence part.
  * @returns {void}.
  */
-Participle.prototype.setSentencePart = function( sentencePart ) {
-	if ( sentencePart === "" ) {
-		throw Error( "The sentence part should not be empty." );
+Participle.prototype.setSentencePart = function (sentencePart) {
+	if ('' === sentencePart) {
+		throw Error('The sentence part should not be empty.')
 	}
-	this._sentencePart = sentencePart;
-};
+	this._sentencePart = sentencePart
+}
 
 /**
  * Returns the sentence part.
- * @returns {String} The sentence part.
+ * @returns {string} The sentence part.
  */
-Participle.prototype.getSentencePart = function() {
-	return this._sentencePart;
-};
+Participle.prototype.getSentencePart = function () {
+	return this._sentencePart
+}
 
 /**
  * Returns the type.
- * @returns {String} The type.
+ * @returns {string} The type.
  */
-Participle.prototype.getType = function() {
-	return this._attributes.type;
-};
+Participle.prototype.getType = function () {
+	return this._attributes.type
+}
 
 /**
  * Returns the auxiliaries.
- * @returns {String} The auxiliaries.
+ * @returns {string} The auxiliaries.
  */
-Participle.prototype.getAuxiliaries = function() {
-	return this._attributes.auxiliaries;
-};
+Participle.prototype.getAuxiliaries = function () {
+	return this._attributes.auxiliaries
+}
 
 /**
  * Returns the language.
  * @returns {string} The language.
  */
-Participle.prototype.getLanguage = function() {
-	return this._attributes.language;
-};
+Participle.prototype.getLanguage = function () {
+	return this._attributes.language
+}
 
 /**
  * Returns if the participle is passive or not.
  * @returns {boolean} True if it is passive.
  */
-Participle.prototype.determinesSentencePartIsPassive = function() {
-	return this._determinesSentencePartIsPassive;
-};
+Participle.prototype.determinesSentencePartIsPassive = function () {
+	return this._determinesSentencePartIsPassive
+}
 
 /**
  * Determines if the sentence is passive or not.
  * @param {boolean} passive Whether the sentence part is passive.
  * @returns {void}
  */
-Participle.prototype.setSentencePartPassiveness = function( passive ) {
-	if ( ! isSameType( passive, "boolean" ) ) {
-		throw Error( "Passiveness had invalid type. Expected boolean, got " + getType( passive ) + "." );
+Participle.prototype.setSentencePartPassiveness = function (passive) {
+	if (!isSameType(passive, 'boolean')) {
+		throw Error('Passiveness had invalid type. Expected boolean, got ' + getType(passive) + '.')
 	}
-	this._determinesSentencePartIsPassive = passive;
-};
+	this._determinesSentencePartIsPassive = passive
+}
 
 /**
  * Serializes the Participle instance to an object.
  *
  * @returns {Object} The serialized Participle.
  */
-Participle.prototype.serialize = function() {
+Participle.prototype.serialize = function () {
 	return {
-		_parseClass: "Participle",
-		attributes: this._attributes,
-		participle: this._participle,
-		sentencePart: this._sentencePart,
-		determinesSentencePartIsPassive: this._determinesSentencePartIsPassive,
-	};
-};
+		_parseClass                     : 'Participle',
+		attributes                      : this._attributes,
+		participle                      : this._participle,
+		sentencePart                    : this._sentencePart,
+		determinesSentencePartIsPassive : this._determinesSentencePartIsPassive
+	}
+}
 
 /**
  * Parses the object to a Participle.
@@ -161,11 +158,11 @@ Participle.prototype.serialize = function() {
  *
  * @returns {Participle} The parsed Participle.
  */
-Participle.parse = function( serialized ) {
-	const participle = new Participle( serialized.participle, serialized.sentencePart, serialized.attributes );
-	participle.setSentencePartPassiveness( serialized.determinesSentencePartIsPassive );
+Participle.parse = function (serialized) {
+	const participle = new Participle(serialized.participle, serialized.sentencePart, serialized.attributes)
+	participle.setSentencePartPassiveness(serialized.determinesSentencePartIsPassive)
 
-	return participle;
-};
+	return participle
+}
 
-export default Participle;
+export default Participle

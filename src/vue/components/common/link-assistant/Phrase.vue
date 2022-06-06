@@ -34,8 +34,11 @@
 
 <script>
 import { escapeRegex } from '@/vue/utils/regex'
-
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
 export default {
+	components : {
+		CoreTooltip
+	},
 	props : {
 		phrase : {
 			type     : String,

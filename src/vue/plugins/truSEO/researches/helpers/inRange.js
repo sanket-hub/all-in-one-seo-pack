@@ -6,8 +6,8 @@
  * @param {number} end The end of the range.
  * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
  */
-function inRangeEndInclusive( number, start, end ) {
-	return number > start && number <= end;
+function inRangeEndInclusive (number, start, end) {
+	return number > start && number <= end
 }
 
 /**
@@ -18,8 +18,8 @@ function inRangeEndInclusive( number, start, end ) {
  * @param {number} end The end of the range.
  * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
  */
-function inRangeStartInclusive( number, start, end ) {
-	return number >= start && number < end;
+function inRangeStartInclusive (number, start, end) {
+	return number >= start && number < end
 }
 
 /**
@@ -30,20 +30,20 @@ function inRangeStartInclusive( number, start, end ) {
  * @param {number} end The end of the range.
  * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
  */
-function inRangeStartEndInclusive( number, start, end ) {
-	return number >= start && number <= end;
+function inRangeStartEndInclusive (number, start, end) {
+	return number >= start && number <= end
 }
 
 export {
 	inRangeEndInclusive as inRange,
 	inRangeStartInclusive,
 	inRangeEndInclusive,
-	inRangeStartEndInclusive,
-};
+	inRangeStartEndInclusive
+}
 
 export default {
-	inRange: inRangeEndInclusive,
-	inRangeStartInclusive: inRangeStartInclusive,
-	inRangeEndInclusive: inRangeEndInclusive,
-	inRangeStartEndInclusive: inRangeStartEndInclusive,
-};
+	inRange                  : inRangeEndInclusive,
+	inRangeStartInclusive    : inRangeStartInclusive,
+	inRangeEndInclusive      : inRangeEndInclusive,
+	inRangeStartEndInclusive : inRangeStartEndInclusive
+}

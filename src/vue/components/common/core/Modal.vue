@@ -39,7 +39,11 @@
 </template>
 
 <script>
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	components : {
+		SvgClose
+	},
 	props : {
 		noHeader : Boolean,
 		isolate  : Boolean,

@@ -9,11 +9,13 @@
 
 <script>
 import AnalyzeCompetitorSite from './AnalyzeCompetitorSite'
+import CoreMain from '@/vue/components/common/core/main/Index.vue'
 import SeoAuditChecklist from './SeoAuditChecklist'
 import HeadlineAnalyzer from './HeadlineAnalyzer'
 export default {
 	components : {
 		AnalyzeCompetitorSite,
+		CoreMain,
 		SeoAuditChecklist,
 		HeadlineAnalyzer
 	},

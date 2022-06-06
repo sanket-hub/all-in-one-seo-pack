@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ed9794b461bf2f1df5eb076298e5e15c13844aea',
+        'reference' => '60e0367121e3fcecefb446a286686cb0232eb07e',
         'name' => 'awesomemotive/all-in-one-seo-pack-pro',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ed9794b461bf2f1df5eb076298e5e15c13844aea',
+            'reference' => '60e0367121e3fcecefb446a286686cb0232eb07e',
             'dev_requirement' => false,
         ),
         'instituteweb/composer-scripts' => array(
@@ -46,6 +46,15 @@
             'reference' => '1817faadd1846cd08be9a49e905dc68823bc38c0',
             'dev_requirement' => false,
         ),
+        'phpoption/phpoption' => array(
+            'pretty_version' => '1.5.3',
+            'version' => '1.5.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoption/phpoption',
+            'aliases' => array(),
+            'reference' => '77fbb6dc0ba4fd330caaa97468556bb67185216f',
+            'dev_requirement' => true,
+        ),
         'psr/log' => array(
             'pretty_version' => '1.1.4',
             'version' => '1.1.4.0',
@@ -60,6 +69,24 @@
             'provided' => array(
                 0 => '1.0.0',
             ),
+        ),
+        'symfony/polyfill-ctype' => array(
+            'pretty_version' => 'v1.19.0',
+            'version' => '1.19.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-ctype',
+            'aliases' => array(),
+            'reference' => 'aed596913b70fae57be53d86faa2e9ef85a2297b',
+            'dev_requirement' => true,
+        ),
+        'vlucas/phpdotenv' => array(
+            'pretty_version' => 'v3.6.10',
+            'version' => '3.6.10.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../vlucas/phpdotenv',
+            'aliases' => array(),
+            'reference' => '5b547cdb25825f10251370f57ba5d9d924e6f68e',
+            'dev_requirement' => true,
         ),
         'woocommerce/action-scheduler' => array(
             'pretty_version' => '3.1.6',

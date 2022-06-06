@@ -1,5 +1,5 @@
 <template>
-	<div class="aioseo-sa-ct-custom-fields">
+	<div class="aioseo-sa-ct-custom-fields lite">
 		<core-blur>
 			<core-settings-row
 				:name="strings.customFields"
@@ -34,7 +34,17 @@
 
 <script>
 import { mapState } from 'vuex'
+import BaseTextarea from '@/vue/components/common/base/Textarea'
+import CoreBlur from '@/vue/components/common/core/Blur'
+import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
+	components : {
+		BaseTextarea,
+		CoreBlur,
+		CoreSettingsRow,
+		Cta
+	},
 	props : {
 		type : {
 			type     : String,
@@ -50,11 +60,19 @@ export default {
 			strings : {
 				customFields            : this.$t.__('Custom Fields', this.$td),
 				customFieldsDescription : this.$t.__('List of custom field names to include in the SEO Page Analysis. Add one per line.', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaDescription          : this.$t.sprintf(this.$t.__('%1$s %2$s gives you advanced customizations for our page analysis feature, letting you add custom fields to analyze.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro'),
-				ctaButtonText           : this.$t.__('Upgrade to Pro and Unlock Custom Fields', this.$td),
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-				ctaHeader               : this.$t.sprintf(this.$t.__('Custom Fields are only available for licensed %1$s %2$s users.', this.$td), process.env.VUE_APP_SHORT_NAME, 'Pro')
+				ctaDescription          : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('%1$s %2$s gives you advanced customizations for our page analysis feature, letting you add custom fields to analyze.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				),
+				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Custom Fields', this.$td),
+				ctaHeader     : this.$t.sprintf(
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
+					this.$t.__('Custom Fields are only available for licensed %1$s %2$s users.', this.$td),
+					import.meta.env.VITE_SHORT_NAME,
+					'Pro'
+				)
 			}
 		}
 	},
@@ -71,6 +89,8 @@ export default {
 
 <style lang="scss">
 .aioseo-sa-ct-custom-fields {
-	min-height: 350px;
+	.lite {
+		min-height: 350px;
+	}
 }
 </style>
