@@ -60,7 +60,7 @@ export default {
 				},
 				{
 					icon : 'svg-linkedin-rounded',
-					link : 'http://www.linkedin.com/shareArticle?url='
+					link : 'https://www.linkedin.com/shareArticle?url='
 				}
 			].map(network => {
 				return { ...network, link: network.link + this.liveTags.permalink }

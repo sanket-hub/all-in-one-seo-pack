@@ -4,6 +4,7 @@
 			<div class="facebook-header">
 				<div class="profile-photo">
 					<img
+						alt="Facebook Preview Image"
 						:src="$getImgUrl(dannieProfileImg)"
 					/>
 				</div>

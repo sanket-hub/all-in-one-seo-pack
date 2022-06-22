@@ -62,3 +62,8 @@ export default {
 	}
 }
 </script>
+<style scoped lang="scss">
+.aioseo-sa-image-seo {
+	min-height: 650px;
+}
+</style>

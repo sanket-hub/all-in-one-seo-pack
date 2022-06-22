@@ -73,8 +73,6 @@ export default {
 		align-items: center;
 		height: 40px;
 		background-color: $green;
-		display: flex;
-		align-items: center;
 		justify-content: center;
 		color: #fff;
 		font-size: 13px;

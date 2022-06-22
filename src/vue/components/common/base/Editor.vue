@@ -322,6 +322,10 @@ export default {
 			}
 		},
 		async startup (reset = false) {
+			if (this.allowTags && !this.$refs['tag-search']) {
+				return
+			}
+
 			this.quill = new Quill(this.$refs.quill, {
 				modules : {
 					toolbar     : !this.showToolbar ? [] : [ 'bold', 'italic', 'underline', 'autoLink'/* , { list: 'bullet' }, { list: 'ordered' } */ ],
@@ -425,8 +429,10 @@ export default {
 
 			// Stop auto scrolling to the editor on paste of the HTML.
 			const scrollTop = document.documentElement.scrollTop
+
 			this.quill.clipboard.dangerouslyPasteHTML(0, value, Quill.sources.API)
 			this.quill.blur()
+
 			const mention = this.quill.getModule('mention')
 			if (mention) {
 				mention.removeOrphanedMentionChar()
@@ -448,6 +454,12 @@ export default {
 			this.quill.on('selection-change', (range, oldRange, source) => {
 				if ('api' === source) {
 					this.update()
+				}
+
+				if (!range) {
+					this.$emit('blur', this.quill)
+				} else {
+					this.$emit('focus', this.quill)
 				}
 
 				this.$emit('selection-change', {
@@ -501,9 +513,22 @@ export default {
 	mounted () {
 		this.localTags = this.getTags()
 		this.startup(true)
+
+		if (this.tagsContext) {
+			this.$bus.$on('updateEditor' + this.tagsContext, (uid) => {
+				if (uid !== this._uid) {
+					this.startup(true)
+				}
+			})
+		}
 	},
 	beforeDestroy () {
 		document.removeEventListener('click', this.maybeCloseMenu)
+	},
+	destroyed () {
+		if (this.tagsContext) {
+			this.$bus.$emit('updateEditor' + this.tagsContext, this._uid)
+		}
 	}
 }
 </script>

@@ -7,7 +7,7 @@
 				<core-main-tabs
 					:tabs="getTabs"
 					:showSaveButton="false"
-					:active="currentPost.tabs.tab_modal"
+					:active="metaBoxTabs.modal"
 					internal
 					@changed="value => processChangeTab(value)"
 				/>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import General from './General'
@@ -63,16 +63,16 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost' ]),
+		...mapState([ 'metaBoxTabs' ]),
 		getTabs () {
 			return this.tabs.filter(tab => this.$allowed(`aioseo_page_${tab.slug}_settings`))
 		}
 	},
 	methods : {
-		...mapActions([ 'changeTabSettings' ]),
+		...mapMutations([ 'changeTabSettings' ]),
 		processChangeTab (newTabValue) {
 			this.activeTab = newTabValue
-			this.changeTabSettings({ setting: 'tab_modal', value: newTabValue })
+			this.changeTabSettings({ setting: 'modal', value: newTabValue })
 		}
 	}
 }

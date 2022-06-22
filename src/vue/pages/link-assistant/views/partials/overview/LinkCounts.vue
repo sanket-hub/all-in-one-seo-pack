@@ -83,6 +83,7 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-link-assistant-statistics {
+	margin-top: 0;
 	.counter {
 		display: flex;
 		justify-content: center;

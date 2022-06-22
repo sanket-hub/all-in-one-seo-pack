@@ -83,7 +83,7 @@ export default {
 		this._vm.$set(state.currentPost, setting, value)
 	},
 	changeTabSettings (state, { setting, value }) {
-		this._vm.$set(state.currentPost.tabs, setting, value)
+		this._vm.$set(state.metaBoxTabs, setting, value)
 	},
 	openModal (state, value) {
 		this._vm.$set(state.currentPost, 'modalOpen', value)
@@ -132,5 +132,12 @@ export default {
 	},
 	updateAdditionalPages (state, pages) {
 		this._vm.$set(state.options.sitemap.general.additionalPages, 'pages', pages)
+	},
+	incrementInternalLinkCount (state) {
+		const count = state.currentPost.options.linkFormat.internalLinkCount || 0
+		this._vm.$set(state.currentPost.options.linkFormat, 'internalLinkCount', count + 1)
+	},
+	disableLinkAssistantEducation (state) {
+		this._vm.$set(state.currentPost.options.linkFormat, 'linkAssistantDismissed', true)
 	}
 }

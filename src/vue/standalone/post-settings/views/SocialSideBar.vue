@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import SvgPencil from '@/vue/components/common/svg/Pencil'
 export default {
@@ -38,8 +38,9 @@ export default {
 	},
 	methods : {
 		...mapActions([ 'openModal' ]),
+		...mapMutations([ 'changeTabSettings' ]),
 		openModalEv () {
-			this.$store.commit('changeTabSettings', { setting: 'tab_modal', value: 'social' })
+			this.changeTabSettings({ setting: 'modal', value: 'social' })
 			this.openModal(true)
 		}
 	}

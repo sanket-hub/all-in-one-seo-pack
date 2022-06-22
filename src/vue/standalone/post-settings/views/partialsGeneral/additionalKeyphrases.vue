@@ -111,17 +111,16 @@ export default {
 			this.currentPost.keyphrases.additional[index].keyphrase = value
 			this.currentPost.keyphrases.additional[index].score = 0
 			this.currentPost.loading.additional[index] = true
-			setTimeout(() => {
-				this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-				this.currentPost.loading.additional[index] = false
-				this.selectedKeyphrase = index
-				this.setIsDirty()
-			}, 2000)
+
+			this.setIsDirty()
+			this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
+			this.selectedKeyphrase = index
 		},
 		onDeleted (index) {
 			this.currentPost.keyphrases.additional.splice(index, 1)
 			this.selectedKeyphrase = 0
 			this.setIsDirty()
+			this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
 		},
 		addKeyphraseEv () {
 			const keyphraseInputComponent = document.getElementsByClassName(`add-keyphrase-${this.$root._data.screenContext}-input`)
@@ -133,11 +132,10 @@ export default {
 				this.currentPost.loading.additional[0] = true
 				keyphraseInput.value = ''
 				keyphraseInput.blur()
-				setTimeout(() => {
-					this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-					keyphrasePanel[newKeyphraseIndex]?.click()
-					this.setIsDirty()
-				}, 2000)
+
+				this.setIsDirty()
+				keyphrasePanel[newKeyphraseIndex]?.click()
+				this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
 			}
 		},
 		pressEnter (event) {

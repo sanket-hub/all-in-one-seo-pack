@@ -1,3 +1,7 @@
+if (!window.wp.blockEditor && window.wp.blocks && window.wp.oldEditor) {
+	window.wp.blockEditor = window.wp.editor
+}
+
 export const isBlockEditor = () => {
 	return document.body.classList.contains('block-editor-page') && window.wp.data && canLoadBlocks()
 }

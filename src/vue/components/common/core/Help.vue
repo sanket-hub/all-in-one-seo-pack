@@ -242,7 +242,7 @@ export default {
 		height: 100%;
 		width: 100vw;
 		background-color: #fff;
-		color: $placeholder-color;
+		color: $black;
 		opacity: 0;
 		max-height: 100vh;
 		overflow-y: auto;
@@ -320,10 +320,11 @@ export default {
 					cursor: pointer;
 					width: 100%;
 					height: 68px;
+
 					.title {
 						display: block;
 						font-size: 16px;
-						color: $placeholder-color;
+						color: $black;
 						font-weight: 600;
 						padding: 23px 11px 23px 30px;
 					}
@@ -334,14 +335,16 @@ export default {
 					top: 24px;
 					width: 20px;
 					height: 20px;
-					color: $placeholder-color;
+					color: $black;
 				}
+
 				.dashicons-arrow-right-alt2 {
 					position: absolute;
 					top: 20px;
 					right: 0;
 					transition: transform 0.3s ease-out;
 				}
+
 				&.opened {
 					.aioseo-help-docs {
 						display: block;
@@ -351,6 +354,7 @@ export default {
 					}
 				}
 			}
+
 			#aioseo-help-search {
 				position: relative;
 				background-color: #fff;
@@ -358,74 +362,90 @@ export default {
 				top: 0;
 				padding: 20px 0 50px 0;
 			}
+
 			#aioseo-help-result {
 				.aioseo-help-docs {
 					display: block;
 				}
 			}
+
 			#aioseo-help-footer {
 				display: flex;
 				flex-wrap: nowrap;
 				justify-content: space-between;
 				align-items: center;
 				margin: 50px 0 0 0;
+
 				@media screen and (max-width: 750px) {
 					display: block;
 				}
+
 				.aioseo-help-footer-block {
 					box-sizing: border-box;
 					max-width: 325px;
 					border: 1px solid $placeholder-color;
 					border-radius: 6px;
 					text-align: center;
+
 					@media screen and (max-width: 750px) {
 						max-width: 100%;
 					}
+
 					&:first-child {
 						margin-right: 20px;
+
 						@media screen and (max-width: 750px) {
 							margin: 0 0 20px 0;
 						}
 					}
+
 					a {
 						display: block;
 						padding: 25px;
 						text-decoration: none;
-						color: $placeholder-color;
+						color: $black;
+
 						h3 {
-							color: $placeholder-color;
+							color: $black;
 						}
+
 						span {
 							font-size: 16px;
 							color: $blue;
 							text-decoration: underline;
 						}
+
 						&:hover span {
 							text-decoration: none;
 						}
 					}
 				}
+
 				.aioseo-description,
 				.aioseo-support {
 					width: 48px;
 					margin-top: 0;
-					color: $placeholder-color;
+					color: $black;
 				}
 			}
 		}
 	}
+
 	#aioseo-help-logo {
 		width: 132px;
 		height: 26px;
 		z-index: 2;
 	}
+
 	#aioseo-help-close {
+		color: $black;
 		width: 20px;
 		height: 20px;
 		cursor: pointer;
 		opacity: 0.7;
 		transition: all 0.05s;
 		z-index: 2;
+
 		@media screen and (max-width: 750px) {
 			top: 20px;
 			right: 20px;

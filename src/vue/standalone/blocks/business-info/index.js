@@ -9,7 +9,7 @@ import BusinessInfoSidebar from './BusinessInfoSidebar.vue'
 const wp = window.wp
 const el = wp.element.createElement
 const Fragment = wp.element.Fragment
-const InspectorControls = wp.blockEditor.InspectorControls || wp.editor.InspectorControls
+const InspectorControls = wp.blockEditor?.InspectorControls || wp.editor.InspectorControls
 const PanelBody = wp.components.PanelBody
 const Disabled = wp.components.Disabled
 const ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender

@@ -34,6 +34,7 @@ import {
 import { useInstanceId } from '@wordpress/compose'
 import { useSelect } from '@wordpress/data'
 import { focus } from '@wordpress/dom'
+import { doAction } from '@wordpress/hooks'
 
 /**
  * Internal dependencies
@@ -359,7 +360,7 @@ function LinkControl ({
 			}
 
 			return isURLLike(val)
-				? handleDirectEntry(val, args)
+				? handleDirectEntry(val)
 				: handleEntitySearch(val, args)
 		},
 		[ handleDirectEntry, fetchSearchSuggestions ]
@@ -412,6 +413,12 @@ function LinkControl ({
 	const handleSelectSuggestion = (suggestion, _value = {}) => {
 		setIsEditingLink(false)
 		onChange({ ..._value, ...suggestion })
+
+		doAction('aioseo-link-format-link-added', {
+			...value,
+			...suggestion,
+			title : null
+		})
 	}
 
 	// Render Components
@@ -529,6 +536,12 @@ function LinkControl ({
 										...suggestion,
 										title
 									})
+
+									doAction('aioseo-link-format-link-added', {
+										...value,
+										...suggestion,
+										title
+									})
 								} }
 								isSelected={ index === selectedSuggestion }
 								isURL={ directLinkEntryTypes.includes(
@@ -547,6 +560,7 @@ function LinkControl ({
 		() => ({ url: value && value.url }),
 		[ value && value.url ]
 	)
+
 	return (
 		<div
 			tabIndex={ -1 }
@@ -624,6 +638,13 @@ function LinkControl ({
 				onChange={ onChange }
 				selectedText={ selectedText }
 			/>
+			<div id="aioseo-link-assistant-education">
+				<div id="aioseo-link-assistant-education-mount"></div>
+				<input
+					type="hidden"
+					value={ JSON.stringify(value) }
+				/>
+			</div>
 		</div>
 	)
 }

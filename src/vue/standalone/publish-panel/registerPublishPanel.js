@@ -1,4 +1,4 @@
-import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/truSEO/components/helpers'
+import { isBlockEditor, shouldShowMetaBox } from '@/vue/plugins/tru-seo/components/helpers'
 
 (function (wp) {
 	if (!isBlockEditor() || !shouldShowMetaBox() || !wp.editPost.PluginDocumentSettingPanel) {

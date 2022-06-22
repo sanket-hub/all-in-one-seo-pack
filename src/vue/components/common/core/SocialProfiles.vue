@@ -4,20 +4,20 @@
 			<div class="use-same">
 				<base-checkbox
 					size="medium"
-					v-model="options.social.profiles.sameUsername.enable"
+					v-model="profileData.sameUsername.enable"
 				>
 					<span>{{ strings.useSameUsername }}</span>
 				</base-checkbox>
 
 				<core-settings-row
 					:name="strings.yourUsername"
-					v-if="options.social.profiles.sameUsername.enable"
+					v-if="profileData.sameUsername.enable"
 					align
 				>
 					<template #content>
 						<base-input
 							size="medium"
-							v-model="options.social.profiles.sameUsername.username"
+							v-model="profileData.sameUsername.username"
 						/>
 
 						<grid-row
@@ -28,7 +28,7 @@
 								:key="index"
 								:md="sameUsernameWidth"
 								sm="6"
-								:class="profile.value"
+								:class="profile.key"
 							>
 								<base-checkbox
 									size="medium"
@@ -47,12 +47,12 @@
 		<div class="aioseo-social-profile-list">
 			<core-settings-row
 				class="social-profile"
-				v-for="(profile, index) in profiles"
-				:key="index"
+				v-for="profile in profiles"
+				:key="profile.key + errorsKey"
 				align
 				:leftSize="leftSize"
 				:rightSize="rightSize"
-				:class="profile.value"
+				:class="profile.key"
 			>
 				<template #name>
 					<component
@@ -63,20 +63,22 @@
 
 				<template #content>
 					<base-input
-						v-if="!options.social.profiles.sameUsername.enable || !options.social.profiles.sameUsername.included.includes(profile.value)"
+						v-if="!profileData.sameUsername.enable || !profileData.sameUsername.included.includes(profile.key)"
 						size="medium"
-						:value="options.social.profiles.urls[profile.value]"
+						:value="profileData.urls[profile.key]"
 						@blur="validateUrl($event, profile)"
 					/>
+
 					<core-alert
 						class="profile-error"
-						v-if="profile.error && (!options.social.profiles.sameUsername.enable || !options.social.profiles.sameUsername.included.includes(profile.value))"
+						v-if="errors[profile.key] && (!profileData.sameUsername.enable || !profileData.sameUsername.included.includes(profile.key))"
 						type="red"
 					>
-						<strong>{{ profile.error }}</strong>
+						<strong>{{ errors[profile.key] }}</strong>
 					</core-alert>
+
 					<base-input
-						v-if="options.social.profiles.sameUsername.enable && options.social.profiles.sameUsername.included.includes(profile.value)"
+						v-if="profileData.sameUsername.enable && profileData.sameUsername.included.includes(profile.key)"
 						size="medium"
 						disabled
 						:value="getUrl(profile)"
@@ -84,11 +86,32 @@
 				</template>
 			</core-settings-row>
 		</div>
+
+		<core-settings-row
+			class="additional-social-profiles"
+			:name="strings.additionalProfiles"
+			v-if="!hideAdditionalProfiles"
+		>
+			<template #content>
+				<base-textarea
+					:minHeight="100"
+					:autosize="false"
+					v-model="profileData.additionalUrls"
+				/>
+
+				<div class="aioseo-description">
+					{{ strings.additionalProfilesDescription }}
+				</div>
+			</template>
+		</core-settings-row>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
+import BaseTextarea from '@/vue/components/common/base/Textarea'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
@@ -104,9 +127,11 @@ import SvgIconTwitter from '@/vue/components/common/svg/icon/Twitter'
 import SvgIconWikipedia from '@/vue/components/common/svg/icon/Wikipedia'
 import SvgIconYelp from '@/vue/components/common/svg/icon/Yelp'
 import SvgIconYoutube from '@/vue/components/common/svg/icon/Youtube'
+
 export default {
 	components : {
 		BaseCheckbox,
+		BaseTextarea,
 		CoreAlert,
 		CoreSettingsRow,
 		GridColumn,
@@ -124,10 +149,6 @@ export default {
 		SvgIconYoutube
 	},
 	props : {
-		options : {
-			type     : Object,
-			required : true
-		},
 		leftSize : {
 			type : String,
 			default () {
@@ -145,160 +166,172 @@ export default {
 			default () {
 				return '3'
 			}
+		},
+		userProfiles : {
+			type     : Object,
+			required : false
+		},
+		hideAdditionalProfiles : {
+			type : Boolean,
+			default () {
+				return false
+			}
 		}
 	},
 	data () {
 		return {
-			profiles : [
+			pagePostOptions : [],
+			errors          : {},
+			errorsKey       : 0,
+			strings         : {
+				useSameUsername               : this.$t.__('Use the same username for multiple social networks', this.$td),
+				yourUsername                  : this.$t.__('Your Username:', this.$td),
+				additionalProfiles            : this.$t.__('Additional Profiles', this.$td),
+				additionalProfilesDescription : this.$t.__('You can add additional social profile URLs here, separated by a new line.', this.$td)
+			}
+		}
+	},
+	computed : {
+		...mapState([ 'options' ]),
+		profileData () {
+			return this.userProfiles || this.options.social.profiles
+		},
+		profiles () {
+			// We use a set of alternative keys for the User Profile Tab as we otherwise would need to migrate old, existing links for Facebook and Twitter.
+			return [
 				{
-					value      : 'facebookPageUrl',
+					key        : 'facebookPageUrl',
 					name       : 'Facebook',
-					label      : 'Facebook Page URL',
+					label      : this.userProfiles ? 'Facebook URL' : 'Facebook Page URL',
 					url        : 'https://facebook.com',
 					svg        : 'svg-icon-facebook',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?facebook\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Facebook URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'twitterUrl',
+					key        : 'twitterUrl',
 					name       : 'Twitter',
 					label      : 'Twitter URL',
 					url        : 'https://twitter.com',
 					svg        : 'svg-icon-twitter',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?twitter\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Twitter URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'instagramUrl',
+					key        : 'instagramUrl',
 					name       : 'Instagram',
 					label      : 'Instagram URL',
 					url        : 'https://instagram.com',
 					svg        : 'svg-icon-instagram',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?instagram\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Instagram URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'pinterestUrl',
+					key        : 'pinterestUrl',
 					name       : 'Pinterest',
 					label      : 'Pinterest URL',
 					url        : 'https://pinterest.com',
 					svg        : 'svg-icon-pinterest',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?pinterest\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your Pinterest URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'youtubeUrl',
+					key        : 'youtubeUrl',
 					name       : 'YouTube',
 					label      : 'YouTube URL',
 					url        : 'https://youtube.com',
 					svg        : 'svg-icon-youtube',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?youtube\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your YouTube URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'linkedinUrl',
+					key        : 'linkedinUrl',
 					name       : 'LinkedIn',
 					label      : 'LinkedIn URL',
 					url        : 'https://linkedin.com/in',
 					svg        : 'svg-icon-linkedin',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?linkedin\.[a-z.]+\/(?:in|company|school|groups|showcase)\/.*$/.test(v) || this.$t.__('Your LinkedIn URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'tumblrUrl',
+					key        : 'tumblrUrl',
 					name       : 'Tumblr',
 					label      : 'Tumblr URL',
 					url        : 'https://{profile}.tumblr.com',
 					svg        : 'svg-icon-tumblr',
 					validation : [
-						v => /^https:\/\/([^/]+)\.tumblr\.[a-z.]+(?:.*)?$/.test(v) || this.$t.__('Your Tumblr URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+						v => /^https:\/\/([^/]+)\.tumblr\.[a-z.]+.*$/.test(v) || this.$t.__('Your Tumblr URL is invalid. Please check the format and try again.', this.$td)
+					]
 				},
 				{
-					value      : 'yelpPageUrl',
+					key        : 'yelpPageUrl',
 					name       : 'Yelp',
 					label      : 'Yelp Page URL',
 					url        : 'https://yelp.com/biz',
 					svg        : 'svg-icon-yelp',
 					validation : [
 						v => /^https:\/\/(?:www\.)?yelp\.[a-z.]+\/biz\/.*$/.test(v) || this.$t.__('Your Yelp URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'soundCloudUrl',
+					key        : 'soundCloudUrl',
 					name       : 'SoundCloud',
 					label      : 'SoundCloud URL',
 					url        : 'https://soundcloud.com',
 					svg        : 'svg-icon-sound-cloud',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?soundcloud\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your SoundCloud URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'wikipediaUrl',
+					key        : 'wikipediaUrl',
 					name       : 'Wikipedia',
 					label      : 'Wikipedia URL',
 					url        : 'https://en.wikipedia.org/wiki',
 					svg        : 'svg-icon-wikipedia',
 					validation : [
 						v => /^https:\/\/([a-z-]+)\.wikipedia\.org\/wiki\/.*$/.test(v) || this.$t.__('Your Wikipedia URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				},
 				{
-					value      : 'myspaceUrl',
+					key        : 'myspaceUrl',
 					name       : 'MySpace',
 					label      : 'MySpace URL',
 					url        : 'https://myspace.com',
 					svg        : 'svg-icon-myspace',
 					validation : [
 						v => /^https:\/\/(?:www\.)?(?:[a-zA-Z0-9]+.)?myspace\.[a-z.]+\/.*$/.test(v) || this.$t.__('Your MySpace URL is invalid. Please check the format and try again.', this.$td)
-					],
-					error : ''
+					]
 				}
-			],
-			pagePostOptions : [],
-			strings         : {
-				useSameUsername : this.$t.__('Use the same username for multiple social networks', this.$td),
-				yourUsername    : this.$t.__('Your Username:', this.$td)
-			}
+			]
 		}
 	},
 	methods : {
 		updateValue (checked, profile) {
 			if (checked) {
-				const included = this.options.social.profiles.sameUsername.included
-				included.push(profile.value)
-				this.$set(this.options.social.profiles.sameUsername, 'included', included)
+				const included = this.profileData.sameUsername.included
+				included.push(profile.key)
+				this.$set(this.profileData.sameUsername, 'included', included)
 				return
 			}
 
-			const index = this.options.social.profiles.sameUsername.included.findIndex(t => t === profile.value)
+			const index = this.profileData.sameUsername.included.findIndex(t => t === profile.key)
 			if (-1 !== index) {
-				this.$delete(this.options.social.profiles.sameUsername.included, index)
+				this.$delete(this.profileData.sameUsername.included, index)
 			}
 		},
 		getValue (profile) {
-			return this.options.social.profiles.sameUsername.included.includes(profile.value)
+			return this.profileData.sameUsername.included.includes(profile.key)
 		},
 		getUrl (profile) {
-			const username = this.options.social.profiles.sameUsername.username || ''
-			if ('tumblrUrl' === profile.value) {
+			const username = this.profileData.sameUsername.username || ''
+			if ('tumblrUrl' === profile.key) {
 				return profile.url.replace('{profile}', username)
 			}
 			return profile.url + '/' + username
@@ -312,10 +345,12 @@ export default {
 				value = `https://${value}`
 			}
 
-			this.options.social.profiles.urls[profile.value] = value
+			this.profileData.urls[profile.key] = value
 
-			profile.error = ''
 			if (!profile.validation || !value) {
+				this.errors[profile.key] = ''
+				this.errorsKey++
+
 				return
 			}
 
@@ -328,7 +363,22 @@ export default {
 			})
 
 			if (errors.length) {
-				profile.error = errors.join(', ')
+				this.errors[profile.key] = errors.join(', ')
+			} else {
+				this.errors[profile.key] = ''
+			}
+
+			this.errorsKey++
+		},
+		getKey (profileObject) {
+			return this.userProfiles ? profileObject.name.toLowerCase() : profileObject.value
+		}
+	},
+	watch : {
+		userProfiles : {
+			deep : true,
+			handler () {
+				this.$emit('updated', this.userProfiles)
 			}
 		}
 	},
@@ -337,20 +387,24 @@ export default {
 		this.profiles.forEach(profile => {
 			const errors = []
 			profile.validation.forEach(validator => {
-				if (!this.options.social.profiles.urls[profile.value]) {
+				if (!this.profileData.urls[profile.key]) {
 					return
 				}
 
-				const result = validator(this.options.social.profiles.urls[profile.value])
+				const result = validator(this.profileData.urls[profile.key])
 				if (true !== result) {
 					errors.push(result)
 				}
 			})
 
 			if (errors.length) {
-				profile.error = errors.join(', ')
+				this.errors[profile.key] = errors.join(', ')
+			} else {
+				this.errors[profile.key] = ''
 			}
 		})
+
+		this.errorsKey++
 	}
 }
 </script>
@@ -396,6 +450,12 @@ export default {
 				margin-bottom: 0;
 			}
 		}
+	}
+
+	.additional-social-profiles {
+		margin-top: 22px;
+		padding-top: 16px;
+		border-top: 1px solid $border;
 	}
 }
 </style>

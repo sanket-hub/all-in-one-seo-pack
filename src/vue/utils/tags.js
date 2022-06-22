@@ -21,7 +21,7 @@ const context = context => {
 	}
 
 	const contextualTags = []
-	const tags           = []
+	let tags             = []
 	current.forEach(key => {
 		const allTags = store.state.tags.tags.filter(tag => tag.id === key)
 		allTags.forEach(tag => {
@@ -54,7 +54,7 @@ const context = context => {
 
 	const postType = aioseo.postData.postTypes.find(pt => pt.name + 'Title' === context || pt.name + 'Description' === context || 'breadcrumbs-post-type-' + pt.name === context)
 	if (postType) {
-		tags.map(tag => {
+		tags = tags.map(tag => {
 			tag.name        = tag.name.replace('Post', postType.singular)
 			tag.description = tag.description.replace('page/post', postType.singular.toLowerCase())
 			return tag
@@ -72,14 +72,14 @@ const context = context => {
 
 	const taxonomy = aioseo.postData.taxonomies.find(tax => tax.name + 'Title' === context || tax.name + 'Description' === context || 'breadcrumbs-taxonomy-' + tax.name === context)
 	if (taxonomy) {
-		tags.map(tag => {
+		tags = tags.map(tag => {
 			tag.name = tag.name.replace('Category', taxonomy.singular)
 			return tag
 		})
 	}
 
 	if ('dateTitle' === context || 'dateDescription' === context) {
-		tags.map(tag => {
+		tags = tags.map(tag => {
 			tag.name        = tag.name.replace('Category', __('Archive', td))
 			tag.name        = tag.name.replace('Post', __('Archive', td))
 			tag.description = tag.description.replace('page/post', __('archive', td))

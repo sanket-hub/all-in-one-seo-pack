@@ -1149,7 +1149,7 @@ export const WIZARD_FEATURES = [
 	{
 		value       : 'link-assistant',
 		name        : __('Link Assistant', td),
-		description : 'Get relevant suggestions for adding internal links to older content as well as finding any orphaned posts that have no internal links.',
+		description : __('Get relevant suggestions for adding internal links to older content as well as finding any orphaned posts that have no internal links.', td),
 		required    : false,
 		pro         : true,
 		upgrade     : 'aioseo-link-assistant'
@@ -1157,7 +1157,7 @@ export const WIZARD_FEATURES = [
 	{
 		value       : 'index-now',
 		name        : __('Index Now', td),
-		description : 'Add IndexNow support to instantly notify search engines when your content has changed.',
+		description : __('Add IndexNow support to instantly notify search engines when your content has changed.', td),
 		required    : false,
 		pro         : true,
 		upgrade     : 'aioseo-index-now'
@@ -1165,7 +1165,7 @@ export const WIZARD_FEATURES = [
 	{
 		value       : 'rest-api',
 		name        : __('REST API', td),
-		description : 'Manage your post and term SEO meta via the WordPress REST API. This addon also works seamlessly with headless WordPress installs.',
+		description : __('Manage your post and term SEO meta via the WordPress REST API. This addon also works seamlessly with headless WordPress installs.', td),
 		required    : false,
 		pro         : true,
 		upgrade     : 'aioseo-rest-api'
@@ -1173,7 +1173,7 @@ export const WIZARD_FEATURES = [
 	{
 		value       : 'advanced-schema',
 		name        : __('Advanced Rich Snippets + Schema Markups', td),
-		description : '',
+		description : __('Complete support for schema markup so you can get more clicks and traffic with rich snippets.', td),
 		required    : false,
 		pro         : true,
 		upgrade     : false

@@ -1,11 +1,10 @@
 <template>
-	<div class="aioseo-tab-content aioseo-link-assistant">
-		<div v-if="'metabox' === $root._data.screenContext">
-			<RedirectsLite
-				:noCoreCard="true"
-				:parentComponentContext="parentComponentContext"
-			/>
-		</div>
+	<div>
+		<RedirectsLite
+			v-if="'metabox' === $root._data.screenContext"
+			:noCoreCard="true"
+			:parentComponentContext="parentComponentContext"
+		/>
 
 		<core-modal
 			class="aioseo-redirects-modal"

@@ -8,15 +8,12 @@
 				{{ strings.description }}
 			</div>
 
-			<core-social-profiles
-				:options="options"
-			/>
+			<core-social-profiles/>
 		</core-card>
 	</div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreSocialProfiles from '@/vue/components/common/core/SocialProfiles'
 export default {
@@ -32,9 +29,6 @@ export default {
 				description    : this.$t.__('To let search engines know which profiles are associated with this site, enter them below:', this.$td)
 			}
 		}
-	},
-	computed : {
-		...mapState([ 'options' ])
 	}
 }
 </script>

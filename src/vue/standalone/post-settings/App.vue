@@ -1,12 +1,6 @@
 <template>
 	<div>
-		<core-api-bar
-			v-if="!pong"
-		/>
-
-		<core-license-key-bar
-			v-if="$isPro && isUnlicensed && pong"
-		/>
+		<alert v-if="'sidebar' !== this.$root._data.screenContext" />
 
 		<main-view
 			v-if="currentPost.id"
@@ -19,18 +13,15 @@ import '@/vue/assets/scss/main.scss'
 import MainView from './views/Main'
 import { getOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
-import { mapGetters, mapState } from 'vuex'
-import CoreApiBar from '@/vue/components/common/core/ApiBar'
-import CoreLicenseKeyBar from '@/vue/components/AIOSEO_VERSION/core/LicenseKeyBar'
+import { mapState } from 'vuex'
+import Alert from './views/partials/Alert'
 export default {
 	components : {
-		CoreApiBar,
-		CoreLicenseKeyBar,
+		Alert,
 		MainView
 	},
 	computed : {
-		...mapGetters([ 'isUnlicensed' ]),
-		...mapState([ 'currentPost', 'pong' ])
+		...mapState([ 'currentPost' ])
 	},
 	async created () {
 		const {

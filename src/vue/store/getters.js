@@ -7,7 +7,6 @@ export default {
 	activeNotificationsCount    : state => state.notifications.active.length,
 	dismissedNotifications      : state => state.notifications.dismissed,
 	dismissedNotificationsCount : state => state.notifications.dismissed.length,
-	currentPost                 : state => state.currentPost,
 	helpPanel                   : state => state.helpPanel,
 	getSiteAnalysisResults      : state => {
 		let value = {}

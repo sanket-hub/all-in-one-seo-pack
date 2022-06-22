@@ -89,7 +89,7 @@ export default {
 	.modal-wrapper {
 		display: table-cell;
 		vertical-align: middle;
-		font-family: Helvetica;
+		font-family: $font-family;
 
 			@media screen and (max-width: 520px) {
 				display: block;
@@ -156,6 +156,7 @@ export default {
 				overflow-y: auto;
 				overflow-x: hidden;
 				max-height: 80vh;
+				position: relative;
 
 				.aioseo-modal-content {
 					&.has-padding {

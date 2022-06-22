@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="aioseo-link-assistant-overview">
 		<blur />
 
 		<cta
@@ -66,10 +66,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.aioseo-link-assistant-cta.aioseo-cta.floating {
-	top: 200px;
-	transform: translateX(-50%);
-}
-</style>

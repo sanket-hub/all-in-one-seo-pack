@@ -62,6 +62,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { Tags, ImagePreview } from '@/vue/mixins'
 import { Standalone } from '@/vue/mixins/Standalone'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -78,7 +79,7 @@ export default {
 		SvgExternal,
 		SvgPencil
 	},
-	mixins : [ Standalone ],
+	mixins : [ Standalone, Tags, ImagePreview ],
 	data () {
 		return {
 			strings : {
@@ -88,9 +89,10 @@ export default {
 		}
 	},
 	computed : {
+		...mapState([ 'currentPost' ]),
 		...mapState('live-tags', [ 'liveTags' ]),
 		tips () {
-			const tips = [
+			let tips = [
 				{
 					label  : this.$t.__('Visibility', this.$td),
 					name   : 'visibility',
@@ -103,13 +105,18 @@ export default {
 				},
 				{
 					label  : this.$t.__('Readability', this.$td),
-					name   : 'redabilityAnalysis',
+					name   : 'readabilityAnalysis',
 					access : 'aioseo_page_analysis'
 				},
 				{
 					label  : this.$t.__('Focus Keyphrase', this.$td),
 					name   : 'focusKeyphrase',
 					access : 'aioseo_page_analysis'
+				},
+				{
+					label  : this.$t.__('Social', this.$td),
+					name   : 'social',
+					access : 'aioseo_page_social_settings'
 				}
 			].filter((tip) => {
 				return this.$allowed(tip.access) && (
@@ -118,6 +125,11 @@ export default {
 					this.options.advanced.truSeo
 				)
 			})
+
+			// Remove Social tip if both Twitter and Facebook markup are disabled.
+			if (!this.options.social.facebook.general.enable && !this.options.social.twitter.general.enable) {
+				tips = tips.filter(tip => 'social' !== tip.name)
+			}
 
 			tips.forEach((tip, index) => {
 				tips[index] = { ...tip, ...this.getData(tip.name) }
@@ -143,59 +155,73 @@ export default {
 		},
 		getData (tipName) {
 			const result = {}
-			let value
 
-			switch (tipName) {
-				case 'visibility':
-					result.value = this.$t.__('Good!', this.$td)
-					result.type  = 'success'
+			if ('visibility' === tipName) {
+				result.value = this.$t.__('Good!', this.$td)
+				result.type  = 'success'
 
-					value = this.currentPost.default
-						? (
-							this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType] &&
-							!this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType].advanced.robotsMeta.default &&
-							this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType].advanced.robotsMeta.noindex
-						)
-						: this.currentPost.noindex
-					if (value) {
-						result.value = this.$t.__('Blocked!', this.$td)
-						result.type  = 'error'
-					}
-					break
-				case 'seoAnalysis':
-					result.value = this.$t.__('N/A', this.$td)
+				const value = this.currentPost.default
+					? (
+						this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType] &&
+						!this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType].advanced.robotsMeta.default &&
+						this.dynamicOptions.searchAppearance.postTypes[this.currentPost.postType].advanced.robotsMeta.noindex
+					)
+					: this.currentPost.noindex
+				if (value) {
+					result.value = this.$t.__('Blocked!', this.$td)
 					result.type  = 'error'
+				}
+			}
 
-					value = this.currentPost.seo_score
-					if (Number.isInteger(value)) {
-						result.value = value + '/100'
-						result.type  = 80 < value ? 'success' : 50 < value ? 'warning' : 'error'
-					}
-					break
-				case 'redabilityAnalysis':
-					result.value = this.$t.__('Good!', this.$td)
-					result.type  = 'success'
+			if ('seoAnalysis' === tipName) {
+				result.value = this.$t.__('N/A', this.$td)
+				result.type  = 'error'
 
-					value = this.currentPost.page_analysis.analysis.readability.errors
-					if (value && 0 < value) {
-						result.value = this.$t.sprintf(
-							// Translators: 1 - How many errors were found.
-							this.$t._n('%1$s error found!', '%1$s errors found!', value, this.$td),
-							value
-						)
-						result.type  = 'error'
-					}
-					break
-				case 'focusKeyphrase':
-					result.value = this.$t.__('No focus keyphrase!', this.$td)
+				const value = this.currentPost.seo_score
+				if (Number.isInteger(value)) {
+					result.value = value + '/100'
+					result.type  = 80 < value ? 'success' : 50 < value ? 'warning' : 'error'
+				}
+			}
+
+			if ('readabilityAnalysis' === tipName) {
+				result.value = this.$t.__('Good!', this.$td)
+				result.type  = 'success'
+
+				const value = this.currentPost.page_analysis.analysis.readability.errors
+				if (value && 0 < value) {
+					result.value = this.$t.sprintf(
+						// Translators: 1 - How many errors were found.
+						this.$t._n('%1$s error found!', '%1$s errors found!', value, this.$td),
+						value
+					)
 					result.type  = 'error'
+				}
+			}
 
-					value = this.currentPost.keyphrases.focus
-					if (value && value.keyphrase) {
-						result.value = value.score + '/100'
-						result.type  = 80 < value.score ? 'success' : 50 < value.score ? 'warning' : 'error'
-					}
-					break
+			if ('focusKeyphrase' === tipName) {
+				result.value = this.$t.__('No focus keyphrase!', this.$td)
+				result.type  = 'error'
+
+				const value = this.currentPost.keyphrases.focus
+				if (value && value.keyphrase) {
+					result.value = value.score + '/100'
+					result.type  = 80 < value.score ? 'success' : 50 < value.score ? 'warning' : 'error'
+				}
+			}
+
+			if ('social' === tipName) {
+				result.value = this.$t.__('Good!', this.$td)
+				result.type  = 'success'
+
+				const socialTitle       = this.parseTags(this.currentPost.og_title || this.currentPost.title || this.currentPost.tags.title).trim()
+				const socialDescription = this.parseTags(this.currentPost.og_description || this.currentPost.description || this.currentPost.tags.description).trim()
+				const socialImage       = this.socialImage
+
+				if (!socialTitle || !socialDescription || !socialImage) {
+					result.value = this.$t.__('Missing social markup!', this.$td)
+					result.type  = 'error'
+				}
 			}
 
 			return { ...result, icon: this.getIcon(result.type) }
@@ -216,16 +242,27 @@ export default {
 				case 'seoAnalysis':
 					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'basicseo' })
 					break
-				case 'redabilityAnalysis':
+				case 'readabilityAnalysis':
 					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'readability' })
 					break
 				case 'focusKeyphrase':
 					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'focus' })
 					break
+				case 'social':
+					this.$bus.$emit('open-post-settings', { tab: 'social' })
+					break
 			}
 		}
 	},
-	mounted () {
+	async mounted () {
+		await this.setImageUrl().then(() => {
+			this.socialImage = this.imageUrl
+		})
+
+		this.$bus.$on('updateSocialImagePreview', (param) => {
+			this.socialImage = param.image
+		})
+
 		this.$nextTick(() => {
 			const menuItem = document.querySelector('.aioseo-pre-publish .editor-post-publish-panel__link')
 			if (menuItem) {

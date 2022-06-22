@@ -92,7 +92,7 @@ import { getOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
 import { Tags, TruSeoScore } from '@/vue/mixins'
-import { truSeoShouldAnalyze } from '@/vue/plugins/truSEO/components'
+import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 export default {

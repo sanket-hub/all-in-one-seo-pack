@@ -244,10 +244,10 @@
 	</div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 import { MaxCounts, SaveChanges, TruSeoScore, IsDirty } from '@/vue/mixins'
 import { debounce } from '@/vue/utils/debounce'
-import { truSeoShouldAnalyze } from '@/vue/plugins/truSEO/components'
+import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
@@ -299,7 +299,7 @@ export default {
 			keyphrases        : null,
 			selectedKeyphrase : 0,
 			editSnippet       : false,
-			truSEO            : null,
+			truSeo            : null,
 			strings           : {
 				pageName               : this.$t.__('General', this.$td),
 				snippetPreview         : this.$t.__('Snippet Preview', this.$td),
@@ -327,10 +327,10 @@ export default {
 	},
 	watch : {
 		'currentPost.title' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 2000)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
 		},
 		'currentPost.description' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 2000)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
 		}
 	},
 	computed : {
@@ -377,6 +377,7 @@ export default {
 	},
 	methods : {
 		...mapActions([ 'changeGeneralPreview', 'openModal', 'savePostState' ]),
+		...mapMutations([ 'changeTabSettings' ]),
 		hideKeywordsLooking () {
 			this.options.searchAppearance.advanced.keywordsLooking = false
 			this.saveChanges()
@@ -386,7 +387,7 @@ export default {
 		},
 		editSnippetEv () {
 			this.editSnippet = !this.editSnippet
-			this.$set(this.currentPost.tabs, 'tab_modal', 'general')
+			this.changeTabSettings({ setting: 'modal', value: 'general' })
 			this.openModal(true)
 		},
 		getDefaultTags (location) {

@@ -6,7 +6,7 @@ import '@/vue/components/common'
 import '@/vue/components/AIOSEO_VERSION'
 
 import { elemLoaded } from '@/vue/utils/elemLoaded'
-import { shouldShowMetaBox } from '@/vue/plugins/truSEO/components/helpers'
+import { shouldShowMetaBox } from '@/vue/plugins/tru-seo/components/helpers'
 
 import App from './App.vue'
 import store from '@/vue/store'

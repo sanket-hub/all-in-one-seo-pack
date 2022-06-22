@@ -54,19 +54,20 @@ const getStandalones = () => {
 		'flyout-menu'         : './src/vue/standalone/flyout-menu/main.js',
 		'dashboard-widgets'   : './src/vue/standalone/dashboard-widgets/main.js',
 		'limit-modified-date' : './src/vue/standalone/limit-modified-date/main.js',
+		'link-format'         : './src/vue/standalone/link-format/main.js',
 		'local-business-seo'  : './src/vue/standalone/local-business-seo/main.js',
 		notifications         : './src/vue/standalone/notifications/main.js',
 		'post-settings'       : './src/vue/standalone/post-settings/main.js',
 		'posts-table'         : './src/vue/standalone/posts-table/main.js',
 		'publish-panel'       : './src/vue/standalone/publish-panel/main.js',
 		'setup-wizard'        : './src/vue/standalone/setup-wizard/main.js',
+		'user-profile-tab'    : './src/vue/standalone/user-profile-tab/main.js',
 		blocks                : './src/vue/standalone/blocks/main.js',
-
 		// Third-party.
-		divi         : './src/vue/standalone/divi/main.js',
-		'divi-admin' : './src/vue/standalone/divi-admin/main.js',
-		elementor    : './src/vue/standalone/elementor/main.js',
-		seedprod     : './src/vue/standalone/seedprod/main.js'
+		divi                  : './src/vue/standalone/divi/main.js',
+		'divi-admin'          : './src/vue/standalone/divi-admin/main.js',
+		elementor             : './src/vue/standalone/elementor/main.js',
+		seedprod              : './src/vue/standalone/seedprod/main.js'
 	}
 }
 
@@ -78,8 +79,10 @@ const getNonVueStandalones = () => {
 		integrations : './src/vue/assets/scss/integrations/main.scss',
 
 		// Native JS.
-		plugins   : './src/app/plugins/main.js',
-		autotrack : './src/app/autotrack/autotrack.js',
+		plugins                    : './src/app/plugins/main.js',
+		autotrack                  : './src/app/autotrack/autotrack.js',
+		'follow-up-emails-nav-bar' : './src/vue/standalone/user-profile-tab/follow-up-emails-nav-bar.js',
+		'tru-seo-analyzer'         : './src/app/tru-seo/analyzer/main.js',
 
 		// React.
 		'headline-analyzer' : './src/react/headline-analyzer/main.js'
@@ -176,7 +179,6 @@ export default ({ mode }) => {
 		},
 		optimizeDeps : {
 			include : [
-				'@/vue/plugins/truSEO',
 				'animate-vanilla-js',
 				'clipboard/dist/clipboard.min.js',
 				'js-base64',

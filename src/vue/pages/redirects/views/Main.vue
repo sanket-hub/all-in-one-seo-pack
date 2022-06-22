@@ -72,7 +72,7 @@ export default {
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: separate;
-	font-family: Helvetica;
+	font-family: $font-family;
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;
@@ -219,6 +219,15 @@ export default {
 	.aioseo-tooltip {
 		display: flex;
 		margin-left: 0;
+	}
+}
+.aioseo-redirects {
+	position: relative;
+
+	&.core-card {
+		.aioseo-cta.floating {
+			top: 120px;
+		}
 	}
 }
 </style>

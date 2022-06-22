@@ -383,4 +383,15 @@ export default {
 		}
 	}
 }
+.aioseo-link-assistant-overview {
+	position: relative;
+
+	.overview-link-count {
+		margin-bottom: -50px;
+	}
+
+	.aioseo-cta.floating {
+		top: 120px
+	}
+}
 </style>

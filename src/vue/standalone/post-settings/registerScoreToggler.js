@@ -1,4 +1,4 @@
-import { isBlockEditor, shouldShowMetaBox, shouldShowTruSeoScore } from '@/vue/plugins/truSEO/components'
+import { isBlockEditor, shouldShowMetaBox, shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components'
 import { __ } from '@wordpress/i18n'
 
 (function (wp) {

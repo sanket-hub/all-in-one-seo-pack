@@ -7,6 +7,7 @@
 			internal
 			disableMobile
 			@changed="value => processChangeTab(value)"
+			v-if="'sidebar' !== $root._data.screenContext"
 		>
 			<template #md-tab-icon="{ tab }">
 				<component
@@ -19,10 +20,55 @@
 		</core-main-tabs>
 
 		<transition name="route-fade" mode="out-in">
-			<component
-				:is="activeTab"
-				parentComponentContext="metabox"
-			/>
+			<div
+				v-if="'sidebar' === $root._data.screenContext && null === activeTab"
+				class="aioseo-sidepanel"
+			>
+				<a
+					v-for="(tab, index) in getTabs"
+					:key="index"
+					href="#"
+					class="aioseo-sidepanel-button"
+					@click.prevent="processChangeTab(tab.slug)"
+				>
+					<component class="icon" :is="tab.icon"/>
+
+					<div class="name">{{ tab.name }}</div>
+
+					<svg-circle-information-solid
+						v-if="tab.warning"
+						width="15"
+						height="15"
+					/>
+
+					<svg-caret />
+				</a>
+			</div>
+		</transition>
+
+		<transition name="route-fade" mode="out-in">
+			<div
+				v-if="activeTab"
+				:key="activeTab"
+				class="aioseo-tab"
+				:class="{ 'is-page-builder': !!$aioseo.integration }"
+			>
+				<div
+					v-if="'sidebar' === $root._data.screenContext"
+					class="aioseo-tab-title"
+				>
+					<span>{{ getTabName(activeTab) }}</span>
+
+					<svg-close @click="processChangeTab(null)"/>
+				</div>
+
+				<alert v-if="'sidebar' === this.$root._data.screenContext" />
+
+				<component
+					:is="activeTab"
+					parentComponentContext="metabox"
+				/>
+			</div>
 		</transition>
 
 		<core-modal
@@ -48,6 +94,7 @@ import { mapActions, mapState, mapMutations } from 'vuex'
 import { getParams, removeParam } from '@/vue/utils/params'
 import { debounceContext } from '@/vue/utils/debounce'
 import Advanced from './Advanced'
+import Alert from './partials/Alert'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreModal from '@/vue/components/common/core/Modal'
 import General from './General'
@@ -57,6 +104,9 @@ import Redirects from './Redirects'
 import Schema from './Schema'
 import Social from './Social'
 import SvgBuild from '@/vue/components/common/svg/Build'
+import SvgCaret from '@/vue/components/common/svg/Caret'
+import SvgCircleInformationSolid from '@/vue/components/common/svg/circle/InformationSolid'
+import SvgClose from '@/vue/components/common/svg/Close'
 import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
 import SvgReceipt from '@/vue/components/common/svg/Receipt'
 import SvgRedirectCrossedArrows from '@/vue/components/common/svg/redirect/CrossedArrows'
@@ -65,6 +115,7 @@ import SvgShare from '@/vue/components/common/svg/Share'
 export default {
 	components : {
 		Advanced,
+		Alert,
 		CoreMainTabs,
 		CoreModal,
 		General,
@@ -74,6 +125,9 @@ export default {
 		Schema,
 		Social,
 		SvgBuild,
+		SvgCaret,
+		SvgCircleInformationSolid,
+		SvgClose,
 		SvgLinkSuggestion,
 		SvgReceipt,
 		SvgRedirectCrossedArrows,
@@ -97,6 +151,17 @@ export default {
 			handler () {
 				debounceContext(this.savePostState, 250)
 			}
+		},
+		'currentPost.modalOpen' (isModalOpen) {
+			if ('general' !== this.activeTab) {
+				this.maybeResetActiveTab(isModalOpen)
+			}
+		},
+		'currentPost.linkAssistant.modalOpen' (isModalOpen) {
+			this.maybeResetActiveTab(isModalOpen)
+		},
+		'currentPost.redirects.modalOpen' (isModalOpen) {
+			this.maybeResetActiveTab(isModalOpen)
 		}
 	},
 	computed : {
@@ -122,7 +187,7 @@ export default {
 					slug       : 'redirects',
 					icon       : 'svg-redirect-crossed-arrows',
 					name       : 'Redirects',
-					warning    : ('undefined' !== typeof this.redirects && 0 < this.redirects.rows.filter(row => !!row.enabled).length),
+					warning    : (0 < this?.redirects?.rows.filter(row => !!row.enabled).length),
 					permission : 'aioseo_page_redirects_manage'
 				},
 				{
@@ -146,13 +211,8 @@ export default {
 
 			return tabs
 		},
-		initTab : function () {
-			let tabPermission = this.getTabPermission(this.currentPost.tabs.tab)
-			if ('sidebar' === this.$root._data.screenContext) {
-				tabPermission = this.getTabPermission(this.currentPost.tabs.tab_sidebar)
-				return (this.currentPost.tabs.tab_sidebar && this.$allowed(tabPermission, true)) ? this.currentPost.tabs.tab_sidebar : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
-			}
-			return (this.currentPost.tabs.tab && this.$allowed(tabPermission, true)) ? this.currentPost.tabs.tab : this.$allowed('aioseo_page_general_settings') ? 'general' : this.$allowed('aioseo_page_social_settings') ? 'social' : this.$allowed('aioseo_page_schema_settings') ? 'schema' : 'advanced'
+		initTab () {
+			return this.getTabs[0].slug
 		},
 		getTabs () {
 			if ('term' === this.currentPost.context || this.currentPost.isWooCommercePageWithoutSchema) {
@@ -177,16 +237,21 @@ export default {
 		}
 	},
 	methods : {
-		...mapMutations([ 'toggleLinkAssistantModal', 'toggleRedirectsModal' ]),
+		...mapMutations([ 'toggleLinkAssistantModal', 'toggleRedirectsModal', 'changeTabSettings' ]),
 		...mapActions([ 'openModal', 'updateState', 'savePostState' ]),
 		processChangeTab (newTabValue) {
 			this.activeTab = newTabValue
+
 			switch (this.$root._data.screenContext) {
 				case 'sidebar' :
-					this.$set(this.currentPost.tabs, 'tab_sidebar', newTabValue)
+					// Change the WordPress components panel header to static if there's a tab open.
+					document.querySelectorAll('.components-panel__header').forEach(el => {
+						const position = null === newTabValue ? 'sticky' : 'static'
+						el.style.position = position
+					})
 					break
 				default :
-					this.$set(this.currentPost.tabs, 'tab', newTabValue)
+					this.changeTabSettings({ setting: 'main', value: newTabValue })
 					break
 			}
 
@@ -202,7 +267,7 @@ export default {
 			switch (newTabValue) {
 				case 'social':
 					if (!this.currentPost.modalOpen) {
-						this.$store.commit('changeTabSettings', { setting: 'tab_modal', value: 'social' })
+						this.changeTabSettings({ setting: 'modal', value: 'social' })
 						this.openModal(true)
 					}
 					break
@@ -212,7 +277,7 @@ export default {
 					}
 					break
 				case 'redirects':
-					if (this.currentPost.redirects  && !this.currentPost.redirects.modalOpen) {
+					if (this.currentPost.redirects && !this.currentPost.redirects.modalOpen) {
 						this.toggleRedirectsModal()
 					}
 					break
@@ -220,19 +285,36 @@ export default {
 					break
 			}
 		},
+		maybeResetActiveTab (isModalOpen) {
+			if (isModalOpen) {
+				return
+			}
+
+			if ('sidebar' !== this.$root._data.screenContext) {
+				return
+			}
+
+			this.$nextTick(() => {
+				this.processChangeTab(null)
+			})
+		},
 		closeModal () {
 			this.openModal(false)
 		},
 		getTabPermission (slug) {
-			const tab = this.tabs.find(tab => tab.slug === slug)
+			const tab = this.tabs.find(t => t.slug === slug)
 			return 'undefined' !== typeof tab.permission ? tab.permission : `aioseo_page_${tab.slug}_settings`
+		},
+		getTabName (slug) {
+			const tab = this.tabs.find(t => t.slug === slug)
+			return tab?.name
 		}
 	},
 	created () {
 		this.sidebarFirstOpen = true
 		this.modal = getParams()['aioseo-modaltab'] || this.modal
 		if (this.modal) {
-			this.$set(this.currentPost.tabs, 'tab_modal', this.modal)
+			this.changeTabSettings({ setting: 'modal', value: this.modal })
 			this.openModal(true)
 			setTimeout(() => {
 				removeParam('aioseo-modaltab')
@@ -251,15 +333,11 @@ export default {
 
 		switch (this.$root._data.screenContext) {
 			case 'sidebar' :
-				this.activeTab = getParams()['aioseo-sidebartab'] || this.initTab
-				this.$set(this.currentPost.tabs, 'tab_sidebar', this.activeTab)
-				setTimeout(() => {
-					removeParam('aioseo-sidebartab')
-				}, 500)
+				this.activeTab = null
 				break
 			default :
 				this.activeTab = getParams()['aioseo-tab'] || this.initTab
-				this.$set(this.currentPost.tabs, 'tab', this.activeTab)
+				this.changeTabSettings({ setting: 'main', value: this.activeTab })
 				setTimeout(() => {
 					removeParam('aioseo-tab')
 				}, 500)
@@ -274,27 +352,34 @@ export default {
 .aioseo-metabox .aioseo-post-settings {
 	background: #fff;
 	color: $black;
+
 	.aioseo-tabs {
 		border-bottom-width: 2px;
 		background: $background;
+
 		.md-tabs-navigation {
 			margin-top: 0 !important;
 		}
+
 		.md-button {
 			height: 50px !important;
-			font-size:14px !important;
+			font-size: 14px !important;
 			color: $black2 !important;
+
 			&.md-active {
 				color: $black !important;
 				-webkit-text-stroke-width: 0.2px;
 				-webkit-text-stroke-color: $black;
 			}
+
 			.icon {
 				display: none;
 			}
 		}
+
 		svg {
 			display: none;
+
 			@media screen and (max-width: 785px) {
 				&.aioseo-caret {
 					display: inline;
@@ -302,127 +387,166 @@ export default {
 			}
 		}
 	}
+
+	.aioseo-sidepanel {
+		.aioseo-sidepanel-button {
+			display: flex;
+			align-items: center;
+			padding: 12px;
+			color: $black2-hover;
+			text-decoration: none;
+
+			&:not(:last-child) {
+				border-bottom: 1px solid #DDDDDD;
+			}
+
+			&:focus {
+				box-shadow: none;
+			}
+
+			.icon {
+				display: inline;
+				width: 16px;
+				height: 16px;
+				margin-right: 8px;
+			}
+
+			.name {
+				font-weight: 700;
+			}
+
+			.aioseo-circle-information-solid {
+				margin-left: 8px;
+				color: $orange;
+			}
+
+			.aioseo-caret {
+				margin-left: auto;
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+				transform: rotate(-90deg);
+			}
+		}
+	}
+
+	.aioseo-tab-title {
+		display: flex;
+		align-items: center;
+		color: $black2-hover;
+		font-weight: 700;
+		padding: 12px;
+		border-bottom: 1px solid #DDDDDD;
+		background: #fff;
+		position: sticky;
+		z-index: 1;
+		top: 0;
+
+		svg {
+			margin-left: auto;
+			width: 10px;
+			height: 10px;
+			cursor: pointer;
+		}
+	}
+
 	.aioseo-tab-content {
 		background: #fff;
 		border-top: 0;
 		padding: 30px;
 		font-size: 13px;
+		position: relative;
 	}
+
 	.aioseo-settings-row {
 		margin-bottom: 16px;
 		padding-bottom: 16px;
 	}
+
 	.aioseo-sidebar-content-title {
 		font-weight: bold;
 		font-size: 14px;
 		padding-bottom: 5px;
 	}
 }
+
 .edit-post-sidebar {
 	.col-xs-12,
 	.col-sm-6,
 	.col-md-4,
 	.col-md-3 {
 		width: 100%;
-		flex-basis: 100%!important;
-		max-width: 100%!important;
+		flex-basis: 100% !important;
+		max-width: 100% !important;
 	}
+
 	.components-panel {
 		border-bottom: none;
 	}
+
 	.aioseo-mobile-tabs {
 		display: none;
 	}
-	.tabs-scroller {
-		display: block!important;
-		width: 100%;
-	}
-	.aioseo-tabs {
-		background: #FAFAFA;
-		.md-button {
-			height: 51px!important;
-			color: $black !important;
-			.md-ripple {
-				padding: 0 10px!important;
-			}
-			.icon {
-				display: inline;
-				line-height: 1.3rem;
-				&:before {
-					line-height: inherit;
-				}
-			}
-			.label {
-				display: none;
-			}
-			&.md-active {
-				color: $black !important;
-				/*.label {
-					display: inline;
-				}*/
-			}
-			svg {
-				display: inline;
-				width: 16px;
-				height: 16px;
-				margin-top: 4px;
-				color: $placeholder-color;
-				&.aioseo-crossed-arrows {
-					width: 14px;
-					height: 14px;
-				}
-			}
-			&:not(.md-active) {
-				min-width: 36px!important;
-				margin: 0 3px!important;
-				&:before {
-					top: 8px !important;
-					border-radius: 50%;
-					height: 36px;
-					color: $black;
-				}
-				&:hover,
-				&:focus {
-					svg {
-						color: $black;
-					}
-				}
-			}
-		}
-	}
+
 	.aioseo-app {
 		input {
 			border: 1px solid $input-border;
+
 			&:focus {
 				border-color: $blue;
 				box-shadow: 0 0 0 1px $blue;
 			}
+
 			&::placeholder {
 				color: $placeholder-color;
 			}
 		}
+
+		.aioseo-tab:not(.is-page-builder) {
+			position: relative;
+			top: -45px;
+		}
+
 		.aioseo-textarea-autosize {
 			border: 1px solid $input-border;
 		}
+
 		.aioseo-tab-content {
 			padding: 20px 16px;
 			border: none;
 		}
+
 		.aioseo-description {
 			margin: 0;
 		}
+
+		.route-fade {
+			&-enter-active,
+			&-leave-active {
+				transition: opacity 0.2s, transform 0.2s;
+			}
+			&-enter,
+			&-leave-active {
+				position: absolute;
+				top: 0;
+			}
+		}
 	}
+
 	.aioseo-settings-row {
 		margin-bottom: 16px;
 		padding-bottom: 16px;
+
 		&:last-of-type {
 			border-bottom: 0;
-			margin-bottom: 0!important;
-			padding-bottom: 0!important;
+			margin-bottom: 0 !important;
+			padding-bottom: 0 !important;
 		}
+
 		> .aioseo-col {
 			padding-top: 0;
 		}
+
 		.settings-name .name {
 			font-size: 14px;
 			font-weight: bold;
@@ -430,6 +554,7 @@ export default {
 		}
 	}
 }
+
 .aioseo-app.post-settings-modal {
 	.aioseo-modal-content {
 		.aioseo-tabs.internal {
@@ -439,27 +564,32 @@ export default {
 				padding-left: 20px !important;
 			}
 		}
+
 		.md-tabs-navigation {
 			.md-tabs-indicator {
 				bottom: -1px !important;
 			}
 		}
+
 		@media only screen and (min-width: 782px) {
 			.col-md-4 {
 				-ms-flex-preferred-size: 33.33333333% !important;
 				flex-basis: 33.33333333% !important;
 				max-width: 33.33333333% !important;
 			}
+
 			.col-md-5 {
 				-ms-flex-preferred-size: 41.66666667% !important;
 				flex-basis: 41.66666667% !important;
 				max-width: 41.66666667% !important;
 			}
+
 			.col-md-7 {
 				-ms-flex-preferred-size: 58.33333333% !important;
 				flex-basis: 58.33333333% !important;
 				max-width: 58.33333333% !important;
 			}
+
 			.col-md-8 {
 				-ms-flex-preferred-size: 66.66666667% !important;
 				flex-basis: 66.66666667% !important;
@@ -472,6 +602,7 @@ export default {
 	.bd {
 		padding: 20px;
 	}
+
 	.modal-mask .modal-wrapper .modal-container {
 		max-width: 1000px;
 	}

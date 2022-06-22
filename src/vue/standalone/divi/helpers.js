@@ -18,13 +18,13 @@ const getContentArea = () => {
 		return document.createElement('div')
 	}
 
-	const contentArea = frameElement.contentWindow.document.querySelector('#et-fb-app')
+	let contentArea = frameElement.contentWindow.document.querySelectorAll('#et-fb-app')
 
-	if (1 > contentArea.length) {
-		return document.createElement('div')
+	if (1 < contentArea.length) {
+		contentArea = [ ...contentArea ].filter(n => n.classList.contains('et-fb-root-ancestor'))
 	}
 
-	return contentArea
+	return contentArea[0] || document.createElement('div')
 }
 
 /**

@@ -256,7 +256,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost', 'options' ]),
+		...mapState([ 'currentPost', 'metaBoxTabs', 'options' ]),
 		twitterCards () {
 			return [
 				{ label: this.$t.__('Default (Set under Social Networks)', this.$td), value: 'default' },

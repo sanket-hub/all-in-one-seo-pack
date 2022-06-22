@@ -48,6 +48,7 @@
 			<div class="video">
 				<div class="wrapper">
 					<iframe
+						title="Getting Started Video"
 						src="https://www.youtube.com/embed/fYPmIMSR9ik?rel=0"
 						frameborder="1"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

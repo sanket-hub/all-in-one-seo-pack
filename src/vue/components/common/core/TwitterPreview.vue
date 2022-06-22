@@ -4,6 +4,7 @@
 			<div class="twitter-header">
 				<div class="profile-photo">
 					<img
+						alt="Dannie the Detective profile image"
 						:src="$getImgUrl(dannieProfileImg)"
 					/>
 				</div>

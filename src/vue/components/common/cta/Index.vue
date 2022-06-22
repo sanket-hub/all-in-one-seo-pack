@@ -320,8 +320,8 @@ export default {
 			position: absolute;
 			max-width: 850px;
 			left: 50%;
-			top: 50%;
-			transform: translateX(-50%) translateY(-50%);
+			top: 50px;
+			transform: translateX(-50%);
 			box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
 			border-radius: 3px;
 		}

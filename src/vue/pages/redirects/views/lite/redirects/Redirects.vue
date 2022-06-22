@@ -1,5 +1,10 @@
 <template>
-	<div class="aioseo-redirects">
+	<div
+		:class="{
+			'aioseo-redirects': true,
+			'core-card': !noCoreCard
+			}"
+	>
 		<blur
 			:noCoreCard="noCoreCard"
 		/>
@@ -78,56 +83,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.aioseo-redirects {
-	.aioseo-modal-body {
-		padding: 20px 50px 50px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-		position: relative;
-
-		h3 {
-			font-size: 20px;
-			margin-bottom: 16px;
-		}
-
-		.reset-description {
-			font-size: 16px;
-			color: $black;
-			margin-bottom: 16px;
-			text-align: center;
-			max-width: 515px;
-		}
-
-		button.close {
-			position: absolute;
-			right: 11px;
-			top: 11px;
-			width: 24px;
-			height: 24px;
-			background-color: #fff;
-			border: none;
-			display: flex;
-			align-items: center;
-
-			svg.aioseo-close {
-				cursor: pointer;
-				width: 14px;
-				height: 14px;
-			}
-		}
-
-		.aioseo-description {
-			max-width: 510px;
-			text-align: center;
-		}
-
-		.aioseo-button:not(.close) {
-			margin-top: 16px;
-		}
-	}
-}
-</style>

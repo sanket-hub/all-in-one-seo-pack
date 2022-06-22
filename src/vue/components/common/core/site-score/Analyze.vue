@@ -126,7 +126,6 @@ export default {
 	}
 
 	.aioseo-seo-site-score-score {
-		margin-right: 50px;
 		position: relative;
 		min-width: 175px;
 		max-width: 217px;

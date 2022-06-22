@@ -2,7 +2,7 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
-import TruSEO from '@/vue/plugins/truSEO'
+import TruSeo from '@/vue/plugins/tru-seo'
 import '@/vue/components/common'
 import '@/vue/components/AIOSEO_VERSION'
 
@@ -11,9 +11,9 @@ import initWatcher from './watcher'
 import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
 
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/truSEO/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
 
-Vue.prototype.$truSEO = new TruSEO()
+Vue.prototype.$truSeo = new TruSeo()
 
 /**
  * Mount our Component inside the SEO tab.

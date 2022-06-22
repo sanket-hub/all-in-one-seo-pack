@@ -26,6 +26,7 @@
 
 			<template #featured-image>
 				<img
+					alt="Getting Started with AIOSEO"
 					:src="$getImgUrl(ctaImg)"
 				/>
 			</template>

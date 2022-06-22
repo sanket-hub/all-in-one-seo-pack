@@ -1,18 +1,18 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
-import TruSEO from '@/vue/plugins/truSEO'
+import TruSeo from '@/vue/plugins/tru-seo'
 import '@/vue/components/common'
 import '@/vue/components/AIOSEO_VERSION'
 
 import initWatcher from './watcher'
 import initIntroduction from './introduction'
 
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/truSEO/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
 import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
 
-Vue.prototype.$truSEO = new TruSEO()
+Vue.prototype.$truSeo = new TruSeo()
 
 /**
  * Add to the body a class to identify the Elementor color schema.

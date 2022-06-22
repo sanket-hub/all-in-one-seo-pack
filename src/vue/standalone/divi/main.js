@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import '@/vue/plugins'
-import TruSEO from '@/vue/plugins/truSEO'
+import TruSeo from '@/vue/plugins/tru-seo'
 import '@/vue/components/common'
 import store from '@/vue/store'
 import initSettingsBar from './settings-bar'
 import initWatcher from './watcher'
 import Modal from './Modal.vue'
 
-Vue.prototype.$truSEO = new TruSEO()
+Vue.prototype.$truSeo = new TruSeo()
 
 /**
  * Mount our Modal to render the SEO Settings.

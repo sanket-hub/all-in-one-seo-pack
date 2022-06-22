@@ -1,6 +1,11 @@
 <template>
 	<div class="custom-rules">
-		<table class="redirects-options-table" cellspacing="0" cellpadding="0">
+		<table
+			class="redirects-options-table"
+			cellspacing="0"
+			cellpadding="0"
+			aria-label="Custom Rules"
+		>
 			<thead>
 			<tr>
 				<td colspan="2">{{ strings.customRules }}</td>

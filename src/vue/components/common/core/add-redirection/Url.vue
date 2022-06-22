@@ -331,9 +331,17 @@ export default {
 	methods : {
 		...mapActions('redirects', [ 'getPosts' ]),
 		updateSourceUrl (value) {
+			if (!value) {
+				return
+			}
 			// First, let's format the URL for duplicate slashes.
 			if (value) {
 				value = value.replace(/(https?:\/)(\/)+|(\/)+/g, '$1$2$3')
+			}
+
+			// Remove white space from the url if it's not a regex.
+			if (!this.url.regex) {
+				value = value.replace(/\s+/g, '')
 			}
 
 			this.$set(this.url, 'url', value)

@@ -1,5 +1,5 @@
 <template>
-	<div class="aioseo-tab-content aioseo-redirects">
+	<div class="aioseo-tab-content">
 		<Redirects
 			v-if="!isUnlicensed && $addons.isActive('aioseo-redirects') && !$addons.requiresUpgrade('aioseo-redirects')"
 			:parentComponentContext="parentComponentContext"
@@ -47,7 +47,7 @@ export default {
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: separate;
-	font-family: Helvetica;
+	font-family: $font-family;
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 400;

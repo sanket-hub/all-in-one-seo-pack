@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import { getParams } from '@/vue/utils/params'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
@@ -82,27 +82,28 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost', 'options' ]),
+		...mapState([ 'currentPost', 'metaBoxTabs', 'options' ]),
 		initTab : function () {
 			if (getParams()['social-tab']) {
 				return getParams()['social-tab']
 			}
 			if ('modal' === this.parentComponentContext) {
-				return this.currentPost.tabs.tab_modal_social
+				return this.metaBoxTabs.socialModal
 			}
-			return this.currentPost.tabs.tab_social
+			return this.metaBoxTabs.social
 		}
 	},
 	methods : {
 		...mapActions([ 'changeSocialPreview' ]),
+		...mapMutations([ 'changeTabSettings' ]),
 		isMobilePreviewEv (ev) {
 			this.changeSocialPreview(ev)
 		},
 		processChangeTab (newTabValue) {
 			if ('modal' === this.parentComponentContext) {
-				this.$set(this.currentPost.tabs, 'tab_modal_social', newTabValue)
+				this.changeTabSettings({ setting: 'socialModal', value: newTabValue })
 			} else {
-				this.$set(this.currentPost.tabs, 'tab_social', newTabValue)
+				this.changeTabSettings({ setting: 'social', value: newTabValue })
 			}
 		}
 	}

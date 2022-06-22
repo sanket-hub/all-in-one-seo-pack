@@ -89,8 +89,18 @@ export default {
 
 <style lang="scss">
 .aioseo-sa-ct-custom-fields {
-	.lite {
-		min-height: 350px;
+	&.lite {
+		min-height: 370px;
+
+		@media (max-width: 598px) {
+			.aioseo-cta.floating{
+				top: 0;
+			}
+		}
+
+		@media (max-width: 420px) {
+			min-height: 450px;
+		}
 	}
 }
 </style>

@@ -200,7 +200,10 @@
 									v-if="option.gravatar"
 									class="person-avatar"
 								>
-									<img :src="option.gravatar" />
+									<img
+										alt="User Gravatar"
+										:src="option.gravatar"
+									/>
 								</div>
 								<div class="person-name">
 									{{ option.label }}
@@ -213,7 +216,10 @@
 									v-if="option.gravatar"
 									class="person-avatar"
 								>
-									<img :src="option.gravatar" />
+									<img
+										alt="User Gravatar"
+										:src="option.gravatar"
+									/>
 								</div>
 								<div class="person-name">
 									{{ option.label }}

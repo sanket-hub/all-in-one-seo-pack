@@ -12,13 +12,22 @@ export default {
 		dismissed : [],
 		force     : false
 	},
-	currentPost       : {},
+	currentPost : {},
+	metaBoxTabs : {
+		main          : 'general',
+		mainSidebar   : 'general',
+		modal         : 'general',
+		social        : 'facebook',
+		socialModal   : 'facebook',
+		linkAssistant : 'inbound-internal'
+	},
 	helpPanel         : {},
 	tags              : {},
 	backups           : [],
 	addons            : [],
 	license           : {},
 	plugins           : {},
+	userProfile       : {},
 	showNotifications : false,
 	loading           : false,
 	analyzer          : null,

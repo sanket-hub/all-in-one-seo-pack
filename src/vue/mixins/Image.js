@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import store from '@/vue/store'
-import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldImage } from '../plugins/truSEO/components'
+import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldImage } from '../plugins/tru-seo/components'
 
 export const ImageSourceOptions = {
 	data () {
@@ -119,10 +119,10 @@ export const ImagePreview = {
 		await this.setImageUrl()
 	},
 	methods : {
-		async setImageUrl () {
+		async setImageUrl (socialNetwork = '') {
 			const currentPost = this.currentPost
-			const tab = currentPost.tabs.tab_social
-			const prefix = 'facebook' === tab || ('twitter' === tab && currentPost.twitter_use_og) ? 'og_' : 'twitter_'
+			const tab         = socialNetwork || this.metaBoxTabs?.social || 'facebook'
+			const prefix      = 'facebook' === tab || ('twitter' === tab && currentPost.twitter_use_og) ? 'og_' : 'twitter_'
 
 			let imageSource = currentPost[`${prefix}image_type`] || 'default'
 			if ('default' === imageSource) {
@@ -177,6 +177,12 @@ export const ImagePreview = {
 					this.imageUrl = this.options.social[tab].general.defaultImagePosts
 					break
 			}
+
+			if (!this.imageUrl && this.$aioseo.urls.siteLogo) {
+				this.imageUrl = this.$aioseo.urls.siteLogo
+			}
+
+			this.$bus.$emit('updateSocialImagePreview', { social: tab, image: this.imageUrl })
 		}
 	}
 }

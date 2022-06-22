@@ -54,6 +54,7 @@
 			v-if="currentPost.loading.focus && currentPost.keyphrases.focus"
 			dark
 		/>
+
 		<metaboxAnalysisDetail
 			v-if="!currentPost.loading.focus && currentPost.keyphrases.focus && currentPost.keyphrases.focus.keyphrase"
 			:analysisItems="currentPost.keyphrases.focus.analysis"
@@ -131,6 +132,7 @@
 
 					<div class="results">
 						<table
+							aria-label="Additional Keyphrases"
 							class="additional-keyphrases-table"
 							cellpadding="0"
 							cellspacing="0"
@@ -537,20 +539,14 @@ export default {
 			const { value }   = payload
 			this.currentPost.keyphrases.focus.keyphrase = value
 			this.currentPost.loading.focus = true
-			setTimeout(() => {
-				this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-				this.currentPost.loading.focus = false
-				this.setIsDirty()
-			}, 2000)
+
+			this.setIsDirty()
+			this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
 		},
 		onDeleted () {
 			this.currentPost.keyphrases.focus.keyphrase = null
-			this.currentPost.loading.focus = true
-			setTimeout(() => {
-				this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-				this.currentPost.loading.focus = false
-				this.setIsDirty()
-			}, 2000)
+			this.setIsDirty()
+			this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
 		},
 		addKeyphraseEv () {
 			const keyphraseInputComponent = document.getElementsByClassName(`add-focus-keyphrase-${this.$root._data.screenContext}-input`)
@@ -561,11 +557,9 @@ export default {
 				this.currentPost.loading.focus = true
 				keyphraseInput.value = ''
 				keyphraseInput.blur()
-				setTimeout(() => {
-					this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-					this.currentPost.loading.focus = false
-					this.setIsDirty()
-				}, 2000)
+
+				this.setIsDirty()
+				this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
 			}
 		},
 		hasAdditionalKeyphrase (keyphrase) {
@@ -579,22 +573,22 @@ export default {
 		scoreClass (score) {
 			return 80 < score ? 'score-green' : 50 < score ? 'score-orange' : 1 < score ? 'score-red' : 'score-none'
 		},
-		addAdditionalKeyphrase (keyphrase, index) {
+		async addAdditionalKeyphrase (keyphrase, index) {
 			this.addingAdditionalKeyphrase = index
 			const { additional }           = this.currentPost.keyphrases
 			const keyphraseIndex           = additional.push({ keyphrase, score: 0 })
 			const keyphrasePanel           = document.getElementsByClassName('keyphrase-name')
 			this.$set(this.currentPost.keyphrases, 'additional', additional)
-			this.$nextTick(() => {
-				setTimeout(() => {
-					this.$truSEO.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
-					if (keyphrasePanel[keyphraseIndex]) {
-						keyphrasePanel[keyphraseIndex].click()
-					}
-					this.setIsDirty()
-					this.addingAdditionalKeyphrase = false
-				}, 2000)
-			})
+
+			this.setIsDirty()
+			await this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
+			await this.$nextTick()
+
+			if (keyphrasePanel[keyphraseIndex]) {
+				keyphrasePanel[keyphraseIndex].click()
+			}
+
+			this.addingAdditionalKeyphrase = false
 		},
 		goToAdditionalKeyphrase (keyphrase) {
 			const { additional }             = this.currentPost.keyphrases

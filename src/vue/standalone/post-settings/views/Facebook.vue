@@ -296,7 +296,7 @@ export default {
 	},
 	computed : {
 		...mapState('live-tags', [ 'liveTags' ]),
-		...mapState([ 'currentPost', 'options', 'dynamicOptions' ]),
+		...mapState([ 'currentPost', 'metaBoxTabs', 'options', 'dynamicOptions' ]),
 		objectTypeOptions () {
 			return [ { groupLabel: this.$t.__('Default', this.$td), options: [ { label: this.$t.__('Default Object Type (Set in Social Networks)', this.$td), value: 'default' } ] } ].concat(this.$constants.OG_TYPE_OPTIONS)
 		},

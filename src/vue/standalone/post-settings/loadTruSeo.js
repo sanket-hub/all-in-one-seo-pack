@@ -8,12 +8,12 @@ import {
 	maybeUpdatePost,
 	maybeUpdateTerm,
 	maybeUpdateAttachment
-} from '@/vue/plugins/truSEO/components'
+} from '@/vue/plugins/tru-seo/components'
 import {
 	watchClassicEditor,
 	watchBlockEditor,
 	watchWooCommerce
-} from '@/vue/plugins/truSEO/context'
+} from '@/vue/plugins/tru-seo/context'
 
 export default (populateHiddenField = true) => {
 	// If the options are not loaded, just call the setOptions with empty object.

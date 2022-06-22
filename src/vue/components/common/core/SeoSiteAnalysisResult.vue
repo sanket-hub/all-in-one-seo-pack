@@ -213,7 +213,6 @@ export default {
 			pre {
 				background: $background;
 				border-radius: 3px;
-				padding: 8px;
 				max-width: 100%;
 				padding: 10px;
 				overflow: auto;

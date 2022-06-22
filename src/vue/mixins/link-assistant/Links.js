@@ -57,8 +57,6 @@ export default {
 			],
 			strings : {
 				frontPage  : this.$t.__('Front Page', this.$tdPro),
-				viewPost   : this.$t.__('View Post', this.$tdPro),
-				editPost   : this.$t.__('Edit Post', this.$tdPro),
 				deleteLink : this.$t.__('Delete Link', this.$tdPro)
 			},
 			modalStrings : {

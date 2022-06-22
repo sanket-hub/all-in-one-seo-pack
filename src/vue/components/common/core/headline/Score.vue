@@ -75,7 +75,6 @@ export default {
 		position: relative;
 		min-width: 175px;
 		max-width: 217px;
-		margin-right: 1em;
 		margin-bottom: 45px;
 		margin-right: auto;
 		margin-left: auto;

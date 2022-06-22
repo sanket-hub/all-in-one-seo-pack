@@ -120,6 +120,7 @@
 
 			<template #featured-image>
 				<img
+					alt="Purchase AIOSEO Today!"
 					:src="$getImgUrl(ctaImg)"
 				/>
 			</template>

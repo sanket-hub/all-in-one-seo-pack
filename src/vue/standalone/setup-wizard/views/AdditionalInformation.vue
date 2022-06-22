@@ -1,3 +1,4 @@
+
 <template>
 	<div class="aioseo-wizard-additional-information">
 		<wizard-header />
@@ -47,7 +48,10 @@
 									v-if="option.gravatar"
 									class="person-avatar"
 								>
-									<img :src="option.gravatar" />
+									<img
+										alt="User Gravatar"
+										:src="option.gravatar"
+									/>
 								</div>
 								<div class="person-name">
 									{{ option.label }}
@@ -60,7 +64,10 @@
 									v-if="option.gravatar"
 									class="person-avatar"
 								>
-									<img :src="option.gravatar" />
+									<img
+										alt="User Gravatar"
+										:src="option.gravatar"
+									/>
 								</div>
 								<div class="person-name">
 									{{ option.label }}
@@ -272,6 +279,7 @@
 						leftSize="4"
 						rightSize="8"
 						sameUsernameWidth="4"
+						hideAdditionalProfiles
 					/>
 				</div>
 
@@ -347,6 +355,14 @@ export default {
 				remove                          : this.$t.__('Remove', this.$td),
 				defaultSocialShareImage         : this.$t.__('Default Social Share Image', this.$td),
 				yourSocialProfiles              : this.$t.__('Your Social Profiles', this.$td)
+			}
+		}
+	},
+	watch : {
+		'options.social.profiles' : {
+			deep : true,
+			handler (newValue) {
+				this.additionalInformation.social.profiles = newValue
 			}
 		}
 	},

@@ -1,6 +1,6 @@
 import store from '@/vue/store'
 import { isEqual, isEmpty } from 'lodash-es'
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/truSEO/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
 import { registerElementorUIHookAfter, registerElementorDataHookAfter } from './hooks'
 import { getEditorData } from './helpers'
 

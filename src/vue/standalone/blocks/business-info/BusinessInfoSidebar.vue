@@ -2,6 +2,7 @@
 	<div>
 		<div class="sidebar-row" v-if="locationsList.length && !isLocationPostType()">
 			<p class="title">{{ strings.selectLocation }}</p>
+
 			<base-select
 				size="medium"
 				:options="locationsList"
@@ -10,6 +11,7 @@
 				track-by="value"
 			/>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showLabels"
@@ -17,6 +19,7 @@
 				{{ strings.showLabels }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showIcons"
@@ -24,9 +27,11 @@
 				{{ strings.showIcons }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<p class="title">{{strings.businessInfo}}</p>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showName"
@@ -34,6 +39,7 @@
 				{{ strings.showName }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showAddress"
@@ -41,6 +47,7 @@
 				{{ strings.address }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showPhone"
@@ -48,6 +55,7 @@
 				{{ strings.phoneNumber }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showFax"
@@ -55,6 +63,7 @@
 				{{ strings.faxNumber }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row" v-if="$root.$data.showPhone || $root.$data.showFax">
 			<base-toggle
 				v-model="$root.$data.showCountryCode"
@@ -62,6 +71,7 @@
 				{{ strings.countryCode }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showEmail"
@@ -69,6 +79,7 @@
 				{{ strings.emailAddress }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showVat"
@@ -76,6 +87,7 @@
 				{{ strings.showVat }}
 			</base-toggle>
 		</div>
+
 		<div class="sidebar-row">
 			<base-toggle
 				v-model="$root.$data.showTax"
@@ -83,33 +95,42 @@
 				{{ strings.showTax }}
 			</base-toggle>
 		</div>
-		<div class="sidebar-row">
-			<p class="title">{{strings.labels}}</p>
-		</div>
-		<div class="sidebar-row labels" v-if="$root.$data.showLabels">
-			<div v-if="$root.$data.showAddress">
-				<label>{{ strings.addressLabel }}</label>
-				<base-input size="small" v-model="$root.$data.addressLabel"/>
+
+		<div v-if="$root.$data.showLabels">
+			<div class="sidebar-row">
+				<p class="title">{{strings.labels}}</p>
 			</div>
-			<div v-if="$root.$data.showVat">
-				<label>{{ strings.vatIdLabel }}</label>
-				<base-input size="small" v-model="$root.$data.vatIdLabel"/>
-			</div>
-			<div v-if="$root.$data.showTax">
-				<label>{{ strings.taxIdLabel }}</label>
-				<base-input size="small" v-model="$root.$data.taxIdLabel"/>
-			</div>
-			<div v-if="$root.$data.showPhone">
-				<label>{{ strings.phoneLabel }}</label>
-				<base-input size="small" v-model="$root.$data.phoneLabel"/>
-			</div>
-			<div v-if="$root.$data.showFax">
-				<label>{{ strings.faxLabel }}</label>
-				<base-input size="small" v-model="$root.$data.faxLabel"/>
-			</div>
-			<div v-if="$root.$data.showEmail">
-				<label>{{ strings.emailLabel }}</label>
-				<base-input size="small" v-model="$root.$data.emailLabel"/>
+
+			<div class="sidebar-row labels">
+				<div v-if="$root.$data.showAddress">
+					<label>{{ strings.addressLabel }}</label>
+					<base-input size="small" v-model="$root.$data.addressLabel"/>
+				</div>
+
+				<div v-if="$root.$data.showVat">
+					<label>{{ strings.vatIdLabel }}</label>
+					<base-input size="small" v-model="$root.$data.vatIdLabel"/>
+				</div>
+
+				<div v-if="$root.$data.showTax">
+					<label>{{ strings.taxIdLabel }}</label>
+					<base-input size="small" v-model="$root.$data.taxIdLabel"/>
+				</div>
+
+				<div v-if="$root.$data.showPhone">
+					<label>{{ strings.phoneLabel }}</label>
+					<base-input size="small" v-model="$root.$data.phoneLabel"/>
+				</div>
+
+				<div v-if="$root.$data.showFax">
+					<label>{{ strings.faxLabel }}</label>
+					<base-input size="small" v-model="$root.$data.faxLabel"/>
+				</div>
+
+				<div v-if="$root.$data.showEmail">
+					<label>{{ strings.emailLabel }}</label>
+					<base-input size="small" v-model="$root.$data.emailLabel"/>
+				</div>
 			</div>
 		</div>
 	</div>

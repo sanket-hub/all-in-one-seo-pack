@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
-import TruSEO from '@/vue/plugins/truSEO'
+import TruSeo from '@/vue/plugins/tru-seo'
 import '@/vue/plugins/link-assistant'
 import '@/vue/plugins/redirects'
 
@@ -12,20 +12,20 @@ import App from './App.vue'
 import './registerScoreToggler'
 import store from '@/vue/store'
 import { elemLoaded } from '@/vue/utils/elemLoaded'
-import { shouldShowMetaBox } from '@/vue/plugins/truSEO/components'
+import { shouldShowMetaBox } from '@/vue/plugins/tru-seo/components'
 import loadTruSeo from '@/vue/standalone/post-settings/loadTruSeo'
 
 // Local Business.
 import AppLocalBusiness from '../local-business-seo/App.vue'
 
-Vue.prototype.$truSEO = new TruSEO()
+Vue.prototype.$truSeo = new TruSeo()
 
 if (window.aioseo.currentPost) {
 	const currentContext = window.aioseo.currentPost.context
 	const node = document.querySelector(`#aioseo-${currentContext}-settings-metabox`)
 	if (node && shouldShowMetaBox()) {
 		if (!window.wp.blockEditor && window.wp.blocks && window.wp.oldEditor) {
-			window.wp.blockEditor = window.editor
+			window.wp.blockEditor = window.wp.editor
 		}
 
 		new Vue({

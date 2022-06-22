@@ -28,6 +28,7 @@
 								@input="checked => updateValue(checked, plugin)"
 							>
 								<img
+									:alt="plugin.name + ' Plugin Icon'"
 									v-if="pluginImages[plugin.slug]"
 									:src="pluginImages[plugin.slug]"
 									class="icon"

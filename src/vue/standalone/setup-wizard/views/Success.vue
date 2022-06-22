@@ -30,6 +30,7 @@
 								target="_blank"
 								size="small"
 							><svg-facebook /> {{ strings.joinOnFacebook }}</base-button>
+
 							<base-button
 								class="social-button twitter"
 								tag="a"
@@ -37,6 +38,14 @@
 								target="_blank"
 								size="small"
 							><svg-twitter /> {{ strings.followOnTwitter }}</base-button>
+
+							<base-button
+								class="social-button youtube"
+								tag="a"
+								:href="$links.utmUrl('wizard-success', null, 'https://aioseo.com/plugin/youtube/')"
+								target="_blank"
+								size="small"
+							><svg-youtube /> {{ strings.followOnYouTube }}</base-button>
 						</div>
 					</div>
 					<div>
@@ -130,6 +139,7 @@ import GridRow from '@/vue/components/common/grid/Row'
 import SvgBook from '@/vue/components/common/svg/Book'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgFacebook from '@/vue/components/common/svg/facebook/Index'
+import SvgYoutube from '@/vue/components/common/svg/Youtube'
 import SvgPeopleOutline from '@/vue/components/common/svg/PeopleOutline'
 import SvgTwitter from '@/vue/components/common/svg/Twitter'
 import SvgVideoCamera from '@/vue/components/common/svg/VideoCamera'
@@ -144,6 +154,7 @@ export default {
 		SvgBook,
 		SvgCircleCheck,
 		SvgFacebook,
+		SvgYoutube,
 		SvgPeopleOutline,
 		SvgTwitter,
 		SvgVideoCamera,
@@ -163,6 +174,7 @@ export default {
 				joinOurCommunity   : this.$t.__('Join our Community', this.$td),
 				joinOnFacebook     : this.$t.__('Join on Facebook', this.$td),
 				followOnTwitter    : this.$t.__('Follow on Twitter', this.$td),
+				followOnYouTube    : this.$t.__('Follow on YouTube', this.$td),
 				readOurStepByStep  : this.$t.__('Read our Step By Step Guide to Improve your SEO Rankings', this.$td),
 				watchOurGuidedTour : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO").
@@ -274,6 +286,10 @@ export default {
 
 					&.twitter {
 						background-color: #1DA1F2;
+					}
+
+					&.youtube {
+						background-color: #D63E22;
 					}
 				}
 			}

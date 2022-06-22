@@ -20,6 +20,9 @@ export default {
 	updateAttachmentCaption (state, payload) {
 		this._vm.$set(state.liveTags, 'attachment_caption', payload)
 	},
+	updateAttachmentDescription (state, payload) {
+		this._vm.$set(state.liveTags, 'attachment_description', payload)
+	},
 	updateAltTag (state, payload) {
 		this._vm.$set(state.liveTags, 'alt_tag', payload)
 	},

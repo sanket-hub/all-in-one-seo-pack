@@ -1,4 +1,4 @@
-import { isBlockEditor } from '@/vue/plugins/truSEO/components/helpers'
+import { isBlockEditor } from '@/vue/plugins/tru-seo/components/helpers'
 
 if (isBlockEditor() && window.wp) {
 	/**

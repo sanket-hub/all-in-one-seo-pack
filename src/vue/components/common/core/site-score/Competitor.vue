@@ -43,7 +43,10 @@
 			class="mobile-snapshot"
 		>
 			<div>{{ strings.mobileSnapshot }}</div>
-			<img :src="mobileSnapshot" />
+			<img
+				alt="Mobile Snapshot"
+				:src="mobileSnapshot"
+			/>
 		</div>
 	</div>
 </template>

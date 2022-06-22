@@ -27,14 +27,14 @@
 						<a
 							:href="row.context.permalink"
 							target="_blank"
-						>{{ strings.viewPost }}</a> |
+						>{{ maybeViewPost(row) }}</a> |
 					</span>
 
 					<span class="edit">
 						<a
 							:href="row.context.editLink"
 							target="_blank"
-						>{{ strings.editPost }}</a>
+						>{{ maybeEditPost(row) }}</a>
 					</span>
 				</div>
 			</template>
@@ -42,7 +42,7 @@
 			<template #phrase="{ row }">
 				<link-assistant-phrase
 					:phrase="row.phrase"
-					:phraseHtml="row.phrase_html"
+					:phraseHtml="row.phrase_html || ''"
 					:anchor="row.anchor"
 					:url="row.url"
 					:clickableAnchor="true"
@@ -122,6 +122,7 @@
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import LinksMixin from '@/vue/mixins/link-assistant/Links.js'
+import PostTypesMixin from '@/vue/mixins/link-assistant/PostTypes.js'
 import LinkAssistantConfirmationModal from '@/vue/components/common/link-assistant/ConfirmationModal'
 import LinkAssistantPhrase from '@/vue/components/common/link-assistant/Phrase'
 import SvgLinkExternal from '@/vue/components/common/svg/link/External'
@@ -137,7 +138,7 @@ export default {
 		SvgLinkSuggestion,
 		SvgTrash
 	},
-	mixins : [ LinksMixin ],
+	mixins : [ LinksMixin, PostTypesMixin ],
 	data () {
 		return {
 			linkType : 'inboundInternal',
@@ -177,6 +178,14 @@ export default {
 				this.post.links.inboundInternal.totals.total,
 				this.$t.__('Inbound Internal', this.$td)
 			)
+		}
+	},
+	methods : {
+		maybeViewPost (row) {
+			this.viewPost(row.context?.postType?.singular || 'Post')
+		},
+		maybeEditPost (row) {
+			this.editPost(row.context?.postType?.singular || 'Post')
 		}
 	}
 }

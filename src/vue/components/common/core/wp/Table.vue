@@ -135,8 +135,9 @@
 			<table
 				class="wp-list-table widefat fixed"
 				ref="table"
-				cellpadding=0
-				cellspacing=0
+				cellpadding="0"
+				cellspacing="0"
+				aria-label="Paginated Table"
 			>
 				<thead>
 					<tr>

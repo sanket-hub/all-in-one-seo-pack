@@ -33,7 +33,11 @@
 			>
 				<table-column class="domain">
 					<div class="row">
-						<img class="favicon" :src="`https://www.google.com/s2/favicons?sz=32&domain=${row.name}`"/>
+						<img
+							alt="Domain Favicon"
+							class="favicon"
+							:src="`https://www.google.com/s2/favicons?sz=32&domain=${row.name}`"
+						/>
 						<core-tooltip
 							type="action"
 						>

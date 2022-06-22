@@ -33,7 +33,10 @@
 				>
 					<div class="plugin-main">
 						<div>
-							<img :src="plugins[pluginName].icon" />
+							<img
+								:alt=" plugins[pluginName].name + ' Plugin image'"
+								:src="plugins[pluginName].icon"
+							/>
 						</div>
 						<div>
 							<div class="main-name">{{ plugins[pluginName].name }}</div>

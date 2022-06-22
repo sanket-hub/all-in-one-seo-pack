@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import '@/vue/plugins'
-import TruSEO from '@/vue/plugins/truSEO'
+import TruSeo from '@/vue/plugins/tru-seo'
 
 import '@/vue/components/common'
 import '@/vue/components/AIOSEO_VERSION'
@@ -10,7 +10,7 @@ import App from './App.vue'
 import TermApp from './TermApp.vue'
 import store from '@/vue/store'
 
-Vue.prototype.$truSEO = new TruSEO()
+Vue.prototype.$truSeo = new TruSeo()
 
 if (window.aioseo.posts) {
 	window.aioseo.posts.forEach(post => {

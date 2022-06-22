@@ -87,7 +87,7 @@ export default {
 	computed : {
 		...mapState([ 'options' ]),
 		postTypes () {
-			return this.$aioseo.postData.postTypes.filter(postType => [ 'post', 'page' ].includes(postType.name))
+			return this.$aioseo.postData.postTypes
 		}
 	}
 }

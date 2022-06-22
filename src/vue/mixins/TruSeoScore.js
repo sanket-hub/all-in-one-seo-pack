@@ -62,7 +62,7 @@ export const TruSeoScore = {
 			return 80 < score ? 'green' : 50 < score ? 'orange' : 1 < score ? 'red' : 'none'
 		},
 		runAnalysis (postId) {
-			this.$truSEO.runAnalysis(postId)
+			this.$truSeo.runAnalysis(postId)
 		}
 	}
 }

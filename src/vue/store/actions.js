@@ -101,12 +101,6 @@ export default {
 			.send(state.currentPost)
 			.then(() => {})
 	},
-	changeTabSettings ({ commit, state }, { setting, value }) {
-		commit('changeTabSettings', { setting, value })
-		setOptions({
-			currentPost : state.currentPost
-		})
-	},
 	openModal ({ commit }, value) {
 		commit('openModal', value)
 	},
@@ -621,5 +615,17 @@ export default {
 	async getMediaData (context, { mediaId }) {
 		return await this._vm.$http.get(this._vm.$links.restUrl(`media/${mediaId}`, 'wp/v2'))
 			.then(response => 200 === response.statusCode ? response.body : {})
+	},
+	disableLinkAssistantEducation ({ commit, state }) {
+		commit('disableLinkAssistantEducation')
+		return this._vm.$http.post(this._vm.$links.restUrl(`post/${state.currentPost.id}/disable-link-format-education`))
+	},
+	incrementInternalLinkCount ({ commit, state }) {
+		commit('incrementInternalLinkCount')
+		const count = state.currentPost.options.linkFormat.internalLinkCount || 0
+		return this._vm.$http.post(this._vm.$links.restUrl(`post/${state.currentPost.id}/update-internal-link-count`))
+			.send({
+				count
+			})
 	}
 }

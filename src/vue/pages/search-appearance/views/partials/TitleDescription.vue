@@ -14,6 +14,7 @@
 						{ label: $constants.GLOBAL_STRINGS.yes, value: true }
 					]"
 				/>
+
 				<base-radio-toggle
 					v-if="!edit"
 					:value="true"

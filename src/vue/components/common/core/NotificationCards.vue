@@ -20,6 +20,7 @@
 			<slot name="no-notifications">
 				<div class="no-notifications">
 					<img
+						alt="Dannie the Detective"
 						:src="$getImgUrl(dannieDetectiveImg)"
 					/>
 
@@ -47,11 +48,13 @@
 import dannieDetectiveImg from '@/vue/assets/images/aio/dannie-detective.png'
 import CoreNotification from '@/vue/components/common/core/Notification'
 import NotificationsReview from '@/vue/components/common/notifications/Review'
+import NotificationsReview2 from '@/vue/components/common/notifications/Review2'
 import NotificationsUnlicensedAddons from '@/vue/components/common/notifications/UnlicensedAddons'
 export default {
 	components : {
 		CoreNotification,
 		NotificationsReview,
+		NotificationsReview2,
 		NotificationsUnlicensedAddons
 	},
 	props : {

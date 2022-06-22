@@ -116,7 +116,18 @@ export default {
 
 <style lang="scss">
 .aioseo-sa-ct-schema-lite {
-	min-height: 550px;
+	min-height: 580px;
+
+	@media (max-width: 598px) {
+		min-height: 640px;
+		.aioseo-cta.floating{
+			top: 0;
+		}
+	}
+
+	@media (max-width: 420px) {
+		min-height: 770px;
+	}
 
 	.aioseo-cta {
 		.header-text {
