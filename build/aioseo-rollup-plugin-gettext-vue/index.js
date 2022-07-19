@@ -1,26 +1,23 @@
-const { createFilter } = require('rollup-pluginutils')
-const { GettextExtractor } =  require('gettext-extractor')
-const pluralForm = require('plural-forms')
-const { SourceMapGenerator } = require('source-map')
-const fs = require('fs')
-
-const decorateExtractorWithPlurals = require('./decorateExtractorWithPlurals.js')
-const callExpressionWithLiteral = require('./callExpressionWithLiteral.js')
+const { createFilter }             = require('rollup-pluginutils')
+const { GettextExtractor }         =  require('gettext-extractor')
+const pluralForm                   = require('plural-forms')
+const { SourceMapGenerator }       = require('source-map')
+const fs                           = require('fs')
+const callExpressionWithLiteral    = require('./callExpressionWithLiteral.js')
 const decorateJsParserWithReplacer = require('./decorateJsParserWithReplacer.js')
-const config = require('./config.js')
+const config                       = require('./config.js')
 
 const cacheFilesParse = {}
 
 function i18n (options = {}) {
-	const filter = createFilter(options.include, options.exclude)
-
+	const filter        = createFilter(options.include, options.exclude)
 	const languageFiles = config.defaultLanguage
 	const language      = languageFiles
-	const extractor     = decorateExtractorWithPlurals(new GettextExtractor())
+	const extractor     = new GettextExtractor()
 	const jsParser      = extractor.createJsParser(config.optionsArray.map(el => {
 		return callExpressionWithLiteral(el.calleeNames, el.extractorOptions, options)
 	}))
-	const vueParser = decorateJsParserWithReplacer(jsParser)
+	const vueParser     = decorateJsParserWithReplacer(jsParser)
 
 	let sourcemap
 
@@ -54,16 +51,11 @@ function i18n (options = {}) {
 				cacheFilesParse[id] = vueParser
 			}
 
-			return cacheFilesParse[id].replaceMessageNodes(code, id, false)
-				.then(function (source) {
-					const map = sourcemap ? new SourceMapGenerator({ file: id }) : null
-
-					return {
-						code : source,
-						map  : map.toString()
-					}
-				})
-				.catch(() => {})
+			const map = sourcemap ? new SourceMapGenerator({ file: id }) : null
+			return {
+				code,
+				map : map.toString()
+			}
 		},
 		buildEnd () {
 			if (options.output) {
@@ -137,14 +129,6 @@ function i18n (options = {}) {
 				phpContents += '];'
 
 				fs.writeFileSync(options.output, phpContents)
-
-				// This was how we originally output to a pot file, but we want wordpress to handle this instead.
-				// const npluralsFiles = pluralForm.getNPlurals(languageFiles)
-				// // const headers = {
-				// //   'X-Generator' : 'AIOSEO'
-				// // }
-
-				// extractor.savePotFile(options.output, headers, npluralsFiles)
 			}
 
 			extractor.printStats()

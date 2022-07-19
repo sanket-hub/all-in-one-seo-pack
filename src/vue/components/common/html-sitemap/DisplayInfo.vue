@@ -32,6 +32,7 @@
 					</div>
 					<div class="aioseo-col col-xs-12 col-md-7 text-xs-left">
 						<base-input
+							:disabled="dedicatedPageDisabled"
 							v-model="pageUrl"
 							@keyup="validateNewSlug"
 							@blur="addSiteUrl"
@@ -40,7 +41,7 @@
 							@focus="showResults = true"
 							:class="{
 								'aioseo-error'  : error,
-								'aioseo-active' : !error && pageUrl
+								'aioseo-active' : !error && pageUrl && !dedicatedPageDisabled
 							}"
 						>
 							<template #append-icon>
@@ -52,7 +53,7 @@
 											v-if="error"
 										/>
 										<svg-circle-check
-											v-if="!error && pageUrl"
+											v-if="!error && pageUrl && !dedicatedPageDisabled"
 										/>
 									</template>
 
@@ -67,11 +68,12 @@
 
 					<div class="aioseo-col col-xs-12 col-md-5 text-xs-left">
 						<core-tooltip
-							v-if="!pageUrl || buttonLocked || error ? true : false"
+							v-if="!pageUrl || buttonLocked || error || dedicatedPageDisabled ? true : false"
 							type="action"
 							tag="div"
 						>
 							<base-button
+								:disabled="dedicatedPageDisabled"
 								class="aioseo-html-sitemaps-disabled-button"
 								size="medium"
 								type="blue"
@@ -87,7 +89,7 @@
 						</core-tooltip>
 
 						<base-button
-							v-if="pageUrl && !buttonLocked && !error ? true : false"
+							v-if="pageUrl && !buttonLocked && !error && !dedicatedPageDisabled ? true : false"
 							size="medium"
 							type="blue"
 							tag="a"
@@ -100,11 +102,11 @@
 					</div>
 
 					<core-alert
-						v-if="showResults && error"
-						type="red"
+						v-if="showResults && error || dedicatedPageDisabled"
+						:type="dedicatedPageDisabled ? 'yellow' : 'red'"
 						size="medium"
 					>
-						{{ strings.errorMessage }}
+						<span v-html="dedicatedPageDisabled ? strings.errorMessageDisabled : strings.errorMessage" />
 					</core-alert>
 				</div>
 			</div>
@@ -162,8 +164,14 @@ export default {
 					this.$t.__('e.g. %1$s', this.$td),
 					`${this.$aioseo.urls.home}/new-page`
 				),
-				pageButton                     : this.$t.__('Open HTML Sitemap', this.$td),
-				errorMessage                   : this.$t.__('The page that you have entered already exists. Please enter a page with a unique slug.', this.$td),
+				pageButton           : this.$t.__('Open HTML Sitemap', this.$td),
+				errorMessage         : this.$t.__('The page that you have entered is invalid or already exists. Please enter a page with a unique slug.', this.$td),
+				errorMessageDisabled : this.$t.sprintf(
+					// Translators: 1 - Opening link tag, 2 - Closing link tag.
+					this.$t.__('Dedicated HTML Sitemaps do not work while using "plain" permalinks. Please update your %1$spermalink structure%2$s to use this option.', this.$td),
+					'<a href="' + this.$aioseo.urls.home + '/wp-admin/options-permalink.php">',
+					'</a>'
+				),
 				shortcodeAttributesDescription : this.$t.__('The following shortcode attributes can be used to override the default settings:', this.$td),
 				phpArgumentsDescription        : this.$t.__('The function accepts an associative array with the following arguments that can be used to override the default settings:', this.$td),
 				advancedSettings               : this.$t.__('Advanced Settings', this.$td),
@@ -232,7 +240,7 @@ export default {
 		}
 	},
 	created () {
-		this.pageUrl = this.options.sitemap.html.pageUrl
+		this.pageUrl = this.dedicatedPageDisabled ?  '' : this.options.sitemap.html.pageUrl
 		this.addSiteUrl()
 
 		if (this.pageUrl) {
@@ -250,6 +258,9 @@ export default {
 				return this.strings.saveFirst
 			}
 			return this.strings.editAndSaveFirst
+		},
+		dedicatedPageDisabled () {
+			return '' === this.$aioseo.data.permalinkStructure
 		}
 	},
 	methods : {
@@ -265,6 +276,7 @@ export default {
 		},
 		validateNewSlug (event) {
 			this.pageUrl = event.target.value
+
 			if (!this.pageUrl) {
 				this.options.sitemap.html.pageUrl = ''
 				return
@@ -281,6 +293,13 @@ export default {
 
 			this.isLoading = true
 			debounce(() => {
+				// Throw an error if the URL contains any spaces.
+				if (/\s/.test(this.pageUrl)) {
+					this.error = true
+					this.isLoading = false
+					return
+				}
+
 				this.$http.post(this.$links.restUrl('sitemap/validate-html-sitemap-slug'))
 					.send({
 						pageUrl : this.pageUrl

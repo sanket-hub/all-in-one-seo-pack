@@ -3,11 +3,13 @@
 		<PostColumn
 			v-if="$isPro"
 			:post="post"
+			:index="index"
 		/>
 
 		<PostColumnLite
 			v-if="!$isPro"
 			:post="post"
+			:index="index"
 		/>
 	</div>
 </template>
@@ -21,7 +23,8 @@ export default {
 		PostColumnLite
 	},
 	props : {
-		post : Object
+		post  : Object,
+		index : Number
 	}
 }
 </script>

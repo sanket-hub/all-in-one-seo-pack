@@ -7,7 +7,7 @@
 	>
 		<div>
 			<div
-				v-if="'edit' === this.$root._data.screen.base && !isWooCommerceProduct && showTruSeo && this.$allowed('aioseo_page_analysis') && !isSpecialPage"
+				v-if="'edit' === this.$root._data.screen.base && showTruSeo && this.$allowed('aioseo_page_analysis') && !isSpecialPage"
 				class="edit-row"
 			>
 				<core-score-button
@@ -194,7 +194,7 @@
 </template>
 
 <script>
-import { getOptions } from '@/vue/utils/options'
+import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
 import { Tags, TruSeoScore } from '@/vue/mixins'
@@ -210,7 +210,8 @@ export default {
 	},
 	mixins : [ Tags, TruSeoScore ],
 	props  : {
-		post : Object
+		post  : Object,
+		index : Number
 	},
 	data () {
 		return {
@@ -242,13 +243,7 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'options', 'currentPost' ]),
-		isWooCommerceProduct () {
-			if (window.aioseo.data.isWooCommerceActive && 'product' === this.$root._data.screen.postType) {
-				return true
-			}
-			return false
-		}
+		...mapState([ 'options', 'currentPost' ])
 	},
 	methods : {
 		save () {
@@ -265,6 +260,15 @@ export default {
 				.then((response) => {
 					this.titleParsed       = response.body.title
 					this.descriptionParsed = response.body.description
+
+					this.post.titleParsed       = response.body.title
+					this.post.descriptionParsed = response.body.description
+
+					const posts       = window.aioseo.posts
+					posts[this.index] = this.post
+					setOptions({
+						posts
+					})
 
 					if ('upload' !== this.$root._data.screen.base) {
 						this.runAnalysis(this.post.id)

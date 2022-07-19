@@ -26,18 +26,7 @@
 				{{ strings.ctaHeader }}
 			</template>
 			<template #description>
-				<core-alert
-					v-if="$isPro && $addons.requiresUpgrade('aioseo-redirects') && $addons.currentPlans('aioseo-redirects')"
-					type="red"
-				>
-					{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-redirects') }}</strong>
-				</core-alert>
-
-				<core-alert
-					v-if="$isPro && $addons.isActive('aioseo-redirects') && !$addons.hasMinimumVersion('aioseo-redirects')"
-				>
-					CHANGEME
-				</core-alert>
+				<required-plans addon="aioseo-redirects" />
 
 				{{ strings.redirectsDescription }}
 			</template>
@@ -47,16 +36,15 @@
 
 <script>
 import Blur from './Blur'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import Cta from '@/vue/components/common/cta/Index.vue'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 export default {
 	components : {
 		Blur,
-		CoreAlert,
+		RequiredPlans,
 		Cta
 	},
 	props : {
-		hasMinimumVersion      : Boolean,
 		noCoreCard             : Boolean,
 		parentComponentContext : String
 	},
@@ -76,8 +64,7 @@ export default {
 				monitoring404        : this.$t.__('404 Monitoring', this.$td),
 				fullSiteRedirects    : this.$t.__('Full Site Redirects', this.$td),
 				siteAliases          : this.$t.__('Site Aliases', this.$td),
-				redirectsDescription : this.$t.__('Our Redirection Manager allows you to easily create and manage redirects for your broken links to avoid confusing search engines and users, as well as losing valuable backlinks. It even automatically sends users and search engines from your old URLs to your new ones.', this.$td),
-				thisFeatureRequires  : this.$t.__('This feature requires one of the following plans:', this.$td)
+				redirectsDescription : this.$t.__('Our Redirection Manager allows you to easily create and manage redirects for your broken links to avoid confusing search engines and users, as well as losing valuable backlinks. It even automatically sends users and search engines from your old URLs to your new ones.', this.$td)
 			}
 		}
 	}

@@ -16,11 +16,15 @@
 			<div class="analysis-wrapper">
 				<core-loader
 					class="analysis-loading"
-					v-if="currentPost.loading.additional[this.selectedKeyphrase] && currentPost.keyphrases.additional[this.selectedKeyphrase].keyphrase"
+					v-if="currentPost.loading.additional[this.selectedKeyphrase] &&
+						currentPost.keyphrases.additional[this.selectedKeyphrase] &&
+						currentPost.keyphrases.additional[this.selectedKeyphrase].keyphrase"
 					dark
 				/>
 				<metaboxAnalysisDetail
-					v-if="!currentPost.loading.additional[this.selectedKeyphrase] && currentPost.keyphrases.additional[this.selectedKeyphrase].keyphrase"
+					v-if="!currentPost.loading.additional[this.selectedKeyphrase] &&
+						currentPost.keyphrases.additional[this.selectedKeyphrase] &&
+						currentPost.keyphrases.additional[this.selectedKeyphrase].keyphrase"
 					:analysisItems="currentPost.keyphrases.additional[this.selectedKeyphrase].analysis"
 				/>
 			</div>
@@ -94,7 +98,7 @@ export default {
 	},
 	watch : {
 		'currentPost.keyphrases.additional' () {
-			if (!this.currentPost.keyphrases.additional[this.selectedKeyphrase]) {
+			if (this.currentPost.keyphrases.additional && !this.currentPost.keyphrases.additional[this.selectedKeyphrase]) {
 				this.selectedKeyphrase = 0
 			}
 		}
@@ -117,10 +121,15 @@ export default {
 			this.selectedKeyphrase = index
 		},
 		onDeleted (index) {
-			this.currentPost.keyphrases.additional.splice(index, 1)
-			this.selectedKeyphrase = 0
-			this.setIsDirty()
-			this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
+			const additionalCopy = [ ...this.currentPost.keyphrases.additional ]
+			additionalCopy.splice(index, 1)
+			this.currentPost.keyphrases.additional = null
+
+			setTimeout(() => {
+				this.currentPost.keyphrases.additional = additionalCopy
+				this.setIsDirty()
+				this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
+			}, 300)
 		},
 		addKeyphraseEv () {
 			const keyphraseInputComponent = document.getElementsByClassName(`add-keyphrase-${this.$root._data.screenContext}-input`)

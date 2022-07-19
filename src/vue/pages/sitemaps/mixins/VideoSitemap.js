@@ -16,8 +16,7 @@ export const VideoSitemap = {
 					this.$t.__('Video Sitemaps are only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				),
-				thisFeatureRequires : this.$t.__('This feature requires one of the following plans:', this.$td)
+				)
 			}
 		}
 	}

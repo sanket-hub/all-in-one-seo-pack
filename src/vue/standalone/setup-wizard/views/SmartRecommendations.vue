@@ -279,7 +279,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.smartRecommendations.accountInfo = this.$aioseo.user.email
+		this.smartRecommendations.accountInfo = this.$aioseo.user.data.data.user_email
 	}
 }
 </script>

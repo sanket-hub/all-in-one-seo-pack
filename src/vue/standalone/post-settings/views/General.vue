@@ -347,19 +347,13 @@ export default {
 			return 1 === this.currentPost.pillar_content
 		},
 		displayTruSeoMetaboxCard () {
-			return truSeoShouldAnalyze() && 'metabox' === this.$root._data.screenContext && 'post' === this.currentPost.context && 'attachment' !== this.currentPost.postType && 'modal' !== this.parentComponentContext && this.$allowed('aioseo_page_analysis') && !this.isWooCommerceProduct && !this.currentPost.isSpecialPage && !this.isForum
+			return truSeoShouldAnalyze() && 'metabox' === this.$root._data.screenContext && 'post' === this.currentPost.context && 'attachment' !== this.currentPost.postType && 'modal' !== this.parentComponentContext && this.$allowed('aioseo_page_analysis') && !this.currentPost.isSpecialPage && !this.isForum
 		},
 		displayTruSeoSidebarKeyphraseCard () {
 			return truSeoShouldAnalyze() && 'sidebar' === this.$root._data.screenContext && 'modal' !== this.parentComponentContext && this.$allowed('aioseo_page_analysis') && !this.currentPost.isSpecialPage && !this.isForum
 		},
 		displayTruSeoSidebarAnalysisCard () {
 			return truSeoShouldAnalyze() && 'sidebar' === this.$root._data.screenContext && this.currentPost.page_analysis && 'modal' !== this.parentComponentContext && this.$allowed('aioseo_page_analysis') && !this.currentPost.isSpecialPage && !this.isForum
-		},
-		isWooCommerceProduct () {
-			if (window.aioseo.data.isWooCommerceActive && 'product' === this.currentPost.postType) {
-				return true
-			}
-			return false
 		},
 		isForum () {
 			if (('forum' === this.currentPost.postType || 'topic' === this.currentPost.postType || 'reply' === this.currentPost.postType) && window.aioseo.data.isBBPressActive) {

@@ -179,10 +179,3 @@ function processStringAddition (expression, concatenated) {
 		return false
 	}
 }
-
-// function getContextNode (node) {
-//  if (268 === node.kind /* JsxAttributes */ && !ts.isJsxSelfClosingElement(node.parent)) {
-//    return node.parent.parent // Needs to be the root JsxElement, so it encompasses the attributes _and_ the children (which are essentially part of the attributes)
-//  }
-//  return node
-// }

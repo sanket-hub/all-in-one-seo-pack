@@ -39,7 +39,10 @@ export const setOptions = ({
 	backups,
 	redirects,
 	linkAssistant,
-	indexNow
+	indexNow,
+	// These are the posts/terms for our AIOSEO Details column.
+	posts,
+	terms
 }) => {
 	internalOptions = merge({ ...window.aioseo.internalOptions }, { ...internalOptions })
 	options         = merge({ ...window.aioseo.options }, { ...options })
@@ -57,6 +60,8 @@ export const setOptions = ({
 	redirects       = merge({ ...window.aioseo.redirects }, { ...redirects })
 	linkAssistant   = merge({ ...window.aioseo.linkAssistant }, { ...linkAssistant })
 	indexNow        = merge({ ...window.aioseo.indexNow }, { ...indexNow })
+	posts           = merge([ ...window.aioseo?.posts || [] ], [ ...(posts || []) ])
+	terms           = merge([ ...window.aioseo?.terms || [] ], [ ...(terms || []) ])
 
 	const aioseo = {
 		translations : {},
@@ -75,7 +80,9 @@ export const setOptions = ({
 		plugins,
 		redirects,
 		linkAssistant,
-		indexNow
+		indexNow,
+		posts,
+		terms
 	}
 
 	window.aioseo         = aioseo
@@ -99,7 +106,9 @@ export const setOptions = ({
 		backups,
 		redirects,
 		linkAssistant,
-		indexNow
+		indexNow,
+		posts,
+		terms
 	}
 }
 

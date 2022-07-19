@@ -5,6 +5,10 @@ import * as openinghours from './opening-hours'
 import * as locations from './locations'
 import * as locationcategories from './location-categories'
 import * as locationmap from './location-map'
+import * as tableOfContents from './table-of-contents'
+import * as faq from './faq'
+import './schema'
+
 import { canLoadBlocks } from '@/vue/utils/context'
 
 if (canLoadBlocks()) {
@@ -82,7 +86,9 @@ if (canLoadBlocks()) {
 	const registerAIOSEOBlocks = () => {
 		[
 			breadcrumbs,
-			htmlSitemap
+			htmlSitemap,
+			tableOfContents,
+			faq
 
 		].forEach(registerBlock)
 

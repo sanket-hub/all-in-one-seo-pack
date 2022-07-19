@@ -712,7 +712,6 @@
 		&[aioseo-button-color="red"] {
 			border: 1px solid #df2a4a;
 			&:active,
-			&:focus,
 			&.is-pressed {
 				background: #df2a4a !important;
 				svg {
@@ -734,7 +733,6 @@
 		&[aioseo-button-color="orange"] {
 			border: 1px solid #f18200;
 			&:active,
-			&:focus,
 			&.is-pressed {
 				background: #f18200 !important;
 				svg {
@@ -756,7 +754,6 @@
 		&[aioseo-button-color="green"] {
 			border: 1px solid #1ec185;
 			&:active,
-			&:focus,
 			&.is-pressed {
 				background: #1ec185 !important;
 				svg {
@@ -781,7 +778,6 @@
 		&[aioseo-button-color="green"],
 		&[aioseo-button-color="orange"] {
 			&:active,
-			&:focus,
 			&.is-pressed {
 				box-shadow: none !important;
 				svg {
@@ -792,6 +788,10 @@
 				span {
 					color: #fff;
 				}
+			}
+
+			&:focus {
+				box-shadow: none !important;
 			}
 		}
 	}

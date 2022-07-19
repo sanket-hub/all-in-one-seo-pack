@@ -14,7 +14,7 @@
 
 			<core-blur>
 				<template
-					v-for="role in getRoles"
+					v-for="role in getLiteRoles"
 				>
 					<core-settings-row
 						:key="role.name"
@@ -90,6 +90,22 @@ export default {
 					'Pro'
 				)
 			}
+		}
+	},
+	computed : {
+		getLiteRoles () {
+			const roles = this.getRoles
+
+			let roleNumber = 1
+			while (8 > roles.length) {
+				roles.push({
+					label : this.$t.__('Custom Role ' + roleNumber, this.$td),
+					name  : 'customRole' + roleNumber
+				})
+				roleNumber++
+			}
+
+			return roles
 		}
 	}
 }

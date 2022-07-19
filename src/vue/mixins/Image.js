@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import store from '@/vue/store'
-import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldImage } from '../plugins/tru-seo/components'
+import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldValue } from '../plugins/tru-seo/components'
 
 export const ImageSourceOptions = {
 	data () {
@@ -70,7 +70,7 @@ const getFirstImageInContent = () => {
 }
 
 const getFirstAvailableImage = async (currentPost, type, prefix) => {
-	let image = customFieldImage(currentPost[`${prefix}image_custom_fields`])
+	let image = customFieldValue(currentPost[`${prefix}image_custom_fields`])
 
 	if (!image) {
 		await getPostEditedFeaturedImage().then(url => {
@@ -165,7 +165,7 @@ export const ImagePreview = {
 					break
 
 				case 'custom':
-					this.imageUrl = customFieldImage(currentPost[`${prefix}image_custom_fields`])
+					this.imageUrl = customFieldValue(currentPost[`${prefix}image_custom_fields`])
 					break
 
 				case 'custom_image':

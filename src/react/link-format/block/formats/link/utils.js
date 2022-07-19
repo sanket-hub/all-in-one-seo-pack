@@ -104,7 +104,7 @@ export function createLinkFormat ({ url, opensInNewWindow, nofollow, sponsored, 
 
 	if (opensInNewWindow) {
 		format.attributes.target = '_blank'
-		relAttributes.push('noreferrer noopener')
+		relAttributes.push('noopener')
 	}
 
 	if (nofollow) {

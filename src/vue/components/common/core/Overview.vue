@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreAioseoBlog from '@/vue/components/common/core/AioseoBlog'
 import CoreDonutChartWithLegend from '@/vue/components/common/core/DonutChartWithLegend'
@@ -75,8 +76,9 @@ export default {
 					this.$t.__('Get additional keyphrases and many more modules! %1$s', this.$td), this.$links.getUpsellLink('dashboard-overview', this.$t.__('Upgrade to Pro Today!', this.$td), 'liteUpgrade', true)
 				)
 			},
-			postType : {},
-			parts    : [
+			postTypeInitial : true,
+			postType        : {},
+			parts           : [
 				{
 					slug  : 'needsImprovement',
 					name  : this.$t.__('Needs Improvement', this.$td),
@@ -100,7 +102,21 @@ export default {
 			]
 		}
 	},
+	watch : {
+		postType (newValue) {
+			if (this.postTypeInitial) {
+				this.postTypeInitial = false
+				return
+			}
+
+			this.toggleRadio({ slug: 'overviewPostType', value: newValue.value })
+		}
+	},
+	methods : {
+		...mapActions([ 'toggleRadio' ])
+	},
 	computed : {
+		...mapState([ 'settings' ]),
 		postTypes () {
 			const postTypes = []
 			this.$aioseo.postData.postTypes.forEach(postType => {
@@ -154,7 +170,11 @@ export default {
 		}
 	},
 	mounted () {
-		this.postType = this.postTypes[0]
+		this.$nextTick(() => {
+			const selectedPostType = this.settings.toggledRadio?.overviewPostType
+			const postTypeIndex = this.postTypes.findIndex(postType => selectedPostType === postType.value)
+			this.postType = this.postTypes[postTypeIndex] || this.postTypes[0]
+		})
 	}
 }
 </script>

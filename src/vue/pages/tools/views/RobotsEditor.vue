@@ -159,6 +159,7 @@
 								</div>
 								<div class="robots-directory-path">
 									<base-input
+										:key="inputKey"
 										:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
 										:value="rule.directoryPath"
 										@blur="updateRule('directoryPath', $event, index)"
@@ -253,6 +254,7 @@ export default {
 	mixins : [ SaveChanges ],
 	data () {
 		return {
+			inputKey      : 0,
 			importLoading : false,
 			deleteLoading : false,
 			errors        : {},
@@ -370,6 +372,7 @@ export default {
 			// Set the sanitized path.
 			if ('directoryPath' === type) {
 				rule[type] = this.sanitizePath(value)
+				this.inputKey++
 				this.$set(this.options.tools.robots.rules, ruleIndex, JSON.stringify(rule))
 			}
 			this.validateRules()

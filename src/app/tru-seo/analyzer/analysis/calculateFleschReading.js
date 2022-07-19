@@ -102,7 +102,7 @@ export default function calculateFleschReading (content, locale) {
 
 	return {
 		title       : __('Flesch reading ease N/A', td),
-		description : __(':-)', td),
+		description : ':-)',
 		score       : 0,
 		maxScore    : 0,
 		error       : 1

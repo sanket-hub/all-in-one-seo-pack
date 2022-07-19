@@ -18,12 +18,7 @@
 				{{ strings.ctaHeader }}
 			</template>
 			<template #description>
-				<core-alert
-					v-if="$isPro && $addons.requiresUpgrade('aioseo-link-assistant') && $addons.currentPlans('aioseo-link-assistant')"
-					type="red"
-				>
-					{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-link-assistant') }}</strong>
-				</core-alert>
+				<required-plans addon="aioseo-link-assistant" />
 
 				{{ strings.linkAssistantDescription }}
 			</template>
@@ -33,12 +28,12 @@
 
 <script>
 import Blur from './Blur'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
 		Blur,
-		CoreAlert,
+		RequiredPlans,
 		Cta
 	},
 	data () {
@@ -56,7 +51,6 @@ export default {
 					'Pro'
 				),
 				linkAssistantDescription : this.$t.__('Get relevant suggestions for adding internal links to all your content as well as finding any orphaned posts that have no internal links.', this.$td),
-				thisFeatureRequires      : this.$t.__('This feature requires one of the following plans:', this.$td),
 				linkOpportunities        : this.$t.__('Actionable Link Suggestions', this.$td),
 				orphanedPosts            : this.$t.__('See Orphaned Posts', this.$td),
 				affiliateLinks           : this.$t.__('See Affiliate Links', this.$td),

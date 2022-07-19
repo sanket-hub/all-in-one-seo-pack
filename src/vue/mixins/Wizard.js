@@ -1,4 +1,7 @@
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
+import CoreModal from '@/vue/components/common/core/Modal'
+import SvgClose from '@/vue/components/common/svg/Close'
+
 export const Wizard = {
 	data () {
 		return {
@@ -47,5 +50,47 @@ export const Wizard = {
 	},
 	mounted () {
 		this.setCurrentStage(this.stage)
+	}
+}
+
+export const WizardUsageTracking = {
+	components : {
+		CoreModal,
+		SvgClose
+	},
+	data () {
+		return {
+			loading   : false,
+			showModal : false,
+			strings   : {
+				closeAndExit       : this.$t.__('Close and Exit Wizard Without Saving', this.$td),
+				buildABetterAioseo : this.$t.sprintf(
+					// Translator: 1 - Plugin short name ("AIOSEO").
+					this.$t.__('Build a Better %1$s', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				getImprovedFeatures : this.$t.sprintf(
+					// Translator: 1 - Plugin short name ("AIOSEO").
+					this.$t.__('Get improved features and faster fixes by sharing non-sensitive data via usage tracking that shows us how %1$s is being used. No personal data is tracked or stored.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
+				noThanks     : this.$t.__('No thanks', this.$td),
+				yesCountMeIn : this.$t.__('Yes, count me in!', this.$td)
+			}
+		}
+	},
+	computed : {
+		...mapState('wizard', [ 'smartRecommendations' ])
+	},
+	methods : {
+		...mapActions('wizard', [ 'saveWizard' ]),
+		processOptIn () {
+			this.smartRecommendations.usageTracking = true
+			this.loading                            = true
+			this.saveWizard('smartRecommendations')
+				.then(() => {
+					window.location.href = this.$aioseo.urls.aio.dashboard
+				})
+		}
 	}
 }

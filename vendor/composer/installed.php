@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '60e0367121e3fcecefb446a286686cb0232eb07e',
+        'reference' => '3a597f1090dc14fc0aef51fc60dbd4d4a499b459',
         'name' => 'awesomemotive/all-in-one-seo-pack-pro',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '60e0367121e3fcecefb446a286686cb0232eb07e',
+            'reference' => '3a597f1090dc14fc0aef51fc60dbd4d4a499b459',
             'dev_requirement' => false,
         ),
         'instituteweb/composer-scripts' => array(

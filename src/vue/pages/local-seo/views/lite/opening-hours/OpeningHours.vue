@@ -22,12 +22,7 @@
 					{{ strings.ctaHeader }}
 				</template>
 				<template #description>
-					<core-alert
-						v-if="$isPro && $addons.requiresUpgrade('aioseo-local-business') && $addons.currentPlans('aioseo-local-business')"
-						type="red"
-					>
-						{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-local-business') }}</strong>
-					</core-alert>
+					<required-plans addon="aioseo-local-business" />
 
 					{{ strings.locationInfo1 }}
 				</template>
@@ -38,14 +33,14 @@
 
 <script>
 import Blur from './Blur'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
 		Blur,
-		CoreAlert,
+		RequiredPlans,
 		CoreCard,
 		CoreProBadge,
 		Cta
@@ -66,8 +61,7 @@ export default {
 					this.$t.__('Local SEO is only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				),
-				thisFeatureRequires : this.$t.__('This feature requires one of the following plans:', this.$td)
+				)
 			}
 		}
 	}

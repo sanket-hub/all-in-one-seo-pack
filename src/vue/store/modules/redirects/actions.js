@@ -112,8 +112,9 @@ export default {
 			orderBy.sortDir = state.sortDir.logs
 		}
 
+		page   = page || 1
 		filter = filter || getters.getCurrentFilter
-		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/paginate/${filter.slug}/${page}/`))
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/paginate/${filter.slug}/${page || 1}/`))
 			.send({
 				additional,
 				orderBy

@@ -3,7 +3,7 @@ import { getOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 export const Standalone = {
 	computed : {
-		...mapState([ 'currentPost', 'options', 'dynamicOptions' ])
+		...mapState([ 'currentPost', 'options', 'dynamicOptions', 'settings' ])
 	},
 	methods : {
 		updateAioseo () {
@@ -19,8 +19,9 @@ export const Standalone = {
 		window.removeEventListener('updateAioseo', this.updateAioseo)
 	},
 	async created () {
-		const { options, dynamicOptions, currentPost, internalOptions, tags } = await getOptions()
+		const { options, settings, dynamicOptions, currentPost, internalOptions, tags } = await getOptions()
 		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
+		this.$set(this.$store.state, 'settings', merge({ ...this.$store.state.settings }, { ...settings }))
 		this.$set(this.$store.state, 'dynamicOptions', merge({ ...this.$store.state.dynamicOptions }, { ...dynamicOptions }))
 		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
 		this.$set(this.$store.state, 'internalOptions', merge({ ...this.$store.state.internalOptions }, { ...internalOptions }))

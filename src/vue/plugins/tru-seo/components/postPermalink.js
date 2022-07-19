@@ -42,9 +42,9 @@ export const getPostPermalink = () => {
 	let postPermalink
 
 	if (isClassicEditor()) {
-		const classicLink = document.querySelector('#editable-post-name')
-		if (classicLink && classicLink.parentElement.href) {
-			postPermalink = classicLink.parentElement.href
+		const classicLink = document.querySelector('#edit-slug-box a')
+		if (classicLink && classicLink.href) {
+			postPermalink = classicLink.href
 		}
 	}
 
@@ -72,9 +72,9 @@ export const getPostEditedPermalink = () => {
 	let postPermalink
 
 	if (isClassicEditor()) {
-		const classicLink = document.querySelector('#editable-post-name')
-		if (classicLink && classicLink.parentElement.href) {
-			postPermalink = classicLink.parentElement.href
+		const classicLink = document.querySelector('#edit-slug-box a')
+		if (classicLink && classicLink.href) {
+			postPermalink = classicLink.href
 		}
 	}
 

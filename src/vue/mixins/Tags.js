@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { customFieldValue } from '@/vue/plugins/tru-seo/components'
 export const Tags = {
 	computed : {
 		...mapState([ 'currentPost', 'tags' ]),
@@ -22,9 +23,18 @@ export const Tags = {
 			}
 
 			this.tags.tags.forEach(tag => {
-				if ('custom_field' === tag.id || 'tax_name' === tag.id) {
-					const regex = new RegExp(`#${tag.id}-([a-zA-Z0-9_-]+)`, 'g')
-					string = string.replace(regex, `[${tag.name} - $1]`)
+				if ('custom_field' === tag.id) {
+					const customFieldRegex   = new RegExp(`#${tag.id}-([a-zA-Z0-9_-]+)`)
+					const customFieldMatches = string.match(customFieldRegex)
+					if (customFieldMatches && customFieldMatches[1]) {
+						string = string.replace(customFieldRegex, customFieldValue(customFieldMatches[1]))
+					}
+					return
+				}
+
+				if ('tax_name' === tag.id) {
+					const taxNameRegex = new RegExp(`#${tag.id}-([a-zA-Z0-9_-]+)`, 'g')
+					string             = string.replace(taxNameRegex, `[${tag.name} - $1]`)
 					return
 				}
 
@@ -39,14 +49,14 @@ export const Tags = {
 				}
 
 				const matches = string.match(regex)
-				const value = (this.liveTags[tag.id] || tag.value)
+				const value   = (this.liveTags[tag.id] || tag.value)
 				if (matches) {
 					string = string.replace(regex, '%|%' + value)
 				}
 
 				// Let's update our new value to the window object.
 				this.$set(tag, 'value', value)
-				const { tags } = window.aioseo.tags
+				const { tags }  = window.aioseo.tags
 				const windowTag = tags.find(t => t.id === tag.id)
 				if (windowTag) {
 					this.$set(windowTag, 'value', value)

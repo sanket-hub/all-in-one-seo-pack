@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { getOptions } from '@/vue/utils/options'
+import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
 import { Tags, TruSeoScore } from '@/vue/mixins'
@@ -102,7 +102,8 @@ export default {
 	},
 	mixins : [ Tags, TruSeoScore ],
 	props  : {
-		term : Object
+		term  : Object,
+		index : Number
 	},
 	data () {
 		return {
@@ -130,10 +131,11 @@ export default {
 	},
 	methods : {
 		save () {
-			this.showEditTitle = false
+			this.showEditTitle       = false
 			this.showEditDescription = false
-			this.term.title = this.title
-			this.term.description = this.termDescription
+			this.term.title          = this.title
+			this.term.description    = this.termDescription
+
 			this.$http.post(this.$links.restUrl('termscreen'))
 				.send({
 					termId      : this.term.id,
@@ -143,6 +145,15 @@ export default {
 				.then(response => {
 					this.titleParsed       = response.body.title
 					this.descriptionParsed = response.body.description
+
+					this.term.titleParsed       = response.body.title
+					this.term.descriptionParsed = response.body.description
+
+					const terms       = window.aioseo.terms
+					terms[this.index] = this.term
+					setOptions({
+						terms
+					})
 				})
 				.catch(error => {
 					console.error(`Unable to update term with ID ${this.term.id}: ${error}`)

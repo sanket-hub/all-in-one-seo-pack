@@ -27,8 +27,12 @@ export const maybeUpdateTaxonomies = (run = true) => {
 		// }, 1000)
 	}
 	if (isBlockEditor()) {
-		const categories = window.wp.data.select('core').getEntityRecords('taxonomy', 'category')
-		const selected   = window.wp.data.select('core/editor').getEditedPostAttribute('categories')
+		let categories = [],
+			selected   = []
+		if (window.aioseo.user.data.allcaps?.manageCategories) {
+			categories = window.wp.data.select('core').getEntityRecords('taxonomy', 'category')
+			selected   = window.wp.data.select('core/editor').getEditedPostAttribute('categories')
+		}
 
 		if (selected && selected.length && categories) {
 			const category = categories.find(c => c.id === selected[0])

@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/wp/5.8/block.json",
+	"name": "aioseo/table-of-contents",
+	"version": "1.0.0",
+	"title": "AIOSEO - Table of Contents",
+	"description": "Automatically output a table of contents (TOC) for long posts or pages (and custom post types).",
+	"category": "layout",
+	"keywords": [
+		"toc",
+		"table of contents",
+		"document outline",
+		"summary",
+		"index"
+	],
+	"textdomain": "all-in-one-seo-pack",
+	"attributes": {
+		"listStyle": {
+			"type": "string",
+			"default": "ul"
+		},
+		"headings": {
+			"type": "array",
+			"items": {
+				"type": "object"
+			},
+			"default": []
+		},
+		"reOrdered": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"multiple": false,
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	}
+}

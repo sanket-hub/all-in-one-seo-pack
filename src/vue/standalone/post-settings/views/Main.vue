@@ -343,6 +343,16 @@ export default {
 				}, 500)
 				break
 		}
+	},
+	beforeMount () {
+		/**
+		 * Make unpin button visible.
+		 * @link all-in-one-seo-pack-pro/src/react/headline-analyzer/index.jsx:151
+		 */
+		const unpinButton = document.querySelector('.interface-complementary-area__pin-unpin-item')
+		if (unpinButton && null !== unpinButton) {
+			unpinButton.style.display = 'block'
+		}
 	}
 }
 </script>

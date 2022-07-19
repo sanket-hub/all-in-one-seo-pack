@@ -22,7 +22,7 @@ class MentionBlot extends Embed {
 			scrollBlot = scrollBlot.parent
 		}
 
-		return Quill.find(scrollBlot.domNode.parentNode)
+		return scrollBlot.domNode.parentNode ? Quill.find(scrollBlot.domNode.parentNode) : null
 	}
 
 	clickHandler () {

@@ -161,10 +161,11 @@ export const customFieldsContent = () => {
 /**
  * Get custom field image URL.
  *
- * @param   {string} fieldKey The field key.
- * @returns {string}          URL of the image.
+ * @param   {string} fieldKey   The field key.
+ * @param   {Array}  inputTypes The valid input types.
+ * @returns {string}            URL of the image.
  */
-export const customFieldImage = (fieldKey) => {
+export const customFieldValue = (fieldKey, inputTypes = [ 'INPUT', 'TEXTAREA', 'IMG' ]) => {
 	if (!fieldKey) {
 		return ''
 	}
@@ -172,14 +173,13 @@ export const customFieldImage = (fieldKey) => {
 	const customField    = document.querySelector(`#${fieldKey}`)
 	const wpCustomFields = document.querySelectorAll('#the-list > tr')
 	const acfFields      = document.querySelectorAll('.acf-field')
-	const inputTypes     = [ 'INPUT', 'TEXTAREA', 'IMG' ]
-	let url = ''
+	let value            = ''
 
 	if (customField && (-1 !== inputTypes.indexOf(customField.tagName))) {
 		// Make sure it isn't an acf-field
 		if (!customField.closest('.acf-field')) {
 			// We have a meta_box, add the value.
-			url = 'IMG' === customField.tagName ? customField.getAttribute('src') : customField.value
+			value = 'IMG' === customField.tagName ? customField.getAttribute('src') : customField.value
 		}
 	}
 
@@ -190,7 +190,7 @@ export const customFieldImage = (fieldKey) => {
 			const inputValue = row.querySelector(`#${row.id}-value`)
 
 			if (inputValue && (-1 !== inputTypes.indexOf(inputValue.tagName)) && inputKey.value === fieldKey) {
-				url = 'IMG' === inputValue.tagName ? inputValue.getAttribute('src') : inputValue.value
+				value = 'IMG' === inputValue.tagName ? inputValue.getAttribute('src') : inputValue.value
 			}
 		})
 	}
@@ -202,10 +202,17 @@ export const customFieldImage = (fieldKey) => {
 				return
 			}
 
-			const cf = acfField.querySelector(`[data-key="${acfField.dataset.key}"] img`)
-			url      = 'IMG' === cf.tagName ? cf.getAttribute('src') : cf.value
+			let acfFieldElement
+			inputTypes.forEach(type => {
+				const inputTag = type.toLowerCase()
+				acfFieldElement = acfField.querySelector(`[data-key="${acfField.dataset.key}"] ${inputTag}`) || acfFieldElement
+			})
+
+			if (acfFieldElement) {
+				value = 'IMG' === acfFieldElement.tagName ? acfFieldElement.getAttribute('src') : acfFieldElement.value
+			}
 		})
 	}
 
-	return url
+	return value
 }

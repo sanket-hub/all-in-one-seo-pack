@@ -147,8 +147,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { WebmasterTools } from '@/vue/pages/settings/mixins'
+import { MiOrEm, WebmasterTools } from '@/vue/pages/settings/mixins'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import BaseTextarea from '@/vue/components/common/base/Textarea'
@@ -166,23 +165,14 @@ export default {
 		GridColumn,
 		GridRow
 	},
-	mixins : [ WebmasterTools ],
+	mixins : [ MiOrEm, WebmasterTools ],
 	data () {
 		return {
-			installingPlugin : false,
-			miInstalled      : false,
-			showMiPromo      : true,
-			strings          : {
+			strings : {
 				miLink : this.$t.sprintf(
 					'<strong>%1$s</strong>',
 					this.$t.__('Click here', this.$td)
 				),
-				installMi : this.$t.sprintf(
-					// Translators: 1 - The addon or plugin name.
-					this.$t.__('Install %1$s', this.$td),
-					'MonsterInsights'
-				),
-				miInstalled : this.$t.__('Success!', this.$td),
 				miHandlesGa : this.$t.sprintf(
 					// Translators: 1 - The name of one of our partner plugins.
 					this.$t.__('Google Analytics is now handled by %1$s.', this.$td),
@@ -198,8 +188,30 @@ export default {
 			}
 		}
 	},
+	computed : {
+		miPromo () {
+			return this.$t.sprintf(
+				// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
+				this.$t.__('We recommend using the %1$sFree MonsterInsights%2$s plugin to get the most out of Google Analytics.', this.$td),
+				'<strong>',
+				'</strong>'
+			)
+		},
+		emPromo () {
+			return this.$t.sprintf(
+				// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
+				this.$t.__('We recommend using the %1$sFree ExactMetrics%2$s plugin to get the most out of Google Analytics.', this.$td),
+				'<strong>',
+				'</strong>'
+			)
+		},
+		gaDeprecated () {
+			return !this.$aioseo.internalOptions.internal.deprecatedOptions.includes('googleAnalytics') &&
+				!this.$aioseo.options.deprecated.webmasterTools.googleAnalytics.id &&
+				!this.$aioseo.options.deprecated.webmasterTools.googleAnalytics.gtmContainerId
+		}
+	},
 	methods : {
-		...mapActions([ 'installPlugins', 'upgradePlugins' ]),
 		updateValue (checked, setting, option) {
 			if (checked) {
 				const users = this.options.deprecated.webmasterTools[setting.parent][setting.option]
@@ -215,34 +227,6 @@ export default {
 		},
 		getValue (setting, option) {
 			return this.options.deprecated.webmasterTools[setting.parent][setting.option].includes(option.value)
-		},
-		installMi () {
-			this.installingPlugin = true
-			this.installPlugins([
-				{
-					plugin : 'miLite',
-					type   : 'plugin'
-				}
-			])
-				.then(response => {
-					this.installingPlugin = false
-					if (response.body.failed.length) {
-						this.miInstalledFailed = true
-						return
-					}
-
-					this.miInstalled      = true
-					setTimeout(() => {
-						this.showMiPromo = false
-
-						// Update the active status globally.
-						this.$aioseo.plugins.miLite.activated  = true
-						window.aioseo.plugins.miLite.activated = true
-					}, 3000)
-				})
-				.catch(error => {
-					console.error(error)
-				})
 		},
 		shouldDisplaySetting (setting) {
 			// Pro checks first.
@@ -273,41 +257,6 @@ export default {
 			}
 
 			return false
-		}
-	},
-	computed : {
-		miPromo () {
-			return this.$t.sprintf(
-				// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
-				this.$t.__('We recommend using the %1$sFree MonsterInsights%2$s plugin to get the most out of Google Analytics.', this.$td),
-				'<strong>',
-				'</strong>'
-			)
-		},
-		emPromo () {
-			return this.$t.sprintf(
-				// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
-				this.$t.__('We recommend using the %1$sFree ExactMetrics%2$s plugin to get the most out of Google Analytics.', this.$td),
-				'<strong>',
-				'</strong>'
-			)
-		},
-		gaActivated () {
-			return this.$aioseo.plugins.miLite.activated ||
-				this.$aioseo.plugins.emLite.activated ||
-				this.$aioseo.plugins.miPro.activated ||
-				this.$aioseo.plugins.emPro.activated
-		},
-		gaDeprecated () {
-			return !this.$aioseo.internalOptions.internal.deprecatedOptions.includes('googleAnalytics') &&
-				!this.$aioseo.options.deprecated.webmasterTools.googleAnalytics.id &&
-				!this.$aioseo.options.deprecated.webmasterTools.googleAnalytics.gtmContainerId
-		},
-		prefersEm () {
-			return (this.$aioseo.plugins.emLite.installed ||
-				this.$aioseo.plugins.emPro.installed) &&
-				(!this.$aioseo.plugins.miLite.installed &&
-				!this.$aioseo.plugins.miPro.installed)
 		}
 	}
 }

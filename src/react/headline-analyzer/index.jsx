@@ -148,6 +148,7 @@ const HeadlineAnalyzer = () => {
 		}
 	}
 
+	// Removing unpin button in the Headline Analyzer.
 	const wrapper = document.querySelector('.aioseo-headline-analyzer-wrapper')
 	if (wrapper) {
 		const headingElements = wrapper.parentNode.querySelectorAll(
@@ -155,9 +156,9 @@ const HeadlineAnalyzer = () => {
 		)
 		if (headingElements) {
 			headingElements.forEach(function (element) {
-				const button = element.querySelector('[aria-pressed="true"]')
-				if (button && null !== button) {
-					button.style.display = 'none'
+				const unpinButton = element.querySelector('.interface-complementary-area__pin-unpin-item')
+				if (unpinButton && null !== unpinButton) {
+					unpinButton.style.display = 'none'
 				}
 			})
 		}

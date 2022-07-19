@@ -1,7 +1,8 @@
 import { AccessControl } from './AccessControl'
-import { WebmasterTools } from './WebmasterTools'
+import { MiOrEm, WebmasterTools } from './WebmasterTools'
 
 export {
 	AccessControl,
+	MiOrEm,
 	WebmasterTools
 }

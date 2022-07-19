@@ -113,7 +113,7 @@ export function createLinkFormat ({ url, opensInNewWindow, noFollow, sponsored, 
 		format.attributes.target = '_blank'
 		format.attributes['aria-label'] = label
 
-		relAttributes.push('noreferrer noopener')
+		relAttributes.push('noopener')
 	}
 
 	if (noFollow) {

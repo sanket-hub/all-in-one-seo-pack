@@ -62,6 +62,7 @@ const getStandalones = () => {
 		'publish-panel'       : './src/vue/standalone/publish-panel/main.js',
 		'setup-wizard'        : './src/vue/standalone/setup-wizard/main.js',
 		'user-profile-tab'    : './src/vue/standalone/user-profile-tab/main.js',
+		'wp-notices'          : './src/vue/standalone/wp-notices/main.js',
 		blocks                : './src/vue/standalone/blocks/main.js',
 		// Third-party.
 		divi                  : './src/vue/standalone/divi/main.js',
@@ -75,8 +76,9 @@ const getStandalones = () => {
 const getNonVueStandalones = () => {
 	return {
 		// CSS only.
-		'admin-bar'  : './src/vue/assets/scss/app/admin-bar.scss',
-		integrations : './src/vue/assets/scss/integrations/main.scss',
+		'admin-bar'     : './src/vue/assets/scss/app/admin-bar.scss',
+		integrations    : './src/vue/assets/scss/integrations/main.scss',
+		'blocks-editor' : './src/vue/assets/scss/blocks-editor.scss',
 
 		// Native JS.
 		plugins                    : './src/app/plugins/main.js',
@@ -159,7 +161,8 @@ export default ({ mode }) => {
 						filter      : a => {
 							const names = [
 								'admin-bar.css',
-								'integrations.css'
+								'integrations.css',
+								'blocks-editor.css'
 							]
 							return isAsset(a) && names.includes(a.name)
 						}

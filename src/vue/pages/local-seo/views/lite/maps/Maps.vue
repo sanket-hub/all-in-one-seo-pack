@@ -21,12 +21,8 @@
 					{{ strings.ctaHeader }}
 				</template>
 				<template #description>
-				<core-alert
-					v-if="$isPro && $addons.requiresUpgrade('aioseo-local-business') && $addons.currentPlans('aioseo-local-business')"
-					type="red"
-				>
-					{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-local-business') }}</strong>
-				</core-alert>
+					<required-plans addon="aioseo-local-business" />
+
 					{{ strings.ctaDescription }}
 				</template>
 			</cta>
@@ -36,14 +32,14 @@
 
 <script>
 import Blur from './Blur'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
 		Blur,
-		CoreAlert,
+		RequiredPlans,
 		CoreCard,
 		CoreProBadge,
 		Cta
@@ -65,8 +61,7 @@ export default {
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
 				),
-				ctaDescription      : this.$t.__('Show your location to your visitors using an interactive Google Map. Create multiple maps for use with multiple locations.', this.$td),
-				thisFeatureRequires : this.$t.__('This feature requires one of the following plans:', this.$td)
+				ctaDescription : this.$t.__('Show your location to your visitors using an interactive Google Map. Create multiple maps for use with multiple locations.', this.$td)
 			}
 		}
 	}

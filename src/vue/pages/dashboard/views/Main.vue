@@ -18,18 +18,18 @@
 						md="6"
 					>
 						<core-card
-							slug="dashboardOverview"
-							:header-text="strings.seoOverview"
-						>
-							<core-overview />
-						</core-card>
-
-						<core-card
 							v-if="!$aioseo.setupWizard.isCompleted"
 							slug="dashboardSeoSetup"
 							:header-text="strings.seoSetup"
 						>
 							<core-seo-setup />
+						</core-card>
+
+						<core-card
+							slug="dashboardOverview"
+							:header-text="strings.seoOverview"
+						>
+							<core-overview />
 						</core-card>
 
 						<grid-row v-if="quickLinks.length > 0">

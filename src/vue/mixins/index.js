@@ -16,7 +16,7 @@ import { HeadlineScore } from './HeadlineScore'
 import { HeadlineResult } from './HeadlineResult'
 import { Url } from './Url'
 import { IsDirty } from './IsDirty'
-import { Wizard } from './Wizard'
+import { Wizard, WizardUsageTracking } from './Wizard'
 import { ToolsSettings } from './ToolsSettings'
 
 export {
@@ -41,5 +41,6 @@ export {
 	Uploader,
 	Url,
 	Wizard,
+	WizardUsageTracking,
 	ToolsSettings
 }

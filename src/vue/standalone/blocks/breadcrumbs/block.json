@@ -1,0 +1,22 @@
+{
+	"name": "aioseo/breadcrumbs",
+	"title": "AIOSEO - Breadcrumbs",
+	"description": "Displays the breadcrumb trail for the current page.",
+	"category": "widgets",
+	"keywords": [
+		"breadcrumb",
+		"breadcrumbs",
+		"breadcrumb trail",
+		"crumb",
+		"crumbs",
+		"crumb trail",
+		"hierarchy",
+		"links",
+		"menu",
+		"navigation",
+		"schema",
+		"seo",
+		"trail"
+	],
+	"textdomain": "all-in-one-seo-pack"
+}

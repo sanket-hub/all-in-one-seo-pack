@@ -7,7 +7,7 @@ export {
 	shouldShowMetaBox,
 	shouldShowTruSeoScore
 } from './helpers'
-export { customFieldsContent, customFieldImage } from './customFields'
+export { customFieldsContent, customFieldValue } from './customFields'
 export { getPostTitle, getPostEditedTitle, maybeUpdatePostTitle } from './postTitle'
 export { getPostContent, getPostEditedContent, maybeUpdatePostContent } from './postContent'
 export { getPostExcerpt, getPostEditedExcerpt, maybeUpdatePostExcerpt } from './postExcerpt'

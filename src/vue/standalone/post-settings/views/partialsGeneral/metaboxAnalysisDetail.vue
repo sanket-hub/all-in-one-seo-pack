@@ -1,24 +1,25 @@
 <template>
 	<ul class="aioseo-analysis-detail">
-		<li
-			v-for="(keyphrase, index) in analysisItems"
-			:key="index"
-		>
-			<p
-				class="title"
-				:class="0 === keyphrase.error ? 'toggled' : ''"
+		<template v-for="(keyphrase, index) in analysisItems">
+			<li
 				v-if="keyphrase.title"
+				:key="index"
+			>
+				<p
+					class="title"
+					:class="0 === keyphrase.error ? 'toggled' : ''"
 				>
-				<svg-circle-check width="12" v-if="0 === keyphrase.error" />
-				<svg-circle-close width="12" v-if="1 === keyphrase.error" />
-				{{ keyphrase.title }}
-				<svg-caret
-					width="16"
-					@click="toggleDescriptionEv"
-				/>
-			</p>
-			<p class="description">{{ keyphrase.description }}</p>
-		</li>
+					<svg-circle-check width="12" v-if="0 === keyphrase.error" />
+					<svg-circle-close width="12" v-if="1 === keyphrase.error" />
+					{{ keyphrase.title }}
+					<svg-caret
+						width="16"
+						@click="toggleDescriptionEv"
+					/>
+				</p>
+				<p class="description">{{ keyphrase.description }}</p>
+			</li>
+		</template>
 	</ul>
 </template>
 
@@ -55,6 +56,9 @@ export default {
 <style lang="scss">
 .aioseo-analysis-detail {
 	margin: 0 0 35px;
+	padding: 0;
+	list-style: none;
+
 	li {
 		padding-left: 24px;
 		position: relative;

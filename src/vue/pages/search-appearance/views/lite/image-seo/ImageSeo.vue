@@ -17,12 +17,7 @@
 				{{ strings.ctaHeader }}
 			</template>
 			<template #description>
-				<core-alert
-					v-if="$addons.requiresUpgrade('aioseo-image-seo') && $addons.currentPlans('aioseo-image-seo')"
-					type="red"
-				>
-					{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-image-seo') }}</strong>
-				</core-alert>
+				<required-plans addon="aioseo-image-seo" />
 
 				{{ strings.ctaDescription }}
 			</template>
@@ -32,19 +27,18 @@
 
 <script>
 import Blur from './Blur'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import Cta from '@/vue/components/common/cta/Index.vue'
 export default {
 	components : {
 		Blur,
-		CoreAlert,
+		RequiredPlans,
 		Cta
 	},
 	data () {
 		return {
 			strings : {
 				titleAttributeFormat : this.$t.__('Title Attribute Format', this.$td),
-				thisFeatureRequires  : this.$t.__('This feature requires one of the following plans:', this.$td),
 				ctaDescription       : this.$t.__('The Image SEO module is a premium feature that enables you to globally control the Title Attribute and Alt Text for attachment pages and images that are embedded in your content. These can be set based on a specified format, similar to the Title Format settings in the Global Settings menu.', this.$tdPro),
 				ctaButtonText        : this.$t.__('Upgrade to Pro and Unlock Image SEO', this.$td),
 				ctaHeader            : this.$t.sprintf(

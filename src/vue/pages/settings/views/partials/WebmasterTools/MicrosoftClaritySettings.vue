@@ -37,6 +37,57 @@
 						v-if="!isConnected"
 						v-html="strings.description"
 					/>
+
+					<core-alert
+						v-if="isConnected && !gaActivated && showMiPromo"
+						:key="promoKey"
+						type="blue"
+					>
+						<div v-html="strings.miPromo" />
+						<br>
+						<base-button
+							v-if="!$aioseo.plugins.miLite.canInstall"
+							type="blue"
+							size="medium"
+							tag="a"
+							target="_blank"
+							:href="$aioseo.plugins.miLite.wpLink"
+						>
+							<svg-external /> {{ strings.installMi }}
+						</base-button>
+						<base-button
+							v-if="$aioseo.plugins.miLite.canInstall"
+							:loading="installingPlugin"
+							type="blue"
+							:disabled="miInstalled"
+							size="medium"
+							@click="installMi"
+						>
+							<span
+								v-if="miInstalled"
+							>{{ strings.miInstalled }}</span>
+							<span
+								v-if="!miInstalled"
+							>{{ strings.installMi }}</span>
+						</base-button>
+					</core-alert>
+
+					<core-alert
+						v-if="isConnected && !gaActivated && !showMiPromo && miInstalled"
+						type="blue"
+					>
+						<div v-html="strings.useMi" />
+						<br>
+						<base-button
+							type="blue"
+							size="medium"
+							tag="a"
+							target="_blank"
+							:href="$aioseo.plugins.miLite.adminUrl"
+						>
+							<svg-external /> {{ strings.manageGa }}
+						</base-button>
+					</core-alert>
 				</template>
 			</core-settings-row>
 		</template>
@@ -44,20 +95,23 @@
 </template>
 
 <script>
-import { WebmasterTools } from '@/vue/pages/settings/mixins'
+import { MiOrEm, WebmasterTools } from '@/vue/pages/settings/mixins'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
+import SvgExternal from '@/vue/components/common/svg/External'
 export default {
 	components : {
 		CoreAlert,
 		CoreSettingsRow,
-		GridColumn
+		GridColumn,
+		SvgExternal
 	},
-	mixins : [ WebmasterTools ],
+	mixins : [ MiOrEm, WebmasterTools ],
 	data () {
 		return {
-			strings : {
+			promoKey : 1,
+			strings  : {
 				dashboard   : this.$t.__('Dashboard', this.$td),
 				settings    : this.$t.__('Settings', this.$td),
 				description : this.$t.sprintf(
@@ -66,8 +120,17 @@ export default {
 					'Clarity',
 					'<a target="_blank" href="https://clarity.microsoft.com/projects?snpf=1&utm_source=aioseo&utm_medium=partner&utm_campaign=growth">',
 					'</a>'
-				)
+				),
+				useMi    : this.$t.__('Great choice! Get started with MonsterInsights today to see how people find and use your website.', this.$td),
+				miPromo  : this.$t.__('Want to get the most out of Clarity? Integrate Clarity with Google Analytics using MonsterInsights today!', this.$td),
+				manageGa : this.$t.__('Manage Google Analytics', this.$td)
 			}
+		}
+	},
+	watch : {
+		// Reactivity is not working well with this prop, so forcing a key change resolves the issue.
+		isConnected () {
+			this.promoKey++
 		}
 	},
 	methods : {

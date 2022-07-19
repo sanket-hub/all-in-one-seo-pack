@@ -14,7 +14,17 @@ export const decodeHTMLEntities = string => {
 
 export const observeElement = params => {
 	new MutationObserver(function () {
-		const el = params.id ? document.getElementById(params.id) : document.querySelector(params.selector)
+		let el = params.id ? document.getElementById(params.id) : document.querySelector(params.selector)
+
+		// If we can't find the element, also look for it inside the iFrame of the Full Site Editor (if present).
+		// This is required for blocks like the Table of Contents which have a Vue UI inside the editor.
+		const fullSiteEditor = document.querySelector('.edit-site-visual-editor__editor-canvas')
+		if (!el && fullSiteEditor) {
+			el = params.id
+				? fullSiteEditor.contentWindow.document.getElementById(params.id)
+				: fullSiteEditor.contentWindow.document.querySelector(params.selector)
+		}
+
 		if (el) {
 			params.done(el)
 			if (!params.loop) {
