@@ -42,6 +42,7 @@
 			]"
 			:id="inputId"
 		/>
+
 		<div
 			v-if="!$slots.append && appendIcon"
 			class="append-icon"

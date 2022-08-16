@@ -78,27 +78,37 @@ export default {
 		line-height: 130%;
 		color: $black2;
 	}
+
 	.description {
 		font-size: 13px;
 		line-height: 130%;
 		color: $black2;
 		margin-bottom: 16px;
 	}
+
 	.links {
 		.link {
 			display: inline-block;
 			margin-right: 10px;
+
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 	}
+
 	.aioseo-twitter-rounded {
 		color: #1DA1F2;
 	}
+
 	.aioseo-facebook-rounded {
 		color: #1877F2;
 	}
+
 	.aioseo-pinterest-rounded {
 		color: #E60023;
 	}
+
 	.aioseo-linkedin-rounded {
 		color: #2867B2;
 	}

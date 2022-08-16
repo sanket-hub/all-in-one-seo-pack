@@ -10,7 +10,7 @@
 				v-model="options.sitemap.general.additionalPages.enable"
 			/>
 
-			{{ strings.additionalPages }}
+			<span>{{ strings.additionalPages }}</span>
 		</template>
 
 		<template #tooltip>
@@ -183,8 +183,11 @@ export default {
 				{ label: this.$t.__('Delete', this.$tdPro), value: 'delete' }
 			],
 			strings : {
-				// Translators: 1 - An example URL (e.g. https://aioseo.com/example).
-				placeholder            : this.$t.sprintf(this.$t.__('Enter a page URL, e.g. %1$s', this.$td), `${this.$aioseo.urls.home}/new-page`),
+				placeholder : this.$t.sprintf(
+					// Translators: 1 - An example URL (e.g. https://aioseo.com/example).
+					this.$t.__('Enter a page URL, e.g. %1$s', this.$td),
+					`${this.$aioseo.urls.home}/new-page`
+				),
 				pageUrl                : this.$t.__('Page URL', this.$td),
 				priority               : this.$t.__('Priority', this.$td),
 				frequency              : this.$t.__('Frequency', this.$td),

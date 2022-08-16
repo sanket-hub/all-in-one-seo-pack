@@ -67,6 +67,7 @@
 				<component
 					:is="activeTab"
 					parentComponentContext="metabox"
+					@changeTab="newTab => processChangeTab(newTab)"
 				/>
 			</div>
 		</transition>

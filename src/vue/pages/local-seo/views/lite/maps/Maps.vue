@@ -5,7 +5,7 @@
 			:noSlide="true"
 		>
 			<template #header>
-				{{ strings.googleMapsApiKey }}
+				<span>{{ strings.googleMapsApiKey }}</span>
 				<core-pro-badge />
 			</template>
 

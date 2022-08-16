@@ -5,7 +5,7 @@
 			:noSlide="true"
 		>
 			<template #header>
-				{{ strings.news }}
+				<span>{{ strings.news }}</span>
 				<core-pro-badge />
 			</template>
 

@@ -35,7 +35,8 @@
 				<core-analyze-score
 					:score="parseResult(result).score"
 				/>
-				&ldquo;{{ headline }}&rdquo;
+
+				<span>&ldquo;{{ headline }}&rdquo;</span>
 
 				<svg-trash
 					@click.native="startDeleteheadline(headline)"

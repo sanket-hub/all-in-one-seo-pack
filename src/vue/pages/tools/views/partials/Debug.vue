@@ -1,15 +1,14 @@
 <template>
 	<div class="aioseo-tools-debug">
-		<CoreCard
+		<core-card
 			slug="debug"
 			:header-text="strings.cardLabel"
 		>
-			<CoreAlert
-				class="alertWarning"
-				type="yellow"
-			>
-				{{ strings.alertWarning }}
-			</CoreAlert>
+			<core-alert type="yellow">
+				<div>{{ strings.alertWarning }}</div>
+
+				<div v-html="alertLink" />
+			</core-alert>
 
 			<core-main-tabs
 				internal
@@ -24,9 +23,21 @@
 				v-for="(action, index) in activeTabObject.actions"
 				:key="activeTab + index"
 				:name="action.label"
+				align
 			>
 				<template #content>
+					<template
+						v-if="action.component"
+					>
+						<component
+							:is="action.component"
+							@update="data => maybeDoAction(action, data)"
+							:loading="doingAction[action.slug]"
+						/>
+					</template>
+
 					<base-button
+						v-else
 						type="blue"
 						size="medium"
 						@click="maybeDoAction(action)"
@@ -46,7 +57,7 @@
 				</template>
 			</core-settings-row>
 
-			<CoreModal
+			<core-modal
 				v-if="showAreYouSureModal"
 				no-header
 			>
@@ -79,8 +90,8 @@
 						</base-button>
 					</div>
 				</template>
-			</CoreModal>
-		</CoreCard>
+			</core-modal>
+		</core-card>
 	</div>
 </template>
 
@@ -90,6 +101,7 @@ import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreModal from '@/vue/components/common/core/Modal'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import DeprecatedOptions from './debug/DeprecatedOptions'
 import SvgClose from '@/vue/components/common/svg/Close'
 
 import { mapActions } from 'vuex'
@@ -106,6 +118,7 @@ export default {
 		CoreMainTabs,
 		CoreModal,
 		CoreSettingsRow,
+		DeprecatedOptions,
 		SvgClose
 	},
 	data () {
@@ -124,11 +137,15 @@ export default {
 				cannotBeUndone : 'This action cannot be undone.',
 				yesDoAction    : 'Yes, run this action',
 				noChangedMind  : 'No, I changed my mind'
-			}
+			},
+			alertLink : this.$links.getPlainLink('Click here to open to the Scheduled Actions panel', this.$aioseo.urls.admin.scheduledActions, true)
 		}
 	},
 	methods : {
 		...mapActions([ 'doTask' ]),
+		isLoading (action) {
+			return !!this.doingAction[action.slug]
+		},
 		getSelectedActionObject (savedOption) {
 			let option = null
 			this.actions.forEach(group => {
@@ -140,21 +157,24 @@ export default {
 
 			return option
 		},
-		maybeDoAction (action) {
+		maybeDoAction (action, data) {
 			this.currentAction = action
 			if (action.showModal) {
 				this.showAreYouSureModal = true
 				return
 			}
 
-			this.doAction()
+			this.doAction(data)
 		},
-		doAction () {
+		doAction (data) {
 			this.doingAction[this.currentAction.slug] = true
 			this.showAreYouSureModal                  = false
 
 			this.doingActionKey++
-			this.doTask(this.currentAction.slug).then(() => {
+			this.doTask({
+				action : this.currentAction.slug,
+				data
+			}).then(() => {
 				console.log(`Action "${this.currentAction.label}" has been completed.`)
 			}).catch((error) => {
 				console.error(`Action "${this.currentAction.label}" could not be completed: `, error)
@@ -179,6 +199,13 @@ export default {
 							label            : 'Clear Cache',
 							slug             : 'clear-cache',
 							shortDescription : 'This action deletes all records of the <code>aioseo_cache</code> table in the database.',
+							longDescription  : '',
+							showModal        : false
+						},
+						{
+							label            : 'Clear Plugin Updates Transient',
+							slug             : 'clear-plugin-updates-transient',
+							shortDescription : 'This action clears the plugin updates transient, which forces WordPress Core to check for plugin updates.',
 							longDescription  : '',
 							showModal        : false
 						},
@@ -259,6 +286,20 @@ export default {
 							showModal : false
 						}
 					]
+				},
+				{
+					slug    : 'deprecated-options',
+					name    : 'Deprecated Options',
+					actions : [
+						{
+							label            : 'Deprecated Options',
+							slug             : 'deprecated-options',
+							shortDescription : 'Enable or disable any options that have been deprecated in AIOSEO.',
+							longDescription  : '<strong>These options are not guaranteed to work and all support has been dropped.</strong>',
+							showModal        : false,
+							component        : 'deprecated-options'
+						}
+					]
 				}
 			]
 		},
@@ -285,6 +326,12 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-tools-debug {
+	.aioseo-alert {
+		div:first-of-type {
+			margin-bottom: 10px;
+		}
+	}
+
 	.aioseo-tabs.internal {
 		margin: 10px 0 30px 0;
 	}

@@ -67,8 +67,8 @@ export default {
 				),
 				moreBoldText : this.$t.sprintf(
 					'<strong>%1$s</strong>',
-					// Translators: This refers to a discount ("As a valued user you receive 50%, automatically applied at checkout!").
-					'50% ' + this.$t.__('off', this.$td)
+					// Translators: This refers to a discount (e.g. "As a valued user you receive 50%, automatically applied at checkout!").
+					this.$constants.DISCOUNT_PERCENTAGE + ' ' + this.$t.__('off', this.$td)
 				),
 				licenseKey            : this.$t.__('License Key', this.$td),
 				licenseKeyDescription : this.$t.__('Your license key provides access to updates and addons.', this.$td),

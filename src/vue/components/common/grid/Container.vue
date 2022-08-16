@@ -53,7 +53,7 @@ export default {
 
 @media only screen and (min-width: 1042px) {
 	.aioseo-container {
-		max-width: 80rem;
+		max-width: 1240px;
 
 		&.full-width {
 			max-width: 100%;

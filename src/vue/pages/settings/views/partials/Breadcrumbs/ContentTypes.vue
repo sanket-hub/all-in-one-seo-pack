@@ -8,8 +8,11 @@
 		>
 			<template #content>
 				<div>
-					<preview :preview-data="getPreview(postType)"
-							 :useDefaultTemplate="dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate"></preview>
+					<preview
+						:preview-data="getPreview(postType)"
+						:useDefaultTemplate="dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate"
+					/>
+
 					<grid-row>
 						<grid-column>
 							<base-toggle
@@ -19,6 +22,7 @@
 							{{ strings.useDefaultTemplate }}
 						</grid-column>
 					</grid-row>
+
 					<grid-row v-if="!dynamicOptions.breadcrumbs.postTypes[postType.name].useDefaultTemplate">
 						<grid-column
 							v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
@@ -28,6 +32,7 @@
 							/>
 							{{ strings.showPrefixLabel }}
 						</grid-column>
+
 						<grid-column>
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showHomeCrumb"
@@ -35,6 +40,7 @@
 							/>
 							{{ strings.showHomeLabel }}
 						</grid-column>
+
 						<grid-column v-if="postTypeHasArchive(postType)">
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showArchiveCrumb"
@@ -42,6 +48,7 @@
 							/>
 							{{ strings.showPostTypeArchiveLabel }}
 						</grid-column>
+
 						<grid-column v-if="getPostTaxonomyOptions(postType).length">
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showTaxonomyCrumbs"
@@ -49,6 +56,7 @@
 							/>
 							{{ strings.showTaxonomyLabel }}
 						</grid-column>
+
 						<grid-column v-if="postTypeIsHierarchical(postType)">
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs"
@@ -56,6 +64,7 @@
 							/>
 							{{ strings.showParentLabel }}
 						</grid-column>
+
 						<grid-column>
 							<core-settings-row
 								:name="postTypeIsHierarchical(postType) && dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs ? strings.singleTemplateLabel : ''"
@@ -78,6 +87,7 @@
 								</template>
 							</core-settings-row>
 						</grid-column>
+
 						<grid-column
 							v-if="postTypeIsHierarchical(postType) && dynamicOptions.breadcrumbs.postTypes[postType.name].showParentCrumbs">
 							<core-settings-row
@@ -101,6 +111,7 @@
 								</template>
 							</core-settings-row>
 						</grid-column>
+
 						<grid-column
 							v-if="dynamicOptions.breadcrumbs.postTypes[postType.name].showTaxonomyCrumbs && getPostTaxonomyOptions(postType).length">
 							<grid-column>
@@ -115,6 +126,7 @@
 									/>
 								</div>
 							</grid-column>
+
 							<grid-column class="aioseo-description">
 								{{ strings.selectTaxonomyDescription }}
 							</grid-column>

@@ -189,7 +189,7 @@ export default {
 					'<strong>',
 					'</strong>',
 					'<strong>',
-					'50%',
+					this.$constants.DISCOUNT_PERCENTAGE,
 					'</strong>'
 				),
 				upgradeToProToUnlock : this.$t.__('Upgrade to Pro to Unlock Powerful SEO Features', this.$td),

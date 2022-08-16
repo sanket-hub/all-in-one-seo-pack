@@ -2,20 +2,24 @@
 	<div class="aioseo-priority-score">
 		<table-row class="header-row">
 			<table-column />
+
 			<table-column>
 				{{ strings.priority }}
 			</table-column>
+
 			<table-column>
 				{{ strings.frequency }}
 			</table-column>
 		</table-row>
+
 		<table-row
-			v-for="(row, index) in rows"
+			v-for="(row, index) in filteredRows"
 			:key="index"
 		>
 			<table-column>
 				{{ getLabel(row) }}
 			</table-column>
+
 			<table-column>
 				<base-select
 					size="medium"
@@ -24,6 +28,7 @@
 					@input="values => priority[row].priority = setJsonValue(values)"
 				/>
 			</table-column>
+
 			<table-column>
 				<base-select
 					size="medium"
@@ -37,9 +42,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { JsonValues } from '@/vue/mixins'
 import TableColumn from '@/vue/components/common/table/Column'
 import TableRow from '@/vue/components/common/table/Row'
+
 export default {
 	components : {
 		TableColumn,
@@ -70,17 +77,30 @@ export default {
 				priority   : this.$t.__('Priority', this.$td),
 				frequency  : this.$t.__('Frequency', this.$td),
 				homePage   : this.$t.__('Home Page', this.$td),
-				archive    : this.$t.__('Archive Pages', this.$td),
+				archive    : this.$t.__('Date Archive Pages', this.$td),
 				author     : this.$t.__('Author Pages', this.$td)
 			}
 		}
 	},
 	computed : {
+		...mapState([ 'options' ]),
 		getFrequencyOptions () {
 			return [ { label: this.$t.__('default', this.$td), value: 'default' } ].concat(this.$constants.FREQUENCY_OPTIONS)
 		},
 		getPriorityOptions () {
 			return [ { label: this.$t.__('default', this.$td), value: 'default' } ].concat(this.$constants.PRIORITY_OPTIONS)
+		},
+		filteredRows () {
+			let filteredRows = this.rows
+			if (!this.options.sitemap.general.date) {
+				filteredRows = filteredRows.filter(rowName => 'archive' !== rowName)
+			}
+
+			if (!this.options.sitemap.general.author) {
+				filteredRows = filteredRows.filter(rowName => 'author' !== rowName)
+			}
+
+			return filteredRows
 		}
 	},
 	methods : {

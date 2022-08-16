@@ -56,6 +56,11 @@ export default {
 				preferredDomain : null
 			},
 			httpHeaders : []
+		},
+		advanced404s : {
+			redirectToHome              : false,
+			redirectToParent            : false,
+			redirectToParentWoocommerce : false
 		}
 	},
 	rows            : [],
@@ -94,9 +99,11 @@ export default {
 			paginatedPage : 1
 		},
 		logs : {
+			searchTerm    : '',
 			paginatedPage : 1
 		},
 		logs404 : {
+			searchTerm    : '',
 			paginatedPage : 1
 		}
 	},

@@ -102,13 +102,13 @@ export default {
 						'Pro'
 					),
 					bonus : this.$t.sprintf(
-						// Translators: 1 - Opening bold tag, 2 - Closing bold tag, 3 - "Pro", 4 - Opening bold tag, 5 - A percentage ("50%"), 6 - Closing bold tag.
+						// Translators: 1 - Opening bold tag, 2 - Closing bold tag, 3 - "Pro", 4 - Opening bold tag, 5 - A discount percentage (e.g. "50%"), 6 - Closing bold tag.
 						this.$t.__('%1$sBonus:%2$s You can upgrade to the %3$s plan today and %4$ssave %5$s off%6$s (discount auto-applied).', this.$td),
 						'<strong>',
 						'</strong>',
 						'Pro',
 						'<strong>',
-						'50%',
+						this.$constants.DISCOUNT_PERCENTAGE,
 						'</strong>'
 					)
 				}
@@ -207,7 +207,7 @@ export default {
 					},
 					pro : {
 						title       : this.$t.__('Available as Addon Plugin', this.$td),
-						description : this.$t.__('Control the Title & Alt Tag attribute of your images (Plus, Pro & Elite plans only)', this.$td)
+						description : this.$t.__('Control the title, alt tag, caption, description and filename of your images (Plus, Pro & Elite plans only)', this.$td)
 					}
 				},
 				localSeo : {

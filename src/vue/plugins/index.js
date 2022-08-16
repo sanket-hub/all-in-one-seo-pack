@@ -13,6 +13,7 @@ import numbers from '@/vue/utils/numbers'
 import tags from '@/vue/utils/tags'
 import { getImgUrl } from '@/vue/utils/helpers'
 import addons from '@/vue/utils/addons'
+import license from '@/vue/utils/license'
 
 import * as constants from './constants'
 
@@ -88,3 +89,4 @@ Vue.prototype.$t                = translate
 Vue.prototype.$tags             = tags
 Vue.prototype.$td               = import.meta.env.VITE_TEXTDOMAIN
 Vue.prototype.$tdPro            = import.meta.env.VITE_TEXTDOMAIN_PRO
+Vue.prototype.$license          = license

@@ -137,6 +137,21 @@
 				@close-alert="hideKeywordsLooking"
 			>
 				{{ strings.lookingForMetaKeywords }}
+
+				<a
+					href="#"
+					@click="$emit('changeTab', 'advanced')"
+				>
+					{{ strings.goToAdvancedTab }}
+				</a>
+
+				<a
+					class="no-underline"
+					href="#"
+					@click="$emit('changeTab', 'advanced')"
+				>
+						→
+				</a>
 			</core-alert>
 		</div>
 
@@ -189,7 +204,7 @@
 			class="card-focus-keyphrase"
 		>
 			<template #header>
-				{{ strings.focusKeyphrase }}
+				<span>{{ strings.focusKeyphrase }}</span>
 
 				<core-tooltip>
 					<svg-circle-question-mark />
@@ -316,7 +331,8 @@ export default {
 				basicSeo               : this.$t.__('Basic SEO', this.$td),
 				title                  : this.$t.__('Title', this.$td),
 				readability            : this.$t.__('Readability', this.$td),
-				lookingForMetaKeywords : this.$t.__('Looking for meta keywords? Click on the advanced tab above to add/edit meta keywords.', this.$td),
+				lookingForMetaKeywords : this.$t.__('Looking for meta keywords?', this.$td),
+				goToAdvancedTab        : this.$t.__('Go to the Advanced tab to add/edit meta keywords', this.$td),
 				keyphraseDocumentation : this.$t.sprintf(
 					// Translators: 1 - "Learn more link".
 					this.$t.__('Not sure what keyphrases are used for? Check out our documentation for more information. %1$s', this.$td),

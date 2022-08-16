@@ -61,7 +61,7 @@ export const render = (className, attributes, setSchemaBlockAttributes) => {
 					<${ToggleControl}
 						className="aioseo-faq-visibility"
 						label=${__('Display Block', td)}
-						help=${__('You can choose to hide this block from appearing on the front-end of your site, but we will still output the JSON schema for it.', td)}
+						help=${__('You can choose to hide this block on the front-end of your site so that visitors won\'t see it but search engines will still see it.', td)}
 						checked=${!hidden}
 						onChange=${() => setSchemaBlockAttributes({ hidden: !hidden })}
 						disabled

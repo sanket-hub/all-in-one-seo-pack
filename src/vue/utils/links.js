@@ -103,6 +103,7 @@ const docLinks = {
 	breadcrumbsDisplay            : `${marketingSite}docs/displaying-breadcrumbs-on-your-site/`,
 	breadcrumbsShortcode          : `${marketingSite}docs/shortcode-aioseo_breadcrumbs/`,
 	breadcrumbsFunction           : `${marketingSite}docs/function-aioseo_breadcrumbs/`,
+	seoAnalyzer                   : `${marketingSite}docs/using-the-seo-analysis-tool/`,
 	seoAnalyzerIssues             : `${marketingSite}docs/seo-analysis-unable-to-connect-to-your-site/`,
 	htmlSitemap                   : `${marketingSite}docs/html-sitemap/`,
 	htmlSitemapShortcode          : `${marketingSite}docs/shortcode-html-sitemap/`,

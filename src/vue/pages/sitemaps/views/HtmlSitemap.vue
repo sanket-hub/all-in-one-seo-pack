@@ -4,7 +4,7 @@
 			slug="htmlSitemap"
 		>
 			<template #header>
-				{{ strings.title }}
+				<span>{{ strings.title }}</span>
 			</template>
 
 			<div class="aioseo-settings-row aioseo-section-description">
@@ -38,7 +38,7 @@
 			slug="htmlSitemapSettings"
 		>
 			<template #header>
-				{{ strings.settings }}
+				<span>{{ strings.settings }}</span>
 			</template>
 
 			<core-settings-row
@@ -167,7 +167,7 @@
 					v-model="options.sitemap.html.advancedSettings.enable"
 				/>
 
-				{{ strings.advancedSettings }}
+				<span>{{ strings.advancedSettings }}</span>
 			</template>
 
 			<div

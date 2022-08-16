@@ -325,7 +325,7 @@
 					v-model="options.searchAppearance.advanced.crawlCleanup.enable"
 				/>
 
-				{{ strings.crawlCleanup }}
+				<span>{{ strings.crawlCleanup }}</span>
 
 				<core-tooltip
 					v-if="!options.searchAppearance.advanced.crawlCleanup.enable"

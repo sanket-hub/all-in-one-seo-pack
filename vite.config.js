@@ -48,27 +48,28 @@ const getPages = () => {
 // Standalone Vue scripts.
 const getStandalones = () => {
 	return {
-		app                   : './src/vue/standalone/app/main.js',
-		connect               : './src/vue/standalone/connect/main.js',
-		'connect-pro'         : './src/vue/standalone/connect-pro/main.js',
-		'flyout-menu'         : './src/vue/standalone/flyout-menu/main.js',
-		'dashboard-widgets'   : './src/vue/standalone/dashboard-widgets/main.js',
-		'limit-modified-date' : './src/vue/standalone/limit-modified-date/main.js',
-		'link-format'         : './src/vue/standalone/link-format/main.js',
-		'local-business-seo'  : './src/vue/standalone/local-business-seo/main.js',
-		notifications         : './src/vue/standalone/notifications/main.js',
-		'post-settings'       : './src/vue/standalone/post-settings/main.js',
-		'posts-table'         : './src/vue/standalone/posts-table/main.js',
-		'publish-panel'       : './src/vue/standalone/publish-panel/main.js',
-		'setup-wizard'        : './src/vue/standalone/setup-wizard/main.js',
-		'user-profile-tab'    : './src/vue/standalone/user-profile-tab/main.js',
-		'wp-notices'          : './src/vue/standalone/wp-notices/main.js',
-		blocks                : './src/vue/standalone/blocks/main.js',
+		app                      : './src/vue/standalone/app/main.js',
+		connect                  : './src/vue/standalone/connect/main.js',
+		'connect-pro'            : './src/vue/standalone/connect-pro/main.js',
+		'flyout-menu'            : './src/vue/standalone/flyout-menu/main.js',
+		'dashboard-widgets'      : './src/vue/standalone/dashboard-widgets/main.js',
+		'limit-modified-date'    : './src/vue/standalone/limit-modified-date/main.js',
+		'link-format'            : './src/vue/standalone/link-format/main.js',
+		'local-business-seo'     : './src/vue/standalone/local-business-seo/main.js',
+		notifications            : './src/vue/standalone/notifications/main.js',
+		'post-settings'          : './src/vue/standalone/post-settings/main.js',
+		'posts-table'            : './src/vue/standalone/posts-table/main.js',
+		'publish-panel'          : './src/vue/standalone/publish-panel/main.js',
+		'setup-wizard'           : './src/vue/standalone/setup-wizard/main.js',
+		'user-profile-tab'       : './src/vue/standalone/user-profile-tab/main.js',
+		'wp-notices'             : './src/vue/standalone/wp-notices/main.js',
+		'redirects-add-redirect' : './src/vue/standalone/redirects/add-redirect/main.js',
+		blocks                   : './src/vue/standalone/blocks/main.js',
 		// Third-party.
-		divi                  : './src/vue/standalone/divi/main.js',
-		'divi-admin'          : './src/vue/standalone/divi-admin/main.js',
-		elementor             : './src/vue/standalone/elementor/main.js',
-		seedprod              : './src/vue/standalone/seedprod/main.js'
+		divi                     : './src/vue/standalone/divi/main.js',
+		'divi-admin'             : './src/vue/standalone/divi-admin/main.js',
+		elementor                : './src/vue/standalone/elementor/main.js',
+		seedprod                 : './src/vue/standalone/seedprod/main.js'
 	}
 }
 

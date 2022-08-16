@@ -305,10 +305,10 @@ export default {
 					'Pro'
 				),
 				ctaButton : this.$t.sprintf(
-					// Translators: 1 - "Pro", 2 - A percentage ("50%").
+					// Translators: 1 - "Pro", 2 - A discount percentage (e.g. "50%").
 					this.$t.__('Upgrade to %1$s and Save %2$s', this.$td),
 					'Pro',
-					'50%'
+					this.$constants.DISCOUNT_PERCENTAGE
 				),
 				dismissAll          : this.$t.__('Dismiss All', this.$td),
 				relaunchSetupWizard : this.$t.__('Relaunch Setup Wizard', this.$td)

@@ -224,6 +224,7 @@
 						<table-column>
 							{{ taxonomy.label }} ({{ taxonomy.name }})
 						</table-column>
+
 						<table-column>
 							<base-select
 								v-if="!isUnlicensed"
@@ -487,7 +488,7 @@
 					v-model="options.social.facebook.advanced.enable"
 				/>
 
-				{{ strings.advancedSettings }}
+				<span>{{ strings.advancedSettings }}</span>
 			</template>
 
 			<core-settings-row

@@ -14,9 +14,17 @@
 			slug="completeSeoChecklist"
 		>
 			<template #header>
-				<span
-					class="card-title"
-				>{{ strings.completeSeoChecklist }}</span>
+				<div class="card-left">
+					<span>{{ strings.completeSeoChecklist }}</span>
+
+					<core-tooltip>
+						<svg-circle-question-mark />
+
+						<template #tooltip>
+							<span v-html="strings.cardDescription"/>
+						</template>
+					</core-tooltip>
+				</div>
 
 				<base-button
 					class="refresh-results"
@@ -29,6 +37,7 @@
 					{{ strings.refreshResults }}
 				</base-button>
 			</template>
+
 			<template #tabs>
 				<core-main-tabs
 					:tabs="tabs"
@@ -42,7 +51,10 @@
 						<span
 							class="round"
 							:class="tab.data.analyze.classColor"
-						>{{ tab.data.analyze.count || 0 }}</span>
+						>
+							{{ tab.data.analyze.count || 0 }}
+						</span>
+
 						<span class="label">{{ tab.label }}</span>
 					</template>
 				</core-main-tabs>
@@ -63,21 +75,27 @@ import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreSeoSiteAnalysisResults from '@/vue/components/common/core/SeoSiteAnalysisResults'
 import CoreSeoSiteScoreAnalyze from '@/vue/components/AIOSEO_VERSION/core/seo-site-score/Analyze'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgRefresh from '@/vue/components/common/svg/Refresh'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 export default {
 	components : {
 		CoreCard,
 		CoreMainTabs,
 		CoreSeoSiteAnalysisResults,
 		CoreSeoSiteScoreAnalyze,
-		SvgRefresh
+		CoreTooltip,
+		SvgRefresh,
+		SvgCircleQuestionMark
 	},
 	data () {
 		return {
 			internalDebounce : false,
 			strings          : {
 				completeSeoChecklist : this.$t.__('Complete SEO Checklist', this.$td),
-				refreshResults       : this.$t.__('Refresh Results', this.$td)
+				refreshResults       : this.$t.__('Refresh Results', this.$td),
+				cardDescription      : this.$t.__('These are the results our SEO Analzyer has generated after analyzing the homepage of your website.', this.$td) +
+					' ' + this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'seoAnalyzer', true)
 			}
 		}
 	},
@@ -194,7 +212,8 @@ export default {
 		}
 	}
 
-	.card-title {
+	.card-left {
+		display: inline-flex;
 		flex: 1;
 	}
 

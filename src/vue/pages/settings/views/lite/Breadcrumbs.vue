@@ -5,7 +5,7 @@
 			slug="breadcrumbTemplates"
 		>
 			<template #header>
-				{{ strings.breadcrumbTemplates }}
+				<span>{{ strings.breadcrumbTemplates }}</span>
 				<core-pro-badge />
 			</template>
 			<template #tooltip>

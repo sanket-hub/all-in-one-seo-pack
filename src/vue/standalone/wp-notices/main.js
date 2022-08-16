@@ -20,12 +20,19 @@ if ('undefined' !== typeof wp.data) {
 					notice.options.actions.map((action) => {
 						if ('_blank' === action?.target) {
 							action.onClickUrl = action.url
-							action.onClick = function () {
+							action.onClick = function (e) {
+								e.preventDefault()
 								window.open(action.onClickUrl)
 								wp.data.dispatch('core/notices').removeNotice(notice.options.id)
 							}
 							delete action.url
 							delete action.target
+						}
+
+						// Adding a class to the action link.
+						if (action?.class) {
+							action.className = action.class
+							delete action.class
 						}
 
 						return action
@@ -37,6 +44,10 @@ if ('undefined' !== typeof wp.data) {
 					notice.message, // Text string to display.
 					notice.options || []
 				)
+
+				if (window.aioseoBus) {
+					window.aioseoBus.$emit('wp-core-notice-created')
+				}
 			})
 		}
 	})

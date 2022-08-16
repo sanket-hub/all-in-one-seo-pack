@@ -38,7 +38,8 @@
 						<core-analyze-score
 							:score="parseResults(results).score"
 						/>
-						{{ site }}
+
+						<span>{{ site }}</span>
 
 						<svg-trash
 							@click.native="startDeleteSite(site)"
@@ -247,7 +248,7 @@ export default {
 
 <style lang="scss">
 .aioseo-analyze-competitor-site {
-	.aioseo-trash {
+	.header .aioseo-trash {
 		width: 20px;
 		height: 20px;
 		color: $placeholder-color;

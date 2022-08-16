@@ -216,7 +216,7 @@ export default {
 					'<strong>',
 					'</strong>',
 					'<strong>',
-					'50%',
+					this.$constants.DISCOUNT_PERCENTAGE,
 					'</strong>'
 				),
 				usageTrackingTooltip : this.$t.sprintf(

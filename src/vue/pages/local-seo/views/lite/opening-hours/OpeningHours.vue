@@ -6,7 +6,7 @@
 		>
 
 			<template #header>
-				{{ strings.openingHours }}
+				<span>{{ strings.openingHours }}</span>
 				<core-pro-badge />
 			</template>
 

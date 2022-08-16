@@ -9,20 +9,6 @@
 				:description="allResults.basic.description.value"
 			/>
 		</template>
-		<template
-			v-if="allResults.basic.keywords && 'all-items' === section"
-		>
-			<div class="group-header">{{ strings.keywords }}</div>
-
-			<div class="group-keywords">
-				<div class="keyword"
-					v-for="(count, keyword) in allResults.basic.keywords"
-					:key="keyword"
-				>
-					{{ keyword }}
-				</div>
-			</div>
-		</template>
 
 		<div
 			class="group-header"
@@ -117,17 +103,13 @@ export default {
 				basic       : this.$t.__('Basic SEO', this.$td),
 				advanced    : this.$t.__('Advanced SEO', this.$td),
 				performance : this.$t.__('Performance', this.$td),
-				security    : this.$t.__('Security', this.$td),
-				keywords    : this.$t.__('Keywords:', this.$td)
+				security    : this.$t.__('Security', this.$td)
 			}
 		}
 	},
 	methods : {
 		filterResults (resultSet) {
 			const results = { ...resultSet }
-			if (results.keywords) {
-				delete results.keywords
-			}
 			if (results.searchPreview) {
 				delete results.searchPreview
 			}
@@ -136,6 +118,9 @@ export default {
 			}
 			if (results.mobileSnapshot) {
 				delete results.mobileSnapshot
+			}
+			if (results.keywords) {
+				delete results.keywords
 			}
 
 			if ('all-items' === this.section) {
@@ -182,27 +167,6 @@ export default {
 
 		&:not(:first-child) {
 			margin-top: 30px;
-		}
-	}
-
-	.group-keywords {
-		display: flex;
-		margin-top: 5px;
-		flex-wrap: wrap;
-		align-items: center;
-
-		.keyword {
-			&:first-child {
-				font-size: 20px;
-			}
-
-			font-size: 14px;
-			color: $black2;
-			font-weight: 600;
-			background: $background;
-			padding: 9px 10px;
-			border-radius: 3px;
-			margin: 0 10px 5px 0;
 		}
 	}
 }

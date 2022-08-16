@@ -99,6 +99,7 @@ import '@/vue/plugins/quill/quill-clipboard'
 import '@/vue/plugins/quill/quill-character-counter'
 import '@/vue/plugins/quill/quill-auto-link'
 import '@/vue/plugins/quill/quill-phrase-editor-formats'
+import '@/vue/plugins/quill/quill-preserve-whitespace'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgPlus from '@/vue/components/common/svg/Plus'
 export default {
@@ -127,6 +128,7 @@ export default {
 		defaultMenuOrientation : String,
 		description            : Boolean,
 		showToolbar            : Boolean,
+		preserveWhitespace     : Boolean,
 		autoLink               : {
 			type : [ Object, Boolean ],
 			default () {
@@ -397,7 +399,8 @@ export default {
 								}
 							}
 						}
-					}
+					},
+					preserveWhiteSpace : this.preserveWhitespace
 				},
 				theme   : 'snow',
 				formats : !this.showToolbar ? [ 'mention' ] : [ 'bold', 'underline', 'italic', 'link', 'list', 'autoLink', 'aioseoInline' ]

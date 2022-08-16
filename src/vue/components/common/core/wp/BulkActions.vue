@@ -1,22 +1,21 @@
 <template>
 	<div class="aioseo-wp-bulk-actions alignleft actions bulkactions">
-		<select
-			name="action"
-			v-model="bulkAction"
-		>
+		<select v-model="bulkAction">
 			<option value="-1">{{ strings.bulkActions }}</option>
+
 			<option
 				v-for="(option, index) in bulkOptions"
 				:key="index"
 				:value="option.value"
 			>{{ option.label }}</option>
 		</select>
-		<input
-			type="submit"
+
+		<button
 			class="button action"
 			@click="'-1' !== bulkAction ? $emit('process-bulk-action', bulkAction) : null"
-			:value="strings.apply"
-		/>
+		>
+			{{strings.apply}}
+		</button>
 	</div>
 </template>
 

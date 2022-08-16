@@ -73,6 +73,7 @@
 						v-model="options.webmasterTools.miscellaneousVerification"
 						line-numbers
 						monospace
+						preserve-whitespace
 					/>
 
 					<p

@@ -13,15 +13,23 @@
 		<core-alert
 			v-if="uploadError"
 			type="red"
-			class="import-error"
+			class="import-alert"
 		>
 			{{ uploadError }}
 		</core-alert>
 
 		<core-alert
+			v-if="filename && filename.endsWith('.ini')"
+			type="yellow"
+			class="import-alert"
+		>
+			{{strings.v3ImportWarning}}
+		</core-alert>
+
+		<core-alert
 			v-if="uploadSuccess"
 			type="green"
-			class="import-error"
+			class="import-alert"
 		>
 			{{ strings.fileUploadedSuccessfully }}
 		</core-alert>
@@ -34,11 +42,13 @@
 				:placeholder="strings.fileUploadPlaceholder"
 				:class="{ 'aioseo-error': uploadError }"
 			/>
+
 			<base-button
 				type="black"
 				size="medium"
 			>
 				{{ strings.chooseAFile }}
+
 				<base-input
 					v-model="inputFile"
 					type="file"
@@ -97,7 +107,12 @@ export default {
 				import                   : this.$t.__('Import', this.$td),
 				jsonFileTypeRequired     : this.$t.__('A JSON or INI file is required to import settings.', this.$td),
 				fileUploadedSuccessfully : this.$t.__('Success! Your settings have been imported.', this.$td),
-				fileUploadFailed         : this.$t.__('There was an error importing your settings. Please make sure you are uploading the correct file or it is in the proper format.', this.$td)
+				fileUploadFailed         : this.$t.__('There was an error importing your settings. Please make sure you are uploading the correct file or it is in the proper format.', this.$td),
+				v3ImportWarning          : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO").
+					this.$t.__('Please note that if you are importing post/term meta from %1$s v3.7.1 or below, this will only be successful if the post/term IDs of this site are identical to those of the source site.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				)
 			}
 		}
 	},
@@ -156,7 +171,7 @@ export default {
 
 <style lang="scss">
 .aioseo-import-aioseo {
-	.import-error {
+	.import-alert {
 		margin-bottom: 20px;
 	}
 

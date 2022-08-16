@@ -7,7 +7,7 @@
 		>
 
 			<template #header>
-				{{ strings.businessInfo }}
+				<span>{{ strings.businessInfo }}</span>
 				<core-pro-badge />
 			</template>
 

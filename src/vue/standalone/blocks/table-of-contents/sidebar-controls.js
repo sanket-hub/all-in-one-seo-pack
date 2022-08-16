@@ -12,7 +12,7 @@ export const sidebarControls = (props) => {
 	<${InspectorControls}>
 		<${PanelBody} title=${__('Table of Contents Settings', td)}>
 			<${SelectControl}
-				label=${__('List style', td)}
+				label=${__('List Style', td)}
 				options=${[
 					{ label: 'Bullets', value: 'ul' },
 					{ label: 'Numbers', value: 'ol' }

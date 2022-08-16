@@ -138,9 +138,11 @@ export default {
 			})
 	},
 	search ({ state, commit }, { searchTerm, page }) {
-		searchTerm = encodeURIComponent(searchTerm)
 		commit('resetSelectedFilters')
-		return this._vm.$http.get(this._vm.$links.restUrl(`redirects/search/${searchTerm}/${page}/`))
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/search/${page}/`))
+			.send({
+				searchTerm : searchTerm
+			})
 			.then(response => {
 				commit('updateFilters', response.body.filters)
 				commit('updateRows', response.body.rows)
@@ -148,6 +150,30 @@ export default {
 				setOptions({
 					redirects : state
 				})
+			})
+	},
+	searchLogs ({ state, commit }, { searchTerm, page }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/search/logs/${page}/`))
+			.send({
+				searchTerm : searchTerm,
+				orderBy    : state.sort.logs,
+				sortDir    : state.sortDir.logs
+			})
+			.then(response => {
+				commit('updateLogs', response.body.rows)
+				commit('updateTotalsLogs', response.body.totals)
+			})
+	},
+	search404Logs ({ state, commit }, { searchTerm, page }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/search/logs404/${page}/`))
+			.send({
+				searchTerm : searchTerm,
+				orderBy    : state.sort.logs404,
+				sortDir    : state.sortDir.logs404
+			})
+			.then(response => {
+				commit('updateLogs404', response.body.rows)
+				commit('updateTotals404', response.body.totals)
 			})
 	},
 	create (context, payload) {

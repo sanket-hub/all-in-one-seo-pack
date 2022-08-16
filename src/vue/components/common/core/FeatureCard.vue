@@ -95,7 +95,7 @@
 			</div>
 
 			<div
-				v-if="!feature.requiresUpgrade && feature.installed && !feature.hasMinimumVersion"
+				v-if="$isPro && !feature.requiresUpgrade && feature.installed && !feature.hasMinimumVersion"
 				class="feature-card-upgrade-cta"
 			>
 				<core-tooltip

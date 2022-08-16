@@ -26,13 +26,20 @@
 				/>
 
 				<div class="aioseo-description">
-					{{ strings.noIndexDescription }}
+					<span v-if="options.show">{{ noIndexDescription }}</span>
+
+					<core-alert
+						v-if="!options.show"
+						type="blue"
+					>
+						{{ noindexAlertDescription }}
+					</core-alert>
 				</div>
 			</template>
 		</core-settings-row>
 
 		<core-settings-row
-			v-if="edit && options.show"
+			v-if="edit"
 			:name="$constants.GLOBAL_STRINGS.preview"
 		>
 			<template #content>
@@ -44,10 +51,7 @@
 			</template>
 		</core-settings-row>
 
-		<core-settings-row
-			v-if="options.show"
-			:name="title"
-		>
+		<core-settings-row :name="title">
 			<template #content>
 				<core-html-tags-editor
 					v-if="edit"
@@ -112,12 +116,14 @@
 <script>
 import { MaxCounts } from '@/vue/mixins'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {
 	components : {
 		BaseRadioToggle,
+		CoreAlert,
 		CoreGoogleSearchPreview,
 		CoreHtmlTagsEditor,
 		CoreSettingsRow
@@ -155,8 +161,7 @@ export default {
 				showInSearchResults   : this.$t.__('Show in Search Results', this.$td),
 				clickToAddTitle       : this.$t.__('Click on the tags below to insert variables into your title.', this.$td),
 				metaDescription       : this.$t.__('Meta Description', this.$td),
-				clickToAddDescription : this.$t.__('Click on the tags below to insert variables into your meta description.', this.$td),
-				noIndexDescription    : this.$t.__('Selecting "No" will no-index this page.', this.$td)
+				clickToAddDescription : this.$t.__('Click on the tags below to insert variables into your meta description.', this.$td)
 			}
 		}
 	},
@@ -196,6 +201,20 @@ export default {
 		},
 		show () {
 			return this.options.show
+		},
+		noIndexDescription () {
+			return this.$t.sprintf(
+				// Translators: 1 - The plural name of the content type (e.g. "Posts" or "Categories").
+				this.$t.__('Choose whether your %1$s should be included in search results. If you select "No", then your %1$s will be noindexed and excluded from the sitemap so that search engines ignore them.', this.$td),
+				this.object.label
+			)
+		},
+		noindexAlertDescription () {
+			return this.$t.sprintf(
+				// Translators: 1 - The plural name of the content type (e.g. "Posts" or "Categories").
+				this.$t.__('Your %1$s will be noindexed and excluded from the sitemap so that search engines ignore them. You can still control how their page title looks like below.', this.$td),
+				this.object.label
+			)
 		}
 	},
 	methods : {

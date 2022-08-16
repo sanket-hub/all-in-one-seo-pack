@@ -19,6 +19,7 @@
 					xl="3"
 					md="4"
 					sm="6"
+					v-if="!this.$aioseo.currentPost.isHomePage"
 				>
 					<base-checkbox
 						size="medium"

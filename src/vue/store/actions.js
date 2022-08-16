@@ -599,12 +599,13 @@ export default {
 			}
 		}
 	},
-	doTask (context, actionName) {
+	doTask (context, { action, data }) {
 		return this._vm.$http.post(this._vm.$links.restUrl('settings/do-task')).send({
-			action : actionName
+			action,
+			data
 		}).then((response) => {
 			if (!response || !response.statusCode || 400 === response.statusCode) {
-				return Promise.reject(new Error(`Task ${actionName} could not be completed.`))
+				return Promise.reject(new Error(`Task ${action} could not be completed.`))
 			}
 		})
 	},

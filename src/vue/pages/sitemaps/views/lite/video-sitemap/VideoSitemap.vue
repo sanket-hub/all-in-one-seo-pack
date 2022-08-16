@@ -5,7 +5,7 @@
 			:noSlide="true"
 		>
 			<template #header>
-				{{ strings.video }}
+				<span>{{ strings.video }}</span>
 				<core-pro-badge />
 			</template>
 

@@ -1049,17 +1049,11 @@ export const TIMEZONES = [
 
 export const CONTACT_TYPES = [
 	{ label: __('Manually Enter Type', td), value: 'manual' },
-	{ label: __('Customer Support', td), value: 'Customer Support' },
-	{ label: __('Technical Support', td), value: 'Technical Support' },
 	{ label: __('Billing Support', td), value: 'Billing Support' },
-	{ label: __('Bill Payment', td), value: 'Bill Payment' },
-	{ label: __('Sales', td), value: 'Sales' },
+	{ label: __('Customer Support', td), value: 'Customer Support' },
 	{ label: __('Reservations', td), value: 'Reservations' },
-	{ label: __('Credit Card Support', td), value: 'Credit Card Support' },
-	{ label: __('Emergency', td), value: 'Emergency' },
-	{ label: __('Bagage Tracking', td), value: 'Bagage Tracking' },
-	{ label: __('Roadside Assistance', td), value: 'Roadside Assistance' },
-	{ label: __('Package Tracking', td), value: 'Package Tracking' }
+	{ label: __('Sales', td), value: 'Sales' },
+	{ label: __('Technical Support', td), value: 'Technical Support' }
 ]
 
 export const WIZARD_FEATURES = [
@@ -1495,3 +1489,5 @@ export const UPSELL_FEATURE_LIST = [
 	__('REST API support', td),
 	__('Ad free (no banner adverts)', td)
 ]
+
+export const DISCOUNT_PERCENTAGE = '60%'

@@ -65,12 +65,12 @@ export const WizardUsageTracking = {
 			strings   : {
 				closeAndExit       : this.$t.__('Close and Exit Wizard Without Saving', this.$td),
 				buildABetterAioseo : this.$t.sprintf(
-					// Translator: 1 - Plugin short name ("AIOSEO").
+					// Translators: 1 - Plugin short name ("AIOSEO").
 					this.$t.__('Build a Better %1$s', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				),
 				getImprovedFeatures : this.$t.sprintf(
-					// Translator: 1 - Plugin short name ("AIOSEO").
+					// Translators: 1 - Plugin short name ("AIOSEO").
 					this.$t.__('Get improved features and faster fixes by sharing non-sensitive data via usage tracking that shows us how %1$s is being used. No personal data is tracked or stored.', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				),

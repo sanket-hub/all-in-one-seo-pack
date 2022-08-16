@@ -234,7 +234,7 @@
 					v-model="options.sitemap.general.advancedSettings.enable"
 				/>
 
-				{{ strings.advancedSettings }}
+				<span>{{ strings.advancedSettings }}</span>
 			</template>
 
 			<core-settings-row

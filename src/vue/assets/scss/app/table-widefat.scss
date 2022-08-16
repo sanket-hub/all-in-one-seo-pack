@@ -180,4 +180,30 @@
 		position: static;
 	}
 	// Copied from wp-admin/css/list-tables.css WP-5.9
+
+	// Custom AIOSEO
+	.widefat {
+		thead, tfoot {
+			th, td {
+				padding: 0 10px;
+				max-height: 50px;
+				height: 50px;
+			}
+
+			th.sortable {
+				a {
+					display: flex;
+					align-items: center;
+					height: 49px;
+					padding: 0;
+					line-height: 49px;
+
+					.sorting-indicator {
+						margin-top: 0;
+					}
+				}
+			}
+		}
+	}
+	// Custom AIOSEO
 }

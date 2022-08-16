@@ -30,7 +30,7 @@
 
 		<div class="aioseo-feature-manager-addons">
 			<core-alert
-				v-if="isUnlicensed"
+				v-if="$isPro && isUnlicensed"
 				type="red"
 			>
 				<strong>{{ yourLicenseIsText }}</strong>

@@ -610,6 +610,8 @@ export default {
 		.settings-name {
 			.name {
 				font-size: 14px;
+				font-weight: 600;
+				margin-bottom: 5px;
 			}
 		}
 	}

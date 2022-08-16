@@ -9,15 +9,22 @@
 		<div
 			v-if="!hideHeader"
 			class="header"
+			:class="[ { toggles : toggles } ]"
+			@click="toggleCard({ slug, shouldSave : saveToggleStatus })"
 		>
 			<div class="text">
 				<div class="header-icon">
 					<slot name="header-icon" />
 				</div>
 
-				<slot name="header">
-					{{ headerText }}
-				</slot>
+				<div
+					class="header-title"
+					@click.stop
+				>
+					<slot name="header">
+						<span>{{ headerText }}</span>
+					</slot>
+				</div>
 
 				<core-tooltip
 					v-if="$slots.tooltip"
@@ -31,7 +38,6 @@
 			</div>
 
 			<svg-caret
-				@click="toggleCard({ slug, shouldSave : saveToggleStatus })"
 				v-if="!closes && toggles && settings.toggledCards && !noSlide && !disabled"
 				:class="{ rotated: !settings.toggledCards[slug] }"
 			/>
@@ -170,20 +176,33 @@ export default {
 		font-size: 18px;
 		border-bottom: 1px solid $border;
 
-		.header-icon {
-			display: flex;
-
-			svg {
-				width: 24px;
-				height: 24px;
-				margin-right: 16px;
-			}
+		&.toggles {
+			cursor: pointer;
 		}
 
 		.text {
 			flex: 1 1 auto;
 			display: flex;
 			align-items: center;
+
+			&> * {
+				cursor: auto;
+			}
+
+			.header-icon {
+				display: flex;
+
+				svg {
+					width: 24px;
+					height: 24px;
+					margin-right: 16px;
+				}
+			}
+
+			.header-title {
+				display: flex;
+				align-items: center;
+			}
 
 			svg.aioseo-circle-question-mark {
 				cursor: pointer;

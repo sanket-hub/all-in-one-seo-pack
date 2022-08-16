@@ -8,6 +8,7 @@
 				for="filter-by-date"
 				class="screen-reader-text"
 			>{{ filter.label }}</label>
+
 			<select
 				:key="index + '_select'"
 				:name="filter.name"
@@ -23,12 +24,13 @@
 				</option>
 			</select>
 		</template>
-		<input
-			type="submit"
+
+		<button
 			class="button action"
 			@click="$emit('process-additional-filters', selectedFilters)"
-			:value="strings.filter"
-		/>
+		>
+			{{strings.filter}}
+		</button>
 	</div>
 </template>
 

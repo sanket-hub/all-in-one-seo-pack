@@ -39,7 +39,7 @@
 				v-if="'disabled' === dynamicOptions.searchAppearance.postTypes.attachment.redirectAttachmentUrls"
 			>
 				<core-main-tabs
-					:tabs="tabs"
+					:tabs="tabs.attachments"
 					:showSaveButton="false"
 					:active="settings.internalTabs[`${postType.name}SA`]"
 					internal
@@ -66,12 +66,24 @@
 			:noSlide="!shouldShowMain"
 		>
 			<template #header>
-				{{ strings.imageSeo }}
+				<span>{{ strings.imageSeo }}</span>
 				<core-pro-badge />
+			</template>
+
+			<template #tabs>
+				<core-main-tabs
+					:tabs="tabs.imageSeo"
+					:showSaveButton="false"
+					:active="imageSeoActiveTab.slug"
+					internal
+					@changed="value => setImageSeoActiveTab(value)"
+				/>
 			</template>
 
 			<image-seo
 				v-if="shouldShowMain"
+				:activeTab="imageSeoActiveTab"
+				:key="imageSeoKey"
 			/>
 
 			<activate
@@ -85,12 +97,14 @@
 			<lite
 				v-if="shouldShowLite"
 			/>
+
 		</core-card>
 	</div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import { AddonConditions } from '@/vue/mixins'
 import Activate from './AIOSEO_VERSION/image-seo/Activate'
 import Advanced from './partials/Advanced'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
@@ -104,7 +118,7 @@ import Lite from './lite/image-seo/ImageSeo'
 import Schema from './partials/Schema'
 import TitleDescription from './partials/TitleDescription'
 import Update from './AIOSEO_VERSION/image-seo/Update'
-import { AddonConditions } from '@/vue/mixins'
+
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
@@ -124,35 +138,71 @@ export default {
 	},
 	data () {
 		return {
-			addonSlug        : 'aioseo-image-seo',
-			internalDebounce : false,
-			strings          : {
+			imageSeoKey       : 0,
+			addonSlug         : 'aioseo-image-seo',
+			internalDebounce  : false,
+			imageSeoActiveTab : {
+				slug : 'title',
+				name : this.$t.__('Title', this.$td),
+				pro  : true
+			},
+			strings : {
 				redirectAttachmentUrls    : this.$t.__('Redirect Attachment URLs', this.$td),
 				attachment                : this.$t.__('Attachment', this.$td),
 				attachmentParent          : this.$t.__('Attachment Parent', this.$td),
 				attachmentUrlsDescription : this.$t.__('We recommended redirecting attachment URLs back to the attachment since the default WordPress attachment pages have little SEO value.', this.$td),
-				imageSeo                  : this.$t.__('Image SEO', this.$td)
+				imageSeo                  : this.$t.__('Image SEO', this.$td),
+				advancedSettings          : this.$t.__('Advanced Settings', this.$tdPro)
 			},
-			tabs : [
-				{
-					slug   : 'title-description',
-					name   : this.$t.__('Title & Description', this.$td),
-					access : 'aioseo_search_appearance_settings',
-					pro    : false
-				},
-				{
-					slug   : 'Schema',
-					name   : this.$t.__('Schema Markup', this.$td),
-					access : 'aioseo_search_appearance_settings',
-					pro    : true
-				},
-				{
-					slug   : 'advanced',
-					name   : this.$t.__('Advanced', this.$td),
-					access : 'aioseo_search_appearance_settings',
-					pro    : false
-				}
-			]
+			tabs : {
+				attachments : [
+					{
+						slug   : 'title-description',
+						name   : this.$t.__('Title & Description', this.$td),
+						access : 'aioseo_search_appearance_settings',
+						pro    : false
+					},
+					{
+						slug   : 'Schema',
+						name   : this.$t.__('Schema Markup', this.$td),
+						access : 'aioseo_search_appearance_settings',
+						pro    : true
+					},
+					{
+						slug   : 'advanced',
+						name   : this.$t.__('Advanced', this.$td),
+						access : 'aioseo_search_appearance_settings',
+						pro    : false
+					}
+				],
+				imageSeo : [
+					{
+						slug : 'title',
+						name : this.$t.__('Title', this.$td),
+						pro  : true
+					},
+					{
+						slug : 'altTag',
+						name : this.$t.__('Alt Tag', this.$td),
+						pro  : true
+					},
+					{
+						slug : 'caption',
+						name : this.$t.__('Caption', this.$td),
+						pro  : true
+					},
+					{
+						slug : 'description',
+						name : this.$t.__('Description', this.$td),
+						pro  : true
+					},
+					{
+						slug : 'filename',
+						name : this.$t.__('Filename', this.$td),
+						pro  : true
+					}
+				]
+			}
 		}
 	},
 	computed : {
@@ -176,6 +226,10 @@ export default {
 			setTimeout(() => {
 				this.internalDebounce = false
 			}, 50)
+		},
+		setImageSeoActiveTab (tabSlug) {
+			this.imageSeoActiveTab = this.tabs.imageSeo.find(tab => tab.slug === tabSlug)
+			this.imageSeoKey++
 		}
 	}
 }

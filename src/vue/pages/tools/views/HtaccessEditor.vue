@@ -25,6 +25,7 @@
 						v-model="$aioseo.data.htaccess"
 						line-numbers
 						monospace
+						preserve-whitespace
 					/>
 				</template>
 			</core-settings-row>

@@ -48,6 +48,7 @@
 					name="s"
 					v-model="searchTerm"
 					@keyup.enter="$emit('search', searchTerm)"
+					@search="$emit('search', searchTerm)"
 				/>
 				<input
 					type="submit"

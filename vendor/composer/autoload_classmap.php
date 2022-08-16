@@ -114,5 +114,10 @@ return array(
     'AIOSEO\\Vendor\\Psr\\Log\\Test\\DummyTest' => $baseDir . '/vendor_prefixed/psr/log/Psr/Log/Test/DummyTest.php',
     'AIOSEO\\Vendor\\Psr\\Log\\Test\\LoggerInterfaceTest' => $baseDir . '/vendor_prefixed/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
     'AIOSEO\\Vendor\\Psr\\Log\\Test\\TestLogger' => $baseDir . '/vendor_prefixed/psr/log/Psr/Log/Test/TestLogger.php',
+    'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+    'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+    'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+    'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );

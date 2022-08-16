@@ -55,7 +55,7 @@
 			v-if="showModal && !$isPro"
 		>
 			<template #header>
-				{{ strings.buildABetterAioseo }}
+				<span>{{ strings.buildABetterAioseo }}</span>
 
 				<button
 					class="close"

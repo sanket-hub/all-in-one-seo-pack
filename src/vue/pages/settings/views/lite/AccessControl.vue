@@ -4,7 +4,7 @@
 			slug="accessControl"
 		>
 			<template #header>
-				{{ strings.accessControl }}
+				<span>{{ strings.accessControl }}</span>
 				<core-pro-badge />
 			</template>
 
@@ -99,7 +99,7 @@ export default {
 			let roleNumber = 1
 			while (8 > roles.length) {
 				roles.push({
-					label : this.$t.__('Custom Role ' + roleNumber, this.$td),
+					label : this.$t.__('Custom Role', this.$td) + ' ' + roleNumber,
 					name  : 'customRole' + roleNumber
 				})
 				roleNumber++

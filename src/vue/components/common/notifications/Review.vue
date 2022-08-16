@@ -149,13 +149,13 @@ export default {
 					return this.$t.__('Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', this.$td) +
 					'<br><br><strong>~ Syed Balkhi<br>' +
 					this.$t.sprintf(
-						// Translators: The plugin name ("All in One SEO").
+						// Translators: 1 - The plugin name ("All in One SEO").
 						this.$t.__('CEO of %1$s', this.$td),
 						import.meta.env.VITE_NAME
 					) + '</strong>'
 				case 3:
 					return this.$t.sprintf(
-						// Translators: The plugin name ("All in One SEO").
+						// Translators: 1 - The plugin name ("All in One SEO").
 						this.$t.__('We\'re sorry to hear you aren\'t enjoying %1$s. We would love a chance to improve. Could you take a minute and let us know what we can do better?', this.$td),
 						import.meta.env.VITE_NAME
 					)

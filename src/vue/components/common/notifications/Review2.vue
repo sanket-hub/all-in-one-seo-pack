@@ -90,13 +90,13 @@ export default {
 		},
 		content () {
 			return this.$t.sprintf(
-				// Translators: The plugin name ("All in One SEO").
+				// Translators: 1 - The plugin name ("All in One SEO").
 				this.$t.__('Hey, I noticed you have been using %1$s for some time - that’s awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', this.$td),
 				'<strong>' + import.meta.env.VITE_NAME + '</strong>'
 			) +
 			'<br><br><strong>~ Syed Balkhi<br>' +
 			this.$t.sprintf(
-				// Translators: The plugin name ("All in One SEO").
+				// Translators: 1 - The plugin name ("All in One SEO").
 				this.$t.__('CEO of %1$s', this.$td),
 				import.meta.env.VITE_NAME
 			) + '</strong>'

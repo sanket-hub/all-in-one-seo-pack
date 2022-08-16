@@ -76,8 +76,8 @@ export default {
 				),
 				moreBoldText : this.$t.sprintf(
 					'<strong>%1$s</strong>',
-					// Translators: This refers to a discount ("As a valued user you receive 50%, automatically applied at checkout!").
-					'50% ' + this.$t.__('off', this.$td)
+					// Translators: This refers to a discount (e.g. "As a valued user you receive 50%, automatically applied at checkout!").
+					this.$constants.DISCOUNT_PERCENTAGE + ' ' + this.$t.__('off', this.$td)
 				),
 				setupWizard         : this.$t.__('Setup Wizard', this.$td),
 				relaunchSetupWizard : this.$t.__('Relaunch Setup Wizard', this.$td),
