@@ -22,8 +22,16 @@
 				>
 					<slot name="name">
 						{{ name }}
+
+						<span
+							class="required-field"
+							v-if="required"
+						>
+							*
+						</span>
 					</slot>
 				</div>
+
 				<div
 					v-if="$slots.description"
 					class="aioseo-description"
@@ -55,6 +63,7 @@ export default {
 		align              : Boolean,
 		alignSmall         : Boolean,
 		name               : String,
+		required           : Boolean,
 		noHorizontalMargin : {
 			type    : Boolean,
 			default : false
@@ -139,6 +148,10 @@ export default {
 			.aioseo-pro-badge {
 				margin-left: 10px;
 			}
+		}
+
+		.required-field {
+			color: $red;
 		}
 
 		.aioseo-description {

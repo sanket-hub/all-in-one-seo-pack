@@ -97,7 +97,8 @@ trait Vue {
 					'sitemaps'         => admin_url( 'admin.php?page=aioseo-sitemaps' ),
 					'socialNetworks'   => admin_url( 'admin.php?page=aioseo-social-networks' ),
 					'tools'            => admin_url( 'admin.php?page=aioseo-tools' ),
-					'wizard'           => admin_url( 'index.php?page=aioseo-setup-wizard' )
+					'wizard'           => admin_url( 'index.php?page=aioseo-setup-wizard' ),
+					'networkSettings'  => is_network_admin() ? network_admin_url( 'admin.php?page=aioseo-settings' ) : ''
 				],
 				'admin'             => [
 					'widgets'          => admin_url( 'widgets.php' ),
@@ -125,8 +126,8 @@ trait Vue {
 				],
 				'status'              => [],
 				'htaccess'            => '',
-				'multisite'           => is_multisite(),
-				'network'             => is_network_admin(),
+				'isMultisite'         => is_multisite(),
+				'isNetworkAdmin'      => is_network_admin(),
 				'mainSite'            => is_main_site(),
 				'subdomain'           => $this->isSubdomain(),
 				'isWooCommerceActive' => $this->isWooCommerceActive(),
@@ -168,12 +169,9 @@ trait Vue {
 			'integration'       => $integration
 		];
 
-		if ( is_multisite() && ! is_network_admin() ) {
-			switch_to_blog( $this->getNetworkId() );
-			$options = aioseo()->options->noConflict();
-			$options->initNetwork();
-			$data['networkOptions'] = $options->all();
-			restore_current_blog();
+		if ( is_multisite() ) {
+			$data['internalNetworkOptions'] = aioseo()->internalNetworkOptions->all();
+			$data['networkOptions']         = aioseo()->networkOptions->all();
 		}
 
 		if ( 'post' === $page ) {
@@ -239,9 +237,8 @@ trait Vue {
 				'twitter_image_type'             => $post->twitter_image_type,
 				'twitter_title'                  => $post->twitter_title,
 				'twitter_description'            => $post->twitter_description,
-				'schema_type'                    => ( ! empty( $post->schema_type ) ) ? $post->schema_type : 'default',
-				'schema_type_options'            => ( ! empty( $post->schema_type_options ) )
-					? json_decode( Models\Post::getDefaultSchemaOptions( $post->schema_type_options ) )
+				'schema'                         => ( ! empty( $post->schema ) )
+					? json_decode( Models\Post::getDefaultSchemaOptions( $post->schema ) )
 					: json_decode( Models\Post::getDefaultSchemaOptions() ),
 				'metaDefaults'                   => [
 					'title'       => aioseo()->meta->title->getPostTypeTitle( $postTypeObj->name ),
@@ -337,8 +334,24 @@ trait Vue {
 			$data['data']['logSizes'] = [
 				'badBotBlockerLog' => $this->convertFileSize( aioseo()->badBotBlocker->getLogSize() )
 			];
-			$data['data']['status']   = Tools\SystemStatus::getSystemStatusInfo();
-			$data['data']['htaccess'] = aioseo()->htaccess->getContents();
+			$data['data']['status']    = Tools\SystemStatus::getSystemStatusInfo();
+			$data['data']['htaccess']  = aioseo()->htaccess->getContents();
+			$data['data']['v3Options'] = ! empty( get_option( 'aioseop_options' ) );
+		}
+
+		if (
+			(
+				'tools' === $page ||
+				'settings' === $page
+			) &&
+			is_multisite() &&
+			is_network_admin()
+		) {
+			$data['data']['network'] = [
+				'sites'       => aioseo()->helpers->getSites( aioseo()->settings->tablePagination['networkDomains'] ),
+				'activeSites' => [],
+				'backups'     => []
+			];
 		}
 
 		if ( 'settings' === $page ) {

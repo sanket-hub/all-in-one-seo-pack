@@ -13,7 +13,10 @@ import paths from '@/vue/pages/settings/router/paths'
 // Sync router with store.
 import { sync } from 'vuex-router-sync'
 
-const router = startRouter(paths)
+const router = startRouter(
+	paths
+		.filter(p => !p.name || 'general-settings' === p.name || !window.aioseo.data.isNetworkAdmin)
+)
 
 // Sync store with router
 sync(store, router)

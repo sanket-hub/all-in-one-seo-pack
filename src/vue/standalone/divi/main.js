@@ -7,6 +7,9 @@ import initSettingsBar from './settings-bar'
 import initWatcher from './watcher'
 import Modal from './Modal.vue'
 
+import PortalVue from 'portal-vue'
+import PortalApp from '../modal-portal/App.vue'
+
 Vue.prototype.$truSeo = new TruSeo()
 
 /**
@@ -14,7 +17,7 @@ Vue.prototype.$truSeo = new TruSeo()
  *
  * @returns {void}
  */
-const mountComponent = () => {
+const mountPostSettings = () => {
 	new Vue({
 		store,
 		data : {
@@ -26,6 +29,23 @@ const mountComponent = () => {
 }
 
 /**
+ * Mount our portal modal.
+ *
+ * @returns {void}
+ */
+const mountPortalModal = () => {
+	Vue.use(PortalVue)
+
+	const modalPortal = document.querySelector('#aioseo-modal-portal')
+	if (modalPortal) {
+		new Vue({
+			store,
+			render : h => h(PortalApp)
+		}).$mount('#aioseo-modal-portal')
+	}
+}
+
+/**
  * Init the Divi integration.
  *
  * @returns {void}.
@@ -34,8 +54,9 @@ const init = () => {
 	// Init the settings bar.
 	initSettingsBar()
 
-	// Mount our Vue component in the Divi modal.
-	mountComponent()
+	// Mount our Vue components in the Divi modal.
+	mountPostSettings()
+	mountPortalModal()
 
 	// Initialize the editor data watcher.
 	initWatcher()

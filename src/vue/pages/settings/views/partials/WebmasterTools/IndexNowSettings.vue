@@ -238,10 +238,6 @@ export default {
 	.inline-upsell {
 		display: inline-block;
 		margin-top: 20px;
-
-		> div {
-			margin-bottom: 10px;
-		}
 	}
 
 	.aioseo-index-now-key {

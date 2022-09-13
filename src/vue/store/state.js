@@ -1,10 +1,11 @@
+import schema from './state/schema'
+
 export default {
 	pong            : true,
 	loaded          : false,
 	internalOptions : {},
 	options         : {},
 	dynamicOptions  : {},
-	networkOptions  : {},
 	settings        : {},
 	notifications   : {
 		active    : [],
@@ -34,5 +35,15 @@ export default {
 	analyzing         : false,
 	analyzeError      : null,
 	htaccessError     : null,
-	isDirty           : false
+	isDirty           : false,
+	// Network state.
+	networkRobots     : {
+		siteId : 'network',
+		rules  : []
+	},
+	internalNetworkOptions : {},
+	networkOptions         : {},
+	networkBackups         : {},
+	networkData            : {},
+	...schema
 }

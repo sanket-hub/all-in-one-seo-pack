@@ -25,7 +25,7 @@ trait Arrays {
 	public function unsetValue( $array, $value ) {
 		if ( in_array( $value, $array, true ) ) {
 			unset( $array[ array_search( $value, $array, true ) ] );
-		};
+		}
 
 		return $array;
 	}
@@ -48,7 +48,7 @@ trait Arrays {
 			if ( is_array( $value ) ) {
 				if ( $this->arraysDifferent( $value, $array2[ $key ] ) ) {
 					return true;
-				};
+				}
 			} else {
 				if ( $value !== $array2[ $key ] ) {
 					return true;
@@ -120,5 +120,40 @@ trait Arrays {
 		}
 
 		return $targetArray;
+	}
+
+	/**
+	 * Recursively intersects the two given arrays.
+	 * You can pass in an optional argument (allowedKey) to restrict the intersect to arrays with a specific key.
+	 * This is needed when we are e.g. sanitizing array values before setting/saving them to an option.
+	 *
+	 * @since 4.2.5
+	 *
+	 * @param  array  $array1     The first array.
+	 * @param  array  $array2     The second array.
+	 * @param  string $allowedKey The only key the method should run for (optional).
+	 * @param  string $parentKey  The parent key.
+	 * @return array              The intersected array.
+	 */
+	public function arrayIntersectRecursive( $array1, $array2, $allowedKey = '', $parentKey = '' ) {
+		if ( ! $allowedKey || $allowedKey === $parentKey ) {
+			$array1 = array_intersect_assoc( $array1, $array2 );
+		}
+
+		if ( empty( $array1 ) ) {
+			return [];
+		}
+
+		foreach ( $array1 as $k => $v ) {
+			if ( is_array( $v ) && isset( $array2[ $k ] ) ) {
+				$array1[ $k ] = $this->arrayIntersectRecursive( $array1[ $k ], $array2[ $k ], $allowedKey, $k );
+			}
+		}
+
+		if ( $this->isArrayNumeric( $array1 ) ) {
+			$array1 = array_values( $array1 );
+		}
+
+		return $array1;
 	}
 }

@@ -1491,3 +1491,73 @@ export const UPSELL_FEATURE_LIST = [
 ]
 
 export const DISCOUNT_PERCENTAGE = '60%'
+
+export const EVENT_TYPE_LIST = [
+	{ label: __('Business Event', tdPro), value: 'BusinessEvent' },
+	{ label: __('Childrens Event', tdPro), value: 'ChildrensEvent' },
+	{ label: __('Comedy Event', tdPro), value: 'ComedyEvent' },
+	{ label: __('Dance Event', tdPro), value: 'DanceEvent' },
+	{ label: __('Delivery Event', tdPro), value: 'DeliveryEvent' },
+	{ label: __('Education Event', tdPro), value: 'EducationEvent' },
+	{ label: __('Exhibition Event', tdPro), value: 'Exhibition' },
+	{ label: __('Festival', tdPro), value: 'Festival' },
+	{ label: __('Food Event', tdPro), value: 'FoodEvent' },
+	{ label: __('Hackathon', tdPro), value: 'Hackathon' },
+	{ label: __('Literary Event', tdPro), value: 'LiteraryEvent' },
+	{ label: __('Music Event', tdPro), value: 'MusicEvent' },
+	{ label: __('Publication Event', tdPro), value: 'PublicationEvent' },
+	{ label: __('Sale Event', tdPro), value: 'SaleEvent' },
+	{ label: __('Screening Event', tdPro), value: 'ScreeningEvent' },
+	{ label: __('Social Event', tdPro), value: 'SocialEvent' },
+	{ label: __('Sports Event', tdPro), value: 'SportsEvent' },
+	{ label: __('Theater Event', tdPro), value: 'TheaterEvent' },
+	{ label: __('Visual Arts Event', tdPro), value: 'VisualArtsEvent' }
+]
+
+export const EVENT_STATUS_LIST = [
+	{ label: __('Scheduled', tdPro), value: 'EventScheduled' },
+	{ label: __('Cancelled', tdPro), value: 'EventCancelled' },
+	{ label: __('Postponed', tdPro), value: 'EventPostponed' },
+	{ label: __('Rescheduled', tdPro), value: 'EventRescheduled' },
+	{ label: __('Moved Online', tdPro), value: 'EventMovedOnline' }
+]
+
+export const WEBPAGE_TYPE_LIST = [
+	{ label: __('Web Page', tdPro), value: 'WebPage' },
+	{ label: __('About Page', tdPro), value: 'AboutPage' },
+	{ label: __('Checkout Page', tdPro), value: 'CheckoutPage' },
+	{ label: __('Collection Page', tdPro), value: 'CollectionPage' },
+	{ label: __('Contact Page', tdPro), value: 'ContactPage' },
+	{ label: __('Item Page', tdPro), value: 'ItemPage' },
+	{ label: __('Medical Page', tdPro), value: 'MedicalWebPage' },
+	{ label: __('Profile Page', tdPro), value: 'ProfilePage' },
+	{ label: __('Real Estate Listing', tdPro), value: 'RealEstateListing' },
+	{ label: __('Search Results Page', tdPro), value: 'SearchResultsPage' }
+]
+
+export const JOBPOSTING_EMPLOYMENT_TYPE_LIST = [
+	{ label: __('Full Time', tdPro), value: 'FULL_TIME' },
+	{ label: __('Part Time', tdPro), value: 'PART_TIME' },
+	{ label: __('Contractor', tdPro), value: 'CONTRACTOR' },
+	{ label: __('Temporary', tdPro), value: 'TEMPORARY' },
+	{ label: __('Intern', tdPro), value: 'INTERN' },
+	{ label: __('Volunteer', tdPro), value: 'VOLUNTEER' },
+	{ label: __('Day-by-Day Basis', tdPro), value: 'PER_DIEM' },
+	{ label: __('Other', tdPro), value: 'OTHER' }
+]
+
+export const JOBPOSTING_DEGREE_TYPE_LIST = [
+	{ label: __('Professional Certificate', tdPro), value: 'professional certificate' },
+	{ label: __('High School', tdPro), value: 'high school' },
+	{ label: __('Associate Degree', tdPro), value: 'associate degree' },
+	{ label: __('Bachelor Degree', tdPro), value: 'bachelor degree' },
+	{ label: __('Postgraduate Degree', tdPro), value: 'postgraduate degree' }
+]
+
+export const JOBPOSTING_SALARY_INTERVAL_TYPE_LIST = [
+	{ label: __('Annual', tdPro), value: 'YEAR' },
+	{ label: __('Month', tdPro), value: 'MONTH' },
+	{ label: __('Week', tdPro), value: 'WEEK' },
+	{ label: __('Day', tdPro), value: 'DAY' },
+	{ label: __('Hour', tdPro), value: 'HOUR' }
+]

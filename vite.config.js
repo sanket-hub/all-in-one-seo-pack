@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react'
 import liveReload from 'vite-plugin-live-reload'
 import postcssRTLCSS from 'postcss-rtlcss'
 import replace from '@rollup/plugin-replace'
-import { useDynamicPublicPath } from 'vite-plugin-dynamic-publicpath'
 import outputManifest, { isAsset } from 'rollup-plugin-output-manifest'
 import copy from 'rollup-plugin-copy'
 import path from 'path'
@@ -49,22 +48,23 @@ const getPages = () => {
 const getStandalones = () => {
 	return {
 		app                      : './src/vue/standalone/app/main.js',
+		blocks                   : './src/vue/standalone/blocks/main.js',
 		connect                  : './src/vue/standalone/connect/main.js',
 		'connect-pro'            : './src/vue/standalone/connect-pro/main.js',
-		'flyout-menu'            : './src/vue/standalone/flyout-menu/main.js',
 		'dashboard-widgets'      : './src/vue/standalone/dashboard-widgets/main.js',
+		'flyout-menu'            : './src/vue/standalone/flyout-menu/main.js',
 		'limit-modified-date'    : './src/vue/standalone/limit-modified-date/main.js',
 		'link-format'            : './src/vue/standalone/link-format/main.js',
 		'local-business-seo'     : './src/vue/standalone/local-business-seo/main.js',
+		'modal-portal'           : './src/vue/standalone/modal-portal/main.js',
 		notifications            : './src/vue/standalone/notifications/main.js',
 		'post-settings'          : './src/vue/standalone/post-settings/main.js',
 		'posts-table'            : './src/vue/standalone/posts-table/main.js',
 		'publish-panel'          : './src/vue/standalone/publish-panel/main.js',
+		'redirects-add-redirect' : './src/vue/standalone/redirects/add-redirect/main.js',
 		'setup-wizard'           : './src/vue/standalone/setup-wizard/main.js',
 		'user-profile-tab'       : './src/vue/standalone/user-profile-tab/main.js',
 		'wp-notices'             : './src/vue/standalone/wp-notices/main.js',
-		'redirects-add-redirect' : './src/vue/standalone/redirects/add-redirect/main.js',
-		blocks                   : './src/vue/standalone/blocks/main.js',
 		// Third-party.
 		divi                     : './src/vue/standalone/divi/main.js',
 		'divi-admin'             : './src/vue/standalone/divi-admin/main.js',
@@ -161,11 +161,17 @@ export default ({ mode }) => {
 						nameWithExt : false,
 						filter      : a => {
 							const names = [
-								'admin-bar.css',
-								'integrations.css',
-								'blocks-editor.css'
+								'admin-bar.scss',
+								'integrations/main.scss',
+								'blocks-editor.scss'
 							]
-							return isAsset(a) && names.includes(a.name)
+							let nameFound = false
+							names.forEach(name => {
+								if (a.name?.includes(name)) {
+									nameFound = true
+								}
+							})
+							return isAsset(a) && nameFound
 						}
 					}),
 					jsonToPhp([
@@ -182,9 +188,13 @@ export default ({ mode }) => {
 			}
 		},
 		optimizeDeps : {
+			force   : true,
 			include : [
 				'animate-vanilla-js',
 				'clipboard/dist/clipboard.min.js',
+				'codemirror',
+				'@codemirror/lang-json',
+				'@codemirror/view',
 				'js-base64',
 				'lodash-es',
 				'maz-ui/lib/maz-phone-number-input',
@@ -205,7 +215,6 @@ export default ({ mode }) => {
 		},
 		server : {
 			https      : getHttps(),
-			force      : true,
 			cors       : true,
 			strictPort : true,
 			port       : process.env.VITE_AIOSEO_DEV_PORT,
@@ -245,6 +254,13 @@ export default ({ mode }) => {
 						''
 					].join('\n')
 				}
+			}
+		},
+		experimental : {
+			renderBuiltUrl : (filename, { hostType }) => {
+				return 'js' === hostType
+					? { runtime: `window.__aioseoDynamicImportPreload__(${JSON.stringify(filename)})` }
+					: { relative: true }
 			}
 		}
 	})
@@ -286,11 +302,6 @@ const getPlugins = version => {
 		}),
 		vue(),
 		react(),
-		useDynamicPublicPath({
-			dynamicImportHandler : 'window.__aioseo_dynamic_handler__',
-			dynamicImportPreload : 'window.__aioseo_dynamic_preload__',
-			assetsBase           : ''
-		}),
 		copy({
 			targets : [
 				{

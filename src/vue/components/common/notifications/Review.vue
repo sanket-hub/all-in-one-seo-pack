@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
@@ -129,6 +129,7 @@ export default {
 	},
 	computed : {
 		...mapState([ 'options' ]),
+		...mapGetters([ 'licenseKey' ]),
 		title () {
 			switch (this.step) {
 				case 2:
@@ -164,7 +165,7 @@ export default {
 			}
 		},
 		feedbackUrl () {
-			const key = this.options.general && this.options.general.licenseKey ? this.options.general.licenseKey : ''
+			const key = this.options.general && this.licenseKey ? this.licenseKey : ''
 			const pro = this.$isPro ? 'pro' : 'lite'
 			return this.$links.utmUrl(
 				'notification-review-notice',

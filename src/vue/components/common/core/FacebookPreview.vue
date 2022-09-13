@@ -5,7 +5,7 @@
 				<div class="profile-photo">
 					<img
 						alt="Facebook Preview Image"
-						:src="$getImgUrl(dannieProfileImg)"
+						:src="$getAssetUrl(dannieProfileImg)"
 					/>
 				</div>
 				<div class="poster">

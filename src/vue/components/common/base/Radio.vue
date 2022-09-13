@@ -90,6 +90,31 @@ export default {
 		display: flex;
 	}
 
+	&.small {
+		.form-radio {
+			width: 16px;
+			height: 16px;
+		}
+
+		&.type-2 {
+			.form-radio {
+				span {
+					&:before {
+						width: inherit;
+						height: inherit;
+					}
+
+					&:after {
+						left: 4px;
+						bottom: 4px;
+						height: 6px;
+						width: 6px;
+					}
+				}
+			}
+		}
+	}
+
 	&.medium {
 		.form-radio {
 			width: 20px;
@@ -249,10 +274,6 @@ export default {
 
 	&.disabled {
 		cursor: default;
-
-		&.type-1 {
-			// @TODO: [V4+] add in disabled settings for type 1
-		}
 
 		&.type-2 {
 			.form-radio {

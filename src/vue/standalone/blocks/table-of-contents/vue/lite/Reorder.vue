@@ -1,7 +1,6 @@
 <template>
-	<core-modal
-		isolate
-		class="aioseo-toc-modal-lite"
+	<core-modal-portal
+		:classes="[ 'aioseo-toc-modal-lite' ]"
 		@close="$emit('closeModal')"
 	>
 		<template #body >
@@ -21,18 +20,18 @@
 				</template>
 			</cta>
 		</template>
-	</core-modal>
+	</core-modal-portal>
 </template>
 
 <script>
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import Cta from '@/vue/components/common/cta/Index.vue'
 
 const { __, sprintf } = window.wp.i18n
 const td              = import.meta.env.VITE_TEXTDOMAIN
 export default {
 	components : {
-		CoreModal,
+		CoreModalPortal,
 		Cta
 	},
 	data () {

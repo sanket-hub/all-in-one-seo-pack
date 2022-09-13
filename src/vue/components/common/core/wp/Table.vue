@@ -15,19 +15,23 @@
 						:class="{ active: filter.active }"
 					>
 						<a
-							v-if="!filter.active"
+							v-if="!filter.active && !disableTable"
 							href="#"
 							@click.prevent="processFilter(filter)"
 						>
 							{{ filter.name }}
-							<span>({{ $numbers.numberFormat(filter.count) }})</span>
+							<span
+								v-if="showFilterCount(filter)"
+							>&nbsp;({{ $numbers.numberFormat(filter.count) }})</span>
 						</a>
 
 						<template
-							v-if="filter.active"
+							v-if="filter.active || disableTable"
 						>
 							{{ filter.name }}
-							<span>({{ $numbers.numberFormat(filter.count) }})</span>
+							<span
+								v-if="showFilterCount(filter)"
+							>&nbsp;({{ $numbers.numberFormat(filter.count) }})</span>
 						</template>
 
 					</span>
@@ -49,6 +53,7 @@
 					v-model="searchTerm"
 					@keyup.enter="$emit('search', searchTerm)"
 					@search="$emit('search', searchTerm)"
+					:disabled="disableTable"
 				/>
 				<input
 					type="submit"
@@ -56,6 +61,7 @@
 					class="button"
 					:value="searchLabel"
 					@click.prevent="$emit('search', searchTerm)"
+					:disabled="disableTable"
 				/>
 			</p>
 
@@ -64,6 +70,7 @@
 					v-if="showBulkActions && bulkOptions && bulkOptions.length"
 					:bulk-options="bulkOptions"
 					@process-bulk-action="processBulkAction"
+					:disable-table="disableTable"
 				/>
 
 				<core-wp-additional-filters
@@ -73,61 +80,13 @@
 					@process-additional-filters="processAdditionalFilters"
 				/>
 
-				<div class="tablenav-pages pagination"
+				<core-wp-pagination
 					v-if="showPagination"
-				>
-					<span class="displaying-num">{{ $numbers.numberFormat(totals.total) }} {{ strings.items }}</span>
-					<span class="pagination-links">
-						<component
-							:is="pageNumber === 1 ? 'span' : 'a'"
-							:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'first-page button'"
-							href="#"
-							@click.prevent="pageNumber === 1 ? null : toPage(1)"
-						>
-							&laquo;
-						</component>
-						<component
-							:is="pageNumber === 1 ? 'span' : 'a'"
-							:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'prev-page button'"
-							href="#"
-							@click.prevent="pageNumber === 1 ? null : toPage(pageNumber - 1)"
-						>&lsaquo;</component>
-						<span class="paging-input">
-							<input
-								class="current-page"
-								type="number"
-								name="paged"
-								v-model="pageNumber"
-								size="2"
-								:min="1"
-								:max="totals.pages"
-								:step="1"
-								aria-describedby="table-paging"
-								@keyup.enter="toPage(pageNumber)"
-								:disabled="!totals.pages"
-							/>
-							<span class="tablenav-paging-text">
-								{{ strings.of }} {{ totals.pages }}
-							</span>
-						</span>
-						<component
-							:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
-							:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'next-page button'"
-							href="#"
-							@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(pageNumber + 1)"
-						>
-							&rsaquo;
-						</component>
-						<component
-							:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
-							:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'last-page button'"
-							href="#"
-							@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(totals.pages)"
-						>
-							&raquo;
-						</component>
-					</span>
-				</div>
+					:totals="totals"
+					:initial-page-number="pageNumber"
+					:disable-table="disableTable"
+					@paginate="processPaginate"
+				/>
 				<br class="clear" />
 			</div>
 		</div>
@@ -135,6 +94,9 @@
 		<div class="wp-table">
 			<table
 				class="wp-list-table widefat fixed"
+				:class="{
+					blurred: blurRows
+				}"
 				ref="table"
 				cellpadding="0"
 				cellspacing="0"
@@ -148,7 +110,7 @@
 						>
 							<input
 								type="checkbox"
-								:disabled="loading"
+								:disabled="loading || disableTable"
 							/>
 						</td>
 						<th
@@ -158,7 +120,7 @@
 							:style="{ width: column.width }"
 							class="manage-column"
 							:class="[{
-								sortable : column.sortable,
+								sortable : !disableTable && column.sortable,
 								asc      : 'asc' === column.sortDir && column.sortable,
 								desc     : 'desc' === column.sortDir && column.sortable,
 								sorted   : column.sortable && column.sorted,
@@ -220,16 +182,22 @@
 								even    : 0 === index % 2,
 								enabled : row.enabled ||!row.hasOwnProperty('enabled')
 							}"
-							:data-row-id="row.id || row.url || index"
+							:data-row-id="(row.rowIndex && row[row.rowIndex]) || row.id || row.url || index"
 						>
 							<th
 								scope="row"
 								class="check-column"
 								v-if="showBulkActions"
 							>
-								<input type="checkbox"/>
+								<input
+									v-if="!row.preventBulkAction"
+									type="checkbox"
+									:disabled="disableTable"
+								/>
 							</th>
 							<td
+								class="manage-column"
+								:class="column.slug"
 								v-for="(column, i) in columns"
 								:key="i"
 							>
@@ -301,7 +269,7 @@
 						>
 							<input
 								type="checkbox"
-								:disabled="loading"
+								:disabled="loading || disableTable"
 							/>
 						</td>
 						<th
@@ -316,6 +284,8 @@
 					</tr>
 				</tfoot>
 			</table>
+
+			<slot name="cta" />
 		</div>
 
 		<div
@@ -326,30 +296,46 @@
 				v-if="showBulkActions && bulkOptions && bulkOptions.length"
 				:bulk-options="bulkOptions"
 				@process-bulk-action="processBulkAction"
+				:disable-table="disableTable"
 			/>
+
+			<core-wp-items-per-page
+				v-if="showItemsPerPage"
+				v-model="itemsPerPage"
+				:disable-table="disableTable"
+			/>
+
 			<div class="alignleft actions"></div>
-			<div class="tablenav-pages"
+			<core-wp-pagination
 				v-if="showPagination"
-			>
-				<span class="displaying-num">{{ totals.total }} {{ strings.items }}</span>
-			</div>
+				:totals="totals"
+				:initial-page-number="pageNumber"
+				:disable-table="disableTable"
+				@paginate="processPaginate"
+			/>
 			<br class="clear" />
 		</div>
 	</div>
 </template>
 
 <script>
+import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpAdditionalFilters from './AdditionalFilters'
 import CoreWpBulkActions from './BulkActions'
+import CoreWpItemsPerPage from './ItemsPerPage'
+import CoreWpPagination from './Pagination'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
 	components : {
+		CoreBlur,
 		CoreLoader,
 		CoreTooltip,
 		CoreWpAdditionalFilters,
 		CoreWpBulkActions,
+		CoreWpItemsPerPage,
+		CoreWpPagination,
 		TransitionSlide
 	},
 	props : {
@@ -412,28 +398,46 @@ export default {
 				return 1
 			}
 		},
+		initialItemsPerPage : {
+			type : Number,
+			default () {
+				return 20
+			}
+		},
 		initialSearchTerm : {
 			type : String,
 			default () {
 				return ''
 			}
 		},
-		bulkOptions       : Array,
-		additionalFilters : Array
+		showItemsPerPage : {
+			type : Boolean,
+			default () {
+				return false
+			}
+		},
+		bulkOptions        : Array,
+		additionalFilters  : Array,
+		itemsPerPageFilter : String,
+		blurRows           : Boolean,
+		disableTable       : Boolean
 	},
 	data () {
 		return {
-			searchTerm : '',
-			pageNumber : 1,
-			activeRow  : null,
-			strings    : {
-				of        : this.$t.__('of', this.$td),
+			itemsPerPage : null,
+			searchTerm   : '',
+			pageNumber   : 1,
+			activeRow    : null,
+			strings      : {
 				items     : this.$t.__('items', this.$td),
 				noResults : this.$t.__('No items found.', this.$td)
 			}
 		}
 	},
 	watch : {
+		initialPageNumber (newVal) {
+			this.pageNumber = newVal
+		},
 		pageNumber (newVal) {
 			if (Math.abs(newVal) !== newVal) {
 				this.pageNumber = Math.floor(newVal)
@@ -447,9 +451,19 @@ export default {
 			if (1 > newVal) {
 				this.pageNumber = 1
 			}
+		},
+		itemsPerPage (newVal, oldVal) {
+			if (null === oldVal) {
+				return
+			}
+
+			this.processChangeItemsPerPage()
 		}
 	},
 	methods : {
+		showFilterCount (filter) {
+			return Object.prototype.hasOwnProperty.call(filter, 'count')
+		},
 		editRow (index) {
 			if (null === index || this.activeRow === index) {
 				this.activeRow = null
@@ -458,6 +472,9 @@ export default {
 
 			this.activeRow = index
 		},
+		processChangeItemsPerPage () {
+			this.$emit('process-change-items-per-page', this.itemsPerPage)
+		},
 		processBulkAction (bulkAction) {
 			this.$emit('process-bulk-action', {
 				action       : bulkAction,
@@ -465,6 +482,10 @@ export default {
 			})
 
 			this.resetSelectedItems()
+		},
+		processPaginate (page) {
+			this.pageNumber = page
+			this.$emit('paginate', page, this.searchTerm)
 		},
 		processFilter (filter) {
 			this.pageNumber = 1
@@ -482,8 +503,8 @@ export default {
 			const allRows      = this.$refs.table.querySelectorAll('tbody tr.main-row')
 			const selectedRows = []
 			allRows.forEach(row => {
-				const checkboxValue = row.querySelector('th.check-column input').checked
-				if (checkboxValue) {
+				const checkbox = row.querySelector('th.check-column input')
+				if (checkbox && checkbox.checked) {
 					selectedRows.push(row.dataset.rowId)
 				}
 			})
@@ -495,17 +516,14 @@ export default {
 				checked.forEach(c => (c.checked = false))
 			}
 		},
-		toPage (page) {
-			this.pageNumber = page
-			this.$emit('paginate', page, this.searchTerm)
-		},
 		setPageNumber (newPageNumber) {
 			this.pageNumber = newPageNumber
 		}
 	},
-	mounted () {
-		this.pageNumber = this.initialPageNumber
-		this.searchTerm = this.initialSearchTerm
+	created () {
+		this.pageNumber   = this.initialPageNumber
+		this.searchTerm   = this.initialSearchTerm
+		this.itemsPerPage = this.initialItemsPerPage
 	}
 }
 </script>
@@ -546,7 +564,7 @@ export default {
 			font-weight: 600;
 			margin-left: 2px;
 
-			> span {
+			li > span {
 				display: inline-flex;
 			}
 
@@ -563,8 +581,11 @@ export default {
 
 			a {
 				text-decoration: none;
+				display: inline-flex;
+
 				span {
 					color: $gray3;
+
 					&:hover {
 						text-decoration: none;
 					}
@@ -586,7 +607,10 @@ export default {
 				margin-right: 6px;
 			}
 		}
+	}
 
+	.header,
+	.bottom {
 		.pagination {
 			color: $gray3;
 
@@ -615,6 +639,16 @@ export default {
 	.wp-table {
 		width: 100%;
 		position: relative;
+
+		table {
+			&.blurred {
+				tbody tr {
+					filter: blur(2px);
+					pointer-events: none;
+					user-select: none;
+				}
+			}
+		}
 
 		tbody {
 			position: relative;

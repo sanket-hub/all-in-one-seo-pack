@@ -67,11 +67,5 @@ export default {
 <style lang="scss">
 .aioseo-redirects {
 	position: relative;
-
-	&.core-card {
-		.aioseo-cta.floating {
-			top: 120px;
-		}
-	}
 }
 </style>

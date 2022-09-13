@@ -1,6 +1,11 @@
 <template>
 	<div class="aioseo-locations-blur">
 		<core-blur>
+			<div
+				class="aioseo-settings-row"
+			>
+				<p class="location-description">{{ strings.description }}</p>
+			</div>
 			<core-settings-row
 				:name="strings.name"
 				class="info-name-row"
@@ -113,6 +118,11 @@ export default {
 	data () {
 		return {
 			strings : {
+				description : this.$t.sprintf(
+					// Translators: 1 - The plugin short name ("AIOSEO").
+					this.$t.__('Whether your business has multiple locations, or just one, %1$s makes it easy to configure and display relevant information about your local business. You can use the custom-built tools below, or you can use the Locations custom post type (multiple locations only) to generate relevant and necessary information for search engines or for your customers.', this.$td),
+					import.meta.env.VITE_SHORT_NAME
+				),
 				name                : this.$t.__('name', this.$td),
 				nameDesc            : this.$t.__('Your name or company name.', this.$td),
 				businessType        : this.$t.__('Type', this.$td),
@@ -134,3 +144,13 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.info-urls-row {
+	.field-description {
+		display: block;
+		padding-bottom: 6px;
+		font-size: 12px;
+	}
+}
+</style>

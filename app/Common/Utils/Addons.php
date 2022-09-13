@@ -236,10 +236,11 @@ class Addons {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string $name The addon name/sku.
-	 * @return bool         Whether or not the installation was succesful.
+	 * @param  string $name    The addon name/sku.
+	 * @param  bool   $network Whether or not we are in a network environment.
+	 * @return bool            Whether or not the installation was succesful.
 	 */
-	public function installAddon( $name ) {
+	public function installAddon( $name, $network = false ) {
 		if ( ! $this->canInstall() ) {
 			return false;
 		}
@@ -270,7 +271,7 @@ class Addons {
 
 		// Activate the plugin silently.
 		$pluginUrl = ! empty( $installer->pluginSlugs[ $name ] ) ? $installer->pluginSlugs[ $name ] : $name;
-		$activated = activate_plugin( $pluginUrl );
+		$activated = activate_plugin( $pluginUrl, '', $network );
 
 		if ( ! is_wp_error( $activated ) ) {
 			return $name;
@@ -316,7 +317,7 @@ class Addons {
 		}
 
 		// Activate the plugin silently.
-		$activated = activate_plugin( $pluginBasename );
+		$activated = activate_plugin( $pluginBasename, '', $network );
 
 		if ( is_wp_error( $activated ) ) {
 			return false;

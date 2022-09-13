@@ -72,7 +72,7 @@ class Notices {
 	 * @return void
 	 */
 	private function maybeUpdate() {
-		$nextRun = aioseo()->core->cache->get( 'admin_notifications_update' );
+		$nextRun = aioseo()->core->networkCache->get( 'admin_notifications_update' );
 		if ( null !== $nextRun && time() < $nextRun ) {
 			return;
 		}
@@ -81,7 +81,7 @@ class Notices {
 		aioseo()->helpers->scheduleAsyncAction( 'aioseo_admin_notifications_update' );
 
 		// Update the cache.
-		aioseo()->core->cache->update( 'admin_notifications_update', time() + DAY_IN_SECONDS );
+		aioseo()->core->networkCache->update( 'admin_notifications_update', time() + DAY_IN_SECONDS );
 	}
 
 	/**

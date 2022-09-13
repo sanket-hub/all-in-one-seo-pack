@@ -19,6 +19,10 @@ function jsonToPhp (files = []) {
 				phpContents += fs.readFileSync(file.from)
 				phpContents += '\';'
 
+				// For Windows users we have to replace backslashes with forward slashes.
+				// Otherwise the manifest JSON isn't valid.
+				phpContents = phpContents.replace(/\\\\/g, '/')
+
 				// First rename the file.
 				fs.rename(file.from, file.to, () => {
 					// Then overwrite it.

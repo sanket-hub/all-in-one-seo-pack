@@ -207,8 +207,13 @@ export default {
 			justify-content: flex-end;
 
 			.aioseo-input {
-				max-width: 230px;
-				margin-right: 10px;
+				display: flex;
+				justify-content: flex-end;
+
+				input {
+					max-width: 230px;
+					margin-right: 10px;
+				}
 			}
 		}
 	}

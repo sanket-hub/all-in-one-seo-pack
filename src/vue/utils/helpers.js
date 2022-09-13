@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 export const decodeHTMLEntities = string => {
 	const element = document.createElement('div')
 	if (string && 'string' === typeof string) {
@@ -41,8 +39,8 @@ export const isUrl = url => {
 	return /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/.test(url)
 }
 
-export const getImgUrl = url => {
-	return Vue.prototype.$assetsPath + url.replace('/src/', 'src/')
+export const getAssetUrl = url => {
+	return new URL(url, import.meta.url).href
 }
 
 export const cloneObject = obj => JSON.parse(JSON.stringify(obj))
@@ -136,7 +134,7 @@ export const versionCompare = (v1, v2, operator) => {
  * Iterate through an array of block objects, recursing into innerBlocks and un-nesting them.
  *
  * @param   {Array} blocks Blocks to flatten.
- * @returns {Array} Flattened array of block objects.
+ * @returns {Array}        Flattened array of block objects.
  */
 export const flattenBlocks = (blocks) => {
 	const result = []
@@ -153,3 +151,21 @@ export const flattenBlocks = (blocks) => {
 
 	return result
 }
+
+/**
+ * Returns difference of an elements between two arrays
+ *
+ * @param   {Array} array1 To look into.
+ * @param   {Array} array2 Elements to look for.
+ * @returns {Array}        Difference of an elements.
+ */
+export const arrayDiff = (array1, array2) => array1.filter(el => !array2.includes(el))
+
+/**
+ * Returns common array elements.
+ *
+ * @param   {Array} array1 To look into.
+ * @param   {Array} array2 Elements to look for.
+ * @returns {Array}        Common elements.
+ */
+export const arrayIntersection = (array1, array2) => array1.filter(el => array2.includes(el))

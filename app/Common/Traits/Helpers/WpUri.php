@@ -111,12 +111,21 @@ trait WpUri {
 		$noPaginationForCanonical = aioseo()->options->searchAppearance->advanced->noPaginationForCanonical;
 		$pageNumber               = $this->getPageNumber();
 		if ( $noPaginationForCanonical ) {
+			global $wp_rewrite;
 			if ( 1 < $pageNumber ) {
-				$url = preg_replace( '/(\d+\/|(?<=\/)page\/\d+\/)$/', '', $url );
+				if ( $wp_rewrite->using_permalinks() ) {
+					// Replace /page/3 and /page/3/.
+					$url = preg_replace( "@(?<=/)page/$pageNumber(/|)$@", '', $url );
+					// Replace /3 and /3/.
+					$url = preg_replace( "@(?<=/)$pageNumber(/|)$@", '', $url );
+				} else {
+					// Replace /?page_id=457&paged=1 and /?page_id=457&page=1.
+					$url = aioseo()->helpers->urlRemoveQueryParameter( $url, [ 'page', 'paged' ] );
+				}
 			}
 
 			// Comment pages.
-			$url = preg_replace( '/((?<=\/)comment-page-\d+\/*(#comments)*)$/', '', $url );
+			$url = preg_replace( '/(?<=\/)comment-page-\d+\/*(#comments)*$/', '', $url );
 		}
 
 		$url = $this->maybeRemoveTrailingSlash( $url );
@@ -411,7 +420,7 @@ trait WpUri {
 	 *
 	 * @return string The home path.
 	 */
-	private function getHomePath() {
+	public function getHomePath() {
 		$path = wp_parse_url( get_home_url(), PHP_URL_PATH );
 
 		return $path ? trailingslashit( $path ) : '/';

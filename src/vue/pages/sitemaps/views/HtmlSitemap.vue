@@ -274,7 +274,7 @@ export default {
 				widget : {
 					copy : '',
 					desc : this.$t.sprintf(
-						// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag, 3 - Opening HTML strong tag, 4 - The plugin short name ("AIOSEO"), 5 - Closing HTML strong tag, 6 - "Learn More" link.
+						// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag, 3 - Opening HTML strong tag, 4 - The plugin short name ("AIOSEO"), 5 - Closing HTML strong tag.
 						this.$t.__('To add this widget, visit the %1$swidgets page%2$s and look for the %3$s"%4$s - HTML Sitemap"%5$s widget.', this.$td),
 						`<a href="${this.$aioseo.urls.admin.widgets}" target="_blank">`, '</a>',
 						'<strong>',

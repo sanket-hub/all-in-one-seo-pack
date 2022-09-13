@@ -7,37 +7,23 @@ export const isBlockEditor = () => {
 }
 
 export const isClassicEditor = () => {
-	if (document.querySelector('#wp-content-wrap.tmce-active')) {
-		return true
-	}
-	if (document.querySelector('#wp-content-wrap.html-active')) {
-		return true
-	}
-	return false
+	return !!document.querySelector('#wp-content-wrap.tmce-active, #wp-content-wrap.html-active')
+}
+
+export const isClassicNoEditor = () => {
+	return document.querySelector('#post input#title') && !document.querySelector('#wp-content-wrap')
 }
 
 export const isElementorEditor = () => {
-	if (document.body.classList.contains('elementor-editor-active') && window.elementor) {
-		return true
-	}
-
-	return false
+	return document.body.classList.contains('elementor-editor-active') && window.elementor
 }
 
 export const isDiviEditor = () => {
-	if (document.body.classList.contains('et_pb_pagebuilder_layout') && window.ET_Builder) {
-		return true
-	}
-
-	return false
+	return document.body.classList.contains('et_pb_pagebuilder_layout') && window.ET_Builder
 }
 
 export const isSeedProdEditor = () => {
-	if (document.body.classList.contains('seedprod-builder') && window.seedprod_data) {
-		return true
-	}
-
-	return false
+	return document.body.classList.contains('seedprod-builder') && window.seedprod_data
 }
 
 export const isWooCommerceProduct = () => {

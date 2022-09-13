@@ -72,21 +72,18 @@
 			</div>
 		</transition>
 
-		<core-modal
+		<core-modal-portal
 			v-if="currentPost.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="closeModal"
-			isolate
-			:classes="[
-				'post-settings-modal'
-			]"
+			:classes="[ 'aioseo-post-settings-modal' ]"
 		>
 			<div slot="headerTitle">
 				{{ strings.modalTitle }}
 			</div>
 			<div slot="body">
-				<ModalContent />
+				<modal-content />
 			</div>
-		</core-modal>
+		</core-modal-portal>
 	</div>
 </template>
 
@@ -97,7 +94,7 @@ import { debounceContext } from '@/vue/utils/debounce'
 import Advanced from './Advanced'
 import Alert from './partials/Alert'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import General from './General'
 import LinkAssistant from './Links'
 import ModalContent from './ModalContent'
@@ -118,7 +115,7 @@ export default {
 		Advanced,
 		Alert,
 		CoreMainTabs,
-		CoreModal,
+		CoreModalPortal,
 		General,
 		LinkAssistant,
 		ModalContent,
@@ -566,8 +563,43 @@ export default {
 	}
 }
 
-.aioseo-app.post-settings-modal {
+.aioseo-post-settings-modal {
 	.aioseo-modal-content {
+		.aioseo-tabs {
+			border-bottom-width: 2px;
+			background: $background;
+
+			.md-tabs-navigation {
+				margin-top: 0 !important;
+			}
+
+			.md-button {
+				height: 50px !important;
+				font-size: 14px !important;
+				color: $black2 !important;
+
+				&.md-active {
+					color: $black !important;
+					-webkit-text-stroke-width: 0.2px;
+					-webkit-text-stroke-color: $black;
+				}
+
+				.icon {
+					display: none;
+				}
+			}
+
+			svg {
+				display: none;
+
+				@media screen and (max-width: 785px) {
+					&.aioseo-caret {
+						display: inline;
+					}
+				}
+			}
+		}
+
 		.aioseo-tabs.internal {
 			border-bottom-width: 1px !important;
 
@@ -609,6 +641,7 @@ export default {
 		}
 	}
 }
+
 .aioseo-redirects-modal {
 	.bd {
 		padding: 20px;

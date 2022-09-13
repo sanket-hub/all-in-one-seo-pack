@@ -4,6 +4,7 @@ import { render } from './AIOSEO_VERSION/sidebar.js'
 const { useSelect }    = window.wp.data
 const blockEditorStore = window.wp.blockEditor.store
 const { serialize }    = window.wp.blocks
+const hasInitialized   = []
 
 /**
  * Strips comments and unsafe attributes from HTML.
@@ -59,12 +60,19 @@ export default function edit (props) {
 		attributes,
 		className,
 		clientId,
-		setAttributes
+		setAttributes,
+		isSelected
 	} = props
 
 	const {
 		schemaBlockId
 	} = attributes
+
+	// When saved blocks first load they won't be "Selected".
+	// Let's add existing FAQ blocks to the hasInitialized object.
+	if (!hasInitialized.includes(clientId) && !isSelected) {
+		hasInitialized.push(clientId)
+	}
 
 	const setSchemaBlockAttributes = (blockAttributes) => {
 		window.requestAnimationFrame(() => {
@@ -78,23 +86,79 @@ export default function edit (props) {
 		setSchemaBlockAttributes({ schemaBlockId: generateUniqueSchemaBlockId() })
 	}
 
+	const closestFaqAttributes = useSelect(
+		select => {
+			const {
+				getAdjacentBlockClientId,
+				getBlockAttributes,
+				getBlockName,
+				getClientIdsWithDescendants,
+				getGlobalBlockCount
+			} = select(blockEditorStore)
+
+			if (hasInitialized.includes(clientId) || 2 > getGlobalBlockCount('aioseo/faq')) {
+				return null
+			}
+
+			// Return attributes from the FAQ block immediately before.
+			const previousBlock = getAdjacentBlockClientId(clientId, -1)
+			if ('aioseo/faq' === getBlockName(previousBlock)) {
+				return getBlockAttributes(previousBlock)
+			}
+
+			// Return attributes from the FAQ block immediately after.
+			const nextBlock = getAdjacentBlockClientId(clientId, 1)
+			if ('aioseo/faq' === getBlockName(nextBlock)) {
+				return getBlockAttributes(nextBlock)
+			}
+
+			// No neighbors. Look for the closest FAQ.
+			const allClientIds = getClientIdsWithDescendants()
+			const allFaqIds    = allClientIds.filter(id => 'aioseo/faq' === getBlockName(id))
+			const faqIndex     = allFaqIds.indexOf(clientId)
+			const closestFaqId = allFaqIds[faqIndex - 1] || allFaqIds[faqIndex + 1]
+
+			// Return the closest FAQ block.
+			if ('aioseo/faq' === getBlockName(closestFaqId)) {
+				return getBlockAttributes(closestFaqId)
+			}
+			return null
+		},
+		[ clientId, hasInitialized ]
+	)
+
+	if (isSelected && !hasInitialized.includes(clientId) && !attributes.question && closestFaqAttributes) {
+		hasInitialized.push(clientId)
+
+		window.requestAnimationFrame(() => {
+			setAttributes(
+				{
+					backgroundColor : closestFaqAttributes.backgroundColor,
+					textColor       : closestFaqAttributes.textColor,
+					tagName         : closestFaqAttributes.tagName,
+					hidden          : closestFaqAttributes.hidden,
+					fontSize        : closestFaqAttributes.fontSize,
+					style           : closestFaqAttributes.style
+				}
+			)
+		})
+	}
+
 	const answer = useSelect(
 		select => {
 			const {
-				getBlock,
 				getBlocks
 			} = select(blockEditorStore)
 
-			const getInnerBlocksContent = (block) => {
-				const answerBlocks     = getBlocks(block.clientId) || []
+			const getInnerBlocksContent = (faqClientId) => {
+				const answerBlocks     = getBlocks(faqClientId)
 				const answerBlocksHtml = serialize(answerBlocks)
 
 				// Sanitize HTML and strip comments from the answer blocks.
 				return cleanSchemaText(answerBlocksHtml)
 			}
 
-			const faqBlock = getBlock(clientId)
-			return getInnerBlocksContent(faqBlock)
+			return getInnerBlocksContent(clientId)
 		},
 		[ clientId ]
 	)

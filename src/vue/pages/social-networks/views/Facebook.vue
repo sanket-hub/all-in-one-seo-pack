@@ -193,9 +193,7 @@
 						v-for="(postType, index) in $aioseo.postData.postTypes"
 						:key="index"
 					>
-						<table-column v-html="postType.label">
-							({{ postType.name }})
-						</table-column>
+						<table-column v-html="postType.label" />
 						<table-column>
 							<base-select
 								size="medium"

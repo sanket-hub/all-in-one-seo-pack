@@ -128,11 +128,17 @@ export default {
 		}
 	}
 }
+
 body[class*=all-in-one-seo_page] {
 	.daterangepicker {
 		.yearselect {
 			width: 75px;
 		}
 	}
+}
+
+.daterangepicker {
+	// This is necessary to make the date picker work in isolated modals.
+	z-index: 99999;
 }
 </style>

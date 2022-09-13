@@ -144,21 +144,6 @@ trait WpContext {
 	}
 
 	/**
-	 * Returns the network ID.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return int The integer of the blog/site id.
-	 */
-	public function getNetworkId() {
-		if ( is_multisite() ) {
-			return get_network()->site_id;
-		}
-
-		return get_current_blog_id();
-	}
-
-	/**
 	 * Returns the current post object.
 	 *
 	 * @since 4.0.0

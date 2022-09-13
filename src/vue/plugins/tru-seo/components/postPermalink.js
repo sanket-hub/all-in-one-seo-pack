@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from '@/vue/store'
 import { getPostEditedContent } from './postContent'
-import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
 import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
 import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
 import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
@@ -41,7 +41,7 @@ export const getPostPermalink = () => {
 
 	let postPermalink
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor) {
 		const classicLink = document.querySelector('#edit-slug-box a')
 		if (classicLink && classicLink.href) {
 			postPermalink = classicLink.href
@@ -71,7 +71,7 @@ export const getPostPermalink = () => {
 export const getPostEditedPermalink = () => {
 	let postPermalink
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor) {
 		const classicLink = document.querySelector('#edit-slug-box a')
 		if (classicLink && classicLink.href) {
 			postPermalink = classicLink.href

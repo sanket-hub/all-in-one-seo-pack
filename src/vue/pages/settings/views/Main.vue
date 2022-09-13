@@ -27,7 +27,9 @@ export default {
 	data () {
 		return {
 			strings : {
-				pageName : this.$t.__('General Settings', this.$td)
+				pageName : this.$aioseo.data.isNetworkAdmin
+					? this.$t.__('Network Settings', this.$td)
+					: this.$t.__('General Settings', this.$td)
 			}
 		}
 	}

@@ -43,6 +43,7 @@ export default {
 .aioseo-link-assistant,
 .aioseo-link-assistant-modal {
 	padding: 0 !important;
+
 	.aioseo-wp-table {
 		tbody {
 			th.check-column,
@@ -341,7 +342,7 @@ export default {
 
 	.modal-body {
 		align-items: start;
-		padding: 20px 50px 50px;
+
 		.title-header {
 			margin: 45px 0 0 0;
 			align-self: start;

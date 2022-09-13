@@ -4,6 +4,7 @@ import {
 	isBlockEditor,
 	shouldShowMetaBox,
 	isClassicEditor,
+	isClassicNoEditor,
 	isWooCommerceProduct,
 	maybeUpdatePost,
 	maybeUpdateTerm,
@@ -57,7 +58,7 @@ export default (populateHiddenField = true) => {
 				watchWooCommerce()
 			}
 
-			if (isClassicEditor()) {
+			if (isClassicEditor() || isClassicNoEditor()) {
 				watchClassicEditor()
 			}
 

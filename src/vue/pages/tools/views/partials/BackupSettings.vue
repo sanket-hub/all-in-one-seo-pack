@@ -10,6 +10,19 @@
 			<svg-history />
 		</template>
 
+		<div
+			class="aioseo-settings-row"
+			v-if="$aioseo.data.isNetworkAdmin"
+		>
+			<div class="select-site">
+				{{ strings.selectSite }}
+			</div>
+
+			<core-network-site-selector
+				@selected-site="site = $event"
+			/>
+		</div>
+
 		<core-alert
 			v-if="backupsDeleteSuccess"
 			type="green"
@@ -25,19 +38,21 @@
 		</core-alert>
 
 		<div
-			v-if="!backups.length"
+			v-if="!getBackups.length"
 			class="aioseo-section-description"
 		>
 			{{ strings.noBackups }}
 		</div>
 
-		<template v-if="backups.length">
+		<template
+			v-if="getBackups.length && !($aioseo.data.isNetworkAdmin && !site)"
+		>
 			<div class="backups-table">
 				<div class="backups-rows">
 					<div
 						class="backup-row"
 						:class="{ even: 0 === index % 2 }"
-						v-for="(backup, index) in backups"
+						v-for="(backup, index) in getBackups"
 						:key="index"
 					>
 						<div class="backup-name" v-html="getBackupName(backup)" />
@@ -76,6 +91,7 @@
 			size="medium"
 			@click="processCreateBackup"
 			:loading="loading"
+			:disabled="$aioseo.data.isNetworkAdmin && !site"
 		>
 			<svg-circle-plus />
 			{{ strings.createBackup }}
@@ -124,7 +140,8 @@
 import { mapActions, mapState } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModal from '@/vue/components/common/core/modal/Index'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 import SvgClose from '@/vue/components/common/svg/Close'
@@ -136,6 +153,7 @@ export default {
 		CoreAlert,
 		CoreCard,
 		CoreModal,
+		CoreNetworkSiteSelector,
 		CoreTooltip,
 		SvgCirclePlus,
 		SvgClose,
@@ -145,6 +163,7 @@ export default {
 	},
 	data () {
 		return {
+			site                  : null,
 			timeout               : null,
 			backupToDelete        : null,
 			backupToRestore       : null,
@@ -170,7 +189,13 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'backups' ]),
+		...mapState([ 'backups', 'networkBackups' ]),
+		getBackups () {
+			if (this.site) {
+				return this.networkBackups[this.site.blog_id] || []
+			}
+			return this.backups
+		},
 		areYouSure () {
 			return this.backupToDelete ? this.strings.areYouSureDeleteBackup : this.strings.areYouSureRestoreBackup
 		},
@@ -182,7 +207,9 @@ export default {
 		...mapActions([ 'createBackup', 'deleteBackup', 'restoreBackup' ]),
 		processCreateBackup () {
 			this.loading = true
-			this.createBackup()
+			this.createBackup({
+				siteId : this.site ? this.site.blog_id : null
+			})
 				.then(() => {
 					this.loading = false
 				})
@@ -197,7 +224,10 @@ export default {
 		},
 		processDeleteBackup () {
 			this.loading = true
-			this.deleteBackup(this.backupToDelete)
+			this.deleteBackup({
+				backup : this.backupToDelete,
+				siteId : this.site ? this.site.blog_id : null
+			})
 				.then(() => {
 					clearTimeout(this.timeout)
 					this.loading              = false
@@ -212,7 +242,10 @@ export default {
 		},
 		processRestoreBackup () {
 			this.loading = true
-			this.restoreBackup(this.backupToRestore)
+			this.restoreBackup({
+				backup : this.backupToRestore,
+				siteId : this.site ? this.site.blog_id : null
+			})
 				.then(() => {
 					clearTimeout(this.timeout)
 					this.loading              = false

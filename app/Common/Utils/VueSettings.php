@@ -113,7 +113,9 @@ class VueSettings {
 			'htmlSitemap'                  => true,
 			'htmlSitemapSettings'          => true,
 			'htmlSitemapAdvancedSettings'  => true,
-			'linkAssistantSettings'        => true
+			'linkAssistantSettings'        => true,
+			'domainActivations'            => true,
+			'404Settings'                  => true
 		],
 		'toggledRadio'    => [
 			'locationsShowOnWebsite'        => 'widget',
@@ -127,6 +129,9 @@ class VueSettings {
 			'dateArchives'      => 'title-description',
 			'searchArchives'    => 'title-description',
 			'seoAuditChecklist' => 'all-items'
+		],
+		'tablePagination' => [
+			'networkDomains' => 20
 		]
 	];
 

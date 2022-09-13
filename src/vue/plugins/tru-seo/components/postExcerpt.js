@@ -2,7 +2,7 @@ import Vue from 'vue'
 import store from '@/vue/store'
 import { getPostContent, getPostEditedContent } from './postContent'
 import { getPostEditedPermalink } from './postPermalink'
-import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
 import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
 import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
 import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
@@ -72,7 +72,7 @@ export const getPostExcerpt = () => {
 
 	let postExcerpt
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		const classicExcerpt = document.querySelector('#postexcerpt textarea#excerpt')
 		postExcerpt = classicExcerpt ? classicExcerpt.value : ''
 	}
@@ -103,7 +103,7 @@ export const getPostExcerpt = () => {
 export const getPostEditedExcerpt = () => {
 	let postExcerpt
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		const classicExcerpt = document.querySelector('#postexcerpt textarea#excerpt')
 		postExcerpt = classicExcerpt ? classicExcerpt.value : ''
 	}

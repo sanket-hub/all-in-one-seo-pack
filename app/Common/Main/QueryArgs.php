@@ -485,6 +485,7 @@ class QueryArgs {
 			'post_type',
 			'product',
 			'product_cat',
+			'reset-link-sent'
 		];
 	}
 }

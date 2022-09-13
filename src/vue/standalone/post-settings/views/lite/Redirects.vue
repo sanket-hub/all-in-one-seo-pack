@@ -6,11 +6,10 @@
 			:parentComponentContext="parentComponentContext"
 		/>
 
-		<core-modal
-			class="aioseo-redirects-modal"
+		<core-modal-portal
+			:classes="[ 'aioseo-redirects-modal' ]"
 			v-if="currentPost.redirects.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="toggleRedirectsModal"
-			isolate
 		>
 			<div slot="headerTitle">
 				{{ strings.modalHeader }}
@@ -24,7 +23,7 @@
 					/>
 				</div>
 			</div>
-		</core-modal>
+		</core-modal-portal>
 
 		<redirects-side-bar v-if="'modal' !== this.parentComponentContext" />
 	</div>
@@ -32,12 +31,12 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import RedirectsSideBar from './../RedirectsSideBar'
 import RedirectsLite from '@/vue/pages/redirects/views/lite/redirects/Redirects'
 export default {
 	components : {
-		CoreModal,
+		CoreModalPortal,
 		RedirectsSideBar,
 		RedirectsLite
 	},

@@ -1,7 +1,6 @@
 <template>
 	<core-modal
 		class="aioseo-confirmation-modal"
-		v-if="showModal"
 		no-header
 	>
 		<template #body >
@@ -39,7 +38,7 @@
 </template>
 
 <script>
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
 	components : {
@@ -47,10 +46,6 @@ export default {
 		SvgClose
 	},
 	props : {
-		showModal : {
-			type     : Boolean,
-			required : true
-		},
 		selectedRows : {
 			required : true
 		},
@@ -88,6 +83,7 @@ export default {
 		.modal-container {
 			max-width: 650px !important;
 		}
+
 		.aioseo-modal-body {
 			padding: 20px 50px 50px;
 			display: flex;
@@ -99,15 +95,6 @@ export default {
 
 		.aioseo-button:not(.close) {
 			margin-top: 16px;
-		}
-
-		.aioseo-modal-body {
-			padding: 20px 50px 50px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-			position: relative;
 		}
 
 		h3 {

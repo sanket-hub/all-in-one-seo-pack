@@ -83,8 +83,8 @@ const docLinks = {
 	unfilteredHtml                : `${marketingSite}docs/unfiltered-html-capability/`,
 	customFields                  : `${marketingSite}docs/including-custom-fields-in-the-seo-page-analysis/`,
 	productIdentifiers            : `${marketingSite}docs/unique-product-identifiers/`,
-	redirectManagerRegex          : `${marketingSite}docs/redirect-manager-regex/`, // @TODO: Make sure this is right when we create the doc.
-	redirectGdpr                  : `${marketingSite}docs/redirect-gdpr-privacy-information/`, // @TODO: Make sure this is right when we create the doc.
+	redirectManagerRegex          : `${marketingSite}docs/redirect-manager-regex/`,
+	redirectGdpr                  : `${marketingSite}docs/redirect-gdpr-privacy-information/`,
 	redirectCustomRulesUserAgent  : `${marketingSite}docs/redirection-manager-custom-rules/#user-agent`,
 	redirectCanonicalHttps        : `${marketingSite}docs/full-site-redirect/#canonical-settings`,
 	redirectUnknownWebserver      : `${marketingSite}docs/redirect-manager-unknown-web-server/`,
@@ -113,7 +113,9 @@ const docLinks = {
 	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant#post-types/`,
 	updateWordPress               : `${marketingSite}docs/update-wordpress/`,
 	runningShortcodes             : `${marketingSite}docs/running-shortcodes/`,
-	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`
+	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`,
+	schema                        : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/`,
+	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`
 }
 
 const upsellLinks = {

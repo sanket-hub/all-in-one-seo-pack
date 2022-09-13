@@ -10,7 +10,7 @@
 		</core-card>
 
 		<core-card
-			v-if="(($isPro && options.general.licenseKey) || internalOptions.internal.siteAnalysis.connectToken) && internalOptions.internal.siteAnalysis.score"
+			v-if="(($isPro && licenseKey) || internalOptions.internal.siteAnalysis.connectToken) && internalOptions.internal.siteAnalysis.score"
 			slug="completeSeoChecklist"
 		>
 			<template #header>
@@ -101,7 +101,7 @@ export default {
 	},
 	computed : {
 		...mapState([ 'internalOptions', 'options', 'settings', 'analyzing' ]),
-		...mapGetters([ 'getSiteAnalysisResults', 'allItemsCount', 'criticalCount', 'recommendedCount', 'goodCount' ]),
+		...mapGetters([ 'getSiteAnalysisResults', 'allItemsCount', 'criticalCount', 'recommendedCount', 'goodCount', 'licenseKey' ]),
 		tabs () {
 			const siteAnalysis = this.internalOptions.internal.siteAnalysis
 			return [
@@ -158,7 +158,7 @@ export default {
 			this.internalDebounce = true
 			this.changeTab({ slug: 'seoAuditChecklist', value })
 
-			// Debouncing a little here to save extra API calls. @TODO: [V4+] Figure out why this gets hit twice?
+			// Debouncing a little here to save extra API calls.
 			setTimeout(() => {
 				this.internalDebounce = false
 			}, 50)

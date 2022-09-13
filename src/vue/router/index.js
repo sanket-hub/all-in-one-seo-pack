@@ -51,6 +51,7 @@ export default paths => {
 				internalOptions,
 				options,
 				dynamicOptions,
+				internalNetworkOptions,
 				networkOptions,
 				settings,
 				notifications,
@@ -69,7 +70,6 @@ export default paths => {
 			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
 			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
 			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))
-			router.app.$set(store.state, 'networkOptions', merge({ ...store.state.networkOptions }, { ...networkOptions }))
 			router.app.$set(store.state, 'settings', merge({ ...store.state.settings }, { ...settings }))
 			router.app.$set(store.state, 'notifications', merge({ ...store.state.notifications }, { ...notifications }))
 			router.app.$set(store.state, 'helpPanel', merge({ ...store.state.helpPanel }, { ...helpPanel }))
@@ -78,6 +78,15 @@ export default paths => {
 			router.app.$set(store.state, 'tags', merge({ ...store.state.tags }, { ...tags }))
 			router.app.$set(store.state, 'license', merge({ ...store.state.license }, { ...license }))
 			router.app.$set(store.state, 'loaded', true)
+
+			// Network.
+			router.app.$set(store.state, 'internalNetworkOptions', merge({ ...store.state.internalNetworkOptions }, { ...internalNetworkOptions }))
+			router.app.$set(store.state, 'networkOptions', merge({ ...store.state.networkOptions }, { ...networkOptions }))
+			router.app.$set(store.state, 'networkBackups', merge({ ...store.state.networkBackups }, { ...window.aioseo.data.network?.backups }))
+			router.app.$set(store.state, 'networkData', merge({ ...store.state.networkData }, {
+				sites       : window.aioseo.data.network?.sites,
+				activeSites : window.aioseo.data.network?.activeSites
+			}))
 
 			// We clone the state as it is right now so we can compare for changes later.
 			store.commit('original/setOriginalOptions', JSON.parse(JSON.stringify(store.state.options)))

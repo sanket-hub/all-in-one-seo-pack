@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import store from '@/vue/store'
-import { isBlockEditor, isClassicEditor  } from './helpers'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor } from './helpers'
 
 let taxonomyTitle = '',
 	listOfCategories = ''
 
 // Update post data
 export const maybeUpdateTaxonomies = (run = true) => {
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		// window.setInterval(() => {
 		const categories = document.querySelectorAll('#post input[name="post_category[]"]:checked')
 		if (categories.length) {

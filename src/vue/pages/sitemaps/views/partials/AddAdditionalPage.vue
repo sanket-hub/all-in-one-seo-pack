@@ -150,7 +150,7 @@
 					</div>
 
 					<img
-						:src="$getImgUrl(CSVFileImage)"
+						:src="$getAssetUrl(csvFileImage)"
 						:alt="strings.imgAltText"
 					/>
 
@@ -208,11 +208,11 @@ import moment from 'moment'
 import { mapMutations, mapState } from 'vuex'
 import { __ } from '@wordpress/i18n'
 import { isUrl, cloneObject } from '@/vue/utils/helpers'
+import csvFileImage from '@/vue/assets/images/sitemap/import-from-csv.png'
 
 import BaseDatepicker from '@/vue/components/common/base/Datepicker'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
-import CoreModal from '@/vue/components/common/core/Modal'
-import CSVFileImage from '@/vue/assets/images/sitemap/import-from-csv.png'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 import SvgCircleExclamation from '@/vue/components/common/svg/circle/Exclamation'
@@ -237,7 +237,7 @@ export default {
 	},
 	data () {
 		return {
-			CSVFileImage,
+			csvFileImage,
 			priorityOptionsValues  : [],
 			frequencyOptionsValues : [],
 			inputFile              : null,
@@ -624,6 +624,7 @@ export default {
 		margin: 24px 0;
 		align-items: baseline;
 		width: 100%;
+		gap: 5px;
 
 		> .aioseo-input {
 			margin-right: 10px;

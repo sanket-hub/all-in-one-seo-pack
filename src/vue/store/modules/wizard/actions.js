@@ -5,7 +5,8 @@ export default {
 		return this._vm.$http.post(this._vm.$links.restUrl('wizard'))
 			.send({
 				section,
-				wizard : { ...state }
+				wizard  : { ...state },
+				network : this._vm.$aioseo.data.isNetworkAdmin
 			})
 			.then(response => {
 				if (response.body.options) {

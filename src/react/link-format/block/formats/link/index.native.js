@@ -82,7 +82,6 @@ export const link = {
 				const startFormat = getActiveFormat(value, 'core/link')
 
 				// if the link isn't selected, get the link manually by looking around the cursor
-				// @TODO: [V4+] handle partly selected links
 				if (startFormat && isCollapsed(value) && isActive) {
 					let startIndex = value.start,
 					 endIndex = value.end

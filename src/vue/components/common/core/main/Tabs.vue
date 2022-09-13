@@ -253,11 +253,6 @@ export default {
 
 							.md-ripple {
 								padding: 0 25px;
-
-								// Fixes a weird jittery bug on internal tabs.
-								.md-ripple-wave {
-									display: none;
-								}
 							}
 						}
 					}
@@ -345,6 +340,11 @@ export default {
 						.md-button-content {
 							position: static;
 							z-index: 2;
+						}
+
+						// Fixes a weird jittery bug on internal tabs.
+						.md-ripple-wave {
+							display: none;
 						}
 					}
 

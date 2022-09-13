@@ -41,7 +41,7 @@
 						type="blue"
 						size="small"
 						tag="a"
-						:href="$aioseo.urls.aio.settings"
+						:href="$aioseo.data.isNetworkAdmin ? $aioseo.urls.aio.networkSettings : $aioseo.urls.aio.settings"
 					>
 						{{ strings.enterLicenseKey }}
 					</base-button>
@@ -121,10 +121,47 @@
 			<template #featured-image>
 				<img
 					alt="Purchase AIOSEO Today!"
-					:src="$getImgUrl(ctaImg)"
+					:src="$getAssetUrl(ctaImg)"
 				/>
 			</template>
 		</cta>
+
+		<core-modal
+			v-if="showNetworkModal"
+			no-header
+		>
+			<template #body>
+				<div class="aioseo-modal-body">
+					<button
+						class="close"
+						@click.stop="closeNetworkModal(false)"
+					>
+						<svg-close @click.stop="closeNetworkModal(false)" />
+					</button>
+
+					<h3>{{ strings.areYouSureNetworkChange }}</h3>
+					<div class="reset-description"
+						v-html="networkChangeMessage"
+					/>
+
+					<base-button
+						type="blue"
+						size="medium"
+						@click="closeNetworkModal(true)"
+					>
+						{{ strings.yesProcessNetworkChange }}
+					</base-button>
+
+					<base-button
+						type="gray"
+						size="medium"
+						@click="closeNetworkModal(false)"
+					>
+						{{ strings.noChangedMind }}
+					</base-button>
+				</div>
+			</template>
+		</core-modal>
 	</div>
 </template>
 
@@ -135,9 +172,11 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import ctaImg from '@/vue/assets/images/upsells/news-sitemap.png'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreFeatureCard from '@/vue/components/common/core/FeatureCard'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import Cta from '@/vue/components/common/cta/Index.vue'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
+import SvgClose from '@/vue/components/common/svg/Close'
 import SvgCode from '@/vue/components/common/svg/Code'
 import SvgImageSeo from '@/vue/components/common/svg/ImageSeo'
 import SvgLinkAssistant from '@/vue/components/common/svg/link/Assistant'
@@ -149,9 +188,11 @@ export default {
 	components : {
 		CoreAlert,
 		CoreFeatureCard,
+		CoreModal,
 		Cta,
 		GridColumn,
 		GridRow,
+		SvgClose,
 		SvgCode,
 		SvgImageSeo,
 		SvgLinkAssistant,
@@ -163,8 +204,11 @@ export default {
 	data () {
 		return {
 			ctaImg,
-			search  : null,
-			loading : {
+			showNetworkModal : false,
+			maybeActivate    : false,
+			maybeDeactivate  : false,
+			search           : null,
+			loading          : {
 				activateAll   : false,
 				deactivateAll : false
 			},
@@ -186,7 +230,10 @@ export default {
 				ctaButtonText           : this.$t.__('Upgrade to Pro and Unlock All Features', this.$td),
 				aValidLicenseIsRequired : this.$t.__('A valid license key is required in order to use our addons.', this.$td),
 				enterLicenseKey         : this.$t.__('Enter License Key', this.$td),
-				purchaseLicense         : this.$t.__('Purchase License', this.$td)
+				purchaseLicense         : this.$t.__('Purchase License', this.$td),
+				areYouSureNetworkChange : this.$t.__('This is a network-wide change.', this.$td),
+				yesProcessNetworkChange : this.$t.__('Yes, process this network change', this.$td),
+				noChangedMind           : this.$t.__('No, I changed my mind', this.$td)
 			},
 			descriptions : {
 				aioseoImageSeo : {
@@ -222,10 +269,27 @@ export default {
 		getAddons () {
 			return this.addons
 				.filter(addon => !this.search || addon.name.toLowerCase().includes(this.search.toLowerCase()))
+		},
+		networkChangeMessage () {
+			if (this.activated) {
+				return this.$t.__('Are you sure you want to deactivate these addons across the network?', this.$td)
+			}
+
+			return this.$t.__('Are you sure you want to activate these addons across the network?', this.$td)
 		}
 	},
 	methods : {
 		...mapActions([ 'installPlugins', 'deactivatePlugins' ]),
+		closeNetworkModal (changeStatus = false) {
+			this.showNetworkModal = false
+
+			if (changeStatus) {
+				const action         = this.maybeActivate ? 'actuallyActivateAllFeatures' : 'actuallyDeactivateAllFeatures'
+				this.maybeActivate   = false
+				this.maybeDeactivate = false
+				this[action]()
+			}
+		},
 		getIconComponent (icon) {
 			return icon.startsWith('svg-') ? icon : 'img'
 		},
@@ -246,6 +310,15 @@ export default {
 			return addon.description
 		},
 		activateAllFeatures () {
+			if (this.$aioseo.data.isNetworkAdmin) {
+				this.showNetworkModal = true
+				this.maybeActivate    = true
+				return
+			}
+
+			this.actuallyActivateAllFeatures()
+		},
+		actuallyActivateAllFeatures () {
 			// First, check to see if this user is licensed and has an active license.
 			// If not, we want to redirect the user to a new page with an upsell.
 			if (!this.$isPro || !this.$aioseo.license.isActive) {
@@ -270,6 +343,15 @@ export default {
 				})
 		},
 		deactivateAllFeatures () {
+			if (this.$aioseo.data.isNetworkAdmin) {
+				this.showNetworkModal = true
+				this.maybeDeactivate  = true
+				return
+			}
+
+			this.actuallyDeactivateAllFeatures()
+		},
+		actuallyDeactivateAllFeatures () {
 			this.loading.deactivateAll = true
 			const addons = this.addons
 				.filter(addon => !addon.requiresUpgrade)
@@ -333,6 +415,50 @@ export default {
 
 	.feature-manager-upsell {
 		margin-top: 50px;
+	}
+
+	.aioseo-modal-body {
+		padding: 20px 50px 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		position: relative;
+
+		h3 {
+			font-size: 20px;
+			margin-bottom: 16px;
+		}
+
+		.reset-description {
+			font-size: 16px;
+			color: $black;
+			margin-bottom: 16px;
+			text-align: center;
+			max-width: 515px;
+		}
+
+		button.close {
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			width: 24px;
+			height: 24px;
+			background-color: #fff;
+			border: none;
+			display: flex;
+			align-items: center;
+
+			svg.aioseo-close {
+				cursor: pointer;
+				width: 14px;
+				height: 14px;
+			}
+		}
+
+		.aioseo-button:not(.close) {
+			margin-top: 16px;
+		}
 	}
 }
 </style>

@@ -44,7 +44,7 @@ trait Api {
 		$responseBody = wp_remote_retrieve_body( $response );
 
 		// Bail out early if there are any errors.
-		if ( is_wp_error( $responseBody ) ) {
+		if ( ! $responseBody ) {
 			return false;
 		}
 
@@ -77,7 +77,7 @@ trait Api {
 	 * @return array|WP_Error       The response as an array or WP_Error on failure.
 	 */
 	public function wpRemotePost( $url, $args = [] ) {
-		return wp_remote_post( $url, wp_parse_args( $args, $this->getWpApiRequestDefaults() ) );
+		return wp_remote_post( $url, array_replace_recursive( $this->getWpApiRequestDefaults(), $args ) );
 	}
 
 	/**
@@ -90,6 +90,6 @@ trait Api {
 	 * @return array|WP_Error       The response as an array or WP_Error on failure.
 	 */
 	public function wpRemoteGet( $url, $args = [] ) {
-		return wp_remote_get( $url, wp_parse_args( $args, $this->getWpApiRequestDefaults() ) );
+		return wp_remote_get( $url, array_replace_recursive( $this->getWpApiRequestDefaults(), $args ) );
 	}
 }

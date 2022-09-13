@@ -39,7 +39,7 @@
 								class="append-icon"
 								v-if="!allowReorder"
 							>
-								<Link @click.native="handleAnchorInput"/>
+								<toc-link @click.native="handleAnchorInput"/>
 							</div>
 						</template>
 					</base-input>
@@ -102,7 +102,7 @@ import Draggable from 'vuedraggable'
 import Eye from '@/vue/components/common/svg/Eye'
 import EyeOff from '@/vue/components/common/svg/EyeOff'
 import Info from '@/vue/components/common/svg/Info'
-import Link from '@/vue/components/common/svg/Link'
+import TocLink from '@/vue/components/common/svg/Link'
 import { mapMutations, mapState } from 'vuex'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 import { deepCopy, cleanHtml } from '@/vue/standalone/blocks/utils'
@@ -118,7 +118,7 @@ export default {
 		Eye,
 		EyeOff,
 		Info,
-		Link
+		TocLink
 	},
 	props : {
 		headings : {

@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n'
 
 const td       = import.meta.env.VITE_TEXTDOMAIN
 const loadView = view => {
-	return () => import('../views/' + view + '.vue')
+	return () => import(`../views/${view}.vue`)
 }
 
 export default [
@@ -15,8 +15,11 @@ export default [
 		name      : 'general-settings',
 		component : loadView('Main'),
 		meta      : {
-			access : 'aioseo_general_settings',
-			name   : __('General Settings', td)
+			access         : 'aioseo_general_settings',
+			hideSaveButton : true,
+			name           : window.aioseo.data.isNetworkAdmin
+				? __('Network Settings', td)
+				: __('General Settings', td)
 		}
 	},
 	{

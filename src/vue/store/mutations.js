@@ -1,6 +1,8 @@
 import { setOptions } from '@/vue/utils/options'
+import schemaMutations from './mutations/schema'
 
 export default {
+	...schemaMutations,
 	setPong (state, payload) {
 		this._vm.$set(state, 'pong', payload)
 	},
@@ -52,7 +54,7 @@ export default {
 			addons[addonIndex] = addon
 			this._vm.$set(state, 'addons', addons)
 			setOptions({
-				addons : addons
+				addons
 			})
 		}
 	},
@@ -75,6 +77,9 @@ export default {
 	},
 	toggleRadio (state, { slug, value }) {
 		this._vm.$set(state.settings.toggledRadio, slug, value)
+	},
+	changeItemsPerPage (state, { slug, value }) {
+		this._vm.$set(state.settings.tablePagination, slug, value)
 	},
 	changeTab (state, { slug, value }) {
 		this._vm.$set(state.settings.internalTabs, slug, value)
@@ -139,5 +144,32 @@ export default {
 	},
 	disableLinkAssistantEducation (state) {
 		this._vm.$set(state.currentPost.options.linkFormat, 'linkAssistantDismissed', true)
+	},
+	// Network mutations.
+	updateNetworkOption (state, { groups, key, value }) {
+		let options = state.networkOptions
+		groups.forEach(group => {
+			options = options[group]
+		})
+		this._vm.$set(options, key, value)
+	},
+	updateInternalNetworkOption (state, { groups, key, value }) {
+		let options = state.internalNetworkOptions
+		groups.forEach(group => {
+			options = options[group]
+		})
+		this._vm.$set(options, key, value)
+	},
+	updateNetworkBackups (state, { backups, siteId }) {
+		this._vm.$set(state.networkBackups, siteId, backups)
+	},
+	updateNetworkData (state, { key, data }) {
+		this._vm.$set(state.networkData, key, data)
+	},
+	updateNetworkRobots (state, rules) {
+		this._vm.$set(state.networkRobots, 'rules', rules)
+	},
+	updateNetworkRobotsSite (state, siteId) {
+		this._vm.$set(state.networkRobots, 'siteId', siteId)
 	}
 }

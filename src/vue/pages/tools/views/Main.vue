@@ -30,7 +30,9 @@ export default {
 	data () {
 		return {
 			strings : {
-				pageName : this.$t.__('Tools', this.$td)
+				pageName : this.$aioseo.data.isNetworkAdmin
+					? this.$t.__('Network Tools', this.$td)
+					: this.$t.__('Tools', this.$td)
 			}
 		}
 	},

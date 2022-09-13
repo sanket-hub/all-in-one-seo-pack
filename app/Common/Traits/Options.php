@@ -104,18 +104,6 @@ trait Options {
 	protected $screenRedirection = '';
 
 	/**
-	 * Initialize network options.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	public function initNetwork() {
-		$this->optionsName = $this->optionsName . '_network';
-		$this->init();
-	}
-
-	/**
 	 * Retrieve an option or null if missing.
 	 *
 	 * @since 4.0.0
@@ -926,7 +914,6 @@ trait Options {
 				continue;
 			}
 
-			// @TODO: See if we need this? could just eliminate.
 			if ( ! is_array( $value ) ) {
 				continue;
 			}

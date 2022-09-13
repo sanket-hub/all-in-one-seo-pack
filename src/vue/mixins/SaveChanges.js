@@ -1,7 +1,7 @@
 import { mapActions } from 'vuex'
 export const SaveChanges = {
 	methods : {
-		...mapActions([ 'saveChanges', 'saveHtaccess' ]),
+		...mapActions([ 'saveChanges', 'saveHtaccess', 'saveNetworkRobots' ]),
 		processSaveChanges () {
 			this.$store.commit('loading', true)
 			let switchBack = false,
@@ -17,6 +17,13 @@ export const SaveChanges = {
 			if ('htaccess-editor' === this.$store.state.route.name) {
 				action = 'saveHtaccess'
 				this.$store.commit('setHtaccessError', null)
+			}
+
+			if (
+				this.$aioseo.data.isNetworkAdmin &&
+				'robots-editor' === this.$store.state.route.name
+			) {
+				action = 'saveNetworkRobots'
 			}
 
 			this[action]()

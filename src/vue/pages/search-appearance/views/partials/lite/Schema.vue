@@ -33,19 +33,20 @@
 			</core-settings-row>
 		</core-blur>
 
-		<cta
-			:feature-list="strings.graphs"
-			:cta-link="$links.getPricingUrl('schema-markup', 'schema-markup-upsell', `${object.name}-post-type`)"
-			:button-text="strings.ctaButtonText"
-			:learn-more-link="$links.getUpsellUrl('schema-markup', object.name, 'home')"
-		>
-			<template #header-text>
-				{{ strings.ctaHeader }}
-			</template>
-			<template #description>
-				{{ strings.ctaDescription }}
-			</template>
-		</cta>
+			<cta
+				:cta-link="$links.getPricingUrl('schema-markup', 'schema-markup-upsell')"
+				:button-text="strings.ctaButtonText"
+				:learn-more-link="$links.getUpsellUrl('schema-markup', null, 'home')"
+				:feature-list="features"
+			>
+				<template #header-text>
+					{{ strings.ctaHeader }}
+				</template>
+
+				<template #description>
+					{{ strings.ctaDescription }}
+				</template>
+			</cta>
 	</div>
 </template>
 
@@ -78,32 +79,26 @@ export default {
 				{ value: 'Article', label: this.$t.__('Article', this.$td) }
 			],
 			strings : {
-				schemaType  : this.$t.__('Schema Type', this.$td),
-				articleType : this.$t.__('Article Type', this.$td),
-				article     : this.$t.__('Article', this.$td),
-				blogPost    : this.$t.__('Blog Post', this.$td),
-				newsArticle : this.$t.__('News Article', this.$td),
-				ctaHeader   : this.$t.sprintf(
+				schemaType     : this.$t.__('Schema Type', this.$td),
+				articleType    : this.$t.__('Article Type', this.$td),
+				article        : this.$t.__('Article', this.$td),
+				blogPost       : this.$t.__('Blog Post', this.$td),
+				newsArticle    : this.$t.__('News Article', this.$td),
+				ctaDescription : this.$t.__('Easily generate unlimited schema markup for your content to help you rank higher in search results. Our schema validator ensures your schema works out of the box.', this.$tdPro),
+				ctaButtonText  : this.$t.__('Upgrade to Pro and Unlock Schema Generator', this.$td),
+				ctaHeader      : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-					this.$t.__('Advanced Schema Markup is only available for licensed %1$s %2$s users.', this.$td),
+					this.$t.__('Schema Generator is only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				),
-				ctaDescription : this.$t.sprintf(
-					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
-					this.$t.__('%1$s %2$s allows you to customize the structured data markup for your Posts so that search engines can generate rich snippets for your content in search results.', this.$td),
-					import.meta.env.VITE_SHORT_NAME,
-					'Pro'
-				),
-				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Advanced Schema Markup', this.$td),
-				graphs        : [
-					this.$t.__('Product (WooCommerce and EDD support)', this.$td),
-					this.$t.__('FAQ Page', this.$td),
-					this.$t.__('Software Application', this.$td),
-					this.$t.__('Recipe', this.$td),
-					this.$t.__('Course', this.$td)
-				]
-			}
+				)
+			},
+			features : [
+				this.$t.__('Unlimited Schema', this.$td),
+				this.$t.__('Validate with Google', this.$td),
+				this.$t.__('Increase Rankings', this.$td),
+				this.$t.__('Additional Schema Types', this.$td)
+			]
 		}
 	},
 	methods : {
@@ -115,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-sa-ct-schema-lite {
+.aioseo-app .aioseo-sa-ct-schema-lite {
 	min-height: 580px;
 
 	@media (max-width: 598px) {
@@ -133,6 +128,7 @@ export default {
 		.header-text {
 			width: 100%;
 			max-width: 600px;
+			font-size: 20px;
 		}
 	}
 

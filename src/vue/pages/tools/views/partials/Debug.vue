@@ -4,6 +4,20 @@
 			slug="debug"
 			:header-text="strings.cardLabel"
 		>
+			<div
+				class="aioseo-settings-row"
+				v-if="$aioseo.data.isNetworkAdmin"
+			>
+				<div class="select-site">
+					{{ strings.selectSite }}
+				</div>
+
+				<core-network-site-selector
+					@selected-site="site = $event"
+					show-network
+				/>
+			</div>
+
 			<core-alert type="yellow">
 				<div>{{ strings.alertWarning }}</div>
 
@@ -33,6 +47,7 @@
 							:is="action.component"
 							@update="data => maybeDoAction(action, data)"
 							:loading="doingAction[action.slug]"
+							:disabled="isActionDisabled(action)"
 						/>
 					</template>
 
@@ -43,6 +58,7 @@
 						@click="maybeDoAction(action)"
 						:loading="doingAction[action.slug]"
 						:key="doingActionKey"
+						:disabled="isActionDisabled(action)"
 					>
 						{{ strings.buttonLabel }}
 					</base-button>
@@ -54,6 +70,12 @@
 					<div class="aioseo-description"
 						v-html="action.longDescription"
 					/>
+
+					<template
+						v-if="action.infoComponent"
+					>
+						<component :is="action.infoComponent"/>
+					</template>
 				</template>
 			</core-settings-row>
 
@@ -96,15 +118,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModal from '@/vue/components/common/core/modal/Index'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import DeprecatedOptions from './debug/DeprecatedOptions'
+import MigrationInfo from './debug/MigrationInfo'
 import SvgClose from '@/vue/components/common/svg/Close'
 
-import { mapActions } from 'vuex'
 export default {
 	props : {
 		extraActions : {
@@ -117,12 +142,15 @@ export default {
 		CoreCard,
 		CoreMainTabs,
 		CoreModal,
+		CoreNetworkSiteSelector,
 		CoreSettingsRow,
 		DeprecatedOptions,
+		MigrationInfo,
 		SvgClose
 	},
 	data () {
 		return {
+			site                : {},
 			tabsKey             : 0,
 			doingActionKey      : 0,
 			activeTab           : 'general',
@@ -130,6 +158,7 @@ export default {
 			showAreYouSureModal : false,
 			doingAction         : [],
 			strings             : {
+				selectSite     : 'Select Site',
 				cardLabel      : 'Debug',
 				selectLabel    : 'Select a Debug Action:',
 				buttonLabel    : 'Run Action',
@@ -141,55 +170,14 @@ export default {
 			alertLink : this.$links.getPlainLink('Click here to open to the Scheduled Actions panel', this.$aioseo.urls.admin.scheduledActions, true)
 		}
 	},
-	methods : {
-		...mapActions([ 'doTask' ]),
-		isLoading (action) {
-			return !!this.doingAction[action.slug]
-		},
-		getSelectedActionObject (savedOption) {
-			let option = null
-			this.actions.forEach(group => {
-				const localOption = group.options.find(o => o.value === savedOption)
-				if (localOption) {
-					option = localOption
-				}
-			})
-
-			return option
-		},
-		maybeDoAction (action, data) {
-			this.currentAction = action
-			if (action.showModal) {
-				this.showAreYouSureModal = true
-				return
-			}
-
-			this.doAction(data)
-		},
-		doAction (data) {
-			this.doingAction[this.currentAction.slug] = true
-			this.showAreYouSureModal                  = false
-
-			this.doingActionKey++
-			this.doTask({
-				action : this.currentAction.slug,
-				data
-			}).then(() => {
-				console.log(`Action "${this.currentAction.label}" has been completed.`)
-			}).catch((error) => {
-				console.error(`Action "${this.currentAction.label}" could not be completed: `, error)
-			}).finally(() => {
-				this.doingAction[this.currentAction.slug] = false
-				this.doingActionKey++
-			})
-		}
-	},
 	computed : {
 		areYouSureTitle () {
 			return `Are you sure you want to run the "${this.currentAction.label}" action?`
 		},
 		tabs () {
-			const scheduledActionsLink = this.$t.sprintf('<a href="%1$s" target="_blank">Scheduled Actions</a>', this.$aioseo.urls.admin.scheduledActions)
+			const scheduledActionsLink          = this.$t.sprintf('<a href="%1$s" target="_blank">Scheduled Actions</a>', this.$aioseo.urls.admin.scheduledActions)
+			const networkClearCache             = this.$aioseo.data.isNetworkAdmin ? '<br><strong>NOTE: If no site is selected, this will clear the network cache.</strong>' : ''
+			const networkPluginUpdatesTransient = this.$aioseo.data.isNetworkAdmin ? '<br><strong>NOTE: If no site is selected, this will clear the network plugin updates transient.</strong>' : ''
 			return [
 				{
 					slug    : 'general',
@@ -198,16 +186,18 @@ export default {
 						{
 							label            : 'Clear Cache',
 							slug             : 'clear-cache',
-							shortDescription : 'This action deletes all records of the <code>aioseo_cache</code> table in the database.',
+							shortDescription : `This action deletes all records of the <code>aioseo_cache</code> table in the database.${networkClearCache}`,
 							longDescription  : '',
-							showModal        : false
+							showModal        : false,
+							network          : true
 						},
 						{
 							label            : 'Clear Plugin Updates Transient',
 							slug             : 'clear-plugin-updates-transient',
-							shortDescription : 'This action clears the plugin updates transient, which forces WordPress Core to check for plugin updates.',
+							shortDescription : `This action clears the plugin updates transient, which forces WordPress Core to check for plugin updates.${networkPluginUpdatesTransient}`,
 							longDescription  : '',
-							showModal        : false
+							showModal        : false,
+							network          : true
 						},
 						{
 							label            : 'Readd Capabilities',
@@ -251,16 +241,6 @@ export default {
 							shortDescription : 'This action will rerun all update migrations since 4.0.0, excluding the V3 migration.',
 							longDescription  : '',
 							showModal        : true
-						},
-						{
-							label            : 'Rerun V3 Migration',
-							slug             : 'restart-v3-migration',
-							shortDescription : 'This action restarts the migration from V3 to V4.',
-							longDescription  : this.$t.sprintf(
-								'All settings will be migrated immediately. However, the post/term meta needs to be migrated via a routine which runs in batches via Action Scheduler. To speed up the post/term meta migration, go to %1$s and run the <code>aioseo_migrate_post_meta</code> or <code>aioseo_migrate_term_meta</code> action.',
-								scheduledActionsLink
-							),
-							showModal : true
 						}
 					]
 				},
@@ -307,13 +287,95 @@ export default {
 			return this.tabs.find(x => x.slug === this.activeTab)
 		}
 	},
+	methods : {
+		...mapActions([ 'doTask' ]),
+		isActionDisabled (action) {
+			if (!this.$aioseo.data.isNetworkAdmin) {
+				return false
+			}
+
+			if (!this.site.blog_id) {
+				return true
+			}
+
+			if ('network' === this.site.blog_id && action.network) {
+				return false
+			}
+
+			if ('network' === this.site.blog_id && !action.network) {
+				return true
+			}
+
+			return false
+		},
+		isLoading (action) {
+			return !!this.doingAction[action.slug]
+		},
+		getSelectedActionObject (savedOption) {
+			let option = null
+			this.actions.forEach(group => {
+				const localOption = group.options.find(o => o.value === savedOption)
+				if (localOption) {
+					option = localOption
+				}
+			})
+
+			return option
+		},
+		maybeDoAction (action, data) {
+			this.currentAction = action
+			if (action.showModal) {
+				this.showAreYouSureModal = true
+				return
+			}
+
+			this.doAction(data)
+		},
+		doAction (data) {
+			this.doingAction[this.currentAction.slug] = true
+			this.showAreYouSureModal                  = false
+
+			this.doingActionKey++
+			this.doTask({
+				action : this.currentAction.slug,
+				siteId : this.site.blog_id,
+				data
+			}).then(() => {
+				console.log(`Action "${this.currentAction.label}" has been completed.`)
+			}).catch((error) => {
+				console.error(`Action "${this.currentAction.label}" could not be completed: `, error)
+			}).finally(() => {
+				this.doingAction[this.currentAction.slug] = false
+				this.doingActionKey++
+			})
+		}
+	},
 	beforeMount () {
+		let existingTabIndex = -1
+		if (this.$aioseo.data.v3Options) {
+			existingTabIndex = this.tabs.findIndex(existingTab => 'migrations' === existingTab.slug.toLowerCase())
+			if (-1 !== existingTabIndex) {
+				const scheduledActionsLink = this.$t.sprintf('<a href="%1$s" target="_blank">Scheduled Actions</a>', this.$aioseo.urls.admin.scheduledActions)
+				this.tabs[existingTabIndex].actions.push({
+					label            : 'Rerun V3 Migration',
+					slug             : 'restart-v3-migration',
+					shortDescription : 'This action restarts the migration from V3 to V4.',
+					longDescription  : this.$t.sprintf(
+						'All settings will be migrated immediately. However, the post/term meta needs to be migrated via a routine which runs in batches via Action Scheduler. To speed up the post/term meta migration, go to %1$s and run the <code>aioseo_migrate_post_meta</code> or <code>aioseo_migrate_term_meta</code> action.',
+						scheduledActionsLink
+					),
+					infoComponent : 'MigrationInfo',
+					showModal     : true
+				})
+			}
+		}
+
 		if (!this.extraActions?.length) {
 			return
 		}
 
 		this.extraActions.forEach(tab => {
-			const existingTabIndex = this.tabs.findIndex(existingTab => existingTab.slug.toLowerCase() === tab.slug.toLowerCase())
+			existingTabIndex = this.tabs.findIndex(existingTab => existingTab.slug.toLowerCase() === tab.slug.toLowerCase())
 			if (-1 !== existingTabIndex) {
 				this.tabs[existingTabIndex].actions = this.tabs[existingTabIndex].actions.concat(tab.actions)
 				return
@@ -326,6 +388,12 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-tools-debug {
+	.select-site {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
 	.aioseo-alert {
 		div:first-of-type {
 			margin-bottom: 10px;

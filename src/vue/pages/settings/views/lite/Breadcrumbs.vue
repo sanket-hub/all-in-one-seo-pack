@@ -33,6 +33,7 @@
 						:button-text="strings.ctaButtonText"
 						:learn-more-link="$links.getUpsellUrl('breadcrumb-templates', null, 'home')"
 						:feature-list="features"
+						align-top
 					>
 						<template #header-text>
 							{{ strings.ctaHeader1 }}<br>

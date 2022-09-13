@@ -167,7 +167,7 @@ export default {
 		}
 	}
 
-	.header {
+	> .header {
 		display: flex;
 		align-items: center;
 		height: 70px;

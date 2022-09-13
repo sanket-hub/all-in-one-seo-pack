@@ -318,9 +318,14 @@ export default {
 	.twitter-image-upload {
 		display: flex;
 
-		.aioseo-input {
+		.aioseo-input-container {
+			width: 100%;
 			max-width: 445px;
 			margin-right: 10px;
+
+			.aioseo-input {
+				width: 100%;
+			}
 		}
 
 		.insert-image {

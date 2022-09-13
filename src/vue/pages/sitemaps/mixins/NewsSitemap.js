@@ -4,6 +4,8 @@ export const NewsSitemap = {
 			strings : {
 				news               : this.$t.__('News Sitemap', this.$td),
 				setPublicationName : this.$t.__('Set Publication Name', this.$td),
+				publicationName    : this.$t.__('Publication Name', this.$tdPro),
+				postTypes          : this.$t.__('Post Types', this.$td),
 				exclude            : this.$t.__('Exclude Pages/Posts', this.$td),
 				description        : this.$t.__('Our Google News Sitemap lets you control which content you submit to Google News and only contains articles that were published in the last 48 hours. In order to submit a News Sitemap to Google, you must have added your site to Google’s Publisher Center and had it approved.', this.$td),
 				enableSitemap      : this.$t.__('Enable Sitemap', this.$td),
@@ -16,7 +18,9 @@ export const NewsSitemap = {
 					this.$t.__('News Sitemaps are only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				)
+				),
+				includeAllPostTypes : this.$t.__('Include All Post Types', this.$td),
+				selectPostTypes     : this.$t.__('Select which Post Types appear in your sitemap.', this.$td)
 			}
 		}
 	}

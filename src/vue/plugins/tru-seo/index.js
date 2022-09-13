@@ -8,7 +8,7 @@ import {
 import store from '@/vue/store'
 import { decodeHTMLEntities } from '@/vue/utils/helpers'
 
-import TruSeoWorker from '@/app/tru-seo/analyzer/main.js?worker&inline'
+import TruSeoWorker from '@/app/tru-seo/analyzer/main.js?worker'
 
 class TruSeo {
 	postId                = null
@@ -26,7 +26,6 @@ class TruSeo {
 	 * Runs the content analysis.
 	 *
 	 * @param {int}     postId       The Post ID.
-	 * @param {boolean} useSavedData Use saved data. Or not.
 	 * @param {Object}  postData     The postData of the currentPost.
 	 * @param {string}  content      The post content.
 	 * @param {string}  slug         The post slug.
@@ -36,7 +35,6 @@ class TruSeo {
 	async runAnalysis (
 		{
 			postId,
-			useSavedData = false,
 			postData = { ...store.state.currentPost },
 			content = getPostEditedContent(),
 			slug = getPostEditedPermalink()
@@ -62,7 +60,6 @@ class TruSeo {
 
 		const analysisData = {
 			postId,
-			useSavedData,
 			postData,
 			content,
 			slug,

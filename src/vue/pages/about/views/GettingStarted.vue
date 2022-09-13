@@ -27,7 +27,7 @@
 			<template #featured-image>
 				<img
 					alt="Getting Started with AIOSEO"
-					:src="$getImgUrl(ctaImg)"
+					:src="$getAssetUrl(ctaImg)"
 				/>
 			</template>
 		</cta>
@@ -70,7 +70,7 @@
 						:title="video.title"
 					>
 						<img
-							:src="$getImgUrl(thumbnailImg)"
+							:src="$getAssetUrl(thumbnailImg)"
 						/>
 						<div>{{ video.title }}</div>
 					</a>

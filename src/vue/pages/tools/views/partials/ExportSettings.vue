@@ -11,6 +11,19 @@
 		</template>
 
 		<div
+			class="aioseo-settings-row"
+			v-if="$aioseo.data.isNetworkAdmin"
+		>
+			<div class="select-site">
+				{{ strings.selectSite }}
+			</div>
+
+			<core-network-site-selector
+				@selected-site="site = $event"
+			/>
+		</div>
+
+		<div
 			class="export-settings"
 			:class="{'aioseo-settings-row' : canExportPostOptions}"
 		>
@@ -21,6 +34,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="options.all"
+						:disabled="$aioseo.data.isNetworkAdmin && !site"
 					>
 						{{ strings.allSettings }}
 					</base-checkbox>
@@ -34,6 +48,7 @@
 						v-if="!options.all"
 						size="medium"
 						v-model="options[setting.value]"
+						:disabled="$aioseo.data.isNetworkAdmin && !site"
 					>
 						{{ setting.label }}
 					</base-checkbox>
@@ -61,6 +76,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="postOptions.all"
+						:disabled="$aioseo.data.isNetworkAdmin && !site"
 					>
 						{{ strings.allPostTypes }}
 					</base-checkbox>
@@ -74,6 +90,7 @@
 						v-if="!postOptions.all"
 						size="medium"
 						v-model="postOptions[postType.name]"
+						:disabled="$aioseo.data.isNetworkAdmin && !site"
 					>
 						{{ postType.label }}
 					</base-checkbox>
@@ -108,6 +125,7 @@ import { mapActions } from 'vuex'
 import { ToolsSettings } from '@/vue/mixins'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import CoreCard from '@/vue/components/common/core/Card'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgUpload from '@/vue/components/common/svg/Upload'
@@ -115,6 +133,7 @@ export default {
 	components : {
 		BaseCheckbox,
 		CoreCard,
+		CoreNetworkSiteSelector,
 		GridColumn,
 		GridRow,
 		SvgUpload
@@ -122,10 +141,12 @@ export default {
 	mixins : [ ToolsSettings ],
 	data () {
 		return {
+			site        : null,
 			options     : {},
 			postOptions : {},
 			loading     : false,
 			strings     : {
+				selectSite     : this.$t.__('Select Site', this.$td),
 				exportSettings : this.$t.__('Export Settings', this.$td),
 				allSettings    : this.$t.__('Export All Settings', this.$td),
 				allPostTypes   : this.$t.__('Export All Post Types', this.$td)
@@ -134,6 +155,10 @@ export default {
 	},
 	computed : {
 		canExport () {
+			if (this.$aioseo.data.isNetworkAdmin && !this.site) {
+				return false
+			}
+
 			const passed = []
 			Object.keys(this.options).forEach(key => {
 				passed.push(this.options[key])
@@ -191,10 +216,13 @@ export default {
 				})
 			}
 
+			const site = this.site ? `${this.site.domain}${this.site.path.replace('/', '-')}` : ''
+
 			this.loading = true
 			this.exportSettings({
 				settings,
-				postOptions
+				postOptions,
+				siteId : this.site ? this.site.blog_id : null
 			})
 				.then(response => {
 					this.loading     = false
@@ -203,7 +231,7 @@ export default {
 					const blob       = new Blob([ JSON.stringify(response.body.settings) ], { type: 'application/json' })
 					const link       = document.createElement('a')
 					link.href        = URL.createObjectURL(blob)
-					link.download    = `aioseo-export-settings-${this.$moment().format('YYYY-MM-DD')}.json`
+					link.download    = `aioseo-export-settings-${site}${this.$moment().format('YYYY-MM-DD')}.json`
 					link.click()
 					URL.revokeObjectURL(link.href)
 				})
@@ -217,9 +245,12 @@ export default {
 	flex: 1;
 	font-size: 16px;
 
-	.aioseo-select {
-		max-width: 330px;
+	.select-site {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 5px;
 	}
+
 	.aioseo-button.import {
 		margin-top: 24px;
 	}

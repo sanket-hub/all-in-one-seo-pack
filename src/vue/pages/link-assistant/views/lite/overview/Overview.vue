@@ -13,6 +13,7 @@
 				strings.orphanedPosts,
 				strings.affiliateLinks
 			]"
+			align-top
 		>
 			<template #header-text>
 				{{ strings.ctaHeader }}

@@ -222,7 +222,7 @@ export default {
 			this.internalDebounce = true
 			this.changeTab({ slug: `${postType}SA`, value })
 
-			// Debouncing a little here to save extra API calls. @TODO: [V4+] Figure out why this gets hit twice?
+			// Debouncing a little here to save extra API calls.
 			setTimeout(() => {
 				this.internalDebounce = false
 			}, 50)

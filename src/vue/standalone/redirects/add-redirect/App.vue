@@ -3,11 +3,10 @@
 		class="aioseo-redirects-add-redirect-standalone"
 		v-if="$addons.isActive('aioseo-redirects')"
 	>
-		<core-modal
+		<core-modal-portal
 			v-if="display"
-			class="aioseo-redirects modal"
+			:classes="[ 'aioseo-redirects', 'modal' ]"
 			@close="display = false"
-			isolate
 		>
 			<div slot="headerTitle">
 				{{ strings.modalHeader }}
@@ -16,30 +15,30 @@
 			<div slot="body">
 				<core-add-redirection
 					v-if="!loading"
-					:url="url"
-					:target="url.target ? url.target : '/'"
+					:urls="urls"
+					:target="urls[0].target ? urls[0].target : '/'"
 					:disableSource="true"
 					@added-redirect="reload()"
 				/>
 			</div>
-		</core-modal>
+		</core-modal-portal>
 	</div>
 </template>
 
 <script>
 import { getOptions } from '@/vue/utils/options'
 import { merge, isEmpty } from 'lodash-es'
-import CoreModal from '@/vue/components/common/core/Modal.vue'
-import CoreAddRedirection from '@/vue/components/common/core/add-redirection/Index.vue'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
+import CoreAddRedirection from '@/vue/components/common/core/add-redirection/Index'
 
 export default {
 	components : {
-		CoreModal,
+		CoreModalPortal,
 		CoreAddRedirection
 	},
 	data () {
 		return {
-			url     : {},
+			urls    : [],
 			display : false,
 			target  : null,
 			loading : false,
@@ -86,7 +85,7 @@ export default {
 			this.loading = true
 			this.$http.get(this.$links.restUrl('redirects/manual-redirects/' + manualUrlsHash))
 				.then(response => {
-					this.url = response.body.redirects[0]
+					this.urls = response.body.redirects
 					this.loading = false
 				})
 				.catch((error) => console.log('Redirect modal failed to load the redirect data.', error))

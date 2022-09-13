@@ -46,6 +46,7 @@
 				:cta-link="$links.getPricingUrl('access-control', 'access-control-upsell')"
 				:button-text="strings.ctaButtonText"
 				:learn-more-link="$links.getUpsellUrl('access-control', null, 'home')"
+				align-top
 			>
 				<template #header-text>
 					{{ strings.ctaHeader }}

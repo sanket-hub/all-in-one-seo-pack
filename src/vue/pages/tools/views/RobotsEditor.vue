@@ -4,217 +4,247 @@
 			slug="robotsEditor"
 			:header-text="strings.robotsEditor"
 		>
-			<div class="aioseo-settings-row aioseo-section-description">
-				{{ strings.description }}
-
-				<br>
-				<br>
-
-				{{ strings.description2 }}
-				<span
-					v-html="$links.getDocLink($constants.GLOBAL_STRINGS.learnMore, 'robotsEditor', true)"
-				/>
-			</div>
-
 			<div
-				v-if="$aioseo.data.robots.hasPhysicalRobots && options.tools.robots.robotsDetected"
-				class="aioseo-settings-row physical-robots"
-			>
-				<core-alert
-					type="red"
-					show-close
-					@close-alert="hideRobotsDetected"
-				>
-					{{ strings.physicalRobotsFound }}
-
-					<div class="buttons">
-						<base-button
-							type="blue"
-							size="medium"
-							@click="importAndDeleteRobots"
-							:loading="importLoading"
-						>
-							{{ strings.importAndDelete }}
-						</base-button>
-
-						<base-button
-							type="blue"
-							size="medium"
-							@click="deleteRobots"
-							:loading="deleteLoading"
-						>
-							{{ strings.delete }}
-						</base-button>
-					</div>
-				</core-alert>
-			</div>
-
-			<div
-				v-if="!$aioseo.data.robots.rewriteExists"
-				class="aioseo-settings-row rewrite-exists"
-			>
-				<core-alert
-					type="red"
-					v-html="missingRewriteRules"
-				/>
-			</div>
-
-			<core-settings-row
-				:name="$constants.GLOBAL_STRINGS.preview"
-				align
-			>
-				<template #content>
-					<div class="aioseo-sitemap-preview">
-						<base-button
-							size="medium"
-							type="blue"
-							tag="a"
-							:href="$aioseo.urls.robotsTxtUrl"
-							target="_blank"
-						>
-							<svg-external />
-							{{ strings.openRobotsTxt }}
-						</base-button>
-					</div>
-				</template>
-			</core-settings-row>
-
-			<core-settings-row
-				v-if="$aioseo.data.subdomain || $aioseo.data.mainSite"
-				:name="strings.enableCustomRobots"
-			>
-				<template #content>
-					<base-toggle
-						v-model="options.tools.robots.enable"
-					/>
-				</template>
-			</core-settings-row>
-
-			<core-alert
-				v-if="!$aioseo.data.subdomain && !$aioseo.data.mainSite"
-				type="blue"
-				v-html="subdirectoryAlert"
-			/>
-
-			<div
-				v-if="$aioseo.data.subdomain || $aioseo.data.mainSite"
 				class="aioseo-settings-row"
+				v-if="$aioseo.data.isNetworkAdmin && !isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-robots')"
 			>
-				<div class="settings-content">
+				<div class="select-site">
+					{{ strings.selectSite }}
+				</div>
+
+				<core-network-site-selector
+					@selected-site="site = $event"
+					show-network
+				/>
+			</div>
+
+			<div class="robots-background">
+				<div
+					class="loader-overlay"
+					v-if="siteLoading"
+				>
+					<core-loader />
+				</div>
+
+				<div class="aioseo-settings-row aioseo-section-description">
 					<core-alert
-						v-if="this.hasErrors"
-						type="red"
+						v-if="isNetwork"
+						type="blue"
 					>
-						{{ strings.duplicateOrInvalid }}
+						{{ (isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-robots')) ? strings.networkAlertLite : strings.networkAlert }}
 					</core-alert>
 
-					<div class="robots-table">
-						<div class="robots-header">
-							<div class="robots-user-agent">{{ strings.userAgent }}</div>
-							<div class="robots-rule">{{ strings.rule }}</div>
-							<div class="robots-directory-path">{{ strings.directoryPath }}</div>
-							<div class="robots-actions" />
-						</div>
-						<div class="robots-rows">
-							<div
-								class="robots-row"
-								:class="{ even: 0 === index % 2 }"
-								v-for="(rule, index) in parsedRules"
-								:key="index"
-							>
-								<div class="robots-user-agent">
-									<base-input
-										ref="userAgent"
-										:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
-										:value="rule.userAgent"
-										@blur="updateRule('userAgent', $event, index)"
-										size="medium"
-										:placeholder="strings.userAgentPlaceholder"
-										:disabled="!options.tools.robots.enable"
-									/>
-								</div>
-								<div class="robots-rule">
-									<base-radio
-										ref="allow"
-										:name="`rule-${index}`"
-										:value="'allow' === rule.rule"
-										@input="updateRule('rule', 'allow', index)"
-										:disabled="!options.tools.robots.enable"
-										size="medium"
-										:type="2"
-									>
-										{{ strings.allow }}
-									</base-radio>
-									<base-radio
-										ref="disallow"
-										:name="`rule-${index}`"
-										:value="'disallow' === rule.rule"
-										@input="updateRule('rule', 'disallow', index)"
-										:disabled="!options.tools.robots.enable"
-										size="medium"
-										:type="2"
-									>
-										{{ strings.disallow }}
-									</base-radio>
-								</div>
-								<div class="robots-directory-path">
-									<base-input
-										:key="inputKey"
-										:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
-										:value="rule.directoryPath"
-										@blur="updateRule('directoryPath', $event, index)"
-										size="medium"
-										:placeholder="strings.directoryPathPlaceholder"
-										:disabled="!options.tools.robots.enable"
-									/>
-								</div>
-								<div class="robots-actions">
-									<core-tooltip
-										v-if="options.tools.robots.enable"
-										type="action"
-									>
-										<svg-trash
-											@click.native="removeRow(index)"
-										/>
+					{{ strings.description }}
 
-										<template #tooltip>
-											{{ strings.deleteRule }}
-										</template>
-									</core-tooltip>
+					<br>
+					<br>
+
+					{{ strings.description2 }}
+					<span
+						v-html="$links.getDocLink($constants.GLOBAL_STRINGS.learnMore, 'robotsEditor', true)"
+					/>
+				</div>
+
+				<div
+					v-if="$aioseo.data.robots.hasPhysicalRobots && getOptions.robotsDetected"
+					class="aioseo-settings-row physical-robots"
+				>
+					<core-alert
+						type="red"
+						show-close
+						@close-alert="hideRobotsDetected"
+					>
+						{{ strings.physicalRobotsFound }}
+
+						<div class="buttons">
+							<base-button
+								type="blue"
+								size="medium"
+								@click="importAndDeleteRobots"
+								:loading="importLoading"
+							>
+								{{ strings.importAndDelete }}
+							</base-button>
+
+							<base-button
+								type="blue"
+								size="medium"
+								@click="deleteRobots"
+								:loading="deleteLoading"
+							>
+								{{ strings.delete }}
+							</base-button>
+						</div>
+					</core-alert>
+				</div>
+
+				<div
+					v-if="!$aioseo.data.robots.rewriteExists"
+					class="aioseo-settings-row rewrite-exists"
+				>
+					<core-alert
+						type="red"
+						v-html="missingRewriteRules"
+					/>
+				</div>
+
+				<core-settings-row
+					:name="$constants.GLOBAL_STRINGS.preview"
+					align
+				>
+					<template #content>
+						<div class="aioseo-sitemap-preview">
+							<base-button
+								size="medium"
+								type="blue"
+								tag="a"
+								:href="robotsTxtUrl"
+								target="_blank"
+							>
+								<svg-external />
+								{{ strings.openRobotsTxt }}
+							</base-button>
+						</div>
+					</template>
+				</core-settings-row>
+
+				<core-settings-row
+					v-if="isValidRobotsSite"
+					:name="strings.enableCustomRobots"
+				>
+					<template #content>
+						<base-toggle
+							v-model="getOptions.enable"
+						/>
+					</template>
+				</core-settings-row>
+
+				<core-alert
+					v-if="!isValidRobotsSite"
+					type="blue"
+					v-html="subdirectoryAlert"
+				/>
+
+				<div
+					v-if="isValidRobotsSite"
+					class="aioseo-settings-row"
+				>
+					<div class="settings-content">
+						<core-alert
+							v-if="this.hasErrors"
+							type="red"
+						>
+							{{ strings.duplicateOrInvalid }}
+						</core-alert>
+
+						<div class="robots-table">
+							<div class="robots-header">
+								<div class="robots-user-agent">{{ strings.userAgent }}</div>
+								<div class="robots-rule">{{ strings.rule }}</div>
+								<div class="robots-directory-path">{{ strings.directoryPath }}</div>
+								<div class="robots-actions" />
+							</div>
+							<div class="robots-rows">
+								<div
+									class="robots-row"
+									:class="{ even: 0 === index % 2 }"
+									v-for="(rule, index) in parsedRules"
+									:key="index"
+								>
+									<div class="robots-user-agent">
+										<base-input
+											ref="userAgent"
+											:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
+											:value="rule.userAgent"
+											@blur="updateRule('userAgent', $event, index)"
+											size="medium"
+											:placeholder="strings.userAgentPlaceholder"
+											:disabled="!getOptions.enable"
+										/>
+									</div>
+									<div class="robots-rule">
+										<base-radio
+											ref="allow"
+											:name="`rule-${index}`"
+											:value="'allow' === rule.rule"
+											@input="updateRule('rule', 'allow', index)"
+											:disabled="!getOptions.enable"
+											size="medium"
+											:type="2"
+										>
+											{{ strings.allow }}
+										</base-radio>
+										<base-radio
+											ref="disallow"
+											:name="`rule-${index}`"
+											:value="'disallow' === rule.rule"
+											@input="updateRule('rule', 'disallow', index)"
+											:disabled="!getOptions.enable"
+											size="medium"
+											:type="2"
+										>
+											{{ strings.disallow }}
+										</base-radio>
+									</div>
+									<div class="robots-directory-path">
+										<base-input
+											:key="inputKey"
+											:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
+											:value="rule.directoryPath"
+											@blur="updateRule('directoryPath', $event, index)"
+											size="medium"
+											:placeholder="strings.directoryPathPlaceholder"
+											:disabled="!getOptions.enable"
+										/>
+									</div>
+									<div class="robots-actions">
+										<core-tooltip
+											v-if="getOptions.enable"
+											type="action"
+										>
+											<svg-trash
+												@click.native.stop="removeRow(index)"
+											/>
+
+											<template #tooltip>
+												{{ strings.deleteRule }}
+											</template>
+										</core-tooltip>
+									</div>
 								</div>
 							</div>
 						</div>
+
+						<base-button
+							type="blue"
+							size="medium"
+							@click="addRow"
+							:disabled="!getOptions.enable"
+						>
+							<svg-circle-plus />
+							{{ strings.addRule }}
+						</base-button>
+					</div>
+				</div>
+
+				<div
+					v-if="isValidRobotsSite"
+					class="aioseo-settings-row"
+				>
+					<div class="settings-name">
+						<div class="name">{{ strings.robotsPreview }}</div>
 					</div>
 
-					<base-button
-						type="blue"
-						size="medium"
-						@click="addRow"
-						:disabled="!options.tools.robots.enable"
-					>
-						<svg-circle-plus />
-						{{ strings.addRule }}
-					</base-button>
-				</div>
-			</div>
-
-			<div
-				v-if="$aioseo.data.subdomain || $aioseo.data.mainSite"
-				class="aioseo-settings-row"
-			>
-				<div class="settings-name">
-					<div class="name">{{ strings.robotsPreview }}</div>
-				</div>
-
-				<div class="settings-content">
-					<base-editor
-						:value="robotsTxt"
-						:line-numbers="true"
-						:minimum-line-numbers="13"
-						disabled
-						force-updates
-						monospace
-					/>
+					<div class="settings-content">
+						<base-editor
+							:value="robotsTxt"
+							:line-numbers="true"
+							:minimum-line-numbers="13"
+							disabled
+							force-updates
+							monospace
+						/>
+					</div>
 				</div>
 			</div>
 		</core-card>
@@ -223,12 +253,14 @@
 
 <script>
 import { stringify, mergeRules, parse } from '@/vue/utils/robots'
-import { SaveChanges } from '@/vue/mixins'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { Network, SaveChanges } from '@/vue/mixins'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import BaseEditor from '@/vue/components/common/base/Editor'
 import BaseRadio from '@/vue/components/common/base/Radio'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
+import CoreLoader from '@/vue/components/common/core/Loader'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
@@ -245,22 +277,30 @@ export default {
 		BaseRadio,
 		CoreAlert,
 		CoreCard,
+		CoreLoader,
+		CoreNetworkSiteSelector,
 		CoreSettingsRow,
 		CoreTooltip,
 		SvgCirclePlus,
 		SvgExternal,
 		SvgTrash
 	},
-	mixins : [ SaveChanges ],
+	mixins : [ Network, SaveChanges ],
 	data () {
 		return {
+			site          : {},
 			inputKey      : 0,
 			importLoading : false,
 			deleteLoading : false,
+			siteLoading   : false,
+			isNetwork     : false,
 			errors        : {},
 			strings       : {
-				robotsEditor : this.$t.__('Robots.txt Editor', this.$td),
-				description  : this.$t.sprintf(
+				selectSite       : this.$t.__('Select Site', this.$td),
+				networkAlert     : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To make adjust the robots.txt rules for an individual site, please choose it in the list above.', this.$td),
+				networkAlertLite : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To make adjust the robots.txt rules for an individual site, please visit the dashboard for that site directly and upate the settings there.', this.$td),
+				robotsEditor     : this.$t.__('Robots.txt Editor', this.$td),
+				description      : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").
 					this.$t.__('The robots.txt editor in %1$s allows you to set up a robots.txt file for your site that will override the default robots.txt file that WordPress creates. By creating a robots.txt file with %2$s you have greater control over the instructions you give web crawlers about your site.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
@@ -294,25 +334,60 @@ export default {
 		}
 	},
 	watch : {
-		options : {
+		networkRobots : {
 			deep : true,
-			handler () {
+			async handler () {
 				this.validateRules()
+
+				await this.$nextTick()
+
+				if (this.isNetwork) {
+					this.$set(this.networkOptions.tools.robots, 'rules', this.networkRobots.rules)
+					return
+				}
+
+				this.$set(this.options.tools.robots, 'rules', this.networkRobots.rules)
 			}
+		},
+		site (newVal, oldVal) {
+			this.isNetwork = false
+			if ('network' === newVal.blog_id) {
+				this.isNetwork = true
+			}
+
+			if (!oldVal.blog_id) {
+				return
+			}
+
+			this.processFetchSiteRobots()
+		},
+		'getOptions.enable' () {
+			this.validateRules()
 		}
 	},
 	computed : {
-		...mapState([ 'options' ]),
-		...mapGetters([ 'getNetworkRobotsRules' ]),
+		...mapState([ 'options', 'networkRobots', 'networkOptions' ]),
+		...mapGetters([ 'getNetworkRobots', 'isUnlicensed' ]),
+		isValidRobotsSite () {
+			return this.$aioseo.data.subdomain || this.isNetwork || this.isMainSite(this.site.domain, this.site.path) || (!this.$aioseo.data.isNetworkAdmin && this.$aioseo.data.mainSite)
+		},
+		robotsTxtUrl () {
+			return 'network' === this.site.blog_id || !this.isValidRobotsSite || !this.site.domain
+				? this.$aioseo.urls.robotsTxtUrl
+				: `${this.$aioseo.data.isSsl ? 'https://' : 'http://'}${this.site.domain}${this.site.path}robots.txt`
+		},
+		getOptions () {
+			return this.isNetwork ? this.getNetworkRobots : this.options.tools.robots
+		},
 		parsedRules () {
-			return this.options.tools.robots.rules.map(rule => JSON.parse(rule))
+			return this.networkRobots.rules.map(rule => JSON.parse(rule))
 		},
 		robotsTxt () {
-			const networkRules = JSON.parse(JSON.stringify(this.$aioseo.data.multisite && !this.$aioseo.data.network ? this.getNetworkRobotsRules : {}))
+			const networkRules = JSON.parse(JSON.stringify(this.$aioseo.data.isMultisite && this.$aioseo.networkOptions.tools.robots.enable && !this.isNetwork ? parse(this.getNetworkRobots.rules) : {}))
 			const robots       = JSON.parse(JSON.stringify(this.$aioseo.data.robots.defaultRules))
 			const sitemapUrls  = '\r\n' + this.$aioseo.data.robots.sitemapUrls.filter(url => 0 < url.length).join('\r\n')
-			return this.options.tools.robots.enable
-				? stringify(mergeRules({ ...robots }, mergeRules({ ...networkRules }, parse(this.options.tools.robots.rules)), false, true)) + sitemapUrls
+			return this.getOptions.enable
+				? stringify(mergeRules({ ...robots }, mergeRules({ ...networkRules }, parse(this.networkRobots.rules)), false, true)) + sitemapUrls
 				: stringify(mergeRules({ ...robots }, { ...networkRules })) + sitemapUrls
 		},
 		hasErrors () {
@@ -348,32 +423,48 @@ export default {
 		}
 	},
 	methods : {
-		...mapActions([ 'processButtonAction' ]),
-		removeRow (index) {
-			this.$delete(this.options.tools.robots.rules, index)
+		...mapActions([ 'processButtonAction', 'fetchSiteRobots' ]),
+		...mapMutations([ 'updateNetworkRobots' ]),
+		processFetchSiteRobots () {
+			this.siteLoading = true
 
-			if (!this.options.tools.robots.rules.length) {
+			this.fetchSiteRobots(this.site.blog_id)
+				.then(() => {
+					if (!this.networkRobots.rules.length) {
+						this.addRow()
+					}
+				})
+				.then(() => (this.siteLoading = false))
+		},
+		removeRow (index) {
+			this.$delete(this.networkRobots.rules, index)
+
+			if (!this.networkRobots.rules.length) {
 				this.addRow()
 			}
 
 			this.validateRules()
 		},
 		addRow () {
-			this.options.tools.robots.rules.push(JSON.stringify({ ...defaults }))
+			if (!this.isValidRobotsSite) {
+				return
+			}
+
+			this.networkRobots.rules.push(JSON.stringify({ ...defaults }))
 			this.$nextTick(() => {
-				this.$refs.userAgent[this.options.tools.robots.rules.length - 1].$el.querySelector('.robots-user-agent input').focus()
+				this.$refs.userAgent[this.networkRobots.rules.length - 1].$el.querySelector('.robots-user-agent input').focus()
 			})
 		},
 		updateRule (type, value, ruleIndex) {
-			const rule = JSON.parse(this.options.tools.robots.rules[ruleIndex])
+			const rule = JSON.parse(this.networkRobots.rules[ruleIndex])
 			rule[type] = value
-			this.$set(this.options.tools.robots.rules, ruleIndex, JSON.stringify(rule))
+			this.$set(this.networkRobots.rules, ruleIndex, JSON.stringify(rule))
 
 			// Set the sanitized path.
 			if ('directoryPath' === type) {
 				rule[type] = this.sanitizePath(value)
 				this.inputKey++
-				this.$set(this.options.tools.robots.rules, ruleIndex, JSON.stringify(rule))
+				this.$set(this.networkRobots.rules, ruleIndex, JSON.stringify(rule))
 			}
 			this.validateRules()
 
@@ -401,14 +492,14 @@ export default {
 		validateRules () {
 			this.errors = {}
 
-			if (!this.options.tools.robots.enable) {
+			if (!this.getOptions.enable) {
 				return
 			}
 
 			const firstRobots  = {}
-			const networkRules = JSON.parse(JSON.stringify(this.$aioseo.data.multisite && !this.$aioseo.data.network ? this.getNetworkRobotsRules : {}))
+			const networkRules = JSON.parse(JSON.stringify(this.$aioseo.data.isMultisite && !this.isNetwork ? parse(this.getNetworkRobots.rules) : {}))
 			const original     = JSON.parse(JSON.stringify(this.$aioseo.data.robots.defaultRules))
-			const firstRules   = mergeRules({ ...original }, parse(this.options.tools.robots.rules, true), true)
+			const firstRules   = mergeRules({ ...original }, parse(this.networkRobots.rules, true), true)
 
 			Object.keys(firstRules).forEach(userAgent => {
 				const rule = firstRules[userAgent]
@@ -439,7 +530,7 @@ export default {
 			})
 
 			const secondRobots = {}
-			const secondRules  = mergeRules({ ...networkRules }, parse(this.options.tools.robots.rules, true), true)
+			const secondRules  = mergeRules({ ...networkRules }, parse(this.networkRobots.rules, true), true)
 			Object.keys(secondRules).forEach(userAgent => {
 				const rule = secondRules[userAgent]
 				if (!secondRobots[userAgent]) {
@@ -509,14 +600,24 @@ export default {
 				})
 		},
 		hideRobotsDetected () {
-			this.options.tools.robots.robotsDetected = false
+			this.getOptions.robotsDetected = false
 			this.saveChanges()
+		}
+	},
+	created () {
+		if (this.$aioseo.data.isNetworkAdmin) {
+			this.isNetwork = true
 		}
 	},
 	mounted () {
 		this.validateRules()
-		if (!this.options.tools.robots.rules.length) {
+		if (!this.networkRobots.rules.length) {
 			this.addRow()
+		}
+
+		const rules = this.isNetwork ? this.getNetworkRobots.rules : this.options.tools.robots.rules
+		if (rules.length) {
+			this.updateNetworkRobots(rules)
 		}
 	}
 }
@@ -524,8 +625,29 @@ export default {
 
 <style lang="scss">
 .aioseo-tools-robots-editor {
+	.select-site {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
 	.aioseo-alert {
 		margin-bottom: 20px;
+	}
+
+	.robots-background {
+		position: relative;
+
+		.loader-overlay {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			background: rgba(0, 0, 0, 0.3);
+			z-index: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 
 	.robots-table {

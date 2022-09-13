@@ -45,14 +45,14 @@ class Help {
 	}
 
 	/**
-	 * Get docs from the cache.
+	 * Get docs from the network cache.
 	 *
 	 * @since 4.0.0
 	 *
 	 * @return array Docs data.
 	 */
 	public function getDocs() {
-		$aioseoAdminHelpDocs          = aioseo()->core->cache->get( 'admin_help_docs' );
+		$aioseoAdminHelpDocs          = aioseo()->core->networkCache->get( 'admin_help_docs' );
 		$aioseoAdminHelpDocsCacheTime = WEEK_IN_SECONDS;
 		if ( null === $aioseoAdminHelpDocs ) {
 			$request = aioseo()->helpers->wpRemoteGet( $this->getUrl() );
@@ -67,7 +67,7 @@ class Help {
 				$aioseoAdminHelpDocsCacheTime = 10 * MINUTE_IN_SECONDS;
 			}
 			$aioseoAdminHelpDocs = wp_remote_retrieve_body( $request );
-			aioseo()->core->cache->update( 'admin_help_docs', $aioseoAdminHelpDocs, $aioseoAdminHelpDocsCacheTime );
+			aioseo()->core->networkCache->update( 'admin_help_docs', $aioseoAdminHelpDocs, $aioseoAdminHelpDocsCacheTime );
 		}
 
 		return $aioseoAdminHelpDocs ? json_decode( $aioseoAdminHelpDocs, true ) : [];

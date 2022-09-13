@@ -9,7 +9,7 @@ export default {
 		return this._vm.$http.post(this._vm.$links.restUrl(`redirects/${slug}/`))
 			.send({
 				additional,
-				searchTerm : state.searchTerm,
+				searchTerm : state.tableFields.main.searchTerm,
 				page       : page,
 				id         : rootState.currentPost ? rootState.currentPost.id : null,
 				context    : rootState.currentPost ? rootState.currentPost.context : null
@@ -82,7 +82,7 @@ export default {
 		const url        = 'delete' === action ? '' : `${action}/`
 		return this._vm.$http[httpAction](this._vm.$links.restUrl(`redirects/bulk/${url}`))
 			.send({
-				searchTerm  : state.searchTerm,
+				searchTerm  : state.tableFields.main.searchTerm,
 				currentPage : state.totals.main.page,
 				currentSlug : filter.slug,
 				additional  : selectedFilters,

@@ -16,7 +16,10 @@ export const VideoSitemap = {
 					this.$t.__('Video Sitemaps are only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				)
+				),
+				linksPerSitemap      : this.$t.__('Links Per Sitemap', this.$td),
+				maxLinks             : this.$t.__('Allows you to specify the maximum number of posts in a sitemap (up to 50,000).', this.$td),
+				enableSitemapIndexes : this.$t.__('Enable Sitemap Indexes', this.$td)
 			}
 		}
 	}

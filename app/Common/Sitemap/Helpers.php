@@ -188,7 +188,6 @@ class Helpers {
 		$memory    = $this->performance['memory'];
 		$type      = aioseo()->sitemap->type;
 		$indexName = aioseo()->sitemap->indexName;
-		// @TODO: [V4+] Use dedicated logger class once available.
 		error_log( wp_json_encode( "$indexName index of $type sitemap generated in $time seconds using a maximum of $memory mb of memory." ) );
 	}
 

@@ -17,10 +17,10 @@ import { sync } from 'vuex-router-sync'
 
 const router = startRouter(
 	paths
-		.filter(p => 'htaccess-editor' !== p.name || window.aioseo.data.server.apache)
-		.filter(p => 'bad-bot-blocker' !== p.name || window.aioseo.internalOptions.internal.deprecatedOptions.includes('badBotBlocker'))
+		.filter(p => 'htaccess-editor' !== p.name || (window.aioseo.data.server.apache && !window.aioseo.data.isNetworkAdmin))
+		.filter(p => 'bad-bot-blocker' !== p.name || (window.aioseo.internalOptions.internal.deprecatedOptions.includes('badBotBlocker') && !window.aioseo.data.isNetworkAdmin))
 		.filter(p => 'debug' !== p.name || window.aioseo.data.isDev)
-		.filter(p => !p.name || 'robots-editor' === p.name || !window.aioseo.data.network)
+		.filter(p => 'system-status' !== p.name || !window.aioseo.data.isNetworkAdmin)
 )
 
 // Sync store with router

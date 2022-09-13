@@ -149,29 +149,33 @@ export default {
 	}
 
 	&.green {
-		border: none;
+		border: 1px solid $green;
 		background-color: $green;
 		color: #fff;
 
 		&:hover {
+			border-color: $green2;
 			background-color: $green2;
 		}
 
 		&:active {
+			border-color: $green3;
 			background-color: $green3;
 		}
 	}
 
 	&.blue {
-		border: none;
+		border: 1px solid $blue;
 		background-color: $blue;
 		color: #fff;
 
 		&:hover {
+			border-color: $blue2;
 			background-color: $blue2;
 		}
 
 		&:active {
+			border-color: $blue3;
 			background-color: $blue3;
 		}
 	}
@@ -182,28 +186,30 @@ export default {
 		color: $blue;
 
 		&:hover {
-			background-color: $blue2;
 			border-color: $blue2;
+			background-color: $blue2;
 			color: #fff;
 		}
 
 		&:active {
-			background-color: $blue3;
 			border-color: $blue3;
+			background-color: $blue3;
 			color: #fff;
 		}
 	}
 
 	&.black {
-		border: none;
+		border: 1px solid $black2;
 		background-color: $black2;
 		color: #fff;
 
 		&:hover {
+			border-color: $black2-hover;
 			background-color: $black2-hover;
 		}
 
 		&:active {
+			border-color: $black;
 			background-color: $black;
 		}
 	}
@@ -219,12 +225,14 @@ export default {
 		}
 
 		&:active {
+			border-color: $red2;
 			background-color: $red2;
 		}
 	}
 
 	&.loading {
 		&.blue {
+			border-color: $blue3;
 			background-color: $blue3;
 			color: $blue3;
 
@@ -239,6 +247,7 @@ export default {
 		}
 
 		&.green {
+			border-color: $green3;
 			background-color: $green3;
 			color: $green3;
 
@@ -253,6 +262,7 @@ export default {
 		}
 
 		&.gray {
+			border-color: $background;
 			background-color: $background;
 			color: $background;
 
@@ -267,6 +277,7 @@ export default {
 		}
 
 		&.black {
+			border-color: $black;
 			background-color: $black;
 			color: $black;
 
@@ -305,6 +316,7 @@ export default {
 		}
 
 		&:hover {
+			border-color: $gray;
 			background-color: $background;
 		}
 	}

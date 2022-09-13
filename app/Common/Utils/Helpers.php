@@ -27,9 +27,11 @@ class Helpers {
 	use TraitHelpers\Strings;
 	use TraitHelpers\Svg;
 	use TraitHelpers\ThirdParty;
+	use TraitHelpers\Url;
 	use TraitHelpers\Vue;
 	use TraitHelpers\Wp;
 	use TraitHelpers\WpContext;
+	use TraitHelpers\WpMultisite;
 	use TraitHelpers\WpUri;
 
 	/**
@@ -111,8 +113,8 @@ class Helpers {
 		$server = sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) );
 
 		if (
-			stripos( $server, 'Flywheel' ) !== false ||
-			stripos( $server, 'nginx' ) !== false
+			false !== stripos( $server, 'Flywheel' ) ||
+			false !== stripos( $server, 'nginx' )
 		) {
 			return true;
 		}

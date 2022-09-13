@@ -125,6 +125,43 @@
 				</base-button>
 			</div>
 		</div>
+
+		<core-modal
+			v-if="showNetworkModal"
+			no-header
+		>
+			<template #body>
+				<div class="aioseo-modal-body">
+					<button
+						class="close"
+						@click.stop="closeNetworkModal(false)"
+					>
+						<svg-close @click.stop="closeNetworkModal(false)" />
+					</button>
+
+					<h3>{{ strings.areYouSureNetworkChange }}</h3>
+					<div class="reset-description"
+						v-html="networkChangeMessage"
+					/>
+
+					<base-button
+						type="blue"
+						size="medium"
+						@click="closeNetworkModal(true)"
+					>
+						{{ strings.yesProcessNetworkChange }}
+					</base-button>
+
+					<base-button
+						type="gray"
+						size="medium"
+						@click="closeNetworkModal(false)"
+					>
+						{{ strings.noChangedMind }}
+					</base-button>
+				</div>
+			</template>
+		</core-modal>
 	</div>
 </template>
 
@@ -134,12 +171,16 @@ import { Url } from '@/vue/mixins'
 import { mapActions, mapMutations } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreLoader from '@/vue/components/common/core/Loader'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import SvgClose from '@/vue/components/common/svg/Close'
 export default {
 	components : {
 		CoreAlert,
 		CoreLoader,
-		CoreTooltip
+		CoreModal,
+		CoreTooltip,
+		SvgClose
 	},
 	mixins : [ Url ],
 	props  : {
@@ -163,6 +204,7 @@ export default {
 	},
 	data () {
 		return {
+			showNetworkModal : false,
 			failed           : false,
 			loading          : false,
 			activated        : false,
@@ -184,18 +226,49 @@ export default {
 					this.$t.__('An update is required for this addon to continue to work with %1$s %2$s.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
-				)
+				),
+				areYouSureNetworkChange : this.$t.__('This is a network-wide change.', this.$td),
+				yesProcessNetworkChange : this.$t.__('Yes, process this network change', this.$td),
+				noChangedMind           : this.$t.__('No, I changed my mind', this.$td)
 			}
+		}
+	},
+	computed : {
+		networkChangeMessage () {
+			// The logic is reversed here because the option has been toggled already.
+			if (!this.activated) {
+				return this.$t.__('Are you sure you want to deactivate this addon across the network?', this.$td)
+			}
+
+			return this.$t.__('Are you sure you want to activate this addon across the network?', this.$td)
 		}
 	},
 	methods : {
 		...mapActions([ 'deactivatePlugins', 'installPlugins', 'upgradePlugins' ]),
 		...mapMutations([ 'updateAddon' ]),
+		closeNetworkModal (changeStatus = false) {
+			this.activated        = changeStatus ? this.activated : !this.activated
+			this.showNetworkModal = false
+
+			if (changeStatus) {
+				this.actuallyProcessStatusChange(changeStatus)
+			}
+		},
 		processStatusChange () {
-			this.failed    = false
-			this.loading   = true
-			const action   = this.activated ? 'deactivatePlugins' : 'installPlugins'
 			this.activated = !this.activated
+			if (this.$aioseo.data.isNetworkAdmin) {
+				this.showNetworkModal = true
+				return
+			}
+
+			this.actuallyProcessStatusChange()
+		},
+		actuallyProcessStatusChange () {
+			this.failed  = false
+			this.loading = true
+
+			// The action is reversed because we already swapped it earlier.
+			const action   = this.activated ? 'installPlugins' : 'deactivatePlugins'
 			this[action]([ { plugin: this.feature.basename } ])
 				.then(response => {
 					this.loading = false
@@ -362,6 +435,49 @@ export default {
 					color: $placeholder-color;
 				}
 			}
+		}
+	}
+
+	.aioseo-modal-body {
+		padding: 20px 50px 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		position: relative;
+
+		h3 {
+			font-size: 20px;
+			margin-bottom: 16px;
+		}
+
+		.reset-description {
+			font-size: 16px;
+			color: $black;
+			margin-bottom: 16px;
+			text-align: center;
+			max-width: 515px;
+		}
+
+		button.close {
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			width: 24px;
+			height: 24px;
+			background-color: #fff;
+			border: none;
+			display: flex;
+			align-items: center;
+			svg.aioseo-close {
+				cursor: pointer;
+				width: 14px;
+				height: 14px;
+			}
+		}
+
+		.aioseo-button:not(.close) {
+			margin-top: 16px;
 		}
 	}
 }

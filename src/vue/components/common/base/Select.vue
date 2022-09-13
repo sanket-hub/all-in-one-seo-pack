@@ -10,13 +10,13 @@
 		:options="options"
 		:multiple="multiple"
 		:taggable="taggable"
-		:placeholder="placeholder"
+		:placeholder="placeholder || strings.searchPlaceholder"
+		:tag-placeholder="tagPlaceholder"
 		:show-labels="false"
 		:track-by="trackBy"
 		:custom-label="customLabel"
 		:allow-empty="!!multiple"
 		:filterable="filterable"
-		@search-change="searchChange"
 		:internal-search="true"
 		:loading="isLoading"
 		:searchable="true"
@@ -25,8 +25,10 @@
 		:group-label="groupLabel"
 		:disabled="disabled"
 		:close-on-select="closeOnSelect"
+		@search-change="searchChange"
 		@tag="addTag"
-		:tag-placeholder="tagPlaceholder"
+		@open="$emit('open')"
+		@close="$emit('close')"
 		ref="aioseo-select"
 	>
 		<template #singleLabel="{ option }">
@@ -34,6 +36,7 @@
 				{{ option.label }}
 			</slot>
 		</template>
+
 		<template #tag="{ option, search, remove }">
 			<slot name="tag" :option="option" :search="search" :remove="remove">
 				<div class="multiselect__tag">
@@ -52,11 +55,13 @@
 				</div>
 			</slot>
 		</template>
+
 		<template #option="{ option, search }">
 			<slot name="option" :option="option" :search="search">
 				{{ option.$isLabel ? option.$groupLabel : option.label }} <span class="docLink" v-if="option.docLink" v-html="option.docLink"></span>
 			</slot>
 		</template>
+
 		<template #caret="{ toggle }">
 			<slot name="caret" :toggle="toggle">
 				<div
@@ -66,9 +71,11 @@
 				</div>
 			</slot>
 		</template>
+
 		<template #noOptions>
 			<slot name="noOptions" />
 		</template>
+
 		<template #noResult>
 			<slot name="noResult" />
 		</template>
@@ -137,7 +144,10 @@ export default {
 	},
 	data () {
 		return {
-			isLoading : false
+			isLoading : false,
+			strings   : {
+				searchPlaceholder : this.$t.__('Type to search...', this.$td)
+			}
 		}
 	},
 	watch : {

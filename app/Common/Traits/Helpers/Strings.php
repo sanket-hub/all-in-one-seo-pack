@@ -586,4 +586,18 @@ trait Strings {
 
 		return trim( $convertedString );
 	}
+
+	/**
+	 * Returns the substring with a given start index and length.
+	 *
+	 * @since 4.2.5
+	 *
+	 * @param  string $string     The string.
+	 * @param  int    $startIndex The start index.
+	 * @param  int    $length     The length.
+	 * @return string             The substring.
+	 */
+	public function substring( $string, $startIndex, $length ) {
+		return function_exists( 'mb_substr' ) ? mb_substr( $string, $startIndex, $length, $this->getCharset() ) : substr( $string, $startIndex, $length );
+	}
 }

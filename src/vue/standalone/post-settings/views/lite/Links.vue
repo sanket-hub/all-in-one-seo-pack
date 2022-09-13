@@ -41,23 +41,17 @@
 					{{ strings.ctaHeader }}
 				</template>
 				<template #description>
-					<core-alert
-						v-if="$isPro && $addons.requiresUpgrade('aioseo-link-assistant') && $addons.currentPlans('aioseo-link-assistant')"
-						type="red"
-					>
-						{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-link-assistant') }}</strong>
-					</core-alert>
+					<required-plans addon="aioseo-link-assistant" />
 
 					{{ strings.linkAssistantDescription }}
 				</template>
 			</cta>
 		</div>
 
-		<core-modal
-			class="aioseo-link-assistant-modal"
+		<core-modal-portal
+			:classes="[ 'aioseo-link-assistant-modal' ]"
 			v-if="currentPost.linkAssistant.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="toggleLinkAssistantModal"
-			isolate
 		>
 			<div slot="headerTitle">
 				{{ modalHeader }}
@@ -104,18 +98,13 @@
 						{{ strings.ctaHeader }}
 					</template>
 					<template #description>
-						<core-alert
-							v-if="$isPro && $addons.requiresUpgrade('aioseo-link-assistant') && $addons.currentPlans('aioseo-link-assistant')"
-							type="red"
-						>
-							{{ strings.thisFeatureRequires }} <strong>{{ $addons.currentPlans('aioseo-link-assistant') }}</strong>
-						</core-alert>
+						<required-plans addon="aioseo-link-assistant" />
 
 						{{ strings.linkAssistantDescription }}
 					</template>
 				</cta>
 			</div>
-		</core-modal>
+		</core-modal-portal>
 
 		<links-side-bar v-if="'modal' !== this.parentComponentContext" />
 	</div>
@@ -123,10 +112,10 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import Cta from '@/vue/components/common/cta/Index.vue'
 import LinksSideBar from './../LinksSideBar'
 import LinkAssistantInboundInternal from '@/vue/components/common/link-assistant/InboundInternal'
@@ -135,12 +124,13 @@ import SvgLinkExternal from '@/vue/components/common/svg/link/External'
 import SvgLinkInternalInbound from '@/vue/components/common/svg/link/InternalInbound'
 import SvgLinkInternalOutbound from '@/vue/components/common/svg/link/InternalOutbound'
 import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 export default {
 	components : {
 		CoreAlert,
 		CoreBlur,
 		CoreMainTabs,
-		CoreModal,
+		CoreModalPortal,
 		Cta,
 		LinkAssistantInboundInternal,
 		LinksSideBar,
@@ -148,7 +138,8 @@ export default {
 		SvgLinkExternal,
 		SvgLinkInternalInbound,
 		SvgLinkInternalOutbound,
-		SvgLinkSuggestion
+		SvgLinkSuggestion,
+		RequiredPlans
 	},
 	props : {
 		parentComponentContext : String

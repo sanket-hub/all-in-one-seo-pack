@@ -16,6 +16,7 @@
 				:button-text="strings.ctaButtonText"
 				:learn-more-link="$links.getUpsellUrl('local-seo', null, 'home')"
 				:feature-list="features"
+				align-top
 			>
 				<template #header-text>
 					{{ strings.ctaHeader }}

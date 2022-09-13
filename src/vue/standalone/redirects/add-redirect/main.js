@@ -5,7 +5,7 @@ import store from '@/vue/store'
 import App from './App.vue'
 
 const elemDiv = document.createElement('div')
-elemDiv.id = 'aioseo-redirects-add-redirect-standalone'
+elemDiv.id    = 'aioseo-redirects-add-redirect-standalone'
 document.body.appendChild(elemDiv)
 
 Vue.prototype.$aioseo = window.aioseo

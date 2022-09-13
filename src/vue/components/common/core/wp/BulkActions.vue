@@ -1,6 +1,9 @@
 <template>
 	<div class="aioseo-wp-bulk-actions alignleft actions bulkactions">
-		<select v-model="bulkAction">
+		<select
+			v-model="bulkAction"
+			:disabled="disableTable"
+		>
 			<option value="-1">{{ strings.bulkActions }}</option>
 
 			<option
@@ -13,6 +16,7 @@
 		<button
 			class="button action"
 			@click="'-1' !== bulkAction ? $emit('process-bulk-action', bulkAction) : null"
+			:disabled="disableTable"
 		>
 			{{strings.apply}}
 		</button>
@@ -25,7 +29,8 @@ export default {
 		bulkOptions : {
 			type     : Array,
 			required : true
-		}
+		},
+		disableTable : Boolean
 	},
 	data () {
 		return {

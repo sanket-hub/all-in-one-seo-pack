@@ -40,13 +40,13 @@
 					<base-input
 						type="password"
 						:placeholder="strings.placeholder"
-						:append-icon="licenseKey ? 'circle-check' : null"
+						:append-icon="localLicenseKey ? 'circle-check' : null"
 						autocomplete="new-password"
-						v-model="licenseKey"
+						v-model="localLicenseKey"
 					/>
 					<base-button
 						type="green"
-						:disabled="!licenseKey"
+						:disabled="!localLicenseKey"
 						:loading="loading"
 						@click="processConnectOrActivate"
 					>
@@ -108,11 +108,11 @@ export default {
 	mixins : [ Wizard ],
 	data () {
 		return {
-			error      : null,
-			loading    : false,
-			stage      : 'license-key',
-			licenseKey : null,
-			strings    : {
+			error           : null,
+			loading         : false,
+			stage           : 'license-key',
+			localLicenseKey : null,
+			strings         : {
 				enterYourLicenseKey : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
 					this.$t.__('Enter your %1$s License Key', this.$td),
@@ -139,7 +139,7 @@ export default {
 		}
 	},
 	watch : {
-		licenseKey (newVal) {
+		localLicenseKey (newVal) {
 			this.updateLicenseKey(newVal)
 		}
 	},
@@ -194,7 +194,7 @@ export default {
 			this.error   = null
 			this.loading = true
 			this.$store.commit('loading', true)
-			this.activate(this.licenseKey)
+			this.activate(this.localLicenseKey)
 				.then(() => {
 					this.$aioseo.internalOptions.internal.license.expired = false
 					this.saveWizard('license-key')
@@ -203,8 +203,8 @@ export default {
 						})
 				})
 				.catch(error => {
-					this.loading    = false
-					this.licenseKey = null
+					this.loading         = false
+					this.localLicenseKey = null
 					this.$store.commit('loading', false)
 					if (!error || !error.response || !error.response.body || !error.response.body.error || !error.response.body.licenseData) {
 						this.error = this.$t.__('An unknown error occurred, please try again later.', this.$tdPro)
@@ -229,7 +229,7 @@ export default {
 			this.loading = true
 			this.$store.commit('loading', true)
 			this.getConnectUrl({
-				key    : this.licenseKey,
+				key    : this.localLicenseKey,
 				wizard : true
 			})
 				.then(response => {
@@ -274,7 +274,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.licenseKey = this.stateLicenseKey
+		this.localLicenseKey = this.stateLicenseKey
 	}
 }
 </script>
@@ -328,7 +328,7 @@ export default {
 		border-radius: 3px;
 		background-color: $inline-background;
 		padding: 20px;
-		max-width: 630px;
+		max-width: 620px;
 		margin: 10px 0 30px;
 
 		a {
@@ -358,7 +358,7 @@ export default {
 	.license-key {
 		margin-top: 10px;
 		display: flex;
-		max-width: 560px;
+		max-width: 620px;
 
 		.aioseo-input {
 			margin-right: 10px;

@@ -153,6 +153,12 @@ export default {
 		border: none!important;
 		border-bottom: 2px solid $border !important;
 	}
+
+	svg.aioseo-pencil {
+		width: 12px;
+		height: 12px;
+		color: $black2;
+	}
 }
 
 .edit-post-sidebar {

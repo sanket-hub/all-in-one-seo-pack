@@ -10,6 +10,19 @@
 			<svg-download />
 		</template>
 
+		<div
+			class="aioseo-settings-row"
+			v-if="$aioseo.data.isNetworkAdmin"
+		>
+			<div class="select-site">
+				{{ strings.selectSite }}
+			</div>
+
+			<core-network-site-selector
+				@selected-site="site = $event"
+			/>
+		</div>
+
 		<core-alert
 			v-if="uploadError"
 			type="red"
@@ -41,11 +54,13 @@
 				@focus="triggerFileUpload"
 				:placeholder="strings.fileUploadPlaceholder"
 				:class="{ 'aioseo-error': uploadError }"
+				:disabled="$aioseo.data.isNetworkAdmin && !site"
 			/>
 
 			<base-button
 				type="black"
 				size="medium"
+				:disabled="$aioseo.data.isNetworkAdmin && !site"
 			>
 				{{ strings.chooseAFile }}
 
@@ -80,15 +95,18 @@
 import { mapActions } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import SvgDownload from '@/vue/components/common/svg/Download'
 export default {
 	components : {
 		CoreAlert,
 		CoreCard,
+		CoreNetworkSiteSelector,
 		SvgDownload
 	},
 	data () {
 		return {
+			site          : null,
 			inputFile     : null,
 			filename      : null,
 			file          : null,
@@ -96,6 +114,7 @@ export default {
 			uploadSuccess : false,
 			loading       : false,
 			strings       : {
+				selectSite                  : this.$t.__('Select Site', this.$td),
 				importRestoreAioseoSettings : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
 					this.$t.__('Import / Restore %1$s Settings', this.$td),
@@ -118,10 +137,19 @@ export default {
 	},
 	computed : {
 		importValidated () {
-			if ('application/json' === this.file.type || this.file.name.endsWith('.ini')) {
-				return true
+			if (this.$aioseo.data.isNetworkAdmin && !this.site) {
+				return false
 			}
-			return false
+
+			if (!this.file.type || !this.file.name) {
+				return false
+			}
+
+			if ('application/json' !== this.file.type && !this.file.name.endsWith('.ini')) {
+				return false
+			}
+
+			return true
 		}
 	},
 	methods : {
@@ -141,7 +169,8 @@ export default {
 			this.loading = true
 			this.uploadFile({
 				file     : this.file,
-				filename : this.filename
+				filename : this.filename,
+				siteId   : this.site ? this.site.blog_id : null
 			})
 				.then(() => {
 					this.reset()
@@ -175,8 +204,15 @@ export default {
 		margin-bottom: 20px;
 	}
 
+	.select-site {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+
 	.file-upload {
 		display: flex;
+		gap: 5px;
 
 		> .aioseo-input {
 			margin-right: 10px;

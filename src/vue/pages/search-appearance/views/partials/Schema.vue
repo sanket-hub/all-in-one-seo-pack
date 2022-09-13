@@ -7,6 +7,7 @@
 			:options="options"
 			:show-bulk="showBulk"
 		/>
+
 		<schema-lite
 			v-if="isUnlicensed"
 			:type="type"

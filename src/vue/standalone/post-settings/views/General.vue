@@ -463,6 +463,12 @@ export default {
 		}
 	}
 
+	svg.aioseo-pencil {
+		width: 12px;
+		height: 12px;
+		color: $black2;
+	}
+
 	.mobile-radio-buttons {
 		margin: 0!important;
 		padding: 0!important;
@@ -587,6 +593,14 @@ export default {
 			opacity: 0;
 			margin: 0 8px;
 			cursor: pointer;
+
+			svg {
+				&.aioseo-pencil {
+					width: 12px;
+					height: 12px;
+					color: $placeholder-color;
+				}
+			}
 		}
 
 		.keyphrase-score {

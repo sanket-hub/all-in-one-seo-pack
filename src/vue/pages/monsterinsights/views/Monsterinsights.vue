@@ -15,7 +15,7 @@
 							<svg-aioseo-logo-gear />
 							<span>♥</span>
 							<img
-								:src="$getImgUrl(emLogoImg)"
+								:src="$getAssetUrl(emLogoImg)"
 								height="90"
 								alt="ExactMetrics"
 							/>
@@ -28,7 +28,7 @@
 						</p>
 						<div class="preview-list">
 							<img
-								:src="$getImgUrl(emGraphImg)"
+								:src="$getAssetUrl(emGraphImg)"
 								height="200"
 								alt="mi-graph-preview"
 							/>
@@ -53,7 +53,7 @@
 							<svg-aioseo-logo-gear />
 							<span>♥</span>
 							<img
-								:src="$getImgUrl(miLogoImg)"
+								:src="$getAssetUrl(miLogoImg)"
 								height="90"
 								alt="MonsterInsights"
 							/>
@@ -66,7 +66,7 @@
 						</p>
 						<div class="preview-list">
 							<img
-								:src="$getImgUrl(miGraphImg)"
+								:src="$getAssetUrl(miGraphImg)"
 								height="200"
 								alt="mi-graph-preview"
 							/>

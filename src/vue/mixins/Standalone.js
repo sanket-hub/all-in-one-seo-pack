@@ -5,19 +5,6 @@ export const Standalone = {
 	computed : {
 		...mapState([ 'currentPost', 'options', 'dynamicOptions', 'settings' ])
 	},
-	methods : {
-		updateAioseo () {
-			this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...window.aioseo.currentPost }))
-		}
-	},
-	mounted () {
-		this.$nextTick(() => {
-			window.addEventListener('updateAioseo', this.updateAioseo)
-		})
-	},
-	beforeDestroy () {
-		window.removeEventListener('updateAioseo', this.updateAioseo)
-	},
 	async created () {
 		const { options, settings, dynamicOptions, currentPost, internalOptions, tags } = await getOptions()
 		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))

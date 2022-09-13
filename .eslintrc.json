@@ -10,6 +10,9 @@
 		"vue/no-mutating-props": "off",
 		"vue/no-v-for-template-key": "off",
 		"vue/multi-word-component-names": "off",
+		"vue/no-v-text-v-html-on-component": "off",
+		"object-shorthand": "off", // TODO: Add this in.
+		"import/extensions": "off",
 		"no-empty": [
 			2,
 			{
@@ -143,10 +146,5 @@
 		"no-new": 0,
 		"prefer-regex-literals": "off"
 	},
-	"parser": "vue-eslint-parser",
-	"parserOptions": {
-		"parser": "babel-eslint",
-		"sourceType": "module",
-		"allowImportExportEverywhere": false
-	}
+	"parser": "vue-eslint-parser"
 }

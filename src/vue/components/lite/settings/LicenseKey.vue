@@ -169,7 +169,7 @@ export default {
 		border-radius: 3px;
 		background-color: $inline-background;
 		padding: 20px;
-		max-width: 630px;
+		max-width: 620px;
 		margin: 10px 0 30px;
 
 		a {
@@ -189,7 +189,7 @@ export default {
 	.license-key {
 		margin-top: 10px;
 		display: flex;
-		max-width: 560px;
+		max-width: 620px;
 
 		.aioseo-input {
 			margin-right: 10px;

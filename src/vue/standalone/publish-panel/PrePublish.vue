@@ -14,7 +14,9 @@
 						:class="tip.type"
 					/>
 				</span>
+
 				<span>{{ tip.label }}: <span class="result" :class="tip.value.endsWith('/100') ? tip.type : null">{{ tip.value }}</span></span>
+
 				<span
 					v-if="dynamicOptions.searchAppearance.postTypes[currentPost.postType] && dynamicOptions.searchAppearance.postTypes[currentPost.postType].advanced.showMetaBox"
 					class="edit"
@@ -24,6 +26,7 @@
 				</span>
 			</li>
 		</ul>
+
 		<div
 			class="snippet-preview"
 			v-if="$allowed('aioseo_page_analysis')"
@@ -42,6 +45,7 @@
 				</template>
 			</core-google-search-preview>
 		</div>
+
 		<div
 			class="canonical-url"
 			v-if="$allowed('aioseo_page_analysis') && currentPost.canonicalUrl"
@@ -82,7 +86,8 @@ export default {
 	mixins : [ Standalone, Tags, ImagePreview ],
 	data () {
 		return {
-			strings : {
+			socialImageKey : 0,
+			strings        : {
 				snippetPreview : this.$t.__('Snippet Preview', this.$td),
 				canonicalUrl   : this.$t.__('Canonical URL', this.$td)
 			}
@@ -214,6 +219,10 @@ export default {
 				result.value = this.$t.__('Good!', this.$td)
 				result.type  = 'success'
 
+				// We're just putting the social image key here to force the computed property to recompute when the key is updated.
+				// eslint-disable-next-line no-unused-expressions
+				this.socialImageKey
+
 				const socialTitle       = this.parseTags(this.currentPost.og_title || this.currentPost.title || this.currentPost.tags.title).trim()
 				const socialDescription = this.parseTags(this.currentPost.og_description || this.currentPost.description || this.currentPost.tags.description).trim()
 				const socialImage       = this.socialImage
@@ -261,6 +270,7 @@ export default {
 
 		this.$bus.$on('updateSocialImagePreview', (param) => {
 			this.socialImage = param.image
+			this.socialImageKey++
 		})
 
 		this.$nextTick(() => {

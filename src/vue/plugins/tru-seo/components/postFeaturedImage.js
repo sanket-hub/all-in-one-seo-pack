@@ -1,5 +1,5 @@
 import store from '@/vue/store'
-import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor } from '@/vue/utils/context'
 
 /**
  * Get the Classic Editor featured image.
@@ -39,7 +39,7 @@ const getBlockEditorFeaturedMediaId = async (edited = false) => {
  * @returns {string} The featured image
  */
 export const getPostFeaturedImage = async () => {
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		return getClassicEditorFeaturedImage()
 	}
 
@@ -63,7 +63,7 @@ export const getPostFeaturedImage = async () => {
  * @returns {string} The featured image
  */
 export const getPostEditedFeaturedImage = async () => {
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		return getClassicEditorFeaturedImage()
 	}
 

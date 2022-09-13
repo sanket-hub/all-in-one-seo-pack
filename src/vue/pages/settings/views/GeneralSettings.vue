@@ -1,7 +1,7 @@
 <template>
 	<div class="aioseo-general-settings">
 		<core-getting-started
-			v-if="settings.showSetupWizard && $allowed('aioseo_setup_wizard')"
+			v-if="settings.showSetupWizard && $allowed('aioseo_setup_wizard') && !$aioseo.data.isNetworkAdmin"
 		/>
 
 		<core-card
@@ -21,7 +21,7 @@
 
 			<core-settings-row
 				:name="strings.setupWizard"
-				v-if="!settings.showSetupWizard && $allowed('aioseo_setup_wizard')"
+				v-if="!settings.showSetupWizard && $allowed('aioseo_setup_wizard') && !$aioseo.data.isNetworkAdmin"
 			>
 				<template #content>
 					<base-button
@@ -37,6 +37,20 @@
 				</template>
 			</core-settings-row>
 		</core-card>
+
+		<core-card
+			slug="domainActivations"
+			:header-text="strings.domainActivations"
+			v-if="$aioseo.data.isNetworkAdmin"
+		>
+			<settings-network-sites-activation
+				v-if="!isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-site-activation')"
+			/>
+
+			<lite-settings-network-sites-activation
+				v-if="isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-site-activation')"
+			/>
+		</core-card>
 	</div>
 </template>
 
@@ -45,14 +59,18 @@ import { mapGetters } from 'vuex'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import LiteSettingsNetworkSitesActivation from '@/vue/components/lite/settings/NetworkSitesActivation'
 import SettingsLicenseKey from '@/vue/components/AIOSEO_VERSION/settings/LicenseKey'
+import SettingsNetworkSitesActivation from '@/vue/components/AIOSEO_VERSION/settings/NetworkSitesActivation'
 import SvgRocket from '@/vue/components/common/svg/Rocket'
 export default {
 	components : {
 		CoreCard,
 		CoreGettingStarted,
 		CoreSettingsRow,
+		LiteSettingsNetworkSitesActivation,
 		SettingsLicenseKey,
+		SettingsNetworkSitesActivation,
 		SvgRocket
 	},
 	data () {
@@ -85,12 +103,13 @@ export default {
 					// Translators: 1 - The plugin name ("All in One SEO")
 					this.$t.__('Use our configuration wizard to properly set up %1$s with your WordPress website.', this.$td),
 					import.meta.env.VITE_NAME
-				)
+				),
+				domainActivations : this.$t.__('Domain Activations', this.$td)
 			}
 		}
 	},
 	computed : {
-		...mapGetters([ 'settings' ]),
+		...mapGetters([ 'settings', 'isUnlicensed' ]),
 		link () {
 			return this.$t.sprintf(
 				'<strong><a href="%1$s" target="_blank">%2$s</a></strong>',

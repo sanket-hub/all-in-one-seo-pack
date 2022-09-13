@@ -3,7 +3,7 @@ import store from '@/vue/store'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 import { getPostEditedContent } from './postContent'
 import { getPostEditedPermalink } from './postPermalink'
-import { isBlockEditor, isClassicEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor, isElementorEditor, isDiviEditor, isSeedProdEditor } from '@/vue/utils/context'
 import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
 import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
 import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
@@ -43,7 +43,7 @@ export const getPostSlug = () => {
 
 	let postSlug = ''
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		const classicSlug = document.querySelector('#post_name')
 		if (classicSlug) {
 			postSlug = cleanForSlug(classicSlug.value)
@@ -73,7 +73,7 @@ export const getPostSlug = () => {
 export const getPostEditedSlug = () => {
 	let postSlug = ''
 
-	if (isClassicEditor()) {
+	if (isClassicEditor() || isClassicNoEditor()) {
 		const classicSlug = document.querySelector('#post_name')
 		if (classicSlug) {
 			postSlug = cleanForSlug(classicSlug.value)

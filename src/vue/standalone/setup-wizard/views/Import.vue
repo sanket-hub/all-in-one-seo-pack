@@ -109,11 +109,11 @@ export default {
 				importDataAndContinue : this.$t.__('Import Data and Continue', this.$td)
 			},
 			pluginImages : {
-				'yoast-seo'         : this.$getImgUrl(yoastSeoImg),
-				'yoast-seo-premium' : this.$getImgUrl(yoastSeoImg),
-				'rank-math-seo'     : this.$getImgUrl(rankMathSeoImg),
-				seopress            : this.$getImgUrl(seopressImg),
-				'seopress-pro'      : this.$getImgUrl(seopressProImg)
+				'yoast-seo'         : this.$getAssetUrl(yoastSeoImg),
+				'yoast-seo-premium' : this.$getAssetUrl(yoastSeoImg),
+				'rank-math-seo'     : this.$getAssetUrl(rankMathSeoImg),
+				seopress            : this.$getAssetUrl(seopressImg),
+				'seopress-pro'      : this.$getAssetUrl(seopressProImg)
 			},
 			selected : []
 		}

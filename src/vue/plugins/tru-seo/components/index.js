@@ -1,6 +1,7 @@
 export {
 	isBlockEditor,
 	isClassicEditor,
+	isClassicNoEditor,
 	isWooCommerceProduct,
 	maybeUpdatePost,
 	truSeoShouldAnalyze,

@@ -5,7 +5,7 @@
 				<div class="profile-photo">
 					<img
 						alt="Dannie the Detective profile image"
-						:src="$getImgUrl(dannieProfileImg)"
+						:src="$getAssetUrl(dannieProfileImg)"
 					/>
 				</div>
 				<div class="poster">

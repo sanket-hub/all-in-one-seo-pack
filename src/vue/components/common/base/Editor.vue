@@ -8,6 +8,7 @@
 				{ 'aioseo-editor-description' : description }
 			]"
 			ref="quill"
+			@paste="emitPasteEvent"
 		/>
 
 		<div
@@ -190,6 +191,9 @@ export default {
 		...mapState('live-tags', [ 'liveTags' ])
 	},
 	methods : {
+		emitPasteEvent (event) {
+			this.$emit('paste', event)
+		},
 		getTags () {
 			const tags = this.tagsContext
 				? [ ...this.$tags.context(this.tagsContext) ]
@@ -328,6 +332,9 @@ export default {
 				return
 			}
 
+			// Stop auto scrolling to the editor on paste of the HTML.
+			const scrollTop = document.documentElement.scrollTop
+
 			this.quill = new Quill(this.$refs.quill, {
 				modules : {
 					toolbar     : !this.showToolbar ? [] : [ 'bold', 'italic', 'underline', 'autoLink'/* , { list: 'bullet' }, { list: 'ordered' } */ ],
@@ -429,9 +436,6 @@ export default {
 							'</p>'
 				)
 				: value
-
-			// Stop auto scrolling to the editor on paste of the HTML.
-			const scrollTop = document.documentElement.scrollTop
 
 			this.quill.clipboard.dangerouslyPasteHTML(0, value, Quill.sources.API)
 			this.quill.blur()

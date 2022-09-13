@@ -97,13 +97,10 @@
 			</template>
 		</core-tooltip>
 
-		<core-modal
+		<core-modal-portal
 			v-if="semrushShowModal"
 			@close="semrushShowModal = false"
-			isolate
-			:classes="[
-				'aioseo-focus-keyphrase-panel-modal'
-			]"
+			:classes="[ 'aioseo-focus-keyphrase-panel-modal' ]"
 		>
 			<div slot="headerTitle">
 				{{ strings.modalTitle }}
@@ -272,7 +269,7 @@
 					</div>
 				</div>
 			</div>
-		</core-modal>
+		</core-modal-portal>
 	</div>
 </template>
 
@@ -281,10 +278,10 @@ import { popup } from '@/vue/utils/popup'
 import { getParams } from '@/vue/utils/params'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { IsDirty } from '@/vue/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreKeyphrase from '@/vue/components/common/core/Keyphrase'
 import CoreLoader from '@/vue/components/common/core/Loader'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgAreaChart from '@/vue/components/common/svg/AreaChart'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -296,7 +293,7 @@ export default {
 		CoreAlert,
 		CoreKeyphrase,
 		CoreLoader,
-		CoreModal,
+		CoreModalPortal,
 		CoreTooltip,
 		SvgAreaChart,
 		SvgCircleCheck,
@@ -638,7 +635,7 @@ export default {
 
 <style lang="scss">
 // These styles apply to a modal that needs to isolate from the main app.
-.aioseo-app.aioseo-focus-keyphrase-panel-modal {
+.aioseo-focus-keyphrase-panel-modal {
 	.modal-body {
 		max-height: calc(90vh - 70px);
 		overflow: auto;

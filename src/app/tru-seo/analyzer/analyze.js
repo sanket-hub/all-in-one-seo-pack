@@ -29,18 +29,16 @@ class TruSeoAnalyzer {
 	/**
 	 * Runs the content analysis.
 	 *
-	 * @param {int}     postId       The Post ID.
-	 * @param {boolean} useSavedData Use saved data. Or not.
-	 * @param {Object}  postData     The postData of the currentPost.
-	 * @param {string}  content      The post content.
-	 * @param {string}  slug         The post slug.
+	 * @param {int}    postId   The Post ID.
+	 * @param {Object} postData The postData of the currentPost.
+	 * @param {string} content  The post content.
+	 * @param {string} slug     The post slug.
 	 *
 	 * @returns {null} Returns nothing.
 	 */
 	async runAnalysis (
 		{
 			postId,
-			useSavedData,
 			postData,
 			content,
 			slug,
@@ -73,17 +71,20 @@ class TruSeoAnalyzer {
 		}
 
 		// Analysis Actions
-		if (useSavedData) {
-			await this.runAnalysisActions({ postId, postData })
-		} else {
-			await this.runAnalysisActions({ postId, postData, updatePost: false })
-		}
+		await this.runAnalysisActions({ postId, postData })
+
+		// Update state.
+		this.dispatch.push({
+			action : 'updateState',
+			data   : postData
+		})
+
 		this.isAnalyzing = false
 
 		return this.dispatch
 	}
 
-	async runAnalysisActions ({ postId, updatePost = true, postData }) {
+	async runAnalysisActions ({ postId, postData }) {
 		const focusKeyphrase = hasFocusKeyphrase(this.keyphrases) ? this.keyphrases.focus.keyphrase : null
 		const pageAnalysis   = await this.runPageAnalysis({ postId, focusKeyphrase, currentPost: postData })
 
@@ -105,21 +106,8 @@ class TruSeoAnalyzer {
 					postData.keyphrases.additional.push(additional.keyphrases.additional[index])
 				})
 			}
-			if (updatePost) {
-				this.dispatch.push({
-					action : 'updateKeyphrases',
-					data   : { postId, keyphrases: postData.keyphrases, page_analysis: postData.page_analysis, seo_score: postData.seo_score }
-				})
-			}
 		}
 
-		// Page Analysis.
-		if (updatePost) {
-			this.dispatch.push({
-				action : 'saveCurrentPost',
-				data   : postData
-			})
-		}
 		return postData
 	}
 
@@ -209,7 +197,11 @@ class TruSeoAnalyzer {
 			basic.keyphraseInContent = analyzers.keyphraseInContent(this.postContent, focusKeyphrase, this.locale)
 			basic.keyphraseInIntroduction = analyzers.keyphraseInIntroduction(this.postContent, focusKeyphrase, 'focus', this.locale)
 			basic.keyphraseInDescription = analyzers.keyphraseInDescription(this.postParsedDescription, focusKeyphrase, 'focus', this.locale)
-			basic.keyphraseInURL = analyzers.keyphraseInURL(this.postSlug, focusKeyphrase)
+
+			// Skip keyphraseInURL if we're on a static homepage.
+			if (currentPost.id !== this.aioseo.data.staticHomePage) {
+				basic.keyphraseInURL = analyzers.keyphraseInURL(this.postSlug, focusKeyphrase)
+			}
 			basic.keyphraseLength = analyzers.keyphraseLength(focusKeyphrase, 'focus')
 			title.keyphraseInTitle = analyzers.keyphraseInTitle(this.postParsedTitle, focusKeyphrase, this.locale)
 			title.keyphraseInBeginningTitle = analyzers.keyphraseInBeginningTitle(this.postParsedTitle, focusKeyphrase)
@@ -257,11 +249,6 @@ class TruSeoAnalyzer {
 
 		currentPost.page_analysis.analysis = pageAnalysis
 		currentPost.seo_score              = pagePercentage
-
-		this.dispatch.push({
-			action : 'updateState',
-			data   : currentPost
-		})
 
 		return currentPost
 	}

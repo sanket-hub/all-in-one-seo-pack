@@ -1,3 +1,4 @@
+import { debounce } from '@/vue/utils/debounce'
 import {
 	truSeoShouldAnalyze,
 	maybeUpdatePost
@@ -83,15 +84,19 @@ export const customFieldsContent = () => {
 
 			if ('wysiwyg' === acfField.dataset.type) {
 				const acfTmceInterval = window.setInterval(() => {
-					if (window.tinyMCE && window.tinyMCE.activeEditor) {
-						window.clearInterval(acfTmceInterval)
-						window.tinyMCE.activeEditor.on('keyup', function () {
-							if (!window.tinyMCE.activeEditor.acf) {
-								return
-							}
-							maybeUpdatePost(500)
-						})
+					if (!window.tinyMCE?.activeEditor?.acf) {
+						return
 					}
+					window.clearInterval(acfTmceInterval)
+					window.tinyMCE.activeEditor.on('keyup', function () {
+						maybeUpdatePost(500)
+					})
+					// Fires when adding, removing links, cut, paste, etc..
+					window.tinyMCE.activeEditor.on('PostProcess', function () {
+						debounce(() => {
+							maybeUpdatePost(500)
+						}, 10)
+					})
 				}, 50)
 				// Watch for switching between tinyMCE and the text editor.
 				const acfTmceSwitch = function (mutationsList) {

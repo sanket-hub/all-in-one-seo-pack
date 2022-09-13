@@ -1,5 +1,7 @@
 import { setOptions } from '@/vue/utils/options'
+import { setData } from '@/vue/utils/data'
 import { __ } from '@wordpress/i18n'
+import schemaActions from './actions/schema'
 
 const td = import.meta.env.VITE_TEXTDOMAIN
 
@@ -51,6 +53,7 @@ const clearNotificationNotices = notifications => {
 }
 
 export default {
+	...schemaActions,
 	ping ({ commit }) {
 		this._vm.$http.get(this._vm.$links.restUrl('ping'))
 			.catch(() => {
@@ -81,6 +84,18 @@ export default {
 		this._vm.$http.post(this._vm.$links.restUrl('settings/toggle-radio'))
 			.send({
 				radio : slug,
+				value : value
+			})
+			.then(() => {})
+	},
+	changeItemsPerPage ({ commit, state }, { slug, value }) {
+		commit('changeItemsPerPage', { slug, value })
+		setOptions({
+			settings : state.settings
+		})
+		this._vm.$http.post(this._vm.$links.restUrl('settings/items-per-page'))
+			.send({
+				table : slug,
 				value : value
 			})
 			.then(() => {})
@@ -222,14 +237,17 @@ export default {
 	activate ({ commit }, key) {
 		return this._vm.$http.post(this._vm.$links.restUrl('activate'))
 			.send({
-				licenseKey : key.trim()
+				licenseKey : key.trim(),
+				network    : this._vm.$aioseo.data.isNetworkAdmin
 			})
 			.then(response => {
+				const options = this._vm.$aioseo.data.isNetworkAdmin ? 'updateNetworkOption' : 'updateOption'
+				commit(options, { groups: [ 'general' ], key: 'licenseKey', value: key })
 				commit('updateNotifications', response.body.notifications)
-				commit('updateOption', { groups: [ 'general' ], key: 'licenseKey', value: key })
 				if (response.body.licenseData) {
 					Object.keys(response.body.licenseData).forEach(key => {
-						commit('updateInternalOption', { groups: [ 'internal', 'license' ], key, value: response.body.licenseData[key] })
+						const internalOption = this._vm.$aioseo.data.isNetworkAdmin ? 'updateInternalNetworkOption' : 'updateInternalOption'
+						commit(internalOption, { groups: [ 'internal', 'license' ], key, value: response.body.licenseData[key] })
 					})
 					commit('setLicense', response.body.license)
 
@@ -247,15 +265,39 @@ export default {
 				})
 			})
 	},
+	multisite ({ commit }, sites) {
+		return this._vm.$http.post(this._vm.$links.restUrl('multisite'))
+			.send({
+				network : this._vm.$aioseo.data.isNetworkAdmin,
+				sites
+			})
+			.then(response => {
+				setData({
+					network : {
+						...this._vm.$aioseo.data.network,
+						activeSites : response.body.activeSites
+					}
+				})
+				commit('updateNetworkData', {
+					key  : 'activeSites',
+					data : response.body.activeSites
+				})
+				commit('updateNotifications', response.body.notifications)
+			})
+	},
 	deactivate ({ commit }) {
 		return this._vm.$http.post(this._vm.$links.restUrl('deactivate'))
-			.send({})
+			.send({
+				network : this._vm.$aioseo.data.isNetworkAdmin
+			})
 			.then(response => {
+				const options = this._vm.$aioseo.data.isNetworkAdmin ? 'updateNetworkOption' : 'updateOption'
+				commit(options, { groups: [ 'general' ], key: 'licenseKey', value: null })
 				commit('updateNotifications', response.body.notifications)
-				commit('updateOption', { groups: [ 'general' ], key: 'licenseKey', value: null })
 				if (response.body.licenseData) {
 					Object.keys(response.body.licenseData).forEach(key => {
-						commit('updateInternalOption', { groups: [ 'internal', 'license' ], key, value: response.body.licenseData[key] })
+						const internalOption = this._vm.$aioseo.data.isNetworkAdmin ? 'updateInternalNetworkOption' : 'updateInternalOption'
+						commit(internalOption, { groups: [ 'internal', 'license' ], key, value: response.body.licenseData[key] })
 					})
 					commit('setLicense', response.body.license)
 
@@ -304,7 +346,8 @@ export default {
 		const options = {
 			options        : state.options,
 			dynamicOptions : state.dynamicOptions,
-			network        : this._vm.$aioseo.data.network
+			network        : this._vm.$aioseo.data.isNetworkAdmin,
+			networkOptions : state.networkOptions
 		}
 
 		switch (this._vm.$aioseo.page) {
@@ -359,6 +402,26 @@ export default {
 				commit('setHtaccessError', error.response.body.message)
 			})
 	},
+	saveNetworkRobots ({ state, commit }) {
+		setOptions({
+			networkOptions : state.networkOptions,
+			options        : state.options
+		})
+
+		const options = {
+			enabled : 'network' === state.networkRobots.siteId
+				? state.networkOptions.tools.robots.enable
+				: state.options.tools.robots.enable,
+			network : this._vm.$aioseo.data.isNetworkAdmin,
+			rules   : state.networkRobots.rules
+		}
+
+		return this._vm.$http.post(this._vm.$links.restUrl(`network-robots/${state.networkRobots.siteId}`))
+			.send(options)
+			.then(() => {
+				commit('original/setOriginalOptions', JSON.parse(JSON.stringify(state.options)), { root: true })
+			})
+	},
 	saveCurrentPost ({ commit }, payload) {
 		commit('updateState', payload)
 		setOptions({
@@ -373,7 +436,10 @@ export default {
 	},
 	installPlugins ({ state, commit }, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('plugins/install'))
-			.send(payload)
+			.send({
+				network : this._vm.$aioseo.data.isNetworkAdmin,
+				plugins : payload
+			})
 			.then(response => {
 				if (!response.body.success) {
 					throw new Error(response.body.message)
@@ -393,7 +459,10 @@ export default {
 	},
 	upgradePlugins ({ state, commit }, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('plugins/upgrade'))
-			.send(payload)
+			.send({
+				network : this._vm.$aioseo.data.isNetworkAdmin,
+				plugins : payload
+			})
 			.then(response => {
 				if (!response.body.success) {
 					throw new Error(response.body.message)
@@ -413,7 +482,10 @@ export default {
 	},
 	deactivatePlugins (context, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('plugins/deactivate'))
-			.send(payload)
+			.send({
+				network : this._vm.$aioseo.data.isNetworkAdmin,
+				plugins : payload
+			})
 			.then(response => {
 				return response
 			})
@@ -454,7 +526,7 @@ export default {
 	processButtonAction ({ commit }, action) {
 		return this._vm.$http.post(this._vm.$links.restUrl(`${action}`))
 			.send({
-				network : this._vm.$aioseo.data.network
+				network : this._vm.$aioseo.data.isNetworkAdmin
 			})
 			.then(response => {
 				commit('updateNotifications', response.body.notifications)
@@ -463,10 +535,11 @@ export default {
 				}
 			})
 	},
-	resetSettings (context, payload) {
+	resetSettings (context, { payload, siteId }) {
 		return this._vm.$http.post(this._vm.$links.restUrl('reset-settings'))
 			.send({
-				settings : payload
+				settings : payload,
+				siteId
 			})
 	},
 	clearLog (context, log) {
@@ -513,11 +586,11 @@ export default {
 				})
 			})
 	},
-	uploadFile ({ commit }, { file, filename }) {
-		return this._vm.$http.post(this._vm.$links.restUrl('settings/import'))
+	uploadFile ({ commit }, { file, filename, siteId }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`settings/import/${siteId || ''}`))
 			.attach('file', file, filename)
 			.then(response => {
-				if (response.body.license) {
+				if (response.body.license && !siteId) {
 					commit('setLicense', response.body.license)
 					clearLicenseNotices()
 				}
@@ -526,50 +599,68 @@ export default {
 				})
 			})
 	},
-	exportSettings (context, { settings, postOptions }) {
+	exportSettings (context, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('settings/export'))
-			.send({
-				settings,
-				postOptions
-			})
+			.send(payload)
 	},
-	createBackup ({ commit }) {
+	createBackup ({ commit }, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('backup'))
+			.send(payload)
 			.then(response => {
+				if (payload.siteId) {
+					commit('updateNetworkBackups', {
+						backups : response.body.backups,
+						siteId  : payload.siteId
+					})
+					return
+				}
+
 				commit('updateBackups', response.body.backups)
 			})
 	},
-	restoreBackup ({ commit }, backup) {
+	restoreBackup ({ commit }, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('backup/restore'))
-			.send({
-				backup
-			})
+			.send(payload)
 			.then(response => {
-				if (response.body.license) {
+				if (response.body.license && !payload.siteId) {
 					commit('setLicense', response.body.license)
 					clearLicenseNotices()
 				}
-				commit('updateBackups', response.body.backups)
+
 				setOptions({
 					options         : response.body.options,
 					internalOptions : response.body.internalOptions
 				})
-			})
-	},
-	deleteBackup ({ commit }, backup) {
-		return this._vm.$http.delete(this._vm.$links.restUrl('backup'))
-			.send({
-				backup
-			})
-			.then(response => {
+
+				if (payload.siteId) {
+					commit('updateNetworkBackups', {
+						backups : response.body.backups,
+						siteId  : payload.siteId
+					})
+					return
+				}
+
 				commit('updateBackups', response.body.backups)
 			})
 	},
-	importPlugins (context, plugins) {
-		return this._vm.$http.post(this._vm.$links.restUrl('settings/import-plugins'))
-			.send({
-				plugins
+	deleteBackup ({ commit }, payload) {
+		return this._vm.$http.delete(this._vm.$links.restUrl('backup'))
+			.send(payload)
+			.then(response => {
+				if (payload.siteId) {
+					commit('updateNetworkBackups', {
+						backups : response.body.backups,
+						siteId  : payload.siteId
+					})
+					return
+				}
+
+				commit('updateBackups', response.body.backups)
 			})
+	},
+	importPlugins (context, payload) {
+		return this._vm.$http.post(this._vm.$links.restUrl('settings/import-plugins'))
+			.send(payload)
 	},
 	savePostState ({ state, dispatch }) {
 		// In some contexts, the state might not have loaded fully and still be an Observer object.
@@ -599,10 +690,12 @@ export default {
 			}
 		}
 	},
-	doTask (context, { action, data }) {
+	doTask (context, { action, data, siteId }) {
 		return this._vm.$http.post(this._vm.$links.restUrl('settings/do-task')).send({
 			action,
-			data
+			data,
+			siteId,
+			network : this._vm.$aioseo.data.isNetworkAdmin
 		}).then((response) => {
 			if (!response || !response.statusCode || 400 === response.statusCode) {
 				return Promise.reject(new Error(`Task ${action} could not be completed.`))
@@ -627,6 +720,33 @@ export default {
 		return this._vm.$http.post(this._vm.$links.restUrl(`post/${state.currentPost.id}/update-internal-link-count`))
 			.send({
 				count
+			})
+	},
+	fetchNetworkSites ({ commit }, { limit, offset, searchTerm, filter }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`network-sites/${filter}`))
+			.send({
+				limit,
+				offset,
+				searchTerm
+			})
+			.then(response => {
+				setData({
+					network : {
+						...this._vm.$aioseo.data.network,
+						sites : response.body.sites
+					}
+				})
+				commit('updateNetworkData', {
+					key  : 'sites',
+					data : response.body.sites
+				})
+			})
+	},
+	fetchSiteRobots ({ commit }, blogId) {
+		return this._vm.$http.get(this._vm.$links.restUrl(`network-robots/${blogId}`))
+			.then(response => {
+				commit('updateNetworkRobots', response.body.rules)
+				commit('updateNetworkRobotsSite', blogId)
 			})
 	}
 }

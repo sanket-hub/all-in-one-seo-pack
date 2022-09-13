@@ -12,6 +12,9 @@
 				},
 				preventOverflow : {
 					escapeWithReference : true
+				},
+				offset : {
+					offset : offset
 				}
 			}
 		}"
@@ -37,6 +40,8 @@ import 'vue-popperjs/dist/vue-popper.css'
 export default {
 	props : {
 		tooltip   : String,
+		type      : String,
+		disabled  : Boolean,
 		placement : {
 			type : String,
 			default () {
@@ -49,18 +54,22 @@ export default {
 				return 'hover'
 			}
 		},
-		disabled  : Boolean,
 		forceShow : {
 			type : Boolean,
 			default () {
 				return false
 			}
 		},
-		type : String,
-		tag  : {
+		tag : {
 			type : String,
 			default () {
 				return 'span'
+			}
+		},
+		offset : {
+			type : String,
+			default () {
+				return '0,0'
 			}
 		}
 	},

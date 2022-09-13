@@ -1,4 +1,3 @@
-<!-- TODO: Move this to standalone components folder -->
 <template>
 	<div>
 		<div class="aioseo-sidebar-row">

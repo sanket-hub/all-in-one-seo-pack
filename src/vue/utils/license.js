@@ -1,8 +1,12 @@
+import Vue from 'vue'
 import store from '@/vue/store'
 import { getJsonValue } from '@/vue/utils/json'
 
 const getFeatures = (type = '') => {
-	let allFeatures = getJsonValue(store.state.internalOptions.internal.license.features, [])
+	const features  = Vue.prototype.$aioseo.data.isNetworkAdmin
+		? store.state.internalNetworkOptions.internal.license.features
+		: store.state.internalOptions.internal.license.features
+	let allFeatures = getJsonValue(features, [])
 	if (type) {
 		allFeatures = allFeatures[type] || []
 	}
@@ -10,10 +14,21 @@ const getFeatures = (type = '') => {
 	return allFeatures
 }
 
+const hasCoreFeature = (sectionSlug, feature) => {
+	const features = getFeatures('core')
+	for (const section in features) {
+		if (sectionSlug === section && features[section].includes(feature)) {
+			return true
+		}
+	}
+
+	return false
+}
+
 const hasAddonFeature = (slug, feature) => {
 	const addonFeatures = getFeatures('addons')
 	for (const addon in addonFeatures) {
-		if (slug === addon && -1 !== addonFeatures[addon].indexOf(feature)) {
+		if (slug === addon && addonFeatures[addon].includes(feature)) {
 			return true
 		}
 	}
@@ -23,5 +38,6 @@ const hasAddonFeature = (slug, feature) => {
 
 export default {
 	getFeatures,
-	hasAddonFeature
+	hasAddonFeature,
+	hasCoreFeature
 }

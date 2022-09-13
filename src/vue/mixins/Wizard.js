@@ -1,5 +1,5 @@
 import { mapGetters, mapMutations, mapActions, mapState } from 'vuex'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgClose from '@/vue/components/common/svg/Close'
 
 export const Wizard = {

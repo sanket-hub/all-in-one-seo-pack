@@ -109,7 +109,7 @@
 		</div>
 
 		<link-assistant-confirmation-modal
-			:showModal="showModal"
+			v-if="showModal"
 			:selectedRows="selectedRows"
 			:strings="modalStrings"
 			@doBulkAction="doBulkAction"

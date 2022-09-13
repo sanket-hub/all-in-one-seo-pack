@@ -27,7 +27,6 @@ icons.headline = (
 	</svg>
 )
 
-// TODO: If heading icon works with css :before then this should be removed.
 icons.headlineBlack = (
 	<svg
 		width="15"

@@ -2,11 +2,10 @@ const version = process.env.AIOSEO_VERSION || 'Pro'
 /**
  * External dependencies
  */
+const path                     = require('path')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const LiveReloadPlugin = require('webpack-livereload-plugin')
-const path = require('path')
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin     = require('mini-css-extract-plugin')
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts')
 
 /**
  * WordPress dependencies
@@ -98,15 +97,9 @@ const config = {
 		// WP_BUNDLE_ANALYZER global variable enables utility that represents bundle content
 		// as convenient interactive zoomable treemap.
 		process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
-		// WP_LIVE_RELOAD_PORT global variable changes port on which live reload works
-		// when running watch mode.
-		!isProduction &&
-			new LiveReloadPlugin({
-				port : process.env.WP_LIVE_RELOAD_PORT || 35729
-			}),
 		new DependencyExtractionWebpackPlugin({ injectPolyfill: true }),
-		new FixStyleOnlyEntriesPlugin(),
-		new MiniCssExtractPlugin()
+		new MiniCssExtractPlugin(),
+		new RemoveEmptyScriptsPlugin()
 	].filter(Boolean),
 	stats : {
 		children : false

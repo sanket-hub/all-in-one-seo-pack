@@ -12,6 +12,7 @@
 				<base-checkbox
 					size="medium"
 					v-model="options[option.value]"
+					:disabled="disabled"
 				>
 					{{ option.label }}
 				</base-checkbox>
@@ -25,6 +26,7 @@
 			size="medium"
 			@click="$emit('update', options)"
 			:loading="loading"
+			:disabled="disabled"
 		>
 			{{ strings.updateOptions }}
 		</base-button>
@@ -45,7 +47,8 @@ export default {
 		GridRow
 	},
 	props : {
-		loading : Boolean
+		loading  : Boolean,
+		disabled : Boolean
 	},
 	data () {
 		return {

@@ -7,7 +7,7 @@ import {
 
 const td       = import.meta.env.VITE_TEXTDOMAIN
 const loadView = view => {
-	return () => import('../views/' + view + '.vue')
+	return () => import(`../views/${view}.vue`)
 }
 
 export default [

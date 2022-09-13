@@ -1,4 +1,4 @@
-import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor } from '@/vue/utils/context'
 
 /**
  * Returns the post author.
@@ -8,8 +8,8 @@ import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
 export const getPostAuthor = () => {
 	let author = 0
 
-	if (isClassicEditor()) {
-		author = parseInt(document.getElementById('post_author_override').value)
+	if (isClassicEditor() || isClassicNoEditor()) {
+		author = parseInt(document.getElementById('post_author_override')?.value)
 	}
 
 	if (isBlockEditor()) {
@@ -27,8 +27,8 @@ export const getPostAuthor = () => {
 export const getPostEditedAuthor = () => {
 	let author = 0
 
-	if (isClassicEditor()) {
-		author = parseInt(document.getElementById('post_author_override').value)
+	if (isClassicEditor() || isClassicNoEditor()) {
+		author = parseInt(document.getElementById('post_author_override')?.value)
 	}
 
 	if (isBlockEditor()) {

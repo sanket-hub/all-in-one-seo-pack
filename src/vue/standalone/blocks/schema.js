@@ -30,7 +30,7 @@ if ('post' === window.aioseo?.currentPost?.context) {
 		})
 
 		// Then, grab the existing stored block graphs and loop over them to see if any of them were removed.
-		const blockGraphs = state.currentPost.schema_type_options?.blockGraphs || []
+		const blockGraphs = state.currentPost.schema?.blockGraphs || []
 		blockGraphs.forEach((blockGraph, blockGraphIndex) => {
 			const blockIndex = blocks.findIndex(block => block?.attributes?.schemaBlockId === blockGraph?.schemaBlockId)
 
@@ -40,8 +40,24 @@ if ('post' === window.aioseo?.currentPost?.context) {
 				return
 			}
 
+			const blockAttributes = { ...blocks[blockIndex].attributes }
+
+			// Any block attribute that we aren't watching could get updated to its previous value when we set our blockGraphs.
+			// These are known attributes that we don't need.
+			const attsToOmit = [
+				'backgroundColor',
+				'textColor',
+				'fontSize',
+				'style'
+			]
+
+			// Remove the irrelevant attributes before setting our blockGraphs.
+			attsToOmit.forEach(att => {
+				delete blockAttributes[att]
+			})
+
 			// If a block was found, let's update it.
-			blockGraphs[blockGraphIndex] = blocks[blockIndex].attributes
+			blockGraphs[blockGraphIndex] = blockAttributes
 		})
 
 		// Now, we also need to loop over the new blocks to see if there are any new ones that need to be added.
@@ -52,6 +68,6 @@ if ('post' === window.aioseo?.currentPost?.context) {
 			}
 		})
 
-		state.currentPost.schema_type_options.blockGraphs = blockGraphs
+		state.currentPost.schema.blockGraphs = blockGraphs
 	}, 200)
 }

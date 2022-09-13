@@ -135,7 +135,7 @@ class Tools {
 	 * @param  \WP_REST_Request  $request The REST Request
 	 * @return \WP_REST_Response          The response.
 	 */
-	public static function createBackup() {
+	public static function createBackup( $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		aioseo()->backup->create();
 
 		return new \WP_REST_Response( [

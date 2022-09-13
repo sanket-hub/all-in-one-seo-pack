@@ -21,7 +21,7 @@
 				<div class="no-notifications">
 					<img
 						alt="Dannie the Detective"
-						:src="$getImgUrl(dannieDetectiveImg)"
+						:src="$getAssetUrl(dannieDetectiveImg)"
 					/>
 
 					<div class="great-scott">

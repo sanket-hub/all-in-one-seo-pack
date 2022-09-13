@@ -11,6 +11,19 @@
 			<svg-download />
 		</template>
 
+		<div
+			class="aioseo-settings-row"
+			v-if="$aioseo.data.isNetworkAdmin"
+		>
+			<div class="select-site">
+				{{ strings.selectSite }}
+			</div>
+
+			<core-network-site-selector
+				@selected-site="site = $event"
+			/>
+		</div>
+
 		<div class="aioseo-section-description">
 			{{ strings.importOthersDescription }}
 		</div>
@@ -36,6 +49,7 @@
 			v-model="plugin"
 			:options="plugins"
 			:placeholder="strings.selectPlugin"
+			:disabled="$aioseo.data.isNetworkAdmin && !site"
 		>
 			<template #option="{ option }">
 				<div class="import-plugin-label">
@@ -113,6 +127,7 @@ import { mapActions } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
+import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgDownload from '@/vue/components/common/svg/Download'
@@ -121,18 +136,21 @@ export default {
 		BaseCheckbox,
 		CoreAlert,
 		CoreCard,
+		CoreNetworkSiteSelector,
 		GridColumn,
 		GridRow,
 		SvgDownload
 	},
 	data () {
 		return {
+			site          : null,
 			importSuccess : false,
 			importError   : false,
 			options       : {},
 			plugin        : null,
 			loading       : false,
 			strings       : {
+				selectSite                     : this.$t.__('Select Site', this.$td),
 				importSettingsFromOtherPlugins : this.$t.__('Import Settings From Other Plugins', this.$td),
 				importOthersDescription        : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
@@ -181,6 +199,10 @@ export default {
 			return plugins
 		},
 		canImport () {
+			if (this.$aioseo.data.isNetworkAdmin && !this.site) {
+				return false
+			}
+
 			const passed = []
 			Object.keys(this.options).forEach(key => {
 				passed.push(this.options[key])
@@ -223,12 +245,13 @@ export default {
 				})
 			}
 
-			this.importPlugins([
-				{
+			this.importPlugins({
+				plugins : [ {
 					plugin : this.plugin.value,
 					settings
-				}
-			])
+				} ],
+				siteId : this.site ? this.site.blog_id : null
+			})
 				.then(() => {
 					this.loading       = false
 					this.importSuccess = true
@@ -262,9 +285,12 @@ export default {
 		margin-bottom: 20px;
 	}
 
-	.aioseo-select {
-		max-width: 330px;
+	.select-site {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 5px;
 	}
+
 	.aioseo-button.import {
 		margin-top: 24px;
 	}

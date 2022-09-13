@@ -13,8 +13,12 @@ import {
 import Vue from 'vue'
 import store from '@/vue/store'
 
-import { isBlockEditor, isClassicEditor, isWooCommerceProduct } from '@/vue/utils/context'
-export { isBlockEditor, isClassicEditor, isWooCommerceProduct }
+export {
+	isBlockEditor,
+	isClassicEditor,
+	isClassicNoEditor,
+	isWooCommerceProduct
+} from '@/vue/utils/context'
 
 export const truSeoShouldAnalyze = () => {
 	if (!window.aioseo.currentPost || !window.aioseo.currentPost.id) {

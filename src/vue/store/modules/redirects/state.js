@@ -58,9 +58,14 @@ export default {
 			httpHeaders : []
 		},
 		advanced404s : {
+			enabled                     : false,
+			redirectDefaultEnabled      : false,
+			redirectDefault             : 'home',
 			redirectToHome              : false,
 			redirectToParent            : false,
-			redirectToParentWoocommerce : false
+			redirectToParentWoocommerce : false,
+			redirectToCustomUrl         : '',
+			redirectToSmart             : false
 		}
 	},
 	rows            : [],

@@ -389,9 +389,5 @@ export default {
 	.overview-link-count {
 		margin-bottom: -50px;
 	}
-
-	.aioseo-cta.floating {
-		top: 120px
-	}
 }
 </style>

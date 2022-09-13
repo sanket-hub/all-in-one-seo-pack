@@ -15,6 +15,7 @@
 				:checked="option.value === value"
 				:disabled="disabled"
 			/>
+
 			<label
 				:for="`id_${name}_${index}`"
 				:class="[

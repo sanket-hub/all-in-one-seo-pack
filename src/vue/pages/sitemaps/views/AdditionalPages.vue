@@ -150,7 +150,7 @@ import AddAdditionalPage from './partials/AddAdditionalPage.vue'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import CoreModal from '@/vue/components/common/core/Modal'
+import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 
 export default {
@@ -168,7 +168,7 @@ export default {
 			editedPage      : {},
 			resultsPerPage  : 10,
 			searchResults   : null,
-			searchTerm     	: null,
+			searchTerm      : null,
 			deletingRow     : false,
 			tableKey        : 0,
 			activeRow       : -1,
@@ -217,7 +217,7 @@ export default {
 		}),
 		currentPages () { return this.searchResults || this.getParsedPages() },
 		rows () {
-			const rows 	= this.currentPages.map(page => ({
+			const rows  = this.currentPages.map(page => ({
 				url          : page.url,
 				priority     : page.priority && page.priority.label ? page.priority.label : '',
 				frequency    : page.frequency && page.frequency.label ? page.frequency.label : '',

@@ -1,4 +1,5 @@
-import { parse } from '@/vue/utils/robots'
+import Vue from 'vue'
+
 export default {
 	isUnlicensed                : state => 'pro' !== import.meta.env.VITE_VERSION.toLowerCase() || !state.license.isActive,
 	isConnected                 : state => ('pro' !== import.meta.env.VITE_VERSION.toLowerCase() && state.internalOptions.internal.siteAnalysis.connectToken) || state.license.isActive,
@@ -19,7 +20,7 @@ export default {
 	},
 	getCompetitorSiteAnalysisResults : state => state.internalOptions.internal.siteAnalysis.competitors || {},
 	getHeadlineAnalysisResults       : state => state.internalOptions.internal.headlineAnalysis.headlines || {},
-	getNetworkRobotsRules            : state => state.networkOptions.tools ? parse(state.networkOptions.tools.robots.rules) : [],
+	getNetworkRobots                 : state => state.networkOptions.tools ? state.networkOptions.tools.robots : [],
 	allItemsCount                    : (state, getters) => results => getters.recommendedCount(results) + getters.criticalCount(results) + getters.goodCount(results),
 	recommendedCount                 : (state, getters) => results => {
 		let total     = 0
@@ -65,5 +66,6 @@ export default {
 		})
 
 		return total
-	}
+	},
+	licenseKey : state => Vue.prototype.$aioseo.data.isNetworkAdmin ? state.networkOptions.general.licenseKey : state.options.general.licenseKey
 }

@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import '@/vue/plugins'
 import TruSeo from '@/vue/plugins/tru-seo'
-import '@/vue/plugins/link-assistant'
 import '@/vue/plugins/redirects'
 
 import '@/vue/components/common'
@@ -14,6 +13,7 @@ import store from '@/vue/store'
 import { elemLoaded } from '@/vue/utils/elemLoaded'
 import { shouldShowMetaBox } from '@/vue/plugins/tru-seo/components'
 import loadTruSeo from '@/vue/standalone/post-settings/loadTruSeo'
+import './link-assistant/AIOSEO_VERSION'
 
 // Local Business.
 import AppLocalBusiness from '../local-business-seo/App.vue'

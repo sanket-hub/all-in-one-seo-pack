@@ -4,6 +4,7 @@ import { JsonValues } from './JsonValues'
 import { License } from './License'
 import { MaxCounts } from './MaxCounts'
 import { MetaTag } from './MetaTag'
+import { Network } from './Network'
 import { Notifications } from './Notifications'
 import { RequiresActivation } from './RequiresActivation'
 import { RequiresUpdate } from './RequiresUpdate'
@@ -28,6 +29,7 @@ export {
 	License,
 	MaxCounts,
 	MetaTag,
+	Network,
 	Notifications,
 	RequiresActivation,
 	RequiresUpdate,

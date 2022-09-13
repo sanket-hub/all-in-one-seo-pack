@@ -2,8 +2,8 @@
 Contributors: aioseo, smub, benjaminprojas
 Tags: SEO, Google Search Console, XML Sitemap, meta description, schema, meta title, rich snippets, woocommerce seo, local seo, open graph, google news sitemap, video sitemap, robots.txt, seo audit, content analysis, seo plugin, redirection
 Requires at least: 4.9
-Tested up to: 6.0.1
-Stable tag: 4.2.4
+Tested up to: 6.0.2
+Stable tag: 4.2.5.1
 License: GPLv2 or later
 Requires PHP: 5.6
 
@@ -74,6 +74,8 @@ Aside from the comprehensive WordPress XML sitemap feature, we also offer News S
 
 AIOSEO comes with built-in smart SEO schema markup feature to help you get more traffic through SEO rich snippets, Google featured snippets, breadcrumb site links in SEO, and image SEO search results.
 
+We also include an easy to use Schema Generator to output tons of custom schema for events, job postings, recipes, how-tos, software applications, products and so much more!
+
 > The best SEO plugin. All in One SEO is the best SEO Plugin. I personally find it better than Yoast. This plugin offers so much freedom in configuration.<br>
 > hanapupu
 
@@ -118,7 +120,7 @@ Since redirect speed is important for SEO, we built in both Apache / NGINX serve
 * Multiple location SEO - Great for SEO optimization for businesses with multiple local store locations. 
 * Rich Snippets Schema - Get better click through rate (CTR) and increase SEO rankings with rich snippets schema.
 * SEO Knowledge Graph Support - Improve your website's search appearance with SEO Knowledge panel.
-* Advanced SEO Schema - Easily add advanced SEO schema markups like FAQ schema, product schema, recipe schema (food blogger SEO), software application schema markup (SaaS SEO), online course schema (for course SEO), and more.
+* Advanced SEO Schema - Easily add advanced SEO schema markups like FAQ schema, product schema, recipe schema (food blogger SEO), software application schema markup (SaaS SEO), online course schema (for course SEO), and more using our Schema Generator.
 * Sitelinks Search Box - Helps you get a search box in Google SEO rankings.
 * Google Site Links - Our SEO markup can help you get sitelinks for your brand.
 * Robots.txt Editor - Control what SEO robots can see with our easy SEO robots.txt editor.
@@ -220,6 +222,37 @@ Visit <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeg
 
 
 == Changelog ==
+
+**New in Version 4.2.5.1**
+
+* Fixed: Modals sometimes not opening in page builder integrations.
+* Fixed: New posts are no longer pre-populated with an “Auto Draft” title.
+* Fixed: Setup Wizard sometimes timing out while installing additional plugins.
+
+**New in Version 4.2.5**
+
+* New: Schema Generator – A full overhaul of our schema functionality. You can now add multiple graphs and custom schema to your posts. The Schema Validator enables you to inspect and test your schema with Google. And we’ve also added support for many new graphs, including Event, Job Posting, Movie, Service, Video and more!
+* New: Multisite Updates – Our multisite site features have been expanded and revamped. In the Network Admin, you can now manage activations, create/restore backups and export/import settings for the entire network of subsites!
+* New: Additional options to redirect 404s by their slug or to their parent page if the post type is hierarchical.
+* Updated: Moved the 404 redirect settings under a new Advanced Settings section with clear direction on why redirecting all 404s may not be useful for everyone.
+* Updated: Added support for NextGen Pro galleries to the image sitemap scanner.
+* Updated: FAQ block now duplicates the styles from the nearest FAQ block if the post already contains one.
+* Updated: Deprecated image sitemap tags have been removed per Google’s requirements.
+* Updated: Video Sitemap now includes a content URL tag for self-hosted videos.
+* Updated: You can now decide whether you want to let AIOSEO autogenerate your Product schema data based on the product data from Easy Digital Downloads/WooCommerce or manually enter it yourself.
+* Fixed: Conflict between AIOSEO IndexNow addon and WP Fastest Cache plugin where the IndexNow API key is corrupted by the latter.
+* Fixed: TruSEO content analysis no longer checks if the Focus Keyphrase appears in the URL of the static homepage.
+* Fixed: TruSEO content analysis not working correctly when the post type doesn’t support the editor feature.
+* Fixed: Adding a Focus Keyphrase in an empty, new post no longer triggers a loading spinner that doesn’t go away.
+* Fixed: Crawl Cleanup feature no longer redirects the WooCommerce password reset page to the homepage.
+* Fixed: Enhanced Search notification from Local SEO can now be dismissed correctly.
+* Fixed: Searching in the Redirects menu no longer breaks any functionality in the table rows.
+* Fixed: AIOSEO can now be correctly updated on multisites with a subdirectory configuration.
+* Fixed: Redirects now properly work for WordPress sites that are installed in a subdirectory.
+* Fixed: Redirects using regex patterns now work correctly if there is another redirect entry with the same path.
+* Fixed: When importing from Yoast SEO, all additional keyphrases are now correctly imported.
+* Fixed: No Pagination for Canonical URLs setting now correctly strips the entire paged query arg for paginated blog pages when the site is using plain permalinks.
+* Fixed: .htaccess file is now automatically updated with the sitemap rewrite rules for sites running on Apache that are using plain permalinks.
 
 **New in Version 4.2.4**
 
@@ -1019,6 +1052,17 @@ There are many WordPress SEO plugins out there. Unlike others, AIOSEO WordPress 
 
 AIOSEO is the original WordPress SEO plugin, and it's trusted by over 3 million website owners.
 
+= Do I really need an XML Sitemap? =
+
+Yes! XML Sitemaps help Google and other search engines to find all the pages of your website.
+
+An XML sitemap is a list of all the content on your website. The sitemap helps search engine bots to easily see all the content on your site in one place, The XML sitemap file is hidden from your human visitors, however search engines like Google can see it.
+
+Without an XML sitemap, some of your web pages may never be included in Google search results, and won't get any traffic.
+
+XML Sitemaps also help you tell Google which pages you DON'T want included in search results. This can help your SEO to prevent keyword cannibalization and duplicate content issues.
+
+As part of your SEO strategy, an XML sitemap can help you to improve your domain authority and unlock more traffic from Google, Bing and other search engines.
 
 == Screenshots ==
 
@@ -1039,6 +1083,6 @@ AIOSEO is the original WordPress SEO plugin, and it's trusted by over 3 million 
 
 == Upgrade Notice ==
 
-= 4.2.4 =
+= 4.2.5.1 =
 
 This update adds major improvements and bugfixes.
