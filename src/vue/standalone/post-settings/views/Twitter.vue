@@ -170,8 +170,8 @@
 				</div>
 
 				<div class="aioseo-description">
-					<span v-if="'summary' === currentPost.twitter_card">{{ strings.minimumSizeSummary }}</span>
-					<span v-if="'summary_large_image' === currentPost.twitter_card">{{ strings.minimumSizeSummaryWithLarge }}</span>
+					<span v-if="'summary' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummary }}</span>
+					<span v-if="'summary_large_image' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary_large_image' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummaryWithLarge }}</span>
 				</div>
 
 				<base-img :src="currentPost.twitter_image_custom_url" />

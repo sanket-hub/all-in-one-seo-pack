@@ -185,7 +185,7 @@ export default {
 					slug       : 'redirects',
 					icon       : 'svg-redirect-crossed-arrows',
 					name       : 'Redirects',
-					warning    : (0 < this?.redirects?.rows.filter(row => !!row.enabled).length),
+					warning    : (0 < this?.redirects?.rows?.filter(row => !!row.enabled).length),
 					permission : 'aioseo_page_redirects_manage'
 				},
 				{

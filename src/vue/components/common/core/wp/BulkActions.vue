@@ -43,3 +43,11 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.aioseo-wp-bulk-actions {
+	select {
+		margin-left: 0;
+	}
+}
+</style>

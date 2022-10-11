@@ -14,18 +14,18 @@
 			slug="completeSeoChecklist"
 		>
 			<template #header>
-				<div class="card-left">
-					<span>{{ strings.completeSeoChecklist }}</span>
+				<span>{{ strings.completeSeoChecklist }}</span>
 
-					<core-tooltip>
-						<svg-circle-question-mark />
+				<core-tooltip>
+					<svg-circle-question-mark />
 
-						<template #tooltip>
-							<span v-html="strings.cardDescription"/>
-						</template>
-					</core-tooltip>
-				</div>
+					<template #tooltip>
+						<span v-html="strings.cardDescription"/>
+					</template>
+				</core-tooltip>
+			</template>
 
+			<template #header-extra>
 				<base-button
 					class="refresh-results"
 					type="gray"
@@ -212,18 +212,22 @@ export default {
 		}
 	}
 
-	.card-left {
-		display: inline-flex;
-		flex: 1;
-	}
+	.aioseo-card {
+		.header-title {
+			display: inline-flex;
+			flex: 1;
+		}
 
-	.refresh-results {
-		margin-right: 10px;
+		.header-extra {
+			.refresh-results {
+				margin-right: 10px;
 
-		.aioseo-refresh {
-			width: 14px;
-			height: 14px;
-			margin-right: 10px;
+				.aioseo-refresh {
+					width: 14px;
+					height: 14px;
+					margin-right: 10px;
+				}
+			}
 		}
 	}
 }

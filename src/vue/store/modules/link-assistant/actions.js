@@ -3,7 +3,7 @@ import { setOptions } from '@/vue/utils/options'
 let skipNextPostSettingsUpdate = false
 
 export default {
-	linkDelete ({ commit, dispatch, rootState }, { postIndex, postId, linkId, linksReport, postReport }) {
+	linkDelete ({ commit, dispatch, rootState }, { postId, linkId, linksReport, postReport }) {
 		const slug = linksReport ? 'links-report-inner' : postReport ? 'post-report' : 'post-settings'
 		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/${slug}/links/delete`))
 			.send({
@@ -20,23 +20,18 @@ export default {
 					return
 				}
 
+				dispatch('getOverviewData')
+
 				if (postReport) {
-					commit('setPostReportLinks', {
-						links : { ...response.body.links }
-					})
+					return
 				}
 
 				if (linksReport) {
-					commit('updateLinksReportInner', {
-						postIndex : postIndex,
-						links     : response.body.links
-					})
-					dispatch('getOverviewData')
 					dispatch('setLinksReportCounts')
 				}
 			})
 	},
-	linksBulk ({ commit, dispatch, rootState }, { postIndex, postId, action, linkType, linkIds, linksReport, postReport }) {
+	linksBulk ({ commit, dispatch, rootState }, { postId, action, linkType, linkIds, linksReport, postReport }) {
 		const slug = linksReport ? 'links-report-inner' : postReport ? 'post-report' : 'post-settings'
 		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/${slug}/links/bulk`))
 			.send({
@@ -55,18 +50,13 @@ export default {
 					return
 				}
 
+				dispatch('getOverviewData')
+
 				if (postReport) {
-					commit('setPostReportLinks', {
-						links : { ...response.body.links }
-					})
+					return
 				}
 
 				if (linksReport) {
-					commit('updateLinksReportInner', {
-						postIndex : postIndex,
-						links     : response.body.links
-					})
-					dispatch('getOverviewData')
 					dispatch('setLinksReportCounts')
 				}
 			})
@@ -119,9 +109,7 @@ export default {
 				}
 
 				if (postReport) {
-					commit('setPostReportLinks', {
-						links : { ...response.body.links }
-					})
+					return
 				}
 
 				if (linksReport) {
@@ -134,7 +122,7 @@ export default {
 				}
 			})
 	},
-	suggestionsBulk ({ commit, dispatch, rootState }, { postIndex, postId, action, suggestionType, suggestionRows, linksReport, postReport }) {
+	suggestionsBulk ({ commit, dispatch, rootState }, { postId, action, suggestionType, suggestionRows, linksReport, postReport }) {
 		const slug = linksReport ? 'links-report-inner' : postReport ? 'post-report' : 'post-settings'
 		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/${slug}/suggestions/bulk`))
 			.send({
@@ -153,110 +141,106 @@ export default {
 					return
 				}
 
+				dispatch('getOverviewData')
+
 				if (postReport) {
-					commit('setPostReportLinks', {
-						links : { ...response.body.links }
-					})
+					return
 				}
 
 				if (linksReport) {
-					commit('updateLinksReportInner', {
-						postIndex : postIndex,
-						links     : response.body.links
-					})
-					dispatch('getOverviewData')
 					dispatch('setLinksReportCounts')
 				}
 			})
 	},
-	linksReportPaginate ({ commit, dispatch }, { page, selectedFilters, searchTerm }) {
-		const mainFilter = selectedFilters.mainFilter ? selectedFilters.mainFilter : 'all'
-		const termId     = selectedFilters.term ? selectedFilters.term : 0
-
-		let filter = mainFilter
-		if (mainFilter && termId) {
-			filter = mainFilter + '&' + termId
-		}
-
-		// eslint-disable-next-line one-var
-		let url = this._vm.$links.restUrl(`link-assistant/links-report/paginate/${filter}/${page}`)
-		if (searchTerm) {
-			searchTerm = encodeURIComponent(searchTerm)
-			url = this._vm.$links.restUrl(`link-assistant/links-report/paginate/${filter}/${page}/${searchTerm}`)
-		}
-
-		return this._vm.$http.post(url)
-			.then(response => {
-				commit('updateLinksReport', response.body.linksReport)
-				dispatch('getOverviewData')
-				dispatch('setLinksReportCounts')
-			})
-	},
-	linksReportSearch ({ commit, dispatch }, { searchTerm, page }) {
-		searchTerm = encodeURIComponent(searchTerm)
-		return this._vm.$http.get(this._vm.$links.restUrl(`link-assistant/links-report/search/${searchTerm}/${page}`))
-			.then(response => {
-				commit('updateLinksReport', response.body.linksReport)
-				dispatch('getOverviewData')
-				dispatch('setLinksReportCounts')
-			})
-	},
-	linksReportFilter ({ state, commit, dispatch }, { slug }) {
-		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/links-report/${slug}`))
+	fetchLinksReport ({ commit, dispatch }, { orderBy, orderDir, limit, offset, searchTerm, filter, additionalFilters }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/links-report/${filter}`))
 			.send({
-				searchTerm : state.searchTerm
-			}).then(response => {
-				commit('updateLinksReport', response.body.linksReport)
-				dispatch('getOverviewData')
-				dispatch('setLinksReportCounts')
+				orderBy,
+				orderDir,
+				limit,
+				offset,
+				searchTerm,
+				additionalFilters
 			})
-	},
-	linksReportAdditionalFilter ({ commit, dispatch }, { selectedFilters }) {
-		const mainFilter = selectedFilters.mainFilter ? selectedFilters.mainFilter : ''
-		const termId     = selectedFilters.term ? selectedFilters.term : 0
-
-		let slug = mainFilter
-		if (mainFilter && termId) {
-			slug = mainFilter + '&' + termId
-		}
-
-		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/links-report/${slug}`))
 			.then(response => {
 				commit('updateLinksReport', response.body.linksReport)
 				dispatch('getOverviewData')
 				dispatch('setLinksReportCounts')
 			})
 	},
-	linksReportDeleteAll ({ state, commit, dispatch }, { postId, selectedFilters, searchTerm }) {
-		const mainFilter = selectedFilters.mainFilter ? selectedFilters.mainFilter : ''
-		const termId     = selectedFilters.term ? selectedFilters.term : 0
-
-		return this._vm.$http.delete(this._vm.$links.restUrl(`link-assistant/links-report/post/${postId}`))
+	fetchLinksReportInner ({ commit, dispatch }, { filter, additionalFilters }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/links-report-inner/${filter}`))
 			.send({
-				currentPage : state.linksReport.totals.page,
-				searchTerm  : searchTerm,
-				filter      : mainFilter,
-				termId      : termId
+				additionalFilters
 			})
 			.then(response => {
-				commit('updateLinksReport', response.body.linksReport)
+				commit('updateLinksReportInner', {
+					postIndex : additionalFilters.postIndex,
+					links     : response.body.links
+				})
+
 				dispatch('getOverviewData')
-				dispatch('setLinksReportCounts')
 			})
 	},
-	domainsReportPaginate ({ commit, dispatch }, { page, searchTerm }) {
-		let url = this._vm.$links.restUrl(`link-assistant/domains-report/paginate/${page}`)
-		if (searchTerm) {
-			searchTerm = encodeURIComponent(searchTerm)
-			url = this._vm.$links.restUrl(`link-assistant/domains-report/paginate/${page}/${searchTerm}`)
-		}
-		return this._vm.$http.post(url)
+	fetchDomainsReport ({ commit, dispatch }, { orderBy, orderDir, limit, offset, searchTerm, filter, additionalFilters }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/domains-report/${filter}`))
+			.send({
+				orderBy,
+				orderDir,
+				limit,
+				offset,
+				searchTerm,
+				additionalFilters
+			})
 			.then(response => {
 				commit('updateDomainsReport', response.body.domainsReport)
 				dispatch('getOverviewData')
 			})
 	},
-	domainsReportBulk ({ state, commit, dispatch }, { action, searchTerm, rowIndexes }) {
+	fetchDomainsReportInner ({ commit, dispatch }, { orderBy, orderDir, offset, searchTerm, filter, additionalFilters }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/domains-report-inner/${filter}`))
+			.send({
+				orderBy,
+				orderDir,
+				offset,
+				searchTerm,
+				additionalFilters
+			})
+			.then(response => {
+				commit('updateDomainsReportInner', {
+					domainIndex : additionalFilters.domainIndex,
+					domain      : additionalFilters.domain,
+					posts       : response.body.posts
+				})
+
+				dispatch('getOverviewData')
+			})
+	},
+	fetchPostReport ({ commit }, { orderBy, orderDir, limit, offset, searchTerm, filter, additionalFilters }) {
+		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/post-report/${filter}`))
+			.send({
+				orderBy,
+				orderDir,
+				limit,
+				offset,
+				searchTerm,
+				additionalFilters
+			})
+			.then(response => {
+				if (additionalFilters.type) {
+					commit('updatePostReportLinks', {
+						postIndex : additionalFilters.postIndex,
+						links     : response.body.links,
+						type      : additionalFilters.type
+					})
+				}
+				return response
+			})
+	},
+	linksReportDeleteAll (context, { postId }) {
+		return this._vm.$http.delete(this._vm.$links.restUrl(`link-assistant/links-report/post/${postId}`))
+	},
+	domainsReportBulk ({ state, dispatch }, { action, rowIndexes }) {
 		const hostnames = []
 
 		if (Array.isArray(rowIndexes)) {
@@ -269,35 +253,12 @@ export default {
 
 		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/domains-report/bulk/${action}`))
 			.send({
-				currentPage : state.domainsReport.totals.page,
-				searchTerm  : searchTerm,
-				hostnames   : hostnames
-			}).then(response => {
-				commit('updateDomainsReport', response.body.domainsReport)
+				hostnames
+			}).then(() => {
 				dispatch('getOverviewData')
 			})
 	},
-	domainsReportSearch ({ commit, dispatch }, { searchTerm, page }) {
-		searchTerm = encodeURIComponent(searchTerm)
-		return this._vm.$http.get(this._vm.$links.restUrl(`link-assistant/domains-report/search/${searchTerm}/${page}`))
-			.then(response => {
-				commit('updateDomainsReport', response.body.domainsReport)
-				dispatch('getOverviewData')
-			})
-	},
-	domainsReportInnerPaginate ({ commit, dispatch }, { domainIndex, domain, page }) {
-		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/domains-report-inner/paginate/${domain}/${page}`))
-			.then(response => {
-				commit('updateDomainsReportInner', {
-					domainIndex,
-					domain,
-					posts : response.body.posts
-				})
-
-				dispatch('getOverviewData')
-			})
-	},
-	domainsReportInnerBulk ({ state, commit, dispatch }, { searchTerm, action, domainIndex, linkIndexes }) {
+	domainsReportInnerBulk ({ state, dispatch }, { offset, searchTerm, action, domainIndex, linkIndexes }) {
 		const links = []
 		if (Array.isArray(linkIndexes)) {
 			linkIndexes.forEach((index) => {
@@ -317,58 +278,31 @@ export default {
 
 		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/domains-report-inner/bulk/${action}`))
 			.send({
-				searchTerm  : searchTerm,
-				currentPage : state.domainsReport.totals.page,
-				links       : links
-			}).then(response => {
-				commit('updateDomainsReport', response.body.domainsReport)
+				searchTerm,
+				links,
+				offset
+			}).then(() => {
 				dispatch('getOverviewData')
 			})
 	},
-	domainsReportInnerLinkUpdate ({ commit, dispatch }, { domainIndex, domain, link }) {
+	domainsReportInnerLinkUpdate ({ dispatch }, { domain, link }) {
 		return this._vm.$http.put(this._vm.$links.restUrl('link-assistant/domains-report-inner/link'))
 			.send({
 				hostname : domain,
 				link     : link
-			}).then(response => {
-				commit('updateDomainsReportInner', {
-					domainIndex,
-					domain,
-					posts : response.body.posts
-				})
-
+			}).then(() => {
 				dispatch('getOverviewData')
 			})
 	},
-	domainsReportInnerLinkDelete ({ state, commit, dispatch }, { searchTerm, rows, postIndex, linkIndex }) {
+	domainsReportInnerLinkDelete ({ dispatch }, { searchTerm, rows, postIndex, linkIndex, offset }) {
 		const linkObject = rows[postIndex].links[linkIndex]
 		return this._vm.$http.delete(this._vm.$links.restUrl('link-assistant/domains-report-inner/link'))
 			.send({
-				searchTerm  : searchTerm,
-				currentPage : state.domainsReport.totals.page,
-				link        : linkObject
-			}).then(response => {
-				commit('updateDomainsReport', response.body.domainsReport)
+				searchTerm,
+				offset,
+				link : linkObject
+			}).then(() => {
 				dispatch('getOverviewData')
-			})
-	},
-	postReportInitial (context, postId) {
-		return this._vm.$http.get(this._vm.$links.restUrl(`link-assistant/post-report/${postId}`))
-			.then(response => {
-				return response
-			})
-	},
-	postReportPaginate ({ commit }, { postId, postIndex, page, type }) {
-		return this._vm.$http.post(this._vm.$links.restUrl(`link-assistant/post-report/paginate/${page}`))
-			.send({
-				postId : postId,
-				type   : type
-			}).then(response => {
-				commit('updatePostReportLinks', {
-					postIndex : postIndex,
-					links     : response.body.links,
-					type      : type
-				})
 			})
 	},
 	postSettingsUpdate ({ commit, rootState }, { postContent, skipNextRun }) {

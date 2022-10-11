@@ -12,6 +12,7 @@
 				@mousedown.prevent="mouseEvent => $refs['modal-container'].dragMouseDown(mouseEvent)"
 			>
 				<div class="aioseo-modal-header-title">{{ strings.header }}</div>
+
 				<div
 					class="aioseo-modal-header-close"
 					v-on:click="isOpen = false"
@@ -19,6 +20,7 @@
 					<svg-close />
 				</div>
 			</div>
+
 			<div class="aioseo-modal-body edit-post-sidebar">
 				<PostSettings/>
 			</div>

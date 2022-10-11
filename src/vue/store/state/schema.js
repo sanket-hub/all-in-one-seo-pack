@@ -4,11 +4,13 @@ export default {
 			graphName : '',
 			schema    : ''
 		},
+		defaultGraphParent      : '',
 		graph                   : null,
 		graphCardsKey           : 0,
 		isDirty                 : false,
 		isEditingCustomGraph    : false,
 		isEditingCustomTemplate : false,
+		isEditingDefaultGraph   : false,
 		isEditingGraph          : false,
 		isEditingTemplate       : false,
 		modalOpenMetabox        : false,

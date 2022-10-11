@@ -25,6 +25,10 @@ export default {
 		commit('addCustomTemplateAsGraph')
 		dispatch('updateSchemaOutput')
 	},
+	addDefaultGraph ({ commit, dispatch }) {
+		commit('addDefaultGraph')
+		dispatch('updateSchemaOutput')
+	},
 	addGraph ({ commit, dispatch }) {
 		commit('addGraph')
 		dispatch('updateSchemaOutput')
@@ -76,12 +80,12 @@ export default {
 				}
 			})
 	},
-	readdDefaultGraph ({ commit, dispatch }) {
-		commit('readdDefaultGraph')
-		dispatch('updateSchemaOutput')
-	},
 	updateCustomGraph ({ commit, dispatch }) {
 		commit('updateCustomGraph')
+		dispatch('updateSchemaOutput')
+	},
+	updateDefaultGraph ({ commit, dispatch }) {
+		commit('updateDefaultGraph')
 		dispatch('updateSchemaOutput')
 	},
 	updateGraph ({ commit, dispatch }) {

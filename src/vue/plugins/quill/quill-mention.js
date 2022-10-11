@@ -97,6 +97,16 @@ class Mention {
 		this.mentionSearch.innerHTML = this.options.prependMentionList || ''
 		this.mentionContainer.appendChild(this.mentionSearch)
 
+		const removeSmartTag = this.mentionSearch.querySelector('.aioseo-trash')
+		if (removeSmartTag) {
+			removeSmartTag.addEventListener('click', () => {
+				this.currentBlot.remove()
+
+				this.hideMentionList()
+				this.removeOrphanedMentionChar()
+			})
+		}
+
 		this.customFieldInput.addEventListener('click', event => {
 			this.activeElement = event.target
 			const input = event.target.querySelector('input')
@@ -190,6 +200,16 @@ class Mention {
 			? this.options.mentionListClass
 			: ''
 		this.mentionContainer.appendChild(this.mentionList)
+
+		// Documentation link.
+		const documentationDiv     = document.createElement('div')
+		documentationDiv.className = 'aioseo-documentation-link'
+		documentationDiv.innerHTML = this.options.documentationDiv || ''
+		documentationDiv.addEventListener('click', event => {
+			this.activeElement = event.target
+		})
+
+		this.mentionContainer.appendChild(documentationDiv)
 
 		this.quill.container.appendChild(this.mentionContainer)
 

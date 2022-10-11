@@ -511,8 +511,8 @@ export default {
 				return
 			}
 
-			const redirectType = this.$constants.REDIRECT_TYPES.find(t => t.value === this.type)
-			const queryParam   = this.$constants.REDIRECT_QUERY_PARAMS.find(t => t.value === this.query)
+			const redirectType = this.$constants.REDIRECT_TYPES.find(t => t.value === this.type) || this.getDefaultRedirectType
+			const queryParam   = this.$constants.REDIRECT_QUERY_PARAMS.find(t => t.value === this.query) || this.getDefaultQueryParam
 
 			this.sourceUrls        = [ JSON.parse(JSON.stringify(this.getDefaultSourceUrl)) ]
 			this.targetUrl         = null

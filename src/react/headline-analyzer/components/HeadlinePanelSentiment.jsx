@@ -12,7 +12,7 @@ const HeadlinePanelSentiment = props => {
 		td
 	)
 	const textNeutralSentimentGuideline = __(
-		'Headlines that are strongly positive or negative tend to get more engagement then neutral ones.',
+		'Headlines that are strongly positive or negative tend to get more engagement than neutral ones.',
 		td
 	)
 	const textPositiveSentiment = __(

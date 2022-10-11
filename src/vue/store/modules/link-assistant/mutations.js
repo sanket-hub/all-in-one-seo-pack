@@ -49,9 +49,6 @@ export default {
 	setSuggestionsScanPercent (state, percent) {
 		this._vm.$set(state.suggestionsScan, 'percent', percent)
 	},
-	setPaginatedPage (state, { group, page }) {
-		this._vm.$set(state[group].tableFields, 'paginatedPage', page)
-	},
 	setDomainsReportInnerPaginatedPage (state, { domain, page }) {
 		const innerPagination   = state.domainsReport.innerPagination || {}
 		innerPagination[domain] = page

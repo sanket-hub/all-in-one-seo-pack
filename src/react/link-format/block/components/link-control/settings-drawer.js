@@ -42,6 +42,31 @@ class LinkControlSettingsDrawer extends Component {
 		}
 	}
 
+	componentDidUpdate (prevProps, prevState) {
+		if (prevState.textValue !== this.state.textValue) {
+			return
+		}
+
+		if (prevProps.value.title !== this.props.value.title) {
+			return
+		}
+
+		if (prevProps.value.title !== prevState.textValue) {
+			this.setState({ textValue: prevProps.value.title })
+		}
+	}
+
+	componentWillUnmount () {
+		if (!this.state.textValue) {
+			return
+		}
+
+		this.props.onChange({
+			...this.props.value,
+			title : this.state.textValue
+		})
+	}
+
 	render () {
 		const { value, onChange } = this.props
 		const settings = defaultSettings
@@ -57,6 +82,19 @@ class LinkControlSettingsDrawer extends Component {
 			})
 		}
 
+		const handleTitleChange = (event, setting) => {
+			// This prevents the link drawer from crashing if no URL is set.
+			if (!value.url) {
+				this.setState({ textValue: event.target.value })
+				return
+			}
+
+			onChange({
+				...value,
+				[setting.id] : event.target.value
+			})
+		}
+
 		const theSettings = settings.map((setting) => {
 			if ('TextControl' === setting.type) {
 				return <TextControl
@@ -68,15 +106,17 @@ class LinkControlSettingsDrawer extends Component {
 						this.setState({ textValue: val })
 					}}
 					onBlur={(event) => {
-						// This prevents the link drawer from crashing if no URL is set.
-						if (!value.url) {
-							this.setState({ textValue: event.target.value })
+						handleTitleChange(event, setting)
+					}}
+					onKeyDown={(event) => {
+						if (13 !== event.keyCode) {
 							return
 						}
-						onChange({
-							...value,
-							[setting.id] : event.target.value
-						})
+
+						handleTitleChange(event, setting)
+
+						event.preventDefault()
+						event.stopPropagation()
 					}}
 					value={this.state.textValue}
 				/>

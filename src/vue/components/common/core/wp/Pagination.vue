@@ -24,14 +24,14 @@
 					v-model="pageNumber"
 					size="2"
 					:min="1"
-					:max="totals.pages"
+					:max="totals.pages || 1"
 					:step="1"
 					aria-describedby="table-paging"
 					@keyup.enter="toPage(pageNumber)"
 					:disabled="!totals.pages || disableTable"
 				/>
 				<span class="tablenav-paging-text">
-					{{ strings.of }} {{ totals.pages }}
+					{{ strings.of }} {{ totals.pages || 0 }}
 				</span>
 			</span>
 			<component

@@ -8,7 +8,7 @@
 			placement,
 			modifiers : {
 				flip: {
-					enabled : false
+					enabled : flip
 				},
 				preventOverflow : {
 					escapeWithReference : true
@@ -70,6 +70,12 @@ export default {
 			type : String,
 			default () {
 				return '0,0'
+			}
+		},
+		flip : {
+			type : Boolean,
+			default () {
+				return false
 			}
 		}
 	},

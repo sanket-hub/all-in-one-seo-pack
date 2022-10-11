@@ -35,6 +35,10 @@
 						<slot name="tooltip" />
 					</template>
 				</core-tooltip>
+
+				<div class="header-extra">
+					<slot name="header-extra" />
+				</div>
 			</div>
 
 			<svg-caret

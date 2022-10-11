@@ -18,7 +18,7 @@
 		</template>
 
 		<div class="aioseo-additional-pages">
-			<AddAdditionalPage
+			<add-additional-page
 				:getPaginatedIndex="getPaginatedIndex"
 				:getParsedPages="getParsedPages"
 				@process-page-add-and-update="processPageAddAndUpdate"
@@ -27,18 +27,23 @@
 			<core-wp-table
 				ref="table"
 				class="additional-pages-table"
-				:key="tableKey"
+				:id="tableId"
+				:bulk-options="bulkOptions"
 				:columns="columns"
-				:rows="rows"
-				:totals="totals"
+				:initial-items-per-page="$aioseo.settings.tablePagination.sitemapAdditionalPages"
+				:initial-page-number="pageNumber"
+				:key="wpTableKey"
 				:loading="wpTableLoading"
-				:initialPageNumber="1"
-				:showSearch="showSearch"
-				:bulkOptions="bulkOptions"
+				:rows="rows"
 				:search-label="strings.searchUrls"
-				@process-bulk-action="processBulkAction"
+				:show-search="true"
+				:totals="totals"
+				show-items-per-page
 				@paginate="processPagination"
+				@process-bulk-action="processBulkAction"
+				@process-change-items-per-page="processChangeItemsPerPage"
 				@search="processSearch"
+				@sort-column="processSort"
 			>
 				<template #url="{ row, index, editRow }">
 					<a
@@ -73,7 +78,7 @@
 				</template>
 
 				<template #edit-row="{ index, editRow }">
-					<AddAdditionalPage
+					<add-additional-page
 						:index="index"
 						:rowPage="rowPage( index )"
 						:editedPage="editedPage"
@@ -146,6 +151,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { WpTable } from '@/vue/mixins'
 import AddAdditionalPage from './partials/AddAdditionalPage.vue'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import CoreCard from '@/vue/components/common/core/Card'
@@ -154,6 +160,7 @@ import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 
 export default {
+	mixins     : [ WpTable ],
 	components : {
 		AddAdditionalPage,
 		CoreWpTable,
@@ -164,22 +171,18 @@ export default {
 	},
 	data () {
 		return {
-			page            : {},
-			editedPage      : {},
-			resultsPerPage  : 10,
-			searchResults   : null,
-			searchTerm      : null,
-			deletingRow     : false,
-			tableKey        : 0,
-			activeRow       : -1,
-			pageNumber      : 1,
-			wpTableLoading  : false,
-			showSearch      : true,
-			showPagination  : true,
-			showDeleteModal : false,
-			shouldDeleteURL : null,
-			selectedRows    : null,
-			bulkOptions     : [
+			tableId                : 'sitemap-additional-pages',
+			changeItemsPerPageSlug : 'sitemapAdditionalPages',
+			page                   : {},
+			editedPage             : {},
+			resultsPerPage         : 10,
+			searchResults          : null,
+			deletingRow            : false,
+			activeRow              : -1,
+			showDeleteModal        : false,
+			shouldDeleteURL        : null,
+			selectedRows           : null,
+			bulkOptions            : [
 				{ label: this.$t.__('Delete', this.$tdPro), value: 'delete' }
 			],
 			strings : {
@@ -275,6 +278,10 @@ export default {
 	},
 	methods : {
 		...mapMutations([ 'updateAdditionalPages' ]),
+		// Placeholder method.
+		fetchData () {
+			return Promise.resolve()
+		},
 		processSearch (searchTerm) {
 			this.$refs.table.editRow(null)
 			this.pageNumber = 1
@@ -292,12 +299,6 @@ export default {
 			this.wpTableLoading = true
 			this.searchResults  = this.getParsedPages().filter(page => page.url.includes(searchTerm))
 			this.searchTerm     = searchTerm
-			this.wpTableLoading = false
-		},
-		processPagination (page) {
-			this.$refs.table.editRow(null)
-			this.wpTableLoading = true
-			this.pageNumber     = page
 			this.wpTableLoading = false
 		},
 		processBulkAction ({ action, selectedRows }) {
@@ -383,18 +384,7 @@ export default {
 				font-size: 13px;
 				font-weight: 400;
 				height: auto;
-				padding: 12px 0;
-			}
-		}
-
-		.tablenav.bottom {
-			.bulkactions {
-				display: none;
-			}
-
-			.tablenav-pages {
-				margin-left: auto;
-				margin-right: 7px;
+				padding: 10px 0 5px;
 			}
 		}
 

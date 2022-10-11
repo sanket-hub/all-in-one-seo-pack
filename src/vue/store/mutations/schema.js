@@ -13,10 +13,12 @@ function resetSessionState (context, state) {
 		schema    : ''
 	})
 
+	context._vm.$set(state.schema, 'defaultGraphParent', '')
 	context._vm.$set(state.schema, 'graph', null)
 
 	context._vm.$set(state.schema, 'isEditingCustomGraph', false)
 	context._vm.$set(state.schema, 'isEditingCustomTemplate', false)
+	context._vm.$set(state.schema, 'isEditingDefaultGraph', false)
 	context._vm.$set(state.schema, 'isEditingGraph', false)
 	context._vm.$set(state.schema, 'isEditingTemplate', false)
 
@@ -54,6 +56,15 @@ export default {
 		state.currentPost.schema.customGraphs = state.currentPost.schema.customGraphs.sort((a, b) => {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
+
+		resetSessionState(this, state)
+
+		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
+		this._vm.$set(state.schema, 'modalOpenMetabox', false)
+		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+	},
+	addDefaultGraph (state) {
+		this._vm.$set(state.currentPost.schema.default, 'isEnabled', true)
 
 		resetSessionState(this, state)
 
@@ -128,8 +139,13 @@ export default {
 		this._vm.$set(state.schema, 'modalOpenSidebar', false)
 	},
 	deleteDefaultGraph (state) {
-		this._vm.$set(state.currentPost.schema, 'defaultGraph', '')
+		this._vm.$set(state.currentPost.schema.default, 'isEnabled', false)
+
+		resetSessionState(this, state)
+
 		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
+		this._vm.$set(state.schema, 'modalOpenMetabox', false)
+		this._vm.$set(state.schema, 'modalOpenSidebar', false)
 	},
 	deleteGraph (state, graphIndex) {
 		if (undefined === graphIndex) {
@@ -165,6 +181,23 @@ export default {
 		this._vm.$set(state.schema, 'isEditingCustomGraph', true)
 
 		this._vm.$set(state.schema.tabs, 'generator', 'custom-schema')
+
+		if (isSidebar) {
+			this._vm.$set(state.schema, 'modalOpenSidebar', true)
+		} else {
+			this._vm.$set(state.schema, 'modalOpenMetabox', true)
+		}
+	},
+	editDefaultGraph (state, { isSidebar, parentGraphName }) {
+		this._vm.$set(state.schema, 'defaultGraphParent', parentGraphName)
+
+		// First, check the default graph already has properties set.
+		if (state.currentPost.schema.default.data[parentGraphName]) {
+			this._vm.$set(state.schema, 'graph', state.currentPost.schema.default.data[parentGraphName])
+		}
+
+		this._vm.$set(state.schema, 'isEditingDefaultGraph', true)
+		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
 
 		if (isSidebar) {
 			this._vm.$set(state.schema, 'modalOpenSidebar', true)
@@ -221,15 +254,6 @@ export default {
 
 		this._vm.$set(state.internalOptions.internal.schema, 'templates', templates)
 	},
-	readdDefaultGraph (state) {
-		this._vm.$set(state.currentPost.schema, 'defaultGraph', state.currentPost.schema.defaultPostTypeGraph)
-
-		resetSessionState(this, state)
-
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
-	},
 	setIsDirty (state, isDirty) {
 		this._vm.$set(state.schema, 'isDirty', isDirty)
 	},
@@ -275,6 +299,15 @@ export default {
 		state.currentPost.schema.customGraphs = state.currentPost.schema.customGraphs.sort((a, b) => {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
+
+		resetSessionState(this, state)
+
+		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
+		this._vm.$set(state.schema, 'modalOpenMetabox', false)
+		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+	},
+	updateDefaultGraph (state) {
+		this._vm.$set(state.currentPost.schema.default.data, state.schema.defaultGraphParent, state.schema.graph)
 
 		resetSessionState(this, state)
 

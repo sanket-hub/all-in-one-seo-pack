@@ -2,8 +2,7 @@ import { mapState, mapActions } from 'vuex'
 
 import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
 import { escapeRegex } from '@/vue/utils/regex'
-
-import CommonMixin from './Common.js'
+import CommonMixin from './Common'
 export default {
 	mixins : [ CommonMixin ],
 	props  : {
@@ -46,13 +45,11 @@ export default {
 	},
 	data () {
 		return {
-			tableKey       : 0,
-			pageNumber     : 1,
-			action         : '',
-			wpTableLoading : false,
-			showModal      : false,
-			selectedRows   : [],
-			bulkOptions    : [
+			changeItemsPerPageSlug : 'linkAssistantPostsReport',
+			action                 : '',
+			showModal              : false,
+			selectedRows           : [],
+			bulkOptions            : [
 				{ label: this.$t.__('Delete', this.$td), value: 'delete' }
 			],
 			strings : {
@@ -86,11 +83,29 @@ export default {
 		...mapActions('linkAssistant', [
 			'linkDelete',
 			'linksBulk',
-			'postReportPaginate',
+			'fetchPostReport',
+			'fetchLinksReportInner',
 			'postSettingsUpdate'
 		]),
+		fetchData (payload) {
+			this.$bus.$emit('updatingLinks', true)
+
+			const newPayload = {
+				...payload,
+				additionalFilters : {
+					postId    : this.post.ID,
+					postIndex : this.postIndex,
+					type      : this.linkType
+				}
+			}
+
+			const action = this.postReport ? 'fetchPostReport' : 'fetchLinksReportInner'
+			return this[action](newPayload).finally(() => {
+				this.$bus.$emit('updatingLinks', false)
+			})
+		},
 		openPostReport (initialTab) {
-			window.location.href = `#/post-report?postId=${this.postId}&initialTab=${initialTab}`
+			window.location.href = `#/post-report?postId=${this.postId}&postIndex=${this.postIndex}&initialTab=${initialTab}`
 		},
 		maybeDoBulkAction ({ action, selectedRows }) {
 			if (false === selectedRows || !action) {
@@ -132,6 +147,7 @@ export default {
 			}).finally(() => {
 				this.$bus.$emit('updatingLinks', false)
 				this.$emit('linksUpdated')
+				this.refreshTable()
 			})
 		},
 		doDeleteLink (index) {
@@ -149,30 +165,13 @@ export default {
 			this.linkDelete({
 				postIndex   : this.postIndex,
 				postId      : this.post.ID || this.currentPost.id,
-				linkId      : linkId,
+				linkId,
 				linksReport : this.linksReport,
 				postReport  : this.postReport
 			}).finally(() => {
 				this.$bus.$emit('updatingLinks', false)
 				this.$emit('linksUpdated')
-			})
-		},
-		processPagination (page) {
-			this.tableKey++
-			this.pageNumber = page
-
-			if (this.metabox) {
-				return
-			}
-
-			this.$bus.$emit('updatingLinks', true)
-			this.postReportPaginate({
-				page      : page,
-				postId    : this.post.ID,
-				postIndex : this.postIndex,
-				type      : this.linkType
-			}).finally(() => {
-				this.$bus.$emit('updatingLinks', false)
+				this.refreshTable()
 			})
 		},
 		editorRemoveLink (rowIndex) {

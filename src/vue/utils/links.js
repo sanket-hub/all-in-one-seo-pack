@@ -115,7 +115,8 @@ const docLinks = {
 	runningShortcodes             : `${marketingSite}docs/running-shortcodes/`,
 	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`,
 	schema                        : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/`,
-	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`
+	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`,
+	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`
 }
 
 const upsellLinks = {

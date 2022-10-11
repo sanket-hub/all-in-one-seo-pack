@@ -722,9 +722,11 @@ export default {
 				count
 			})
 	},
-	fetchNetworkSites ({ commit }, { limit, offset, searchTerm, filter }) {
+	fetchNetworkSites ({ commit }, { orderBy, orderDir, limit, offset, searchTerm, filter }) {
 		return this._vm.$http.post(this._vm.$links.restUrl(`network-sites/${filter}`))
 			.send({
+				orderBy,
+				orderDir,
 				limit,
 				offset,
 				searchTerm

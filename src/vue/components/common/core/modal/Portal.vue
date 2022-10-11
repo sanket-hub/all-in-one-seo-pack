@@ -7,6 +7,7 @@
 			]"
 			:no-header="noHeader"
 			@close="$emit('close')"
+			:allow-body-overflow="allowBodyOverflow"
 		>
 			<template #headerTitle>
 				<slot name="headerTitle" />
@@ -26,8 +27,9 @@ export default {
 		CoreModal
 	},
 	props : {
-		noHeader : Boolean,
-		classes  : Array
+		noHeader          : Boolean,
+		classes           : Array,
+		allowBodyOverflow : Boolean
 	}
 }
 </script>

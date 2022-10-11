@@ -18,7 +18,7 @@
 					:urls="urls"
 					:target="urls[0].target ? urls[0].target : '/'"
 					:disableSource="true"
-					@added-redirect="reload()"
+					@added-redirect="reload"
 				/>
 			</div>
 		</core-modal-portal>

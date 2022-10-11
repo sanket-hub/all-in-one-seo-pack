@@ -11,7 +11,9 @@ class CustomClipboard extends Clipboard {
 		const scrollTop = this.quill.scrollingContainer.scrollTop
 		let delta       = new Delta().retain(range.index)
 
-		if (e.defaultPrevented || !this.quill.isEnabled()) return
+		if (e.defaultPrevented || !this.quill.isEnabled()) {
+			return
+		}
 
 		this.container.focus()
 		this.quill.selection.update(Quill.sources.SILENT)

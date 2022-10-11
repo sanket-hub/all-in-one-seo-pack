@@ -134,43 +134,6 @@ class SiteAnalysis {
 		return body
 	}
 
-	keywordsInTitleDescriptionHead = result => {
-		if ('title-missing' === result.error) {
-			return __('No keywords were found in the page title.', td)
-		} else if ('description-missing' === result.error) {
-			return this.personalize
-				? __('No keywords were found in your meta description.', td)
-				: __('No keywords were found in the meta description.', td)
-		} else if ('description-title-missing' === result.error) {
-			return __('Both the page title and meta description are missing keywords.', td)
-		}
-
-		return this.personalize
-			? __('One or more keywords were found in the title and description of your page.', td)
-			: __('One or more keywords were found in the title and description of the page.', td)
-	}
-
-	keywordsInTitleDescriptionBody = result => {
-		let code = ''
-		if (Object.keys(result.value.title).length) {
-			code += __('Title:', td) + ' ' + Object.keys(result.value.title).join(', ')
-		}
-		if (Object.keys(result.value.description).length) {
-			if (code.length) {
-				code += '<br>'
-			}
-			code += __('Description:', td) + ' ' + Object.keys(result.value.description).join(', ')
-		}
-		const body = {
-			code,
-			message    : __('You need to use titles and descriptions that are attractive to users and contain your keywords. Use the keywords naturally - keyword stuffing is usually detected and will result in a lower ranking. What\'s more, it\'s pretty off-putting for potential readers, who are more likely to click on an appealing link.', td),
-			buttonText : __('Edit Your Page Title & Description', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : window.aioseo.urls.aio.searchAppearance
-		}
-
-		return body
-	}
-
 	h1TagsHead = result => {
 		if ('h1-missing' === result.error) {
 			return __('No H1 tag was found.', td) + ' ' + __('For the best SEO results there should be exactly one H1 tag on each page.', td)
@@ -265,7 +228,7 @@ class SiteAnalysis {
 	linksRatioBody = result => {
 		const body = {
 			code       : __('Internal:', td) + ' ' + result.value.internal + '<br>' + __('External:', td) + ' ' + result.value.external,
-			message    : __('Add links to external resources that are useful for your readers. Make sure you link to high-quality sites - Google penalizes pages that link to "spammy" sites (ones that break the Google webmaster guidelines).', td) + '<br><br>' + __('Ideally, the links should be highly relevant to the subject you\'re writing about. It\'s impossible to cover every aspect of a subject on a single page, but your readers may be fascinated by some detail you barely touch on. If you link to a resource where they can learn more, they\'ll be grateful. What\'s more, you\'ll be rewarded with higher rankings!', td),
+			message    : __('Add links to internal and external resources that are useful for your readers. For Internal links, make sure the links are highly relevant to the subject you\'re writing about. For external links, make sure you link to high-quality sites - Google penalizes pages that link to "spammy" sites (ones that break the Google webmaster guidelines).', td) + '<br><br>' + __('It\'s impossible to cover every aspect of a subject on a single page, but your readers may be fascinated by some detail you barely touch on. If you link to a resource where they can learn more, they\'ll be grateful. What\'s more, you\'ll be rewarded with higher rankings!', td),
 			buttonText : __('Edit Your Page', td),
 			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
 		}

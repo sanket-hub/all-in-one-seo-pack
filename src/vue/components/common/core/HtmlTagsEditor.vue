@@ -24,6 +24,22 @@
 					{{ tag.name }}
 				</core-add-template-tag>
 
+				<div
+					v-if="!disableEmoji"
+				>
+					<button
+						class="aioseo-show-emoji-button"
+						@click.prevent="showEmojiPicker = !showEmojiPicker"
+					>
+						😀
+					</button>
+
+					<core-emoji
+						:show.sync="showEmojiPicker"
+						@selected-emoji="insertSelectedEmoji"
+					/>
+				</div>
+
 				<a
 					v-if="showAllTagsLink"
 					class="aioseo-view-all-tags"
@@ -56,11 +72,13 @@
 import BaseEditor from '@/vue/components/common/base/Editor'
 import CoreAddTemplateTag from '@/vue/components/common/core/AddTemplateTag'
 import CoreAlertUnfilteredHtml from '@/vue/components/common/core/alert/UnfilteredHtml'
+import CoreEmoji from '@/vue/components/common/core/Emoji'
 export default {
 	components : {
 		BaseEditor,
 		CoreAddTemplateTag,
-		CoreAlertUnfilteredHtml
+		CoreAlertUnfilteredHtml,
+		CoreEmoji
 	},
 	props : {
 		single      : Boolean,
@@ -102,6 +120,7 @@ export default {
 		tagsContext            : String,
 		defaultMenuOrientation : String,
 		description            : Boolean,
+		disableEmoji           : Boolean,
 		tagsDescription        : {
 			type : String,
 			default () {
@@ -123,7 +142,8 @@ export default {
 	},
 	data () {
 		return {
-			strings : {
+			showEmojiPicker : false,
+			strings         : {
 				allTags : this.$t.__('View all tags', this.$td)
 			}
 		}
@@ -142,6 +162,9 @@ export default {
 	methods : {
 		insertTag (tagId) {
 			this.$refs.editor.insertTag(tagId)
+		},
+		insertSelectedEmoji (emoji) {
+			this.$refs.editor.insertToCursor(emoji.native)
 		}
 	}
 }
@@ -161,9 +184,23 @@ export default {
 		display: flex;
 		align-items: center;
 		margin-bottom: 20px;
+		gap: 10px;
 
-		div {
-			margin-right: 10px;
+		button {
+			height: 30px;
+			background: #fff;
+			border-radius: 3px;
+			padding: 0 5px;
+			color: $black;
+			font-size: 14px;
+			border: 1px solid $border;
+			cursor: pointer;
+			user-select: none;
+			font-weight: 600;
+
+			&:hover {
+				background-color: $background;
+			}
 		}
 
 		a {

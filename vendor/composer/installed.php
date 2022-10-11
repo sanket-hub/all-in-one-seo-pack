@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd19eebce8abf2b9632311b6cc668b69e5c7b5b30',
+        'reference' => 'a6dd3a5deec63514474cdd9aea2cbfff62b648f8',
         'name' => 'awesomemotive/all-in-one-seo-pack-pro',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd19eebce8abf2b9632311b6cc668b69e5c7b5b30',
+            'reference' => 'a6dd3a5deec63514474cdd9aea2cbfff62b648f8',
             'dev_requirement' => false,
         ),
         'graham-campbell/result-type' => array(

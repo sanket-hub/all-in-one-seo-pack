@@ -35,12 +35,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
 	props : {
 		additionalFilters : {
 			type     : Array,
 			required : true
+		},
+		selectedFilters : {
+			type : Object,
+			default () {
+				return {}
+			}
 		}
 	},
 	data () {
@@ -49,9 +54,6 @@ export default {
 				filter : this.$t.__('Filter', this.$td)
 			}
 		}
-	},
-	computed : {
-		...mapState('redirects', [ 'selectedFilters' ])
 	},
 	mounted () {
 		this.setInitialOptions()
