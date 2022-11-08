@@ -4,6 +4,7 @@ import stripSpaces from '../stringProcessing/stripSpaces.js'
 
 import { blockElements } from '../helpers/html.js'
 
+const blockElementRegex = new RegExp('</?(' + blockElements.join('|') + ')[^>]*?>', 'ig')
 const blockElementStartRegex = new RegExp('^<(' + blockElements.join('|') + ')[^>]*?>', 'i')
 const blockElementEndRegex = new RegExp('</(' + blockElements.join('|') + ')[^>]*?>$', 'i')
 
@@ -38,7 +39,11 @@ const stripBlockTagsAtStartEnd = function (text) {
  * @returns {string} The text without HTML-tags.
  */
 const stripFullTags = function (text) {
-	text = text.replace(/(<([^>]+)>)/ig, ' ')
+	// Replace block level tags with a space so words don't run together.
+	text = text.replace(blockElementRegex, ' ')
+
+	// No space replacement for other tags in case they're located within a word.
+	text = text.replace(/(<([^>]+)>)/ig, '')
 	text = stripSpaces(text)
 	return text
 }

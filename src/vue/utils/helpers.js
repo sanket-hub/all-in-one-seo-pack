@@ -10,6 +10,36 @@ export const decodeHTMLEntities = string => {
 	return string
 }
 
+/**
+ * Converts a number of HTML entities into their special characters.
+ * JS equivilant of wp_specialchars_decode().
+ *
+ * @param   {string}  string The text which is to be decoded.
+ * @returns {string}         The decoded text without HTML entities.
+ */
+export const decodeSpecialChars = string => {
+	// Not a string, or no entities to decode.
+	if ('string' !== typeof string || !string.includes('&')) {
+		return string
+	}
+
+	const charMap = {
+		'&amp;'  : '&',
+		'&lt;'   : '<',
+		'&gt;'   : '>',
+		'&quot;' : '"'
+	}
+
+	Object.entries(charMap).forEach(([ key, value ]) => {
+		string = string.replaceAll(key, value)
+	})
+
+	// Remove any script tags that may have been created.
+	string = string.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '')
+
+	return string
+}
+
 export const observeElement = params => {
 	new MutationObserver(function () {
 		let el = params.id ? document.getElementById(params.id) : document.querySelector(params.selector)

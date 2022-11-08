@@ -51,8 +51,8 @@
 					id="post-search-input"
 					name="s"
 					v-model="searchTerm"
-					@keyup.enter="$emit('search', searchTerm)"
-					@search="$emit('search', searchTerm)"
+					@keyup.enter="processSearch"
+					@search="processSearch"
 					:disabled="disableTable"
 				/>
 				<input
@@ -60,7 +60,7 @@
 					id="search-submit"
 					class="button"
 					:value="searchLabel"
-					@click.prevent="$emit('search', searchTerm)"
+					@click.prevent="processSearch"
 					:disabled="disableTable"
 				/>
 			</p>
@@ -76,6 +76,7 @@
 				<core-wp-additional-filters
 					v-if="additionalFilters && additionalFilters.length"
 					:additional-filters="additionalFilters"
+					:selected-filters="selectedFilters"
 					@change="value => $emit('additional-filter-option-selected', value)"
 					@process-additional-filters="processAdditionalFilters"
 				/>
@@ -113,51 +114,15 @@
 								:disabled="loading || disableTable"
 							/>
 						</td>
-						<th
-							scope="col"
+
+						<core-wp-table-header-footer
 							v-for="(column, index) in columns"
 							:key="index"
-							:style="{ width: column.width }"
-							class="manage-column"
-							:class="[{
-								sortable : !disableTable && column.sortable,
-								asc      : 'asc' === column.sortDir && column.sortable,
-								desc     : 'desc' === column.sortDir && column.sortable,
-								sorted   : column.sortable && column.sorted,
-							}, column.slug]"
-						>
-							<template
-								v-if="!column.tooltipIcon && column.sortable"
-							>
-								<a
-									href="#"
-									@click.prevent="event => $emit('sort-column', column, event)"
-								>
-									<span>{{ column.label }}</span>
-									<span class="sorting-indicator" />
-								</a>
-							</template>
-
-							<template
-								v-if="!column.tooltipIcon && !column.sortable"
-							>
-								{{ column.label }}
-							</template>
-
-							<template
-								v-if="column.tooltipIcon"
-							>
-								<div class="aioseo-table-header-tooltip-icon">
-									<core-tooltip class="action" type="action">
-										<component :is="column.tooltipIcon"></component>
-
-										<template #tooltip>
-											{{ column.label }}
-										</template>
-									</core-tooltip>
-								</div>
-							</template>
-						</th>
+							:column="column"
+							:disable-table="disableTable"
+							@sort-column="(column, event) => $emit('sort-column', column, event)"
+							allow-tooltip-icon
+						/>
 					</tr>
 				</thead>
 
@@ -272,15 +237,14 @@
 								:disabled="loading || disableTable"
 							/>
 						</td>
-						<th
-							scope="col"
+
+						<core-wp-table-header-footer
 							v-for="(column, index) in columns"
 							:key="index"
-							:style="{ width: column.width }"
-							class="manage-column"
-						>
-							{{ column.label }}
-						</th>
+							:column="column"
+							:disable-table="disableTable"
+							@sort-column="(column, event) => $emit('sort-column', column, event)"
+						/>
 					</tr>
 				</tfoot>
 			</table>
@@ -319,23 +283,22 @@
 </template>
 
 <script>
-import CoreBlur from '@/vue/components/common/core/Blur'
+import { debounce } from '@/vue/utils/debounce'
 import CoreLoader from '@/vue/components/common/core/Loader'
-import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpAdditionalFilters from './AdditionalFilters'
 import CoreWpBulkActions from './BulkActions'
 import CoreWpItemsPerPage from './ItemsPerPage'
 import CoreWpPagination from './Pagination'
+import CoreWpTableHeaderFooter from './TableHeaderFooter.vue'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
 	components : {
-		CoreBlur,
 		CoreLoader,
-		CoreTooltip,
 		CoreWpAdditionalFilters,
 		CoreWpBulkActions,
 		CoreWpItemsPerPage,
 		CoreWpPagination,
+		CoreWpTableHeaderFooter,
 		TransitionSlide
 	},
 	props : {
@@ -410,17 +373,13 @@ export default {
 				return ''
 			}
 		},
-		showItemsPerPage : {
-			type : Boolean,
-			default () {
-				return false
-			}
-		},
 		bulkOptions        : Array,
 		additionalFilters  : Array,
+		selectedFilters    : Object,
 		itemsPerPageFilter : String,
 		blurRows           : Boolean,
-		disableTable       : Boolean
+		disableTable       : Boolean,
+		showItemsPerPage   : Boolean
 	},
 	data () {
 		return {
@@ -471,6 +430,11 @@ export default {
 			}
 
 			this.activeRow = index
+		},
+		processSearch () {
+			debounce(() => {
+				this.$emit('search', this.searchTerm)
+			}, 100)
 		},
 		processChangeItemsPerPage () {
 			this.$emit('process-change-items-per-page', this.itemsPerPage)
@@ -683,17 +647,6 @@ export default {
 		}
 
 		tr {
-			th {
-				.aioseo-table-header-tooltip-icon {
-					display: flex;
-					justify-content: center;
-
-					.aioseo-tooltip {
-						margin: 0;
-					}
-				}
-			}
-
 			&.even {
 				background-color: $box-background;
 			}

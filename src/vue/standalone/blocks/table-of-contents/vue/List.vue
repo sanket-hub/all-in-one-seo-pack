@@ -147,7 +147,10 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'listStyle' ]),
+		...mapState({
+			listStyle     : state => state.listStyle,
+			storeHeadings : state => state.headings
+		}),
 		dragOptions () {
 			return {
 				tag        : this.listStyle,
@@ -162,33 +165,35 @@ export default {
 	methods : {
 		...mapMutations([ 'setHeadings' ]),
 		setEditedContent (newValue, index) {
-			if (newValue === this.headings[index].content) {
-				this.headings[index].editedContent = ''
+			if (newValue === this.storeHeadings[index].content) {
+				this.storeHeadings[index].editedContent = ''
 
 				return
 			}
 
-			this.headings[index].editedContent = cleanHtml(newValue, true)
+			this.storeHeadings[index].editedContent = cleanHtml(newValue, true)
 		},
 		setReorder () {
 			this.$store.state.reOrdered = true
-			const rearrangedList = orderHeadings(deepCopy(this.$store.state.headings))
+			const rearrangedList = orderHeadings(deepCopy(this.storeHeadings))
+
+			this.setHeadings(rearrangedList)
 			window.aioseoBus.$emit('updateHeadings' + this.$store.state.blockClientId, rearrangedList)
 		},
 		setAnchor (newValue, index) {
-			this.headings[index].anchor = cleanForSlug(newValue)
+			this.storeHeadings[index].anchor = cleanForSlug(newValue)
 			if (!newValue) {
-				this.headings[index].anchor = 'aioseo-' + cleanForSlug(this.headings[index].content)
+				this.storeHeadings[index].anchor = 'aioseo-' + cleanForSlug(this.storeHeadings[index].content)
 			}
 
-			const clientId = this.headings[index].blockClientId
+			const clientId = this.storeHeadings[index].blockClientId
 			const block    = window.wp.data.select('core/block-editor').getBlock(clientId)
 			if (!block) {
 				return
 			}
 
 			window.wp.data.dispatch('core/block-editor').updateBlockAttributes(clientId, {
-				anchor : this.headings[index].anchor
+				anchor : this.storeHeadings[index].anchor
 			})
 		},
 		setHiddenStatus (heading) {
@@ -199,7 +204,7 @@ export default {
 			} else {
 				heading.editedLevel = 9
 			}
-			this.setHeadings(formatHeadingList([ ...this.$store.state.headings ]))
+			this.setHeadings(formatHeadingList([ ...this.storeHeadings ]))
 		},
 		handleAnchorInput (event) {
 			const inputRow = event.target.closest('.aioseo-toc-list-item')

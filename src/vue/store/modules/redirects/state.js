@@ -68,7 +68,7 @@ export default {
 			redirectToSmart             : false
 		}
 	},
-	rows            : [],
+	redirects       : [],
 	logs            : [],
 	logs404         : [],
 	filters         : [],
@@ -96,20 +96,6 @@ export default {
 			total : 0,
 			pages : 0,
 			page  : 1
-		}
-	},
-	tableFields : {
-		main : {
-			searchTerm    : '',
-			paginatedPage : 1
-		},
-		logs : {
-			searchTerm    : '',
-			paginatedPage : 1
-		},
-		logs404 : {
-			searchTerm    : '',
-			paginatedPage : 1
 		}
 	},
 	server : {

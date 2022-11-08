@@ -75,6 +75,9 @@
 				:placeholder="strings.searchPlaceholder"
 				prependIcon="search"
 			/>
+
+			<!-- TODO: Figure out how to make this tooltip work with quill -->
+			<svg-trash />
 		</div>
 
 		<div
@@ -86,6 +89,12 @@
 				:placeholder="strings.enterCustomFieldName"
 			/>
 		</div>
+
+		<div
+			v-show="false"
+			ref="documentation-div"
+			v-html="$links.getDocLink(strings.learnMoreSmartTags, 'smartTags', true)"
+		/>
 	</div>
 </template>
 
@@ -103,10 +112,12 @@ import '@/vue/plugins/quill/quill-phrase-editor-formats'
 import '@/vue/plugins/quill/quill-preserve-whitespace'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgPlus from '@/vue/components/common/svg/Plus'
+import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
 	components : {
 		SvgCaret,
-		SvgPlus
+		SvgPlus,
+		SvgTrash
 	},
 	props : {
 		value : {
@@ -146,7 +157,9 @@ export default {
 			cachedPhrase : '',
 			strings      : {
 				searchPlaceholder    : this.$t.__('Search for an item...', this.$td),
-				enterCustomFieldName : this.$t.__('Enter a custom field name...', this.$td)
+				enterCustomFieldName : this.$t.__('Enter a custom field name...', this.$td),
+				learnMoreSmartTags   : this.$t.__('Learn more about Smart Tags', this.$td),
+				removeSmartTag       : this.$t.__('Remove Smart Tag', this.$td)
 			}
 		}
 	},
@@ -267,8 +280,16 @@ export default {
 			html = html.replace(/&nbsp;/gi, ' ').trim()
 			this.$emit('input', html)
 		},
+		insertToCursor (text) {
+			this.quill.focus()
+
+			this.quill.insertText(this.quill.getSelection().index, text, Quill.sources.USER)
+			this.quill.setSelection(this.quill.getSelection().index + text.length, Quill.sources.USER)
+		},
 		insertTag (tagId) {
-			const mention    = this.quill.getModule('mention')
+			const mention = this.quill.getModule('mention')
+			mention.removeOrphanedMentionChar()
+
 			const textBefore = mention.getTextBeforeCursor()
 			this.insertExact = true
 			const tag  = tagId ? this.localTags.find(t => t.id === tagId) : null
@@ -309,7 +330,11 @@ export default {
 		},
 		maybeCloseMenu (event) {
 			const element = event.target
-			if (element.classList.contains('aioseo-tag') || element.closest('.aioseo-tag') || element.closest('.add-tags')) {
+			if (
+				element.classList.contains('aioseo-tag') ||
+				element.closest('.aioseo-tag') ||
+				element.closest('.add-tags')
+			) {
 				return
 			}
 
@@ -355,6 +380,7 @@ export default {
 							mentionPrependClassCustom : 'aioseo-tag-custom',
 							prependMentionList        : this.$refs['tag-search'].innerHTML,
 							customFieldInput          : this.$refs['tag-custom'].innerHTML,
+							documentationDiv          : this.$refs['documentation-div'].innerHTML,
 							listItemClassNoMatch      : 'aioseo-tag-no-match',
 							renderItemNoMatch () {
 								return 'No matches found'
@@ -663,7 +689,7 @@ export default {
 	.ql-mention-list-container {
 		color: $black;
 		background-color: #fff;
-		max-width: 250px;
+		max-width: 275px;
 		width: 100%;
 		margin-top: 3px;
 		border: 1px solid $input-border;
@@ -675,6 +701,28 @@ export default {
 		.aioseo-tag-search {
 			padding: 12px;
 			border-bottom: 1px solid $border;
+		}
+
+		.aioseo-tag-search {
+			display: flex;
+			align-items: center;
+
+			input {
+				flex: 1;
+			}
+
+			.aioseo-trash {
+				color: $placeholder-color;
+				min-width: 24px;
+				max-width: 24px;
+				height: 24px;
+				margin-left: 12px;
+
+				&:hover {
+					cursor: pointer;
+					color: $red;
+				}
+			}
 		}
 
 		.aioseo-tag-custom {
@@ -742,6 +790,16 @@ export default {
 					}
 				}
 			}
+		}
+
+		.aioseo-documentation-link {
+			height: 39px;
+			display: flex;
+			align-items: center;
+			padding: 12px;
+			border-top: 1px solid #D0D1D7;
+			font-size: 12px;
+			font-weight: 700;
 		}
 	}
 

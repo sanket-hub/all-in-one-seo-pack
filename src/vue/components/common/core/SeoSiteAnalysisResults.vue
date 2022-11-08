@@ -110,18 +110,20 @@ export default {
 	methods : {
 		filterResults (resultSet) {
 			const results = { ...resultSet }
-			if (results.searchPreview) {
-				delete results.searchPreview
-			}
-			if (results.mobileSearchPreview) {
-				delete results.mobileSearchPreview
-			}
-			if (results.mobileSnapshot) {
-				delete results.mobileSnapshot
-			}
-			if (results.keywords) {
-				delete results.keywords
-			}
+
+			const deprecatedChecks = [
+				'searchPreview',
+				'mobileSearchPreview',
+				'mobileSnapshot',
+				'keywords',
+				'keywordsInTitleDescription'
+			]
+
+			deprecatedChecks.forEach((name) => {
+				if (results[name]) {
+					delete results[name]
+				}
+			})
 
 			if ('all-items' === this.section) {
 				return results

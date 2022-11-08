@@ -1,10 +1,27 @@
 /**
+ * Check if the headings are nested.
+ *
+ * @param   {Array}   headings Heading objects.
+ * @returns {boolean}          True if nested.
+ */
+export const areHeadingsNested = (headings) => {
+	const foundNested = headings.find((headingObject) => {
+		return 0 < headingObject.headings?.length
+	})
+	return !!(foundNested && Object.keys(foundNested).length)
+}
+
+/**
  * Iterate through an array of heading objects, recursing into nested headings and un-nesting them.
  *
  * @param   {Array} headings Heading objects to flatten.
  * @returns {Array}          Flattened array of heading objects.
  */
 export const flattenHeadings = (headings) => {
+	if (!areHeadingsNested([ ...headings ])) {
+		return headings
+	}
+
 	const flattenedHeadings = []
 	const stack             = [ ...headings ]
 

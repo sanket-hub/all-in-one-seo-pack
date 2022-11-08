@@ -26,7 +26,7 @@ export default {
 	computed : {
 		graphLabel () {
 			if (this.customGraph) {
-				return (this.$t.__('Custom Schema', this.$tdPro) + ' - ' + this.graph.graphName)
+				return (this.$t.__('Custom Schema', this.$td) + ' - ' + this.graph.graphName)
 			}
 			if (this.defaultGraph) {
 				return this.formatDefaultGraphName(this.defaultGraph)

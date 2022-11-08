@@ -28,7 +28,10 @@
 							</slot>
 						</div>
 
-						<div class="modal-body">
+						<div
+							class="modal-body"
+							:class="{'allow-overflow' : allowBodyOverflow}"
+						>
 							<slot name="body"></slot>
 						</div>
 					</div>
@@ -45,10 +48,11 @@ export default {
 		SvgClose
 	},
 	props : {
-		noHeader : Boolean,
+		noHeader          : Boolean,
 		// TODO: In the future we need to remove this isolate once we get the Table of Contents working correctly.
-		isolate  : Boolean,
-		classes  : Array
+		isolate           : Boolean,
+		classes           : Array,
+		allowBodyOverflow : Boolean
 	},
 	methods : {
 		scrollToElement () {
@@ -163,6 +167,10 @@ export default {
 					&.has-padding {
 						padding: 40px;
 					}
+				}
+
+				&.allow-overflow {
+					overflow: visible;
 				}
 			}
 

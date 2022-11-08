@@ -23,6 +23,8 @@ import 'moment-timezone'
 import VueScrollTo from 'vue-scrollto'
 import PortalVue from 'portal-vue'
 
+import './emoji'
+
 window.aioseo    = window.aioseo || {}
 window.aioseoBus = window.aioseoBus || new Vue()
 

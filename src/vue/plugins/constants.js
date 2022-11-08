@@ -1561,3 +1561,23 @@ export const JOBPOSTING_SALARY_INTERVAL_TYPE_LIST = [
 	{ label: __('Day', tdPro), value: 'DAY' },
 	{ label: __('Hour', tdPro), value: 'HOUR' }
 ]
+
+export const SCHEMA_GENDER = [
+	{ label: __('Male', tdPro), value: 'Male' },
+	{ label: __('Female', tdPro), value: 'Female' },
+	{ label: __('Unisex', tdPro), value: 'Unisex' }
+]
+
+export const SCHEMA_ENERGY_RATING = [
+	{ label: __('N/A', tdPro), value: '' },
+	{ label: __('AAA+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA3Plus' },
+	{ label: __('AA+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA2Plus' },
+	{ label: __('A+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA1Plus' },
+	{ label: __('A', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA' },
+	{ label: __('B', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryB' },
+	{ label: __('C', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryC' },
+	{ label: __('D', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryD' },
+	{ label: __('E', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryE' },
+	{ label: __('F', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryF' },
+	{ label: __('G', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryG' }
+]

@@ -1,17 +1,23 @@
 <template>
 	<div>
 		<core-wp-table
+			:bulk-options="bulkOptions"
 			:class="{'link-assistant-inner-table' : !postReport}"
 			:columns="columns"
-			:rows="rows"
-			:totals="post.links.inboundInternal.totals"
-			:bulk-options="bulkOptions"
-			:showSearch="false"
-			:showPagination="!linksReport"
-			:showTableFooter="postReport"
+			:id="tableId"
+			:initial-items-per-page="$aioseo.settings.tablePagination.linkAssistantPostsReport"
+			:initial-page-number="pageNumber"
+			:key="wpTableKey"
 			:loading="wpTableLoading"
-			@process-bulk-action="maybeDoBulkAction"
+			:rows="rows"
+			:show-pagination="!linksReport"
+			:show-search="false"
+			:show-table-footer="postReport"
+			:totals="post.links.inboundInternal.totals"
+			show-items-per-page
 			@paginate="processPagination"
+			@process-bulk-action="maybeDoBulkAction"
+			@process-change-items-per-page="processChangeItemsPerPage"
 		>
 			<template #post_title="{ row }">
 				<span>
@@ -119,6 +125,7 @@
 </template>
 
 <script>
+import { WpTable } from '@/vue/mixins'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import LinksMixin from '@/vue/mixins/link-assistant/Links.js'
@@ -138,9 +145,10 @@ export default {
 		SvgLinkSuggestion,
 		SvgTrash
 	},
-	mixins : [ LinksMixin, PostTypesMixin ],
+	mixins : [ LinksMixin, PostTypesMixin, WpTable ],
 	data () {
 		return {
+			tableId  : 'aioseo-post-report-inbound-internal',
 			linkType : 'inboundInternal',
 			strings  : {
 				deleteAllLinks : this.$t.sprintf(
@@ -186,6 +194,18 @@ export default {
 		},
 		maybeEditPost (row) {
 			this.editPost(row.context?.postType?.singular || 'Post')
+		},
+		processPagination (pageNumber) {
+			this.pageNumber = pageNumber
+
+			if (this.metabox) {
+				return
+			}
+
+			this.wpTableLoading = true
+
+			this.processFetchTableData()
+				.then(() => (this.wpTableLoading = false))
 		}
 	}
 }

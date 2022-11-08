@@ -18,7 +18,7 @@ export const AccessControl = {
 					name        : 'editor',
 					description : this.$t.sprintf(
 						// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
-						this.$t.__('By default Editors have access to %1$sSEO settings for General Settings, Search Appearance and Social Networks, as well as all settings for individual pages and posts.%2$s', this.$td),
+						this.$t.__('By default Editors have access to %1$sSEO settings for General Settings, Search Appearance, Social Networks, and Redirects as well as all settings for individual pages and posts.%2$s', this.$td),
 						'<strong>',
 						'</strong>'
 					)
@@ -48,7 +48,7 @@ export const AccessControl = {
 					name        : 'seoManager',
 					description : this.$t.sprintf(
 						// Translators: 1 - Opening HTML bold tag, 2 - Closing HTML bold tag.
-						this.$t.__('By default SEO Managers have access to %1$sSEO settings for General Settings, Redirections, and individual pages and posts.%2$s', this.$td),
+						this.$t.__('By default SEO Managers have access to %1$sSEO settings for General Settings, Sitemaps, Link Assistant, Redirects, Local SEO, and individual pages and posts.%2$s', this.$td),
 						'<strong>',
 						'</strong>'
 					)

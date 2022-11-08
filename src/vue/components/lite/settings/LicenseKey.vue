@@ -191,7 +191,7 @@ export default {
 		display: flex;
 		max-width: 620px;
 
-		.aioseo-input {
+		.aioseo-input-container {
 			margin-right: 10px;
 		}
 	}

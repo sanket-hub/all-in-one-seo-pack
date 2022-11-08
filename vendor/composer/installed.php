@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd19eebce8abf2b9632311b6cc668b69e5c7b5b30',
+        'reference' => '18f038493bd52e9963fd205cfe5a51ba4650320b',
         'name' => 'awesomemotive/all-in-one-seo-pack-pro',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd19eebce8abf2b9632311b6cc668b69e5c7b5b30',
+            'reference' => '18f038493bd52e9963fd205cfe5a51ba4650320b',
             'dev_requirement' => false,
         ),
         'graham-campbell/result-type' => array(
@@ -47,12 +47,12 @@
             'dev_requirement' => false,
         ),
         'monolog/monolog' => array(
-            'pretty_version' => '1.25.5',
-            'version' => '1.25.5.0',
+            'pretty_version' => '1.26.1',
+            'version' => '1.26.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
-            'reference' => '1817faadd1846cd08be9a49e905dc68823bc38c0',
+            'reference' => 'c6b00f05152ae2c9b04a448f99c7590beb6042f5',
             'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(

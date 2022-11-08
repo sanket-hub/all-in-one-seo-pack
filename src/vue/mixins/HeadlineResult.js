@@ -171,7 +171,7 @@ export const HeadlineResult = {
 						icon      : 'svg-face-neutral',
 						class     : 'orange',
 						headline  : this.$t.__('Your headline has a neutral sentiment.', this.$td),
-						guideline : this.$t.__('Headlines that are strongly positive or negative tend to get more engagement then neutral ones.', this.$td)
+						guideline : this.$t.__('Headlines that are strongly positive or negative tend to get more engagement than neutral ones.', this.$td)
 					}
 				case 'pos':
 					return {

@@ -87,7 +87,7 @@ function InlineLinkUI ({
 		nofollow      : activeAttributes.rel ? activeAttributes.rel.includes('nofollow') : false,
 		sponsored     : activeAttributes.rel ? activeAttributes.rel.includes('sponsored') : false,
 		ugc           : activeAttributes.rel ? activeAttributes.rel.includes('ugc') : false,
-		title         : activeAttributes.title,
+		title         : activeAttributes.title || '',
 		isAddingLink  : !activeAttributes.url,
 		...nextLinkValue
 	}

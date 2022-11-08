@@ -504,7 +504,13 @@ trait ThirdParty {
 	 */
 	public function isAmpPage( $pluginName = '' ) {
 		// Official AMP plugin.
-		if ( 'amp' === $pluginName && defined( 'AMP__VERSION' ) ) {
+		if ( 'amp' === $pluginName ) {
+			// If we're checking for the AMP page plugin specifically, return early if it's not active.
+			// Otherwise, we'll return true if AMP for WP is enabled because the helper method doesn't distinguish between the two.
+			if ( ! defined( 'AMP__VERSION' ) ) {
+				return false;
+			}
+
 			$options = get_option( 'amp-options' );
 			if ( ! empty( $options['theme_support'] ) && 'standard' === strtolower( $options['theme_support'] ) ) {
 				return true;
@@ -523,6 +529,11 @@ trait ThirdParty {
 	 * @return bool Whether the current page is an AMP page.
 	 */
 	private function isAmpPageHelper() {
+		// Check if the AMP or AMP for WP plugin is active.
+		if ( ! function_exists( 'is_amp_endpoint' ) ) {
+			return false;
+		}
+
 		global $wp;
 
 		// This URL param is set when using plain permalinks.

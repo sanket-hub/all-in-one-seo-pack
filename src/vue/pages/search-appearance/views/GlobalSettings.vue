@@ -147,6 +147,7 @@
 			<template #tooltip>
 				{{ strings.knowledgeGraphDescription }}
 			</template>
+
 			<core-settings-row
 				v-if="internalOptions.internal.deprecatedOptions.includes('enableSchemaMarkup')"
 				:name="strings.enableSchemaMarkup"
@@ -163,6 +164,37 @@
 					/>
 				</template>
 			</core-settings-row>
+
+			<core-settings-row
+				:name="strings.websiteName"
+			>
+				<template #content>
+					<base-input
+						size="medium"
+						v-model="options.searchAppearance.global.schema.websiteName"
+					/>
+
+					<div class="aioseo-description">
+						{{ strings.websiteNameDescription }}
+					</div>
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				:name="strings.websiteAlternateName"
+			>
+				<template #content>
+					<base-input
+						size="medium"
+						v-model="options.searchAppearance.global.schema.websiteAlternateName"
+					/>
+
+					<div class="aioseo-description">
+						{{ strings.websiteAlternateNameDescription }}
+					</div>
+				</template>
+			</core-settings-row>
+
 			<core-settings-row
 				id="schema-graph-site-represents"
 				:name="strings.personOrOrganization"
@@ -210,6 +242,7 @@
 								</div>
 							</div>
 						</template>
+
 						<template #option="{ option }">
 							<div class="person-label">
 								<div
@@ -282,6 +315,7 @@
 						:value="getContactTypeOptions(options.searchAppearance.global.schema.contactType)"
 						@input="value => options.searchAppearance.global.schema.contactType = value.value"
 					/>
+
 					<div class="aioseo-description">
 						{{ strings.contactTypeDescription }}
 					</div>
@@ -471,10 +505,14 @@ export default {
 					'Pro',
 					'Pro'
 				),
-				goToLocalSeoSettings : this.$t.__('Go to Local SEO Settings', this.$td),
-				enableSchemaMarkup   : this.$t.__('Enable Schema Markup', this.$td),
-				keywords             : this.$t.__('Keywords', this.$td),
-				tagPlaceholder       : this.$t.__('Press enter to create a keyword', this.$td)
+				goToLocalSeoSettings            : this.$t.__('Go to Local SEO Settings', this.$td),
+				enableSchemaMarkup              : this.$t.__('Enable Schema Markup', this.$td),
+				keywords                        : this.$t.__('Keywords', this.$td),
+				tagPlaceholder                  : this.$t.__('Press enter to create a keyword', this.$td),
+				websiteName                     : this.$t.__('Website Name', this.$td),
+				websiteNameDescription          : this.$t.__('A name that Google may use for your homepage in mobile search results. This will default to the WordPress site title if left blank.', this.$td),
+				websiteAlternateName            : this.$t.__('Alternate Website Name', this.$td),
+				websiteAlternateNameDescription : this.$t.__('An alternate name for your site. This could be an acronym or shorter version of your website name.', this.$td)
 			}
 		}
 	},

@@ -97,6 +97,16 @@ class Mention {
 		this.mentionSearch.innerHTML = this.options.prependMentionList || ''
 		this.mentionContainer.appendChild(this.mentionSearch)
 
+		const removeSmartTag = this.mentionSearch.querySelector('.aioseo-trash')
+		if (removeSmartTag) {
+			removeSmartTag.addEventListener('click', () => {
+				this.currentBlot.remove()
+
+				this.hideMentionList()
+				this.removeOrphanedMentionChar()
+			})
+		}
+
 		this.customFieldInput.addEventListener('click', event => {
 			this.activeElement = event.target
 			const input = event.target.querySelector('input')
@@ -190,6 +200,16 @@ class Mention {
 			? this.options.mentionListClass
 			: ''
 		this.mentionContainer.appendChild(this.mentionList)
+
+		// Documentation link.
+		const documentationDiv     = document.createElement('div')
+		documentationDiv.className = 'aioseo-documentation-link'
+		documentationDiv.innerHTML = this.options.documentationDiv || ''
+		documentationDiv.addEventListener('click', event => {
+			this.activeElement = event.target
+		})
+
+		this.mentionContainer.appendChild(documentationDiv)
 
 		this.quill.container.appendChild(this.mentionContainer)
 
@@ -305,13 +325,21 @@ class Mention {
 			this.mentionCharPos = 0
 			matches.forEach(match => {
 				const mentionChar = match.charAt(0)
-				const tag         = match.substr(1).split('-')
-				const item        = this.options.source(
-					tag[0],
+				// Split on dashes so that we can grab the tag name.
+				const exploded    = match.substr(1).split('-')
+
+				// The first value is the tag name; any subsequent values are part of a custom field/taxonomy name.
+				// Therefore, we delete the first value after cloning it and then put the remaining values back together so that we can use it as a suffix.
+				const tagName = exploded[0]
+				delete exploded[0]
+				const suffix = exploded.filter(value => value).join('-')
+
+				const item = this.options.source(
+					tagName,
 					this.renderList.bind(this, mentionChar),
 					mentionChar,
 					true,
-					tag[1] || null
+					suffix || null
 				)
 
 				if (!item) {
@@ -323,8 +351,8 @@ class Mention {
 					...item
 				}
 
-				if (undefined !== tag[1]) {
-					mention.customValue = tag[1]
+				if (undefined !== suffix) {
+					mention.customValue = suffix
 				}
 
 				const split     = str.split(match)

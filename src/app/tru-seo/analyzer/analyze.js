@@ -1,5 +1,5 @@
 import { analyzers } from './analysis'
-
+import { decodeSpecialChars } from '@/vue/utils/helpers'
 import {
 	calculateErrors,
 	calculateScore,
@@ -50,14 +50,14 @@ class TruSeoAnalyzer {
 		this.isAnalyzing           = true
 		this.aioseo                = aioseo
 		this.postId                = postId
-		this.postContent           = content
+		this.postContent           = decodeSpecialChars(content)
 		this.postSlug              = slug
 		this.postTitle             = postData.title || postData.metaDefaults.title || '#post_title'
-		this.postParsedTitle       = parseTags(this.postTitle, this.aioseo.tags.tags)
+		this.postParsedTitle       = decodeSpecialChars(parseTags(this.postTitle, this.aioseo.tags.tags))
 		this.postDescription       = postData.description || postData.metaDefaults.description
-		this.postParsedDescription = parseTags(this.postDescription, this.aioseo.tags.tags)
+		this.postParsedDescription = decodeSpecialChars(parseTags(this.postDescription, this.aioseo.tags.tags))
 		this.keyphrases            = (postData.keyphrases) ? postData.keyphrases : null
-		this.postEditedTitle       = postEditedTitle
+		this.postEditedTitle       = decodeSpecialChars(postEditedTitle)
 		this.locale                = this.aioseo.locale || 'en_US'
 		this.domain                = this.aioseo.urls.domain
 

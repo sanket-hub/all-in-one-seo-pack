@@ -70,7 +70,7 @@ const docLinks = {
 	showSitelinks                 : `${marketingSite}docs/how-do-i-get-google-to-show-sitelinks-for-my-site/`,
 	whenToUseNoindex              : `${marketingSite}docs/when-to-use-noindex-or-the-robots-txt/`,
 	installAioseoPro              : `${marketingSite}docs/installing-all-in-one-seo-pro/`,
-	importProcessSeoData          : `${marketingSite}docs/how-does-the-import-process-for-seo-data-work/`,
+	importProcessSeoData          : `${marketingSite}docs/importing-and-exporting-aioseo-settings-and-meta-data/`,
 	whatAreMediaAttachments       : `${marketingSite}docs/what-are-media-attachments-and-should-i-submit-them-to-search-engines/`,
 	minimumRequirements           : `${marketingSite}docs/what-are-the-minimum-requirements-for-all-in-one-seo-pack/`,
 	apiCodeExamples               : `${marketingSite}docs/how-do-i-use-your-api-code-examples/`,
@@ -110,12 +110,14 @@ const docLinks = {
 	htmlSitemapFunction           : `${marketingSite}docs/function-html-sitemap/`,
 	htmlSitemapCompactArchives    : `${marketingSite}docs/html-sitemap#compact-archives/`,
 	linkAssistant                 : `${marketingSite}docs/link-assistant`,
-	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant#post-types/`,
+	linkAssistantPostTypes        : `${marketingSite}docs/link-assistant-settings/#post-types`,
+	linkAssistantPostStatuses     : `${marketingSite}docs/link-assistant-settings/#post-statuses`,
 	updateWordPress               : `${marketingSite}docs/update-wordpress/`,
 	runningShortcodes             : `${marketingSite}docs/running-shortcodes/`,
 	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`,
 	schema                        : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/`,
-	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`
+	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`,
+	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`
 }
 
 const upsellLinks = {

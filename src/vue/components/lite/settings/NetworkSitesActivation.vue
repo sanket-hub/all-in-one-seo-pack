@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
 import { Network } from '@/vue/mixins'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import Cta from '@/vue/components/common/cta/Index.vue'
@@ -107,7 +106,6 @@ export default {
 		}
 	},
 	computed : {
-		...mapState([ 'networkData' ]),
 		columns () {
 			return [
 				{
@@ -163,9 +161,6 @@ export default {
 				}
 			]
 		}
-	},
-	methods : {
-		...mapActions([ 'multisite', 'changeItemsPerPage', 'fetchNetworkSites' ])
 	}
 }
 </script>

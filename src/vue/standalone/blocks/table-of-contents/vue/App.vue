@@ -237,13 +237,14 @@ export default {
 		flex-wrap: wrap;
 
 		.aioseo-toc-header-title {
-			display: flex;
 			align-items: center;
-			flex: 1 0 auto;
-			font-weight: 700;
-			font-size: 24px;
-			line-height: 125%;
 			color: $black2;
+			display: flex;
+			flex: 1 0 auto;
+			font-size: 24px;
+			font-weight: 700;
+			line-height: 125%;
+			max-width: 100%;
 		}
 
 		.aioseo-toc-header-instructions {

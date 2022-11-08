@@ -1,5 +1,8 @@
 import { AddonConditions } from './AddonConditions'
+import { HeadlineResult } from './HeadlineResult'
+import { HeadlineScore } from './HeadlineScore'
 import { ImageSourceOptions, Uploader, ImagePreview } from './Image'
+import { IsDirty } from './IsDirty'
 import { JsonValues } from './JsonValues'
 import { License } from './License'
 import { MaxCounts } from './MaxCounts'
@@ -10,20 +13,20 @@ import { RequiresActivation } from './RequiresActivation'
 import { RequiresUpdate } from './RequiresUpdate'
 import { SaveChanges } from './SaveChanges'
 import { ScrollAndHighlight } from './ScrollAndHighlight'
-import { Tags } from './Tags'
-import { TruSeoScore } from './TruSeoScore'
 import { SeoSiteScore } from './SeoSiteScore'
-import { HeadlineScore } from './HeadlineScore'
-import { HeadlineResult } from './HeadlineResult'
-import { Url } from './Url'
-import { IsDirty } from './IsDirty'
-import { Wizard, WizardUsageTracking } from './Wizard'
+import { Tags } from './Tags'
 import { ToolsSettings } from './ToolsSettings'
+import { TruSeoScore } from './TruSeoScore'
+import { Url } from './Url'
+import { Wizard, WizardUsageTracking } from './Wizard'
+import { WpTable } from './WpTable'
 
 export {
 	AddonConditions,
-	ImageSourceOptions,
+	HeadlineResult,
+	HeadlineScore,
 	ImagePreview,
+	ImageSourceOptions,
 	IsDirty,
 	JsonValues,
 	License,
@@ -36,13 +39,12 @@ export {
 	SaveChanges,
 	ScrollAndHighlight,
 	SeoSiteScore,
-	HeadlineScore,
-	HeadlineResult,
 	Tags,
+	ToolsSettings,
 	TruSeoScore,
 	Uploader,
 	Url,
 	Wizard,
 	WizardUsageTracking,
-	ToolsSettings
+	WpTable
 }

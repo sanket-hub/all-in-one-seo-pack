@@ -705,7 +705,7 @@ export default {
 				defaultFacebookImageTerms : this.$t.__('Default Term Facebook Image', this.$td),
 				uploadOrSelectImage       : this.$t.__('Upload or Select Image', this.$td),
 				pasteYourImageUrl         : this.$t.__('Paste your image URL or select a new image', this.$td),
-				minimumSize               : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 8MB max. (eg: 1640px x 856px or 3280px x 1712px for retina screens)', this.$td),
+				minimumSize               : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 8MB max. (eg: 1640px x 856px or 3280px x 1712px for retina screens). JPG, PNG, WEBP and GIF formats only.', this.$td),
 				homePageSettings          : this.$t.__('Home Page Settings', this.$td),
 				exampleSiteTitle          : this.$t.__('The Title of the Page or Site you are Sharing', this.$td),
 				exampleSiteDescription    : this.$t.sprintf(

@@ -190,11 +190,12 @@ export default ({ mode }) => {
 		optimizeDeps : {
 			force   : true,
 			include : [
+				'@codemirror/lang-json',
+				'@codemirror/view',
 				'animate-vanilla-js',
 				'clipboard/dist/clipboard.min.js',
 				'codemirror',
-				'@codemirror/lang-json',
-				'@codemirror/view',
+				'emoji-mart',
 				'js-base64',
 				'lodash-es',
 				'maz-ui/lib/maz-phone-number-input',

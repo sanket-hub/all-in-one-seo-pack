@@ -3,6 +3,10 @@ export default {
 	computed : {
 		...mapState([ 'schema' ]),
 		hasFeature () {
+			if (this.schema.isEditingDefaultGraph) {
+				return true
+			}
+
 			switch (this.schema.graph.graphName) {
 				case 'Event':
 				case 'JobPosting':
@@ -39,11 +43,13 @@ export default {
 						this.schema.graph.graphName.replace(/([A-Z].*?)([A-Z])(?![A-Z])/, '$1 $2')
 					)
 				)
-		}
-	},
-	methods : {
-		getPostPublishDate () {
-			return window.wp.data.select('core/editor').getEditedPostAttribute('date')
+		},
+		isEditing () {
+			return this.schema.isEdtingCustomGraph ||
+				this.schema.isEditingCustomTemplate ||
+				this.schema.isEditingDefaultGraph ||
+				this.schema.isEditingGraph ||
+				this.schema.isEditingTemplate
 		}
 	}
 }

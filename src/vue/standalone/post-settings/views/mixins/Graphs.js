@@ -252,5 +252,26 @@ export default {
 				]
 			}
 		}
+	},
+	methods : {
+		getParentGraphName (graphName) {
+			// First, check if the graph is a child.
+			let parentGraph = ''
+			Object.entries(this.childGraphs).forEach((graphs) => {
+				const parentGraphName = graphs[0]
+				graphs[1].forEach((graphObject) => {
+					if (parentGraph) {
+						return
+					}
+
+					// If it is a child, grab the parent's label and also grab the child's label.
+					if (graphName === graphObject.childGraphName) {
+						parentGraph = parentGraphName
+					}
+				})
+			})
+
+			return parentGraph || graphName
+		}
 	}
 }

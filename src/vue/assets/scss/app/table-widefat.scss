@@ -75,6 +75,7 @@
 	}
 
 	.widefat .check-column {
+		line-height: 1;
 		width: 2.2em;
 		padding: 6px 0 25px;
 		vertical-align: top;
@@ -194,9 +195,9 @@
 				a {
 					display: flex;
 					align-items: center;
-					height: 49px;
+					height: 36px;
 					padding: 0;
-					line-height: 49px;
+					line-height: 36px;
 
 					.sorting-indicator {
 						margin-top: 0;

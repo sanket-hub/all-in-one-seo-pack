@@ -23,8 +23,9 @@ export function cleanForSlug (string) {
 	}
 	return trim(
 		deburr(string)
-			.replace(/[\s./]+/g, '-')
-			.replace(/[^\w-]+/g, '')
+			.replace(/[\s./]+/g, '-') // Convert each group of whitespace, periods, and forward slashes to a hyphen.
+			.replace(/[^\w-]+/g, '')  // Remove additional non-word characters.
+			.replace(/-+/g, '-')      // Replace multiple hyphens with a single hyphen.
 			.toLowerCase(),
 		'-'
 	)

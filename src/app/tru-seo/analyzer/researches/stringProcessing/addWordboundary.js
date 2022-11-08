@@ -31,17 +31,16 @@ export default function (matchString, positiveLookAhead = false, extraWordBounda
 		'\u2117'  // Sound recording copyright
 	].join('')
 
+	// \u200B - zero width space
+	// \u00a0 - no-break space
+	// \u06d4 - Urdu full stop
+	// \u061f - Arabic question mark
+	// \u060C - Arabic comma
+	// \u061B - Arabic semicolon
+	wordBoundary = ` \\u200B\\u00a0\\u06d4\\u061f\\u060C\\u061B\\n\\r\\t\.,\(\)”“〝〞〟‟„"+\\-;!¡?¿:\/»«‹›${symbols}${extraWordBoundary}<>`
+
 	if ('id_ID' === locale) {
-		wordBoundary = '[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„"+;!¡?¿:\/»«‹›' + symbols + extraWordBoundary + '<>'
-	} else {
-		/*
-		* \u00a0 - no-break space
-		* \u06d4 - Urdu full stop
-		* \u061f - Arabic question mark
-		* \u060C - Arabic comma
-		* \u061B - Arabic semicolon
-		*/
-		wordBoundary = '[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„"+\\-;!¡?¿:\/»«‹›' + symbols + extraWordBoundary + '<>'
+		wordBoundary = ` \\u200B\\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„"+;!¡?¿:\/»«‹›${symbols}${extraWordBoundary}<>`
 	}
 
 	// Add the Search Appearance Separator to the boundary list.
@@ -51,11 +50,11 @@ export default function (matchString, positiveLookAhead = false, extraWordBounda
 		})
 	}
 
-	const wordBoundaryStart = '(^|' + wordBoundary + '\'‘’‛`])'
+	const wordBoundaryStart = `(^|[${wordBoundary}'‘’‛\`])`
 	if (positiveLookAhead) {
-		wordBoundaryEnd = '($|((?=' + wordBoundary + ']))|(([\'‘’‛`])(' + wordBoundary + '])))'
+		wordBoundaryEnd = `($|((?=[${wordBoundary}]))|((['‘’‛\`])([${wordBoundary}])))`
 	} else {
-		wordBoundaryEnd = '($|(' + wordBoundary + '])|(([\'‘’‛`])(' + wordBoundary + '])))'
+		wordBoundaryEnd = `($|([${wordBoundary}])|((['‘’‛\`])([${wordBoundary}])))`
 	}
 
 	return wordBoundaryStart + matchString + wordBoundaryEnd

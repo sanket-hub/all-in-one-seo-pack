@@ -795,7 +795,7 @@ export default {
 				.logo-svg {
 					max-width: 100%;
 					max-height: 85px;
-					width: auto;
+					width: 100%;
 					height: 100%;
 
 					&.aioseo-logo-microsoft-clarity {

@@ -1,6 +1,7 @@
 export default {
 	updateRows (state, rows) {
-		// NOTE: This line is required to force the rows to update properly.
+		// NOTE: This line is required to force the rows to update properly. DO NOT REMOVE.
+		// Once a redirect is edited, it will not refresh the table unless this line is set.
 		this._vm.$set(state, 'rows', [])
 		this._vm.$set(state, 'rows', rows)
 	},
@@ -48,9 +49,6 @@ export default {
 	},
 	resetSelectedFilters (state) {
 		this._vm.$set(state, 'selectedFilters', {})
-	},
-	setPaginatedPage (state, { group, page }) {
-		this._vm.$set(state.tableFields[group], 'paginatedPage', page)
 	},
 	resetPageNumbers (state) {
 		const { main, total404, logs } = state.totals
