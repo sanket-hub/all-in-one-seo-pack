@@ -274,7 +274,7 @@ msgstr ""
 msgid "%1$s Score"
 msgstr ""
 
-#: app/Common/Admin/Admin.php:1150
+#: app/Common/Admin/Admin.php:1153
 #: app/Common/Admin/SlugMonitor.php:123
 msgid "Add Redirect to improve SEO"
 msgid_plural "Add Redirects to improve SEO"
@@ -314,6 +314,7 @@ msgstr ""
 msgid "%1$s is importing your existing SEO data in the background."
 msgstr ""
 
+#. Translators: 1 - The plugin name ("All in One SEO").
 #: app/Common/Admin/Notices/Import.php:41
 msgid "This notice will automatically disappear as soon as the import has completed. Meanwhile, everything should continue to work as expected."
 msgstr ""
@@ -328,6 +329,7 @@ msgstr ""
 msgid "%1$s is currently upgrading your database and migrating your SEO data in the background."
 msgstr ""
 
+#. Translators: 1 - The plugin name ("All in One SEO").
 #: app/Common/Admin/Notices/Migration.php:45
 msgid "This notice will automatically disappear as soon as the migration has completed. Meanwhile, everything should continue to work as expected."
 msgstr ""
@@ -428,6 +430,7 @@ msgstr ""
 msgid "We're sorry to hear you aren't enjoying %1$s. We would love a chance to improve. Could you take a minute and let us know what we can do better?"
 msgstr ""
 
+#. Translators: 1 - The plugin name ("All in One SEO").
 #: app/Common/Admin/Notices/Review.php:99
 #: languages/aioseo-lite.php:2462
 #: languages/aioseo-pro.php:3566
@@ -452,6 +455,7 @@ msgstr ""
 msgid "CEO of %1$s"
 msgstr ""
 
+#. Translators: 1 - The plugin name ("All in One SEO").
 #: app/Common/Admin/Notices/Review.php:104
 #: app/Common/Admin/Notices/Review.php:159
 #: languages/aioseo-lite.php:3796
@@ -4067,6 +4071,7 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
+#. Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
 #: app/Common/Utils/Tags.php:367
 #: app/Common/Utils/Tags.php:374
 msgid "Current or first category title."
@@ -4077,6 +4082,7 @@ msgstr ""
 msgid "%1$s Description"
 msgstr ""
 
+#. Translators: 1 - The singular name of the current taxonomy.
 #: app/Common/Utils/Tags.php:380
 msgid "Current or first category description."
 msgstr ""
@@ -4087,6 +4093,7 @@ msgstr ""
 msgid "%1$s Link"
 msgstr ""
 
+#. Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
 #: app/Common/Utils/Tags.php:386
 msgid "Current or first category link (name as text)."
 msgstr ""
@@ -4097,6 +4104,7 @@ msgstr ""
 msgid "%1$s Link (Alt)"
 msgstr ""
 
+#. Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
 #: app/Common/Utils/Tags.php:393
 msgid "Current or first category link (link as text)."
 msgstr ""
@@ -4146,6 +4154,7 @@ msgstr ""
 msgid "%1$s Excerpt"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:430
 msgid "The excerpt defined on your page/post."
 msgstr ""
@@ -4155,6 +4164,7 @@ msgstr ""
 msgid "%1$s Excerpt Only"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:436
 msgid "The excerpt defined on your page/post. Will not fall back to the post content."
 msgstr ""
@@ -4164,6 +4174,7 @@ msgstr ""
 msgid "%1$s Content"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:442
 msgid "The content of your page/post."
 msgstr ""
@@ -4181,6 +4192,7 @@ msgstr ""
 msgid "%1$s Date"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:453
 msgid "The date when the page/post was published, localized."
 msgstr ""
@@ -4190,6 +4202,7 @@ msgstr ""
 msgid "%1$s Day"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:459
 msgid "The day of the month when the page/post was published, localized."
 msgstr ""
@@ -4199,6 +4212,7 @@ msgstr ""
 msgid "%1$s Month"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:465
 msgid "The month when the page/post was published, localized."
 msgstr ""
@@ -4208,14 +4222,17 @@ msgstr ""
 msgid "%1$s Year"
 msgstr ""
 
+#. Translators: 1 - The singular name of the post type.
 #: app/Common/Utils/Tags.php:471
 msgid "The year when the page/post was published, localized."
 msgstr ""
 
+#. Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
 #: app/Common/Utils/Tags.php:477
 msgid "Post link (name as text)."
 msgstr ""
 
+#. Translators: 1 - The type of page (Post, Page, Category, Tag, etc.).
 #: app/Common/Utils/Tags.php:484
 msgid "Post link (link as text)."
 msgstr ""
