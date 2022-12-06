@@ -87,7 +87,7 @@ export default {
 
 <style lang="scss">
 .aioseo-tooltip {
-	margin-left: 14px;
+	margin-left: 12px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;

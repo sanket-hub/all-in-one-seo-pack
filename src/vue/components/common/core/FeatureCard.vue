@@ -129,6 +129,7 @@
 		<core-modal
 			v-if="showNetworkModal"
 			no-header
+			@close="closeNetworkModal(false)"
 		>
 			<template #body>
 				<div class="aioseo-modal-body">

@@ -5,8 +5,8 @@
 		>
 			<core-google-search-preview
 				:domain="searchPreviewDomain"
-				:title="allResults.basic.title.value"
-				:description="allResults.basic.description.value"
+				:title="parseTags(allResults.basic.title.value)"
+				:description="parseTags(allResults.basic.description.value)"
 			/>
 		</template>
 
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { Tags } from '@/vue/mixins'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
 import CoreSeoSiteAnalysisResult from '@/vue/components/common/core/SeoSiteAnalysisResult'
 export default {
@@ -84,7 +85,8 @@ export default {
 		CoreGoogleSearchPreview,
 		CoreSeoSiteAnalysisResult
 	},
-	props : {
+	mixins : [ Tags ],
+	props  : {
 		section : {
 			type     : String,
 			required : true

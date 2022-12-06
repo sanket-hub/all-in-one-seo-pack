@@ -19,22 +19,12 @@
 		>
 			<template #content>
 				<core-facebook-preview
+					:class="{ ismobilecard: currentPost.socialMobilePreview }"
+					:description="previewDescription"
 					:image="imageUrl"
 					:loading="loading"
-					:class="{ ismobilecard: currentPost.socialMobilePreview }"
-				>
-					<template #site-url>
-						<span>{{ permalink }}</span>
-					</template>
-
-					<template #site-title>
-						<span>{{ truncate(parseTags(currentPost.og_title || currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title'), 100) }}</span>
-					</template>
-
-					<template #site-description>
-						<span>{{ truncate(parseTags(currentPost.og_description || currentPost.description || currentPost.tags.description || '#post_content')) }}</span>
-					</template>
-				</core-facebook-preview>
+					:title="previewTitle"
+				/>
 			</template>
 		</core-settings-row>
 
@@ -239,6 +229,7 @@ import CoreFacebookPreview from '@/vue/components/common/core/FacebookPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+
 export default {
 	components : {
 		BaseImg,
@@ -300,6 +291,12 @@ export default {
 		objectTypeOptions () {
 			return [ { groupLabel: this.$t.__('Default', this.$td), options: [ { label: this.$t.__('Default Object Type (Set in Social Networks)', this.$td), value: 'default' } ] } ].concat(this.$constants.OG_TYPE_OPTIONS)
 		},
+		previewTitle () {
+			return this.parseTags(this.currentPost.og_title || this.currentPost.title || this.currentPost.tags.title || '#post_title #separator_sa #site_title')
+		},
+		previewDescription () {
+			return this.parseTags(this.currentPost.og_description || this.currentPost.description || this.currentPost.tags.description || '#post_content')
+		},
 		shouldShowArticleSection () {
 			const context = 'term' === this.currentPost.context ? 'taxonomies' : 'postTypes'
 			return 'article' === this.currentPost.og_object_type ||
@@ -307,10 +304,6 @@ export default {
 					'default' === this.currentPost.og_object_type &&
 					'article' === this.dynamicOptions.social.facebook.general[context][this.currentPost.postType || this.currentPost.termType].objectType
 				)
-		},
-		permalink () {
-			const permalink = this.liveTags.permalink
-			return permalink.substr(permalink.indexOf('://') + 3)
 		}
 	},
 	methods : {

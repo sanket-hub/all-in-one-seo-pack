@@ -44,9 +44,9 @@
 		>
 			<template #content>
 				<core-google-search-preview
-					:title="options.title"
+					:title="parseTags(options.title)"
 					:separator="separator"
-					:description="options.metaDescription"
+					:description="parseTags(options.metaDescription)"
 				/>
 			</template>
 		</core-settings-row>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { MaxCounts } from '@/vue/mixins'
+import { MaxCounts, Tags } from '@/vue/mixins'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
@@ -128,7 +128,7 @@ export default {
 		CoreHtmlTagsEditor,
 		CoreSettingsRow
 	},
-	mixins : [ MaxCounts ],
+	mixins : [ MaxCounts, Tags ],
 	props  : {
 		type : {
 			type     : String,

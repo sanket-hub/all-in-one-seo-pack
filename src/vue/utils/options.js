@@ -65,7 +65,7 @@ export const setOptions = ({
 	redirects              = merge({ ...window.aioseo.redirects }, { ...redirects })
 	linkAssistant          = merge({ ...window.aioseo.linkAssistant }, { ...linkAssistant })
 	indexNow               = merge({ ...window.aioseo.indexNow }, { ...indexNow })
-	indexNow               = merge({ ...window.aioseo.schema }, { ...schema })
+	schema                 = merge({ ...window.aioseo.schema }, { ...schema })
 	posts                  = merge([ ...window.aioseo?.posts || [] ], [ ...(posts || []) ])
 	terms                  = merge([ ...window.aioseo?.terms || [] ], [ ...(terms || []) ])
 

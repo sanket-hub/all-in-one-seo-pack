@@ -59,7 +59,7 @@ export default {
 		return {
 			strings : {
 				customFields            : this.$t.__('Custom Fields', this.$td),
-				customFieldsDescription : this.$t.__('List of custom field names to include in the SEO Page Analysis. Add one per line.', this.$td),
+				customFieldsDescription : this.$t.__('List of custom field names to include as post content for tags and the SEO Page Analysis. Add one per line.', this.$td),
 				ctaDescription          : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
 					this.$t.__('%1$s %2$s gives you advanced customizations for our page analysis feature, letting you add custom fields to analyze.', this.$td),

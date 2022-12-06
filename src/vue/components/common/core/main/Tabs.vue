@@ -141,7 +141,8 @@
 </template>
 
 <script>
-import { SaveChanges, TruSeoScore } from '@/vue/mixins'
+import { SaveChanges } from '@/vue/mixins/SaveChanges'
+import { TruSeoScore } from '@/vue/mixins/TruSeoScore'
 import { mapActions, mapState } from 'vuex'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -436,44 +437,52 @@ export default {
 	}
 
 	.aioseo-mobile-tabs {
-		position: relative;
+		--mobile-font-size: 14px;
+
 		height: 40px;
 		margin-top: 20px;
+		position: relative;
 		user-select: none;
 		width: 100%;
 
 		.active-tab {
-			color: $blue;
-			padding-left: 18px;
-			min-height: 100%;
-			display: flex;
+			--spacing-x: 18px;
+
 			align-items: center;
+			color: $blue;
 			cursor: pointer;
+			display: inline-flex;
+			min-height: 100%;
+			padding-left: var(--spacing-x);
+			position: relative;
 
 			div {
-				position: relative;
+				font-size: var(--mobile-font-size);
 
 				span {
-					height: 2px;
 					background-color: $blue;
-					bottom: -7px;
+					bottom: -2px;
+					height: 2px;
+					left: 0;
 					position: absolute;
-					left: -18px;
-					right: -18px;
+					right: calc(var(--spacing-x) * -2);
 					z-index: 10;
 				}
 			}
 
 			svg.aioseo-caret {
-				width: 24px;
-				height: 24px;
-				position: relative;
-				top: 6px;
-				cursor: pointer;
+				--caret-size: 24px;
+
+				height: var(--caret-size);
+				left: 100%;
+				position: absolute;
+				top: calc(50% - var(--caret-size) / 2);
+				transform: rotate(180deg);
 				transition: transform 0.3s;
+				width: var(--caret-size);
 
 				&.rotated {
-					transform: rotate(180deg);
+					transform: rotate(0);
 				}
 			}
 		}
@@ -496,6 +505,7 @@ export default {
 			}
 
 			a {
+				font-size: var(--mobile-font-size);
 				padding: 10px;
 				display: block;
 				color: $black;

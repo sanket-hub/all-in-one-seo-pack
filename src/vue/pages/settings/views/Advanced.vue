@@ -172,15 +172,28 @@
 					/>
 				</template>
 				<template #content>
-					<base-radio-toggle
-						:disabled="isUnlicensed"
-						v-model="dashboardWidgets"
-						name="dashboardWidgets"
-						:options="[
-							{ label: $constants.GLOBAL_STRINGS.hide, value: false, activeClass: 'dark' },
-							{ label: $constants.GLOBAL_STRINGS.show, value: true }
-						]"
-					/>
+					<grid-row>
+						<grid-column
+							v-for="(widget, index) in widgets"
+							:key="index"
+						>
+							<base-checkbox
+								size="medium"
+								:disabled="isUnlicensed"
+								:value="isDashboardWidgetChecked(widget)"
+								@input="checked => updateDashboardWidgets(checked, widget)"
+							>
+								{{ widget.label }}
+								<core-tooltip>
+									<svg-circle-question-mark />
+
+									<template #tooltip>
+										{{ widget.tooltip }}
+									</template>
+								</core-tooltip>
+							</base-checkbox>
+						</grid-column>
+					</grid-row>
 
 					<div class="aioseo-description">
 						{{ strings.dashboardWidgetsDescription }}
@@ -295,6 +308,8 @@ import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import GridColumn from '@/vue/components/common/grid/Column'
+import GridRow from '@/vue/components/common/grid/Row'
 import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 
 export default {
@@ -307,6 +322,8 @@ export default {
 		CoreProBadge,
 		CoreSettingsRow,
 		CoreTooltip,
+		GridColumn,
+		GridRow,
 		SvgCircleQuestionMark
 	},
 	data () {
@@ -335,7 +352,7 @@ export default {
 				dashboardWidgets            : this.$t.__('Dashboard Widgets', this.$td),
 				dashboardWidgetsDescription : this.$t.sprintf(
 					// Translators: 1 - Plugin Short Name ("AIOSEO").
-					this.$t.__('This displays %1$s widgets on the dashboard.', this.$td),
+					this.$t.__('Select which %1$s widgets to display on the dashboard.', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				),
 				announcements            : this.$t.__('Announcements', this.$td),
@@ -412,17 +429,44 @@ export default {
 				this.options.advanced.adminBarMenu = newValue
 			}
 		},
-		dashboardWidgets : {
-			get () {
-				return !this.isUnlicensed ? this.options.advanced.dashboardWidgets : true
-			},
-			set (newValue) {
-				this.options.advanced.dashboardWidgets = newValue
-			}
+		widgets () {
+			return [
+				{
+					key     : 'seoSetup',
+					label   : this.$t.__('SEO Setup Wizard', this.$td),
+					tooltip : this.$t.__('Our SEO Setup Wizard dashboard widget helps you remember to finish setting up some initial crucial settings for your site to help you rank higher in search results. Once the setup wizard is completed this widget will automatically disappear.', this.$td)
+				},
+				{
+					key     : 'seoOverview',
+					label   : this.$t.__('SEO Overview', this.$td),
+					tooltip : this.$t.__('Our SEO Overview widget helps you determine which posts or pages you should focus on for content updates to help you rank higher in search results.', this.$td)
+				},
+				{
+					key     : 'seoNews',
+					label   : this.$t.__('SEO News', this.$td),
+					tooltip : this.$t.__('Our SEO News widget provides helpful links that enable you to get the most out of your SEO and help you continue to rank higher than your competitors in search results.', this.$td)
+				}
+			]
 		}
 	},
 	methods : {
-		versionCompare : versionCompare
+		versionCompare : versionCompare,
+		updateDashboardWidgets (checked, widget) {
+			if (checked) {
+				const included = this.options.advanced.dashboardWidgets
+				included.push(widget.key)
+				this.$set(this.options.advanced, 'dashboardWidgets', included)
+				return
+			}
+
+			const index = this.options.advanced.dashboardWidgets.findIndex(t => t === widget.key)
+			if (-1 !== index) {
+				this.$delete(this.options.advanced.dashboardWidgets, index)
+			}
+		},
+		isDashboardWidgetChecked (widget) {
+			return !this.isUnlicensed ? this.options.advanced.dashboardWidgets.includes(widget.key) : true
+		}
 	}
 }
 </script>

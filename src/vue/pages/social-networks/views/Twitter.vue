@@ -282,31 +282,11 @@
 			>
 				<template #content>
 					<core-twitter-preview
-						:image="options.social.twitter.homePage.image"
 						:card="options.social.twitter.homePage.cardType"
-					>
-						<template #site-title>
-							<span
-								v-if="$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags($aioseo.data.staticHomePageTwitterTitle || '#site_title'), 100)"
-							/>
-							<span
-								v-if="!$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags(options.social.twitter.homePage.title || '#site_title'), 100)"
-							/>
-						</template>
-
-						<template #site-description>
-							<span
-								v-if="$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags($aioseo.data.staticHomePageTwitterDescription || '#tagline'))"
-							/>
-							<span
-								v-if="!$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags(options.social.twitter.homePage.description || '#tagline'))"
-							/>
-						</template>
-					</core-twitter-preview>
+						:description="previewDescription"
+						:image="options.social.twitter.homePage.image"
+						:title="previewTitle"
+					/>
 				</template>
 			</core-settings-row>
 
@@ -442,6 +422,7 @@ import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTwitterPreview from '@/vue/components/common/core/TwitterPreview'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+
 export default {
 	components : {
 		BaseImg,
@@ -517,6 +498,20 @@ export default {
 				{ label: this.strings.summary, value: 'summary' },
 				{ label: this.strings.summaryLarge, value: 'summary_large_image' }
 			]
+		},
+		previewTitle () {
+			if (this.$aioseo.data.staticHomePage) {
+				return this.parseTags(this.$aioseo.data.staticHomePageTwitterTitle || '#site_title')
+			}
+
+			return this.parseTags(this.options.social.twitter.homePage.title || '#site_title')
+		},
+		previewDescription () {
+			if (this.$aioseo.data.staticHomePage) {
+				return this.parseTags(this.$aioseo.data.staticHomePageTwitterDescription || '#tagline')
+			}
+
+			return this.parseTags(this.options.social.twitter.homePage.description || '#tagline')
 		}
 	},
 	methods : {

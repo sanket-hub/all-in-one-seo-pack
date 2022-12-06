@@ -10,7 +10,19 @@
 					class="icon dashicons"
 					:class="`${postType.icon || 'dashicons-admin-post'}`"
 				/>
-				<div v-html="postType.label"></div>
+
+				{{ postType.label }}
+
+				<core-tooltip>
+					<svg-circle-question-mark />
+
+					<template #tooltip>
+						<div class="aioseo-description">
+							{{ strings.label }} <strong>{{ postType.label }}</strong><br>
+							{{ strings.name }} <strong>{{ postType.name }}</strong><br>
+						</div>
+					</template>
+				</core-tooltip>
 			</template>
 
 			<template #tabs>
@@ -41,22 +53,30 @@ import { mapActions, mapState } from 'vuex'
 import Advanced from './partials/Advanced'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CustomFields from './partials/CustomFields'
 import Schema from './partials/Schema'
+import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 import TitleDescription from './partials/TitleDescription'
 export default {
 	components : {
 		Advanced,
 		CoreCard,
 		CoreMainTabs,
+		CoreTooltip,
 		CustomFields,
 		Schema,
+		SvgCircleQuestionMark,
 		TitleDescription
 	},
 	data () {
 		return {
 			internalDebounce : null,
-			tabs             : [
+			strings          : {
+				label : this.$t.__('Label:', this.$td),
+				name  : this.$t.__('Slug:', this.$td)
+			},
+			tabs : [
 				{
 					slug   : 'title-description',
 					name   : this.$t.__('Title & Description', this.$td),

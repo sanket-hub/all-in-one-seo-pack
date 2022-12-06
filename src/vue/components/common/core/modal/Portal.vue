@@ -8,6 +8,7 @@
 			:no-header="noHeader"
 			@close="$emit('close')"
 			:allow-body-overflow="allowBodyOverflow"
+			:confirmation="confirmation"
 		>
 			<template #headerTitle>
 				<slot name="headerTitle" />
@@ -15,6 +16,10 @@
 
 			<template #body>
 				<slot name="body" />
+			</template>
+
+			<template #footer>
+				<slot name="footer" />
 			</template>
 		</core-modal>
 	</portal>
@@ -29,7 +34,8 @@ export default {
 	props : {
 		noHeader          : Boolean,
 		classes           : Array,
-		allowBodyOverflow : Boolean
+		allowBodyOverflow : Boolean,
+		confirmation      : Boolean
 	}
 }
 </script>

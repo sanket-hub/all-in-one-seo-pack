@@ -82,6 +82,7 @@
 			<core-modal
 				v-if="showAreYouSureModal"
 				no-header
+				@close="showAreYouSureModal = false"
 			>
 				<template #body >
 					<div class="aioseo-modal-body">
@@ -89,7 +90,7 @@
 							class="close"
 							@click.stop="showAreYouSureModal = false"
 						>
-							<SvgClose @click="showAreYouSureModal = false" />
+							<svg-close @click="showAreYouSureModal = false" />
 						</button>
 
 						<h3>{{ areYouSureTitle }}</h3>

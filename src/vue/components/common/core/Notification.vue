@@ -107,7 +107,7 @@ export default {
 			}
 		},
 		getDate () {
-			return this.$moment.utc(this.notification.start).tz(this.$moment.tz.guess()).fromNow()
+			return this.$dateTime.fromFormat(this.notification.start, 'yyyy-MM-dd HH:mm:ss').setZone(this.$dateTime.zone).toRelative()
 				.replace('a few seconds ago', this.$t.__('a few seconds ago', this.$td))
 				.replace('a minute ago', this.$t.__('a minute ago', this.$td))
 				.replace(

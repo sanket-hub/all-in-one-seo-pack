@@ -93,7 +93,7 @@ export const getPostContent = () => {
 		postContent = getEditorContent()
 	}
 
-	if (customFieldsContent()) {
+	if (window.aioseo.currentPost.descriptionIncludeCustomFields) {
 		postContent = postContent + customFieldsContent()
 	}
 
@@ -135,7 +135,7 @@ export const getPostEditedContent = () => {
 		postContent = getEditorContent()
 	}
 
-	if (customFieldsContent()) {
+	if (window.aioseo.currentPost.descriptionIncludeCustomFields) {
 		postContent = postContent + customFieldsContent()
 	}
 

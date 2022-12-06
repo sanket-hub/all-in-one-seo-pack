@@ -47,7 +47,7 @@ export default {
 	},
 	mounted () {
 		// Prevent the browser from autofilling in a phone number.
-		const timestamp = this.$moment().unix()
+		const timestamp = this.$dateTime.now().toFormat('x')
 		const value     = 'aioseo-phone-number-' + timestamp.toString()
 		document.querySelectorAll('.aioseo-phone-number input').forEach((node) => {
 			node.setAttribute('autocomplete', value)

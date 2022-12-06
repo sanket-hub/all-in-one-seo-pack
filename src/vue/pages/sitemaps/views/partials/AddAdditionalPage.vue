@@ -204,7 +204,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { DateTime } from 'luxon'
 import { mapMutations, mapState } from 'vuex'
 import { __ } from '@wordpress/i18n'
 import { isUrl, cloneObject } from '@/vue/utils/helpers'
@@ -222,7 +222,7 @@ const defaults = {
 		url          : null,
 		priority     : { label: '0.7', value: '0.7' },
 		frequency    : { label: __('weekly', import.meta.env.VITE_TEXTDOMAIN), value: 'weekly' },
-		lastModified : moment().format('MM/DD/YYYY')
+		lastModified : DateTime.now().toFormat('MM/dd/yyyy')
 	}
 }
 

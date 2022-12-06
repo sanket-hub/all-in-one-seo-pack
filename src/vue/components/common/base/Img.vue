@@ -55,19 +55,6 @@ export default {
 				return
 			}
 
-			let url = null
-			try {
-				url = new URL(this.src)
-			} catch {
-				return
-			}
-
-			const pattern    = /\.(jpg|jpeg|png|gif|svg|webp)$/
-			const escapedUrl = url.pathname.replace('/', '\\/')
-			if (!escapedUrl.match(pattern)) {
-				return
-			}
-
 			if (this.images[this.src]) {
 				this.canShow = true
 				return
@@ -92,7 +79,7 @@ export default {
 				this.$set(this.images, this.src, {
 					image,
 					ratio,
-					vertical : (1.5 > ratio || 2 < ratio) || 600 > width || 315 > height
+					vertical : width > height
 				})
 			})
 

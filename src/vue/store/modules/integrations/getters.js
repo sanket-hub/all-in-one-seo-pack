@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import { DateTime } from 'luxon'
 export default {
 	semrushExpired : (state, getters, rootState) => {
 		if (!rootState.internalOptions.integrations.semrush.expires) {
 			return true
 		}
 
-		const now     = Vue.prototype.$moment()
-		const expires = Vue.prototype.$moment.unix(rootState.internalOptions.integrations.semrush.expires)
+		const now     = DateTime.now()
+		const expires = DateTime.fromMillis(parseInt(rootState.internalOptions.integrations.semrush.expires * 1000, 10))
 
-		if (now.isSameOrAfter(expires)) {
+		if (now >= expires) {
 			return true
 		}
 

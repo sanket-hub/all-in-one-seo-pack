@@ -702,6 +702,10 @@ export default {
 			}
 		})
 	},
+	async getUserImage (context, { userId }) {
+		return await this._vm.$http.get(this._vm.$links.restUrl(`user/${userId}/image`))
+			.then(response => 200 === response.statusCode ? response.body.url : '')
+	},
 	async getFirstAttachedImage (context, { postId }) {
 		return await this._vm.$http.get(this._vm.$links.restUrl(`post/${postId}/first-attached-image`))
 			.then(response => 200 === response.statusCode ? response.body.url : '')

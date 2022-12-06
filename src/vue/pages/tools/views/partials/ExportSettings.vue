@@ -231,7 +231,7 @@ export default {
 					const blob       = new Blob([ JSON.stringify(response.body.settings) ], { type: 'application/json' })
 					const link       = document.createElement('a')
 					link.href        = URL.createObjectURL(blob)
-					link.download    = `aioseo-export-settings-${site}${this.$moment().format('YYYY-MM-DD')}.json`
+					link.download    = `aioseo-export-settings-${site}${this.$dateTime.now().toFormat('yyyy-MM-dd')}.json`
 					link.click()
 					URL.revokeObjectURL(link.href)
 				})

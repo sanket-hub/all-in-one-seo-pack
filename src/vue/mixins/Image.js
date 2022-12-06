@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import store from '@/vue/store'
 import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldValue } from '../plugins/tru-seo/components'
 
@@ -95,17 +94,15 @@ const getFirstAvailableImage = async (currentPost, type, prefix) => {
 	return image
 }
 
-const getAuthorImage = () => {
-	const authorId = getPostEditedAuthor()
-	const authorData = Vue.prototype.$aioseo.user.siteAuthors.find(user => authorId === user.id)
+const getUserImage = async () => {
+	const userId = getPostEditedAuthor()
+	let image    = ''
 
-	if (authorData && authorData.gravatar) {
-		const url = new URL(authorData.gravatar)
-		// We need to add .jpg extension to the end of URL on Gravatar.
-		return `${url.origin + url.pathname}.jpg${url.search}`
-	}
+	await store.dispatch('getUserImage', { userId }).then((gravatar) => {
+		image = gravatar
+	})
 
-	return ''
+	return image
 }
 
 export const ImagePreview = {
@@ -153,7 +150,11 @@ export const ImagePreview = {
 					break
 
 				case 'author':
-					this.imageUrl = getAuthorImage()
+					this.loading = true
+					await getUserImage().then((url) => {
+						this.imageUrl = url
+						this.loading = false
+					})
 					break
 
 				case 'auto':

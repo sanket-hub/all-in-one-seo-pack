@@ -41,7 +41,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
-import { getParams } from '@/vue/utils/params'
+import { getParams, removeParam } from '@/vue/utils/params'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -84,13 +84,18 @@ export default {
 	computed : {
 		...mapState([ 'currentPost', 'metaBoxTabs', 'options' ]),
 		initTab : function () {
+			let initTab = this.metaBoxTabs.social
+
 			if (getParams()['social-tab']) {
-				return getParams()['social-tab']
+				initTab = getParams()['social-tab']
+
+				removeParam('social-tab')
 			}
 			if ('modal' === this.parentComponentContext) {
-				return this.metaBoxTabs.socialModal
+				initTab = this.metaBoxTabs.socialModal
 			}
-			return this.metaBoxTabs.social
+
+			return initTab
 		}
 	},
 	methods : {

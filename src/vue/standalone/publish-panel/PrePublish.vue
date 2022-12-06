@@ -33,9 +33,9 @@
 		>
 			<p class="title">{{ strings.snippetPreview }}:</p>
 			<core-google-search-preview
-				:title="currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title'"
+				:title="parseTags(currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title')"
 				:separator="options.searchAppearance.global.separator"
-				:description="currentPost.description || currentPost.tags.description || '#post_content'"
+				:description="parseTags(currentPost.description || currentPost.tags.description || '#post_content')"
 				:class="{ ismobile: currentPost.generalMobilePrev }"
 			>
 				<template #domain>
@@ -364,9 +364,11 @@ export default {
 	.snippet-preview {
 		margin-bottom: 16px;
 		.aioseo-google-search-preview {
-			padding: 10px;
+			.google-post {
+				padding: 10px;
+			}
 			a {
-				color: #3c4043;
+				color: $black3;
 				text-decoration: none;
 			}
 		}

@@ -98,10 +98,10 @@
 							</base-button>
 
 							<base-button
-								v-if="plugins[pluginName].installed && plugins[pluginName].activated && 0 !== plugin.adminUrl.length"
+								v-if="plugins[pluginName].installed && plugins[pluginName].activated && 0 !== getPluginAdminUrl(pluginName, plugin).length"
 								type="gray"
 								tag="a"
-								:href="plugin.adminUrl"
+								:href="getPluginAdminUrl(pluginName, plugin)"
 							>
 								{{ strings.plugins.actions.manage }}
 							</base-button>
@@ -146,8 +146,9 @@ export default {
 	data () {
 		return {
 			teamImg,
-			localPlugins : [],
-			strings      : {
+			localPlugins     : [],
+			networkActivated : [],
+			strings          : {
 				welcome : {
 					p1 : this.$t.sprintf(
 						// Translators: 1 - The plugin name ("All in One SEO"), 2 - The plugin name ("All in One SEO").
@@ -467,6 +468,10 @@ export default {
 				if (Object.keys(response.body.completed).length) {
 					this.plugins[pluginName].installed = true
 					this.plugins[pluginName].activated = true
+
+					if (this.$aioseo.data.isNetworkAdmin) {
+						this.networkActivated.push(pluginName)
+					}
 				} else if (Object.keys(response.body.failed).length) {
 					throw new Error(response.body.failed)
 				}
@@ -475,6 +480,21 @@ export default {
 					this.plugins[pluginName].loading = false
 					console.error(`Unable to install ${pluginName}: ${error}`)
 				})
+		},
+		getPluginAdminUrl (pluginName, plugin) {
+			if (!this.$aioseo.data.isNetworkAdmin) {
+				return plugin.adminUrl
+			}
+
+			if (!plugin.networkAdminUrl) {
+				return plugin.adminUrl
+			}
+
+			if (!this.networkActivated.includes(pluginName)) {
+				return plugin.adminUrl
+			}
+
+			return plugin.networkAdminUrl
 		}
 	},
 	computed : {

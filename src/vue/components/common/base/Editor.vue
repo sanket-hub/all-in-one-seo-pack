@@ -637,6 +637,7 @@ export default {
 		font-size: 16px;
 		color: $black;
 		border: 1px solid $input-border;
+		height: auto;
 
 		&:focus {
 			border: 1px solid $blue;
@@ -812,11 +813,14 @@ export default {
 	}
 
 	.ql-container {
+		height: auto;
+
 		p {
 			font-size: 16px;
 			margin: 0;
 			line-height: 25px;
 		}
+
 		&.ql-snow {
 			border: 0;
 		}

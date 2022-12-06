@@ -73,6 +73,7 @@
 		<core-modal
 			v-if="showModal"
 			no-header
+			@close="showModal = false"
 		>
 			<template #body >
 				<div class="aioseo-modal-body">

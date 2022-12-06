@@ -57,7 +57,8 @@ class LinkControlSettingsDrawer extends Component {
 	}
 
 	componentWillUnmount () {
-		if (!this.state.textValue) {
+		// If we don't have any title or if the title hasn't changed, let's return early since this prop change is unnecessary.
+		if (!this.state.textValue || (this.state.textValue === this.props.value.title)) {
 			return
 		}
 

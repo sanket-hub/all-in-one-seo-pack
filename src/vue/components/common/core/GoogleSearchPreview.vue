@@ -1,28 +1,33 @@
 <template>
 	<div class="aioseo-google-search-preview">
-		<div class="domain">
-			<slot name="domain">
-				{{ domain }}
-			</slot>
+		<div class="google-post">
+			<div class="domain">
+				<slot name="domain">
+					{{ domain }}
+				</slot>
+			</div>
+
+			<div
+				class="site-title"
+				v-html="truncate(title, 100)"
+			/>
+
+			<div
+				class="meta-description"
+				v-html="truncate(description)"
+			/>
 		</div>
-
-		<div
-			class="site-title"
-			v-html="truncate(parseTags(title), 100)"
-		/>
-
-		<div
-			class="meta-description"
-			v-html="truncate(parseTags(description))"
-		/>
 	</div>
 </template>
 
 <script>
-import { Tags } from '@/vue/mixins'
+import { truncate } from '@/vue/utils/html'
+
 export default {
-	mixins : [ Tags ],
-	props  : {
+	methods : {
+		truncate
+	},
+	props : {
 		title : {
 			type     : String,
 			required : true
@@ -34,7 +39,7 @@ export default {
 		domain : {
 			type : String,
 			default () {
-				return this.$aioseo.urls.domain
+				return this.$aioseo.urls.mainSiteUrl
 			}
 		},
 		separator : String
@@ -42,53 +47,91 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .aioseo-google-search-preview {
-	padding: 32px 30px;
-	border: 1px solid $border;
+	align-items: center;
+	display: flex;
+	justify-content: center;
 
-	.domain {
-		font-size: 14px;
-		line-height: 1.3;
-		color: #3C4043;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+	.google-post {
+		background-color: #fff;
+		border: 1px solid $border;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 15px;
+		width: 100%;
 
-	.site-title {
-		font-size: 20px;
-		line-height: 1.3;
-		color: #1A0DAB;
-		margin: 3px 0;
-	}
+		.domain,
+		.site-title,
+		.meta-description {
+			font-family: $font-family;
+			font-style: normal;
+			font-weight: 400;
+			line-height: 1.4;
+			letter-spacing: normal;
+			margin: 0;
+			padding: 0;
+			text-transform: none;
+		}
 
-	.meta-description {
-		max-width: 600px;
-		font-size: 14px;
-		line-height: 1.4;
-		color: #52565A;
+		.domain {
+			color: $black3;
+			font-size: 14px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.site-title {
+			color: #1A0DAB;
+			font-size: 20px;
+		}
+
+		.meta-description {
+			color: #4d5156;
+			font-size: 14px;
+			max-width: 600px;
+			width: 100%;
+
+			&:empty {
+				display: none;
+			}
+		}
 	}
 }
-.edit-post-sidebar,
-.editor-post-publish-panel {
-	.domain {
-		font-size: 13px;
+</style>
+
+<style lang="scss">
+#wpwrap {
+	.edit-post-sidebar,
+	.editor-post-publish-panel {
+		.google-post {
+			.domain {
+				font-size: 13px;
+			}
+
+			.site-title {
+				font-size: 16px;
+			}
+
+			.meta-description {
+				font-size: 12px;
+			}
+		}
 	}
-	.site-title {
-		font-size: 16px;
-	}
-	.meta-description {
-		font-size: 12px;
-	}
-}
-.aioseo-modal-content {
-	.domain,
-	.meta-description {
-		font-size: 14px;
-	}
-	.site-title {
-		font-size: 20px;
+
+	.aioseo-modal-content {
+		.google-post {
+			.domain,
+			.meta-description {
+				font-size: 14px;
+			}
+
+			.site-title {
+				font-size: 20px;
+			}
+		}
 	}
 }
 </style>

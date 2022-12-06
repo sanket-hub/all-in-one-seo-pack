@@ -100,6 +100,7 @@
 		<core-modal
 			v-if="showModal"
 			no-header
+			@close="showModal = false"
 		>
 			<template #body >
 				<div class="aioseo-modal-body">
@@ -215,11 +216,13 @@ export default {
 				})
 		},
 		maybeDeleteBackup (backup) {
-			this.showModal = true
-			this.backupToDelete = backup
+			this.showModal       = true
+			this.backupToRestore = null
+			this.backupToDelete  = backup
 		},
 		maybeRestoreBackup (backup) {
-			this.showModal = true
+			this.showModal       = true
+			this.backupToDelete  = null
 			this.backupToRestore = backup
 		},
 		processDeleteBackup () {
@@ -259,11 +262,12 @@ export default {
 				})
 		},
 		getBackupName (backup) {
+			const date = this.$dateTime.fromMillis(backup * 1000).setZone(this.$dateTime.zone)
 			return this.$t.sprintf(
 				// Translators: 1 Date, 2 - Timestamp.
 				this.$t.__('%1$s at %2$s', this.$td),
-				'<strong>' + this.$moment(backup * 1000).tz(this.$moment.tz.guess()).format('MMMM D, YYYY') + '</strong>',
-				'<strong>' + this.$moment(backup * 1000).tz(this.$moment.tz.guess()).format('h:mmA z') + '</strong>'
+				'<strong>' + date.toFormat('MMMM d, yyyy') + '</strong>',
+				'<strong>' + date.toFormat('h:mma ZZZZ') + '</strong>'
 			)
 		},
 		processBackupAction () {

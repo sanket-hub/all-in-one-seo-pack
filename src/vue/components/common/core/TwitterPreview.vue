@@ -3,10 +3,7 @@
 		<div class="twitter-post">
 			<div class="twitter-header">
 				<div class="profile-photo">
-					<img
-						alt="Dannie the Detective profile image"
-						:src="$getAssetUrl(dannieProfileImg)"
-					/>
+					<svg-dannie-profile />
 				</div>
 				<div class="poster">
 					<div class="poster-name">
@@ -19,7 +16,7 @@
 			</div>
 			<div
 				class="twitter-container"
-				:class="'summary_large_image' === getCard && !image ? 'summary' : getCard"
+				:class="!image ? 'summary' : getCard"
 			>
 				<div class="twitter-content">
 					<div
@@ -43,15 +40,19 @@
 					</div>
 
 					<div class="twitter-site-description">
-						<div class="site-title">
-							<slot name="site-title" />
-						</div>
-						<div class="site-description">
-							<slot name="site-description" />
-						</div>
 						<div class="site-domain">
-							{{ $aioseo.urls.domain }}
+							<slot name="site-url">
+								{{ $aioseo.urls.domain }}
+							</slot>
 						</div>
+						<div
+							class="site-title"
+							v-html="truncate(title, 70)"
+						/>
+						<div
+							class="site-description"
+							v-html="truncate(description, 105)"
+						/>
 					</div>
 				</div>
 			</div>
@@ -61,29 +62,37 @@
 
 <script>
 import { mapState } from 'vuex'
-import dannieProfileImg from '@/vue/assets/images/aio/dannie-profile.png'
+import { truncate } from '@/vue/utils/html'
 import BaseImg from '@/vue/components/common/base/Img'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import SvgBook from '@/vue/components/common/svg/Book'
+import SvgDannieProfile from '@/vue/components/common/svg/dannie/Profile'
+
 export default {
 	components : {
 		BaseImg,
 		CoreLoader,
-		SvgBook
+		SvgBook,
+		SvgDannieProfile
 	},
 	props : {
+		card        : String,
+		description : {
+			type     : String,
+			required : true
+		},
 		image   : String,
-		card    : String,
 		loading : {
-			type : Boolean,
-			default () {
-				return false
-			}
+			type    : Boolean,
+			default : false
+		},
+		title : {
+			type     : String,
+			required : true
 		}
 	},
 	data () {
 		return {
-			dannieProfileImg,
 			canShowImage : false
 		}
 	},
@@ -103,25 +112,30 @@ export default {
 	methods : {
 		maybeCanShow (canShow) {
 			this.canShowImage = canShow
-		}
+		},
+		truncate
 	}
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .aioseo-twitter-preview {
-	background-color: $fb-background;
-	padding: 30px;
-	display: flex;
+	--primary-text: #0f1419;
+	--secondary-text: #536471;
+	--tertiary-text: #cfd9de;
+
 	align-items: center;
+	background-color: $white2;
+	display: flex;
 	justify-content: center;
+	padding: 30px;
 
 	.twitter-post {
-		width: 100%;
-		max-width: 500px;
-		border-radius: 5px;
-		border: 1px solid #E1E8ED;
 		background-color: #fff;
+		border-radius: 16px;
+		border: 1px solid $border;
+		max-width: 500px;
+		width: 100%;
 
 		.twitter-header {
 			height: 65px;
@@ -136,7 +150,7 @@ export default {
 				border: 1px solid $border;
 				border-radius: 50%;
 
-				img {
+				svg {
 					height: 100%;
 					width: 100%;
 				}
@@ -148,11 +162,12 @@ export default {
 
 				.poster-name {
 					font-size: 15px;
-					color: #1C2022;
+					color: var(--primary-text);
 					font-weight: 600;
 				}
+
 				.poster-username {
-					color: #697882;
+					color: var(--secondary-text);
 					font-weight: 500;
 					font-size: 13px;
 				}
@@ -160,64 +175,97 @@ export default {
 		}
 
 		.twitter-container {
-			padding: 0 20px 20px 20px;
+			margin-bottom: 0;
+			padding: 0 20px 20px;
 
 			&.summary {
 				.twitter-content {
 					flex-direction: row;
 
 					.twitter-image-preview {
-						display: flex;
 						align-items: center;
-						justify-content: center;
-						background-color: #E1E8ED;
-						min-width: 125px;
-						min-height: 125px;
-						background-size: cover;
-						background-repeat: no-repeat;
+						background-color: #f7f9f9;
 						background-position: center center;
+						background-repeat: no-repeat;
+						background-size: cover;
+						border-right: 1px solid var(--tertiary-text);
+						display: flex;
+						justify-content: center;
+						min-height: 127px;
+						min-width: 127px;
 
 						svg.aioseo-book {
 							width: 50px;
-							height: 50px;
-							color: #8999A5;
+							color: var(--secondary-text);
 						}
 					}
 				}
 			}
 
+			&.summary_large_image {
+				.twitter-image-preview {
+					overflow: hidden;
+					padding-top: 56.25%;
+					position: relative;
+
+					img {
+						height: 100%;
+						left: 0;
+						object-fit: cover;
+						position: absolute;
+						top: 0;
+						width: 100%;
+					}
+
+					svg.aioseo-book {
+						display: none;
+					}
+				}
+			}
+
 			.twitter-content {
-				border-radius: 10px;
+				border-radius: 16px;
 				overflow: hidden;
 				display: flex;
 				flex-direction: column;
-				border: 1px solid #E1E8ED;
-
-				img {
-					width: 100%;
-					height: auto;
-				}
+				border: 1px solid var(--tertiary-text);
 
 				.twitter-site-description {
-					padding: 18px;
-					color: #1C2022;
+					display: flex;
+					flex-direction: column;
+					gap: 2px;
+					justify-content: center;
+					padding: 12px;
+
+					.site-domain,
+					.site-title,
+					.site-description {
+						font-family: $font-family;
+						font-style: normal;
+						font-weight: 400;
+						line-height: 1.4;
+						letter-spacing: normal;
+						margin: 0;
+						padding: 0;
+						text-transform: none;
+					}
 
 					.site-domain {
-						font-size: 14px;
-						color: #8899A6;
-						white-space: nowrap;
+						color: var(--secondary-text);
+						font-size: 13px;
 						overflow: hidden;
 						text-overflow: ellipsis;
+						white-space: nowrap;
 					}
 
 					.site-title {
-						font-size: 15px;
-						font-weight: 600;
+						color: var(--primary-text);
+						font-size: 17px;
 					}
 
 					.site-description {
+						color: var(--secondary-text);
 						font-size: 14px;
-						margin: 5px 0;
 					}
 				}
 			}

@@ -1,18 +1,12 @@
 import { mapState } from 'vuex'
 import { customFieldValue } from '@/vue/plugins/tru-seo/components'
+
 export const Tags = {
 	computed : {
 		...mapState([ 'currentPost', 'tags' ]),
 		...mapState('live-tags', [ 'liveTags' ])
 	},
 	methods : {
-		truncate (string, length = 200) {
-			if (!string) {
-				return string
-			}
-
-			return length < string.length ? string.substr(0, length - 1) + this.$tags.decodeHTMLEntities('&hellip;') : string
-		},
 		parseTags (string) {
 			if (!string) {
 				return string

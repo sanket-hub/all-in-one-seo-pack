@@ -34,6 +34,13 @@
 						>
 							<slot name="body"></slot>
 						</div>
+
+						<div
+							v-if="$slots.footer"
+							class="modal-container__footer"
+						>
+							<slot name="footer"></slot>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -52,7 +59,8 @@ export default {
 		// TODO: In the future we need to remove this isolate once we get the Table of Contents working correctly.
 		isolate           : Boolean,
 		classes           : Array,
-		allowBodyOverflow : Boolean
+		allowBodyOverflow : Boolean,
+		confirmation      : Boolean
 	},
 	methods : {
 		scrollToElement () {
@@ -62,14 +70,24 @@ export default {
 					container.firstChild.scrollTop = 0
 				}
 			}, 10)
+		},
+		escapeListener (event) {
+			if ('Escape' === event.key && !this.confirmation) {
+				this.$emit('close')
+			}
 		}
 	},
 	mounted () {
+		document.addEventListener('keydown', this.escapeListener)
+
 		this.scrollToElement()
 
 		if (this.isolate) {
 			document.body.appendChild(this.$el)
 		}
+	},
+	beforeDestroy () {
+		document.removeEventListener('click', this.escapeListener)
 	}
 }
 </script>
@@ -109,7 +127,7 @@ export default {
 			overflow-x: hidden;
 			margin: 0 auto;
 			background-color: #fff;
-			box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 			transition: all .3s ease;
 
 			@media screen and (max-width: 520px) {
@@ -139,15 +157,17 @@ export default {
 				}
 
 				button.close {
-					position: absolute;
-					right: 11px;
-					top: 11px;
-					width: 24px;
-					height: 24px;
 					background-color: #fff;
 					border: none;
-					display: flex;
-					align-items: center;
+					line-height: 1;
+					margin: 0;
+					opacity: 1;
+					outline: none;
+					padding: 0;
+					position: absolute;
+					right: 20px;
+					top: 50%;
+					transform: translate(0, -50%);
 
 					svg.aioseo-close {
 						cursor: pointer;
@@ -161,6 +181,7 @@ export default {
 				overflow-y: auto;
 				overflow-x: hidden;
 				max-height: 80vh;
+				padding: 0;
 				position: relative;
 
 				.aioseo-modal-content {
@@ -172,6 +193,10 @@ export default {
 				&.allow-overflow {
 					overflow: visible;
 				}
+			}
+
+			.modal-container__footer {
+				border-top: 1px solid $border;
 			}
 
 			@media screen and (max-width: 520px) {

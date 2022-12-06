@@ -17,8 +17,7 @@ import license from '@/vue/utils/license'
 
 import * as constants from './constants'
 
-import moment from 'moment'
-import 'moment-timezone'
+import { DateTime } from 'luxon'
 
 import VueScrollTo from 'vue-scrollto'
 import PortalVue from 'portal-vue'
@@ -74,11 +73,11 @@ Vue.prototype.$allowed          = allowed
 Vue.prototype.$assetsPath       = window.aioseo.urls.assetsPath
 Vue.prototype.$bus              = window.aioseoBus
 Vue.prototype.$constants        = constants
+Vue.prototype.$dateTime         = DateTime
 Vue.prototype.$getAssetUrl      = getAssetUrl
 Vue.prototype.$http             = http
 Vue.prototype.$isPro            = 'pro' === import.meta.env.VITE_VERSION.toLowerCase()
 Vue.prototype.$links            = links
-Vue.prototype.$moment           = moment
 Vue.prototype.$numbers          = numbers
 Vue.prototype.$optionsFromArray = optionsFromArray
 Vue.prototype.$t                = translate

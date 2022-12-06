@@ -1,5 +1,7 @@
+import { decodeHTMLEntities } from '@/vue/utils/helpers'
+
 /**
- * Create a HTML element from a string.
+ * Create an HTML element from a string.
  *
  * @since 4.2.1
  *
@@ -14,7 +16,7 @@ const createElement = (html, element = 'div') => {
 }
 
 /**
- * Get the text from a HTML piece.
+ * Get the text from an HTML piece.
  *
  * @since 4.2.1
  *
@@ -31,7 +33,7 @@ export const getText = (html) => {
 }
 
 /**
- * Get the image list from a HTML piece.
+ * Get the image list from an HTML piece.
  *
  * @since 4.2.1
  *
@@ -44,4 +46,87 @@ export const getImages = (html) => {
 	}
 
 	return html.querySelectorAll('img')
+}
+
+/**
+ * Truncate a given string.
+ *
+ * @since 4.2.8
+ *
+ * @param {string} string The text.
+ * @param {number} length Text max character length.
+ * @returns {string} 	  The shortened string.
+ */
+export const truncate = (string, length = 200) => {
+	if (!string) {
+		return string
+	}
+
+	if (length < string.length) {
+		string = string.substring(0, length).trim() + decodeHTMLEntities('&hellip;')
+	}
+
+	return string
+}
+
+/**
+ * Extract the Google SERP snippet data from DOM.
+ *
+ * @since 4.2.8
+ *
+ * @returns {{domain: string, description: string, title: string}} The data.
+ */
+export const getGoogleSnippetData = () => {
+	return {
+		description : document.head.querySelector('meta[name="description"]')?.content || '',
+		domain      : window.location.origin,
+		title       : document.title || ''
+	}
+}
+
+/**
+ * Extract the Facebook link preview data from DOM.
+ *
+ * @link https://ogp.me/
+ * @link https://developers.facebook.com/tools/debug/
+ *
+ * @since 4.2.8
+ *
+ * @returns {{image: string, description: string, title: string, type: string}} The data.
+ */
+export const getFacebookSnippetData = () => {
+	const facebookData = {
+		description : document.head.querySelector('meta[property="og:description"]')?.content || '',
+		image       : document.head.querySelector('meta[property="og:image"]')?.content || '',
+		title       : document.head.querySelector('meta[property="og:title"]')?.content || '',
+		type        : document.head.querySelector('meta[property="og:type"]')?.content || ''
+	}
+
+	if (!facebookData.title) {
+		facebookData.title = document.title || ''
+
+		if (!facebookData.title) {
+			facebookData.title = window.aioseo.urls.domain
+		}
+	}
+
+	return facebookData
+}
+
+/**
+ * Extract the Twitter card data from DOM.
+ *
+ * @link https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards
+ *
+ * @since 4.2.8
+ *
+ * @returns {{image: string, description: string, title: string, card: string}} The data.
+ */
+export const getTwitterSnippetData = () => {
+	return {
+		card        : document.head.querySelector('meta[name="twitter:card"]')?.content || '',
+		description : document.head.querySelector('meta[name="twitter:description"]')?.content || '',
+		image       : document.head.querySelector('meta[name="twitter:image"]')?.content || '',
+		title       : document.head.querySelector('meta[name="twitter:title"]')?.content || ''
+	}
 }

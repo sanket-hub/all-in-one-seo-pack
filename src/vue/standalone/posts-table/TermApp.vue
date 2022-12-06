@@ -91,16 +91,18 @@
 import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
-import { Tags, TruSeoScore } from '@/vue/mixins'
+import { TruSeoScore } from '@/vue/mixins'
+import { truncate } from '@/vue/utils/html'
 import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
+
 export default {
 	components : {
 		SvgCircleCheck,
 		SvgCircleClose
 	},
-	mixins : [ Tags, TruSeoScore ],
+	mixins : [ TruSeoScore ],
 	props  : {
 		term  : Object,
 		index : Number
@@ -168,7 +170,8 @@ export default {
 		},
 		editDescription () {
 			this.showEditDescription  = true
-		}
+		},
+		truncate
 	},
 	mounted () {
 		this.termId            = this.term.id

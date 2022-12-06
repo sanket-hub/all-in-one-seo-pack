@@ -328,30 +328,10 @@
 			>
 				<template #content>
 					<core-facebook-preview
+						:description="previewDescription"
 						:image="options.social.facebook.homePage.image"
-					>
-						<template #site-title>
-							<span
-								v-if="$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags($aioseo.data.staticHomePageOgTitle || '#site_title'), 100)"
-							/>
-							<span
-								v-if="!$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags(options.social.facebook.homePage.title || '#site_title'), 100)"
-							/>
-						</template>
-
-						<template #site-description>
-							<span
-								v-if="$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags($aioseo.data.staticHomePageOgDescription || '#tagline'))"
-							/>
-							<span
-								v-if="!$aioseo.data.staticHomePage"
-								v-html="truncate(parseTags(options.social.facebook.homePage.description || '#tagline'))"
-							/>
-						</template>
-					</core-facebook-preview>
+						:title="previewTitle"
+					/>
 				</template>
 			</core-settings-row>
 
@@ -669,6 +649,7 @@ import SvgBook from '@/vue/components/common/svg/Book'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 import TableColumn from '@/vue/components/common/table/Column'
 import TableRow from '@/vue/components/common/table/Row'
+
 export default {
 	components : {
 		BaseImg,
@@ -767,6 +748,20 @@ export default {
 		...mapState([ 'options', 'dynamicOptions' ]),
 		objectTypeOptions () {
 			return this.$constants.OG_TYPE_OPTIONS
+		},
+		previewTitle () {
+			if (this.$aioseo.data.staticHomePage) {
+				return this.parseTags(this.$aioseo.data.staticHomePageOgTitle || '#site_title')
+			}
+
+			return this.parseTags(this.options.social.facebook.homePage.title || '#site_title')
+		},
+		previewDescription () {
+			if (this.$aioseo.data.staticHomePage) {
+				return this.parseTags(this.$aioseo.data.staticHomePageOgDescription || '#tagline')
+			}
+
+			return this.parseTags(this.options.social.facebook.homePage.description || '#tagline')
 		}
 	},
 	methods : {

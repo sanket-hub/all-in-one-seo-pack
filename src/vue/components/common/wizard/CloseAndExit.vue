@@ -17,6 +17,7 @@
 
 		<core-modal
 			v-if="showModal && !$isPro"
+			@close="showModal = false"
 		>
 			<template #header>
 				{{ strings.buildABetterAioseo }}

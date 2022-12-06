@@ -111,6 +111,7 @@
 			<core-modal
 				v-if="showDeleteModal"
 				no-header
+				@close="showDeleteModal = false"
 			>
 				<template #body >
 					<div class="aioseo-modal-body delete">

@@ -27,9 +27,9 @@
 						@mouseleave="removeHoverClass"
 					>
 						<core-google-search-preview
-							:title="category.siteTitle"
+							:title="parseTags(category.siteTitle)"
 							:separator="options.searchAppearance.global.separator"
-							:description="category.metaDescription"
+							:description="parseTags(category.metaDescription)"
 						/>
 
 						<div
@@ -231,7 +231,7 @@
 </template>
 
 <script>
-import { MaxCounts, Wizard } from '@/vue/mixins'
+import { MaxCounts, Tags, Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
@@ -256,7 +256,7 @@ export default {
 		WizardHeader,
 		WizardSteps
 	},
-	mixins : [ MaxCounts, Wizard ],
+	mixins : [ MaxCounts, Tags, Wizard ],
 	data () {
 		return {
 			loaded           : false,

@@ -86,7 +86,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: 600 !important;
 	padding: 0 24px;
 	border-radius: 4px;
 	-webkit-appearance: none;
@@ -98,6 +98,7 @@ export default {
 	text-decoration: none;
 	color: $black;
 	white-space: nowrap;
+	letter-spacing: normal;
 
 	&.small,
 	&.small-table {
@@ -137,6 +138,7 @@ export default {
 	&.gray {
 		border: 1px solid $gray;
 		background-color: $background;
+		color: $black;
 
 		&:hover {
 			background-color: #fff;

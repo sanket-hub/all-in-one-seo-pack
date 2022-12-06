@@ -19,19 +19,13 @@
 		>
 			<template #content>
 				<core-twitter-preview
-					:image="imageUrl"
-					:loading="loading"
 					:card="currentPost.twitter_card"
 					:class="{ ismobilecard: currentPost.socialMobilePreview }"
-				>
-					<template #site-title>
-						<span>{{ previewTitle }}</span>
-					</template>
-
-					<template #site-description>
-						<span>{{ previewDescription }}</span>
-					</template>
-				</core-twitter-preview>
+					:description="previewDescription"
+					:image="imageUrl"
+					:loading="loading"
+					:title="previewTitle"
+				/>
 			</template>
 		</core-settings-row>
 
@@ -206,6 +200,7 @@ import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTwitterPreview from '@/vue/components/common/core/TwitterPreview'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+
 export default {
 	components : {
 		BaseImg,
@@ -266,11 +261,11 @@ export default {
 		},
 		previewTitle () {
 			const title = this.currentPost.twitter_use_og ? this.currentPost.og_title : this.currentPost.twitter_title
-			return this.truncate(this.parseTags(title || this.currentPost.title || this.currentPost.tags.title || '#post_title #separator_sa #site_title'), 100)
+			return this.parseTags(title || this.currentPost.title || this.currentPost.tags.title || '#post_title #separator_sa #site_title')
 		},
 		previewDescription () {
 			const description = this.currentPost.twitter_use_og ? this.currentPost.og_description : this.currentPost.twitter_description
-			return this.truncate(this.parseTags(description || this.currentPost.description || this.currentPost.tags.description || '#post_content'))
+			return this.parseTags(description || this.currentPost.description || this.currentPost.tags.description || '#post_content')
 		}
 	},
 	methods : {

@@ -129,6 +129,7 @@
 		<core-modal
 			v-if="showNetworkModal"
 			no-header
+			@close="closeNetworkModal(false)"
 		>
 			<template #body>
 				<div class="aioseo-modal-body">
@@ -310,6 +311,12 @@ export default {
 			return addon.description
 		},
 		activateAllFeatures () {
+			// First, check to see if this user is licensed and has an active license.
+			// If not, we want to redirect the user to a new page with an upsell.
+			if (!this.$isPro || !this.$aioseo.license.isActive) {
+				return window.open(this.$links.utmUrl(this.$aioseo.data.isNetworkAdmin ? 'network-activate-all-features' : 'activate-all-features'))
+			}
+
 			if (this.$aioseo.data.isNetworkAdmin) {
 				this.showNetworkModal = true
 				this.maybeActivate    = true
@@ -319,12 +326,6 @@ export default {
 			this.actuallyActivateAllFeatures()
 		},
 		actuallyActivateAllFeatures () {
-			// First, check to see if this user is licensed and has an active license.
-			// If not, we want to redirect the user to a new page with an upsell.
-			if (!this.$isPro || !this.$aioseo.license.isActive) {
-				return window.open(this.$links.utmUrl('activate-all-features'))
-			}
-
 			this.loading.activateAll = true
 			const addons = this.addons
 				.filter(addon => !addon.requiresUpgrade)

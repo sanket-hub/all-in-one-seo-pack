@@ -81,7 +81,7 @@ const observe = () => {
 
 	const mutationObserver = new MutationObserver(revertEmoji)
 
-	const aioseoAppWraps = document.querySelectorAll('.aioseo-app')
+	const aioseoAppWraps = document.querySelectorAll('.aioseo-app, .vue-portal-target')
 	aioseoAppWraps.forEach(aioseoApp => {
 		mutationObserver.observe(aioseoApp, {
 			childList : true,

@@ -7,6 +7,7 @@ import liveReload from 'vite-plugin-live-reload'
 import postcssRTLCSS from 'postcss-rtlcss'
 import replace from '@rollup/plugin-replace'
 import outputManifest, { isAsset } from 'rollup-plugin-output-manifest'
+import del from 'rollup-plugin-delete'
 import copy from 'rollup-plugin-copy'
 import path from 'path'
 import fs from 'fs'
@@ -62,6 +63,7 @@ const getStandalones = () => {
 		'posts-table'            : './src/vue/standalone/posts-table/main.js',
 		'publish-panel'          : './src/vue/standalone/publish-panel/main.js',
 		'redirects-add-redirect' : './src/vue/standalone/redirects/add-redirect/main.js',
+		'seo-preview'            : './src/vue/standalone/seo-preview/main.js',
 		'setup-wizard'           : './src/vue/standalone/setup-wizard/main.js',
 		'user-profile-tab'       : './src/vue/standalone/user-profile-tab/main.js',
 		'wp-notices'             : './src/vue/standalone/wp-notices/main.js',
@@ -124,7 +126,6 @@ export default ({ mode }) => {
 			// sourcemap         : true, // Uncomment this for debugging production builds.
 			assetsInlineLimit : 0, // We need to disable this as it converts small images to base64 inline, but that breaks our inline image function that we use to dynamically set the image url.
 			manifest          : true, // We use a manifest to load our files inside of WordPress.
-			emptyOutDir       : true, // This will delete the directory set below.
 			outDir            : `dist/${version}/`, // This is where we put the assets for the current build. Version is either 'Lite' or 'Pro'.
 			assetsDir         : '',
 			rollupOptions     : {
@@ -148,6 +149,12 @@ export default ({ mode }) => {
 					chunkFileNames : 'js/[name].[hash].js'
 				},
 				plugins : [
+					del({
+						targets : `dist/${version}/*`,
+						verbose : true,
+						runOnce : true,
+						hook    : 'buildStart'
+					}),
 					i18n({
 						exclude               : 'node_modules/**',
 						include               : '**/*@(vue|js|jsx)',
@@ -196,11 +203,9 @@ export default ({ mode }) => {
 				'clipboard/dist/clipboard.min.js',
 				'codemirror',
 				'emoji-mart',
-				'js-base64',
 				'lodash-es',
+				'luxon',
 				'maz-ui/lib/maz-phone-number-input',
-				'moment',
-				'moment-timezone',
 				'quill',
 				'superagent',
 				'vue-material/dist/components',

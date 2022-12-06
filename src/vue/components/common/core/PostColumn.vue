@@ -197,7 +197,9 @@
 import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
-import { Tags, TruSeoScore } from '@/vue/mixins'
+import { TruSeoScore } from '@/vue/mixins'
+import { truncate } from '@/vue/utils/html'
+
 import { shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components'
 import CoreScoreButton from '@/vue/components/common/core/ScoreButton'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -208,7 +210,7 @@ export default {
 		SvgCircleCheck,
 		SvgCircleClose
 	},
-	mixins : [ Tags, TruSeoScore ],
+	mixins : [ TruSeoScore ],
 	props  : {
 		post  : Object,
 		index : Number
@@ -318,6 +320,7 @@ export default {
 		editImageAlt () {
 			this.showEditImageAltTag = true
 		},
+		truncate,
 		updatePostTitle (postId, value) {
 			const post = document.getElementById(`post-${postId}`)
 			if (!post) {

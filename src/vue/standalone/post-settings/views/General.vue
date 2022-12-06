@@ -33,9 +33,9 @@
 		>
 			<template #content>
 				<core-google-search-preview
-					:title="currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title'"
+					:title="parseTags(currentPost.title || currentPost.tags.title || '#post_title #separator_sa #site_title')"
 					:separator="options.searchAppearance.global.separator"
-					:description="currentPost.description || currentPost.tags.description || '#post_content'"
+					:description="parseTags(currentPost.description || currentPost.tags.description || '#post_content')"
 					:class="{ ismobile: currentPost.generalMobilePrev }"
 				>
 					<template #domain>
@@ -260,7 +260,7 @@
 </template>
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex'
-import { MaxCounts, SaveChanges, TruSeoScore, IsDirty } from '@/vue/mixins'
+import { IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore } from '@/vue/mixins'
 import { debounce } from '@/vue/utils/debounce'
 import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
@@ -279,7 +279,7 @@ import focusKeyphrase from './partialsGeneral/focusKeyphrase'
 import metaboxAnalysisDetail from './partialsGeneral/metaboxAnalysisDetail'
 import pageAnalysis from './partialsGeneral/pageAnalysis'
 export default {
-	mixins     : [ MaxCounts, SaveChanges, TruSeoScore, IsDirty ],
+	mixins     : [ IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore ],
 	components : {
 		BaseRadioToggle,
 		CoreAlert,
@@ -668,7 +668,9 @@ export default {
 
 .edit-post-sidebar {
 	.aioseo-google-search-preview {
-		padding: 10px;
+		.google-post {
+			padding: 10px;
+		}
 	}
 
 	.aioseo-button.edit-snippet {
@@ -854,10 +856,6 @@ export default {
 	.component-wrapper {
 		.aioseo-settings-row>.aioseo-col {
 			padding-top: .5rem!important;
-		}
-
-		.aioseo-google-search-preview {
-			padding: 32px 28px!important;
 		}
 
 		.aioseo-tabs .md-button {

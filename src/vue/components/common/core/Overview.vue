@@ -39,22 +39,16 @@
 			type="yellow"
 			v-html="strings.upgradeToPro"
 		/>
-
-		<hr class="aioseo-separator" />
-
-		<core-aioseo-blog :medium="isWpDashboard ? 'wp-dashboard-overview' : 'aioseo-dashboard-overview'" />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
-import CoreAioseoBlog from '@/vue/components/common/core/AioseoBlog'
 import CoreDonutChartWithLegend from '@/vue/components/common/core/DonutChartWithLegend'
 export default {
 	components : {
 		CoreAlert,
-		CoreAioseoBlog,
 		CoreDonutChartWithLegend
 	},
 	props : {
@@ -70,7 +64,6 @@ export default {
 			strings : {
 				description    : this.$t.__('Below are the SEO scores of your published posts. Take some time to improve your SEO score to help increase your rankings.', this.$td),
 				choosePostType : this.$t.__('Choose a Post Type', this.$td),
-				readMore       : this.$t.__('Read more like this on our SEO blog', this.$td),
 				upgradeToPro   : this.$t.sprintf(
 					// Translators: 1 - The upgrade call to action.
 					this.$t.__('Get additional keyphrases and many more modules! %1$s', this.$td), this.$links.getUpsellLink('dashboard-overview', this.$t.__('Upgrade to Pro Today!', this.$td), 'liteUpgrade', true)
@@ -264,28 +257,6 @@ export default {
 			margin-left: -12px;
 			border-color: #C3C4C7;
 			border-top: 0;
-		}
-
-		.aioseo-blog {
-			&-list {
-				border-width: 1px;
-				border-color: #C3C4C7;
-				margin-bottom: 12px;
-
-				&-item {
-					margin-bottom: 12px;
-				}
-			}
-
-			&-read-more {
-				text-decoration: none;
-				font-weight: 400;
-				font-size: 13px;
-
-				&:hover {
-					text-decoration: underline !important;
-				}
-			}
 		}
 	}
 }

@@ -3,10 +3,7 @@
 		<div class="facebook-post">
 			<div class="facebook-header">
 				<div class="profile-photo">
-					<img
-						alt="Facebook Preview Image"
-						:src="$getAssetUrl(dannieProfileImg)"
-					/>
+					<svg-dannie-profile />
 				</div>
 				<div class="poster">
 					<div class="poster-name">
@@ -24,12 +21,13 @@
 			</div>
 			<div
 				class="facebook-content"
-				:class="{ vertical: images[image] && images[image].vertical }"
+				:class="{ vertical: isVerticalImage }"
 			>
 				<base-img
 					:debounce="false"
 					:src="image"
 					@images="results => images = results"
+					class="facebook-content__image"
 				/>
 
 				<div v-if="loading" class="loader">
@@ -42,12 +40,14 @@
 							{{ $aioseo.urls.domain }}
 						</slot>
 					</div>
-					<div class="site-title">
-						<slot name="site-title" />
-					</div>
-					<div class="site-description">
-						<slot name="site-description" />
-					</div>
+					<div
+						class="site-title"
+						v-html="truncate(title, 70)"
+					/>
+					<div
+						class="site-description"
+						v-html="truncate(description, 110)"
+					/>
 				</div>
 			</div>
 
@@ -57,26 +57,34 @@
 </template>
 
 <script>
-import dannieProfileImg from '@/vue/assets/images/aio/dannie-profile.png'
+import { truncate } from '@/vue/utils/html'
 import BaseImg from '@/vue/components/common/base/Img'
 import CoreLoader from '@/vue/components/common/core/Loader'
+import SvgDannieProfile from '@/vue/components/common/svg/dannie/Profile'
+
 export default {
 	components : {
 		BaseImg,
-		CoreLoader
+		CoreLoader,
+		SvgDannieProfile
 	},
 	props : {
+		description : {
+			type     : String,
+			required : true
+		},
 		image   : String,
 		loading : {
-			type : Boolean,
-			default () {
-				return false
-			}
+			type    : Boolean,
+			default : false
+		},
+		title : {
+			type     : String,
+			required : true
 		}
 	},
 	data () {
 		return {
-			dannieProfileImg,
 			images : {}
 		}
 	},
@@ -87,29 +95,44 @@ export default {
 		date () {
 			const today = new Date()
 			return today.toLocaleString('default', { month: 'long' }) + ' ' + today.getDay()
+		},
+		isVerticalImage () {
+			const image = this.images[this.image]
+
+			if (!image) {
+				return false
+			}
+
+			return image.vertical
 		}
+	},
+	methods : {
+		truncate
 	}
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .aioseo-facebook-preview {
-	background-color: $fb-background;
+	--primary-text: #050505;
+	--secondary-text: #65676B;
+
+	background-color: $white2;
 	padding: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
 	.facebook-post {
-		width: 100%;
-		max-width: 525px;
-		border-radius: 10px;
-		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 		background-color: #fff;
+		border-radius: 8px;
+		border: 1px solid $border;
+		max-width: 525px;
+		width: 100%;
 
 		.facebook-header {
 			height: 65px;
-			padding: 0 18px;
+			padding: 0 12px;
 			display: flex;
 			align-items: center;
 
@@ -120,7 +143,7 @@ export default {
 				border: 1px solid $border;
 				border-radius: 50%;
 
-				img {
+				svg {
 					height: 100%;
 					width: 100%;
 				}
@@ -132,103 +155,114 @@ export default {
 
 				.poster-name {
 					font-size: 15px;
-					color: #050505;
+					color: var(--primary-text);
 					font-weight: 500;
 				}
+
 				.poster-date {
-					color: #65676B;
+					color: var(--secondary-text);
 					font-size: 13px;
 				}
 			}
 
 			.ellipsis {
 				display: inline-flex;
-				align-items: center;
+				gap: 4px;
 
 				div {
 					background-color: #5E666F;
 					width: 4px;
 					height: 4px;
 					border-radius: 50%;
-					margin: 0 2px;
-
-					&:first-child {
-						margin-left: 0;
-					}
-
-					&:last-child {
-						margin-right: 0;
-					}
 				}
 			}
 		}
 
 		.facebook-content {
+			align-items: center;
+			background-color: $white2;
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 
-			img {
+			.facebook-content__image {
+				flex: 0 1 139px;
+				max-height: 210px;
+				min-width: 139px;
+				object-fit: cover;
 				width: 100%;
-				height: auto;
 			}
 
 			.loader {
+				max-width: 158px;
 				width: 100%;
-				height: 100px;
 				align-self: stretch;
-				background-color: $fb-background2;
+				background-color: $white3;
 				position: relative;
 
-				.aioseo-loading-spinner {
-					top: 0;
-					bottom: 0;
-					left: 0;
-					right: 0;
-					margin: auto;
+				::v-deep {
+					.aioseo-loading-spinner {
+						top: 0;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						margin: auto;
+					}
 				}
 			}
 
 			&.vertical {
-				flex-direction: row;
+				display: block;
 
-				img {
-					max-width: 158px;
-					max-height: 158px;
-					width: auto;
-					height: auto;
+				.facebook-content__image {
+					max-height: 260px;
 				}
 
 				.loader {
-					max-width: 158px;
-					height: auto;
+					max-width: 100%;
+					height: 100px;
 				}
 			}
 
 			.facebook-site-description {
-				flex: 1;
-				background-color: $fb-background2;
-				padding: 9px 13px;
-				color: #606770;
-				min-width: 0;
+				display: flex;
+				flex-direction: column;
+				flex: 1 1 auto;
+				gap: 2px;
+				justify-content: center;
+				padding: 10px 12px;
+
+				.site-domain,
+				.site-title,
+				.site-description {
+					font-family: $font-family;
+					font-style: normal;
+					line-height: 1.4;
+					letter-spacing: normal;
+					margin: 0;
+					padding: 0;
+					text-transform: none;
+				}
 
 				.site-domain {
+					color: var(--secondary-text);
 					font-size: 13px;
-					text-transform: uppercase;
-					white-space: nowrap;
+					font-weight: 400;
 					overflow: hidden;
 					text-overflow: ellipsis;
-
+					text-transform: uppercase;
+					white-space: nowrap;
 				}
 
 				.site-title {
-					color: #1D2129;
+					color: var(--primary-text);
 					font-size: 17px;
 					font-weight: 600;
-					margin: 5px 0;
 				}
 
 				.site-description {
+					color: var(--secondary-text);
 					font-size: 14px;
+					font-weight: 400;
 				}
 			}
 		}

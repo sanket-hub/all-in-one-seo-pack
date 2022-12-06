@@ -9,9 +9,9 @@
 			>
 				<template #content>
 					<core-google-search-preview
-						title="#site_title #separator_sa #tagline"
+						:title="parseTags('#site_title #separator_sa #tagline')"
 						:separator="options.searchAppearance.global.separator"
-						description="#tagline"
+						:description="parseTags('#tagline')"
 					/>
 				</template>
 			</core-settings-row>
@@ -51,15 +51,15 @@
 				<template #content>
 					<core-google-search-preview
 						v-if="$aioseo.data.staticHomePage"
-						:title="$aioseo.data.staticHomePageTitle || '#site_title'"
+						:title="parseTags($aioseo.data.staticHomePageTitle || '#site_title')"
 						:separator="options.searchAppearance.global.separator"
-						:description="$aioseo.data.staticHomePageDescription || '#tagline'"
+						:description="parseTags($aioseo.data.staticHomePageDescription || '#tagline')"
 					/>
 					<core-google-search-preview
 						v-if="!$aioseo.data.staticHomePage"
-						:title="options.searchAppearance.global.siteTitle || '#site_title'"
+						:title="parseTags(options.searchAppearance.global.siteTitle || '#site_title')"
 						:separator="options.searchAppearance.global.separator"
-						:description="options.searchAppearance.global.metaDescription || '#tagline'"
+						:description="parseTags(options.searchAppearance.global.metaDescription || '#tagline')"
 					/>
 				</template>
 			</core-settings-row>
@@ -266,7 +266,7 @@
 			<core-settings-row
 				class="schema-graph-name"
 				v-if="'organization' === options.searchAppearance.global.schema.siteRepresents"
-				:name="strings.name"
+				:name="name"
 			>
 				<template #content>
 					<base-input
@@ -279,7 +279,7 @@
 			<core-settings-row
 				class="schema-graph-name"
 				v-if="'organization' !== options.searchAppearance.global.schema.siteRepresents && 'manual' === options.searchAppearance.global.schema.person"
-				:name="strings.name"
+				:name="name"
 			>
 				<template #content>
 					<base-input
@@ -436,7 +436,7 @@
 </template>
 
 <script>
-import { JsonValues, MaxCounts, Uploader } from '@/vue/mixins'
+import { JsonValues, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapState } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
 import BasePhone from '@/vue/components/common/base/Phone'
@@ -461,7 +461,7 @@ export default {
 		SvgCirclePlus,
 		SvgLocalSeo
 	},
-	mixins : [ JsonValues, MaxCounts, Uploader ],
+	mixins : [ JsonValues, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
 			titleCount       : 0,
@@ -487,7 +487,8 @@ export default {
 				organization                    : this.$t.__('Organization', this.$td),
 				personOrOrganizationDescription : this.$t.__('Choose whether the site represents a person or an organization.', this.$td),
 				choosePerson                    : this.$t.__('Choose a Person', this.$td),
-				name                            : this.$t.__('Name', this.$td),
+				organizationName                : this.$t.__('Organization Name', this.$td),
+				personName                      : this.$t.__('Person Name', this.$td),
 				phone                           : this.$t.__('Phone Number', this.$td),
 				chooseContactType               : this.$t.__('Choose a Contact Type', this.$td),
 				contactType                     : this.$t.__('Contact Type', this.$td),
@@ -527,6 +528,13 @@ export default {
 				gravatar : u.gravatar,
 				value    : u.id
 			})))
+		},
+		name () {
+			if ('organization' === this.options.searchAppearance.global.schema.siteRepresents) {
+				return this.strings.organizationName
+			}
+
+			return this.strings.personName
 		}
 	},
 	methods : {

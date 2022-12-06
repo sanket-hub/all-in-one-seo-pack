@@ -163,7 +163,7 @@ export default {
 			const blob    = new Blob([ JSON.stringify(this.$aioseo.data.status) ], { type: 'application/json' })
 			const link    = document.createElement('a')
 			link.href     = URL.createObjectURL(blob)
-			link.download = `aioseo-system-status-${this.$moment().format('YYYY-MM-DD')}.json`
+			link.download = `aioseo-system-status-${this.$dateTime.now().toFormat('yyyy-MM-dd')}.json`
 			link.click()
 			URL.revokeObjectURL(link.href)
 		},

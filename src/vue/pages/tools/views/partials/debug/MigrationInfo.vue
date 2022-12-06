@@ -25,7 +25,9 @@ export default {
 				},
 				{
 					label : 'First Activated',
-					value : 0 !== this.internalOptions.internal.firstActivated ? this.$moment.unix(this.internalOptions.internal.firstActivated).format('MMMM D, YYYY') : false
+					value : 0 !== this.internalOptions.internal.firstActivated
+						? this.$dateTime.fromMillis(this.internalOptions.internal.firstActivated * 1000).toFormat('MMMM d, yyyy')
+						: false
 				}
 			]
 		}

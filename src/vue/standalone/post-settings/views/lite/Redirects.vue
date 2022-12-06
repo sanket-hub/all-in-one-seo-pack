@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<RedirectsLite
+		<redirects-lite
 			v-if="'metabox' === $root._data.screenContext"
 			:noCoreCard="true"
 			:parentComponentContext="parentComponentContext"
@@ -17,7 +17,7 @@
 
 			<div slot="body">
 				<div class="bd">
-					<RedirectsLite
+					<redirects-lite
 						:noCoreCard="true"
 						:parentComponentContext="parentComponentContext"
 					/>
