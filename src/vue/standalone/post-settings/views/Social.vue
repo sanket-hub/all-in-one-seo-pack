@@ -187,13 +187,15 @@ export default {
 			}
 		}
 	}
+
 	.tab-facebook,
 	.tab-twitter {
 		display: block;
 
-		.aioseo-settings-row:first-of-type {
+		> .aioseo-settings-row:first-of-type {
 			border-bottom: 0;
 			padding-bottom: 0;
+
 			.aioseo-col:first-of-type {
 				display: none;
 			}
@@ -219,6 +221,7 @@ export default {
 		.twitter-title-settings,
 		.twitter-description-settings {
 			padding-bottom: 24px;
+
 			.col-md-9 {
 				padding-top: 0 !important;
 				margin-top: 0;

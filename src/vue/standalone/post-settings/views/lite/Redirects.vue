@@ -7,7 +7,7 @@
 		/>
 
 		<core-modal-portal
-			:classes="[ 'aioseo-redirects-modal' ]"
+			:classes="[ 'aioseo-redirects', 'modal' ]"
 			v-if="currentPost.redirects.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="toggleRedirectsModal"
 		>

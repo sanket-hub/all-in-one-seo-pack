@@ -113,7 +113,7 @@
 
 		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://.
 		correctURL: function () {
-			var url = $.trim(inputs.url.val());
+			var url = inputs.url.val().trim();
 
 			if (url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test(url)) {
 				inputs.url.val('http://' + url);
@@ -209,7 +209,7 @@
 
 			if (isTouch) {
 				// Close the onscreen keyboard.
-				inputs.url.focus().blur();
+				inputs.url.trigger('focus').trigger('blur');
 			} else {
 				/*
 				 * Focus the URL field and highlight its contents.
@@ -218,8 +218,8 @@
 				 */
 				window.setTimeout(function () {
 					inputs.url[0].select();
-					inputs.url.focus();
-				});
+					inputs.url.trigger('focus');
+				})
 			}
 
 			// Load the most recent results if this is the first time opening the panel.
@@ -270,7 +270,7 @@
 				linkText = linkNode.text();
 				href = linkNode.attr('href');
 
-				if (!$.trim(linkText)) {
+				if (!linkText.trim()) {
 					linkText = text || '';
 				}
 
@@ -382,7 +382,7 @@
 			// All in One SEO Pack - End
 
 			return {
-				href: $.trim(inputs.url.val()),
+				href: inputs.url.val().trim(),
 				target: inputs.openInNewTab.prop('checked') ? '_blank' : null,
 				// All in One SEO Pack - Begin
 				rel: '' !== tanfl_value ? tanfl_value : null,
@@ -515,7 +515,7 @@
 				if (!$link.length) {
 					editor.execCommand('mceInsertLink', false, { href: '_wp_link_placeholder', 'data-wp-temp-link': 1 });
 					$link = editor.$('a[data-wp-temp-link="1"]').removeAttr('data-wp-temp-link');
-					hasText = $.trim($link.text());
+					hasText = $link.text().trim();
 				}
 
 				if (!$link.length) {
@@ -580,7 +580,8 @@
 				}
 			}
 
-			selection = $.trim(selection);
+			selection = selection || '';
+			selection = selection.trim();
 
 			if (selection && emailRegexp.test(selection)) {
 				// Selection is email address.
@@ -662,10 +663,10 @@
 				// wp-link-submit must always be the last focusable element in the dialog.
 				// Following focusable elements will be skipped on keyboard navigation.
 				if (id === 'wp-link-submit' && !event.shiftKey) {
-					inputs.close.focus();
+					inputs.close.trigger('focus');
 					event.preventDefault();
 				} else if (id === 'wp-link-close' && event.shiftKey) {
-					inputs.submit.focus();
+					inputs.submit.trigger('focus');
 					event.preventDefault();
 				}
 			}
@@ -902,5 +903,5 @@
 		}
 	});
 
-	$(document).ready(wpLink.init);
+	$(wpLink.init);
 })(jQuery, window.aioseoL10n, window.wp);

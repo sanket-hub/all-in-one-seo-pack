@@ -1,6 +1,7 @@
 <template>
 	<div class="aioseo-tab-content aioseo-post-advanced">
 		<core-settings-row
+			id="aioseo-post-robots-setting"
 			:name="strings.robotsSetting"
 			align
 		>
@@ -10,7 +11,8 @@
 		</core-settings-row>
 
 		<core-settings-row
-			:name="strings.canonicalURL"
+			id="aioseo-post-canonical-url"
+			:name="strings.canonicalUrl"
 			align
 		>
 			<template #content>
@@ -119,7 +121,7 @@ export default {
 				pageName                : this.$t.__('Advanced', this.$td),
 				robotsSetting           : this.$t.__('Robots Setting', this.$td),
 				robotsToggle            : this.$t.__('Use Default Settings', this.$td),
-				canonicalURL            : this.$t.__('Canonical URL', this.$td),
+				canonicalUrl            : this.$t.__('Canonical URL', this.$td),
 				placeholder             : this.$t.__('Enter a URL to change the default Canonical URL', this.$td),
 				priorityScore           : this.$t.__('Priority Score', this.$td),
 				priority                : this.$t.__('Priority', this.$td),

@@ -11,6 +11,7 @@ import { __ } from '@wordpress/i18n'
 import { withSpokenMessages, Popover } from '@wordpress/components'
 import { prependHTTP } from '@wordpress/url'
 import { create, insert, isCollapsed, applyFormat } from '@wordpress/rich-text'
+import { versionCompare } from '../../../../../vue/utils/helpers'
 
 /**
  * Internal dependencies
@@ -172,7 +173,8 @@ function InlineLinkUI ({
 	return (
 		<Popover
 			key={ mountingKey }
-			anchorRef={ anchorRef }
+			anchor={ versionCompare(window.aioseo.wpVersion, '6.1', '>=') ? anchorRef : undefined }
+			anchorRef={ versionCompare(window.aioseo.wpVersion, '6.1', '<') ? anchorRef : undefined }
 			focusOnMount={ addingLink ? 'firstElement' : false }
 			onClose={ stopAddingLink }
 			position="bottom center"

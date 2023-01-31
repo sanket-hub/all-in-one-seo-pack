@@ -29,165 +29,166 @@
 			</template>
 		</core-settings-row>
 
-		<core-settings-row
-			:name="strings.useFB"
-			class="use-facebook"
-		>
-			<template #content>
-				<base-toggle
-					v-model="currentPost.twitter_use_og"
-					@input="setIsDirty"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="!currentPost.twitter_use_og"
-			:name="strings.twitterTitle"
-			class="twitter-title-settings"
-			align
-		>
-			<template #content>
-				<core-html-tags-editor
-					class="twitter-meta-input"
-					v-model="currentPost.twitter_title"
-					:line-numbers="false"
-					single
-					@counter="count => updateCount(count, 'titleCount')"
-					@input="setIsDirty"
-					:tags-context="`${currentPost.postType || currentPost.termType}Title`"
-					:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
-				>
-				</core-html-tags-editor>
-
-				<div
-					class="max-recommended-count"
-					v-html="maxRecommendedCount(titleCount, 70)"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="!currentPost.twitter_use_og"
-			:name="strings.twitterDescription"
-			class="twitter-description-settings"
-			align
-		>
-			<template #content>
-				<core-html-tags-editor
-					class="twitter-meta-input"
-					v-model="currentPost.twitter_description"
-					:line-numbers="false"
-					description
-					@counter="count => updateCount(count, 'descriptionCount')"
-					@input="setIsDirty"
-					:tags-context="`${currentPost.postType || currentPost.termType}Description`"
-					:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
-				>
-					<template #tags-description>
-						{{ strings.clickToAddHomePageDescription }}
-					</template>
-				</core-html-tags-editor>
-
-				<div
-					class="max-recommended-count"
-					v-html="maxRecommendedCount(descriptionCount, 200)"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="!currentPost.twitter_use_og"
-			class="twitter-image-source"
-			:name="strings.imageSource"
-			align
-		>
-			<template #content>
-				<base-select
-					size="medium"
-					:options="imageSourceOptionsFiltered"
-					:value="getImageSourceOptionFiltered(currentPost.twitter_image_type)"
-					@input="value => saveTwitterImageType(value.value)"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="!currentPost.twitter_use_og && 'custom' === currentPost.twitter_image_type"
-			class="twitter-custom-field"
-			:name="strings.customFieldsName"
-			align
-		>
-			<template #content>
-				<base-input
-					type="text"
-					size="medium"
-					:placeholder="strings.placeholder"
-					v-model="currentPost.twitter_image_custom_fields"
-					@input="setIsDirty"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="!currentPost.twitter_use_og && 'custom_image' === currentPost.twitter_image_type"
-			class="twitter-image"
-			:name="strings.twitterImage"
-		>
-			<template #content>
-				<div class="twitter-image-upload">
-					<base-input
-						size="medium"
-						v-model="currentPost.twitter_image_custom_url"
+		<div id="aioseo-post-settings-twitter">
+			<core-settings-row
+				:name="strings.useFB"
+				class="use-facebook"
+			>
+				<template #content>
+					<base-toggle
+						v-model="currentPost.twitter_use_og"
 						@input="setIsDirty"
-						:placeholder="strings.pasteYourImageUrl"
 					/>
+				</template>
+			</core-settings-row>
 
-					<base-button
-						class="insert-image"
-						@click="openUploadModal('twitterImage', updateImage)"
-						size="medium"
-						type="black"
+			<core-settings-row
+				v-if="!currentPost.twitter_use_og"
+				:name="strings.twitterTitle"
+				class="twitter-title-settings"
+				align
+			>
+				<template #content>
+					<core-html-tags-editor
+						class="twitter-meta-input"
+						v-model="currentPost.twitter_title"
+						:line-numbers="false"
+						single
+						@counter="count => updateCount(count, 'titleCount')"
+						@input="setIsDirty"
+						:tags-context="`${currentPost.postType || currentPost.termType}Title`"
+						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
 					>
-						<svg-circle-plus />
-						{{ strings.uploadOrSelectImage }}
-					</base-button>
+					</core-html-tags-editor>
 
-					<base-button
-						class="remove-image"
-						@click="currentPost.twitter_image_custom_url = null"
-						size="medium"
-						type="gray"
+					<div
+						class="max-recommended-count"
+						v-html="maxRecommendedCount(titleCount, 70)"
+					/>
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				v-if="!currentPost.twitter_use_og"
+				:name="strings.twitterDescription"
+				class="twitter-description-settings"
+				align
+			>
+				<template #content>
+					<core-html-tags-editor
+						class="twitter-meta-input"
+						v-model="currentPost.twitter_description"
+						:line-numbers="false"
+						description
+						@counter="count => updateCount(count, 'descriptionCount')"
+						@input="setIsDirty"
+						:tags-context="`${currentPost.postType || currentPost.termType}Description`"
+						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
 					>
-						{{ strings.remove }}
-					</base-button>
-				</div>
+						<template #tags-description>
+							{{ strings.clickToAddHomePageDescription }}
+						</template>
+					</core-html-tags-editor>
 
-				<div class="aioseo-description">
-					<span v-if="'summary' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummary }}</span>
-					<span v-if="'summary_large_image' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary_large_image' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummaryWithLarge }}</span>
-				</div>
+					<div
+						class="max-recommended-count"
+						v-html="maxRecommendedCount(descriptionCount, 200)"
+					/>
+				</template>
+			</core-settings-row>
 
-				<base-img :src="currentPost.twitter_image_custom_url" />
-			</template>
-		</core-settings-row>
+			<core-settings-row
+				v-if="!currentPost.twitter_use_og"
+				class="twitter-image-source"
+				:name="strings.imageSource"
+				align
+			>
+				<template #content>
+					<base-select
+						size="medium"
+						:options="imageSourceOptionsFiltered"
+						:value="getImageSourceOptionFiltered(currentPost.twitter_image_type)"
+						@input="value => saveTwitterImageType(value.value)"
+					/>
+				</template>
+			</core-settings-row>
 
-		<core-settings-row
-			class="twitter-card-type"
-			:name="strings.twitterCardType"
-			align
-		>
-			<template #content>
-				<base-select
-					size="medium"
-					open-direction="top"
-					:options="twitterCards"
-					:value="getCardOptions(currentPost.twitter_card)"
-					@input="value => cardSelect(value.value)"
-				/>
-			</template>
-		</core-settings-row>
+			<core-settings-row
+				v-if="!currentPost.twitter_use_og && 'custom' === currentPost.twitter_image_type"
+				class="twitter-custom-field"
+				:name="strings.customFieldsName"
+				align
+			>
+				<template #content>
+					<base-input
+						type="text"
+						size="medium"
+						:placeholder="strings.placeholder"
+						v-model="currentPost.twitter_image_custom_fields"
+						@input="setIsDirty"
+					/>
+				</template>
+			</core-settings-row>
 
+			<core-settings-row
+				v-if="!currentPost.twitter_use_og && 'custom_image' === currentPost.twitter_image_type"
+				class="twitter-image"
+				:name="strings.twitterImage"
+			>
+				<template #content>
+					<div class="twitter-image-upload">
+						<base-input
+							size="medium"
+							v-model="currentPost.twitter_image_custom_url"
+							@input="setIsDirty"
+							:placeholder="strings.pasteYourImageUrl"
+						/>
+
+						<base-button
+							class="insert-image"
+							@click="openUploadModal('twitterImage', updateImage)"
+							size="medium"
+							type="black"
+						>
+							<svg-circle-plus />
+							{{ strings.uploadOrSelectImage }}
+						</base-button>
+
+						<base-button
+							class="remove-image"
+							@click="currentPost.twitter_image_custom_url = null"
+							size="medium"
+							type="gray"
+						>
+							{{ strings.remove }}
+						</base-button>
+					</div>
+
+					<div class="aioseo-description">
+						<span v-if="'summary' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummary }}</span>
+						<span v-if="'summary_large_image' === currentPost.twitter_card || ('default' === currentPost.twitter_card && 'summary_large_image' === options.social.twitter.general.defaultCardType)">{{ strings.minimumSizeSummaryWithLarge }}</span>
+					</div>
+
+					<base-img :src="currentPost.twitter_image_custom_url" />
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				class="twitter-card-type"
+				:name="strings.twitterCardType"
+				align
+			>
+				<template #content>
+					<base-select
+						size="medium"
+						open-direction="top"
+						:options="twitterCards"
+						:value="getCardOptions(currentPost.twitter_card)"
+						@input="value => cardSelect(value.value)"
+					/>
+				</template>
+			</core-settings-row>
+		</div>
 	</div>
 </template>
 

@@ -28,195 +28,197 @@
 			</template>
 		</core-settings-row>
 
-		<core-settings-row
-			:name="strings.facebookTitle"
-			class="facebook-title-settings"
-			align
-		>
-			<template #content>
-				<core-html-tags-editor
-					class="facebook-meta-input"
-					v-model="currentPost.og_title"
-					:line-numbers="false"
-					single
-					@counter="count => updateCount(count, 'titleCount')"
-					@input="setIsDirty"
-					:tags-context="`${currentPost.postType || currentPost.termType}Title`"
-					:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
-				>
-					<template #tags-description>
-						{{ strings.clickToAddSiteName }}
-					</template>
-				</core-html-tags-editor>
+		<div id="aioseo-post-settings-facebook">
+			<core-settings-row
+				:name="strings.facebookTitle"
+				class="facebook-title-settings"
+				align
+			>
+				<template #content>
+					<core-html-tags-editor
+						class="facebook-meta-input"
+						v-model="currentPost.og_title"
+						:line-numbers="false"
+						single
+						@counter="count => updateCount(count, 'titleCount')"
+						@input="setIsDirty"
+						:tags-context="`${currentPost.postType || currentPost.termType}Title`"
+						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
+					>
+						<template #tags-description>
+							{{ strings.clickToAddSiteName }}
+						</template>
+					</core-html-tags-editor>
 
-				<div class="max-recommended-count"
-					v-html="maxRecommendedCount(titleCount, 95)"
-				/>
-			</template>
-		</core-settings-row>
+					<div class="max-recommended-count"
+						v-html="maxRecommendedCount(titleCount, 95)"
+					/>
+				</template>
+			</core-settings-row>
 
-		<core-settings-row
-			:name="strings.facebookDescription"
-			class="facebook-description-settings"
-			align
-		>
-			<template #content>
-				<core-html-tags-editor
-					class="facebook-meta-input"
-					v-model="currentPost.og_description"
-					:line-numbers="false"
-					description
-					@counter="count => updateCount(count, 'descriptionCount')"
-					@input="setIsDirty"
-					:tags-context="`${currentPost.postType || currentPost.termType}Description`"
-					:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
-				>
-					<template #tags-description>
-						{{ strings.clickToAddHomePageDescription }}
-					</template>
-				</core-html-tags-editor>
+			<core-settings-row
+				:name="strings.facebookDescription"
+				class="facebook-description-settings"
+				align
+			>
+				<template #content>
+					<core-html-tags-editor
+						class="facebook-meta-input"
+						v-model="currentPost.og_description"
+						:line-numbers="false"
+						description
+						@counter="count => updateCount(count, 'descriptionCount')"
+						@input="setIsDirty"
+						:tags-context="`${currentPost.postType || currentPost.termType}Description`"
+						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
+					>
+						<template #tags-description>
+							{{ strings.clickToAddHomePageDescription }}
+						</template>
+					</core-html-tags-editor>
 
-				<div class="max-recommended-count"
-					v-html="maxRecommendedCount(descriptionCount, 200)"
-				/>
-			</template>
-		</core-settings-row>
+					<div class="max-recommended-count"
+						v-html="maxRecommendedCount(descriptionCount, 200)"
+					/>
+				</template>
+			</core-settings-row>
 
-		<core-settings-row
-			class="facebook-image-source"
-			:name="strings.imageSource"
-			align
-		>
-			<template #content>
-				<base-select
-					size="medium"
-					:options="imageSourceOptionsFiltered"
-					:value="getImageSourceOptionFiltered(currentPost.og_image_type)"
-					@input="value => saveImageType(value.value)"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="'custom' === currentPost.og_image_type"
-			:name="strings.customFieldsName"
-			align
-		>
-			<template #content>
-				<base-input
-					type="text"
-					size="medium"
-					:placeholder="strings.placeholder"
-					v-model="currentPost.og_image_custom_fields"
-					@input="setIsDirty"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="'custom_image' === currentPost.og_image_type"
-			class="facebook-image"
-			:name="strings.facebookImage"
-		>
-			<template #content>
-				<div class="facebook-image-upload">
-					<base-input
+			<core-settings-row
+				class="facebook-image-source"
+				:name="strings.imageSource"
+				align
+			>
+				<template #content>
+					<base-select
 						size="medium"
-						v-model="currentPost.og_image_custom_url"
-						:placeholder="strings.pasteYourImageUrl"
+						:options="imageSourceOptionsFiltered"
+						:value="getImageSourceOptionFiltered(currentPost.og_image_type)"
+						@input="value => saveImageType(value.value)"
+					/>
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				v-if="'custom' === currentPost.og_image_type"
+				:name="strings.customFieldsName"
+				align
+			>
+				<template #content>
+					<base-input
+						type="text"
+						size="medium"
+						:placeholder="strings.placeholder"
+						v-model="currentPost.og_image_custom_fields"
 						@input="setIsDirty"
 					/>
+				</template>
+			</core-settings-row>
 
-					<base-button
-						class="insert-image"
-						@click="openUploadModal('facebookImage', updateImage)"
+			<core-settings-row
+				v-if="'custom_image' === currentPost.og_image_type"
+				class="facebook-image"
+				:name="strings.facebookImage"
+			>
+				<template #content>
+					<div class="facebook-image-upload">
+						<base-input
+							size="medium"
+							v-model="currentPost.og_image_custom_url"
+							:placeholder="strings.pasteYourImageUrl"
+							@input="setIsDirty"
+						/>
+
+						<base-button
+							class="insert-image"
+							@click="openUploadModal('facebookImage', updateImage)"
+							size="medium"
+							type="black"
+						>
+							<svg-circle-plus />
+							{{ strings.uploadOrSelectImage }}
+						</base-button>
+
+						<base-button
+							class="remove-image"
+							@click="currentPost.og_image_custom_url = null"
+							size="medium"
+							type="gray"
+						>
+							{{ strings.remove }}
+						</base-button>
+					</div>
+
+					<div class="aioseo-description">
+						{{ strings.minimumSize }}
+					</div>
+
+					<base-img :src="currentPost.og_image_custom_url" />
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				class="facebook-video"
+				:name="strings.video"
+				align
+			>
+				<template #content>
+					<base-input
+						type="text"
 						size="medium"
-						type="black"
-					>
-						<svg-circle-plus />
-						{{ strings.uploadOrSelectImage }}
-					</base-button>
+						v-model="currentPost.og_video"
+					/>
+				</template>
+			</core-settings-row>
 
-					<base-button
-						class="remove-image"
-						@click="currentPost.og_image_custom_url = null"
+			<core-settings-row
+				class="facebook-object-type"
+				:name="strings.facebookObjectType"
+				align
+			>
+				<template #content>
+					<base-select
 						size="medium"
-						type="gray"
-					>
-						{{ strings.remove }}
-					</base-button>
-				</div>
+						open-direction="top"
+						:options="objectTypeOptions"
+						group-label="groupLabel"
+						group-values="options"
+						:value="getObjectTypeOptions(currentPost.og_object_type)"
+						@input="value => setObjectType(value.value)"
+					/>
+				</template>
+			</core-settings-row>
 
-				<div class="aioseo-description">
-					{{ strings.minimumSize }}
-				</div>
+			<core-settings-row
+				v-if="shouldShowArticleSection"
+				:name="strings.articleSection"
+				align
+			>
+				<template #content>
+					<base-input
+						type="text"
+						size="medium"
+						v-model="currentPost.og_article_section"
+					/>
+				</template>
+			</core-settings-row>
 
-				<base-img :src="currentPost.og_image_custom_url" />
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			class="facebook-video"
-			:name="strings.video"
-			align
-		>
-			<template #content>
-				<base-input
-					type="text"
-					size="medium"
-					v-model="currentPost.og_video"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			class="facebook-object-type"
-			:name="strings.facebookObjectType"
-			align
-		>
-			<template #content>
-				<base-select
-					size="medium"
-					open-direction="top"
-					:options="objectTypeOptions"
-					group-label="groupLabel"
-					group-values="options"
-					:value="getObjectTypeOptions(currentPost.og_object_type)"
-					@input="value => setObjectType(value.value)"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="shouldShowArticleSection"
-			:name="strings.articleSection"
-			align
-		>
-			<template #content>
-				<base-input
-					type="text"
-					size="medium"
-					v-model="currentPost.og_article_section"
-				/>
-			</template>
-		</core-settings-row>
-
-		<core-settings-row
-			v-if="shouldShowArticleSection"
-			:name="strings.articleTags"
-			align
-		>
-			<template #content>
-				<base-select
-					multiple
-					taggable
-					:options="getJsonValue(currentPost.og_article_tags) || []"
-					:value="getJsonValue(currentPost.og_article_tags) || []"
-					@input="values => currentPost.og_article_tags = setJsonValue(values)"
-					:tag-placeholder="strings.tagPlaceholder"
-				/>
-			</template>
-		</core-settings-row>
+			<core-settings-row
+				v-if="shouldShowArticleSection"
+				:name="strings.articleTags"
+				align
+			>
+				<template #content>
+					<base-select
+						multiple
+						taggable
+						:options="getJsonValue(currentPost.og_article_tags) || []"
+						:value="getJsonValue(currentPost.og_article_tags) || []"
+						@input="values => currentPost.og_article_tags = setJsonValue(values)"
+						:tag-placeholder="strings.tagPlaceholder"
+					/>
+				</template>
+			</core-settings-row>
+		</div>
 	</div>
 </template>
 

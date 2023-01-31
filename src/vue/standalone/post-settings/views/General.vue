@@ -54,6 +54,7 @@
 		</core-settings-row>
 
 		<core-settings-row
+			id="aioseo-post-settings-post-title-row"
 			:name="title"
 			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
 			class="snippet-title-row"
@@ -82,6 +83,7 @@
 		</core-settings-row>
 
 		<core-settings-row
+			id="aioseo-post-settings-meta-description-row"
 			:name="strings.metaDescription"
 			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
 			class="snippet-description-row"

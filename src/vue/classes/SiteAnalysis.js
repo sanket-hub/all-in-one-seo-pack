@@ -73,7 +73,9 @@ class SiteAnalysis {
 			code       : 'title-missing' === result.error ? null : result.value,
 			message    : __('Ensure your page\'s title includes your target keywords, and design it to encourage users to click.', td) + '<br><br>' + __('Writing compelling titles is both a science and an art. There are automated tools that can analyze your title against known metrics for readability and click-worthiness. You also need to understand the psychology of your target audience.', td),
 			buttonText : __('Edit Your Page Title', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : window.aioseo.urls.aio.searchAppearance
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-scroll=aioseo-post-settings-post-title-row&aioseo-highlight=aioseo-post-settings-post-title-row`
+				: `${window.aioseo.urls.aio.searchAppearance}&aioseo-scroll=aioseo-home-page-site-title&aioseo-highlight=aioseo-home-page-site-title`
 		}
 
 		return body
@@ -128,7 +130,9 @@ class SiteAnalysis {
 			code       : 'description-missing' === result.error ? null : result.value,
 			message    : __('Write a meta description for your page. Use your target keywords (in a natural way) and write with human readers in mind. Summarize the content - describe the topics your article discusses.', td) + '<br><br>' + __('The description should stimulate reader interest and get them to click on the article. Think of it as a mini-advertisement for your content.', td),
 			buttonText : __('Edit Your Meta Description', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : window.aioseo.urls.aio.searchAppearance
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-scroll=aioseo-post-settings-meta-description-row&aioseo-highlight=aioseo-post-settings-meta-description-row`
+				: `${window.aioseo.urls.aio.searchAppearance}&aioseo-scroll=aioseo-home-page-meta-description&aioseo-highlight=aioseo-home-page-meta-description`
 		}
 
 		return body
@@ -253,7 +257,9 @@ class SiteAnalysis {
 			code       : result.value,
 			message    : __('Every page on your site should have a <link> tag with a \'rel="canonical"\' attribute. The link tag should go inside the page\'s head tag, and it should contain the page\'s "correct" URL.', td) + '<br><br>' + __('If you\'ve republished an article from another source (such as another site or a different section of your own site) then you need to pick which URL is the "correct" one and use that!', td),
 			buttonText : __('Edit Your Page', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-tab=advanced&aioseo-scroll=aioseo-post-canonical-url&aioseo-highlight=aioseo-post-canonical-url`
+				: null
 		}
 
 		return body
@@ -275,7 +281,9 @@ class SiteAnalysis {
 		const body = {
 			message    : __('Only ever use noindex meta tag or header on pages you want to keep out of the reach of search engines!', td),
 			buttonText : __('Edit Your Page', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-tab=advanced&aioseo-scroll=aioseo-post-robots-setting&aioseo-highlight=aioseo-post-robots-setting`
+				: null
 		}
 
 		return body
@@ -363,7 +371,9 @@ class SiteAnalysis {
 					import.meta.env.VITE_SHORT_NAME
 				),
 			buttonText : __('Edit Your Page', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : window.aioseo.urls.aio.socialNetworks + '#/facebook'
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-tab=social&social-tab=facebook&aioseo-scroll=aioseo-post-settings-facebook&aioseo-highlight=aioseo-post-settings-facebook`
+				: window.aioseo.urls.aio.socialNetworks + '#/facebook'
 		}
 
 		return body
@@ -389,7 +399,9 @@ class SiteAnalysis {
 				import.meta.env.VITE_SHORT_NAME
 			),
 			buttonText : __('Edit Your Page', td),
-			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null
+			buttonLink : window.aioseo.data.staticHomePage
+				? `${window.aioseo.urls.staticHomePage}&aioseo-tab=schema&aioseo-scroll=aioseo-post-schema&aioseo-highlight=aioseo-post-schema`
+				: null
 		}
 
 		return body

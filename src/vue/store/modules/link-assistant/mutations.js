@@ -9,6 +9,9 @@ export default {
 		this._vm.$set(state, 'linksReport', data)
 	},
 	updateLinksReportInner (state, { postIndex, links }) {
+		if ('undefined' === typeof postIndex) {
+			return
+		}
 		this._vm.$set(state.linksReport.rows[postIndex], 'links', links)
 	},
 	updatePostReportLinks (state, { links, type }) {

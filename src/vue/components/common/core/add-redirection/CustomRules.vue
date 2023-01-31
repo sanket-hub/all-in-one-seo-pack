@@ -326,7 +326,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/vue/assets/scss/redirects/table.scss';
 .custom-rules {
 	width: 100%;
 	margin-top: 14px;

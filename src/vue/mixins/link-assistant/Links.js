@@ -93,7 +93,7 @@ export default {
 			const newPayload = {
 				...payload,
 				additionalFilters : {
-					postId    : this.post.ID,
+					postId    : this.post.ID || this.currentPost.id,
 					postIndex : this.postIndex,
 					type      : this.linkType
 				}

@@ -229,7 +229,7 @@ export default {
 				errors.push(this.$t.__('Please enter a valid relative source URL.', this.$td))
 			}
 
-			if (this.url.url.match(/%\w+%/)) {
+			if (this.url.url.match(/%[a-zA-Z]+%/)) {
 				errors.push(this.$t.__('Permalinks are not currently supported.', this.$td))
 			}
 
@@ -256,7 +256,7 @@ export default {
 			return errors
 		},
 		iffyUrl () {
-			if (!this.url.url) {
+			if (!this.url.url || this.disableSource) {
 				return []
 			}
 
@@ -334,14 +334,17 @@ export default {
 			if (!value) {
 				return
 			}
-			// First, let's format the URL for duplicate slashes.
-			if (value) {
-				value = value.replace(/(https?:\/)(\/)+|(\/)+/g, '$1$2$3')
-			}
 
-			// Remove white space from the url if it's not a regex.
-			if (!this.url.regex) {
-				value = value.replace(/\s+/g, '')
+			if (!this.disableSource) {
+				// First, let's format the URL for duplicate slashes.
+				if (value) {
+					value = value.replace(/(https?:\/)(\/)+|(\/)+/g, '$1$2$3')
+				}
+
+				// Remove white space from the url if it's not a regex.
+				if (!this.url.regex) {
+					value = value.replace(/\s+/g, '')
+				}
 			}
 
 			this.$set(this.url, 'url', value)

@@ -13,7 +13,9 @@
 
 				{{ taxonomy.label }}
 
-				<core-tooltip>
+				<core-tooltip
+					z-index="99999"
+				>
 					<svg-circle-question-mark />
 
 					<template #tooltip>

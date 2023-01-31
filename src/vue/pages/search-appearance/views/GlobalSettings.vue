@@ -22,7 +22,7 @@
 				<template #content>
 					<core-settings-separator
 						:options-separator="options.searchAppearance.global.separator"
-						@change="value => options.searchAppearance.global.separator = value"
+						@change="value => updateSeparator(value)"
 						show-more-slug="searchShowMoreSeparators"
 					/>
 				</template>
@@ -55,6 +55,7 @@
 						:separator="options.searchAppearance.global.separator"
 						:description="parseTags($aioseo.data.staticHomePageDescription || '#tagline')"
 					/>
+
 					<core-google-search-preview
 						v-if="!$aioseo.data.staticHomePage"
 						:title="parseTags(options.searchAppearance.global.siteTitle || '#site_title')"
@@ -65,6 +66,7 @@
 			</core-settings-row>
 
 			<core-settings-row
+				id="aioseo-home-page-site-title"
 				v-if="!$aioseo.data.staticHomePage"
 				:name="strings.siteTitle"
 			>
@@ -94,6 +96,7 @@
 			</core-settings-row>
 
 			<core-settings-row
+				id="aioseo-home-page-meta-description"
 				v-if="!$aioseo.data.staticHomePage"
 				:name="strings.metaDescription"
 			>
@@ -472,7 +475,7 @@ export default {
 				homePageDisabledDescription : this.$t.sprintf(
 					// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
 					this.$t.__('You are using a static home page which is found under Pages. You can %1$sedit your home page settings%2$s directly to change the title and description.', this.$td),
-					`<a href="${this.$aioseo.urls.staticHomePage}">`,
+					`<a href="${this.$aioseo.urls.staticHomePage}&aioseo-scroll=aioseo-post-settings-post-title-row&aioseo-highlight=aioseo-post-settings-post-title-row,aioseo-post-settings-meta-description-row">`,
 					'</a>'
 				),
 				homePage                        : this.$t.__('Home Page', this.$td),
@@ -543,6 +546,14 @@ export default {
 		},
 		getContactTypeOptions (option) {
 			return this.$constants.CONTACT_TYPES.find(t => t.value === option)
+		},
+		updateSeparator (value) {
+			const separatorTagIndex = this.tags.tags.findIndex(x => 'separator_sa' === x.id)
+			if (-1 !== separatorTagIndex) {
+				this.tags.tags[separatorTagIndex].value = value
+			}
+
+			this.options.searchAppearance.global.separator = value
 		}
 	}
 }

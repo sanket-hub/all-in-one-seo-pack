@@ -55,10 +55,15 @@ export default {
 		SvgClose
 	},
 	props : {
+		classes : {
+			type : Array,
+			default () {
+				return []
+			}
+		},
 		noHeader          : Boolean,
 		// TODO: In the future we need to remove this isolate once we get the Table of Contents working correctly.
 		isolate           : Boolean,
-		classes           : Array,
 		allowBodyOverflow : Boolean,
 		confirmation      : Boolean
 	},
@@ -121,7 +126,7 @@ export default {
 
 		.modal-container {
 			width: 100%;
-			max-width: 750px;
+			max-width: 800px;
 			max-height: 90vh;
 			overflow-y: hidden;
 			overflow-x: hidden;

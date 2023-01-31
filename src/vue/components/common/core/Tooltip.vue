@@ -22,6 +22,9 @@
 		<div
 			class="popper"
 			:class="{ [type]: type }"
+			:style="{
+				zIndex
+			}"
 		>
 			<component
 				:is="tag"
@@ -77,7 +80,8 @@ export default {
 			default () {
 				return false
 			}
-		}
+		},
+		zIndex : String
 	},
 	components : {
 		popper : Popper

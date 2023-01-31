@@ -30,11 +30,11 @@
 						@remove-url="removeUrl(index)"
 						:target-url="targetUrl"
 						:log404="log404"
-						:disableSource="disableSource"
+						:disableSource="sourceDisabled"
 					>
 						<template
 							#source-url-description
-							v-if="edit && !disableSource"
+							v-if="edit && !sourceDisabled"
 						>
 							<div
 								class="aioseo-description source-description"
@@ -44,7 +44,7 @@
 					</core-add-redirection-url>
 
 					<base-button
-						v-if="!edit && !log404 && !disableSource"
+						v-if="!edit && !log404 && !sourceDisabled"
 						size="small"
 						type="gray"
 						@click="addUrl"
@@ -110,7 +110,7 @@
 			</div>
 
 			<template
-				v-if="!edit && !log404 && !disableSource"
+				v-if="!edit && !log404 && !sourceDisabled"
 			>
 				<div class="break" />
 
@@ -206,6 +206,8 @@ import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CustomRules from './CustomRules'
 import SvgRightArrow from '@/vue/components/common/svg/right-arrow/Index.vue'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
+import Redirect from '@/vue/mixins/redirects/Redirect'
+
 export default {
 	components : {
 		CoreAddRedirectionTargetUrl,
@@ -215,7 +217,7 @@ export default {
 		SvgRightArrow,
 		TransitionSlide
 	},
-	mixins : [ JsonValues ],
+	mixins : [ JsonValues, Redirect ],
 	props  : {
 		edit          : Boolean,
 		log404        : Boolean,
@@ -232,7 +234,9 @@ export default {
 			default () {
 				return []
 			}
-		}
+		},
+		postId     : Number,
+		postStatus : String
 	},
 	data () {
 		return {
@@ -256,12 +260,14 @@ export default {
 					this.$t.__('Enter a relative URL to redirect from or start by typing in page or post title, slug or ID. You can also use regex (%1$s)', this.$td),
 					this.$links.getDocLink(this.$t.__('what\'s this?', this.$td), 'redirectManagerRegex')
 				),
-				advancedSettings    : this.$t.__('Advanced Settings', this.$td),
-				queryParams         : this.$t.__('Query Parameters:', this.$td),
-				saveChanges         : this.$t.__('Save Changes', this.$td),
-				cancel              : this.$t.__('Cancel', this.$td),
-				genericErrorMessage : this.$t.__('An error occurred while adding your redirects. Please try again later.', this.$td)
-			}
+				advancedSettings          : this.$t.__('Advanced Settings', this.$td),
+				queryParams               : this.$t.__('Query Parameters:', this.$td),
+				saveChanges               : this.$t.__('Save Changes', this.$td),
+				cancel                    : this.$t.__('Cancel', this.$td),
+				genericErrorMessage       : this.$t.__('An error occurred while adding your redirects. Please try again later.', this.$td),
+				sourceUrlSetOncePublished : this.$t.__('source url set once post is published', this.$td)
+			},
+			sourceDisabled : false
 		}
 	},
 	watch : {
@@ -397,6 +403,9 @@ export default {
 					param.$isDisabled = false
 					return param
 				})
+		},
+		unPublishedPost () {
+			return this.redirectHasUnPublishedPost({ post_id: this.postId, postStatus: this.postStatus })
 		}
 	},
 	methods : {
@@ -429,7 +438,8 @@ export default {
 				customRules           : this.customRules,
 				redirectType          : this.redirectType.value,
 				redirectTypeHasTarget : this.redirectTypeHasTarget(),
-				group                 : this.log404 ? '404' : 'manual'
+				group                 : this.log404 ? '404' : 'manual',
+				postId                : this.postId
 			})
 				.then(() => {
 					this.$emit('added-redirect')
@@ -456,7 +466,8 @@ export default {
 					queryParam            : this.queryParam.value,
 					customRules           : this.customRules,
 					redirectType          : this.redirectType.value,
-					redirectTypeHasTarget : this.redirectTypeHasTarget()
+					redirectTypeHasTarget : this.redirectTypeHasTarget(),
+					postId                : this.postId
 				}
 			})
 				.then(() => {
@@ -554,6 +565,18 @@ export default {
 
 		if (this.urls && this.urls.length) {
 			this.sourceUrls = this.urls.map(url => ({ ...this.getDefaultSourceUrl, ...url }))
+		}
+
+		this.sourceDisabled = this.disableSource
+
+		// We don't have an url to work with yet. Let's set it as a warning string.
+		if (this.unPublishedPost) {
+			this.sourceUrls = this.sourceUrls.map(sourceUrl => {
+				sourceUrl.url =  '(' + this.strings.sourceUrlSetOncePublished + ')'
+				return sourceUrl
+			})
+
+			this.sourceDisabled = true
 		}
 
 		if (this.target) {

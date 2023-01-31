@@ -5,7 +5,9 @@ import { useState } from '@wordpress/element'
 import { __ } from '@wordpress/i18n'
 import { Button, Notice } from '@wordpress/components'
 import { keyboardReturn } from '@wordpress/icons'
-import { URLInput } from '@wordpress/editor'
+
+const wp       = window.wp
+const URLInput = wp.blockEditor?.URLInput || wp.editor.URLInput
 
 /**
  * Internal dependencies

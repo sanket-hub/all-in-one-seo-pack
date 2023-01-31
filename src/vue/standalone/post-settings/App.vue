@@ -11,6 +11,7 @@
 <script>
 import '@/vue/assets/scss/main.scss'
 import MainView from './views/Main'
+import { ScrollAndHighlight } from '@/vue/mixins'
 import { getOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
@@ -19,6 +20,14 @@ export default {
 	components : {
 		Alert,
 		MainView
+	},
+	mixins : [ ScrollAndHighlight ],
+	data () {
+		return {
+			scrollContainer           : '.interface-interface-skeleton__content',
+			scrollTimeout             : 1000,
+			ScrollAndHighlightTimeout : 2000
+		}
 	},
 	computed : {
 		...mapState([ 'currentPost' ])

@@ -56,6 +56,8 @@
 						tag="a"
 						type="blue"
 						size="medium"
+						@click.native="loading = true"
+						:loading="loading"
 					>{{ getBody.buttonText }}</base-button>
 				</div>
 			</div>
@@ -93,7 +95,8 @@ export default {
 	},
 	data () {
 		return {
-			active : false
+			active  : false,
+			loading : false
 		}
 	},
 	computed : {

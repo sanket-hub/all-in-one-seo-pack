@@ -475,7 +475,7 @@ export default {
 				homePageDisabledDescription   : this.$t.sprintf(
 					// Translators: 1 - Opening HTML link tag, 2 - Closing HTML link tag.
 					this.$t.__('You are using a static home page which is found under Pages. You can %1$sedit your home page settings%2$s directly to change the title, meta and image.', this.$td),
-					`<a href="${this.$aioseo.urls.staticHomePage}">`,
+					`<a href="${this.$aioseo.urls.staticHomePage}&aioseo-tab=social&social-tab=twitter&aioseo-scroll=aioseo-post-settings-twitter&aioseo-highlight=aioseo-post-settings-twitter">`,
 					'</a>'
 				),
 				cardType                     : this.$t.__('Card Type', this.$td),

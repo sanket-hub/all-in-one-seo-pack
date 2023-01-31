@@ -642,7 +642,7 @@ export default {
 	}
 }
 
-.aioseo-redirects-modal {
+.aioseo-redirects.modal {
 	.bd {
 		padding: 20px;
 	}

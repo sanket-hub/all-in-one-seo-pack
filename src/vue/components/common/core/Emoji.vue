@@ -230,9 +230,12 @@ export default {
 		}
 	},
 	async mounted () {
-		await this.$nextTick()
-
-		this.startPicker()
+		// We need a 1-second wait in order for the emoji browser script to load.
+		// If we continue to get complaints on this we will have to find a different way
+		// to process the initial load of the emoji script.
+		setTimeout(() => {
+			this.startPicker()
+		}, 1000)
 	}
 }
 </script>
@@ -254,6 +257,7 @@ export default {
 		height: 350px;
 		min-height: 400px;
 		max-height: 400px;
+		max-width: 298px;
 
 		position: absolute;
 		top: 4px;

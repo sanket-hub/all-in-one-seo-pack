@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import { createVuePlugin as vue } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue2'
 // import vue from '@vitejs/plugin-vue' // TODO: This is for Vue 3.
 import react from '@vitejs/plugin-react'
 // import eslintPlugin from 'vite-plugin-eslint'
@@ -11,6 +11,7 @@ import del from 'rollup-plugin-delete'
 import copy from 'rollup-plugin-copy'
 import path from 'path'
 import fs from 'fs'
+import * as dotenv from 'dotenv'
 
 // i18n parser
 import i18n from './build/aioseo-rollup-plugin-gettext-vue'
@@ -108,13 +109,13 @@ const getInputs = version => {
 export default ({ mode }) => {
 	mode = mode || 'pro'
 
-	require('dotenv').config({ path: './build/.env' })
+	dotenv.config({ path: './build/.env', override: true })
 
 	// Get the version from the env variable.
 	const version = 'Lite'
 
 	if (fs.existsSync(`./build/.env.${mode}`)) {
-		require('dotenv').config({ path: `./build/.env.${mode}` })
+		dotenv.config({ path: `./build/.env.${mode}`, override: true })
 	}
 
 	return defineConfig({

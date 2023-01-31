@@ -387,6 +387,14 @@ class Mention {
 			}
 		}
 
+		const removeSmartTag = this.mentionSearch.querySelector('.aioseo-trash')
+		if (removeSmartTag) {
+			removeSmartTag.style.display = 'block'
+			if (!this.currentBlot) {
+				removeSmartTag.style.display = 'none'
+			}
+		}
+
 		this.setIsOpen(true)
 	}
 
