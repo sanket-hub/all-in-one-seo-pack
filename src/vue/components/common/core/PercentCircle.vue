@@ -15,11 +15,12 @@
 					cy="16.91549431"
 					r="15.91549431"
 				/>
+
 				<circle
 					class="aioseo-percent-circle-score__circle"
 					stroke="#005AE0"
 					stroke-width="2"
-					:stroke-dasharray="`${suggestionsScan.percent},100`"
+					:stroke-dasharray="`${percentage},100`"
 					fill="none"
 					cx="16.91549431"
 					cy="16.91549431"
@@ -40,11 +41,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import UtilAnimatedNumber from '@/vue/components/common/util/AnimatedNumber'
 export default {
 	components : {
 		UtilAnimatedNumber
+	},
+	props : {
+		percentage : Number
 	},
 	data () {
 		return {
@@ -53,21 +56,18 @@ export default {
 		}
 	},
 	watch : {
-		suggestionsScan : {
+		percentage : {
 			deep : true,
-			handler (newValue) {
-				if (newValue.percent !== this.number) {
+			handler (percentage) {
+				if (percentage !== this.number) {
 					this.fromNumber = this.number
-					this.number     = newValue.percent
+					this.number     = percentage
 				}
 			}
 		}
 	},
-	computed : {
-		...mapState('linkAssistant', [ 'suggestionsScan' ])
-	},
 	mounted () {
-		this.number = this.suggestionsScan.percent
+		this.number = this.percentage
 	}
 }
 </script>

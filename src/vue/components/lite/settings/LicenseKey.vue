@@ -11,6 +11,7 @@
 
 			<div class="license-cta-box">
 				<div v-html="tooltipText"></div>
+
 				<span v-html="moreToolTipText" />
 			</div>
 
@@ -18,6 +19,7 @@
 
 			<form class="license-key">
 				<input type="text" name="username" autocomplete="username" style="display:none;" />
+
 				<base-input
 					type="password"
 					:placeholder="strings.placeholder"
@@ -25,6 +27,7 @@
 					autocomplete="new-password"
 					v-model="licenseKey"
 				/>
+
 				<base-button
 					type="green"
 					:disabled="!licenseKey"

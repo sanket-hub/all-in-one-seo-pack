@@ -2,6 +2,7 @@
 	<div class="aioseo-api-bar">
 		<div class="upgrade-text">
 			<svg-aioseo-logo-gear />
+
 			<div v-html="upgradeText" />
 		</div>
 	</div>

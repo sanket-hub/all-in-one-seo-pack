@@ -55,7 +55,11 @@
 						v-for="(backup, index) in getBackups"
 						:key="index"
 					>
-						<div class="backup-name" v-html="getBackupName(backup)" />
+						<div
+							class="backup-name"
+							v-html="getBackupName(backup)"
+						/>
+
 						<div class="backup-actions">
 							<core-tooltip
 								type="action"

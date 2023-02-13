@@ -237,7 +237,7 @@
 
 					<div class="settings-content">
 						<base-editor
-							:value="robotsTxt"
+							:value="sanitizedRobotsTxt"
 							:line-numbers="true"
 							:minimum-line-numbers="13"
 							disabled
@@ -389,6 +389,9 @@ export default {
 			return this.getOptions.enable
 				? stringify(mergeRules({ ...robots }, mergeRules({ ...networkRules }, parse(this.networkRobots.rules)), false, true)) + sitemapUrls
 				: stringify(mergeRules({ ...robots }, { ...networkRules })) + sitemapUrls
+		},
+		sanitizedRobotsTxt () {
+			return this.robotsTxt.replace(/(<([^>]+)>)/gi, '')
 		},
 		hasErrors () {
 			return Object.keys(this.errors).length

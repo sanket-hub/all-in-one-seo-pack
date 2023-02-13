@@ -6,13 +6,22 @@
 		<template #content>
 			<div>
 				<div class="previews-box">
-					<preview :preview-data="getPreview('day')"
-							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
-					<preview :preview-data="getPreview('month')"
-							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
-					<preview :preview-data="getPreview('')"
-							 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"></preview>
+					<preview
+						:preview-data="getPreview('day')"
+						:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"
+					/>
+
+					<preview
+						:preview-data="getPreview('month')"
+						:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"
+					/>
+
+					<preview
+						:preview-data="getPreview('')"
+						:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate"
+					/>
 				</div>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -22,15 +31,18 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.date.useDefaultTemplate">
 					<grid-column
-						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+					>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.date.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.date.showHomeCrumb"
@@ -38,8 +50,10 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<strong>{{ strings.year }}</strong>
+
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.date.template.year"
 							:line-numbers="true"
@@ -47,13 +61,13 @@
 							tags-context="breadcrumbs-date-archive-year"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_date_archive_year',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_date_archive_year',
+								'breadcrumb_link'
+							]"
+						/>
 
 						<strong>{{ strings.month }}</strong>
+
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.date.template.month"
 							:line-numbers="true"
@@ -61,13 +75,13 @@
 							tags-context="breadcrumbs-date-archive-month"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_date_archive_month',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_date_archive_month',
+								'breadcrumb_link'
+							]"
+						/>
 
 						<strong>{{ strings.day }}</strong>
+
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.date.template.day"
 							:line-numbers="true"
@@ -75,11 +89,10 @@
 							tags-context="breadcrumbs-date-archive-day"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_date_archive_day',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_date_archive_day',
+								'breadcrumb_link'
+							]"
+						/>
 					</grid-column>
 				</grid-row>
 			</div>

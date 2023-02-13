@@ -6,6 +6,7 @@
 		<div class="aioseo-seo-setup-content">
 			<div class="progress">
 				<svg-progress-circle :percent="percent" />
+
 				<span v-html="steps" />
 			</div>
 

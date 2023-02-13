@@ -48,7 +48,6 @@ const currentPlans = slug => {
 		? null
 		: addon.currentLevels
 			.map(level => upperFirst(level))
-			.join(', ')
 }
 
 const hasMinimumVersion = slug => {

@@ -5,8 +5,11 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate"></preview>
+				<preview
+					:preview-data="getPreview()"
+					:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate"
+				/>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -16,6 +19,7 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.author.useDefaultTemplate">
 					<grid-column
 						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
@@ -25,6 +29,7 @@
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.author.showHomeCrumb"
@@ -32,6 +37,7 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.author.template"
@@ -40,11 +46,10 @@
 							tags-context="breadcrumbs-author"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_author_display_name',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_author_display_name',
+								'breadcrumb_link'
+							]"
+						/>
 					</grid-column>
 				</grid-row>
 			</div>

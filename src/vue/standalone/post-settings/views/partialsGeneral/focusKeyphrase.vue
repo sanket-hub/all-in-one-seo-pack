@@ -256,7 +256,12 @@
 														<svg-logo-semrush />
 													</div>
 													<div class="semrush-upsell">
-														<span><strong v-html="strings.youHaveExceededSemrush" /></span>{{ ' ' }}
+														<span>
+															<strong v-html="strings.youHaveExceededSemrush" />
+														</span>
+
+														{{ ' ' }}
+
 														<span v-html="strings.inOrderToUpgradeSemrush" />
 													</div>
 												</template>

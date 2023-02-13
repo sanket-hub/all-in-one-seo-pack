@@ -84,6 +84,8 @@
 
 							<base-input
 								size="medium"
+								:value="sanitize(options.breadcrumbs.homepageLabel)"
+								@input="value => options.breadcrumbs.homepageLabel = sanitize(value)"
 								v-model="options.breadcrumbs.homepageLabel"
 							/>
 						</div>
@@ -101,9 +103,11 @@
 			>
 				<template #content>
 					<base-input
-						v-model="options.breadcrumbs.breadcrumbPrefix"
+						:value="sanitize(options.breadcrumbs.breadcrumbPrefix)"
+						@input="value => options.breadcrumbs.breadcrumbPrefix = sanitize(value)"
 						size="medium"
 					/>
+
 					<div class="aioseo-description">
 						{{ strings.breadcrumbPrefixDescription }}
 					</div>
@@ -119,9 +123,9 @@
 						v-model="options.breadcrumbs.showBlogHome"
 						name="showBlogHome"
 						:options="[
-								{ label: $constants.GLOBAL_STRINGS.off, value: false, activeClass: 'dark' },
-								{ label: $constants.GLOBAL_STRINGS.on, value: true }
-							]"
+							{ label: $constants.GLOBAL_STRINGS.off, value: false, activeClass: 'dark' },
+							{ label: $constants.GLOBAL_STRINGS.on, value: true }
+						]"
 					/>
 				</template>
 			</core-settings-row>
@@ -131,7 +135,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						v-model="options.breadcrumbs.archiveFormat"
+						:value="sanitize(options.breadcrumbs.archiveFormat)"
+						@input="value => options.breadcrumbs.archiveFormat = sanitize(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -139,10 +144,11 @@
 						:minimum-line-numbers="3"
 						:showAllTagsLink="false"
 						:default-tags="[
-										'breadcrumb_archive_post_type_name',
-									]"
+							'breadcrumb_archive_post_type_name',
+						]"
 						tagsDescription=""
-					></core-html-tags-editor>
+					/>
+
 					<div class="aioseo-description">
 						{{ strings.archiveFormatDescription }}
 					</div>
@@ -154,7 +160,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						v-model="options.breadcrumbs.searchResultFormat"
+						:value="sanitize(options.breadcrumbs.searchResultFormat)"
+						@input="value => options.breadcrumbs.searchResultFormat = sanitize(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -162,10 +169,11 @@
 						:minimum-line-numbers="3"
 						:showAllTagsLink="false"
 						:default-tags="[
-										'breadcrumb_search_string',
-									]"
+							'breadcrumb_search_string',
+						]"
 						tagsDescription=""
-					></core-html-tags-editor>
+					/>
+
 					<div class="aioseo-description">
 						{{ strings.searchResultFormatDescription }}
 					</div>
@@ -178,9 +186,11 @@
 			>
 				<template #content>
 					<base-input
-						v-model="options.breadcrumbs.errorFormat404"
+						:value="sanitize(options.breadcrumbs.errorFormat404)"
+						@input="value => options.breadcrumbs.errorFormat404 = sanitize(value)"
 						size="medium"
 					/>
+
 					<div class="aioseo-description">
 						{{ strings.errorFormat404Description }}
 					</div>
@@ -199,6 +209,7 @@
 						/>
 						{{ strings.showCurrentItem }}
 					</div>
+
 					<div class="aioseo-description" v-if="options.breadcrumbs.showCurrentItem">
 						<base-toggle
 							v-model="options.breadcrumbs.linkCurrentItem"
@@ -354,6 +365,9 @@ export default {
 			return [ ...this.getRootPreview(), ...[
 				this.options.breadcrumbs.errorFormat404
 			] ].filter(item => !!item).map(item => this.$tags.decodeHTMLEntities(item))
+		},
+		sanitize (value) {
+			return this.$tags.decodeHTMLEntities(value).replace(/(<([^>]+)>)/gi, '').trim()
 		}
 	},
 	computed : {

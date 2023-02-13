@@ -40,13 +40,26 @@
 				<div
 					v-if="actions"
 					class="header-actions"
-				>
+			>
 					<transition name="fade-percent-circle">
 						<core-percent-circle
-							v-if="canShowPercentCircle"
-							@click.native="toggleProcessingPopup"
+							v-if="activeScan && showPopup"
+							:percentage="percentage"
+							@click.native="toggleCirclePopup"
 						/>
 					</transition>
+
+					<transition
+						name="fade-processing-popup"
+					>
+						<core-processing-popup
+							v-if="showPopup"
+							:strings="popupStrings"
+							:percentage="percentage"
+							@close="toggleCirclePopup"
+						/>
+					</transition>
+
 					<span
 						class="round"
 						@click.stop="toggleNotifications"
@@ -61,6 +74,7 @@
 							@click.stop="toggleNotifications"
 						/>
 					</span>
+
 					<span
 						class="round"
 						@click.stop="toggleModal"
@@ -78,8 +92,9 @@
 import { ScrollAndHighlight } from '@/vue/mixins'
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import CoreApiBar from '@/vue/components/common/core/ApiBar'
-import CorePercentCircle from '@/vue/components/common/core/PercentCircle'
 import CoreLicenseKeyBar from '@/vue/components/AIOSEO_VERSION/core/LicenseKeyBar'
+import CorePercentCircle from '@/vue/components/common/core/PercentCircle'
+import CoreProcessingPopup from '@/vue/components/common/core/ProcessingPopup'
 import CoreUpgradeBar from '@/vue/components/AIOSEO_VERSION/core/UpgradeBar'
 import GridContainer from '@/vue/components/common/grid/Container'
 import SvgAioseoLogo from '@/vue/components/common/svg/aioseo/Logo'
@@ -88,8 +103,9 @@ import SvgNotifications from '@/vue/components/common/svg/Notifications'
 export default {
 	components : {
 		CoreApiBar,
-		CorePercentCircle,
 		CoreLicenseKeyBar,
+		CorePercentCircle,
+		CoreProcessingPopup,
 		CoreUpgradeBar,
 		GridContainer,
 		SvgAioseoLogo,
@@ -114,16 +130,48 @@ export default {
 			}
 		}
 	},
+	data () {
+		return {
+			activeScan : null,
+			strings    : {
+				linkAssistantPopup : {
+					header      : this.$t.__('Link suggestions are being processed.', this.$td),
+					description : this.$t.__('Depending on the number of posts being scanned, this process can take some time. You can safely leave this page and check back later.', this.$td)
+				},
+				searchStatisticsPopup : {
+					header      : this.$t.__('Search statistics are being fetched.', this.$td),
+					description : this.$t.__('Depending on the amount of content on your site, this process can take some time. You can safely leave this page and check back later.', this.$td)
+				}
+			}
+		}
+	},
 	computed : {
 		...mapGetters([ 'settings', 'activeNotificationsCount', 'isUnlicensed', 'helpPanel' ]),
 		...mapState([ 'notifications', 'pong' ]),
 		...mapState('linkAssistant', [ 'suggestionsScan' ]),
-		canShowPercentCircle () {
-			return this.$addons.isActive('aioseo-link-assistant') &&
-				!this.$addons.requiresUpgrade('aioseo-link-assistant') &&
-				this.$addons.hasMinimumVersion('aioseo-link-assistant') &&
-				('links-report' === this.$route.name || 'overview' === this.$route.name) &&
-				100 !== this.suggestionsScan.percent
+		percentage () {
+			switch (this.activeScan) {
+				case 'linkAssistant':
+					return this.suggestionsScan.percent
+				default:
+					return null
+			}
+		},
+		showPopup () {
+			switch (this.activeScan) {
+				case 'linkAssistant':
+					return this.suggestionsScan.showProcessingPopup && 100 !== this.suggestionsScan.percent
+				default:
+					return null
+			}
+		},
+		popupStrings () {
+			switch (this.activeScan) {
+				case 'linkAssistant':
+					return this.strings.linkAssistantPopup
+				default:
+					return null
+			}
 		}
 	},
 	methods : {
@@ -147,11 +195,33 @@ export default {
 			const modal = document.getElementById('aioseo-help-modal')
 			modal.classList.toggle('visible')
 			document.body.classList.toggle('modal-open')
+		},
+		checkForActiveScan () {
+			if (
+				'link-assistant' === this.$aioseo.page &&
+				this.$addons.isActive('aioseo-link-assistant') &&
+				!this.$addons.requiresUpgrade('aioseo-link-assistant') &&
+				this.$addons.hasMinimumVersion('aioseo-link-assistant') &&
+				('links-report' === this.$route.name || 'overview' === this.$route.name) &&
+				100 !== this.suggestionsScan.percent
+			) {
+				this.activeScan = 'linkAssistant'
+			}
+		},
+		toggleCirclePopup () {
+			switch (this.activeScan) {
+				case 'linkAssistant':
+					return this.toggleProcessingPopup()
+				default:
+					return null
+			}
 		}
 	},
 	mounted () {
 		this.storeScroll()
 		document.addEventListener('scroll', this.debounce(this.storeScroll), { passive: true })
+
+		this.checkForActiveScan()
 	}
 }
 </script>

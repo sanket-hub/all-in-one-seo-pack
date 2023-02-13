@@ -94,7 +94,11 @@
 						</button>
 
 						<h3>{{ areYouSureTitle }}</h3>
-						<div class="description" v-html="strings.cannotBeUndone" />
+
+						<div
+							class="description"
+							v-html="strings.cannotBeUndone"
+						/>
 
 						<base-button
 							type="blue"

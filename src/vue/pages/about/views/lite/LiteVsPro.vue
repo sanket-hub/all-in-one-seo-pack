@@ -3,6 +3,7 @@
 		<div class="aioseo-lite-vs-pro-header">
 			<div>
 				<div class="header-title">{{ strings.header.title }}</div>
+
 				<div class="header-text">{{ strings.header.description }}</div>
 			</div>
 
@@ -19,7 +20,9 @@
 		<div class="aioseo-lite-vs-pro-grid">
 			<div class="header">
 				<div>{{ strings.grid.features }}</div>
+
 				<div class="header-lite">Lite</div>
+
 				<div class="header-pro">Pro</div>
 			</div>
 
@@ -29,17 +32,22 @@
 				<div v-for="(feature, index) in features" :key="index">
 					<div class="feature">
 						<div>{{ feature.name }}</div>
+
 						<svg-close />
+
 						<div>
 							<div class="feature-title">{{ feature.lite.title }}</div>
 							<div v-if="feature.lite.description">{{ feature.lite.description }}</div>
 						</div>
+
 						<svg-circle-check />
+
 						<div>
 							<div class="feature-title">{{ feature.pro.title }}</div>
 							<div v-if="feature.pro.description">{{ feature.pro.description }}</div>
 						</div>
 					</div>
+
 					<hr />
 				</div>
 			</div>
@@ -47,7 +55,9 @@
 
 		<div class="aioseo-lite-vs-pro-cta">
 			<div class="cta-title">{{ strings.cta.title }}</div>
+
 			<div class="cta-text">{{ strings.cta.description }}</div>
+
 			<base-button
 				type="green"
 				tag="a"
@@ -56,7 +66,11 @@
 			>
 				{{ strings.cta.button }}
 			</base-button>
-			<div class="cta-text" v-html="strings.cta.bonus" />
+
+			<div
+				class="cta-text"
+				v-html="strings.cta.bonus"
+			/>
 		</div>
 	</div>
 </template>
@@ -134,6 +148,16 @@ export default {
 					pro : {
 						title       : this.$t.__('Complete Support', this.$td),
 						description : this.$t.__('Posts, Pages, custom Post Types + Categories, Tags and custom Taxonomies', this.$td)
+					}
+				},
+				searchStatistics : {
+					name : this.$t.__('Google Search Console Integration', this.$td),
+					lite : {
+						title : this.$t.__('Not Available', this.$td)
+					},
+					pro : {
+						title       : this.$t.__('Included as Pro Feature', this.$td),
+						description : this.$t.__('Connect with Google Search Console to track how your site is performing in search rankings and generate reports with actionable insights that help you get the most out of your content. (Elite plan only)', this.$td)
 					}
 				},
 				wooCommerce : {

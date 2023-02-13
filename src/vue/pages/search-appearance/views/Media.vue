@@ -8,7 +8,8 @@
 					class="icon dashicons"
 					:class="`${postType.icon || 'dashicons-admin-post'}`"
 				/>
-				<div v-html="postType.label"></div>
+
+				<div>{{ postType.label }}</div>
 			</template>
 
 			<template #before-tabs>

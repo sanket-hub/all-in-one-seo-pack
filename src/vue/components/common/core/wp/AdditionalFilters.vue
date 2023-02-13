@@ -72,3 +72,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.aioseo-app .aioseo-wp-table .aioseo-wp-additional-filters {
+	margin: 0 0 9px;
+}
+</style>

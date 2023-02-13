@@ -13,8 +13,13 @@
 				#tooltip
 			>
 				<div v-html="tooltipText" />
+
 				<br>
-				<div v-html="moreToolTipText" class="more-tooltip-text" />
+
+				<div
+					class="more-tooltip-text"
+					v-html="moreToolTipText"
+				/>
 			</template>
 
 			<settings-license-key />

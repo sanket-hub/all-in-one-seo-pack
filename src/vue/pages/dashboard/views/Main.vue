@@ -222,6 +222,7 @@ import SvgRedirect from '@/vue/components/common/svg/Redirect'
 import SvgRocket from '@/vue/components/common/svg/Rocket'
 import SvgShare from '@/vue/components/common/svg/Share'
 import SvgSitemapsPro from '@/vue/components/common/svg/SitemapsPro'
+import SvgStatistics from '@/vue/components/common/svg/Statistics'
 import SvgTitleAndMeta from '@/vue/components/common/svg/TitleAndMeta'
 import SvgVideoCamera from '@/vue/components/common/svg/VideoCamera'
 
@@ -251,6 +252,7 @@ export default {
 		SvgRocket,
 		SvgShare,
 		SvgSitemapsPro,
+		SvgStatistics,
 		SvgTitleAndMeta,
 		SvgVideoCamera
 	},
@@ -298,6 +300,8 @@ export default {
 				manageLinkAssistant    : this.$t.__('Manage existing links, get relevant suggestions for adding internal links to older content, discover orphaned posts and more.', this.$td),
 				redirects              : this.$t.__('Redirection Manager', this.$td),
 				manageRedirects        : this.$t.__('Easily create and manage redirects for your broken links to avoid confusing search engines and users, as well as losing valuable backlinks.', this.$td),
+				searchStatistics       : this.$t.__('Search Statistics', this.$td),
+				manageSearchStatistics : this.$t.__('Track how your site is performing in search rankings and generate reports with actionable insights.', this.$td),
 				ctaHeaderText          : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Pro".
 					this.$t.__('Get more features in %1$s %2$s:', this.$td),
@@ -385,12 +389,19 @@ export default {
 					access      : 'aioseo_social_networks_settings'
 				},
 				{
+					icon        : 'svg-statistics',
+					description : this.strings.manageSearchStatistics,
+					name        : this.strings.searchStatistics,
+					manageUrl   : this.$aioseo.urls.aio.searchStatistics,
+					access      : 'aioseo_search_statistics_settings'
+				},
+				/* {
 					icon        : 'svg-build',
 					description : this.strings.manageTools,
 					name        : this.strings.tools,
 					manageUrl   : this.$aioseo.urls.aio.tools,
 					access      : 'aioseo_tools_settings'
-				},
+				}, */
 				{
 					icon        : 'svg-sitemaps-pro',
 					description : this.strings.manageSitemap,

@@ -12,10 +12,12 @@
 				<div class="title">
 					<div>{{ strings.title }}</div>
 				</div>
+
 				<div
 					class="notification-content"
 					v-html="content"
 				/>
+
 				<div class="actions">
 					<base-button
 						size="small"

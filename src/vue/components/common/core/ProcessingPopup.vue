@@ -2,15 +2,17 @@
 	<div
 		class="aioseo-processing-popup"
 	>
-		<core-percent-circle />
+		<core-percent-circle
+			:percentage="percentage"
+		/>
 
 		<div>
-			<strong>{{ strings.linkSuggestions }}</strong>
-			<br />{{ strings.itMayTakeSomeTime }}
+			<strong>{{ strings.header }}</strong>
+			<br />{{ strings.description }}
 		</div>
 
 		<svg-close
-			@click="$emit('close-processing-popup')"
+			@click.native="$emit('close')"
 		/>
 	</div>
 </template>
@@ -23,13 +25,9 @@ export default {
 		CorePercentCircle,
 		SvgClose
 	},
-	data () {
-		return {
-			strings : {
-				linkSuggestions   : this.$t.__('Link suggestions are being processed.', this.$td),
-				itMayTakeSomeTime : this.$t.__('Depending on the number of posts being scanned, this process can take some time. You can safely leave this page and check back later.', this.$td)
-			}
-		}
+	props : {
+		strings    : Object,
+		percentage : Number
 	}
 }
 </script>

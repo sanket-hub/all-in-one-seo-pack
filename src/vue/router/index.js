@@ -62,11 +62,13 @@ export default paths => {
 				backups,
 				redirects,
 				linkAssistant,
-				indexNow
+				indexNow,
+				searchStatistics
 			} = await getOptions(router.app.$http)
 			router.app.$set(store.state, 'redirects', merge({ ...store.state.redirects }, { ...redirects }))
 			router.app.$set(store.state, 'linkAssistant', merge({ ...store.state.linkAssistant }, { ...linkAssistant }))
 			router.app.$set(store.state, 'index-now', merge({ ...store.state['index-now'] }, { ...indexNow }))
+			router.app.$set(store.state, 'search-statistics', merge({ ...store.state['search-statistics'] }, { ...searchStatistics }))
 			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
 			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
 			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))

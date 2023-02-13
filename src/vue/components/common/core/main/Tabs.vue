@@ -137,6 +137,10 @@
 				</base-button>
 			</slot>
 		</div>
+
+		<div class="tabs-extra">
+			<slot name="extra" />
+		</div>
 	</div>
 </template>
 
@@ -395,7 +399,8 @@ export default {
 		position: relative;
 		margin-bottom: 38px;
 
-		.button-right {
+		.button-right,
+		.tabs-extra {
 			position: absolute;
 			right: 0;
 			bottom: 10px;

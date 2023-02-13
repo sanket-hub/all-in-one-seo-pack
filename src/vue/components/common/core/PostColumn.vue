@@ -26,11 +26,12 @@
 					@click.prevent="editTitle"
 				>
 				</a>
+
 				<strong>{{ strings.title }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${postId}-value`"
-					v-html="truncate(titleParsed, 100)"
-				/>
+
+				<span :id="`aioseo-${columnName}-${postId}-value`">
+					{{ truncate(titleParsed, 100) }}
+				</span>
 			</div>
 
 			<div
@@ -43,6 +44,7 @@
 					rows="4"
 					columns="32"
 				/>
+
 				<a
 					class="dashicons aioseo-quickedit-input-save"
 					@click.prevent="save"
@@ -50,6 +52,7 @@
 				>
 					<svg-circle-check width="20" />
 				</a>
+
 				<a
 					class="dashicons aioseo-quickedit-input-cancel"
 					@click.prevent="cancel"
@@ -69,11 +72,12 @@
 					@click.prevent="editDescription"
 				>
 				</a>
+
 				<strong>{{ strings.description }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${postId}-value`"
-					v-html="truncate(descriptionParsed)"
-				/>
+
+				<span :id="`aioseo-${columnName}-${postId}-value`">
+					{{ truncate(descriptionParsed) }}
+				</span>
 			</div>
 
 			<div
@@ -86,6 +90,7 @@
 					rows="4"
 					columns="32"
 				/>
+
 				<a
 					class="dashicons aioseo-quickedit-input-save"
 					@click.prevent="save"
@@ -93,6 +98,7 @@
 				>
 					<svg-circle-check width="20" />
 				</a>
+
 				<a
 					class="dashicons aioseo-quickedit-input-cancel"
 					@click.prevent="cancel"
@@ -114,11 +120,12 @@
 					@click.prevent="editImageTitle"
 				>
 				</a>
+
 				<strong>{{ strings.imageTitle }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${postId}-value`"
-					v-html="imageTitle"
-				/>
+
+				<span :id="`aioseo-${columnName}-${postId}-value`">
+					{{ imageTitle }}
+				</span>
 			</div>
 
 			<div
@@ -131,6 +138,7 @@
 					rows="4"
 					columns="32"
 				/>
+
 				<a
 					class="dashicons aioseo-quickedit-input-save"
 					@click.prevent="saveImage"
@@ -138,6 +146,7 @@
 				>
 					<svg-circle-check width="20" />
 				</a>
+
 				<a
 					class="dashicons aioseo-quickedit-input-cancel"
 					@click.prevent="cancel"
@@ -157,11 +166,12 @@
 					@click.prevent="editImageAlt"
 				>
 				</a>
+
 				<strong>{{ strings.imageAltTag }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${postId}-value`"
-					v-html="imageAltTag"
-				/>
+
+				<span :id="`aioseo-${columnName}-${postId}-value`">
+					{{ imageAltTag }}
+				</span>
 			</div>
 
 			<div
@@ -174,6 +184,7 @@
 					rows="4"
 					columns="32"
 				/>
+
 				<a
 					class="dashicons aioseo-quickedit-input-save"
 					@click.prevent="saveImage"
@@ -181,6 +192,7 @@
 				>
 					<svg-circle-check width="20" />
 				</a>
+
 				<a
 					class="dashicons aioseo-quickedit-input-cancel"
 					@click.prevent="cancel"

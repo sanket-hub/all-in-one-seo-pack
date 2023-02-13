@@ -152,7 +152,10 @@
 						]"
 					/>
 
-					<div class="aioseo-description" v-html="strings.compactArchivesDescription"/>
+					<div
+						class="aioseo-description"
+						v-html="strings.compactArchivesDescription"
+					/>
 				</template>
 			</core-settings-row>
 		</core-card>

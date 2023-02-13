@@ -21,7 +21,10 @@
 						/>
 					</div>
 
-					<p class="aioseo-description" v-html="setting.description" />
+					<p
+						class="aioseo-description"
+						v-html="setting.description"
+					/>
 
 					<div
 						class="aioseo-description"

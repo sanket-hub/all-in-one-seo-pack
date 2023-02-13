@@ -17,7 +17,11 @@
 						v-if="isSidebar"
 					>
 						<p class="description">{{ strings.sidebarDescription}}</p>
-						<p class="description" v-html="$links.getDocLink($constants.GLOBAL_STRINGS.learnMore, 'schema', true)" />
+
+						<p
+							class="description"
+							v-html="$links.getDocLink($constants.GLOBAL_STRINGS.learnMore, 'schema', true)"
+						/>
 					</div>
 
 					<graph-card

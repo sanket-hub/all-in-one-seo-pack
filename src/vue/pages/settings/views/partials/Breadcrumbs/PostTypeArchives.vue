@@ -7,7 +7,11 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview(archive)" :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate"></preview>
+				<preview
+					:preview-data="getPreview(archive)"
+					:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate"
+				/>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -17,15 +21,18 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.postTypes[archive.name].useDefaultTemplate">
 					<grid-column
-						 v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+						 v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+					>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].showHomeCrumb"
@@ -33,6 +40,7 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.postTypes[archive.name].template"
@@ -45,8 +53,7 @@
 								'breadcrumb_archive_post_type_name',
 								'breadcrumb_link'
 							]"
-						>
-						</core-html-tags-editor>
+						/>
 					</grid-column>
 				</grid-row>
 			</div>

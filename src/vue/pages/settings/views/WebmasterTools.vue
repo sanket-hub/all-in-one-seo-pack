@@ -29,9 +29,9 @@
 								:is="tool.svg"
 							/>
 						</div>
-						<div
-							v-html="tool.name"
-						/>
+
+						<div>{{ tool.name }}</div>
+
 						<svg-circle-check-solid
 							v-if="isConnected(tool)"
 						/>
@@ -97,8 +97,12 @@ import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreAlertUnfilteredHtml from '@/vue/components/common/core/alert/UnfilteredHtml'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import GoogleAnalyticsSettings from './partials/WebmasterTools/GoogleAnalyticsSettings'
+import GoogleSearchConsoleSettings from './partials/WebmasterTools/GoogleSearchConsoleSettings'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
+import IndexNowSettings from './partials/WebmasterTools/IndexNowSettings'
+import MicrosoftClaritySettings from './partials/WebmasterTools/MicrosoftClaritySettings'
 import SvgCircleCheckSolid from '@/vue/components/common/svg/circle/CheckSolid'
 import SvgExternal from '@/vue/components/common/svg/External'
 import SvgLogoBaidu from '@/vue/components/common/svg/logo/Baidu'
@@ -109,11 +113,8 @@ import SvgLogoMicrosoftBing from '@/vue/components/common/svg/logo/MicrosoftBing
 import SvgLogoMicrosoftClarity from '@/vue/components/common/svg/logo/MicrosoftClarity'
 import SvgLogoPinterest from '@/vue/components/common/svg/logo/Pinterest'
 import SvgLogoYandex from '@/vue/components/common/svg/logo/Yandex'
-import TransitionSlide from '@/vue/components/common/transition/Slide'
-import GoogleAnalyticsSettings from './partials/WebmasterTools/GoogleAnalyticsSettings'
-import IndexNowSettings from './partials/WebmasterTools/IndexNowSettings'
-import MicrosoftClaritySettings from './partials/WebmasterTools/MicrosoftClaritySettings'
 import ToolSettings from './partials/WebmasterTools/ToolSettings'
+import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
 	components : {
 		BaseCheckbox,
@@ -125,6 +126,7 @@ export default {
 		CoreCard,
 		CoreSettingsRow,
 		GoogleAnalyticsSettings,
+		GoogleSearchConsoleSettings,
 		GridColumn,
 		GridRow,
 		IndexNowSettings,
@@ -174,10 +176,11 @@ export default {
 		tools () {
 			return [
 				{
-					slug     : 'googleSearchConsole',
-					name     : this.$t.__('Google Search Console', this.$td),
-					svg      : 'svg-logo-google',
-					settings : [
+					slug      : 'googleSearchConsole',
+					name      : this.$t.__('Google Search Console', this.$td),
+					svg       : 'svg-logo-google',
+					component : 'GoogleSearchConsoleSettings',
+					settings  : [
 						{
 							option      : 'google',
 							label       : this.$t.__('Google Verification Code', this.$td),

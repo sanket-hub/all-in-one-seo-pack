@@ -82,8 +82,7 @@
 											'breadcrumb_post_title',
 											'breadcrumb_link'
 										]"
-									>
-									</core-html-tags-editor>
+									/>
 								</template>
 							</core-settings-row>
 						</grid-column>
@@ -106,8 +105,7 @@
 											'breadcrumb_post_title',
 											'breadcrumb_link'
 										]"
-									>
-									</core-html-tags-editor>
+									/>
 								</template>
 							</core-settings-row>
 						</grid-column>

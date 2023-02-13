@@ -133,6 +133,7 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 import { mapActions } from 'vuex'
+import { sanitizeString } from '@/vue/utils/strings'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import CoreAddRedirectionUrlResults from '@/vue/components/common/core/add-redirection/UrlResults'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
@@ -225,6 +226,11 @@ export default {
 				}
 			}
 
+			if (!this.url.regex && !sanitizeString(this.url.url)) {
+				errors.push(this.$t.__('Your URL is invalid.', this.$td))
+				return errors
+			}
+
 			if ('http' === this.url.url.substr(0, 4) && -1 === this.url.url.indexOf(document.location.origin)) {
 				errors.push(this.$t.__('Please enter a valid relative source URL.', this.$td))
 			}
@@ -286,7 +292,7 @@ export default {
 					warnings.push(this.$t.sprintf(
 						// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
 						this.$t.__('To prevent a greedy regular expression you can use %1$s to anchor it to the start of the URL. For example: %2$s', this.$td),
-						'<code>^/</code>', '<code>^/' + this.url.url.replace(/^\//, '') + '</code>'
+						'<code>^/</code>', '<code>^/' + sanitizeString(this.url.url.replace(/^\//, '')) + '</code>'
 					))
 				}
 
@@ -295,7 +301,7 @@ export default {
 						// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
 						this.$t.__('The caret %1$s should be at the start. For example: %2$s', this.$td),
 						'<code>^/</code>',
-						'<code>^/' + this.url.url.replace('^', '').replace(/^\//, '') + '</code>'
+						'<code>^/' + sanitizeString(this.url.url.replace('^', '').replace(/^\//, '')) + '</code>'
 					))
 				}
 
@@ -312,7 +318,7 @@ export default {
 						// Translators: 1 - Adds a html tag with an option like: <code>^/</code>
 						this.$t.__('The dollar symbol %1$s should be at the end. For example: %2$s', this.$td),
 						'<code>$</code>',
-						'<code>' + this.url.url.replace(/\$/g, '') + '$</code>'
+						'<code>' + sanitizeString(this.url.url.replace(/\$/g, '')) + '$</code>'
 					))
 				}
 			}

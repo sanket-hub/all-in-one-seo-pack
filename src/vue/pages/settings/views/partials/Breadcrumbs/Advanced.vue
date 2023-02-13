@@ -31,11 +31,10 @@
 					tags-context="breadcrumbs-format-paged"
 					:minimum-line-numbers="3"
 					:showAllTagsLink="false"
-					:default-tags="[
-										'breadcrumb_format_page_number',
-									]"
+					:default-tags="['breadcrumb_format_page_number']"
 					tags-description=""
-				></core-html-tags-editor>
+				/>
+
 				<div class="aioseo-description">
 					{{ strings.pagedFormatDescription }}
 				</div>

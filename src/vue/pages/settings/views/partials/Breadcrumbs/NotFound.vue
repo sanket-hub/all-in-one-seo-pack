@@ -5,8 +5,11 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.notFound.useDefaultTemplate"></preview>
+				<preview
+					:preview-data="getPreview()"
+					:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.notFound.useDefaultTemplate"
+				/>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -16,15 +19,18 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.notFound.useDefaultTemplate">
 					<grid-column
-						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+					>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.notFound.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.notFound.showHomeCrumb"
@@ -32,6 +38,7 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.notFound.template"
@@ -40,11 +47,10 @@
 							tags-context="breadcrumbs-notFound"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_404_error_format',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_404_error_format',
+								'breadcrumb_link'
+							]"
+						/>
 					</grid-column>
 				</grid-row>
 			</div>

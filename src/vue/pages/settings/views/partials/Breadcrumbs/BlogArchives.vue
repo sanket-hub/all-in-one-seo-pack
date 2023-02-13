@@ -6,8 +6,11 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate"></preview>
+				<preview
+					:preview-data="getPreview()"
+					:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate"
+				/>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -17,15 +20,18 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.blog.useDefaultTemplate">
 					<grid-column
-						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+					>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.blog.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.blog.showHomeCrumb"
@@ -33,6 +39,7 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.blog.template"
@@ -41,9 +48,9 @@
 							tags-context="breadcrumbs-blog-archive"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_blog_page_title',
-										'breadcrumb_link'
-									]"
+								'breadcrumb_blog_page_title',
+								'breadcrumb_link'
+							]"
 						>
 						</core-html-tags-editor>
 					</grid-column>

@@ -28,8 +28,13 @@
 			<div class="new-page">
 				<div class="aioseo-row">
 					<div class="aioseo-col col-xs-12 text-xs-left">
-						<div class="aioseo-description" v-if="item.desc" v-html="item.desc"></div>
+						<div
+							class="aioseo-description"
+							v-if="item.desc"
+							v-html="item.desc"
+						/>
 					</div>
+
 					<div class="aioseo-col col-xs-12 col-md-7 text-xs-left">
 						<base-input
 							:disabled="dedicatedPageDisabled"
@@ -106,7 +111,9 @@
 						:type="dedicatedPageDisabled ? 'yellow' : 'red'"
 						size="medium"
 					>
-						<span v-html="dedicatedPageDisabled ? strings.errorMessageDisabled : strings.errorMessage" />
+						<span
+							v-html="dedicatedPageDisabled ? strings.errorMessageDisabled : strings.errorMessage"
+						/>
 					</core-alert>
 				</div>
 			</div>

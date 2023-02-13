@@ -19,9 +19,17 @@
 					:style="`background-color: ${part.color}`"
 				/>
 				<span class="legend-amount">
-					<util-animated-number v-if="animatedNumber" :number="parseInt(part.count)" />
-					<div v-else v-html="parseInt(part.count)" />
+					<util-animated-number
+						v-if="animatedNumber"
+						:number="parseInt(part.count)"
+					/>
+
+					<div
+						v-else
+						v-html="parseInt(part.count)"
+					/>
 				</span>
+
 				<component
 					:is="part.link ? 'a' : 'span'"
 					:href="part.link || null"

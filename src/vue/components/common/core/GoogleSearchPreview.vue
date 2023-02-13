@@ -7,15 +7,13 @@
 				</slot>
 			</div>
 
-			<div
-				class="site-title"
-				v-html="truncate(title, 100)"
-			/>
+			<div class="site-title">
+				{{ truncate(title, 100) }}
+			</div>
 
-			<div
-				class="meta-description"
-				v-html="truncate(description)"
-			/>
+			<div class="meta-description">
+				{{ truncate(description) }}
+			</div>
 		</div>
 	</div>
 </template>

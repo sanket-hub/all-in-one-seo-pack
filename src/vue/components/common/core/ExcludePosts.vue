@@ -33,6 +33,7 @@
 					<div class="option-title"
 						v-html="getOptionTitle(option.label, search)"
 					/>
+
 					<div class="option-details">
 						<span>{{ strings.id }}: #{{ option.value }}</span>
 						<span>{{ strings.type }}: {{ option.type }}</span>

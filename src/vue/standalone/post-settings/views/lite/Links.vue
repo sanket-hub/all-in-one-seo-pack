@@ -119,12 +119,12 @@ import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import Cta from '@/vue/components/common/cta/Index.vue'
 import LinksSideBar from './../LinksSideBar'
 import LinkAssistantInboundInternal from '@/vue/components/common/link-assistant/InboundInternal'
+import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import SvgLinkAffiliate from '@/vue/components/common/svg/link/Affiliate'
 import SvgLinkExternal from '@/vue/components/common/svg/link/External'
 import SvgLinkInternalInbound from '@/vue/components/common/svg/link/InternalInbound'
 import SvgLinkInternalOutbound from '@/vue/components/common/svg/link/InternalOutbound'
 import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
-import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 export default {
 	components : {
 		CoreAlert,

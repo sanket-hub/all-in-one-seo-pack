@@ -20,7 +20,8 @@ export const getOptions = () => new Promise(resolve => {
 			redirects              : window.aioseo.redirects,
 			linkAssistant          : window.aioseo.linkAssistant,
 			indexNow               : window.aioseo.indexNow,
-			schema                 : window.aioseo.schema
+			schema                 : window.aioseo.schema,
+			searchStatistics       : window.aioseo.searchStatistics
 		}))
 	}
 })
@@ -43,6 +44,7 @@ export const setOptions = ({
 	redirects,
 	linkAssistant,
 	indexNow,
+	searchStatistics,
 	schema,
 	// These are the posts/terms for our AIOSEO Details column.
 	posts,
@@ -66,6 +68,7 @@ export const setOptions = ({
 	linkAssistant          = merge({ ...window.aioseo.linkAssistant }, { ...linkAssistant })
 	indexNow               = merge({ ...window.aioseo.indexNow }, { ...indexNow })
 	schema                 = merge({ ...window.aioseo.schema }, { ...schema })
+	searchStatistics       = merge({ ...window.aioseo.searchStatistics }, { ...searchStatistics })
 	posts                  = merge([ ...window.aioseo?.posts || [] ], [ ...(posts || []) ])
 	terms                  = merge([ ...window.aioseo?.terms || [] ], [ ...(terms || []) ])
 
@@ -89,6 +92,7 @@ export const setOptions = ({
 		linkAssistant,
 		indexNow,
 		schema,
+		searchStatistics,
 		posts,
 		terms
 	}
@@ -115,6 +119,7 @@ export const setOptions = ({
 		linkAssistant,
 		indexNow,
 		schema,
+		searchStatistics,
 		posts,
 		terms
 	}

@@ -1,4 +1,5 @@
 import { AddonConditions } from './AddonConditions'
+import { LicenseConditions } from './LicenseConditions'
 import { HeadlineResult } from './HeadlineResult'
 import { HeadlineScore } from './HeadlineScore'
 import { ImageSourceOptions, Uploader, ImagePreview } from './Image'
@@ -23,6 +24,7 @@ import { WpTable } from './WpTable'
 
 export {
 	AddonConditions,
+	LicenseConditions,
 	HeadlineResult,
 	HeadlineScore,
 	ImagePreview,

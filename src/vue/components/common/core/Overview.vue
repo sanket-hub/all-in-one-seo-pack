@@ -4,7 +4,12 @@
 		:class="isWpDashboard ? 'aioseo-overview--wp-styles' : ''"
 		v-if="postType.value"
 	>
-		<p class="aioseo-overview-description">{{ strings.description }}</p>
+		<p
+			class="aioseo-overview-description"
+			v-if="!toHide.includes('description')"
+		>
+			{{ strings.description }}
+		</p>
 
 		<div class="aioseo-overview-selector">
 			<strong>{{ strings.choosePostType }}</strong>
@@ -35,7 +40,7 @@
 		/>
 
 		<core-alert
-			v-if="!$isPro"
+			v-if="!toHide.includes('upgradeAlert') && !$isPro"
 			type="yellow"
 			v-html="strings.upgradeToPro"
 		/>
@@ -57,12 +62,24 @@ export default {
 			default () {
 				return false
 			}
+		},
+		toHide : {
+			type : Array,
+			default () {
+				return []
+			}
+		},
+		showDescription : {
+			type : Boolean,
+			default () {
+				return true
+			}
 		}
 	},
 	data () {
 		return {
 			strings : {
-				description    : this.$t.__('Below are the SEO scores of your published posts. Take some time to improve your SEO score to help increase your rankings.', this.$td),
+				description    : this.$t.__('Below are the TruSEO scores of your published posts. Take some time to improve your TruSEO score to help increase your rankings.', this.$td),
 				choosePostType : this.$t.__('Choose a Post Type', this.$td),
 				upgradeToPro   : this.$t.sprintf(
 					// Translators: 1 - The upgrade call to action.

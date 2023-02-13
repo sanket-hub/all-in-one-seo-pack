@@ -7,8 +7,11 @@
 		>
 			<template #content>
 				<div>
-					<preview :preview-data="getPreview(taxonomy)"
-							 :useDefaultTemplate="dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].useDefaultTemplate"></preview>
+					<preview
+						:preview-data="getPreview(taxonomy)"
+						:useDefaultTemplate="dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].useDefaultTemplate"
+					/>
+
 					<grid-row>
 						<grid-column>
 							<base-toggle
@@ -18,15 +21,18 @@
 							{{ strings.useDefaultTemplate }}
 						</grid-column>
 					</grid-row>
+
 					<grid-row v-if="!dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].useDefaultTemplate">
 						<grid-column
-							v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+							v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+						>
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].showPrefixCrumb"
 								class="current-item"
 							/>
 							{{ strings.showPrefixLabel }}
 						</grid-column>
+
 						<grid-column>
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].showHomeCrumb"
@@ -34,6 +40,7 @@
 							/>
 							{{ strings.showHomeLabel }}
 						</grid-column>
+
 						<grid-column v-if="taxonomy.hierarchical">
 							<base-toggle
 								v-model="dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].showParentCrumbs"
@@ -41,6 +48,7 @@
 							/>
 							{{ strings.showParentLabel }}
 						</grid-column>
+
 						<grid-column>
 							<core-settings-row
 								:name="taxonomy.hierarchical && dynamicOptions.breadcrumbs.taxonomies[taxonomy.name].showParentCrumbs ? strings.singleTemplateLabel : ''"
@@ -55,11 +63,10 @@
 										:tags-context="'breadcrumbs-taxonomy-'+taxonomy.name"
 										:minimum-line-numbers="3"
 										:default-tags="[
-							'breadcrumb_taxonomy_title',
-							'breadcrumb_link'
-						]"
-									>
-									</core-html-tags-editor>
+											'breadcrumb_taxonomy_title',
+											'breadcrumb_link'
+										]"
+									/>
 								</template>
 							</core-settings-row>
 						</grid-column>

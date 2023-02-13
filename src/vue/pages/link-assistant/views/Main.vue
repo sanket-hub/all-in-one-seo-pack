@@ -7,15 +7,6 @@
 		>
 			<component :is="$route.name" />
 		</core-main>
-
-		<transition
-			name="fade-processing-popup"
-		>
-			<core-processing-popup
-				v-if="suggestionsScan.showProcessingPopup && ('links-report' === $route.name || 'overview' === $route.name) && 100 !== suggestionsScan.percent"
-				@close-processing-popup="toggleProcessingPopup"
-			/>
-		</transition>
 	</div>
 </template>
 
@@ -23,6 +14,7 @@
 import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreProcessingPopup from '@/vue/components/common/core/ProcessingPopup'
 import DomainsReport from './AIOSEO_VERSION/DomainsReport'
 import LinksReport from './AIOSEO_VERSION/LinksReport'
 import Overview from './Overview'
@@ -31,6 +23,7 @@ import Settings from './AIOSEO_VERSION/Settings'
 export default {
 	components : {
 		CoreMain,
+		CoreProcessingPopup,
 		DomainsReport,
 		LinksReport,
 		Overview,

@@ -250,7 +250,7 @@ export default {
 	computed : {
 		upgradeToday () {
 			return this.$t.sprintf(
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
+				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
 				this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td),
 				import.meta.env.VITE_SHORT_NAME,
 				'Pro'

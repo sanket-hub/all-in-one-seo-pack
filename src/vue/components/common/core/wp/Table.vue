@@ -2,7 +2,7 @@
 	<div class="aioseo-wp-table">
 		<div
 			v-if="showHeader"
-			class="header"
+			class="aioseo-wp-table-header"
 		>
 			<ul class="subsubsub">
 				<li
@@ -66,6 +66,8 @@
 			</p>
 
 			<div class="tablenav top">
+				<slot name="tablenav" />
+
 				<core-wp-bulk-actions
 					v-if="showBulkActions && bulkOptions && bulkOptions.length"
 					:bulk-options="bulkOptions"
@@ -216,7 +218,7 @@
 					<template
 						v-if="!rows.length"
 					>
-						<td :colspan="columns.length + 1">
+						<td :colspan="columns.length">
 							<div class="no-results">
 								<span v-if="!loading">{{ strings.noResults }}</span>
 							</div>
@@ -521,12 +523,12 @@ export default {
 		}
 	}
 
-	.header {
+	&-header {
 		.subsubsub {
 			color: $gray3;
 			font-size: 13px;
 			font-weight: 600;
-			margin-left: 2px;
+			margin: 8px 0 0 2px;
 
 			li > span {
 				display: inline-flex;
@@ -573,7 +575,7 @@ export default {
 		}
 	}
 
-	.header,
+	.aioseo-wp-table-header,
 	.bottom {
 		.pagination {
 			color: $gray3;

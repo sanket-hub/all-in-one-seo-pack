@@ -54,7 +54,10 @@
 				</base-button>
 			</div>
 
-			<div class="aioseo-description" v-html="strings.minimumSize"></div>
+			<div
+				class="aioseo-description"
+				v-html="strings.minimumSize"
+			/>
 
 			<base-img :src="$root.$data.customMarker" />
 		</div>

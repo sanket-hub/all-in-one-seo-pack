@@ -12,6 +12,7 @@
 				<div class="title">
 					<div>{{ title }}</div>
 				</div>
+
 				<div
 					class="notification-content"
 					v-html="content"

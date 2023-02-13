@@ -5,41 +5,45 @@
 			sm="1"
 			v-if="!showMoreSeparators && hiddenSeparator"
 		>
-			<div
-				class="active separator"
-				v-html="hiddenSeparator"
-			/>
+			<div class="active separator">
+				{{ decodedCustomSeparator }}
+			</div>
 		</grid-column>
+
 		<grid-column
 			xs="2"
 			sm="1"
-			v-for="(separator, index) in separators"
+			v-for="(separator, index) in decodedSeparators"
 			:key="index"
 		>
 			<div
 				@click="setSeparator(separator)"
 				class="separator"
 				:class="{ active: optionsSeparator === separator }"
-				v-html="separator"
-			/>
+			>
+				{{ separator }}
+			</div>
 		</grid-column>
+
 		<template
 			v-if="showMoreSeparators"
 		>
 			<grid-column
 				xs="2"
 				sm="1"
-				v-for="(separator, index) in moreSeparators"
+				v-for="(separator, index) in decodedMoreSeparators"
 				:key="`m_${index}`"
 			>
 				<div
 					@click="setSeparator(separator)"
 					class="separator"
 					:class="{ active: optionsSeparator === separator }"
-					v-html="separator"
-				/>
+				>
+					{{ separator }}
+				</div>
 			</grid-column>
 		</template>
+
 		<grid-column
 			:xs="hiddenSeparator ? '3' : '4'"
 			v-if="!showMoreSeparators"
@@ -59,6 +63,7 @@
 		>
 			<div class="custom-separator">
 				{{ strings.custom }}
+
 				<base-input
 					:spellcheck="false"
 					size="medium"
@@ -83,6 +88,7 @@
 </template>
 
 <script>
+import { decodeHTMLEntities } from '@/vue/utils/helpers'
 import { mapActions, mapState } from 'vuex'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
@@ -160,6 +166,15 @@ export default {
 			return this.optionsSeparator === this.customSeparator || this.moreSeparators.includes(this.optionsSeparator)
 				? this.optionsSeparator
 				: null
+		},
+		decodedSeparators () {
+			return this.separators.map(separator => decodeHTMLEntities(separator))
+		},
+		decodedMoreSeparators () {
+			return this.moreSeparators.map(separator => decodeHTMLEntities(separator))
+		},
+		decodedCustomSeparator () {
+			return decodeHTMLEntities(this.hiddenSeparator)
 		}
 	},
 	methods : {

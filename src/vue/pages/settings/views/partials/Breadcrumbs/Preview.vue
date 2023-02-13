@@ -3,19 +3,23 @@
 		<span class="label" v-if="label">
 			{{ label }}:
 		</span>
+
 		<template v-for="(item,index) in this.getPreviewData()">
 			<span
 				:key="index+'sep'"
 				class="aioseo-breadcrumb-separator"
 				v-if="1 < previewLength && index > 0 && index < previewLength"
-				v-html="options.breadcrumbs.separator"
-			/>
+			>
+				{{ options.breadcrumbs.separator }}
+			</span>
+
 			<span
 				:key="index+'crumb'"
 				:class="{ 'aioseo-breadcrumb' : !item.match(/aioseo-breadcrumb/),  link : item !== options.breadcrumbs.breadcrumbPrefix && !item.match(/<a /) }"
 				v-if="index < (previewLength -1)"
-				v-html="item">
-			</span>
+				v-html="item"
+			/>
+
 			<span
 				:key="index+'crumbLast'"
 				v-if="index === (previewLength -1)"

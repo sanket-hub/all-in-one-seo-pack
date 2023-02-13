@@ -2,8 +2,10 @@
 	<div class="aioseo-upgrade-bar">
 		<div class="upgrade-text">
 			<svg-aioseo-logo-gear />
+
 			<div v-html="upgradeText" />
 		</div>
+
 		<svg-close
 			@click="processHideUpgradeBar"
 		/>

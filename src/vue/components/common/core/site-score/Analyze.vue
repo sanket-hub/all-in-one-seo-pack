@@ -16,10 +16,14 @@
 			class="aioseo-seo-site-score-description"
 		>
 			<h2>{{ strings.yourOverallSiteScore }}</h2>
+
 			<div v-html="strings.goodResult" />
+
 			<div v-html="strings.forBestResults" />
+
 			<div class="d-flex">
 				<svg-book />
+
 				<a
 					:href="$links.getDocUrl('ultimateGuide')"
 					target="_blank"
@@ -32,6 +36,7 @@
 			v-if="analyzeError"
 		>
 			<h3>{{ strings.anErrorOccurred }}</h3>
+
 			<span v-html="getError"/>
 		</div>
 	</div>

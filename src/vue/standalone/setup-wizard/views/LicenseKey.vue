@@ -16,8 +16,10 @@
 				/>
 
 				<div class="license-cta-box">
-					<div v-html="tooltipText"></div>
+					<div v-html="tooltipText" />
+
 					<br>
+
 					<grid-row>
 						<grid-column
 							sm="6"

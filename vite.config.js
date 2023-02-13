@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react'
 import liveReload from 'vite-plugin-live-reload'
 import postcssRTLCSS from 'postcss-rtlcss'
 import replace from '@rollup/plugin-replace'
-import outputManifest, { isAsset } from 'rollup-plugin-output-manifest'
 import del from 'rollup-plugin-delete'
 import copy from 'rollup-plugin-copy'
 import path from 'path'
@@ -39,6 +38,7 @@ const getPages = () => {
 		redirects           : './src/vue/pages/redirects/main.js',
 		'search-appearance' : './src/vue/pages/search-appearance/main.js',
 		'seo-analysis'      : './src/vue/pages/seo-analysis/main.js',
+		'search-statistics' : './src/vue/pages/search-statistics/main.js',
 		settings            : './src/vue/pages/settings/main.js',
 		sitemaps            : './src/vue/pages/sitemaps/main.js',
 		'social-networks'   : './src/vue/pages/social-networks/main.js',
@@ -163,33 +163,10 @@ export default ({ mode }) => {
 						textDomains           : getTextDomains(version),
 						recognizedTextDomains : getTextDomains()
 					}),
-					outputManifest({
-						fileName    : 'manifest-assets.json',
-						outputPath  : path.resolve(__dirname, `dist/${version}`),
-						nameWithExt : false,
-						filter      : a => {
-							const names = [
-								'admin-bar.scss',
-								'integrations/main.scss',
-								'blocks-editor.scss'
-							]
-							let nameFound = false
-							names.forEach(name => {
-								if (a.name?.includes(name)) {
-									nameFound = true
-								}
-							})
-							return isAsset(a) && nameFound
-						}
-					}),
 					jsonToPhp([
 						{
 							from : `dist/${version}/assets/manifest.json`,
 							to   : `dist/${version}/manifest.php`
-						},
-						{
-							from : `dist/${version}/manifest-assets.json`,
-							to   : `dist/${version}/manifest-assets.php`
 						}
 					])
 				]
@@ -203,12 +180,17 @@ export default ({ mode }) => {
 				'animate-vanilla-js',
 				'clipboard/dist/clipboard.min.js',
 				'codemirror',
+				'element-ui',
+				'element-ui/lib/locale',
+				'element-ui/lib/locale/lang/en',
 				'emoji-mart',
 				'lodash-es',
+				'lottie-web',
 				'luxon',
 				'maz-ui/lib/maz-phone-number-input',
 				'quill',
 				'superagent',
+				'vue-apexcharts',
 				'vue-material/dist/components',
 				'vue-multiselect',
 				'vue-popperjs',

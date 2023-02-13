@@ -40,14 +40,14 @@
 							{{ $aioseo.urls.domain }}
 						</slot>
 					</div>
-					<div
-						class="site-title"
-						v-html="truncate(title, 70)"
-					/>
-					<div
-						class="site-description"
-						v-html="truncate(description, 110)"
-					/>
+
+					<div class="site-title">
+						{{ truncate(title, 60) }}
+					</div>
+
+					<div class="site-description">
+						{{ truncate(description, 110) }}
+					</div>
 				</div>
 			</div>
 

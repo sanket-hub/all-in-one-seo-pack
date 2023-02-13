@@ -5,8 +5,11 @@
 	>
 		<template #content>
 			<div>
-				<preview :preview-data="getPreview()"
-						 :useDefaultTemplate="dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate"></preview>
+				<preview
+					:preview-data="getPreview()"
+					:useDefaultTemplate="dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate"
+				/>
+
 				<grid-row>
 					<grid-column>
 						<base-toggle
@@ -16,15 +19,18 @@
 						{{ strings.useDefaultTemplate }}
 					</grid-column>
 				</grid-row>
+
 				<grid-row v-if="!dynamicOptions.breadcrumbs.archives.search.useDefaultTemplate">
 					<grid-column
-						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length">
+						v-if="options.breadcrumbs.breadcrumbPrefix && options.breadcrumbs.breadcrumbPrefix.length"
+					>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.search.showPrefixCrumb"
 							class="current-item"
 						/>
 						{{ strings.showPrefixLabel }}
 					</grid-column>
+
 					<grid-column>
 						<base-toggle
 							v-model="dynamicOptions.breadcrumbs.archives.search.showHomeCrumb"
@@ -32,6 +38,7 @@
 						/>
 						{{ strings.showHomeLabel }}
 					</grid-column>
+
 					<grid-column>
 						<core-html-tags-editor
 							v-model="dynamicOptions.breadcrumbs.archives.search.template"
@@ -40,12 +47,11 @@
 							tags-context="breadcrumbs-search"
 							:minimum-line-numbers="3"
 							:default-tags="[
-										'breadcrumb_search_result_format',
-										'breadcrumb_search_string',
-										'breadcrumb_link'
-									]"
-						>
-						</core-html-tags-editor>
+								'breadcrumb_search_result_format',
+								'breadcrumb_search_string',
+								'breadcrumb_link'
+							]"
+						/>
 					</grid-column>
 				</grid-row>
 			</div>

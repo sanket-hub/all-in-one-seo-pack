@@ -6,13 +6,17 @@
 			<core-header
 				:page-name="pageName"
 			/>
-			<grid-container>
+			<grid-container :class="containerClasses">
 				<core-main-tabs
 					:key="tabsKey"
 					v-if="showTabs"
 					:tabs="tabs"
 					:showSaveButton="shouldShowSaveButton"
-				/>
+				>
+					<template #extra>
+						<slot name="extra" />
+					</template>
+				</core-main-tabs>
 
 				<transition name="route-fade" mode="out-in">
 					<slot />
@@ -81,6 +85,12 @@ export default {
 			default () {
 				return []
 			}
+		},
+		containerClasses : {
+			type : Array,
+			default () {
+				return []
+			}
 		}
 	},
 	data () {
@@ -103,6 +113,7 @@ export default {
 			return this.$router.options.routes
 				.filter(route => route.name && route.meta && route.meta.name)
 				.filter(route => this.$allowed(route.meta.access))
+				.filter(route => !route.meta.license || this.$license.hasMinimumLevel(route.meta.license))
 				.filter(route => {
 					if ('lite' === route.meta.display && this.$isPro) {
 						return false

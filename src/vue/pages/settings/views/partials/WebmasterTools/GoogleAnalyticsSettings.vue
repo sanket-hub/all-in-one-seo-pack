@@ -75,7 +75,11 @@
 									</grid-row>
 								</template>
 							</div>
-							<p class="aioseo-description" v-html="setting.description" />
+
+							<p
+								class="aioseo-description"
+								v-html="setting.description"
+							/>
 
 							<br>
 
@@ -83,9 +87,18 @@
 								v-if="setting.showMiPromo && showMiPromo"
 								type="blue"
 							>
-								<div v-if="prefersEm" v-html="emPromo" />
-								<div v-else v-html="miPromo" />
+								<div
+									v-if="prefersEm"
+									v-html="emPromo"
+								/>
+
+								<div
+									v-else
+									v-html="miPromo"
+								/>
+
 								<br>
+
 								<base-button
 									v-if="!$aioseo.plugins.miLite.canInstall"
 									type="blue"
@@ -122,11 +135,30 @@
 				<core-alert
 					type="blue"
 				>
-					<div v-if="$aioseo.plugins.miLite.activated || $aioseo.plugins.miPro.activated">{{ strings.miHandlesGa }}</div>
-					<div v-if="$aioseo.plugins.emLite.activated || $aioseo.plugins.emPro.activated">{{ strings.emHandlesGa }}</div>
-					<div v-if="gaDeprecated && !gaActivated && prefersEm" v-html="emPromo" />
-					<div v-if="gaDeprecated && !gaActivated && !prefersEm" v-html="miPromo" />
+					<div
+						v-if="$aioseo.plugins.miLite.activated || $aioseo.plugins.miPro.activated"
+					>
+						{{ strings.miHandlesGa }}
+					</div>
+
+					<div
+						v-if="$aioseo.plugins.emLite.activated || $aioseo.plugins.emPro.activated"
+					>
+						{{ strings.emHandlesGa }}
+					</div>
+
+					<div
+						v-if="gaDeprecated && !gaActivated && prefersEm"
+						v-html="emPromo"
+					/>
+
+					<div
+						v-if="gaDeprecated && !gaActivated && !prefersEm"
+						v-html="miPromo"
+					/>
+
 					<br>
+
 					<base-button
 						type="blue"
 						size="medium"

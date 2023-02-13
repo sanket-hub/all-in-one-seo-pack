@@ -4,10 +4,12 @@
 		class="aioseo-link-assistant-did-you-know"
 	>
 		<svg-circle-information />
+
 		<span
 			@click.stop="disabled = true"
 			v-html="strings.upsell"
 		/>
+
 		<svg-close
 			@click.native.stop="disableLinkAssistantEducation"
 		/>

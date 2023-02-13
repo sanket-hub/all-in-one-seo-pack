@@ -17,11 +17,13 @@
 				<span class="score">{{ score }}</span>
 				<span class="total">/ 100</span>
 			</div>
+
 			<div
 				v-if="!loading"
 				class="score-description"
 				v-html="description"
 			/>
+
 			<div
 				v-if="loading"
 				class="score-analyzing"

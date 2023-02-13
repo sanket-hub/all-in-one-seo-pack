@@ -11,13 +11,13 @@
 					class="dashicons dashicons-edit aioseo-quickedit"
 					:title="strings.edit"
 					@click.prevent="editTitle"
-				>
-				</a>
-				<strong>{{ strings.title }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${termId}-value`"
-					v-html="truncate(titleParsed, 100)"
 				/>
+
+				<strong>{{ strings.title }} </strong>
+
+				<span :id="`aioseo-${columnName}-${termId}-value`">
+					{{ truncate(titleParsed, 100) }}
+				</span>
 			</div>
 			<div
 				v-if="showEditTitle"
@@ -50,13 +50,13 @@
 					class="dashicons dashicons-edit aioseo-quickedit"
 					:title="strings.edit"
 					@click.prevent="editDescription"
-				>
-				</a>
-				<strong>{{ strings.description }} </strong>
-				<span
-					:id="`aioseo-${columnName}-${termId}-value`"
-					v-html="truncate(descriptionParsed)"
 				/>
+
+				<strong>{{ strings.description }}</strong>
+
+				<span :id="`aioseo-${columnName}-${termId}-value`">
+					{{ truncate(descriptionParsed) }}
+				</span>
 			</div>
 			<div
 				v-if="showEditDescription"

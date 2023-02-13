@@ -8,7 +8,7 @@ const triggerPostMessageCallback = event => {
 	postMessageCallbackFunction(event, popupWindow, triggerPostMessageCallback)
 }
 
-export const popup = (url, title, width, height, center, requiredParams, completedCallback, closedCallback, postMessageCallback) => {
+export const popup = (url, target, width, height, center, requiredParams, completedCallback, closedCallback, postMessageCallback) => {
 	let left = 50,
 		top  = 50
 
@@ -21,12 +21,12 @@ export const popup = (url, title, width, height, center, requiredParams, complet
 	}
 
 	let options = `location=0,status=0,width=${width},height=${height},left=${left},top=${top}` // eslint-disable-line one-var
-	if ('_blank' === title || '_self' === title) {
+	if ('_blank' === target || '_self' === target) {
 		options = ''
 	}
 
 	if (!popupWindow || popupWindow.closed) {
-		popupWindow = window.open(url, title, options)
+		popupWindow = window.open(url, target, options)
 	}
 
 	if (popupWindow) {

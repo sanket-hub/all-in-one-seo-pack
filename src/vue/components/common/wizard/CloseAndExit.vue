@@ -29,6 +29,7 @@
 					<svg-close @click="showModal = false" />
 				</button>
 			</template>
+
 			<template #body >
 				<div class="aioseo-modal-body">
 					<div class="reset-description"

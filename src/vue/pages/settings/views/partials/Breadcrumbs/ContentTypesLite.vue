@@ -8,7 +8,8 @@
 		>
 			<template #content>
 				<div>
-					<preview :preview-data="getPreview(postType)"></preview>
+					<preview :preview-data="getPreview(postType)" />
+
 					<grid-row>
 						<grid-column>
 							<base-toggle

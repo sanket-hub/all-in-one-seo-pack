@@ -5,13 +5,15 @@ import linkAssistant from './link-assistant'
 import liveTags from './live-tags'
 import original from './original'
 import redirects from './redirects'
+import searchStatistics from './search-statistics'
 import wizard from './wizard'
 
 export default {
-	'index-now' : indexNow,
+	'index-now'         : indexNow,
+	'live-tags'         : liveTags,
+	'search-statistics' : searchStatistics,
 	integrations,
 	linkAssistant,
-	'live-tags' : liveTags,
 	original,
 	redirects,
 	wizard

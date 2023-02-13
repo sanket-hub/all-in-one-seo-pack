@@ -91,7 +91,9 @@
 					</button>
 
 					<h3>{{ strings.wouldYouLikeToPurchase }}</h3>
-					<div class="available-features"
+
+					<div
+						class="available-features"
 						v-html="strings.theseFeaturesAreAvailable"
 					/>
 

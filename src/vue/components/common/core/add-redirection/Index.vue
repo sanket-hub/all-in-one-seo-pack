@@ -200,6 +200,7 @@
 import { mapActions, mapState } from 'vuex'
 import { debounce } from '@/vue/utils/debounce'
 import { JsonValues } from '@/vue/mixins'
+import { sanitizeString } from '@/vue/utils/strings'
 import CoreAddRedirectionTargetUrl from '@/vue/components/common/core/add-redirection/TargetUrl'
 import CoreAddRedirectionUrl from '@/vue/components/common/core/add-redirection/Url'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
@@ -306,6 +307,13 @@ export default {
 			}
 
 			const errors = []
+			const sanitizedTargetUrl = sanitizeString(this.targetUrl)
+
+			if (!sanitizedTargetUrl) {
+				errors.push(this.$t.__('Your target URL is not valid.', this.$td))
+				return errors
+			}
+
 			if (
 				this.targetUrl &&
 				!this.beginsWith(this.targetUrl, 'https://') &&
@@ -314,9 +322,9 @@ export default {
 			) {
 				errors.push(this.$t.sprintf(
 					// Translators: 1 - Adds a html tag with an option like: <code>^</code>, 2 - Adds a html tag with an option like: <code>^</code>.
-					this.$t.__('Your target URL should be an absolute URL like %1$s or start with a slash.', this.$td),
-					'<code>https://domain.com/' + this.targetUrl + '</code>',
-					'<code>/' + this.targetUrl + '</code>'
+					this.$t.__('Your target URL should be an absolute URL like %1$s or start with a slash %2$s.', this.$td),
+					'<code>https://domain.com/' + sanitizedTargetUrl + '</code>',
+					'<code>/' + sanitizedTargetUrl + '</code>'
 				))
 			}
 
@@ -336,7 +344,7 @@ export default {
 			return errors
 		},
 		hasTargetUrlWarnings () {
-			if (!this.targetUrl) {
+			if (!sanitizeString(this.targetUrl)) {
 				return []
 			}
 

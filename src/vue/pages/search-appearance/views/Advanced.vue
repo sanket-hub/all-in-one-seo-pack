@@ -255,7 +255,10 @@
 						v-html="strings.runShortcodesWarning"
 					/>
 
-					<div class="aioseo-description" v-html="strings.runShortcodesDescription"/>
+					<div
+						class="aioseo-description"
+						v-html="strings.runShortcodesDescription"
+					/>
 				</template>
 			</core-settings-row>
 

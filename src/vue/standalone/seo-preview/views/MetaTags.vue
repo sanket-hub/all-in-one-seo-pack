@@ -2,15 +2,12 @@
 	<div class="aioseo-seo-preview-standalone-view-meta-tags">
 		<dl>
 			<template v-for="(item,index) in metaTags">
-				<dt
-					:key="index+'label'"
-					v-html="item.label"
-				>
+				<dt :key="index+'label'">
+					{{ item.label }}
 				</dt>
-				<dd
-					:key="index+'value'"
-					v-html="item.value"
-				>
+
+				<dd :key="index+'value'">
+					{{ item.value }}
 				</dd>
 			</template>
 		</dl>

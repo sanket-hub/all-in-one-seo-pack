@@ -12,12 +12,14 @@
 							<div
 								v-html="getOptionTitle(result.label)"
 							/>
+
 							<core-pro-badge
 								v-if="'publish' !== result.status"
 							>
 								{{ getStatusLabel(result.status) }}
 							</core-pro-badge>
 						</div>
+
 						<div class="option-details">
 							<span>{{ result.link }}</span>
 						</div>

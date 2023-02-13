@@ -4,10 +4,12 @@
 			class="analyze-header"
 			v-html="header"
 		/>
+
 		<div
 			class="analyze-description"
 			v-html="description"
 		/>
+
 		<div class="analyze-input">
 			<base-input
 				v-model="input"

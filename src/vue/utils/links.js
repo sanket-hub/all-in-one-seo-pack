@@ -159,16 +159,18 @@ const getUpsellLink = (medium, text, link, addArrow = false) => {
 	)
 }
 
-const getPlainLink = (text, url, addArrow = false) => {
+const getPlainLink = (text, url, addArrow = false, openInNewTab = true) => {
+	const target = openInNewTab ? 'target="_blank"' : '_self'
+
 	const arrow = addArrow
 		? sprintf(
-			'<a href="%1$s" class="no-underline" target="_blank">&nbsp;&rarr;</a>',
+			`<a href="%1$s" class="no-underline" target="${target}">&nbsp;&rarr;</a>`,
 			url
 		)
 		: ''
 
 	return sprintf(
-		'<a href="%1$s" target="_blank">%2$s</a>%3$s',
+		`<a href="%1$s" target="${target}">%2$s</a>%3$s`,
 		url,
 		text,
 		arrow

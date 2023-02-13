@@ -98,6 +98,7 @@
 				v-if="!$root.$data.archives"
 			>
 				<p class="aioseo-sidebar-title">{{ strings.excludePostsPages }}</p>
+
 				<html-sitemap-exclude-objects
 					type="posts"
 				/>
@@ -108,6 +109,7 @@
 				v-if="!$root.$data.archives"
 			>
 				<p class="aioseo-sidebar-title">{{ strings.excludeTerms }}</p>
+
 				<html-sitemap-exclude-objects
 					type="terms"
 				/>

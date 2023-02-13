@@ -141,9 +141,10 @@
 					</button>
 
 					<h3>{{ strings.areYouSureNetworkChange }}</h3>
-					<div class="reset-description"
-						v-html="networkChangeMessage"
-					/>
+
+					<div class="reset-description">
+						{{ networkChangeMessage }}
+					</div>
 
 					<base-button
 						type="blue"

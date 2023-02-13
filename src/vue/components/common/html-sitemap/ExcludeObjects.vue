@@ -12,9 +12,11 @@
 			<template #noOptions>
 				{{ noOptions }}
 			</template>
+
 			<template #noResult>
 				{{ strings.noResult }}
 			</template>
+
 			<template #caret="{ toggle }">
 				<base-button
 					class="multiselect-toggle"
@@ -27,11 +29,13 @@
 					/>
 				</base-button>
 			</template>
+
 			<template #option="{ option, search }">
 				<div class="option">
 					<div class="option-title"
 						v-html="getOptionTitle(option.label, search)"
 					/>
+
 					<div class="option-details">
 						<span>{{ strings.id }}: #{{ option.value }}</span>
 						<span>{{ strings.type }}: {{ option.type }}</span>

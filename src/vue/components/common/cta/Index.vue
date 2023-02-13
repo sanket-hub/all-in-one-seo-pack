@@ -2,9 +2,9 @@
 	<div
 		class="aioseo-cta"
 		:class="{
-		floating: floating,
-		'align-top' : alignTop
-	}"
+			floating: floating,
+			'align-top' : alignTop
+		}"
 	>
 		<div class="aioseo-cta-background">
 			<div
@@ -42,6 +42,7 @@
 					type="yellow"
 					v-html="ctaButtonVisibleWarning"
 				/>
+
 				<base-button
 					v-if="ctaButtonVisible"
 					type="green"
@@ -116,6 +117,7 @@
 						type="yellow"
 						v-html="ctaButtonVisibleWarning"
 					/>
+
 					<base-button
 						v-if="ctaButtonVisible"
 						type="green"
@@ -180,6 +182,7 @@
 					type="yellow"
 					v-html="ctaButtonVisibleWarning"
 				/>
+
 				<base-button
 					v-if="ctaButtonVisible"
 					type="green"
@@ -206,6 +209,23 @@
 					</slot>
 				</base-button>
 			</div>
+
+			<div
+				v-if="4 === type"
+				class="type-4"
+			>
+				<div class="header-text">
+					<slot name="header-text">
+						{{ strings.ctaHeader }}
+					</slot>
+				</div>
+
+				<div class="description">
+					<slot name="description">
+						{{ strings.ctaDescription }}
+					</slot>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -229,7 +249,7 @@ export default {
 				return 1
 			},
 			validator (value) {
-				return [ 1, 2, 3, 4 ].includes(value)
+				return [ 1, 2, 3, 4, 5 ].includes(value)
 			}
 		},
 		featureList      : Array,
@@ -246,7 +266,7 @@ export default {
 		},
 		buttonText : {
 			type     : String,
-			required : true
+			required : false
 		},
 		floating : {
 			type : Boolean,
@@ -284,13 +304,13 @@ export default {
 					'Pro'
 				),
 				ctaHeader : this.$t.sprintf(
-					// Translators: 1 - The plugin name ("All in One SEO").
+					// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Pro".
 					this.$t.__('This feature is only available for licensed %1$s %2$s users.', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
 				),
 				ctaDescription : this.$t.sprintf(
-					// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
+					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
 					this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td),
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
@@ -499,6 +519,20 @@ export default {
 
 				.aioseo-button {
 					margin-right: 12px;
+				}
+			}
+
+			.type-4 {
+				.header-text {
+					font-weight: 700;
+					font-size: 16px;
+					margin-bottom: 5px;
+				}
+
+				.description {
+					font-weight: 400;
+					font-size: 14px;
+					margin: 0;
 				}
 			}
 		}

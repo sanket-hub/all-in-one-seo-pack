@@ -19,10 +19,7 @@ export default {
 			// First convert the graph name to kebab case.
 			const graphName = this.schema.graph.graphName.replace(/(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])/, '-$1').toLowerCase()
 
-			return this.$aioseo.license.features &&
-				this.$aioseo.license.features.core &&
-				this.$aioseo.license.features.core.schema &&
-				this.$aioseo.license.features.core.schema.includes(graphName)
+			return this.$license.hasCoreFeature('schema', graphName)
 		},
 		graphNotIncluded () {
 			const upgradeLink = this.$links.getPricingUrl(

@@ -1,7 +1,9 @@
-import RequiresActivation from './RequiresActivation'
-import RequiresUpdate from './RequiresUpdate'
+import RequiresActivation from './addons/RequiresActivation'
+import RequiresUpdate from './addons/RequiresUpdate'
+import RequiresUpgrade from './license/RequiresUpgrade'
 
 export {
 	RequiresActivation,
-	RequiresUpdate
+	RequiresUpdate,
+	RequiresUpgrade
 }

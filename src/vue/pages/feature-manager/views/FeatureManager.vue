@@ -101,14 +101,7 @@
 			:floating="false"
 			:cta-link="$links.utmUrl('feature-manager', 'main-cta')"
 			:learn-more-link="$links.getUpsellUrl('feature-manager', 'main-cta', 'home')"
-			:feature-list="[
-				strings.videoNewsSitemaps,
-				strings.imageSeoOptimization,
-				strings.localBusinessSeo,
-				strings.advancedWooCommerce,
-				strings.customTaxonomies,
-				strings.andMore
-			]"
+			:feature-list="$constants.UPSELL_FEATURE_LIST"
 		>
 			<template #header-text>
 				<span class="large">{{ strings.ctaHeaderText }}</span>
@@ -141,9 +134,10 @@
 					</button>
 
 					<h3>{{ strings.areYouSureNetworkChange }}</h3>
-					<div class="reset-description"
-						v-html="networkChangeMessage"
-					/>
+
+					<div class="reset-description">
+						{{ networkChangeMessage }}
+					</div>
 
 					<base-button
 						type="blue"
@@ -261,7 +255,7 @@ export default {
 		...mapState([ 'addons' ]),
 		upgradeToday () {
 			return this.$t.sprintf(
-				// Translators: 1 - Plugin short name ("AIOSEO"), 2 "Pro".
+				// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".
 				this.$t.__('%1$s %2$s comes with many additional features to help take your site\'s SEO to the next level!', this.$td),
 				import.meta.env.VITE_SHORT_NAME,
 				'Pro'

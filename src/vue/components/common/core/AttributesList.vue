@@ -11,8 +11,12 @@
 				<div>
 					<code>{{ attribute.name }}</code>
 				</div>
+
 				<div>
-					<span class="aioseo-description" v-html="attribute.description"/>
+					<span
+						class="aioseo-description"
+						v-html="attribute.description"
+					/>
 				</div>
 			</li>
 		</ul>

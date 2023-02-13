@@ -58,7 +58,12 @@
 
 		<template #option="{ option, search }">
 			<slot name="option" :option="option" :search="search">
-				{{ option.$isLabel ? option.$groupLabel : option.label }} <span class="docLink" v-if="option.docLink" v-html="option.docLink"></span>
+				{{ option.$isLabel ? option.$groupLabel : option.label }}
+
+				<span class="docLink"
+					v-if="option.docLink"
+					v-html="option.docLink"
+				/>
 			</slot>
 		</template>
 
