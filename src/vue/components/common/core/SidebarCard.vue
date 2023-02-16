@@ -86,8 +86,8 @@
 </template>
 
 <script>
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { TruSeoScore } from '@/vue/mixins'
-import { mapActions, mapGetters } from 'vuex'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -127,21 +127,33 @@ export default {
 			}
 		}
 	},
-	computed : {
-		...mapGetters([ 'settings' ])
-	},
-	methods : {
-		...mapActions([ 'toggleCard' ])
-	},
-	created () {
-		this.$bus.$on('open-post-settings', (param) => {
-			for (const card in this.settings.toggledCards) {
-				if (this.settings.toggledCards[card]) {
-					this.toggleCard({ slug: card })
+	watch : {
+		'metaBoxTabs.mainSidebar' : {
+			deep : true,
+			handler (mainSidebar) {
+				if ('sidebar' === this.$root._data.screenContext) {
+					this.openCard(mainSidebar.card)
 				}
 			}
-			this.toggleCard({ slug: param.card })
-		})
+		}
+	},
+	computed : {
+		...mapGetters([ 'settings' ]),
+		...mapState([ 'metaBoxTabs' ])
+	},
+	methods : {
+		...mapActions([ 'toggleCard' ]),
+		openCard (card) {
+			for (const toggledCard in this.settings.toggledCards) {
+				if (this.settings.toggledCards[toggledCard]) {
+					this.toggleCard({ slug: toggledCard })
+				}
+			}
+			this.toggleCard({ slug: card })
+		}
+	},
+	created () {
+		this.openCard(this.metaBoxTabs.mainSidebar.card)
 	}
 }
 </script>
@@ -151,19 +163,24 @@ export default {
 	&.aioseo-sidebar-card {
 		.header {
 			height: 46px;
+
 			&:hover {
 				cursor: pointer;
 			}
 		}
+
 		.content {
 			padding-bottom: 8px !important;
 		}
+
 		ul {
 			margin-bottom: 0;
+
 			li {
 				margin-bottom: 16px;
 				padding-left: 25px;
 			}
+
 			.description {
 				margin: 0;
 			}

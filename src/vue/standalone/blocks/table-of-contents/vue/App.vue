@@ -284,13 +284,13 @@ export default {
 
 	.modal-mask .modal-wrapper {
 		font-family: inherit;
-	}
 
-	.modal-body {
-		padding: 20px 28px 20px 10px;
+		.modal-body {
+			padding: 20px 28px 20px 10px;
 
-		> header {
-			padding-left: 10px;
+			> header {
+				padding-left: 10px;
+			}
 		}
 	}
 }

@@ -172,20 +172,23 @@
 							:placeholder="strings.fileUploadPlaceholder"
 							:class="{ 'aioseo-error': errors.upload }"
 						/>
+
 						<base-button
 							type="black"
 							size="medium"
+							@click="triggerFileUpload"
 						>
 							{{ strings.chooseAFile }}
-							<base-input
-								v-model="inputFile"
-								type="file"
-								@click="reset"
-								@change="handleFileUpload"
-								ref="file"
-							/>
 						</base-button>
 					</div>
+
+					<base-input
+						v-model="inputFile"
+						type="file"
+						@click="reset"
+						@change="handleFileUpload"
+						ref="file"
+					/>
 
 					<base-button
 						type="blue"

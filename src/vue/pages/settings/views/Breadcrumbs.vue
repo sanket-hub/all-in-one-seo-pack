@@ -84,8 +84,8 @@
 
 							<base-input
 								size="medium"
-								:value="sanitize(options.breadcrumbs.homepageLabel)"
-								@input="value => options.breadcrumbs.homepageLabel = sanitize(value)"
+								:value="sanitizeString(options.breadcrumbs.homepageLabel)"
+								@input="value => options.breadcrumbs.homepageLabel = sanitizeString(value)"
 								v-model="options.breadcrumbs.homepageLabel"
 							/>
 						</div>
@@ -103,8 +103,8 @@
 			>
 				<template #content>
 					<base-input
-						:value="sanitize(options.breadcrumbs.breadcrumbPrefix)"
-						@input="value => options.breadcrumbs.breadcrumbPrefix = sanitize(value)"
+						:value="sanitizeString(options.breadcrumbs.breadcrumbPrefix)"
+						@input="value => options.breadcrumbs.breadcrumbPrefix = sanitizeString(value)"
 						size="medium"
 					/>
 
@@ -135,8 +135,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						:value="sanitize(options.breadcrumbs.archiveFormat)"
-						@input="value => options.breadcrumbs.archiveFormat = sanitize(value)"
+						:value="sanitizeString(options.breadcrumbs.archiveFormat)"
+						@input="value => options.breadcrumbs.archiveFormat = sanitizeString(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -160,8 +160,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						:value="sanitize(options.breadcrumbs.searchResultFormat)"
-						@input="value => options.breadcrumbs.searchResultFormat = sanitize(value)"
+						:value="sanitizeString(options.breadcrumbs.searchResultFormat)"
+						@input="value => options.breadcrumbs.searchResultFormat = sanitizeString(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -186,8 +186,8 @@
 			>
 				<template #content>
 					<base-input
-						:value="sanitize(options.breadcrumbs.errorFormat404)"
-						@input="value => options.breadcrumbs.errorFormat404 = sanitize(value)"
+						:value="sanitizeString(options.breadcrumbs.errorFormat404)"
+						@input="value => options.breadcrumbs.errorFormat404 = sanitizeString(value)"
 						size="medium"
 					/>
 
@@ -233,6 +233,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { sanitizeString } from '@/vue/utils/strings'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import Breadcrumbs from './AIOSEO_VERSION/Breadcrumbs'
 import BreadcrumbsLite from './lite/Breadcrumbs'
@@ -366,9 +367,7 @@ export default {
 				this.options.breadcrumbs.errorFormat404
 			] ].filter(item => !!item).map(item => this.$tags.decodeHTMLEntities(item))
 		},
-		sanitize (value) {
-			return this.$tags.decodeHTMLEntities(value).replace(/(<([^>]+)>)/gi, '').trim()
-		}
+		sanitizeString
 	},
 	computed : {
 		...mapState([ 'options' ]),

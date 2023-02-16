@@ -1,9 +1,11 @@
 <template>
 	<transition name="modal">
 		<div
+			class="aioseo-modal"
 			:class="[
 				{
-					'aioseo-app' : isolate
+					'aioseo-app'     : isolate,
+					'allow-overflow' : allowOverflow
 				},
 				...classes
 			]"
@@ -28,10 +30,7 @@
 							</slot>
 						</div>
 
-						<div
-							class="modal-body"
-							:class="{'allow-overflow' : allowBodyOverflow}"
-						>
+						<div class="modal-body">
 							<slot name="body"></slot>
 						</div>
 
@@ -61,11 +60,11 @@ export default {
 				return []
 			}
 		},
-		noHeader          : Boolean,
+		noHeader      : Boolean,
 		// TODO: In the future we need to remove this isolate once we get the Table of Contents working correctly.
-		isolate           : Boolean,
-		allowBodyOverflow : Boolean,
-		confirmation      : Boolean
+		isolate       : Boolean,
+		allowOverflow : Boolean,
+		confirmation  : Boolean
 	},
 	methods : {
 		scrollToElement () {
@@ -234,6 +233,18 @@ export default {
 						padding-bottom: 32px!important;
 					}
 				}
+			}
+		}
+	}
+}
+
+.allow-overflow {
+	.modal-mask {
+		.modal-container {
+			overflow: visible;
+
+			.modal-body {
+				overflow: visible;
 			}
 		}
 	}

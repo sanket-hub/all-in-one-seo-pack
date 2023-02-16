@@ -1,4 +1,5 @@
 import { AddonConditions } from './AddonConditions'
+import { Date } from './Date'
 import { LicenseConditions } from './LicenseConditions'
 import { HeadlineResult } from './HeadlineResult'
 import { HeadlineScore } from './HeadlineScore'
@@ -24,6 +25,7 @@ import { WpTable } from './WpTable'
 
 export {
 	AddonConditions,
+	Date,
 	LicenseConditions,
 	HeadlineResult,
 	HeadlineScore,

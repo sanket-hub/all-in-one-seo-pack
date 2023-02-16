@@ -94,7 +94,7 @@ export default {
 		},
 		date () {
 			const today = new Date()
-			return today.toLocaleString('default', { month: 'long' }) + ' ' + today.getDay()
+			return today.toLocaleString('default', { month: 'long' }) + ' ' + today.getDate()
 		},
 		isVerticalImage () {
 			const image = this.images[this.image]

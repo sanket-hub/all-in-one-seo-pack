@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { Url } from '@/vue/mixins'
+import { Url, Date } from '@/vue/mixins'
 import { mapActions } from 'vuex'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
@@ -77,7 +77,7 @@ export default {
 		SvgGear,
 		TransitionSlide
 	},
-	mixins : [ Url ],
+	mixins : [ Url, Date ],
 	props  : {
 		notification : {
 			type     : Object,
@@ -107,31 +107,7 @@ export default {
 			}
 		},
 		getDate () {
-			return this.$dateTime.fromFormat(this.notification.start, 'yyyy-MM-dd HH:mm:ss').setZone(this.$dateTime.zone).toRelative()
-				.replace('a few seconds ago', this.$t.__('a few seconds ago', this.$td))
-				.replace('a minute ago', this.$t.__('a minute ago', this.$td))
-				.replace(
-					'minutes ago',
-					// Translators: A number will be prepended to this string, e.g. "2 minutes ago".
-					this.$t.__('minutes ago', this.$td)
-				)
-				.replace('a day ago', this.$t.__('a day ago', this.$td))
-				.replace(
-					'days ago',
-					// Translators: A number will be prepended to this string, e.g. "2 days ago".
-					this.$t.__('days ago', this.$td))
-				.replace('a month ago', this.$t.__('a month ago', this.$td))
-				.replace(
-					'months ago',
-					// Translators: A number will be prepended to this string, e.g. "2 months ago".
-					this.$t.__('months ago', this.$td)
-				)
-				.replace('a year ago', this.$t.__('a year ago', this.$td))
-				.replace(
-					'years ago',
-					// Translators: A number will be prepended to this string, e.g. "2 years ago".
-					this.$t.__('years ago', this.$td)
-				)
+			return this.dateSqlToLocalRelative(this.notification.start)
 		}
 	},
 	methods : {

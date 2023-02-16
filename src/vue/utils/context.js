@@ -30,6 +30,10 @@ export const isWooCommerceProduct = () => {
 	return (window.aioseo.data.isWooCommerceActive && window.aioseo.currentPost && 'product' === window.aioseo.currentPost.postType)
 }
 
+export const isPageBuilderEditor = () => {
+	return isElementorEditor() || isDiviEditor() || isSeedProdEditor()
+}
+
 export const canLoadBlocks = () => {
 	const wp = window.wp
 	return ('undefined' !== typeof wp && 'undefined' !== typeof wp.blocks && 'undefined' !== typeof wp.blockEditor)

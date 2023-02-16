@@ -103,5 +103,6 @@ export default {
 			testing : false,
 			failed  : false
 		}
-	}
+	},
+	lateRedirectsRefresh : false
 }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default {
 	isUnlicensed                : state => 'pro' !== import.meta.env.VITE_VERSION.toLowerCase() || !state.license.isActive,
-	isConnected                 : state => ('pro' !== import.meta.env.VITE_VERSION.toLowerCase() && state.internalOptions.internal.siteAnalysis.connectToken) || state.license.isActive,
+	isConnected                 : state => ('pro' !== import.meta.env.VITE_VERSION.toLowerCase() && state.internalOptions.internal.siteAnalysis?.connectToken) || state.license.isActive,
 	settings                    : state => state.settings,
 	activeNotifications         : state => state.notifications.active,
 	activeNotificationsCount    : state => state.notifications.active.length,

@@ -1,5 +1,7 @@
 import store from '@/vue/store'
-import { isBlockEditor, isClassicEditor, isClassicNoEditor } from '@/vue/utils/context'
+import { isBlockEditor, isClassicEditor, isClassicNoEditor, isElementorEditor, isDiviEditor } from '@/vue/utils/context'
+import { getEditorData as getElementorData } from '@/vue/standalone/elementor/helpers'
+import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
 
 /**
  * Get the Classic Editor featured image.
@@ -54,6 +56,14 @@ export const getPostFeaturedImage = async () => {
 		})
 	}
 
+	if (isElementorEditor()) {
+		return getElementorData().featuredImage
+	}
+
+	if (isDiviEditor()) {
+		return getDiviData().featuredImage
+	}
+
 	return ''
 }
 
@@ -76,6 +86,14 @@ export const getPostEditedFeaturedImage = async () => {
 		return await store.dispatch('getMediaData', { mediaId }).then(media => {
 			return media.source_url
 		})
+	}
+
+	if (isElementorEditor()) {
+		return getElementorData().featuredImage
+	}
+
+	if (isDiviEditor()) {
+		return getDiviData().featuredImage
 	}
 
 	return ''

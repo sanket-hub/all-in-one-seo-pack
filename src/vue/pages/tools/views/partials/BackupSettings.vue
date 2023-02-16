@@ -266,7 +266,7 @@ export default {
 				})
 		},
 		getBackupName (backup) {
-			const date = this.$dateTime.fromMillis(backup * 1000).setZone(this.$dateTime.zone)
+			const date = this.$dateTime.fromMillis(backup * 1000).setZone(this.$dateTime.local().zoneName)
 			return this.$t.sprintf(
 				// Translators: 1 Date, 2 - Timestamp.
 				this.$t.__('%1$s at %2$s', this.$td),

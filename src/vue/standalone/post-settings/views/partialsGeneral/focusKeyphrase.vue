@@ -8,7 +8,7 @@
 		/>
 
 		<div
-			style="display:flex;align-items-center;"
+			:class="`add-focus-keyphrase-${this.$root._data.screenContext}-button`"
 		>
 			<base-button
 				v-if="!currentPost.keyphrases.focus || !currentPost.keyphrases.focus.keyphrase"
@@ -639,155 +639,140 @@ export default {
 </script>
 
 <style lang="scss">
-// These styles apply to a modal that needs to isolate from the main app.
-.aioseo-focus-keyphrase-panel-modal {
-	.modal-body {
-		max-height: calc(90vh - 70px);
-		overflow: auto;
+.aioseo-focus-keyphrase-panel {
+	.add-focus-keyphrase-metabox-button {
+		display: flex;
+	}
 
-		.aioseo-modal-content {
-			.aioseo-alert {
-				margin-bottom: 20px;
+	.add-focus-keyphrase-sidebar-button {
+		.add-keyphrase {
+			margin-bottom: 0 !important;
+		}
+
+		.aioseo-tooltip {
+			margin-left: 0;
+			margin-bottom: 8px;
+			display: block;
+
+			.disabled-button {
+				display: flex;
 			}
 		}
 	}
 
-	.semrush-country-selector {
-		max-width: 350px;
-	}
+	// These styles apply to a modal that needs to isolate from the main app.
+	&-modal {
+		.modal-body {
+			max-height: calc(90vh - 70px);
+			overflow: auto;
 
-	.additional-keyphrases-table {
-		width: 100%;
-		border: 1px solid $input-border;
-		border-radius: 3px;
-
-		.keyphrase-volume,
-		.keyphrase-trend {
-			text-align: center;
+			.aioseo-modal-content {
+				.aioseo-alert {
+					margin-bottom: 20px;
+				}
+			}
 		}
 
-		.keyphrase-actions {
-			> div {
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
+		.semrush-country-selector {
+			max-width: 350px;
+		}
+
+		.additional-keyphrases-table {
+			width: 100%;
+			border: 1px solid $input-border;
+			border-radius: 3px;
+
+			.keyphrase-volume,
+			.keyphrase-trend {
+				text-align: center;
 			}
 
-			.focus-keyphrase {
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-				color: $green;
-				min-width: 135px;
+			.keyphrase-actions {
+				> div {
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
+				}
 
-				svg {
-					margin-right: 5px;
-					width: 16px;
-					height: 16px;
+				.focus-keyphrase {
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
 					color: $green;
-				}
-			}
+					min-width: 135px;
 
-			.keyphrase-score {
-				border-radius: 3px;
-				padding: 5px;
-				font-weight: 700;
-				font-size: 13px;
-				cursor: pointer;
-				border: 1px solid $blue;
-
-				&.score-green {
-					color: $green;
-					border-color: $green;
+					svg {
+						margin-right: 5px;
+						width: 16px;
+						height: 16px;
+						color: $green;
+					}
 				}
 
-				&.score-orange {
-					color: $orange;
-					border-color: $orange;
-				}
-
-				&.score-red {
-					color: $red;
-					border-color: $red;
-				}
-
-				&:hover {
-					background-color: $blue;
-					color: #fff;
+				.keyphrase-score {
+					border-radius: 3px;
+					padding: 5px;
+					font-weight: 700;
+					font-size: 13px;
+					cursor: pointer;
+					border: 1px solid $blue;
 
 					&.score-green {
-						background-color: $green;
+						color: $green;
+						border-color: $green;
 					}
 
 					&.score-orange {
-						background-color: $orange;
+						color: $orange;
+						border-color: $orange;
 					}
 
 					&.score-red {
-						background-color: $red;
+						color: $red;
+						border-color: $red;
 					}
-				}
-			}
-
-			.remove-keyphrase {
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-
-				svg {
-					width: 16px;
-					height: 16px;
-					cursor: pointer;
 
 					&:hover {
-						color: $red;
-					}
-				}
-			}
-		}
+						background-color: $blue;
+						color: #fff;
 
-		.keyphrases-header {
-			height: 50px;
-			font-size: 14px;
-
-			th {
-				border-bottom: 1px solid $input-border;
-				padding: 15px;
-
-				&:first-of-type {
-					padding-left: 30px;
-				}
-
-				&:last-of-type {
-					padding-right: 30px;
-				}
-			}
-		}
-
-		.keyphrases-rows {
-			font-size: 14px;
-
-			tr.keyphrase-row {
-				background-color: #fff;
-				height: 70px;
-
-				&:last-of-type {
-					td {
-						&:first-of-type {
-							border-radius: 0 0 0 3px;
+						&.score-green {
+							background-color: $green;
 						}
 
-						&:last-of-type {
-							border-radius: 0 0 3px 0;
+						&.score-orange {
+							background-color: $orange;
+						}
+
+						&.score-red {
+							background-color: $red;
 						}
 					}
 				}
 
-				&.even {
-					background-color: $box-background;
-				}
+				.remove-keyphrase {
+					display: flex;
+					align-items: center;
+					justify-content: flex-end;
 
-				td {
+					svg {
+						width: 16px;
+						height: 16px;
+						cursor: pointer;
+
+						&:hover {
+							color: $red;
+						}
+					}
+				}
+			}
+
+			.keyphrases-header {
+				height: 50px;
+				font-size: 14px;
+
+				th {
+					border-bottom: 1px solid $input-border;
 					padding: 15px;
 
 					&:first-of-type {
@@ -797,25 +782,62 @@ export default {
 					&:last-of-type {
 						padding-right: 30px;
 					}
+				}
+			}
 
-					&.no-results {
-						> * {
-							display: flex;
-							align-items: center;
-							justify-content: center;
-						}
+			.keyphrases-rows {
+				font-size: 14px;
 
-						.semrush-logo {
-							padding: 0 30px 0 0;
-							min-width: 150px;
+				tr.keyphrase-row {
+					background-color: #fff;
+					height: 70px;
+
+					&:last-of-type {
+						td {
+							&:first-of-type {
+								border-radius: 0 0 0 3px;
+							}
+
+							&:last-of-type {
+								border-radius: 0 0 3px 0;
+							}
 						}
 					}
-				}
 
-				&.loading {
-					display: flex;
-					align-items: center;
-					justify-content: center;
+					&.even {
+						background-color: $box-background;
+					}
+
+					td {
+						padding: 15px;
+
+						&:first-of-type {
+							padding-left: 30px;
+						}
+
+						&:last-of-type {
+							padding-right: 30px;
+						}
+
+						&.no-results {
+							> * {
+								display: flex;
+								align-items: center;
+								justify-content: center;
+							}
+
+							.semrush-logo {
+								padding: 0 30px 0 0;
+								min-width: 150px;
+							}
+						}
+					}
+
+					&.loading {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
 				}
 			}
 		}

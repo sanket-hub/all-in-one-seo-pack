@@ -811,5 +811,13 @@ export default {
 			}
 		}
 	}
+
+	.aioseo-modal & {
+		.aioseo-select {
+			.multiselect__content-wrapper {
+				max-height: 200px !important;
+			}
+		}
+	}
 }
 </style>

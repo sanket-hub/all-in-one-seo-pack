@@ -1,5 +1,5 @@
 import wordBoundariesFactory from '../config/wordBoundaries.js'
-import { escapeRegExp, includes } from 'lodash-es'
+import { includes } from 'lodash-es'
 import addWordBoundary from './addWordboundary.js'
 const wordBoundaries = wordBoundariesFactory()
 
@@ -26,7 +26,7 @@ const isWordInSentence = function (word, sentence) {
 	sentence = sentence.toLocaleLowerCase()
 
 	// Escape regex in word, since we use regex characters like in abbreviations ("e.g.").
-	const wordWithBoundaries = addWordBoundary(escapeRegExp(word))
+	const wordWithBoundaries = addWordBoundary(word)
 	let occurrenceStart = sentence.search(new RegExp(wordWithBoundaries, 'ig'))
 	// Return false if no match has been found.
 	if (-1 === occurrenceStart) {

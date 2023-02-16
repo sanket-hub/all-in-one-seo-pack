@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import { Tags, ImagePreview } from '@/vue/mixins'
 import { Standalone } from '@/vue/mixins/Standalone'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
@@ -147,6 +147,7 @@ export default {
 		}
 	},
 	methods : {
+		...mapMutations([ 'changeTabSettings' ]),
 		getIcon (type) {
 			switch (type) {
 				case 'error':
@@ -236,31 +237,36 @@ export default {
 			return { ...result, icon: this.getIcon(result.type) }
 		},
 		openSidebar (tipName) {
-			const { closePublishSidebar, openGeneralSidebar } = window.wp.data.dispatch(
-				'core/edit-post'
-			)
+			const { closePublishSidebar, openGeneralSidebar } = window.wp.data.dispatch('core/edit-post')
 
 			closePublishSidebar()
 			openGeneralSidebar('aioseo-post-settings-sidebar/aioseo-post-settings-sidebar')
 
+			const sidebarSettings = {}
+
 			switch (tipName) {
 				case 'canonical':
 				case 'visibility':
-					this.$bus.$emit('open-post-settings', { tab: 'advanced' })
+					sidebarSettings.tab = 'advanced'
 					break
 				case 'seoAnalysis':
-					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'basicseo' })
+					sidebarSettings.tab  = 'general'
+					sidebarSettings.card = 'basicseo'
 					break
 				case 'readabilityAnalysis':
-					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'readability' })
+					sidebarSettings.tab  = 'general'
+					sidebarSettings.card = 'readability'
 					break
 				case 'focusKeyphrase':
-					this.$bus.$emit('open-post-settings', { tab: 'general', card: 'focus' })
+					sidebarSettings.tab  = 'general'
+					sidebarSettings.card = 'focus'
 					break
 				case 'social':
-					this.$bus.$emit('open-post-settings', { tab: 'social' })
+					sidebarSettings.tab = 'social'
 					break
 			}
+
+			this.changeTabSettings({ setting: 'mainSidebar', value: sidebarSettings })
 		}
 	},
 	async mounted () {

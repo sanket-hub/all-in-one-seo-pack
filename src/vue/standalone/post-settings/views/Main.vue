@@ -160,10 +160,18 @@ export default {
 		},
 		'currentPost.redirects.modalOpen' (isModalOpen) {
 			this.maybeResetActiveTab(isModalOpen)
+		},
+		'metaBoxTabs.mainSidebar' : {
+			deep : true,
+			handler (mainSidebar) {
+				if ('sidebar' === this.$root._data.screenContext) {
+					this.processChangeTab(mainSidebar.tab)
+				}
+			}
 		}
 	},
 	computed : {
-		...mapState([ 'currentPost', 'redirects' ]),
+		...mapState([ 'currentPost', 'redirects', 'metaBoxTabs' ]),
 		tabs () {
 			const tabs = [
 				{
@@ -319,8 +327,10 @@ export default {
 			}, 500)
 		}
 
-		this.$bus.$on('open-post-settings', (param) => {
-			this.processChangeTab(param.tab)
+		this.$nextTick(() => {
+			if (this.metaBoxTabs.mainSidebar.tab) {
+				this.processChangeTab(this.metaBoxTabs.mainSidebar.tab)
+			}
 		})
 
 		this.$bus.$on('standalone-update-post', (param) => {

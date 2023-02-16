@@ -87,6 +87,30 @@ export default {
 		ViewTwitter
 	},
 	methods : {
+		styleShadowDom () {
+			const elemShadowWrapper = document.querySelector('.aioseo-seo-preview-shadow-wrapper')
+
+			if (!elemShadowWrapper) {
+				return false
+			}
+
+			this.$aioseo.mainAssetCssQueue.forEach((style) => {
+				if (
+					'undefined' === typeof style.url ||
+					!style.url
+				) {
+					return
+				}
+
+				const elemLink = document.createElement('link')
+
+				elemLink.setAttribute('rel', 'stylesheet')
+				elemLink.setAttribute('media', 'all')
+				elemLink.setAttribute('href', style.url)
+
+				elemShadowWrapper.shadowRoot.prepend(elemLink)
+			})
+		},
 		watchClicks () {
 			const elSeoPreviewMenuItem = document.querySelector('#wp-admin-bar-aioseo-seo-preview a')
 
@@ -140,13 +164,13 @@ export default {
 				}
 
 				if ('ViewGoogle' === this.activeTab) {
-					data.url = this.$aioseo.currentPost?.editGoogleSnippetUrl || ''
+					data.url = this.$aioseo?.editGoogleSnippetUrl || ''
 					data.btnText = this.$t.__('Edit Snippet', this.$td)
 				} else if ('ViewFacebook' === this.activeTab) {
-					data.url = this.$aioseo.currentPost?.editFacebookSnippetUrl || ''
+					data.url = this.$aioseo?.editFacebookSnippetUrl || ''
 					data.btnText = this.$t.__('Edit Facebook Meta Data', this.$td)
 				} else if ('ViewTwitter' === this.activeTab) {
-					data.url = this.$aioseo.currentPost?.editTwitterSnippetUrl || ''
+					data.url = this.$aioseo?.editTwitterSnippetUrl || ''
 					data.btnText = this.$t.__('Edit Twitter Meta Data', this.$td)
 				}
 
@@ -159,8 +183,8 @@ export default {
 				}
 
 				if ('ViewSeoInspector' === this.activeTab) {
-					data.url = this.$aioseo.currentPost?.editObjectUrl || ''
-					data.btnText = this.$aioseo.currentPost?.editObjectBtnText || ''
+					data.url = this.$aioseo?.editObjectUrl || ''
+					data.btnText = this.$aioseo?.editObjectBtnText || ''
 				}
 
 				return data
@@ -168,6 +192,7 @@ export default {
 		}
 	},
 	mounted () {
+		this.styleShadowDom()
 		this.watchClicks()
 	}
 }

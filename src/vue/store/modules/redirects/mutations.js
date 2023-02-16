@@ -47,9 +47,6 @@ export default {
 	updateOptions (state, options) {
 		this._vm.$set(state, 'options', options)
 	},
-	resetSelectedFilters (state) {
-		this._vm.$set(state, 'selectedFilters', {})
-	},
 	resetPageNumbers (state) {
 		const { main, total404, logs } = state.totals
 		main.page     = 1
@@ -73,5 +70,8 @@ export default {
 	updateServerRedirectTestStatus (state, { failed, testing }) {
 		this._vm.$set(state.server.redirectTest, 'failed', failed)
 		this._vm.$set(state.server.redirectTest, 'testing', testing)
+	},
+	updateLateRedirectsRefresh (state, value) {
+		this._vm.$set(state, 'lateRedirectsRefresh', value)
 	}
 }

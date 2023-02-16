@@ -46,28 +46,6 @@
 							</div>
 
 							<div
-								v-if="checkErrorsExists('readability')"
-								class="check"
-							>
-								<component
-									:is="getCheckIconComponent('readability')"
-									:class="getErrorClass(getCheckErrors('readability'))"
-									class="check__icon"
-								/>
-								<div>
-									<span class="check__title">{{ strings.readability }}: </span>
-									<span class="check__feedback">{{ getErrorDisplay(getCheckErrors('readability')) }}</span>
-								</div>
-							</div>
-							<div
-								v-else
-								class="check"
-							>
-								<span class="check__title">{{ strings.readability }}: </span>
-								<span class="check__feedback">{{ strings.noDataYet }}</span>
-							</div>
-
-							<div
 								v-if="checkErrorsExists('title')"
 								class="check"
 							>
@@ -86,6 +64,28 @@
 								class="check"
 							>
 								<span class="check__title">{{ strings.title }}: </span>
+								<span class="check__feedback">{{ strings.noDataYet }}</span>
+							</div>
+
+							<div
+								v-if="checkErrorsExists('readability')"
+								class="check"
+							>
+								<component
+									:is="getCheckIconComponent('readability')"
+									:class="getErrorClass(getCheckErrors('readability'))"
+									class="check__icon"
+								/>
+								<div>
+									<span class="check__title">{{ strings.readability }}: </span>
+									<span class="check__feedback">{{ getErrorDisplay(getCheckErrors('readability')) }}</span>
+								</div>
+							</div>
+							<div
+								v-else
+								class="check"
+							>
+								<span class="check__title">{{ strings.readability }}: </span>
 								<span class="check__feedback">{{ strings.noDataYet }}</span>
 							</div>
 						</dd>
@@ -125,12 +125,12 @@ export default {
 	},
 	computed : {
 		focusKeyphrase () {
-			return this.$aioseo.currentPost?.keyphrases?.focus?.keyphrase || false
+			return this.$aioseo?.keyphrases?.focus?.keyphrase || false
 		}
 	},
 	methods : {
 		getCheckObject (which) {
-			return this.$aioseo?.currentPost?.page_analysis?.analysis[which]
+			return this.$aioseo?.page_analysis?.analysis[which]
 		},
 		getCheckErrors (which) {
 			return this.getCheckObject(which)?.errors || 0
@@ -147,10 +147,10 @@ export default {
 			return 'svg-circle-check'
 		},
 		checkErrorsExists (which) {
-			return 'undefined' !== (typeof this.$aioseo.currentPost.page_analysis.analysis?.[which]?.errors)
+			return 'undefined' !== typeof this.$aioseo.page_analysis.analysis?.[which]?.errors
 		},
 		isCheckEligible () {
-			return 'undefined' !== (typeof this.$aioseo.currentPost.page_analysis.analysis)
+			return 'undefined' !== typeof this.$aioseo.page_analysis?.analysis
 		}
 	},
 	mixins : [ TruSeoScore ],

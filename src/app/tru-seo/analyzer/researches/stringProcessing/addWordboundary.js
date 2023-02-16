@@ -1,6 +1,8 @@
 /** @module stringProcessing/addWordboundary */
 /* eslint-disable no-useless-escape */
 
+import { escapeRegExp } from 'lodash-es'
+
 const selfWindow = 'undefined' !== typeof window
 	? window
 	: (
@@ -57,5 +59,5 @@ export default function (matchString, positiveLookAhead = false, extraWordBounda
 		wordBoundaryEnd = `($|([${wordBoundary}])|((['‘’‛\`])([${wordBoundary}])))`
 	}
 
-	return wordBoundaryStart + matchString + wordBoundaryEnd
+	return wordBoundaryStart + escapeRegExp(matchString) + wordBoundaryEnd
 }

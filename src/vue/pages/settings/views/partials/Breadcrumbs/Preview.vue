@@ -10,7 +10,7 @@
 				class="aioseo-breadcrumb-separator"
 				v-if="1 < previewLength && index > 0 && index < previewLength"
 			>
-				{{ options.breadcrumbs.separator }}
+				{{ decodeHTMLEntities(options.breadcrumbs.separator) }}
 			</span>
 
 			<span
@@ -32,6 +32,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { decodeHTMLEntities } from '@/vue/utils/helpers'
 
 export default {
 	props : {
@@ -58,7 +59,8 @@ export default {
 				crumbs = crumbs.slice(0, crumbs.length - 1)
 			}
 			return crumbs
-		}
+		},
+		decodeHTMLEntities
 	}
 }
 </script>

@@ -15,8 +15,8 @@ export default {
 	},
 	currentPost : {},
 	metaBoxTabs : {
+		mainSidebar   : {},
 		main          : 'general',
-		mainSidebar   : 'general',
 		modal         : 'general',
 		social        : 'facebook',
 		socialModal   : 'facebook',

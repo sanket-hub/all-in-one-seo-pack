@@ -7,7 +7,13 @@
 				</dt>
 
 				<dd :key="index+'value'">
-					{{ item.value }}
+					<a v-if="isUrl(item.value)"
+					   :href="item.value"
+					   target="_blank"
+					>
+						{{ item.value }}
+					</a>
+					<template v-else>{{ item.value }}</template>
 				</dd>
 			</template>
 		</dl>
@@ -16,7 +22,6 @@
 
 <script>
 import { isUrl } from '@/vue/utils/helpers'
-import { sprintf } from '@wordpress/i18n'
 
 export default {
 	computed : {
@@ -61,18 +66,11 @@ export default {
 				})
 			}
 
-			output.forEach((tag) => {
-				if (isUrl(tag.value)) {
-					tag.value = sprintf(
-						'<a href="%1$s" target="_blank">%2$s</a>',
-						tag.value,
-						tag.value
-					)
-				}
-			})
-
 			return output
 		}
+	},
+	methods : {
+		isUrl
 	}
 }
 </script>

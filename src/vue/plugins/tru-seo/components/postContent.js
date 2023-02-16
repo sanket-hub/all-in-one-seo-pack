@@ -8,7 +8,8 @@ import { getEditorData as getElementorData } from '@/vue/standalone/elementor/he
 import { getEditorData as getDiviData } from '@/vue/standalone/divi/helpers'
 import { getEditorData as getSeedProdData } from '@/vue/standalone/seedprod/helpers'
 
-const base64regex = /base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)/g
+const base64regex            = /base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)/g
+const blockPrefixesToProcess = [ 'acf', 'aioseo' ]
 
 /**
  * Returns the post content from page builders.
@@ -61,6 +62,30 @@ const getReusableBlockContent = (content) => {
 }
 
 /**
+ * Parses postContent for blocks and replaces their markup with content.
+ *
+ * @param {string} content Content from the block editor.
+ * @param {Array}  prefix  The block prefixes to process content.
+ *
+ * @returns {string} Post content with block markup replaced by their content.
+ */
+const getProcessedBlockContent = (content, prefix) => {
+	const blocks = window.wp.data.select('core/block-editor').getBlocks()
+	blocks.forEach(block => {
+		if (prefix.includes(block.name.split('/')[0])) {
+			const element = document.getElementById('block-' + block.clientId)
+
+			if (element && element.innerHTML) {
+				const pattern = `<!-- wp:${block.name}.*?-->`
+				content = content.replace(new RegExp(pattern), element.innerHTML)
+			}
+		}
+	})
+
+	return content
+}
+
+/**
  * Returns the stored post content.
  *
  * @returns {string} Post Content
@@ -87,6 +112,7 @@ export const getPostContent = () => {
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getCurrentPost().content
 		postContent = getReusableBlockContent(postContent)
+		postContent = getProcessedBlockContent(postContent, blockPrefixesToProcess)
 	}
 
 	if (!postContent) {
@@ -129,6 +155,7 @@ export const getPostEditedContent = () => {
 	if (isBlockEditor()) {
 		postContent = window.wp.data.select('core/editor').getEditedPostContent()
 		postContent = getReusableBlockContent(postContent)
+		postContent = getProcessedBlockContent(postContent, blockPrefixesToProcess)
 	}
 
 	if (!postContent) {
