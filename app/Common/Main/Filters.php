@@ -85,6 +85,7 @@ abstract class Filters {
 	 * Resets the current user if bbPress is active.
 	 * We have to do this because our calls to wp_get_current_user() set the current user early and this breaks core functionality in bbPress.
 	 *
+	 * @link https://github.com/awesomemotive/aioseo/issues/22300
 	 *
 	 * @since 4.1.5
 	 *
@@ -100,14 +101,15 @@ abstract class Filters {
 	/**
 	 * Removes the bbPress title filter when adding a new reply with empty title to avoid fatal error.
 	 *
+	 * @link https://github.com/awesomemotive/aioseo/issues/4183
 	 *
 	 * @since 4.3.1
 	 *
 	 * @param  string $title The post title.
-	 * @param  int    $id    The post ID.
+	 * @param  int    $id    The post ID (optional - in order to fix an issue where other plugins/themes don't pass in the second arg).
 	 * @return string        The post title.
 	 */
-	public function maybeRemoveBBPressReplyFilter( $title, $id ) {
+	public function maybeRemoveBBPressReplyFilter( $title, $id = 0 ) {
 		if (
 			function_exists( 'bbp_get_reply_post_type' ) &&
 			get_post_type( $id ) === bbp_get_reply_post_type() &&
