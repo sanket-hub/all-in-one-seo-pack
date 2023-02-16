@@ -4,7 +4,7 @@ Tags: SEO, Google Search Console, XML Sitemap, meta description, schema, meta ti
 Tested up to: 6.1.1
 Requires at least: 4.9
 Requires PHP: 5.6
-Stable tag: 4.3.1
+Stable tag: 4.3.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -245,6 +245,10 @@ Visit <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeg
 
 == Changelog ==
 
+**New in Version 4.3.1.1**
+
+* Fixed: PHP error due to conflicts where other plugins/themes do not apply the `the_title` filter hook correctly.
+
 **New in Version 4.3.1**
 
 * New: Added support for importing redirects from Rank Math.
@@ -270,7 +274,7 @@ Visit <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeg
 * Fixed: PrePublish Panel now correctly opens the tab where you can fix the relevant issue again.
 * Fixed: Social Preview correctly updates when “Use Facebook Data” setting is enabled.
 * Fixed: Conflict with Site Kit by Google plugin that triggered a PHP notice.
-* Fixed: Local Business blocks sometimes missing styles on the frontend.7
+* Fixed: Local Business blocks sometimes missing styles on the frontend.
 
 **New in Version 4.3.0**
 
@@ -483,6 +487,6 @@ Additionally, AIOSEO can also provide you with data on the most frequently used 
 
 == Upgrade Notice ==
 
-= 4.3.1 =
+= 4.3.1.1 =
 
-This update adds major improvements and bugfixes.
+This update adds major improvements and bug fixes.
