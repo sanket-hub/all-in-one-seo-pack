@@ -415,7 +415,6 @@ export default {
 			position: absolute;
 			top: 0;
 			right: 10px;
-			width: 30px;
 			height: 100%;
 			color: $input-border;
 			display: flex;

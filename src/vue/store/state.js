@@ -15,8 +15,8 @@ export default {
 	},
 	currentPost : {},
 	metaBoxTabs : {
+		mainSidebar   : {},
 		main          : 'general',
-		mainSidebar   : 'general',
 		modal         : 'general',
 		social        : 'facebook',
 		socialModal   : 'facebook',
@@ -35,6 +35,7 @@ export default {
 	analyzing         : false,
 	analyzeError      : null,
 	htaccessError     : null,
+	openAiError       : null,
 	isDirty           : false,
 	// Network state.
 	networkRobots     : {
@@ -45,5 +46,8 @@ export default {
 	networkOptions         : {},
 	networkBackups         : {},
 	networkData            : {},
+	modals                 : {
+		aiGenerator : false
+	},
 	...schema
 }

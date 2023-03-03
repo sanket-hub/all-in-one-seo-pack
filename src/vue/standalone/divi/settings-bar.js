@@ -32,20 +32,41 @@ const initSettingsBar = () => {
 }
 
 /**
+ * Get the DOM node for the iframe
+ *
+ * @param   {string} iframeId The DOM ID for the iframe.
+ * @returns {Object}          The DOM node.
+ */
+const iframeRef = iframeId => {
+	const frameRef = document.getElementById(iframeId)
+	return frameRef.contentWindow
+		? frameRef.contentWindow.document
+		: frameRef.contentDocument
+}
+
+/**
  * Add the event listeners.
  *
  * @returns {void}
  */
 const addEventListeners = () => {
+	// When the window change size, re-attach the settings button.
 	settingsBarMediaQuery.addEventListener('change', () => {
 		detachSettingsBar()
 		attachSettingsBar(getSettingsBarPosition())
 	})
+
+	// When the settings bar change position, re-attach the settings button.
 	settingsBarObserver.observe(
 		document.querySelector('.et-fb-page-settings-bar'),
 		{ attributeFilter: [ 'class' ] }
 	)
-	document.body.addEventListener('click', hideModalOnOutsideClick)
+
+	// When click outside our modal, close it.
+	document.addEventListener('click', hideModalOnOutsideClick)
+	iframeRef('et-fb-app-frame').addEventListener('click', hideModalOnOutsideClick)
+
+	// When click on the settings bar, open the modal.
 	settingsBarRoot.addEventListener('click', () => {
 		const event = new Event('aioseo-divi-toggle-modal')
 		document.dispatchEvent(event)
@@ -223,12 +244,13 @@ const hideModalOnOutsideClick = (event) => {
 
 	const elem = event.target
 	const seoModalSelector = '.aioseo-modal'
-	const previewModalSelector = '.aioseo-app.post-settings-modal'
+	const previewModalSelector = '.aioseo-app.aioseo-post-settings-modal'
 
 	if (
 		!elem.closest(seoModalSelector) &&
 		!elem.closest(previewModalSelector) &&
 		!(elem !== document.querySelector(seoModalSelector) && elem.contains(document.querySelector(seoModalSelector))) &&
+		(elem.getAttribute('class') && !elem.getAttribute('class').includes('aioseo')) &&
 		elem !== settingsBarRoot
 	) {
 		const event = new Event('aioseo-divi-toggle-modal', { open: false })

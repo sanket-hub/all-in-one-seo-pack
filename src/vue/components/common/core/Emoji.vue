@@ -64,10 +64,10 @@ export default {
 		show (show) {
 			if (show) {
 				this.startListening()
-
+				this.positionInModal()
 				return
 			}
-
+			this.positionInModal()
 			this.stopListening()
 		}
 	},
@@ -182,7 +182,6 @@ export default {
 		},
 		closePicker () {
 			this.$emit('update:show', false)
-			this.startPicker()
 		},
 		documentClick (event) {
 			if (!this.show) {
@@ -227,6 +226,53 @@ export default {
 		stopListening () {
 			document.removeEventListener('click', this.documentClick)
 			document.removeEventListener('keydown', this.escapeListener)
+		},
+		getModal () {
+			const $modals = document.getElementsByClassName('aioseo-modal')
+			if ($modals.length) {
+				for (const modal of $modals) {
+					if (modal.contains(this.$refs['aioseo-emoji-picker'])) {
+						return modal.getElementsByClassName('modal-container')[0]
+					}
+				}
+			}
+			return false
+		},
+		positionInModal () {
+			const modal = this.getModal()
+			if (!modal) {
+				return
+			}
+
+			const emojiPicker = this.$refs['aioseo-emoji-picker'].getElementsByTagName('em-emoji-picker')
+			if (!emojiPicker.length) {
+				return
+			}
+
+			// We need a timeout before we can get the dimensions.
+			setTimeout(function () {
+				const dimensions = emojiPicker[0].getBoundingClientRect()
+				const modalDimensions = modal.getBoundingClientRect()
+				let left = '0px', top = '4px'
+
+				const emojiX = dimensions.x + dimensions.width + 40
+				const modalX = modalDimensions.x + modalDimensions.width
+				if (emojiX > modalX) {
+					left = (modalX - emojiX) + 'px'
+				}
+
+				const emojiY = dimensions.y + dimensions.height
+				const modalY = modalDimensions.y + modalDimensions.height
+				if (emojiY > modalY) {
+					top = (modalY - emojiY) + 'px'
+				}
+
+				// Make the emojiPicker fit the modal container.
+				emojiPicker[0].style = `
+					left: ` + left + ` !important;
+					top:  ` + top + ` !important;
+				`
+			}, 1)
 		}
 	},
 	async mounted () {

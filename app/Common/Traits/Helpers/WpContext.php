@@ -191,6 +191,12 @@ trait WpContext {
 			}
 		}
 
+		// Learnpress lessons load the course. So here we need to switch to the lesson.
+		$learnPressLesson = aioseo()->helpers->getLearnPressLesson();
+		if ( ! $postId && $learnPressLesson ) {
+			$postId = $learnPressLesson;
+		}
+
 		// We need to check these conditions and cannot always return get_post() because we'll return the first post on archive pages (dynamic homepage, term pages, etc.).
 		if (
 			$this->isScreenBase( 'post' ) ||
@@ -201,6 +207,19 @@ trait WpContext {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the current post ID.
+	 *
+	 * @since 4.3.1
+	 *
+	 * @return int|null The post ID.
+	 */
+	public function getPostId() {
+		$post = $this->getPost();
+
+		return is_object( $post ) && property_exists( $post, 'ID' ) ? $post->ID : null;
 	}
 
 	/**
@@ -568,15 +587,21 @@ trait WpContext {
 	/**
 	 * Checks whether we're on the given screen.
 	 *
-	 * @since 4.0.7
+	 * @since   4.0.7
+	 * @version 4.3.1
 	 *
 	 * @param  string $screenName The screen name.
+	 * @param  string $comparison Check as a prefix.
 	 * @return bool               Whether we're on the given screen.
 	 */
-	public function isScreenBase( $screenName ) {
+	public function isScreenBase( $screenName, $comparison = '' ) {
 		$screen = $this->getCurrentScreen();
 		if ( ! $screen || ! isset( $screen->base ) ) {
 			return false;
+		}
+
+		if ( 'prefix' === $comparison ) {
+			return 0 === stripos( $screen->base, $screenName );
 		}
 
 		return $screen->base === $screenName;

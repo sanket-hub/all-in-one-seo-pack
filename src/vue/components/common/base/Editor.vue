@@ -17,6 +17,20 @@
 			class="aioseo-line-numbers"
 		/>
 
+		<div
+			class="aioseo-append-icon"
+			v-if="$slots['append-icon']"
+		>
+			<slot name="append-icon" />
+		</div>
+
+		<div
+			class="aioseo-append-button"
+			v-if="$slots['append-button']"
+		>
+			<slot name="append-button" />
+		</div>
+
 		<template
 			v-for="(tag, index) in $tags.context(tagsContext)"
 		>
@@ -569,6 +583,46 @@ export default {
 <style lang="scss">
 .aioseo-editor {
 	position: relative;
+
+	.aioseo-append-icon {
+		height: 24px;
+		width: 24px;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		cursor: pointer;
+
+		svg {
+			// transform: rotate(-36deg);
+			transition: transform .4s ease-in-out;
+			color: $placeholder-color;
+		}
+
+		&:hover {
+			svg {
+				transform: rotate(360deg);
+				color: $green;
+			}
+		}
+	}
+
+	.aioseo-append-button {
+		button {
+			position: absolute;
+			right: 6px;
+			top: 6px;
+
+			width: 32px;
+			height: 32px;
+
+			background-color: $background;
+			border: 1px solid $input-border;
+			border-radius: 4px;
+
+			cursor: pointer;
+		}
+	}
 
 	.aioseo-editor-description {
 		.ql-editor {

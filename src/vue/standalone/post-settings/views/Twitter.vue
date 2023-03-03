@@ -296,6 +296,9 @@ export default {
 		}
 	},
 	watch : {
+		'currentPost.twitter_use_og' () {
+			this.setImageUrl()
+		},
 		'currentPost.twitter_image_type' () {
 			this.setImageUrl()
 		},

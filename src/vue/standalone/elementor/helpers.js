@@ -38,10 +38,11 @@ export const getContent = () => {
  */
 export const getEditorData = () => {
 	return {
-		content   : getContent(),
-		title     : window.elementor.settings.page.model.get('post_title'),
-		excerpt   : window.elementor.settings.page.model.get('post_excerpt') || '',
-		slug      : cleanForSlug(window.elementor.settings.page.model.get('post_title')),
-		permalink : window.elementor.config.document.urls.permalink || ''
+		content       : getContent(),
+		title         : window.elementor.settings.page.model.get('post_title'),
+		excerpt       : window.elementor.settings.page.model.get('post_excerpt') || '',
+		slug          : cleanForSlug(window.elementor.settings.page.model.get('post_title')),
+		permalink     : window.elementor.config.document.urls.permalink || '',
+		featuredImage : window.elementor.settings.page.model.get('post_featured_image')?.url || ''
 	}
 }

@@ -171,5 +171,25 @@ export default {
 	},
 	updateNetworkRobotsSite (state, siteId) {
 		this._vm.$set(state.networkRobots, 'siteId', siteId)
+	},
+	setModalState (state, { modalName, value }) {
+		this._vm.$set(state.modals, modalName, value)
+	},
+	setOpenAiData (state, { type, suggestions, usage }) {
+		this._vm.$set(state.currentPost.open_ai[type], 'suggestions', suggestions)
+		this._vm.$set(state.currentPost.open_ai[type], 'usage', usage)
+	},
+	setOpenAiError (state, error) {
+		this._vm.$set(state, 'openAiError', error)
+	},
+	updateTitle (state, title) {
+		this._vm.$set(state.currentPost, 'title', title)
+
+		this._vm.$bus.$emit('updateTitleKey')
+	},
+	updateDescription (state, description) {
+		this._vm.$set(state.currentPost, 'description', description)
+
+		this._vm.$bus.$emit('updateDescriptionKey')
 	}
 }

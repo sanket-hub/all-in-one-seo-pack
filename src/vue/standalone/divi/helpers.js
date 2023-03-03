@@ -83,10 +83,11 @@ export const getPermalink = () => {
  */
 export const getEditorData = () => {
 	return {
-		content   : getContent(),
-		title     : get(ETBuilderBackendDynamic, 'postTitle', ''),
-		excerpt   : get(ETBuilderBackendDynamic, 'postMeta.post_excerpt', ''),
-		slug      : get(ETBuilderBackendDynamic, 'postMeta.post_name', ''),
-		permalink : getPermalink()
+		content       : getContent(),
+		title         : get(ETBuilderBackendDynamic, 'postTitle', ''),
+		excerpt       : get(ETBuilderBackendDynamic, 'postMeta.post_excerpt', ''),
+		slug          : get(ETBuilderBackendDynamic, 'postMeta.post_name', ''),
+		permalink     : getPermalink(),
+		featuredImage : get(ETBuilderBackendDynamic, 'currentPage.thumbnailUrl', '')
 	}
 }

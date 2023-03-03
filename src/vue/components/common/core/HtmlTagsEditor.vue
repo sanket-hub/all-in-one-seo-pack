@@ -64,7 +64,15 @@
 			:tags-context="tagsContext"
 			:default-menu-orientation="defaultMenuOrientation"
 			:description="description"
-		/>
+		>
+			<template #append-icon>
+				<slot name="append-icon" />
+			</template>
+
+			<template #append-button>
+				<slot name="append-button" />
+			</template>
+		</base-editor>
 	</div>
 </template>
 

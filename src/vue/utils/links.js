@@ -117,7 +117,8 @@ const docLinks = {
 	crawlCleanup                  : `${marketingSite}docs/crawl-cleanup-best-practices`,
 	schema                        : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/`,
 	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`,
-	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`
+	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`,
+	openAi                        : `${marketingSite}docs/using-openai-to-generate-seo-titles-and-meta-descriptions/`
 }
 
 const upsellLinks = {

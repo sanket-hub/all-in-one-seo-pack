@@ -163,11 +163,11 @@ export default {
 	svg.aioseo-circle-question-mark {
 		width: 17px;
 		height: 17px;
-		color: #8C8F99;
+		color: $placeholder-color;
 		transition: background-color 0.2s ease;
 
 		&:hover {
-			color: darken(#8C8F99, 20%);
+			color: darken($placeholder-color, 20%);
 		}
 	}
 

@@ -3,7 +3,7 @@ import replaceDiacritics from '../stringProcessing/replaceDiacritics.js'
 import addWordBoundary from '../stringProcessing/addWordboundary.js'
 import sanitizeString from '../stringProcessing/sanitizeString'
 
-import { isUndefined, escapeRegExp, memoize } from 'lodash-es'
+import { isUndefined, memoize } from 'lodash-es'
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.
@@ -23,7 +23,6 @@ export default memoize(function (string, extraBoundary, doReplaceDiacritics) {
 	}
 
 	string = sanitizeString(string)
-	string = escapeRegExp(string)
 	string = addWordBoundary(string, false, extraBoundary)
 	return new RegExp(string, 'ig')
 })

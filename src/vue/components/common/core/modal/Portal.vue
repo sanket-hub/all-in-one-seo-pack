@@ -7,7 +7,7 @@
 			]"
 			:no-header="noHeader"
 			@close="$emit('close')"
-			:allow-body-overflow="allowBodyOverflow"
+			:allow-overflow="allowOverflow"
 			:confirmation="confirmation"
 		>
 			<template #headerTitle>
@@ -32,10 +32,10 @@ export default {
 		CoreModal
 	},
 	props : {
-		noHeader          : Boolean,
-		classes           : Array,
-		allowBodyOverflow : Boolean,
-		confirmation      : Boolean
+		noHeader      : Boolean,
+		classes       : Array,
+		allowOverflow : Boolean,
+		confirmation  : Boolean
 	}
 }
 </script>

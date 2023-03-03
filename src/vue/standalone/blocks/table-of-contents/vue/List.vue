@@ -32,7 +32,7 @@
 						class="row-input row-input--content"
 						:value="heading.editedContent || heading.content"
 						:placeholder="heading.content"
-						@input="value => setEditedContent(value, index)"
+						@input="value => setEditedContent(value, heading)"
 					>
 						<template #append-icon>
 							<div
@@ -48,7 +48,7 @@
 						class="row-input row-input--anchor"
 						:spellcheck=false
 						:value="heading.anchor"
-						@input="value => setAnchor(value, index)"
+						@input="value => setAnchor(value, heading)"
 						v-if="!allowReorder"
 					>
 						<template #append-icon>
@@ -164,14 +164,14 @@ export default {
 	},
 	methods : {
 		...mapMutations([ 'setHeadings' ]),
-		setEditedContent (newValue, index) {
-			if (newValue === this.storeHeadings[index].content) {
-				this.storeHeadings[index].editedContent = ''
+		setEditedContent : function (newValue, heading) {
+			if (newValue === heading.content) {
+				heading.editedContent = ''
 
 				return
 			}
 
-			this.storeHeadings[index].editedContent = cleanHtml(newValue, true)
+			heading.editedContent = cleanHtml(newValue, true)
 		},
 		setReorder () {
 			this.$store.state.reOrdered = true
@@ -180,20 +180,20 @@ export default {
 			this.setHeadings(rearrangedList)
 			window.aioseoBus.$emit('updateHeadings' + this.$store.state.blockClientId, rearrangedList)
 		},
-		setAnchor (newValue, index) {
-			this.storeHeadings[index].anchor = cleanForSlug(newValue)
+		setAnchor : function (newValue, heading) {
+			heading.anchor = cleanForSlug(newValue)
 			if (!newValue) {
-				this.storeHeadings[index].anchor = 'aioseo-' + cleanForSlug(this.storeHeadings[index].content)
+				heading.anchor = 'aioseo-' + cleanForSlug(heading.content)
 			}
 
-			const clientId = this.storeHeadings[index].blockClientId
+			const clientId = heading.blockClientId
 			const block    = window.wp.data.select('core/block-editor').getBlock(clientId)
 			if (!block) {
 				return
 			}
 
 			window.wp.data.dispatch('core/block-editor').updateBlockAttributes(clientId, {
-				anchor : this.storeHeadings[index].anchor
+				anchor : heading.anchor
 			})
 		},
 		setHiddenStatus (heading) {

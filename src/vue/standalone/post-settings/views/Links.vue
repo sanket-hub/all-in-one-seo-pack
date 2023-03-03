@@ -20,9 +20,9 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import Links from './AIOSEO_VERSION/Links'
-import LinksActivate from './AIOSEO_VERSION/LinksActivate'
-import LinksLite from './lite/Links'
+import Links from './AIOSEO_VERSION/partials-links/Links'
+import LinksActivate from './AIOSEO_VERSION/partials-links/LinksActivate'
+import LinksLite from './lite/partials-links/Links'
 
 export default {
 	components : {

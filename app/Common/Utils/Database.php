@@ -26,10 +26,12 @@ class Database {
 		'aioseo_notifications',
 		'aioseo_posts',
 		'aioseo_redirects',
+		'aioseo_redirects_404',
 		'aioseo_redirects_404_logs',
 		'aioseo_redirects_hits',
 		'aioseo_redirects_logs',
-		'aioseo_terms'
+		'aioseo_terms',
+		'aioseo_search_statistics_objects'
 	];
 
 	/**
@@ -1640,11 +1642,11 @@ class Database {
 	 * @param  string $cacheTableName The table name to check against.
 	 * @return string                 The cache key table name.
 	 */
-	private function getCacheTableName( $cacheTableName = null ) {
+	private function getCacheTableName( $cacheTableName = '' ) {
 		$cacheTableName = empty( $cacheTableName ) ? $this->table : $cacheTableName;
 
 		foreach ( $this->customTables as $tableName ) {
-			if ( false !== stripos( $cacheTableName, $this->prefix . $tableName ) ) {
+			if ( false !== stripos( (string) $cacheTableName, $this->prefix . $tableName ) ) {
 				$cacheTableName = $tableName;
 				break;
 			}

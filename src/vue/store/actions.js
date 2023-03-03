@@ -754,5 +754,31 @@ export default {
 				commit('updateNetworkRobots', response.body.rules)
 				commit('updateNetworkRobotsSite', blogId)
 			})
+	},
+	generateTitlesDescriptions ({ commit }, payload) {
+		return this._vm.$http.post(this._vm.$links.restUrl('ai/generate/'))
+			.send(payload)
+			.then((response) => {
+				if (!response.body.suggestions) {
+					if (response.body.error) {
+						commit('setOpenAiError', response.body.error)
+					}
+					return
+				}
+
+				commit('setOpenAiError', null)
+
+				commit('setOpenAiData', {
+					type        : payload.type,
+					suggestions : response.body.suggestions,
+					usage       : response.body.usage
+				})
+			})
+	},
+	saveOpenAiApiKey (context, apiKey) {
+		return this._vm.$http.post(this._vm.$links.restUrl('ai/save-api-key'))
+			.send({
+				apiKey
+			})
 	}
 }

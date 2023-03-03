@@ -1,18 +1,14 @@
 <template>
 	<div class="aioseo-modal-content">
-		<core-settings-row
-			class="mobile-radio-buttons"
-		>
-			<template #content>
-				<core-main-tabs
-					:tabs="getTabs"
-					:showSaveButton="false"
-					:active="metaBoxTabs.modal"
-					internal
-					@changed="value => processChangeTab(value)"
-				/>
-			</template>
-		</core-settings-row>
+		<div class="mobile-radio-buttons">
+			<core-main-tabs
+				:tabs="getTabs"
+				:showSaveButton="false"
+				:active="metaBoxTabs.modal"
+				internal
+				@changed="value => processChangeTab(value)"
+			/>
+		</div>
 
 		<div class="component-wrapper">
 			<transition name="route-fade" mode="out-in">

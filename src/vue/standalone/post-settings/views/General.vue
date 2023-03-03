@@ -42,6 +42,7 @@
 						{{ liveTags.permalink }}
 					</template>
 				</core-google-search-preview>
+
 				<base-button
 					v-if="'sidebar' === $root._data.screenContext && 'modal' !== parentComponentContext"
 					class="edit-snippet gray small"
@@ -55,9 +56,10 @@
 
 		<core-settings-row
 			id="aioseo-post-settings-post-title-row"
-			:name="title"
-			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
 			class="snippet-title-row"
+			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
+			:name="title"
+			:key="titleKey"
 		>
 			<template #content>
 				<core-html-tags-editor
@@ -73,6 +75,13 @@
 					<template #tags-description>
 						{{ strings.clickToAddTitle }}
 					</template>
+
+					<template #append-button>
+						<ai-generator
+							v-if="currentPost.postType && !isPageBuilderEditor()"
+							type="title"
+						/>
+					</template>
 				</core-html-tags-editor>
 
 				<div
@@ -84,9 +93,10 @@
 
 		<core-settings-row
 			id="aioseo-post-settings-meta-description-row"
-			:name="strings.metaDescription"
-			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
 			class="snippet-description-row"
+			v-if="('metabox' === $root._data.screenContext || 'modal' === parentComponentContext) && this.$allowed('aioseo_page_general_settings')"
+			:name="strings.metaDescription"
+			:key="descriptionKey"
 		>
 			<template #content>
 				<core-html-tags-editor
@@ -102,6 +112,13 @@
 					<template #tags-description>
 						{{ strings.clickToAddDescription }}
 					</template>
+
+					<template #append-button>
+						<ai-generator
+							v-if="currentPost.postType && !isPageBuilderEditor()"
+							type="description"
+						/>
+					</template>
 				</core-html-tags-editor>
 
 				<div
@@ -110,25 +127,6 @@
 				/>
 			</template>
 		</core-settings-row>
-
-		<!-- <core-settings-row
-			:name="strings.pillarContent"
-			class="snippet-pillar-row"
-			align
-		>
-			<template #content>
-				<p class="aioseo-description">
-					<base-toggle
-						:disabled="disabled"
-						:value="toggled"
-						v-model="currentPost.pillar_content"
-					>
-						{{ strings.pillarContentCopy }}
-						<a href="#">{{ $constants.GLOBAL_STRINGS.learnMore }}</a><a href="#" class="no-underline">&nbsp;&rarr;</a>
-					</base-toggle>
-				</p>
-			</template>
-		</core-settings-row> -->
 
 		<div
 			v-if="displayTruSeoMetaboxCard && options.searchAppearance.advanced.useKeywords && options.searchAppearance.advanced.keywordsLooking"
@@ -173,8 +171,9 @@
 					</template>
 				</core-tooltip>
 			</template>
+
 			<template #content>
-				<focusKeyphrase />
+				<focus-keyphrase />
 			</template>
 		</core-settings-row>
 
@@ -184,7 +183,7 @@
 			class="snippet-additional-keyphrases-row"
 		>
 			<template #content>
-				<additionalKeyphrases />
+				<additional-keyphrases />
 			</template>
 		</core-settings-row>
 
@@ -195,7 +194,7 @@
 			align
 		>
 			<template #content>
-				<pageAnalysis />
+				<page-analysis />
 			</template>
 		</core-settings-row>
 
@@ -217,7 +216,7 @@
 				</core-tooltip>
 			</template>
 
-			<focusKeyphrase />
+			<focus-keyphrase />
 		</core-sidebar-card>
 
 		<core-sidebar-card
@@ -226,7 +225,7 @@
 			:header-text="strings.additionalKeyphrases"
 			class="card-additional-keyphrase"
 		>
-			<additionalKeyphrases />
+			<additional-keyphrases />
 		</core-sidebar-card>
 
 		<core-sidebar-card
@@ -236,7 +235,7 @@
 			:trueSeoScore="currentPost.page_analysis.analysis.basic.errors"
 			class="card-basic-seo"
 		>
-			<metaboxAnalysisDetail :analysisItems="currentPost.page_analysis.analysis.basic" />
+			<metabox-analysis-detail :analysisItems="currentPost.page_analysis.analysis.basic" />
 		</core-sidebar-card>
 
 		<core-sidebar-card
@@ -246,7 +245,7 @@
 			:trueSeoScore="currentPost.page_analysis.analysis.title.errors"
 			class="card-title-seo"
 		>
-			<metaboxAnalysisDetail :analysisItems="currentPost.page_analysis.analysis.title" />
+			<metabox-analysis-detail :analysisItems="currentPost.page_analysis.analysis.title" />
 		</core-sidebar-card>
 
 		<core-sidebar-card
@@ -256,7 +255,7 @@
 			:trueSeoScore="currentPost.page_analysis.analysis.readability.errors"
 			class="card-readability-seo"
 		>
-			<metaboxAnalysisDetail :analysisItems="currentPost.page_analysis.analysis.readability" />
+			<metabox-analysis-detail :analysisItems="currentPost.page_analysis.analysis.readability" />
 		</core-sidebar-card>
 	</div>
 </template>
@@ -264,7 +263,10 @@
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore } from '@/vue/mixins'
 import { debounce } from '@/vue/utils/debounce'
+import { isPageBuilderEditor } from '@/vue/utils/context'
 import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
+import AdditionalKeyphrases from './partials/general/AdditionalKeyphrases'
+import AiGenerator from './partials/general/ai/Generator'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
@@ -272,17 +274,18 @@ import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreSidebarCard from '@/vue/components/common/core/SidebarCard'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import FocusKeyphrase from './partials/general/FocusKeyphrase'
+import MetaboxAnalysisDetail from './partials/general/MetaboxAnalysisDetail'
+import PageAnalysis from './partials/general/PageAnalysis'
 import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 import SvgDesktop from '@/vue/components/common/svg/Desktop'
 import SvgMobile from '@/vue/components/common/svg/Mobile'
 import SvgPencil from '@/vue/components/common/svg/Pencil'
-import additionalKeyphrases from './partialsGeneral/additionalKeyphrases'
-import focusKeyphrase from './partialsGeneral/focusKeyphrase'
-import metaboxAnalysisDetail from './partialsGeneral/metaboxAnalysisDetail'
-import pageAnalysis from './partialsGeneral/pageAnalysis'
 export default {
 	mixins     : [ IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore ],
 	components : {
+		AdditionalKeyphrases,
+		AiGenerator,
 		BaseRadioToggle,
 		CoreAlert,
 		CoreGoogleSearchPreview,
@@ -290,14 +293,13 @@ export default {
 		CoreSettingsRow,
 		CoreSidebarCard,
 		CoreTooltip,
+		FocusKeyphrase,
+		MetaboxAnalysisDetail,
+		PageAnalysis,
 		SvgCircleQuestionMark,
 		SvgDesktop,
 		SvgMobile,
-		SvgPencil,
-		additionalKeyphrases,
-		focusKeyphrase,
-		metaboxAnalysisDetail,
-		pageAnalysis
+		SvgPencil
 	},
 	props : {
 		disabled : {
@@ -310,6 +312,7 @@ export default {
 	},
 	data () {
 		return {
+			isPageBuilderEditor,
 			titleCount        : 0,
 			descriptionCount  : 0,
 			keywords          : null,
@@ -317,6 +320,8 @@ export default {
 			selectedKeyphrase : 0,
 			editSnippet       : false,
 			truSeo            : null,
+			titleKey          : 'title' + 0,
+			descriptionKey    : 'description' + 0,
 			strings           : {
 				pageName               : this.$t.__('General', this.$td),
 				snippetPreview         : this.$t.__('Snippet Preview', this.$td),
@@ -388,7 +393,7 @@ export default {
 		}
 	},
 	methods : {
-		...mapActions([ 'changeGeneralPreview', 'openModal', 'savePostState' ]),
+		...mapActions([ 'openModal' ]),
 		...mapMutations([ 'changeTabSettings' ]),
 		hideKeywordsLooking () {
 			this.options.searchAppearance.advanced.keywordsLooking = false
@@ -449,6 +454,14 @@ export default {
 		if ('post' === this.currentPost.context && !this.currentPost.keyphrases.length) {
 			this.selectedKeyphrase = -1
 		}
+
+		this.$bus.$on('updateTitleKey', () => {
+			this.titleKey = 'title' + Math.random(0, 999)
+		})
+
+		this.$bus.$on('updateDescriptionKey', () => {
+			this.descriptionKey = 'description' + Math.random(0, 999)
+		})
 	}
 }
 </script>
@@ -457,11 +470,11 @@ export default {
 	svg.aioseo-circle-question-mark {
 		width: 17px;
 		height: 17px;
-		color: #8C8F99;
+		color: $placeholder-color;
 		transition: background-color 0.2s ease;
 
 		&:hover {
-			color: darken(#8C8F99, 20%);
+			color: darken($placeholder-color, 20%);
 		}
 	}
 
@@ -880,6 +893,7 @@ export default {
 			}
 		}
 	}
+
 	.mobile-radio-buttons {
 		.aioseo-tabs .md-button:not(.md-active) {
 			margin: 0!important;

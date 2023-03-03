@@ -41,16 +41,6 @@
 				</template>
 			</core-settings-row>
 
-			<!--core-settings-row
-				:name="strings.seoAnalysis"
-			>
-				<template #content>
-					<base-toggle
-						v-model="options.advanced.seoAnalysis"
-					/>
-				</template>
-			</core-settings-row-->
-
 			<core-settings-row
 				:name="strings.postTypeColumns"
 			>
@@ -268,6 +258,7 @@
 						</template>
 					</core-tooltip>
 				</template>
+
 				<template #content>
 					<base-toggle
 						v-model="options.advanced.usageTracking"
@@ -276,6 +267,50 @@
 					<div class="aioseo-description">
 						{{ strings.usageTrackingDescription }}
 					</div>
+				</template>
+			</core-settings-row>
+
+			<core-settings-row
+				id="aioseo-open-ai-api-key"
+				:name="strings.openAiKey"
+			>
+				<template #name>
+					{{ strings.openAiKey }}
+					<core-pro-badge
+						v-if="isUnlicensed"
+					/>
+				</template>
+
+				<template #content>
+					<base-input
+						class="openAiKey"
+						type="text"
+						size="medium"
+						v-model="options.advanced.openAiKey"
+						:disabled="isUnlicensed"
+						@blur="validateOpenAiKey"
+					/>
+
+					<div
+						class="aioseo-description"
+						v-html="strings.openAiKeyDescription"
+					/>
+
+					<core-alert
+						class="inline-upsell"
+						v-if="!isUnlicensed && options.advanced.openAiKey && openAiKeyInvalid"
+						type="red"
+					>
+						<div>{{strings.openAiKeyInvalid}}</div>
+					</core-alert>
+
+					<core-alert
+						class="inline-upsell"
+						v-if="isUnlicensed"
+						type="blue"
+					>
+						<div v-html="strings.openAiKeyUpsell" />
+					</core-alert>
 				</template>
 			</core-settings-row>
 
@@ -328,7 +363,8 @@ export default {
 	},
 	data () {
 		return {
-			strings : {
+			openAiKeyInvalid : false,
+			strings          : {
 				advanced                    : this.$t.__('Advanced Settings', this.$td),
 				truSeo                      : this.$t.__('TruSEO Score & Content', this.$td),
 				truSeoDescription           : this.$t.__('Enable our TruSEO score to help you optimize your content for maximum traffic.', this.$td),
@@ -376,7 +412,7 @@ export default {
 				),
 				adminBarMenuUpsell : this.$t.sprintf(
 					// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
-					this.$t.__('This Admin Bar feature is only available for licensed %1$s users. %2$s', this.$td),
+					this.$t.__('The Admin Bar feature is only available for licensed %1$s users. %2$s', this.$td),
 					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
 					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'admin-bar-menu', true)
 				),
@@ -414,7 +450,20 @@ export default {
 					this.$t.__('The Headline Analyzer is only available in %1$s and up. %2$s', this.$td),
 					'WordPress 5.2',
 					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'updateWordPress', true)
-				)
+				),
+				openAiKey            : this.$t.__('OpenAI API Key', this.$td),
+				openAiKeyDescription : this.$t.sprintf(
+					// Translators: 1 - "Learn More" link.
+					this.$t.__('Enter an OpenAI API key in order to automatically generate SEO titles and meta descriptions for your pages. %1$s', this.$td),
+					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'openAi', true)
+				),
+				openAiKeyUpsell : this.$t.sprintf(
+					// Translators: 1 - The plugin name ("All in One SEO"), 2 - "Learn more".
+					this.$t.__('The OpenAI integration is only available for licensed %1$s users. %2$s', this.$td),
+					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
+					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'open-ai', true)
+				),
+				openAiKeyInvalid : this.$t.__('The API key you have entered is invalid. Please check your API key and try again.', this.$tdPro)
 			}
 		}
 	},
@@ -466,7 +515,17 @@ export default {
 		},
 		isDashboardWidgetChecked (widget) {
 			return !this.isUnlicensed ? this.options.advanced.dashboardWidgets.includes(widget.key) : true
+		},
+		validateOpenAiKey () {
+			if (this.options.advanced.openAiKey && null === this.options.advanced.openAiKey.match(/^sk-[a-zA-Z0-9]{48}$/)) {
+				this.openAiKeyInvalid = true
+			} else {
+				this.openAiKeyInvalid = false
+			}
 		}
+	},
+	beforeMount () {
+		this.validateOpenAiKey()
 	}
 }
 </script>
@@ -478,6 +537,10 @@ export default {
 		display: inline-flex;
 
 		margin-top: 20px;
+	}
+
+	.aioseo-input-container {
+		max-width: 500px;
 	}
 }
 </style>

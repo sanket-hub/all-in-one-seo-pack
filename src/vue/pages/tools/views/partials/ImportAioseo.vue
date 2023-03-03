@@ -60,19 +60,20 @@
 			<base-button
 				type="black"
 				size="medium"
+				@click="triggerFileUpload"
 				:disabled="$aioseo.data.isNetworkAdmin && !site"
 			>
 				{{ strings.chooseAFile }}
-
-				<base-input
-					v-model="inputFile"
-					type="file"
-					@click="reset"
-					@change="handleFileUpload"
-					ref="file"
-				/>
 			</base-button>
 		</div>
+
+		<base-input
+			v-model="inputFile"
+			type="file"
+			@click="reset"
+			@change="handleFileUpload"
+			ref="file"
+		/>
 
 		<div class="aioseo-description">
 			{{ strings.fileUploadDescription }}
