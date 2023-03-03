@@ -989,8 +989,8 @@ $generated_i18n_strings = [
 	__( 'Basic Guide to Google Search Console', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/components/common/core/SeoSiteAnalysisResults.vue:27
-	// Reference: /src/vue/standalone/post-settings/views/General.vue:77
-	// Reference: /src/vue/standalone/post-settings/views/partials/general/PageAnalysis.vue:19
+	// Reference: /src/vue/standalone/post-settings/views/General.vue:71
+	// Reference: /src/vue/standalone/post-settings/views/partialsGeneral/pageAnalysis.vue:19
 	// Reference: /src/vue/standalone/seo-preview/views/SeoInspector.vue:53
 	__( 'Basic SEO', 'all-in-one-seo-pack' ),
 
@@ -1785,7 +1785,6 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/pages/search-appearance/views/Media.vue:92
 	// Reference: /src/vue/pages/social-networks/views/Facebook.vue:66
 	// Reference: /src/vue/pages/social-networks/views/Twitter.vue:57
-	// Reference: /src/vue/standalone/post-settings/views/lite/partials-ai/Modal.vue:58
 	// Reference: /src/vue/standalone/seo-preview/views/MetaTags.vue:14
 	__( 'Description', 'all-in-one-seo-pack' ),
 
@@ -1975,7 +1974,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/standalone/seo-preview/App.vue:112
 	__( 'Edit Facebook Meta Data', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/General.vue:68
+	// Reference: /src/vue/standalone/post-settings/views/General.vue:62
 	// Reference: /src/vue/standalone/seo-preview/App.vue:109
 	__( 'Edit Snippet', 'all-in-one-seo-pack' ),
 
@@ -4522,8 +4521,8 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/core/site-score/Analyze.vue:46
 	__( 'Read the Ultimate WordPress SEO Guide', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/General.vue:79
-	// Reference: /src/vue/standalone/post-settings/views/partials/general/PageAnalysis.vue:27
+	// Reference: /src/vue/standalone/post-settings/views/General.vue:73
+	// Reference: /src/vue/standalone/post-settings/views/partialsGeneral/pageAnalysis.vue:27
 	// Reference: /src/vue/standalone/publish-panel/PrePublish.vue:46
 	// Reference: /src/vue/standalone/seo-preview/views/SeoInspector.vue:54
 	__( 'Readability', 'all-in-one-seo-pack' ),
@@ -5999,9 +5998,8 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/pages/search-statistics/views/partials/KeywordInner.vue:36
 	// Reference: /src/vue/pages/search-statistics/views/partials/PostsTable.vue:90
 	// Reference: /src/vue/pages/social-networks/views/Facebook.vue:62
-	// Reference: /src/vue/standalone/post-settings/views/General.vue:78
-	// Reference: /src/vue/standalone/post-settings/views/lite/partials-ai/Modal.vue:51
-	// Reference: /src/vue/standalone/post-settings/views/partials/general/PageAnalysis.vue:23
+	// Reference: /src/vue/standalone/post-settings/views/General.vue:72
+	// Reference: /src/vue/standalone/post-settings/views/partialsGeneral/pageAnalysis.vue:23
 	// Reference: /src/vue/standalone/seo-preview/views/MetaTags.vue:10
 	// Reference: /src/vue/standalone/seo-preview/views/SeoInspector.vue:55
 	__( 'Title', 'all-in-one-seo-pack' ),
@@ -6030,12 +6028,6 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/components/common/core/PostColumn.vue:41
 	// Reference: /src/vue/standalone/posts-table/TermApp.vue:33
 	__( 'Title:', 'all-in-one-seo-pack' ),
-
-	// Reference: /src/vue/standalone/post-settings/views/lite/partials-ai/Modal.vue:81
-	__( 'titles', 'all-in-one-seo-pack' ),
-
-	// Reference: /src/vue/standalone/post-settings/views/lite/partials-ai/Modal.vue:66
-	__( 'Titles', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/pages/settings/views/Breadcrumbs.vue:32
 	// Translators: 1 - The plugin short name ("AIOSEO"), 2 - "Learn More" link.
@@ -6693,7 +6685,7 @@ $generated_i18n_strings = [
 	// Translators: 1 - Plugin short name ("AIOSEO").
 	__( 'We have detected other SEO plugins installed on your website. Select which plugins you would like to import data to %1$s.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/standalone/post-settings/views/partials/general/PageAnalysis.vue:43
+	// Reference: /src/vue/standalone/post-settings/views/partialsGeneral/pageAnalysis.vue:43
 	// Translators: 1 - The Page Builder name, 2 - HTML code opening tag, 3 - HTML code closing tag.
 	__( 'We have detected that you are currently using the %1$s Page Builder. Please click %2$shere%3$s to use the %1$s editor for a most accurate result.', 'all-in-one-seo-pack' ),
 
