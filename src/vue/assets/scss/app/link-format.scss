@@ -38,11 +38,12 @@ body {
 	}
 }
 
-@media (max-height: 620px) {
+@media (max-height: 750px) {
 	body {
 		#wp-link-wrap {
-			margin-top: 0;
 			top: 10px;
+			max-height: 580px;
+			margin-top: 0;
 		}
 	}
 }
