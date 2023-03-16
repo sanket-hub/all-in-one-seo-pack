@@ -65,7 +65,7 @@
 		"plural-forms": "^0.5.3",
 		"pofile": "^1.1.4",
 		"postcss": "^8.4.21",
-		"postcss-rtlcss": "^4.0.2",
+		"postcss-rtlcss": "^4.0.3",
 		"replace-in-files-cli": "^2.0.0",
 		"rollup-plugin-copy": "^3.4.0",
 		"rollup-plugin-delete": "^2.0.0",

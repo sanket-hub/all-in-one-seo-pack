@@ -151,7 +151,7 @@ export default {
 			.send({
 				plugins
 			})
-			.then(() => dispatch('setLateRedirectsRefresh', true))
+			.then(() => dispatch('setLateRefresh', { value: true, type: 'redirects' }))
 	},
 	getPosts (context, payload) {
 		return this._vm.$http.post(this._vm.$links.restUrl('redirects/posts'))
@@ -209,7 +209,7 @@ export default {
 		}).catch(() => {
 		})
 	},
-	setLateRedirectsRefresh ({ commit }, value) {
-		commit('updateLateRedirectsRefresh', value)
+	setLateRefresh ({ commit }, { value = true, type = 'all' }) {
+		commit('setLateRefresh', { value, type })
 	}
 }

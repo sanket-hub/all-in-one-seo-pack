@@ -96,7 +96,7 @@ export default {
 
 			return this.$t.sprintf(
 				// Translators: 1 - The direction (up or down), 2 - The difference, 3 - "in search results", 4 - The first date, 5 - The second date.
-				this.$t.__('%1$s %2$s %3$s compared to the previous period (%3$s - %4$s)', this.$td),
+				this.$t.__('%1$s %2$s %3$s compared to the previous period (%4$s - %5$s)', this.$td),
 				directionI18n,
 				'<strong>' + this.points(number) + '</strong>',
 				'position' === this.type

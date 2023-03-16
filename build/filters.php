@@ -2,6 +2,11 @@
 // Fix SSL certificate invalid in our local environments.
 add_filter( 'https_ssl_verify', '__return_false' );
 
+// Don't compact JSON schema in develop environments.
+add_filter( 'aioseo_schema_json_flags', function() {
+	return JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+} );
+
 // Enable the filters below to bypass the localhost protection for Search Statistics.
 add_filter( 'aioseo_search_statistics_auth_url', 'search_statistics_amc_override_localhost' );
 add_filter( 'aioseo_search_statistics_reauth_url', 'search_statistics_amc_override_localhost' );

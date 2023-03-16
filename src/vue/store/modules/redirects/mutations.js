@@ -71,7 +71,10 @@ export default {
 		this._vm.$set(state.server.redirectTest, 'failed', failed)
 		this._vm.$set(state.server.redirectTest, 'testing', testing)
 	},
-	updateLateRedirectsRefresh (state, value) {
-		this._vm.$set(state, 'lateRedirectsRefresh', value)
+	setLateRefresh (state, { value, type }) {
+		type = 'all' === type ? [ 'redirects', 'logs', 'logs404' ] : [ type ]
+		for (const t in type) {
+			this._vm.$set(state.lateRefresh, type[t], value)
+		}
 	}
 }
