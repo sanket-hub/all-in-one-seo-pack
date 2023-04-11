@@ -102,7 +102,6 @@ abstract class Filters {
 	 * Resets the current user if bbPress is active.
 	 * We have to do this because our calls to wp_get_current_user() set the current user early and this breaks core functionality in bbPress.
 	 *
-	 *
 	 * @since 4.1.5
 	 *
 	 * @return void
