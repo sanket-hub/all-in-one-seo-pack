@@ -70,6 +70,7 @@
 
 			<template #diffPosition="{ row }">
 				<statistic
+					v-if="row.difference.comparison"
 					type="position"
 					:difference="row.difference.position"
 					:showCurrent="false"
@@ -79,6 +80,7 @@
 
 			<template #diffDecay="{ row }">
 				<statistic
+					v-if="row.difference.comparison"
 					type="decay"
 					:difference="row.difference.decay"
 					:showCurrent="false"
@@ -254,7 +256,7 @@ export default {
 				},
 				{
 					slug     : 'clicks',
-					label    : this.$t.__('Clicks', this.$tdPro),
+					label    : this.$t.__('Clicks', this.$td),
 					width    : '80px',
 					sortable : this.isSortable,
 					sortDir  : 'clicks' === this.orderBy ? this.orderDir : 'asc',
@@ -270,7 +272,7 @@ export default {
 				},
 				{
 					slug     : 'impressions',
-					label    : this.$t.__('Impressions', this.$tdPro),
+					label    : this.$t.__('Impressions', this.$td),
 					width    : '120px',
 					sortable : this.isSortable,
 					sortDir  : 'impressions' === this.orderBy ? this.orderDir : 'asc',
@@ -278,7 +280,7 @@ export default {
 				},
 				{
 					slug     : 'position',
-					label    : this.$t.__('Position', this.$tdPro),
+					label    : this.$t.__('Position', this.$td),
 					width    : '85px',
 					sortable : this.isSortable,
 					sortDir  : 'position' === this.orderBy ? this.orderDir : 'asc',

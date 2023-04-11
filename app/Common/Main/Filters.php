@@ -60,6 +60,7 @@ abstract class Filters {
 		add_action( 'dp_duplicate_post', [ $this, 'duplicatePost' ], 10, 2 );
 		add_action( 'dp_duplicate_page', [ $this, 'duplicatePost' ], 10, 2 );
 		add_action( 'woocommerce_product_duplicate_before_save', [ $this, 'scheduleDuplicateProduct' ], 10, 2 );
+		add_action( 'add_post_meta', [ $this, 'rewriteAndRepublish' ], 10, 3 );
 
 		// BBpress compatibility.
 		add_action( 'init', [ $this, 'resetUserBBPress' ], -1 );
@@ -75,6 +76,8 @@ abstract class Filters {
 		add_filter( 'aioseo_public_post_types', [ $this, 'removeInvalidPublicPostTypes' ] );
 		add_filter( 'aioseo_public_taxonomies', [ $this, 'removeInvalidPublicTaxonomies' ] );
 
+		add_action( 'admin_print_scripts', [ $this, 'removeEmojiDetectionScripts' ], 0 );
+
 		// Disable Jetpack sitemaps module.
 		if ( aioseo()->options->sitemap->general->enable ) {
 			add_filter( 'jetpack_get_available_modules', [ $this, 'disableJetpackSitemaps' ] );
@@ -82,10 +85,23 @@ abstract class Filters {
 	}
 
 	/**
+	 * Removes emoji detection scripts on WP 6.2 which broke our Emojis.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @return void
+	 */
+	public function removeEmojiDetectionScripts() {
+		global $wp_version;
+		if ( version_compare( $wp_version, '6.2', '>='  ) ) {
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+		}
+	}
+
+	/**
 	 * Resets the current user if bbPress is active.
 	 * We have to do this because our calls to wp_get_current_user() set the current user early and this breaks core functionality in bbPress.
 	 *
-	 * @link https://github.com/awesomemotive/aioseo/issues/22300
 	 *
 	 * @since 4.1.5
 	 *
@@ -100,6 +116,7 @@ abstract class Filters {
 
 	/**
 	 * Removes the bbPress title filter when adding a new reply with empty title to avoid fatal error.
+	 *
 	 *
 	 * @since 4.3.1
 	 *
@@ -151,6 +168,29 @@ abstract class Filters {
 			$newAioseoPost->$column = $originalAioseoPost->$column;
 		}
 		$newAioseoPost->save();
+	}
+
+	/**
+	 * Duplicates the model when rewrite and republish is triggered.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @param  integer $postId    The post ID.
+	 * @param  string  $metaKey   The meta key.
+	 * @param  mixed   $metaValue The meta value.
+	 * @return void
+	 */
+	public function rewriteAndRepublish( $postId, $metaKey, $metaValue ) {
+		if ( '_dp_has_rewrite_republish_copy' !== $metaKey ) {
+			return;
+		}
+
+		$originalPost = aioseo()->helpers->getPost( $postId );
+		if ( ! is_object( $originalPost ) ) {
+			return;
+		}
+
+		$this->duplicatePost( (int) $metaValue, $originalPost );
 	}
 
 	/**

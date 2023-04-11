@@ -80,15 +80,15 @@ export default {
 				emojiSize         : 19,
 				maxFrequentRows   : 2,
 				categoryIcons     : {
-					frequent : { svg: this.$refs['aioseo-svg-emoji-clock'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					people   : { svg: this.$refs['aioseo-svg-emoji-smile'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					nature   : { svg: this.$refs['aioseo-svg-emoji-paw'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					foods    : { svg: this.$refs['aioseo-svg-emoji-hamburger'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					activity : { svg: this.$refs['aioseo-svg-emoji-basketball'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					places   : { svg: this.$refs['aioseo-svg-emoji-car'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					objects  : { svg: this.$refs['aioseo-svg-emoji-lightbulb'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					symbols  : { svg: this.$refs['aioseo-svg-emoji-symbols'][0].$el.outerHTML.replace(' style="display: none;"', '') },
-					flags    : { svg: this.$refs['aioseo-svg-emoji-flag'][0].$el.outerHTML.replace(' style="display: none;"', '') }
+					frequent : { svg: this.$refs['aioseo-svg-emoji-clock'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					people   : { svg: this.$refs['aioseo-svg-emoji-smile'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					nature   : { svg: this.$refs['aioseo-svg-emoji-paw'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					foods    : { svg: this.$refs['aioseo-svg-emoji-hamburger'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					activity : { svg: this.$refs['aioseo-svg-emoji-basketball'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					places   : { svg: this.$refs['aioseo-svg-emoji-car'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					objects  : { svg: this.$refs['aioseo-svg-emoji-lightbulb'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					symbols  : { svg: this.$refs['aioseo-svg-emoji-symbols'][0]?.$el.outerHTML.replace(' style="display: none;"', '') },
+					flags    : { svg: this.$refs['aioseo-svg-emoji-flag'][0]?.$el.outerHTML.replace(' style="display: none;"', '') }
 				},
 				onEmojiSelect : emojiData => {
 					this.closePicker()
@@ -178,7 +178,7 @@ export default {
 				}
 			`
 			picker.shadowRoot.appendChild(pickerStyle)
-			this.$refs['aioseo-emoji-picker'].appendChild(picker)
+			this.$refs['aioseo-emoji-picker']?.appendChild(picker)
 		},
 		closePicker () {
 			this.$emit('update:show', false)

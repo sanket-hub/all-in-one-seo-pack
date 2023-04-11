@@ -72,10 +72,11 @@
 
 			<template #position="{ row }">
 				<statistic
-				type="position"
-				:total="row.position"
-				:difference="row.difference.position"
-			/>
+					v-if="row.difference.comparison"
+					type="position"
+					:total="row.position"
+					:difference="row.difference.position"
+				/>
 			</template>
 		</core-wp-table>
 	</div>
@@ -121,22 +122,22 @@ export default {
 				},
 				{
 					slug  : 'clicks',
-					label : this.$t.__('Clicks', this.$tdPro),
+					label : this.$t.__('Clicks', this.$td),
 					width : '120px'
 				},
 				{
 					slug  : 'ctr',
-					label : this.$t.__('Avg. CTR', this.$tdPro),
+					label : this.$t.__('Avg. CTR', this.$td),
 					width : '120px'
 				},
 				{
 					slug  : 'impressions',
-					label : this.$t.__('Impressions', this.$tdPro),
+					label : this.$t.__('Impressions', this.$td),
 					width : '120px'
 				},
 				{
 					slug  : 'position',
-					label : this.$t.__('Position', this.$tdPro),
+					label : this.$t.__('Position', this.$td),
 					width : '120px'
 				}
 			]

@@ -55,6 +55,7 @@ const getStandalones = () => {
 		'connect-pro'            : './src/vue/standalone/connect-pro/main.js',
 		'dashboard-widgets'      : './src/vue/standalone/dashboard-widgets/main.js',
 		'flyout-menu'            : './src/vue/standalone/flyout-menu/main.js',
+		'footer-links'           : './src/vue/standalone/footer-links/main.js',
 		'limit-modified-date'    : './src/vue/standalone/limit-modified-date/main.js',
 		'link-format'            : './src/vue/standalone/link-format/main.js',
 		'local-business-seo'     : './src/vue/standalone/local-business-seo/main.js',
@@ -207,7 +208,7 @@ export default ({ mode }) => {
 			cors       : true,
 			strictPort : true,
 			port       : process.env.VITE_AIOSEO_DEV_PORT,
-			host       : process.env.VITE_AIOSEO_DOMAIN,
+			host       : 'localhost' === process.env.VITE_AIOSEO_DOMAIN ? '0.0.0.0' : process.env.VITE_AIOSEO_DOMAIN,
 			hmr        : {
 				port : process.env.VITE_AIOSEO_DEV_PORT,
 				host : process.env.VITE_AIOSEO_DOMAIN

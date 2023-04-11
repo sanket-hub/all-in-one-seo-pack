@@ -49,13 +49,13 @@ body[class*="page_aioseo"] {
 
 	&.admin-bar {
 		.aioseo-app {
-			// 100% (viewport height) - 72px (header) - 65px (wp content margin) - 32px (admin bar)
-			min-height: calc(100vh - 88px - 65px - 32px);
+			// 100% (viewport height) - 72px (header) - 65px (wp content margin) - 32px (admin bar) - 150px (footer).
+			min-height: calc(100vh - 88px - 65px - 32px - 150px);
 		}
 
 		&.aioseo-has-bar {
 			.aioseo-app {
-				min-height: calc(100vh - 88px - 40px - 65px - 32px);
+				min-height: calc(100vh - 88px - 40px - 65px - 32px - 150px);
 			}
 		}
 
@@ -363,4 +363,9 @@ body.aioseo-has-bar {
 
 .no-underline {
 	text-decoration: none;
+}
+
+body,
+#wpfooter {
+	background-color: #F3F4F5;
 }

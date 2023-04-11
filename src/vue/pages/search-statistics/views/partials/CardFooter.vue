@@ -2,7 +2,6 @@
 	<div
 		v-if="buttonTarget"
 		class="aioseo-card-footer"
-		:class="{ 'aioseo-card-footer--no-border' : !params }"
 	>
 		<router-link :to="{ name : buttonTarget, params : params }">
 			<span v-html="strings.openReport" />
@@ -32,7 +31,6 @@ export default {
 
 <style lang="scss">
 .aioseo-card-footer {
-	border-top: 1px solid $border;
 	margin-top: auto;
 	padding-top: 30px;
 	text-align: left;
@@ -42,10 +40,6 @@ export default {
 	bottom: 30px;
 	left: 30px;
 	width: calc( 100% - 48px );
-
-	&--no-border {
-		border-top: 0;
-	}
 
 	a {
 		text-decoration: none;

@@ -104,5 +104,9 @@ export default {
 			failed  : false
 		}
 	},
-	lateRedirectsRefresh : false
+	lateRefresh : {
+		redirects : false,
+		logs      : false,
+		logs404   : false
+	}
 }
