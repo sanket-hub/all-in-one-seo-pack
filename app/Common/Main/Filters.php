@@ -87,13 +87,13 @@ abstract class Filters {
 	/**
 	 * Removes emoji detection scripts on WP 6.2 which broke our Emojis.
 	 *
-	 * @since 4.3.4
+	 * @since 4.3.4.1
 	 *
 	 * @return void
 	 */
 	public function removeEmojiDetectionScripts() {
 		global $wp_version;
-		if ( version_compare( $wp_version, '6.2', '>='  ) ) {
+		if ( version_compare( $wp_version, '6.2', '>=' ) ) {
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		}
 	}
@@ -101,6 +101,7 @@ abstract class Filters {
 	/**
 	 * Resets the current user if bbPress is active.
 	 * We have to do this because our calls to wp_get_current_user() set the current user early and this breaks core functionality in bbPress.
+	 *
 	 *
 	 * @since 4.1.5
 	 *
@@ -429,6 +430,12 @@ abstract class Filters {
 		if ( class_exists( '\Voxel\Controllers\Assets_Controller' ) ) {
 			wp_dequeue_script( 'vue' );
 			wp_dequeue_script( 'vx:backend.js' );
+		}
+
+		// Meta tags for seo plugin.
+		if ( class_exists( '\Pagup\MetaTags\Settings' ) ) {
+			wp_dequeue_script( 'pmt__vuejs' );
+			wp_dequeue_script( 'pmt__script' );
 		}
 	}
 

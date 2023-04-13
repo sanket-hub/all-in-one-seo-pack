@@ -429,6 +429,14 @@ export default {
 					activated   : false,
 					loading     : false
 				},
+				easyDigitalDownloadsPro : {
+					name       : 'Easy Digital Downloads Pro',
+					free       : 'easyDigitalDownloads',
+					installed  : false,
+					canInstall : false,
+					activated  : false,
+					loading    : false
+				},
 				sugarCalendar : {
 					name        : 'Sugar Calendar',
 					description : this.$t.__('A simple & powerful event calendar plugin for WordPress that comes with all the event management features including payments, scheduling, timezones, ticketing, recurring events, and more.', this.$td),

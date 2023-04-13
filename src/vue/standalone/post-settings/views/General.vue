@@ -350,10 +350,10 @@ export default {
 	},
 	watch : {
 		'currentPost.title' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 750)
 		},
 		'currentPost.description' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 750)
 		}
 	},
 	computed : {

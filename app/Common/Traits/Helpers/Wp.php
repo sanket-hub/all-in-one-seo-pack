@@ -125,7 +125,7 @@ trait Wp {
 	}
 
 	/**
-	 * Get all registered Post Statuses.
+	 * Returns all registered Post Statuses.
 	 *
 	 * @since 4.1.6
 	 *
@@ -160,19 +160,23 @@ trait Wp {
 	}
 
 	/**
-	 * Retrieve a list of public post types with slugs/icons.
+	 * Returns a list of public post types objects or names.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  boolean $namesOnly       Whether only the names should be returned.
-	 * @param  boolean $hasArchivesOnly Whether or not to only include post types which have archives.
-	 * @param  boolean $rewriteType     Whether or not to rewrite the type slugs.
-	 * @return array                    An array of public post types.
+	 * @param  bool  $namesOnly       Whether only the names should be returned.
+	 * @param  bool  $hasArchivesOnly Whether to only include post types which have archives.
+	 * @param  bool  $rewriteType     Whether to rewrite the type slugs.
+	 * @return array                  List of public post types.
 	 */
 	public function getPublicPostTypes( $namesOnly = false, $hasArchivesOnly = false, $rewriteType = false ) {
 		$postTypes   = [];
-		$postTypeObjects = get_post_types( [ 'public' => true ], 'objects' );
+		$postTypeObjects = get_post_types( [], 'objects' );
 		foreach ( $postTypeObjects as $postTypeObject ) {
+			if ( ! is_post_type_viewable( $postTypeObject ) ) {
+				continue;
+			}
+
 			$postTypeArray = $this->getPostType( $postTypeObject, $namesOnly, $hasArchivesOnly, $rewriteType );
 			if ( ! empty( $postTypeArray ) ) {
 				$postTypes[] = $postTypeArray;
@@ -183,14 +187,14 @@ trait Wp {
 	}
 
 	/**
-	 * Get the data for the post type.
+	 * Returns the data for the given post type.
 	 *
 	 * @since 4.2.2
 	 *
 	 * @param  \WP_Post_Type $postTypeObject  The post type object.
-	 * @param  boolean       $namesOnly       Whether only the names should be returned.
-	 * @param  boolean       $hasArchivesOnly Whether or not to only include post types which have archives.
-	 * @param  boolean       $rewriteType     Whether or not to rewrite the type slugs.
+	 * @param  bool          $namesOnly       Whether only the names should be returned.
+	 * @param  bool          $hasArchivesOnly Whether to only include post types which have archives.
+	 * @param  bool          $rewriteType     Whether to rewrite the type slugs.
 	 * @return mixed                          Data for the post type.
 	 */
 	public function getPostType( $postTypeObject, $namesOnly = false, $hasArchivesOnly = false, $rewriteType = false ) {
@@ -240,13 +244,13 @@ trait Wp {
 	}
 
 	/**
-	 * Retrieve a list of public taxonomies with slugs/icons.
+	 * Returns a list of public taxonomies objects or names.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  boolean $namesOnly   Whether only the names should be returned.
-	 * @param  boolean $rewriteType Whether or not to rewrite the type slugs.
-	 * @return array                An array of public taxonomies.
+	 * @param  bool  $namesOnly   Whether only the names should be returned.
+	 * @param  bool  $rewriteType Whether to rewrite the type slugs.
+	 * @return array              List of public taxonomies.
 	 */
 	public function getPublicTaxonomies( $namesOnly = false, $rewriteType = false ) {
 		$taxonomies = [];
@@ -254,9 +258,9 @@ trait Wp {
 			return $taxonomies;
 		}
 
-		$taxObjects = get_taxonomies( [ 'public' => true ], 'objects' );
+		$taxObjects = get_taxonomies( [], 'objects' );
 		foreach ( $taxObjects as $taxObject ) {
-			if ( empty( $taxObject->label ) ) {
+			if ( empty( $taxObject->label ) || ! is_taxonomy_viewable( $taxObject ) ) {
 				continue;
 			}
 

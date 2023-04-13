@@ -322,7 +322,7 @@ $generated_i18n_strings = [
 	// Reference: /src/vue/utils/tags.js:67
 	__( 'A short description for your product.', 'all-in-one-seo-pack' ),
 
-	// Reference: /src/vue/pages/about/views/AboutUs.vue:319
+	// Reference: /src/vue/pages/about/views/AboutUs.vue:327
 	__( 'A simple & powerful event calendar plugin for WordPress that comes with all the event management features including payments, scheduling, timezones, ticketing, recurring events, and more.', 'all-in-one-seo-pack' ),
 
 	// Reference: /src/vue/mixins/SeoSiteScore.js:19

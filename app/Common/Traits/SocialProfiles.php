@@ -1,5 +1,5 @@
 <?php
-namespace AIOSEO\Plugin\Common\Schema\Graphs\Traits;
+namespace AIOSEO\Plugin\Common\Traits;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,7 +81,7 @@ trait SocialProfiles {
 			unset( $socialProfiles['twitterUrl'] );
 		}
 
-		return array_values( array_filter( $socialProfiles ) );
+		return array_filter( $socialProfiles );
 	}
 
 	/**
@@ -127,6 +127,6 @@ trait SocialProfiles {
 			unset( $socialProfiles['twitterUrl'] );
 		}
 
-		return array_values( array_filter( $socialProfiles ) );
+		return array_filter( $socialProfiles );
 	}
 }
