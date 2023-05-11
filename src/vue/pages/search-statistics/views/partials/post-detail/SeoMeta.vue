@@ -86,7 +86,7 @@ export default {
 				description          : this.$t.__('Description', this.$td),
 				schema               : this.$t.__('Schema', this.$td),
 				canonicalUrl         : this.$t.__('Canonical URL', this.$td),
-				robots               : this.$t.__('Robots', this.$td),
+				robots               : this.$t.__('Robots Meta', this.$td),
 				robotsNoIndex        : this.$t.__('This post is currently set to noindex which will prevent search engines from finding it.', this.$td),
 				additionalKeywords   : this.$t.__('Additional Keyphrases', this.$td),
 				addAdditionalKeyword : this.$t.__('Add Additional Keyphrase', this.$td)

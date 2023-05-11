@@ -34,12 +34,12 @@ export default {
 		return {
 			score   : 0,
 			strings : {
-				header          : this.$t.__('Internal vs External vs Affiliate Links', this.$tdPro),
-				totalLinks      : this.$t.__('Total Links', this.$tdPro),
+				header          : this.$t.__('Internal vs External vs Affiliate Links', this.$td),
+				totalLinks      : this.$t.__('Total Links', this.$td),
 				linksReportLink : this.$t.sprintf(
 					'<a href="%1$s">%2$s</a><a href="%1$s"> <span>&rarr;</span></a>',
 					'#/links-report?fullReport=1',
-					this.$t.__('See a Full Links Report', this.$tdPro)
+					this.$t.__('See a Full Links Report', this.$td)
 				)
 			}
 		}
@@ -49,17 +49,17 @@ export default {
 			return [
 				{
 					slug  : 'external',
-					name  : this.$t.__('External Links', this.$tdPro),
+					name  : this.$t.__('External Links', this.$td),
 					count : this.totals.externalLinks
 				},
 				{
 					slug  : 'affiliate',
-					name  : this.$t.__('Affiliate Links', this.$tdPro),
+					name  : this.$t.__('Affiliate Links', this.$td),
 					count : this.totals.affiliateLinks
 				},
 				{
 					slug  : 'internal',
-					name  : this.$t.__('Internal Links', this.$tdPro),
+					name  : this.$t.__('Internal Links', this.$td),
 					count : this.totals.internalLinks
 				}
 			]

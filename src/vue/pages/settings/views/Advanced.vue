@@ -455,7 +455,7 @@ export default {
 					`<strong>${import.meta.env.VITE_SHORT_NAME} Pro</strong>`,
 					this.$links.getUpsellLink('general-settings-advanced', this.$constants.GLOBAL_STRINGS.learnMore, 'open-ai', true)
 				),
-				openAiKeyInvalid : this.$t.__('The API key you have entered is invalid. Please check your API key and try again.', this.$tdPro)
+				openAiKeyInvalid : this.$t.__('The API key you have entered is invalid. Please check your API key and try again.', this.$td)
 			}
 		}
 	},

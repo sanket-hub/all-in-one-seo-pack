@@ -66,11 +66,11 @@ export default {
 	data () {
 		return {
 			strings : {
-				inbound           : this.$t.__('Inbound Links', this.$tdPro),
-				outbound          : this.$t.__('Outbound Links', this.$tdPro),
-				affiliate         : this.$t.__('Affiliate', this.$tdPro),
-				external          : this.$t.__('External', this.$tdPro),
-				suggestions       : this.$t.__('Link Suggestions', this.$tdPro),
+				inbound           : this.$t.__('Inbound Links', this.$td),
+				outbound          : this.$t.__('Outbound Links', this.$td),
+				affiliate         : this.$t.__('Affiliate', this.$td),
+				external          : this.$t.__('External', this.$td),
+				suggestions       : this.$t.__('Link Suggestions', this.$td),
 				linkOpportunities : this.$t.sprintf(
 					// Translators: 1 - Right arrow.
 					this.$t.__('Linking Opportunities %1$s', this.$td),

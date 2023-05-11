@@ -207,21 +207,21 @@ export default {
 					this.localLicenseKey = null
 					this.$store.commit('loading', false)
 					if (!error || !error.response || !error.response.body || !error.response.body.error || !error.response.body.licenseData) {
-						this.error = this.$t.__('An unknown error occurred, please try again later.', this.$tdPro)
+						this.error = this.$t.__('An unknown error occurred, please try again later.', this.$td)
 						return
 					}
 
 					const data = error.response.body.licenseData
 					if (data.invalid) {
-						this.error = this.$t.__('The license key provided is invalid. Please use a different key to continue receiving automatic updates.', this.$tdPro)
+						this.error = this.$t.__('The license key provided is invalid. Please use a different key to continue receiving automatic updates.', this.$td)
 					} else if (data.disabled) {
-						this.error = this.$t.__('The license key provided is disabled. Please use a different key to continue receiving automatic updates.', this.$tdPro)
+						this.error = this.$t.__('The license key provided is disabled. Please use a different key to continue receiving automatic updates.', this.$td)
 					} else if (data.expired) {
 						this.error = this.licenseKeyExpired
 					} else if (data.activationsError) {
-						this.error = this.$t.__('This license key has reached the maximum number of activations. Please deactivate it from another site or purchase a new license to continue receiving automatic updates.', this.$tdPro)
+						this.error = this.$t.__('This license key has reached the maximum number of activations. Please deactivate it from another site or purchase a new license to continue receiving automatic updates.', this.$td)
 					} else if (data.connectionError || data.requestError) {
-						this.error = this.$t.__('There was an error connecting to the licensing API. Please try again later.', this.$tdPro)
+						this.error = this.$t.__('There was an error connecting to the licensing API. Please try again later.', this.$td)
 					}
 				})
 		},

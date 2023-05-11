@@ -4,7 +4,7 @@ export const NewsSitemap = {
 			strings : {
 				news               : this.$t.__('News Sitemap', this.$td),
 				setPublicationName : this.$t.__('Set Publication Name', this.$td),
-				publicationName    : this.$t.__('Publication Name', this.$tdPro),
+				publicationName    : this.$t.__('Publication Name', this.$td),
 				postTypes          : this.$t.__('Post Types', this.$td),
 				exclude            : this.$t.__('Exclude Pages/Posts', this.$td),
 				description        : this.$t.__('Our Google News Sitemap lets you control which content you submit to Google News and only contains articles that were published in the last 48 hours. In order to submit a News Sitemap to Google, you must have added your site to Google’s Publisher Center and had it approved.', this.$td),

@@ -29,13 +29,13 @@ export default {
 				'pricing'
 			)
 
-			return this.$t.__('This feature is not available in your current plan.', this.$tdPro) + ' ' +
+			return this.$t.__('This feature is not available in your current plan.', this.$td) + ' ' +
 				this.$t.sprintf(
 					'<a href="%1$s" target="_blank">%2$s</a>',
 					upgradeLink,
 					this.$t.sprintf(
 						// Translators: 1 - The name of a schema type (e.g. "Event", "Job Posting", etc.).
-						this.$t.__('Upgrade your plan and unlock %1$s schema', this.$tdPro),
+						this.$t.__('Upgrade your plan and unlock %1$s schema', this.$td),
 						// Convert PascalCase to spaced out words.
 						this.schema.graph.graphName.replace(/([A-Z].*?)([A-Z])(?![A-Z])/, '$1 $2')
 					)

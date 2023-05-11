@@ -33,7 +33,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				ctaHeader       : this.$t.__('Update Redirects to the latest version', this.$tdPro),
+				ctaHeader       : this.$t.__('Update Redirects to the latest version', this.$td),
 				ctaDescription  : this.$t.__('Our Redirection Manager allows you to easily create and manage redirects for all your pages and posts.', this.$td),
 				updateRedirects : this.$t.__('Update Redirects', this.$td)
 			}

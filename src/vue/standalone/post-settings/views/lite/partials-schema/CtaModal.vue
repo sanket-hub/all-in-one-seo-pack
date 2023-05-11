@@ -119,8 +119,8 @@ export default {
 					this.$t.__('Use our powerful Schema Generator to configure Schema Markup for your content. Search Engines use structured data to better understand what your site is about as well as to display rich snippets in search results. %1$s', this.$td),
 					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'schema', true)
 				),
-				searchSchema   : this.$t.__('Search Schema', this.$tdPro),
-				ctaDescription : this.$t.__('Easily generate unlimited schema markup for your content to help you rank higher in search results. Our schema validator ensures your schema works out of the box.', this.$tdPro),
+				searchSchema   : this.$t.__('Search Schema', this.$td),
+				ctaDescription : this.$t.__('Easily generate unlimited schema markup for your content to help you rank higher in search results. Our schema validator ensures your schema works out of the box.', this.$td),
 				ctaButtonText  : this.$t.__('Upgrade to Pro and Unlock Schema Generator', this.$td),
 				ctaHeader      : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".

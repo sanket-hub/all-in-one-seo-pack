@@ -84,7 +84,7 @@ export default {
 				article        : this.$t.__('Article', this.$td),
 				blogPost       : this.$t.__('Blog Post', this.$td),
 				newsArticle    : this.$t.__('News Article', this.$td),
-				ctaDescription : this.$t.__('Easily generate unlimited schema markup for your content to help you rank higher in search results. Our schema validator ensures your schema works out of the box.', this.$tdPro),
+				ctaDescription : this.$t.__('Easily generate unlimited schema markup for your content to help you rank higher in search results. Our schema validator ensures your schema works out of the box.', this.$td),
 				ctaButtonText  : this.$t.__('Upgrade to Pro and Unlock Schema Generator', this.$td),
 				ctaHeader      : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".

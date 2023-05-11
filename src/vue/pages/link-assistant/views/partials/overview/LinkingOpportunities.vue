@@ -120,13 +120,13 @@ export default {
 	data () {
 		return {
 			strings : {
-				linkingOpportunities : this.$t.__('Linking Opportunities', this.$tdPro),
+				linkingOpportunities : this.$t.__('Linking Opportunities', this.$td),
 				noResults            : this.$t.__('No items found.', this.$td)
 			},
 			link : this.$t.sprintf(
 				'<a class="links-report-link" href="%1$s">%2$s</a><a href="%1$s"> <span>&rarr;</span></a>',
 				'#/links-report?linkingOpportunities=1',
-				this.$t.__('See All Linking Opportunities', this.$tdPro)
+				this.$t.__('See All Linking Opportunities', this.$td)
 			)
 		}
 	},
@@ -141,7 +141,7 @@ export default {
 					slug  : 'internal-inbound',
 					label : this.$t.sprintf(
 						// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
-						this.$t.__('%1$sInbound Internal Links%2$sLinks from other posts to this post', this.$tdPro),
+						this.$t.__('%1$sInbound Internal Links%2$sLinks from other posts to this post', this.$td),
 						'<strong>',
 						'</strong><br />'
 					),
@@ -151,7 +151,7 @@ export default {
 					slug  : 'internal-outbound',
 					label : this.$t.sprintf(
 						// Translators: 1 - Opening strong tag, 2 - Closing strong tag, BR tag.
-						this.$t.__('%1$sOutbound Internal Links%2$sLinks from this post to other posts', this.$tdPro),
+						this.$t.__('%1$sOutbound Internal Links%2$sLinks from this post to other posts', this.$td),
 						'<strong>',
 						'</strong><br />'
 					),

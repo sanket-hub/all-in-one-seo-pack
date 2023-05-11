@@ -100,13 +100,13 @@ export default {
 	data () {
 		return {
 			strings : {
-				mostLinkedDomains  : this.$t.__('Most Linked to Domains', this.$tdPro),
-				totalExternalLinks : this.$t.__('Total External Links', this.$tdPro),
+				mostLinkedDomains  : this.$t.__('Most Linked to Domains', this.$td),
+				totalExternalLinks : this.$t.__('Total External Links', this.$td),
 				noResults          : this.$t.__('No items found.', this.$td),
 				link               : this.$t.sprintf(
 					'<a href="%1$s">%2$s</a><a href="%1$s"> <span>&rarr;</span></a>',
 					'#/domains-report?fullReport=1',
-					this.$t.__('See a Full Domains Report', this.$tdPro)
+					this.$t.__('See a Full Domains Report', this.$td)
 				)
 			}
 		}
@@ -138,7 +138,7 @@ export default {
 
 			if (otherDomainsCount) {
 				parts.push({
-					name  : this.$t.__('other domains', this.$tdPro),
+					name  : this.$t.__('other domains', this.$td),
 					color : '#E8E8EB',
 					count : otherDomainsCount,
 					ratio : (otherDomainsCount / this.totals.externalLinks) * 100,
@@ -173,11 +173,11 @@ export default {
 			return [
 				{
 					slug  : 'name',
-					label : this.$t.__('Domain', this.$tdPro)
+					label : this.$t.__('Domain', this.$td)
 				},
 				{
 					slug  : 'count',
-					label : this.$t.__('# of Links', this.$tdPro)
+					label : this.$t.__('# of Links', this.$td)
 				}
 			]
 		}

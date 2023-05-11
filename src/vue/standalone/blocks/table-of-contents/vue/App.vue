@@ -102,7 +102,7 @@ export default {
 				instructions           : this.$t.__('Add a heading block below to begin generating the Table of Contents.', this.$td),
 				tooltipMainDescription : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
-					this.$t.__('%1$s can automatically output a table of contents based on your heading tags below. Search engines sometimes use table of contents in search results or rich snippets which can help you increase your rankings.', this.$tdPro),
+					this.$t.__('%1$s can automatically output a table of contents based on your heading tags below. Search engines sometimes use table of contents in search results or rich snippets which can help you increase your rankings.', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				),
 				reorder : this.$t.__('Reorder', this.$td),

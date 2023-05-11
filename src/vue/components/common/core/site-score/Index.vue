@@ -106,8 +106,8 @@ export default {
 	}
 
 	.score-analyzing {
-		margin-top: 20px;
-		font-size: 30px;
+		margin-top: 16px;
+		font-size: 24px;
 	}
 }
 

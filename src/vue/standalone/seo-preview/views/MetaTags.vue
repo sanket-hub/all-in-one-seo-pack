@@ -40,7 +40,7 @@ export default {
 					value : document.querySelector('meta[name="description"]')?.content || ''
 				},
 				{
-					label : this.$t.__('Canonical', this.$td),
+					label : this.$t.__('Canonical URL', this.$td),
 					value : document.querySelector('link[rel="canonical"]')?.href || ''
 				}
 			]

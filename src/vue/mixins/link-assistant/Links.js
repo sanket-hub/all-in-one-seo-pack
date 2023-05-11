@@ -54,18 +54,18 @@ export default {
 				{ label: this.$t.__('Delete', this.$td), value: 'delete' }
 			],
 			strings : {
-				frontPage  : this.$t.__('Front Page', this.$tdPro),
-				deleteLink : this.$t.__('Delete Link', this.$tdPro)
+				frontPage  : this.$t.__('Front Page', this.$td),
+				deleteLink : this.$t.__('Delete Link', this.$td)
 			},
 			modalStrings : {
-				areYouSureSingle     : this.$t.__('Are you sure you want to delete this link?', this.$tdPro),
-				areYouSureMultiple   : this.$t.__('Are you sure you want to delete these links?', this.$tdPro),
-				areYouSureAll        : this.$t.__('Are you sure you want to delete all links?', this.$tdPro),
-				actionCannotBeUndone : this.$t.__('This action cannot be undone.', this.$tdPro),
-				yesSingle            : this.$t.__('Yes, I want to delete this link', this.$tdPro),
-				yesMultiple          : this.$t.__('Yes, I want to delete these links', this.$tdPro),
-				yesAll               : this.$t.__('Yes, I want to delete all links', this.$tdPro),
-				noChangedMind        : this.$t.__('No, I changed my mind', this.$tdPro)
+				areYouSureSingle     : this.$t.__('Are you sure you want to delete this link?', this.$td),
+				areYouSureMultiple   : this.$t.__('Are you sure you want to delete these links?', this.$td),
+				areYouSureAll        : this.$t.__('Are you sure you want to delete all links?', this.$td),
+				actionCannotBeUndone : this.$t.__('This action cannot be undone.', this.$td),
+				yesSingle            : this.$t.__('Yes, I want to delete this link', this.$td),
+				yesMultiple          : this.$t.__('Yes, I want to delete these links', this.$td),
+				yesAll               : this.$t.__('Yes, I want to delete all links', this.$td),
+				noChangedMind        : this.$t.__('No, I changed my mind', this.$td)
 			}
 		}
 	},

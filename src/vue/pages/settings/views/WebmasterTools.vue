@@ -504,7 +504,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking outbound forms with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking outbound forms with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackOutboundForms', true)
 							)
@@ -522,7 +522,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking events with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking events with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackEvents', true)
 							)
@@ -540,7 +540,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking URL changes for single pages with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking URL changes for single pages with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackUrlChanges', true)
 							)
@@ -558,7 +558,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking how long pages are in visible state with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking how long pages are in visible state with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackVisibility', true)
 							)
@@ -576,7 +576,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking media queries with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking media queries with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackMediaQueries', true)
 							)
@@ -594,7 +594,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking when elements are visible within the viewport with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking when elements are visible within the viewport with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackImpressions', true)
 							)
@@ -612,7 +612,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking how far down a user scrolls a page with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking how far down a user scrolls a page with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackScrollbar', true)
 							)
@@ -630,7 +630,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This enables tracking interactions with the official Facebook and Twitter widgets with Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This enables tracking interactions with the official Facebook and Twitter widgets with Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackSocial', true)
 							)
@@ -648,7 +648,7 @@ export default {
 							displayIf   : [ 'id', 'advanced', '!gtmContainerId' ],
 							description : this.$t.sprintf(
 								// Translators: 1 - HTML line break tag, 2 - A link to our documentation.
-								this.$t.__('This ensures consistency in URL paths reported to Google Analytics.%1$s%2$s', this.$tdPro),
+								this.$t.__('This ensures consistency in URL paths reported to Google Analytics.%1$s%2$s', this.$td),
 								'<br>',
 								this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'trackCleanUrl', true)
 							)
@@ -662,7 +662,7 @@ export default {
 							description : this.$t.sprintf(
 								// Translators: 1 - "Google Tag Manager account".
 								this.$t.__('Get your Google Tag Manager ID in your %1$s.', this.$td),
-								this.$links.getDocLink(this.$t.__('Google Tag Manager account', this.$tdPro), 'gtmContainerId')
+								this.$links.getDocLink(this.$t.__('Google Tag Manager account', this.$td), 'gtmContainerId')
 							)
 						}
 					]

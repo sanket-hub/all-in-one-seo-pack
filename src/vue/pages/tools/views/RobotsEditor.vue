@@ -297,8 +297,8 @@ export default {
 			errors        : {},
 			strings       : {
 				selectSite       : this.$t.__('Select Site', this.$td),
-				networkAlert     : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To make adjust the robots.txt rules for an individual site, please choose it in the list above.', this.$td),
-				networkAlertLite : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To make adjust the robots.txt rules for an individual site, please visit the dashboard for that site directly and upate the settings there.', this.$td),
+				networkAlert     : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To adjust the robots.txt rules for an individual site, please choose it in the list above.', this.$td),
+				networkAlertLite : this.$t.__('These custom robots.txt rules will apply globally to your entire network. To adjust the robots.txt rules for an individual site, please visit the dashboard for that site directly and update the settings there.', this.$td),
 				robotsEditor     : this.$t.__('Robots.txt Editor', this.$td),
 				description      : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO"), 2 - The plugin short name ("AIOSEO").

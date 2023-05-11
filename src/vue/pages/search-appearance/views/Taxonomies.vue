@@ -114,7 +114,7 @@ export default {
 				},
 				{
 					slug   : 'advanced',
-					name   : this.$t.__('Advanced', this.$tdPro),
+					name   : this.$t.__('Advanced', this.$td),
 					access : 'aioseo_search_appearance_settings',
 					pro    : false
 				}

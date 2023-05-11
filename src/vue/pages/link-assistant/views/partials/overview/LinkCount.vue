@@ -66,32 +66,32 @@ export default {
 	data () {
 		return {
 			strings : {
-				orphanedPostsDescription : this.$t.__('Orphaned posts are posts that have no inbound internal links yet and may be more difficult to find by search engines.', this.$tdPro)
+				orphanedPostsDescription : this.$t.__('Orphaned posts are posts that have no inbound internal links yet and may be more difficult to find by search engines.', this.$td)
 			},
 			icons : [
 				{
 					type : 'posts',
-					name : this.$t.__('Posts Crawled', this.$tdPro),
+					name : this.$t.__('Posts Crawled', this.$td),
 					icon : 'svg-search'
 				},
 				{
 					type : 'external',
-					name : this.$t.__('External Links', this.$tdPro),
+					name : this.$t.__('External Links', this.$td),
 					icon : 'svg-link-external'
 				},
 				{
 					type : 'internal',
-					name : this.$t.__('Internal Links', this.$tdPro),
+					name : this.$t.__('Internal Links', this.$td),
 					icon : 'svg-link-internal-inbound'
 				},
 				{
 					type : 'affiliate',
-					name : this.$t.__('Affiliate Links', this.$tdPro),
+					name : this.$t.__('Affiliate Links', this.$td),
 					icon : 'svg-link-affiliate'
 				},
 				{
 					type : 'orphaned',
-					name : this.$t.__('Orphaned Posts', this.$tdPro),
+					name : this.$t.__('Orphaned Posts', this.$td),
 					icon : 'svg-link-orphaned'
 				}
 			]

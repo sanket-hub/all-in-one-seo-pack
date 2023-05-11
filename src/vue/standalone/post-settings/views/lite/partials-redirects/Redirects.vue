@@ -46,7 +46,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				modalHeader : this.$t.__('Redirects', this.$tdPro)
+				modalHeader : this.$t.__('Redirects', this.$td)
 			}
 		}
 	},

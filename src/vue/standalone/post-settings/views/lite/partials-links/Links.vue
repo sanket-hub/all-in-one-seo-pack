@@ -278,7 +278,7 @@ export default {
 					name : this.$t.sprintf(
 						'%1$s %2$s',
 						this.mockedPostData.links.inboundInternal.totals.total,
-						this.$t.__('Inbound Internal', this.$tdPro)
+						this.$t.__('Inbound Internal', this.$td)
 					)
 				},
 				{
@@ -287,7 +287,7 @@ export default {
 					name : this.$t.sprintf(
 						'%1$s %2$s',
 						this.mockedPostData.links.outboundInternal.totals.total,
-						this.$t.__('Outbound Internal', this.$tdPro)
+						this.$t.__('Outbound Internal', this.$td)
 					)
 				},
 				{
@@ -296,7 +296,7 @@ export default {
 					name : this.$t.sprintf(
 						'%1$s %2$s',
 						this.mockedPostData.links.affiliate.totals.total,
-						this.$t.__('Affiliate', this.$tdPro)
+						this.$t.__('Affiliate', this.$td)
 					)
 				},
 				{
@@ -305,7 +305,7 @@ export default {
 					name : this.$t.sprintf(
 						'%1$s %2$s',
 						this.mockedPostData.links.external.totals.total,
-						this.$t.__('External', this.$tdPro)
+						this.$t.__('External', this.$td)
 					)
 				},
 				{
@@ -314,7 +314,7 @@ export default {
 					name : this.$t.sprintf(
 						'%1$s %2$s',
 						this.mockedPostData.links.suggestionsOutbound.totals.total + this.mockedPostData.links.suggestionsInbound.totals.total,
-						this.$t.__('Link Suggestions', this.$tdPro)
+						this.$t.__('Link Suggestions', this.$td)
 					)
 				}
 			]
@@ -322,7 +322,7 @@ export default {
 		modalHeader () {
 			return this.$t.sprintf(
 				// Translators: 1 - The post title.
-				this.$t.__('Links & Suggestions for "%1$s"', this.$tdPro),
+				this.$t.__('Links & Suggestions for "%1$s"', this.$td),
 				window.wp.data.select('core/editor').getEditedPostAttribute('title')
 			)
 		}

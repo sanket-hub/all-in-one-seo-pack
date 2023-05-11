@@ -35,7 +35,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				ctaHeader       : this.$t.__('Enable Redirects on your Site', this.$tdPro),
+				ctaHeader       : this.$t.__('Enable Redirects on your Site', this.$td),
 				ctaDescription  : this.$t.__('Our Redirection Manager allows you to easily create and manage redirects for all your pages and posts.', this.$td),
 				enableRedirects : this.$t.__('Enable Redirects', this.$td)
 			}

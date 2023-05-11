@@ -33,7 +33,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				ctaHeader           : this.$t.__('Update Link Assistant to the latest version', this.$tdPro),
+				ctaHeader           : this.$t.__('Update Link Assistant to the latest version', this.$td),
 				ctaDescription      : this.$t.__('Get internal link suggestions for all your content including orphaned posts that have no internal links.', this.$td),
 				updateLinkAssistant : this.$t.__('Update Link Assistant', this.$td)
 			}

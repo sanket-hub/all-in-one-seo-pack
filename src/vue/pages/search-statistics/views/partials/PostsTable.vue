@@ -231,6 +231,12 @@ export default {
 				return {}
 			}
 		},
+		defaultSorting : {
+			type : Object,
+			default () {
+				return {}
+			}
+		},
 		initialFilter : {
 			type : String,
 			default () {
@@ -334,12 +340,12 @@ export default {
 				},
 				{
 					slug  : 'diffDecay',
-					label : this.$t.__('Diff', this.$tdPro),
+					label : this.$t.__('Diff', this.$td),
 					width : '95px'
 				},
 				{
 					slug  : 'diffPosition',
-					label : this.$t.__('Diff', this.$tdPro),
+					label : this.$t.__('Diff', this.$td),
 					width : '80px'
 				}
 			].filter(column => this.allColumns.includes(column.slug))

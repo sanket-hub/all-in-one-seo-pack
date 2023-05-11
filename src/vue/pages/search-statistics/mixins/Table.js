@@ -52,5 +52,9 @@ export default {
 		processAdditionaFilterOptionSelected ({ name, selectedValue }) {
 			this.selectedFilters[name] = selectedValue
 		}
+	},
+	mounted () {
+		this.orderBy  = this.defaultSorting?.orderBy || this.orderBy
+		this.orderDir = this.defaultSorting?.orderDir || this.orderDir
 	}
 }

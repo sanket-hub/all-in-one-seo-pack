@@ -17,7 +17,7 @@ export default {
 	},
 	data () {
 		return {
-			error : this.$t.__('Your connection with Google Search Console has expired or is invalid. Please check that your site is verified in Google Search Console and try to reconnect. If the problem persists, please contact our support team.', this.$tdPro)
+			error : this.$t.__('Your connection with Google Search Console has expired or is invalid. Please check that your site is verified in Google Search Console and try to reconnect. If the problem persists, please contact our support team.', this.$td)
 		}
 	},
 	computed : {

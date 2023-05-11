@@ -35,7 +35,7 @@ export default {
 		return {
 			strings : {
 				titleAttributeFormat : this.$t.__('Title Attribute Format', this.$td),
-				ctaDescription       : this.$t.__('The Image SEO module is a premium feature that enables you to globally control the title, alt tag, caption, description and filename of the images on your site.', this.$tdPro),
+				ctaDescription       : this.$t.__('The Image SEO module is a premium feature that enables you to globally control the title, alt tag, caption, description and filename of the images on your site.', this.$td),
 				ctaButtonText        : this.$t.__('Upgrade to Pro and Unlock Image SEO', this.$td),
 				ctaHeader            : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".

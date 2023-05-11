@@ -64,13 +64,8 @@ export default {
 			type     : Object,
 			required : true
 		},
-		registeredPostStatuses : {
-			type : Object,
-			default () {
-				return this.$aioseo.postData
-			}
-		},
-		excluded : {
+		registeredPostStatuses : Object,
+		excluded               : {
 			type : Array,
 			default () {
 				return []
@@ -90,8 +85,11 @@ export default {
 		}
 	},
 	computed : {
+		getRegisteredPostStatuses () {
+			return this.registeredPostStatuses || this.$aioseo.postData
+		},
 		postStatuses () {
-			return this.registeredPostStatuses[this.type].filter(postStatus => {
+			return this.getRegisteredPostStatuses[this.type].filter(postStatus => {
 				return !this.excluded.includes(postStatus.status)
 			})
 		}

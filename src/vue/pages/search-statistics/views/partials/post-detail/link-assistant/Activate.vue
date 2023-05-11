@@ -35,7 +35,7 @@ export default {
 	data () {
 		return {
 			strings : {
-				ctaHeader           : this.$t.__('Enable Link Assistant on your Site', this.$tdPro),
+				ctaHeader           : this.$t.__('Enable Link Assistant on your Site', this.$td),
 				ctaDescription      : this.$t.__('Get internal link suggestions for all your content including orphaned posts that have no internal links.', this.$td),
 				enableLinkAssistant : this.$t.__('Enable Link Assistant', this.$td)
 			}

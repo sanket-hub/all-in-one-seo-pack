@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n'
 
 export const td = import.meta.env.VITE_TEXTDOMAIN
-export const tdPro = import.meta.env.VITE_TEXTDOMAIN_PRO
 
 export const PRIORITY_OPTIONS = [
 	{ label: '0.0', value: '0.0' },
@@ -1493,91 +1492,91 @@ export const UPSELL_FEATURE_LIST = [
 export const DISCOUNT_PERCENTAGE = '60%'
 
 export const EVENT_TYPE_LIST = [
-	{ label: __('Business Event', tdPro), value: 'BusinessEvent' },
-	{ label: __('Childrens Event', tdPro), value: 'ChildrensEvent' },
-	{ label: __('Comedy Event', tdPro), value: 'ComedyEvent' },
-	{ label: __('Dance Event', tdPro), value: 'DanceEvent' },
-	{ label: __('Delivery Event', tdPro), value: 'DeliveryEvent' },
-	{ label: __('Education Event', tdPro), value: 'EducationEvent' },
-	{ label: __('Exhibition Event', tdPro), value: 'Exhibition' },
-	{ label: __('Festival', tdPro), value: 'Festival' },
-	{ label: __('Food Event', tdPro), value: 'FoodEvent' },
-	{ label: __('Hackathon', tdPro), value: 'Hackathon' },
-	{ label: __('Literary Event', tdPro), value: 'LiteraryEvent' },
-	{ label: __('Music Event', tdPro), value: 'MusicEvent' },
-	{ label: __('Publication Event', tdPro), value: 'PublicationEvent' },
-	{ label: __('Sale Event', tdPro), value: 'SaleEvent' },
-	{ label: __('Screening Event', tdPro), value: 'ScreeningEvent' },
-	{ label: __('Social Event', tdPro), value: 'SocialEvent' },
-	{ label: __('Sports Event', tdPro), value: 'SportsEvent' },
-	{ label: __('Theater Event', tdPro), value: 'TheaterEvent' },
-	{ label: __('Visual Arts Event', tdPro), value: 'VisualArtsEvent' }
+	{ label: __('Business Event', td), value: 'BusinessEvent' },
+	{ label: __('Childrens Event', td), value: 'ChildrensEvent' },
+	{ label: __('Comedy Event', td), value: 'ComedyEvent' },
+	{ label: __('Dance Event', td), value: 'DanceEvent' },
+	{ label: __('Delivery Event', td), value: 'DeliveryEvent' },
+	{ label: __('Education Event', td), value: 'EducationEvent' },
+	{ label: __('Exhibition Event', td), value: 'Exhibition' },
+	{ label: __('Festival', td), value: 'Festival' },
+	{ label: __('Food Event', td), value: 'FoodEvent' },
+	{ label: __('Hackathon', td), value: 'Hackathon' },
+	{ label: __('Literary Event', td), value: 'LiteraryEvent' },
+	{ label: __('Music Event', td), value: 'MusicEvent' },
+	{ label: __('Publication Event', td), value: 'PublicationEvent' },
+	{ label: __('Sale Event', td), value: 'SaleEvent' },
+	{ label: __('Screening Event', td), value: 'ScreeningEvent' },
+	{ label: __('Social Event', td), value: 'SocialEvent' },
+	{ label: __('Sports Event', td), value: 'SportsEvent' },
+	{ label: __('Theater Event', td), value: 'TheaterEvent' },
+	{ label: __('Visual Arts Event', td), value: 'VisualArtsEvent' }
 ]
 
 export const EVENT_STATUS_LIST = [
-	{ label: __('Scheduled', tdPro), value: 'EventScheduled' },
-	{ label: __('Cancelled', tdPro), value: 'EventCancelled' },
-	{ label: __('Postponed', tdPro), value: 'EventPostponed' },
-	{ label: __('Rescheduled', tdPro), value: 'EventRescheduled' },
-	{ label: __('Moved Online', tdPro), value: 'EventMovedOnline' }
+	{ label: __('Scheduled', td), value: 'EventScheduled' },
+	{ label: __('Cancelled', td), value: 'EventCancelled' },
+	{ label: __('Postponed', td), value: 'EventPostponed' },
+	{ label: __('Rescheduled', td), value: 'EventRescheduled' },
+	{ label: __('Moved Online', td), value: 'EventMovedOnline' }
 ]
 
 export const WEBPAGE_TYPE_LIST = [
-	{ label: __('Web Page', tdPro), value: 'WebPage' },
-	{ label: __('About Page', tdPro), value: 'AboutPage' },
-	{ label: __('Checkout Page', tdPro), value: 'CheckoutPage' },
-	{ label: __('Collection Page', tdPro), value: 'CollectionPage' },
-	{ label: __('Contact Page', tdPro), value: 'ContactPage' },
-	{ label: __('Item Page', tdPro), value: 'ItemPage' },
-	{ label: __('Medical Page', tdPro), value: 'MedicalWebPage' },
-	{ label: __('Profile Page', tdPro), value: 'ProfilePage' },
-	{ label: __('Real Estate Listing', tdPro), value: 'RealEstateListing' },
-	{ label: __('Search Results Page', tdPro), value: 'SearchResultsPage' }
+	{ label: __('Web Page', td), value: 'WebPage' },
+	{ label: __('About Page', td), value: 'AboutPage' },
+	{ label: __('Checkout Page', td), value: 'CheckoutPage' },
+	{ label: __('Collection Page', td), value: 'CollectionPage' },
+	{ label: __('Contact Page', td), value: 'ContactPage' },
+	{ label: __('Item Page', td), value: 'ItemPage' },
+	{ label: __('Medical Page', td), value: 'MedicalWebPage' },
+	{ label: __('Profile Page', td), value: 'ProfilePage' },
+	{ label: __('Real Estate Listing', td), value: 'RealEstateListing' },
+	{ label: __('Search Results Page', td), value: 'SearchResultsPage' }
 ]
 
 export const JOBPOSTING_EMPLOYMENT_TYPE_LIST = [
-	{ label: __('Full Time', tdPro), value: 'FULL_TIME' },
-	{ label: __('Part Time', tdPro), value: 'PART_TIME' },
-	{ label: __('Contractor', tdPro), value: 'CONTRACTOR' },
-	{ label: __('Temporary', tdPro), value: 'TEMPORARY' },
-	{ label: __('Intern', tdPro), value: 'INTERN' },
-	{ label: __('Volunteer', tdPro), value: 'VOLUNTEER' },
-	{ label: __('Day-by-Day Basis', tdPro), value: 'PER_DIEM' },
-	{ label: __('Other', tdPro), value: 'OTHER' }
+	{ label: __('Full Time', td), value: 'FULL_TIME' },
+	{ label: __('Part Time', td), value: 'PART_TIME' },
+	{ label: __('Contractor', td), value: 'CONTRACTOR' },
+	{ label: __('Temporary', td), value: 'TEMPORARY' },
+	{ label: __('Intern', td), value: 'INTERN' },
+	{ label: __('Volunteer', td), value: 'VOLUNTEER' },
+	{ label: __('Day-by-Day Basis', td), value: 'PER_DIEM' },
+	{ label: __('Other', td), value: 'OTHER' }
 ]
 
 export const JOBPOSTING_DEGREE_TYPE_LIST = [
-	{ label: __('Professional Certificate', tdPro), value: 'professional certificate' },
-	{ label: __('High School', tdPro), value: 'high school' },
-	{ label: __('Associate Degree', tdPro), value: 'associate degree' },
-	{ label: __('Bachelor Degree', tdPro), value: 'bachelor degree' },
-	{ label: __('Postgraduate Degree', tdPro), value: 'postgraduate degree' }
+	{ label: __('Professional Certificate', td), value: 'professional certificate' },
+	{ label: __('High School', td), value: 'high school' },
+	{ label: __('Associate Degree', td), value: 'associate degree' },
+	{ label: __('Bachelor Degree', td), value: 'bachelor degree' },
+	{ label: __('Postgraduate Degree', td), value: 'postgraduate degree' }
 ]
 
 export const JOBPOSTING_SALARY_INTERVAL_TYPE_LIST = [
-	{ label: __('Annual', tdPro), value: 'YEAR' },
-	{ label: __('Month', tdPro), value: 'MONTH' },
-	{ label: __('Week', tdPro), value: 'WEEK' },
-	{ label: __('Day', tdPro), value: 'DAY' },
-	{ label: __('Hour', tdPro), value: 'HOUR' }
+	{ label: __('Annual', td), value: 'YEAR' },
+	{ label: __('Month', td), value: 'MONTH' },
+	{ label: __('Week', td), value: 'WEEK' },
+	{ label: __('Day', td), value: 'DAY' },
+	{ label: __('Hour', td), value: 'HOUR' }
 ]
 
 export const SCHEMA_GENDER = [
-	{ label: __('Male', tdPro), value: 'Male' },
-	{ label: __('Female', tdPro), value: 'Female' },
-	{ label: __('Unisex', tdPro), value: 'Unisex' }
+	{ label: __('Male', td), value: 'Male' },
+	{ label: __('Female', td), value: 'Female' },
+	{ label: __('Unisex', td), value: 'Unisex' }
 ]
 
 export const SCHEMA_ENERGY_RATING = [
-	{ label: __('N/A', tdPro), value: '' },
-	{ label: __('AAA+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA3Plus' },
-	{ label: __('AA+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA2Plus' },
-	{ label: __('A+', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA1Plus' },
-	{ label: __('A', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryA' },
-	{ label: __('B', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryB' },
-	{ label: __('C', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryC' },
-	{ label: __('D', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryD' },
-	{ label: __('E', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryE' },
-	{ label: __('F', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryF' },
-	{ label: __('G', tdPro), value: 'https://schema.org/EUEnergyEfficiencyCategoryG' }
+	{ label: __('N/A', td), value: '' },
+	{ label: __('AAA+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA3Plus' },
+	{ label: __('AA+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA2Plus' },
+	{ label: __('A+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA1Plus' },
+	{ label: __('A', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA' },
+	{ label: __('B', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryB' },
+	{ label: __('C', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryC' },
+	{ label: __('D', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryD' },
+	{ label: __('E', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryE' },
+	{ label: __('F', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryF' },
+	{ label: __('G', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryG' }
 ]

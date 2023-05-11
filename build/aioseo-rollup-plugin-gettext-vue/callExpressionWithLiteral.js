@@ -58,9 +58,34 @@ module.exports = function (calleeName, options, globalOptions) {
 			return
 		}
 
-		if (!globalOptions.recognizedTextDomains[message.textDomain]) {
+		// Use a for loop to loop through the text domains array.
+		let valid   = false,
+			domains = []
+		for (let i = 0; i < globalOptions.textDomains.length; i++) {
+			const textDomain = globalOptions.textDomains[i]
+
+			// Check if the file is in the path for the current textdomain.
+			if (!sourceFile.fileName.match(textDomain.path)) {
+				continue
+			}
+
+			domains.push(textDomain.domain)
+			domains = [
+				...domains,
+				...textDomain.matches
+			]
+
+			if (
+				textDomain.matches.includes(message.textDomain) ||
+				message.textDomain === textDomain.domain
+			) {
+				valid = true
+			}
+		}
+
+		if (!valid) {
 			const lineInfo = sourceFile.getLineAndCharacterOfPosition(node.getStart())
-			console.error('\n', 'Invalid textdomain: ', message, `${sourceFile.fileName}:${lineInfo.line}:${lineInfo.character}`)
+			console.error('\n', 'Invalid textdomain: ', message, `${sourceFile.fileName}:${lineInfo.line}:${lineInfo.character}`, `Expected: ${domains.join(' or ')}. Found: "${message.textDomain}"`)
 			return
 		}
 

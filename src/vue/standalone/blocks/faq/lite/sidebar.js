@@ -38,7 +38,13 @@ export const render = (className, attributes, setSchemaBlockAttributes) => {
 		tagName
 	} = attributes
 
-	const upgradeLink = links.getUpsellLink('faq-block', __('Click here to get', td) + ' ' + import.meta.env.VITE_SHORT_NAME + ' Pro', 'sidebar', true)
+	const upgradeLink = links.getUpsellLink(
+		'faq-block',
+		// Translators: The full string is "Click here to get AIOSEO Pro".
+		__('Click here to get', td) + ' ' + import.meta.env.VITE_SHORT_NAME + ' Pro',
+		'sidebar',
+		true
+	)
 
 	return html`
 		<div data-schema-only="${hidden}" className="${className}">

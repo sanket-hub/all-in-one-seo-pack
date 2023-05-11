@@ -18,7 +18,6 @@
 					v-for="(tab, index) in tabs"
 					:name="tab.slug"
 					:key="index"
-					v-ripple
 				>
 					<slot name="var-tab" :tab="tab">
 						<slot name="var-tab-icon" :tab="tab" />
@@ -142,16 +141,10 @@ import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleInformation from '@/vue/components/common/svg/circle/Information'
 import SvgEllipse from '@/vue/components/common/svg/Ellipse'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
-import { Ripple as VarRipple, Tab as VarTab, Tabs as VarTabs } from '@varlet/ui'
-import { supportTouch, createTouchEmulator } from '@/vue/utils/touchEmulator'
-import '@varlet/ui/es/tab/style/index'
-import '@varlet/ui/es/tabs/style/index'
+import { Tab as VarTab, Tabs as VarTabs } from '@varlet/ui'
 
 export default {
 	emits      : [ 'changed' ],
-	directives : {
-		ripple : VarRipple
-	},
 	components : {
 		BaseButton,
 		SvgCaret,
@@ -254,6 +247,27 @@ export default {
 
 				this.showMobileMenu = false
 			})
+		},
+		createRipple (event) {
+			const button   = event.currentTarget
+			const circle   = document.createElement('span')
+			const diameter = Math.max(button.clientWidth, button.clientHeight)
+			const radius   = diameter / 2
+			const offset   = button.getBoundingClientRect()
+
+			circle.style.width = circle.style.height = `${diameter}px`
+			circle.style.left = `${event.clientX - (offset.left + radius)}px`
+			circle.style.top = `${event.clientY - (offset.top + radius)}px`
+
+			circle.classList.add('ripple')
+
+			const ripple = button.getElementsByClassName('ripple')[0]
+
+			if (ripple) {
+				ripple.remove()
+			}
+
+			button.appendChild(circle)
 		}
 	},
 	beforeMount () {
@@ -295,8 +309,11 @@ export default {
 				attributes : true
 			})
 
-			if (!supportTouch) {
-				createTouchEmulator(tabs)
+			const rippleTabs = tabs.querySelectorAll('.var-tab')
+			if (rippleTabs.length) {
+				rippleTabs.forEach(tab => {
+					tab.addEventListener('click', this.createRipple)
+				})
 			}
 		})
 	},
@@ -308,19 +325,27 @@ export default {
 
 <style lang="scss">
 .aioseo-app {
+	@import '@/vue/assets/scss/tabs';
+
 	.aioseo-tabs {
 		display: flex;
 		align-items: center;
 
-		--tabs-padding: 0;
-		--tabs-background: none;
 		--tabs-item-horizontal-height: 52px;
+		--tabs-item-vertical-height: 66px;
+		--tabs-radius: 2px;
+		--tabs-padding: 0;
+		--tabs-indicator-size: 2px;
+		--tabs-indicator-background: #{$blue};
+		--tabs-background: none;
+		--tabs-indicator-inner-size: 100%;
+		--color-text-disabled: #8c8f9a;
 		--tab-padding: 18px;
 		--tab-active-color: #{$black};
 		--tab-inactive-color: #{$black};
+		--tab-disabled-color: var(--color-text-disabled);
 		--tab-font-size: 14px;
 		--tab-line-height: 22px;
-		--tabs-indicator-background: #{$blue};
 
 		&.internal {
 			--tab-padding: 25px;
@@ -338,6 +363,23 @@ export default {
 		.var-tab {
 			font-weight: $font-bold;
 			white-space: pre;
+			position: relative;
+			overflow: hidden;
+
+			span.ripple {
+				position: absolute;
+				border-radius: 50%;
+				transform: scale(0);
+				animation: aioseo-ripple 600ms linear;
+				background-color: rgba(0, 0, 0, 0.3);
+			}
+
+			@keyframes aioseo-ripple {
+				to {
+					transform: scale(3);
+					opacity: 0;
+				}
+			}
 		}
 	}
 

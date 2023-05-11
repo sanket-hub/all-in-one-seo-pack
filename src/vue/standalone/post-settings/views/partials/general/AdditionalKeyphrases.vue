@@ -90,7 +90,13 @@ export default {
 					// Translators: 1 - "Pro" string, 2 - "Learn more link".
 					this.$t.__('Multiple Keyphrases is a %1$s feature. %2$s', this.$td),
 					'Pro',
-					this.$links.getUpsellLink('seo-settings', this.$t.__('Click here to get', this.$td) + ' ' + import.meta.env.VITE_SHORT_NAME + ' Pro', 'additional-keyphrases', true)
+					this.$links.getUpsellLink(
+						'seo-settings',
+						// Translators: The full string is "Click here to get AIOSEO Pro".
+						this.$t.__('Click here to get', this.$td) + ' ' + import.meta.env.VITE_SHORT_NAME + ' Pro',
+						'additional-keyphrases',
+						true
+					)
 				)
 
 			}

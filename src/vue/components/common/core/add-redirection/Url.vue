@@ -131,9 +131,10 @@
 </template>
 
 <script>
-import { debounce } from '@/vue/utils/debounce'
 import { mapActions } from 'vuex'
+import { debounce } from '@/vue/utils/debounce'
 import { sanitizeString } from '@/vue/utils/strings'
+import { makeUrlRelative } from '@/vue/utils/urls'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import CoreAddRedirectionUrlResults from '@/vue/components/common/core/add-redirection/UrlResults'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
@@ -232,7 +233,7 @@ export default {
 				return errors
 			}
 
-			if ('http' === this.url.url.substr(0, 4) && -1 === this.url.url.indexOf(document.location.origin)) {
+			if ('http' === this.url.url.substr(0, 4)) {
 				errors.push(this.$t.__('Please enter a valid relative source URL.', this.$td))
 			}
 
@@ -352,6 +353,9 @@ export default {
 				if (!this.url.regex) {
 					value = value.replace(/\s+/g, '')
 				}
+
+				// Remove the home url.
+				value = makeUrlRelative(value, this.$aioseo.urls.home)
 			}
 
 			this.url.url = value

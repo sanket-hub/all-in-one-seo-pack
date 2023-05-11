@@ -153,7 +153,7 @@ export default {
 				attachmentParent          : this.$t.__('Attachment Parent', this.$td),
 				attachmentUrlsDescription : this.$t.__('We recommended redirecting attachment URLs back to the attachment since the default WordPress attachment pages have little SEO value.', this.$td),
 				imageSeo                  : this.$t.__('Image SEO', this.$td),
-				advancedSettings          : this.$t.__('Advanced Settings', this.$tdPro)
+				advancedSettings          : this.$t.__('Advanced Settings', this.$td)
 			},
 			tabs : {
 				attachments : [

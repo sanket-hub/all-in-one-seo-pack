@@ -190,7 +190,7 @@ export default {
 				open24LabelDesc  : this.$t.__('Displayed when the business is open all day long.', this.$td),
 				alwaysOpen       : this.$t.__('Open 24/7', this.$td),
 				use24hFormat     : this.$t.__('Use 24h format', this.$td),
-				twoSets          : this.$t.__('I have two sets of openning hours per day', this.$td),
+				twoSets          : this.$t.__('I have two sets of opening hours per day', this.$td),
 				timezone         : this.$t.__('Timezone', this.$td),
 				hours            : this.$t.__('Hours', this.$td)
 			},

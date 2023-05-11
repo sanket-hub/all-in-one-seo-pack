@@ -12,7 +12,7 @@ import fs from 'fs'
 import * as dotenv from 'dotenv'
 import ElementPlus from 'unplugin-element-plus/vite'
 
-// i18n parser
+// I18n parser.
 import i18n from './build/aioseo-rollup-plugin-gettext-vue'
 
 // Convert JSON to PHP.
@@ -158,11 +158,9 @@ export default ({ mode }) => {
 						hook    : 'buildStart'
 					}),
 					i18n({
-						exclude               : 'node_modules/**',
-						include               : '**/*@(vue|js|jsx)',
-						output                : `./languages/aioseo-${version.toLowerCase()}.php`,
-						textDomains           : getTextDomains(version),
-						recognizedTextDomains : getTextDomains()
+						exclude     : 'node_modules/**',
+						include     : '**/*@(vue|js|jsx)',
+						textDomains : getTextDomains(version)
 					}),
 					jsonToPhp([
 						{
@@ -329,26 +327,32 @@ const getPlugins = version => {
 }
 
 const getTextDomains = version => {
-	const liteTextDomains = {
-		'this.$td'            : 'all-in-one-seo-pack',
-		td                    : 'all-in-one-seo-pack',
-		'all-in-one-seo-pack' : 'all-in-one-seo-pack'
+	const proTextDomain = {
+		path    : /all-in-one-seo-pack-pro\/src\/.*\/pro\/.*/,
+		output  : './languages/aioseo-pro.php',
+		domain  : 'aioseo-pro',
+		matches : [
+			'this.$tdPro',
+			'tdPro',
+			'({}).VITE_TEXTDOMAIN_PRO'
+		]
 	}
 
-	const proTextDomains = {
-		'this.$tdPro' : 'aioseo-pro',
-		tdPro         : 'aioseo-pro',
-		'aioseo-pro'  : 'aioseo-pro'
-	}
-
-	let textDomains = {
-		...liteTextDomains
-	}
-	if (!version || 'Pro' === version) {
-		textDomains = {
-			...textDomains,
-			...proTextDomains
+	// Always include the lite text domain.
+	const textDomains = [
+		{
+			path    : /all-in-one-seo-pack-pro\/src((?!\/pro\/).)*$/,
+			output  : './languages/aioseo-lite.php',
+			domain  : 'all-in-one-seo-pack',
+			matches : [
+				'this.$td',
+				'td',
+				'({}).VITE_TEXTDOMAIN'
+			]
 		}
+	]
+	if (!version || 'Pro' === version) {
+		textDomains.push(proTextDomain)
 	}
 
 	return textDomains

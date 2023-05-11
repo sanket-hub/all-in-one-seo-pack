@@ -281,7 +281,7 @@ class URLInput extends Component {
 									onClick={ () => this.handleOnClick(post) }
 									aria-selected={ index === selectedSuggestion }
 								>
-									{ decodeEntities(post.title) || __('(no title)', 'all-in-one-seo-pack') }
+									{ decodeEntities(post.title) || __('(no title)') }
 								</button>
 							)) }
 						</div>

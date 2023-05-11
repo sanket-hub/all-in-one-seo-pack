@@ -184,7 +184,7 @@ export default {
 			shouldDeleteURL        : null,
 			selectedRows           : null,
 			bulkOptions            : [
-				{ label: this.$t.__('Delete', this.$tdPro), value: 'delete' }
+				{ label: this.$t.__('Delete', this.$td), value: 'delete' }
 			],
 			strings : {
 				placeholder : this.$t.sprintf(

@@ -54,10 +54,9 @@ export default {
 			active  : true,
 			strings : {
 				title : this.$t.sprintf(
-					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Addons".
-					this.$t.__('%1$s %2$s Not Configured Properly', this.$td),
-					import.meta.env.VITE_SHORT_NAME,
-					'Addons'
+					// Translators: 1 - Plugin short name ("AIOSEO").
+					this.$t.__('%1$s Addons Not Configured Properly', this.$td),
+					import.meta.env.VITE_SHORT_NAME
 				),
 				learnMore : this.$t.__('Learn More', this.$td),
 				upgrade   : this.$t.__('Upgrade', this.$td)

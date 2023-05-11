@@ -30,7 +30,7 @@
 					<base-input
 						class="row-input row-input--content"
 						:modelValue="element.editedContent || element.content"
-						@update:modelValue="value => setEditedContent(value, heading)"
+						@update:modelValue="value => setEditedContent(value, element)"
 						:placeholder="element.content"
 					>
 						<template #append-icon>
@@ -48,7 +48,7 @@
 						class="row-input row-input--anchor"
 						:spellcheck=false
 						:modelValue="element.anchor"
-						@update:modelValue="value => setAnchor(value, heading)"
+						@update:modelValue="value => setAnchor(value, element)"
 					>
 						<template #append-icon>
 							<div class="append-icon">
@@ -138,10 +138,10 @@ export default {
 		return {
 			showAnchorField : -1,
 			strings         : {
-				tooltipHeader      : this.$t.__('Edit HTML Anchor:', this.$tdPro),
+				tooltipHeader      : this.$t.__('Edit HTML Anchor:', this.$td),
 				tooltipDescription : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
-					this.$t.__('The HTML anchor allows %1$s to link directly to your header from this table of contents block. Feel free to edit if you want, but an anchor is required. For headings without an anchor, %1$s will automatically generate them.', this.$tdPro),
+					this.$t.__('The HTML anchor allows %1$s to link directly to your header from this table of contents block. Feel free to edit if you want, but an anchor is required. For headings without an anchor, %1$s will automatically generate them.', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				)
 			}

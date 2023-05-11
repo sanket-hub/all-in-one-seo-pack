@@ -492,15 +492,15 @@ class SiteAnalysis {
 	pageSizeHead = result => {
 		let pageSize = sprintf(
 			// Translators: 1 - The total number of page requests.
-			__('The size of the HTML document is %1$d Kb.', td),
+			__('The size of the HTML document is %1$d KB.', td),
 			Math.round(result.value / 1000)
 		)
 		if ('page-size-too-big' === result.error) {
-			return pageSize + ' ' + __('This is over our recommendation of 50 Kb.', td)
+			return pageSize + ' ' + __('This is over our recommendation of 50 KB.', td)
 		}
 
 		if (33 > Math.round(result.value / 1000)) {
-			pageSize += ' ' + __('This is under the average of 33 Kb.', td)
+			pageSize += ' ' + __('This is under the average of 33 KB.', td)
 		}
 
 		return pageSize
