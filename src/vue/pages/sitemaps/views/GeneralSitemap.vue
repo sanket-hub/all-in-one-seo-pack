@@ -41,7 +41,6 @@
 
 					<div class="aioseo-description">
 						{{ strings.noIndexDisplayed }}
-						<br>
 						{{ strings.doYou404 }}
 
 						<span
@@ -387,10 +386,10 @@
 import { mapState } from 'vuex'
 import { CommonSitemap } from '@/vue/pages/sitemaps/mixins'
 
-import AdditionalPages from './AdditionalPages.vue'
+import AdditionalPages from './AdditionalPages'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreExcludePosts from '@/vue/components/common/core/ExcludePosts'
 import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
@@ -499,7 +498,7 @@ export default {
 
 		.aioseo-select {
 			max-width: 180px;
-			margin-right: 10px;
+			margin-right: 16px;
 		}
 
 		svg.aioseo-external {
@@ -507,10 +506,6 @@ export default {
 			height: 14px;
 			margin-right: 10px;
 		}
-	}
-
-	.index-notice, .static-regeneration-notice {
-		margin-top: 10px;
 	}
 
 	.ping {

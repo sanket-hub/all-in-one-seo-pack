@@ -1,5 +1,5 @@
 <template>
-	<portal to="aioseo-modal-portal">
+	<teleport to="#aioseo-modal-portal">
 		<core-modal
 			:classes="[
 				'aioseo-app',
@@ -22,12 +22,13 @@
 				<slot name="footer" />
 			</template>
 		</core-modal>
-	</portal>
+	</teleport>
 </template>
 
 <script>
 import CoreModal from './Index'
 export default {
+	emits      : [ 'close' ],
 	components : {
 		CoreModal
 	},

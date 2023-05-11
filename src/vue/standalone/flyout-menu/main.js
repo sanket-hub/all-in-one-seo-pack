@@ -1,20 +1,23 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
 
-import '@/vue/plugins'
+import loadPlugins from '@/vue/plugins'
 
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
 
 import App from './App.vue'
 import store from '@/vue/store'
 
-import translate from '@/vue/plugins/translations'
+let app = createApp(App)
+app     = loadPlugins(app)
+app     = loadComponents(app)
+app     = loadVersionedComponents(app)
 
-Vue.prototype.$t     = translate
-Vue.prototype.$td    = import.meta.env.VITE_TEXTDOMAIN
-Vue.prototype.$tdPro = import.meta.env.VITE_TEXTDOMAIN_PRO
+// Give the store access to the app.
+store._vm = app
 
-new Vue({
-	store,
-	render : h => h(App)
-}).$mount('#aioseo-flyout-menu')
+// Use the store.
+app.use(store)
+
+app.mount('#aioseo-flyout-menu')

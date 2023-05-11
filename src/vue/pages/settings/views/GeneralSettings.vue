@@ -49,11 +49,11 @@
 			v-if="$aioseo.data.isNetworkAdmin"
 		>
 			<settings-network-sites-activation
-				v-if="!isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-site-activation')"
+				v-if="!isUnlicensed && $license.hasCoreFeature($aioseo, 'tools', 'network-tools-site-activation')"
 			/>
 
 			<lite-settings-network-sites-activation
-				v-if="isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-site-activation')"
+				v-if="isUnlicensed || !$license.hasCoreFeature($aioseo, 'tools', 'network-tools-site-activation')"
 			/>
 		</core-card>
 	</div>
@@ -142,9 +142,28 @@ export default {
 
 <style lang="scss">
 .aioseo-general-settings {
+
+	.aioseo-card {
+
+		.settings-content {
+
+			.license-key + .aioseo-description {
+				display: inline-block;
+				margin: 8px 4px 0 0;
+			}
+
+			.deactivate-license {
+				display: inline-block;
+				font-weight: $font-bold;
+				margin-top: 8px;
+			}
+		}
+	}
+
 	.wizard-actions .aioseo-button {
 		text-align: center;
 	}
+
 	.more-tooltip-text strong {
 		color: $green;
 	}

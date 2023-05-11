@@ -9,10 +9,10 @@
 			@changed="value => processChangeTab(value)"
 			v-if="'sidebar' !== $root._data.screenContext"
 		>
-			<template #md-tab-icon="{ tab }">
+			<template #var-tab-icon="{ tab }">
 				<component
 					:class="[
-						{ warning: tab.data.warning }
+						{ warning: tab.warning }
 					]"
 					:is="tab.icon"
 				/>
@@ -27,8 +27,8 @@
 				<a
 					v-for="(tab, index) in getTabs"
 					:key="index"
-					href="#"
 					class="aioseo-sidepanel-button"
+					href="#"
 					@click.prevent="processChangeTab(tab.slug)"
 				>
 					<component class="icon" :is="tab.icon"/>
@@ -77,12 +77,13 @@
 			@close="closeModal"
 			:classes="[ 'aioseo-post-settings-modal' ]"
 		>
-			<div slot="headerTitle">
+			<template #headerTitle>
 				{{ strings.modalTitle }}
-			</div>
-			<div slot="body">
+			</template>
+
+			<template #body>
 				<modal-content />
-			</div>
+			</template>
 		</core-modal-portal>
 	</div>
 </template>
@@ -140,7 +141,7 @@ export default {
 				pageName   : 'General',
 				modalTitle : this.$t.__('Preview Snippet Editor', this.$td)
 			},
-			sidebarFirstOpen : false
+			activeMainSidebarTab : ''
 		}
 	},
 	watch : {
@@ -164,9 +165,17 @@ export default {
 		'metaBoxTabs.mainSidebar' : {
 			deep : true,
 			handler (mainSidebar) {
-				if ('sidebar' === this.$root._data.screenContext) {
-					this.processChangeTab(mainSidebar.tab)
+				if ('sidebar' !== this.$root._data.screenContext) {
+					return
 				}
+
+				if (this.activeMainSidebarTab === mainSidebar.tab) {
+					return
+				}
+
+				this.activeMainSidebarTab = mainSidebar.tab
+
+				this.processChangeTab(mainSidebar.tab)
 			}
 		}
 	},
@@ -246,8 +255,6 @@ export default {
 		...mapMutations([ 'toggleLinkAssistantModal', 'toggleRedirectsModal', 'changeTabSettings' ]),
 		...mapActions([ 'openModal', 'updateState', 'savePostState' ]),
 		processChangeTab (newTabValue) {
-			this.activeTab = newTabValue
-
 			switch (this.$root._data.screenContext) {
 				case 'sidebar' :
 					// Change the WordPress components panel header to static if there's a tab open.
@@ -257,18 +264,20 @@ export default {
 					})
 					break
 				default :
+					this.activeTab = newTabValue
 					this.changeTabSettings({ setting: 'main', value: newTabValue })
 					break
-			}
-
-			if (this.sidebarFirstOpen) {
-				this.sidebarFirstOpen = false
-				return
 			}
 
 			if ('sidebar' !== this.$root._data.screenContext) {
 				return
 			}
+
+			if (this.activeTab === newTabValue) {
+				return
+			}
+
+			this.activeTab = newTabValue
 
 			switch (newTabValue) {
 				case 'social':
@@ -317,7 +326,6 @@ export default {
 		}
 	},
 	created () {
-		this.sidebarFirstOpen = true
 		this.modal = getParams()['aioseo-modaltab'] || this.modal
 		if (this.modal) {
 			this.changeTabSettings({ setting: 'modal', value: this.modal })
@@ -335,7 +343,7 @@ export default {
 
 		this.$bus.$on('standalone-update-post', (param) => {
 			Object.keys(param).forEach(option => {
-				this.$set(this.currentPost, option, param[option])
+				this.currentPost[option] = param[option]
 			})
 		})
 
@@ -372,20 +380,13 @@ export default {
 	color: $black;
 
 	.aioseo-tabs {
-		border-bottom-width: 2px;
+		--tabs-item-horizontal-height: 50px;
+		--tab-font-size: 14px;
+		--tab-inactive-color: #{$black2};
 		background: $background;
 
-		.md-tabs-navigation {
-			margin-top: 0 !important;
-		}
-
-		.md-button {
-			height: 50px !important;
-			font-size: 14px !important;
-			color: $black2 !important;
-
-			&.md-active {
-				color: $black !important;
+		.var-tab {
+			&--active {
 				-webkit-text-stroke-width: 0.2px;
 				-webkit-text-stroke-color: $black;
 			}
@@ -424,13 +425,13 @@ export default {
 
 			.icon {
 				display: inline;
-				width: 16px;
-				height: 16px;
-				margin-right: 8px;
+				width: 20px;
+				height: 20px;
+				margin-right: 10px;
 			}
 
 			.name {
-				font-weight: 700;
+				font-weight: $font-bold;
 			}
 
 			.aioseo-circle-information-solid {
@@ -452,7 +453,7 @@ export default {
 		display: flex;
 		align-items: center;
 		color: $black2-hover;
-		font-weight: 700;
+		font-weight: $font-bold;
 		padding: 12px;
 		border-bottom: 1px solid #DDDDDD;
 		background: #fff;
@@ -471,14 +472,9 @@ export default {
 	.aioseo-tab-content {
 		background: #fff;
 		border-top: 0;
-		padding: 30px;
-		font-size: 13px;
+		padding: var(--aioseo-gutter);
+		font-size: 14px;
 		position: relative;
-	}
-
-	.aioseo-settings-row {
-		margin-bottom: 16px;
-		padding-bottom: 16px;
 	}
 
 	.aioseo-sidebar-content-title {
@@ -507,6 +503,8 @@ export default {
 	}
 
 	.aioseo-app {
+		--aioseo-gutter: 12px;
+
 		input {
 			border: 1px solid $input-border;
 
@@ -530,7 +528,7 @@ export default {
 		}
 
 		.aioseo-tab-content {
-			padding: 20px 16px;
+			padding: 16px;
 			border: none;
 		}
 
@@ -543,7 +541,7 @@ export default {
 			&-leave-active {
 				transition: opacity 0.2s, transform 0.2s;
 			}
-			&-enter,
+			&-enter-from,
 			&-leave-active {
 				position: absolute;
 				top: 0;
@@ -576,20 +574,13 @@ export default {
 .aioseo-post-settings-modal {
 	.aioseo-modal-content {
 		.aioseo-tabs {
-			border-bottom-width: 2px;
+			--tabs-item-horizontal-height: 50px;
+			--tab-font-size: 14px;
+			--tab-inactive-color: #{$black2};
 			background: $background;
 
-			.md-tabs-navigation {
-				margin-top: 0 !important;
-			}
-
-			.md-button {
-				height: 50px !important;
-				font-size: 14px !important;
-				color: $black2 !important;
-
-				&.md-active {
-					color: $black !important;
+			.var-tab {
+				&--active {
 					-webkit-text-stroke-width: 0.2px;
 					-webkit-text-stroke-color: $black;
 				}
@@ -615,12 +606,6 @@ export default {
 
 			@media screen and (max-width: 520px) {
 				padding-left: 20px !important;
-			}
-		}
-
-		.md-tabs-navigation {
-			.md-tabs-indicator {
-				bottom: -1px !important;
 			}
 		}
 

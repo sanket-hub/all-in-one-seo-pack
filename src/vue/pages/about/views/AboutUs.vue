@@ -429,6 +429,14 @@ export default {
 					activated   : false,
 					loading     : false
 				},
+				easyDigitalDownloadsPro : {
+					name       : 'Easy Digital Downloads Pro',
+					free       : 'easyDigitalDownloads',
+					installed  : false,
+					canInstall : false,
+					activated  : false,
+					loading    : false
+				},
 				sugarCalendar : {
 					name        : 'Sugar Calendar',
 					description : this.$t.__('A simple & powerful event calendar plugin for WordPress that comes with all the event management features including payments, scheduling, timezones, ticketing, recurring events, and more.', this.$td),
@@ -535,9 +543,10 @@ export default {
 .aioseo-app .aioseo-about-us {
 	.aioseo-about-us-welcome,
 	.aioseo-about-us-plugins {
-		margin-top: 30px;
+		margin-top: var(--aioseo-gutter);
 		width: 100%;
 	}
+
 	.aioseo-about-us-welcome,
 	.aioseo-about-us-plugins .plugin .plugin-main,
 	.aioseo-about-us-plugins .plugin .plugin-footer {
@@ -545,38 +554,51 @@ export default {
 		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
 		border: 1px solid $border;
 	}
+
 	.aioseo-about-us-welcome {
 		display: flex;
-		padding: 40px;
-		font-size: 16px;
+		align-items: center;
+		gap: calc(var(--aioseo-gutter) * 2);
+		padding: calc(var(--aioseo-gutter) * 2);
+		font-size: 14px;
 		color: $black;
+
 		@media only screen and (max-width: 1042px) {
 			flex-direction: column;
 		}
+
 		.welcome-intro {
 			flex: 2 2 auto;
+
 			div {
-				margin: 24px 0;
-				line-height: 150%;
+				line-height: 1.5;
+
+				+ div {
+					margin-top: 20px;
+				}
+
 				&:first-of-type {
-					font-size: 18px;
-					font-weight: bold;
+					font-size: 24px;
+					line-height: 30px;
+					font-weight: $font-bold;
+					margin: 0 0 20px;
 				}
 
 			}
 		}
+
 		.welcome-image {
 			text-align: center;
-			@media only screen and (max-width: 600px) {
-				figure {
-					margin: 0;
-				}
+
+			figure {
+				margin: 0;
 			}
+
 			img {
 				max-width: 100%;
 			}
 			figcaption {
-				margin: 19px 0;
+				margin: 16px 0 0 0;
 				color: $placeholder-color;
 			}
 		}
@@ -586,11 +608,12 @@ export default {
 			display: flex;
 			flex-direction: column;
 			font-size: 14px;
+			line-height: 24px;
 
 			.plugin-main {
 				display: flex;
 				flex-direction: row;
-				padding: 30px 30px 20px;
+				padding: 22px;
 				flex-grow: 1;
 
 				img {
@@ -602,7 +625,7 @@ export default {
 
 				.main-name {
 					margin: 0 0 10px 0;
-					font-size: 16px;
+					font-size: 14px;
 					font-weight: bold;
 					color: $black;
 				}
@@ -612,9 +635,11 @@ export default {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				padding: 20px 30px 20px 30px;
+				padding: 12px;
 
 				.footer-status {
+					font-size: $font-md;
+					line-height: 22px;
 					font-weight: bold;
 
 					div {
@@ -644,8 +669,10 @@ export default {
 					a {
 						width: fit-content;
 						height: fit-content;
-						padding: 8px 12px;
+						padding: 7px 14px;
 						font-size: inherit;
+						font-size: 12px;
+						line-height: 18px;
 					}
 
 					.aioseo-button {

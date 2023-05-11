@@ -1,5 +1,4 @@
-// import superagent from 'superagent'
-import Vue from 'vue'
+import links from '@/vue/utils/links'
 
 export async function isApiKeyValid (apiKey) {
 	return new Promise((resolve) => {
@@ -34,14 +33,14 @@ export async function isApiKeyValid (apiKey) {
 	})
 }
 
-export async function isGoogleApiEnabled (apiKey, apiName) {
+export function isGoogleApiEnabled (apiKey, apiName, http) {
 	if (!apiKey || !apiName) {
 		return false
 	}
 
 	switch (apiName) {
 		case 'places/embed':
-			return await Vue.prototype.$http.post(Vue.prototype.$links.restUrl('local-business/maps/check-api-enabled'))
+			return http.post(links.restUrl('local-business/maps/check-api-enabled'))
 				.send({
 					apiKey  : apiKey,
 					apiName : apiName

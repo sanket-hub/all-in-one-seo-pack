@@ -94,7 +94,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import SvgDownload from '@/vue/components/common/svg/Download'
@@ -213,7 +213,7 @@ export default {
 
 	.file-upload {
 		display: flex;
-		gap: 5px;
+		gap: 8px;
 
 		> .aioseo-input {
 			margin-right: 10px;
@@ -221,7 +221,7 @@ export default {
 	}
 
 	.aioseo-button.import {
-		margin-top: 24px;
+		margin-top: 20px;
 	}
 }
 </style>

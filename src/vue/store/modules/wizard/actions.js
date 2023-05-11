@@ -13,7 +13,7 @@ export default {
 					commit('updateOptions', response.body.options, { root: true })
 					commit('original/setOriginalOptions', JSON.parse(JSON.stringify(response.body.options)), { root: true })
 				}
-				setOptions({
+				setOptions(this._vm, {
 					options : response.body.options
 				})
 			})

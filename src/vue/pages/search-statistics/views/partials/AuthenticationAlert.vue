@@ -10,7 +10,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 export default {
 	components : {
 		CoreAlert

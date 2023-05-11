@@ -4,7 +4,6 @@
 		:type="tag === 'button' ? nativeType : ''"
 		:disabled="disabled || loading"
 		:to="tag === 'router-link' ? to : ''"
-		@click="handleClick"
 		@mouseenter="$emit('mouseenter', $event)"
 		@mouseleave="$emit('mouseleave', $event)"
 		class="aioseo-button"
@@ -69,11 +68,6 @@ export default {
 			type        : [ Object, String ],
 			description : 'The router link object or string'
 		}
-	},
-	methods : {
-		handleClick (event) {
-			this.$emit('click', event)
-		}
 	}
 }
 </script>
@@ -85,11 +79,11 @@ export default {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	font-family: inherit;
 	font-size: 16px;
 	font-weight: 600 !important;
-	padding: 0 24px;
+	padding: 0 20px;
 	border-radius: 4px;
-	-webkit-appearance: none;
 	cursor: pointer;
 	height: 48px;
 	transition: background-color 0.2s ease;
@@ -102,25 +96,24 @@ export default {
 
 	&.small,
 	&.small-table {
-		height: 30px;
-		font-size: 14px;
-		padding: 0 12px;
+		height: 32px;
+		font-size: $font-sm;
+		padding: 0 14px;
 
 		.aioseo-loading-spinner {
-			width: 25px;
-			height: 25px;
+			width: 27px;
+			height: 27px;
 		}
 	}
 
 	&.small-table {
-		font-size: 12px;
 		border-radius: 3px;
 	}
 
 	&.medium {
 		height: 40px;
-		font-size: 14px;
-		padding: 0 18px;
+		font-size: $font-md;
+		padding: 0 16px;
 
 		.aioseo-loading-spinner {
 			width: 35px;

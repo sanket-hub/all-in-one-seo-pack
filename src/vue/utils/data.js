@@ -1,12 +1,14 @@
-import Vue from 'vue'
-export const setData = newData => {
+export const setData = (app, newData) => {
 	const data = {
 		...window.aioseo.data,
 		...newData
 	}
 
-	window.aioseo.data         = data
-	Vue.prototype.$aioseo.data = data
+	// Set it on the window.
+	window.aioseo.data = data
+
+	// Set it on the app.
+	app.$aioseo.data = app.config.globalProperties.$aioseo.data = data
 
 	return data
 }

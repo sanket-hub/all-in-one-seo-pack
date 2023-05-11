@@ -27,7 +27,7 @@
 				>
 				</a>
 
-				<strong>{{ strings.title }} </strong>
+				<strong>{{ strings.title }}&nbsp;</strong>
 
 				<span :id="`aioseo-${columnName}-${postId}-value`">
 					{{ truncate(titleParsed, 100) }}
@@ -73,7 +73,7 @@
 				>
 				</a>
 
-				<strong>{{ strings.description }} </strong>
+				<strong>{{ strings.description }}&nbsp;</strong>
 
 				<span :id="`aioseo-${columnName}-${postId}-value`">
 					{{ truncate(descriptionParsed) }}
@@ -212,7 +212,7 @@ import { mapState } from 'vuex'
 import { TruSeoScore } from '@/vue/mixins'
 import { truncate } from '@/vue/utils/html'
 
-import { shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components'
+import { shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components/helpers'
 import CoreScoreButton from '@/vue/components/common/core/ScoreButton'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
@@ -280,7 +280,7 @@ export default {
 
 					const posts       = window.aioseo.posts
 					posts[this.index] = this.post
-					setOptions({
+					setOptions(this.$.appContext.app, {
 						posts
 					})
 
@@ -360,11 +360,12 @@ export default {
 		this.descriptionParsed = this.post.descriptionParsed
 	},
 	async created () {
-		const { options, currentPost, tags } = await getOptions(this.$http)
-		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
-		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
-		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
-		this.showTruSeo = shouldShowTruSeoScore()
+		const { options, currentPost, tags } = await getOptions(this.$.appContext.app)
+
+		this.$store.state.options     = merge({ ...this.$store.state.options }, { ...options })
+		this.$store.state.currentPost = merge({ ...this.$store.state.currentPost }, { ...currentPost })
+		this.$store.state.tags        = merge({ ...this.$store.state.tags }, { ...tags })
+		this.showTruSeo               = shouldShowTruSeoScore()
 	}
 }
 </script>

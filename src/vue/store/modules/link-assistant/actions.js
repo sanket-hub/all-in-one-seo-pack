@@ -313,7 +313,7 @@ export default {
 					currentPost.linkAssistant.links = response.body.links
 
 					commit('updateState', currentPost, { root: true })
-					setOptions({
+					setOptions(this._vm, {
 						currentPost
 					})
 				}
@@ -333,7 +333,7 @@ export default {
 			.then(response => {
 				if (response.body.data) {
 					commit('resetState', response.body.data)
-					setOptions({
+					setOptions(this._vm, {
 						linkAssistant : response.body.data
 					})
 				}
@@ -365,7 +365,7 @@ export default {
 			.then(response => {
 				if (response.body.data) {
 					commit('resetState', response.body.data)
-					setOptions({
+					setOptions(this._vm, {
 						linkAssistant : response.body.data
 					})
 				}

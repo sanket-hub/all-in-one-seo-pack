@@ -159,7 +159,7 @@
 						round
 						class="no-clicks"
 						type="green"
-						:value="true"
+						:modelValue="true"
 						@click.native.stop.prevent="() => {}"
 					>
 						{{ strings.enableSitemap }}
@@ -179,6 +179,7 @@
 					<base-radio-toggle
 						v-model="searchAppearance.multipleAuthors"
 						name="multipleAuthors"
+						class="small"
 						:options="[
 							{ label: $constants.GLOBAL_STRINGS.no, value: false, activeClass: 'dark' },
 							{ label: $constants.GLOBAL_STRINGS.yes, value: true }
@@ -199,6 +200,7 @@
 					<base-radio-toggle
 						v-model="searchAppearance.redirectAttachmentPages"
 						name="redirectAttachmentPages"
+						class="small"
 						:options="[
 							{ label: $constants.GLOBAL_STRINGS.no, value: false, activeClass: 'dark' },
 							{ label: $constants.GLOBAL_STRINGS.yes, value: true }
@@ -259,6 +261,7 @@ export default {
 	mixins : [ MaxCounts, Tags, Wizard ],
 	data () {
 		return {
+			separator        : undefined,
 			loaded           : false,
 			titleCount       : 0,
 			descriptionCount : 0,
@@ -322,27 +325,13 @@ export default {
 .aioseo-wizard-search-appearance {
 	color: $black;
 
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-	}
-
-	.description {
-		margin-top: 20px;
-		font-size: 16px;
-		color: $black2;
-		margin-bottom: 40px;
-		line-height: 1.4;
-	}
-
 	.aioseo-settings-row {
 		.aioseo-radio-toggle {
-			margin-top: 10px;
+			margin-top: 8px;
 		}
 
 		.edit-site-info-activator {
-			margin-top: 10px;
+			margin-top: 8px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -380,17 +369,14 @@ export default {
 
 		&.enable-sitemaps {
 			.aioseo-checkbox {
-				font-size: 16px;
 				font-weight: 600;
 			}
 		}
 
 		&.post-types {
-			font-size: 16px;
 
 			.aioseo-toggle {
 				color: $black;
-				font-size: 16px;
 				font-weight: 600;
 			}
 		}

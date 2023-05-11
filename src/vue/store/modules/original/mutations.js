@@ -1,17 +1,17 @@
 export default {
 	setOriginalOptions (state, payload) {
-		this._vm.$set(state, 'options', payload)
+		state.options = payload
 	},
 	setOriginalNetworkOptions (state, payload) {
-		this._vm.$set(state, 'networkOptions', payload)
+		state.networkOptions = payload
 	},
 	setOriginalDynamicOptions (state, payload) {
-		this._vm.$set(state, 'dynamicOptions', payload)
+		state.dynamicOptions = payload
 	},
 	setOriginalRedirectOptions (state, payload) {
-		this._vm.$set(state, 'redirectOptions', payload)
+		state.redirectOptions = payload
 	},
 	setOriginalIndexNowOptions (state, payload) {
-		this._vm.$set(state, 'indexNowOptions', payload)
+		state.indexNowOptions = payload
 	}
 }

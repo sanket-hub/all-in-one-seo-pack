@@ -13,7 +13,7 @@
 			<base-button
 				v-if="!currentPost.keyphrases.focus || !currentPost.keyphrases.focus.keyphrase"
 				id="add-focus-keyphrase"
-				class="add-keyphrase gray small"
+				class="add-keyphrase gray medium"
 				@click="addKeyphraseEv"
 			>
 				<svg-circle-plus width="14" height="14" />
@@ -24,7 +24,7 @@
 				v-if="!currentPost.keyphrases.focus || !currentPost.keyphrases.focus.keyphrase"
 			>
 				<div
-					class="disabled-button gray"
+					class="disabled-button gray medium"
 				>
 					<svg-circle-plus width="14" height="14" />
 					{{ strings.getAdditionalKeyphrases }}
@@ -83,7 +83,7 @@
 			:force-show="showSemrushTooltip && !$isPro"
 		>
 			<base-button
-				class="add-keyphrase gray small"
+				class="add-keyphrase gray medium"
 				@click="getAdditionalKeyphrases"
 			>
 				<svg-circle-plus width="14" height="14" />
@@ -102,16 +102,18 @@
 			@close="semrushShowModal = false"
 			:classes="[ 'aioseo-focus-keyphrase-panel-modal' ]"
 		>
-			<div slot="headerTitle">
+			<template #headerTitle>
 				{{ strings.modalTitle }}
-			</div>
-			<div slot="body">
+			</template>
+
+			<template #body>
 				<div class="aioseo-modal-content has-padding">
 					<core-alert
 						v-if="isUnlicensed"
 						type="blue"
 						v-html="strings.upsell"
 					/>
+
 					<div class="aioseo-settings-row">
 						<div class="settings-name">
 							<div class="name">
@@ -188,7 +190,7 @@
 												<base-button
 													v-if="index !== removingAdditionalKeyphrase && (index === addingAdditionalKeyphrase || !hasAdditionalKeyphrase(keyphrase[0]))"
 													type="gray"
-													size="small"
+													size="medium"
 													@click="addAdditionalKeyphrase(keyphrase[0], index)"
 													:loading="index === addingAdditionalKeyphrase"
 												>
@@ -273,7 +275,7 @@
 						</table>
 					</div>
 				</div>
-			</div>
+			</template>
 		</core-modal-portal>
 	</div>
 </template>
@@ -291,6 +293,7 @@ import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgAreaChart from '@/vue/components/common/svg/AreaChart'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+import SvgLogoSemrush from '@/vue/components/common/svg/logo/Semrush'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 import metaboxAnalysisDetail from './MetaboxAnalysisDetail'
 export default {
@@ -303,6 +306,7 @@ export default {
 		SvgAreaChart,
 		SvgCircleCheck,
 		SvgCirclePlus,
+		SvgLogoSemrush,
 		SvgTrash,
 		metaboxAnalysisDetail
 	},
@@ -555,7 +559,7 @@ export default {
 			const keyphraseInput          = keyphraseInputComponent[0].querySelector('.medium')
 			if (keyphraseInput.value) {
 				const newKeyphrase = { keyphrase: keyphraseInput.value, score: 0, analysis: {} }
-				this.$set(this.currentPost.keyphrases, 'focus', newKeyphrase)
+				this.currentPost.keyphrases.focus = newKeyphrase
 				this.currentPost.loading.focus = true
 				keyphraseInput.value = ''
 				keyphraseInput.blur()
@@ -580,7 +584,7 @@ export default {
 			const { additional }           = this.currentPost.keyphrases
 			const keyphraseIndex           = additional.push({ keyphrase, score: 0 })
 			const keyphrasePanel           = document.getElementsByClassName('keyphrase-name')
-			this.$set(this.currentPost.keyphrases, 'additional', additional)
+			this.currentPost.keyphrases.additional = additional
 
 			this.setIsDirty()
 			await this.$truSeo.runAnalysis({ postId: this.currentPost.id, postData: this.currentPost })
@@ -609,7 +613,7 @@ export default {
 			const keyphraseIndex             = additional.findIndex(k => k.keyphrase.toLowerCase() === keyphrase)
 			if (-1 !== keyphraseIndex) {
 				additional.splice(keyphraseIndex, 1)
-				this.$set(this.currentPost.keyphrases, 'additional', additional)
+				this.currentPost.keyphrases.additional = additional
 				const keyphrasePanel = document.getElementsByClassName('keyphrase-name')
 				if (keyphrasePanel[0]) {
 					keyphrasePanel[0].click()
@@ -651,7 +655,6 @@ export default {
 
 		.aioseo-tooltip {
 			margin-left: 0;
-			margin-bottom: 8px;
 			display: block;
 
 			.disabled-button {

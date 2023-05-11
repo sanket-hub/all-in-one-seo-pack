@@ -11,5 +11,6 @@
 	flex: 1;
 	padding: 5px;
 	justify-content: center;
+	line-height: 22px;
 }
 </style>

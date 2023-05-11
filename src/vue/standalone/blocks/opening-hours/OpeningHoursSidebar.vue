@@ -5,8 +5,8 @@
 			<base-select
 				size="medium"
 				:options="locationsList"
-				:value="getLocationOptions(this.$root.$data.locationId)"
-				@input="values => this.$root.$data.locationId = values.value"
+				:modelValue="getLocationOptions(this.$root.$data.locationId)"
+				@update:modelValue="values => this.$root.$data.locationId = values.value"
 				track-by="value"
 			/>
 		</div>
@@ -75,13 +75,25 @@
 		</div>
 		<div class="sidebar-row labels" v-if="$root.$data.showTitle">
 			<label>{{ strings.label }}</label>
-			<base-input size="small" v-model="$root.$data.label"/>
+			<base-input
+				size="small"
+				v-model="$root.$data.label"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import BaseInput from '@/vue/components/common/base/Input'
+import BaseSelect from '@/vue/components/common/base/Select'
+import BaseToggle from '@/vue/components/common/base/Toggle'
+
 export default {
+	components : {
+		BaseInput,
+		BaseSelect,
+		BaseToggle
+	},
 	data () {
 		return {
 			locationsList : [],
@@ -135,10 +147,15 @@ export default {
 .sidebar-row {
 	margin-bottom: 16px;
 	.title {
-		font-weight: 700;
+		font-weight: $font-bold;
 	}
-	.aioseo-input {
-		margin: 3px 0 10px;
+
+	&.labels {
+
+		label {
+			display: block;
+			margin-bottom: 4px;
+		}
 	}
 }
 </style>

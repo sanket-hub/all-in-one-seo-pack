@@ -36,7 +36,7 @@
 <script>
 import { mapState } from 'vuex'
 import BaseEditor from '@/vue/components/common/base/Editor'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {

@@ -118,7 +118,7 @@ export default {
 	--secondary-text: #65676B;
 
 	background-color: $white2;
-	padding: 30px;
+	padding: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -199,7 +199,7 @@ export default {
 				background-color: $white3;
 				position: relative;
 
-				::v-deep {
+				:deep() {
 					.aioseo-loading-spinner {
 						top: 0;
 						bottom: 0;

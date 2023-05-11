@@ -1,5 +1,5 @@
 import store from '@/vue/store'
-import { maybeUpdatePost } from '@/vue/plugins/tru-seo/components'
+import { maybeUpdatePost } from '@/vue/plugins/tru-seo/components/helpers'
 
 export const watchBlockEditor = () => {
 	// initial page load.

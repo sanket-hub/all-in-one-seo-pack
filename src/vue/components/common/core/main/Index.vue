@@ -8,8 +8,8 @@
 			/>
 			<grid-container :class="containerClasses">
 				<core-main-tabs
-					:key="tabsKey"
 					v-if="showTabs"
+					:key="tabsKey"
 					:tabs="tabs"
 					:showSaveButton="shouldShowSaveButton"
 				>
@@ -113,7 +113,7 @@ export default {
 			return this.$router.options.routes
 				.filter(route => route.name && route.meta && route.meta.name)
 				.filter(route => this.$allowed(route.meta.access))
-				.filter(route => !route.meta.license || this.$license.hasMinimumLevel(route.meta.license))
+				.filter(route => !route.meta.license || this.$license.hasMinimumLevel(this.$aioseo, route.meta.license))
 				.filter(route => {
 					if ('lite' === route.meta.display && this.$isPro) {
 						return false

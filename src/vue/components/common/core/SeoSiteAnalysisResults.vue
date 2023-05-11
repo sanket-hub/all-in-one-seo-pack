@@ -17,9 +17,9 @@
 
 		<template
 			v-for="(result, index) in filterResults(allResults.basic)"
+			:key="index"
 		>
 			<core-seo-site-analysis-result
-				:key="index"
 				:test="index"
 				:result="result"
 				:show-instructions="showInstructions"
@@ -33,9 +33,9 @@
 
 		<template
 			v-for="(result, index) in filterResults(allResults.advanced)"
+			:key="index"
 		>
 			<core-seo-site-analysis-result
-				:key="index"
 				:test="index"
 				:result="result"
 				:show-instructions="showInstructions"
@@ -49,9 +49,9 @@
 
 		<template
 			v-for="(result, index) in filterResults(allResults.performance)"
+			:key="index"
 		>
 			<core-seo-site-analysis-result
-				:key="index"
 				:test="index"
 				:result="result"
 				:show-instructions="showInstructions"
@@ -65,9 +65,9 @@
 
 		<template
 			v-for="(result, index) in filterResults(allResults.security)"
+			:key="index"
 		>
 			<core-seo-site-analysis-result
-				:key="index"
 				:test="index"
 				:result="result"
 				:show-instructions="showInstructions"
@@ -100,6 +100,7 @@ export default {
 	},
 	data () {
 		return {
+			separator           : undefined,
 			searchPreviewDomain : null,
 			strings             : {
 				basic       : this.$t.__('Basic SEO', this.$td),
@@ -165,12 +166,15 @@ export default {
 
 <style lang="scss">
 .aioseo-seo-site-analysis-results {
+	padding-top: 12px;
+
 	.group-header {
 		font-size: 16px;
+		line-height: 24px;
 		font-weight: 600;
 
 		&:not(:first-child) {
-			margin-top: 30px;
+			margin-top: 20px;
 		}
 	}
 }

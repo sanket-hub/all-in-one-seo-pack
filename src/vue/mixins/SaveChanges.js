@@ -1,5 +1,6 @@
 import { mapActions } from 'vuex'
 export const SaveChanges = {
+	emits   : [ 'changes-saved' ],
 	methods : {
 		...mapActions([ 'saveChanges', 'saveHtaccess', 'saveNetworkRobots' ]),
 		processSaveChanges () {

@@ -32,6 +32,7 @@ import { Standalone } from '@/vue/mixins/Standalone'
 import { isBlockEditor } from '@/vue/utils/context'
 
 export default {
+	emits  : [ 'standalone-update-post' ],
 	mixins : [ Standalone ],
 	data () {
 		return {

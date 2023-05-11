@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import PostSettings from '@/vue/standalone/post-settings/App.vue'
+import PostSettings from '@/vue/standalone/post-settings/App'
 import SvgClose from '@/vue/components/common/svg/Close'
 import UtilDraggable from '@/vue/components/common/util/Draggable'
 export default {

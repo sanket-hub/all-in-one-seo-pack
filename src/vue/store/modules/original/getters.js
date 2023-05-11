@@ -1,3 +1,5 @@
+import { decodeHTMLEntities } from '@/vue/utils/helpers'
+
 const replacer = (key, value) => {
 	if ('licenseKey' === key) {
 		value = ''
@@ -11,6 +13,11 @@ const replacer = (key, value) => {
 			}
 		})
 	}
+
+	if ('separator' === key) {
+		value = decodeHTMLEntities(value)
+	}
+
 	return null === value ? '' : value
 }
 

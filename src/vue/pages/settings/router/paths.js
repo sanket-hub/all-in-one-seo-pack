@@ -7,7 +7,7 @@ const loadView = view => {
 
 export default [
 	{
-		path     : '*',
+		path     : '/:pathMatch(.*)*',
 		redirect : '/general-settings'
 	},
 	{

@@ -1,12 +1,15 @@
 <template>
 	<div class="aioseo-seo-preview-standalone-view-meta-tags">
 		<dl>
-			<template v-for="(item,index) in metaTags">
-				<dt :key="index+'label'">
+			<template
+				v-for="(item,index) in metaTags"
+				:key="index"
+			>
+				<dt>
 					{{ item.label }}
 				</dt>
 
-				<dd :key="index+'value'">
+				<dd>
 					<a v-if="isUrl(item.value)"
 					   :href="item.value"
 					   target="_blank"
@@ -109,7 +112,7 @@ export default {
 				margin-top: 8px;
 			}
 
-			::v-deep {
+			:deep() {
 				a {
 					border-bottom: 1px dotted $blue;
 					color: $blue;

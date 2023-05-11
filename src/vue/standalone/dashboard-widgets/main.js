@@ -1,7 +1,9 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
 
-import '@/vue/plugins'
-import '@/vue/components/common'
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
 
 import SeoSetup from './SeoSetup.vue'
 import Overview from './Overview.vue'
@@ -11,18 +13,20 @@ import store from '@/vue/store'
 import { elemLoaded } from '@/vue/utils/elemLoaded'
 import camelCase from 'lodash/camelCase'
 
-Vue.config.productionTip = false
-
 const dashboardWidgetsMap = [
 	{ id: 'aioseo-seo-setup-app', component: SeoSetup },
 	{ id: 'aioseo-overview-app', component: Overview }
 ]
 
 const loadDashboardWidget = (widget) => {
-	new Vue({
-		store,
-		render : h => h(widget.component)
-	}).$mount('#' + widget.id)
+	let app = createApp(widget.component)
+	app     = loadPlugins(app)
+	app     = loadComponents(app)
+
+	app.use(store)
+	store._vm = app
+
+	app.mount('#' + widget.id)
 }
 
 dashboardWidgetsMap.forEach(widget => {

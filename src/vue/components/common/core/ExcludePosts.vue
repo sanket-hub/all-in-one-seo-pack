@@ -6,16 +6,18 @@
 			:customLabel="searchableLabel"
 			size="medium"
 			multiple
-			:value="getJsonValues(optionName)"
-			@input="values => optionName = setJsonValues(values)"
+			:modelValue="getJsonValues(optionName)"
+			@update:modelValue="values => optionName = setJsonValues(values)"
 			:placeholder="strings.typeToSearch"
 		>
 			<template #noOptions>
 				{{ noOptions }}
 			</template>
+
 			<template #noResult>
 				{{ strings.noResult }}
 			</template>
+
 			<template #caret="{ toggle }">
 				<base-button
 					class="multiselect-toggle"
@@ -28,6 +30,7 @@
 					/>
 				</base-button>
 			</template>
+
 			<template #option="{ option, search }">
 				<div class="option">
 					<div class="option-title"
@@ -81,11 +84,15 @@
 <script>
 import { JsonValues } from '@/vue/mixins'
 import { mapActions } from 'vuex'
+import BaseButton from '@/vue/components/common/base/Button'
+import BaseSelect from '@/vue/components/common/base/Select'
 import SvgAddPlus from '@/vue/components/common/svg/AddPlus'
 import SvgClose from '@/vue/components/common/svg/Close'
 import SvgExternal from '@/vue/components/common/svg/External'
 export default {
 	components : {
+		BaseButton,
+		BaseSelect,
 		SvgAddPlus,
 		SvgClose,
 		SvgExternal
@@ -161,7 +168,7 @@ export default {
 	.aioseo-select {
 		max-width: 600px;
 		display: inline-block;
-		margin-right: 10px;
+		margin-right: 16px;
 
 		.multiselect__option {
 			display: flex;

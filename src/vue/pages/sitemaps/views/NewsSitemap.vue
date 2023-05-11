@@ -69,7 +69,7 @@ export default {
 		.aioseo-select {
 			max-width: 600px;
 			display: inline-block;
-			margin-right: 10px;
+			margin-right: 16px;
 
 			.multiselect__option {
 				display: flex;

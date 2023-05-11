@@ -31,8 +31,8 @@
 					<base-select
 						size="medium"
 						:options="twitterCards"
-						:value="getCardOptions(options.social.twitter.general.defaultCardType)"
-						@input="value => options.social.twitter.general.defaultCardType = value.value"
+						:modelValue="getCardOptions(options.social.twitter.general.defaultCardType)"
+						@update:modelValue="value => options.social.twitter.general.defaultCardType = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -47,8 +47,8 @@
 					<base-select
 						size="medium"
 						:options="imageSourceOptions"
-						:value="getImageSourceOption(options.social.twitter.general.defaultImageSourcePosts)"
-						@input="value => options.social.twitter.general.defaultImageSourcePosts = value.value"
+						:modelValue="getImageSourceOption(options.social.twitter.general.defaultImageSourcePosts)"
+						@update:modelValue="value => options.social.twitter.general.defaultImageSourcePosts = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -120,15 +120,15 @@
 						v-if="!isUnlicensed"
 						size="medium"
 						:options="getTermImageSourceOptions()"
-						:value="getImageSourceOption(options.social.twitter.general.defaultImageSourceTerms)"
-						@input="value => options.social.twitter.general.defaultImageSourceTerms = value.value"
+						:modelValue="getImageSourceOption(options.social.twitter.general.defaultImageSourceTerms)"
+						@update:modelValue="value => options.social.twitter.general.defaultImageSourceTerms = value.value"
 					/>
 
 					<base-select
 						v-if="isUnlicensed"
 						size="medium"
 						:options="getTermImageSourceOptions()"
-						:value="getImageSourceOption('default')"
+						:modelValue="getImageSourceOption('default')"
 						disabled
 					/>
 
@@ -300,8 +300,8 @@
 					<base-select
 						size="medium"
 						:options="twitterCards"
-						:value="getCardOptions(options.social.twitter.homePage.cardType)"
-						@input="value => options.social.twitter.homePage.cardType = value.value"
+						:modelValue="getCardOptions(options.social.twitter.homePage.cardType)"
+						@update:modelValue="value => options.social.twitter.homePage.cardType = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -416,7 +416,7 @@ import { ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader } from '@/vue
 import { mapState, mapGetters } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -437,6 +437,7 @@ export default {
 	mixins : [ ImageSourceOptions, JsonValues, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
+			separator        : undefined,
 			titleCount       : 0,
 			descriptionCount : 0,
 			option           : null,
@@ -524,22 +525,27 @@ export default {
 
 <style lang="scss">
 .aioseo-twitter {
+
 	.inline-upsell {
 		display: inline-flex;
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 
 	.twitter-image-upload {
 		display: flex;
+		gap: 8px;
 
-		.aioseo-input {
+		.aioseo-input-container {
+			width: 100%;
 			max-width: 445px;
-			margin-right: 10px;
+
+			.aioseo-input {
+				width: 100%;
+			}
 		}
 
 		.insert-image {
 			min-width: 214px;
-			margin-right: 10px;
 
 			svg.aioseo-circle-plus {
 				width: 13px;
@@ -550,6 +556,7 @@ export default {
 	}
 
 	.twitter-image {
+
 		img {
 			margin-top: 20px;
 			width: auto;
@@ -567,14 +574,16 @@ export default {
 	}
 
 	.twitter-default-image-source {
+
 		.aioseo-select {
-			max-width: 350px;
+			max-width: 445px;
 		}
 	}
 
 	.default-card-type {
+
 		.aioseo-select {
-			max-width: 260px;
+			max-width: 445px;
 		}
 	}
 }

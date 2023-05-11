@@ -28,7 +28,7 @@
 import { mapState } from 'vuex'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import Statistic from './Statistic.vue'
+import Statistic from './Statistic'
 import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 export default {
 	components : {

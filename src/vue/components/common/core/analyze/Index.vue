@@ -46,6 +46,7 @@
 
 <script>
 export default {
+	emits : [ 'startAnalyzing' ],
 	props : {
 		header      : String,
 		description : String,
@@ -89,7 +90,6 @@ export default {
 
 <style lang="scss">
 .analyze-main {
-	padding: 30px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -97,9 +97,10 @@ export default {
 	font-size: 16px;
 
 	.analyze-header {
-		font-size: 18px;
+		font-size: 24px;
+		line-height: 30px;
 		font-weight: 600;
-		margin-bottom: 16px;
+		margin-bottom: 12px;
 	}
 
 	.analyze-description {
@@ -109,9 +110,10 @@ export default {
 	}
 
 	.analyze-input {
-		margin-top: 30px;
+		margin-top: 12px;
 		display: flex;
 		align-items: center;
+		gap: 8px;
 
 		.aioseo-input {
 			min-width: 430px;

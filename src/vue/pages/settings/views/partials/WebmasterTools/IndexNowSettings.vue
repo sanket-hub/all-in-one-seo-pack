@@ -1,12 +1,12 @@
 <template>
 	<grid-column class="tool-settings tool-settings-index-now">
-		<template
+		<div
 			v-for="(setting, index) in tool.settings"
+			:key="index"
 		>
 			<core-settings-row
 				noHorizontalMargin
 				align-small
-				:key="index"
 			>
 				<template #name>
 					{{ setting.label }}
@@ -23,7 +23,7 @@
 						<base-button
 							v-if="isIndexNowEnabled"
 							type="blue"
-							size="small"
+							size="medium"
 							@click="regenerateApiKey"
 							:loading="regeneratingApiKey"
 						>
@@ -83,14 +83,14 @@
 					</core-alert>
 				</template>
 			</core-settings-row>
-		</template>
+		</div>
 	</grid-column>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { WebmasterTools } from '@/vue/pages/settings/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 export default {
@@ -237,7 +237,7 @@ export default {
 .tool-settings-index-now {
 	.inline-upsell {
 		display: inline-block;
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 
 	.aioseo-index-now-key {

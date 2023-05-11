@@ -153,7 +153,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { WpTable } from '@/vue/mixins'
-import AddAdditionalPage from './partials/AddAdditionalPage.vue'
+import AddAdditionalPage from './partials/AddAdditionalPage'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
@@ -365,29 +365,6 @@ export default {
 	.aioseo-wp-table.additional-pages-table {
 		border-top: 1px solid $border;
 		padding-top: 20px;
-
-		.header {
-			display: inline;
-			border: none;
-			padding: 0;
-
-			.subsubsub,
-			.pagination {
-				margin-left: auto;
-			}
-
-			.pagination {
-				margin-bottom: 0;
-			}
-
-			.tablenav {
-				display: flex;
-				font-size: 13px;
-				font-weight: 400;
-				height: auto;
-				padding: 10px 0 5px;
-			}
-		}
 
 		.wp-table {
 			.post-title {

@@ -6,7 +6,7 @@
 
 <script>
 import { Standalone } from '@/vue/mixins/Standalone'
-import CoreOverview from '@/vue/components/common/core/Overview.vue'
+import CoreOverview from '@/vue/components/common/core/Overview'
 export default {
 	components : {
 		CoreOverview

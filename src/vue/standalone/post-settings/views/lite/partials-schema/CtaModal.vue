@@ -22,7 +22,7 @@
 					:active="'schema-templates'"
 					:showSaveButton="false"
 				>
-					<template #md-tab-icon="{ tab }">
+					<template #var-tab-icon="{ tab }">
 						<component :is="tab.icon" />
 					</template>
 				</core-main-tabs>
@@ -33,7 +33,7 @@
 						:active="'schema-catalog'"
 						:showSaveButton="false"
 					>
-						<template #md-tab-icon="{ tab }">
+						<template #var-tab-icon="{ tab }">
 							<component
 								:is="tab.icon"
 							/>
@@ -93,12 +93,13 @@ import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import GraphCard from '../../partials/GraphCard'
 import GraphsMixin from '../../mixins/Graphs'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 
 export default {
+	emits      : [ 'close' ],
 	mixins     : [ GraphsMixin ],
 	components : {
 		CoreBlur,
@@ -193,8 +194,8 @@ export default {
 
 				.aioseo-tabs {
 					.tabs-scroller {
-						.md-tabs {
-							.md-button-content {
+						.var-tabs {
+							.var-tab {
 								display: flex;
 								align-items: center;
 
@@ -254,7 +255,7 @@ export default {
 							.aioseo-input-container {
 								display: flex;
 								max-width: 445px;
-								margin-right: 10px;
+								margin-right: 8px;
 
 								position: relative;
 								width: 100%;
@@ -266,7 +267,7 @@ export default {
 
 							.insert-image {
 								min-width: 214px;
-								margin-right: 10px;
+								margin-right: 8px;
 
 								svg.aioseo-circle-plus {
 									width: 13px;
@@ -287,10 +288,6 @@ export default {
 
 					.aioseo-editor {
 						background-color: white;
-					}
-
-					.aioseo-textarea-autosize {
-						font-size: 14px;
 					}
 
 					.aioseo-html-tags-editor {

@@ -9,7 +9,7 @@
 			>
 				<template #content>
 					<core-google-search-preview
-						:title="parseTags('#site_title #separator_sa #tagline')"
+						:title="parseTags(`#site_title ${options.searchAppearance.global.separator} #tagline`)"
 						:separator="options.searchAppearance.global.separator"
 						:description="parseTags('#tagline')"
 					/>
@@ -22,7 +22,7 @@
 				<template #content>
 					<core-settings-separator
 						:options-separator="options.searchAppearance.global.separator"
-						@change="value => updateSeparator(value)"
+						@update:separator="value => options.searchAppearance.global.separator = value"
 						show-more-slug="searchShowMoreSeparators"
 					/>
 				</template>
@@ -135,8 +135,8 @@
 						multiple
 						taggable
 						:options="getJsonValue(options.searchAppearance.global.keywords, []) || []"
-						:value="getJsonValue(options.searchAppearance.global.keywords, []) || []"
-						@input="values => options.searchAppearance.global.keywords = setJsonValue(values)"
+						:modelValue="getJsonValue(options.searchAppearance.global.keywords, []) || []"
+						@update:modelValue="values => options.searchAppearance.global.keywords = setJsonValue(values)"
 						:tag-placeholder="strings.tagPlaceholder"
 					/>
 				</template>
@@ -226,8 +226,8 @@
 					<base-select
 						class="person-chooser"
 						:options="users"
-						:value="getPersonOptions(options.searchAppearance.global.schema.person)"
-						@input="value => options.searchAppearance.global.schema.person = value.value"
+						:modelValue="getPersonOptions(options.searchAppearance.global.schema.person)"
+						@update:modelValue="value => options.searchAppearance.global.schema.person = value.value"
 					>
 						<template #singleLabel="{ option }">
 							<div class="person-label">
@@ -315,8 +315,8 @@
 						size="medium"
 						:options="$constants.CONTACT_TYPES"
 						:placeholder="strings.chooseContactType"
-						:value="getContactTypeOptions(options.searchAppearance.global.schema.contactType)"
-						@input="value => options.searchAppearance.global.schema.contactType = value.value"
+						:modelValue="getContactTypeOptions(options.searchAppearance.global.schema.contactType)"
+						@update:modelValue="value => options.searchAppearance.global.schema.contactType = value.value"
 					/>
 
 					<div class="aioseo-description">
@@ -469,6 +469,7 @@ export default {
 		return {
 			titleCount       : 0,
 			descriptionCount : 0,
+			separator        : undefined,
 			strings          : {
 				titleSeparator              : this.$t.__('Title Separator', this.$td),
 				separatorCharacter          : this.$t.__('Separator Character', this.$td),
@@ -546,14 +547,6 @@ export default {
 		},
 		getContactTypeOptions (option) {
 			return this.$constants.CONTACT_TYPES.find(t => t.value === option)
-		},
-		updateSeparator (value) {
-			const separatorTagIndex = this.tags.tags.findIndex(x => 'separator_sa' === x.id)
-			if (-1 !== separatorTagIndex) {
-				this.tags.tags[separatorTagIndex].value = value
-			}
-
-			this.options.searchAppearance.global.separator = value
 		}
 	}
 }
@@ -586,7 +579,7 @@ export default {
 			.aioseo-input-container {
 				width: 100%;
 				max-width: 445px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				.aioseo-input {
 					width: 100%;
@@ -595,7 +588,7 @@ export default {
 
 			.insert-image {
 				min-width: 214px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				svg.aioseo-circle-plus {
 					width: 13px;

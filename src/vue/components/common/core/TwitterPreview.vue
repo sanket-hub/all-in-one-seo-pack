@@ -128,7 +128,7 @@ export default {
 	background-color: $white2;
 	display: flex;
 	justify-content: center;
-	padding: 30px;
+	padding: 20px;
 
 	.twitter-post {
 		background-color: #fff;

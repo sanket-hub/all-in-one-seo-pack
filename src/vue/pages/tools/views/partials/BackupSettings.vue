@@ -142,8 +142,9 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
 import { mapActions, mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
@@ -266,7 +267,7 @@ export default {
 				})
 		},
 		getBackupName (backup) {
-			const date = this.$dateTime.fromMillis(backup * 1000).setZone(this.$dateTime.local().zoneName)
+			const date = DateTime.fromMillis(backup * 1000).setZone(DateTime.local().zoneName)
 			return this.$t.sprintf(
 				// Translators: 1 Date, 2 - Timestamp.
 				this.$t.__('%1$s at %2$s', this.$td),
@@ -307,10 +308,10 @@ export default {
 
 			.backup-row {
 				background-color: #fff;
-				height: 70px;
+				height: 56px;
 				display: flex;
 				align-items: center;
-				padding: 0 30px;
+				padding: 0 16px;
 
 				&:last-of-type {
 					border-radius: 0 0 3px 3px;

@@ -50,6 +50,7 @@
 <script>
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'close' ],
 	components : {
 		SvgClose
 	},
@@ -90,7 +91,7 @@ export default {
 			document.body.appendChild(this.$el)
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.escapeListener)
 	}
 }
@@ -146,10 +147,10 @@ export default {
 				position: relative;
 				top: 0;
 				z-index: 15;
-				padding: 0 0 0 30px;
-				height: 70px;
-				font-size: 20px;
-				font-weight: bold;
+				padding: 0 0 0 var(--aioseo-gutter);
+				height: 56px;
+				font-size: 18px;
+				font-weight: $font-bold;
 				line-height: 1.4;
 				border-bottom: 1px solid $border;
 				background-color: #fff;
@@ -210,24 +211,29 @@ export default {
 				.aioseo-modal-content > .component-wrapper {
 					height: 100%;
 				}
+
 				.aioseo-modal-content > .component-wrapper {
 					display: flex;
 					align-items: flex-end;
 				}
+
 				.aioseo-post-social,
 				.aioseo-post-general {
 					height: 100%!important;
 					max-height: 100%!important;
-					padding: 20px!important;
+
 					.mobile-radio-buttons {
 						margin-bottom: 0;
 					}
 				}
+
 				.aioseo-add-template-tag {
 					display: none;
 				}
+
 				.tab-facebook,
 				.tab-twitter {
+
 					.aioseo-settings-row:last-of-type {
 						margin-bottom: 64px!important;
 						padding-bottom: 32px!important;
@@ -259,7 +265,7 @@ export default {
  * these styles.
  */
 
-.modal-enter {
+.modal-enter-from {
 	opacity: 0;
 }
 
@@ -267,7 +273,7 @@ export default {
 	opacity: 0;
 }
 
-.modal-enter .modal-container,
+.modal-enter-from .modal-container,
 .modal-leave-active .modal-container {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);

@@ -1,5 +1,7 @@
-import Vue from 'vue'
-import '@/vue/plugins'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+
+import loadPlugins from '@/vue/plugins'
 
 import OpeningHoursSidebar from './OpeningHoursSidebar.vue'
 
@@ -160,8 +162,7 @@ export const settings = {
 				parent  : document.querySelector('.block-editor'),
 				subtree : true,
 				done    : function (el) {
-					new Vue({
-						el   : el,
+					let app = createApp({
 						data : function () {
 							return vueInitialState[clientId]
 						},
@@ -173,8 +174,12 @@ export const settings = {
 								deep : true
 							}
 						},
-						render : h => h(OpeningHoursSidebar)
+						render : () => h(OpeningHoursSidebar)
 					})
+
+					app = loadPlugins(app)
+
+					app.mount(el)
 				}
 			})
 		}
@@ -185,8 +190,7 @@ export const settings = {
 				parent  : document.querySelector('.block-editor'),
 				subtree : true,
 				done    : function (el) {
-					new Vue({
-						el   : el,
+					let app = createApp({
 						data : function () {
 							return window.aioseo.currentPost.local_seo.openingHours
 						},
@@ -198,8 +202,12 @@ export const settings = {
 								deep : true
 							}
 						},
-						render : h => h(null) // This stops the watcher from rendering multiple times.
+						render : () => h(null) // This stops the watcher from rendering multiple times.
 					})
+
+					app = loadPlugins(app)
+
+					app.mount(el)
 				}
 			})
 		}

@@ -13,7 +13,7 @@
 <script>
 import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import CoreProcessingPopup from '@/vue/components/common/core/ProcessingPopup'
 import DomainsReport from './AIOSEO_VERSION/DomainsReport'
 import LinksReport from './AIOSEO_VERSION/LinksReport'
@@ -75,14 +75,11 @@ export default {
 <style lang="scss">
 .aioseo-link-assistant {
 	.aioseo-wp-table {
+
 		tbody {
 			th.check-column,
 			td {
 				font-size: 14px;
-			}
-
-			.date {
-				font-size: 13px;
 			}
 		}
 
@@ -95,13 +92,9 @@ export default {
 
 		}
 
-		.tablenav {
-			font-size: 13px !important;
-		}
-
 		button.toggle-row-button {
 			display: flex;
-			width: 30px;
+			width: 26px;
 			height: 26px;
 			padding: 0;
 			justify-content: center;
@@ -109,6 +102,7 @@ export default {
 			background-color: white;
 			border: 1px solid $gray;
 			border-radius: 3px;
+			margin-left: auto;
 
 			&:hover {
 				cursor: pointer;
@@ -134,8 +128,8 @@ export default {
 			svg {
 				&.aioseo-caret {
 					margin: 0;
-					height: 20px;
-					width: 20px;
+					height: 24px;
+					width: 24px;
 					transform: rotate(-90deg);
 					color: $placeholder-color;
 					transition: transform 0.3s;
@@ -145,9 +139,6 @@ export default {
 
 		.row-actions {
 			a {
-				font-size: 13px;
-				line-height: 150%;
-
 				&.delete-all-links {
 					color: $red;
 				}
@@ -159,13 +150,16 @@ export default {
 
 			&.aioseo-link-external {
 				color: $blue;
-				width: 10.5px;
-				height: 10.5px;
+				width: 12px;
+				height: 12px;
 			}
 			&.aioseo-new-page {
 				color: $black2;
 				width: 9.33px;
 				height: 11.67px;
+			}
+			&.aioseo-close {
+				margin: 0;
 			}
 		}
 	}
@@ -177,21 +171,9 @@ export default {
 	}
 
 	#the-list .aioseo-wp-table.link-assistant-inner-table {
-		.tablenav {
-			height: auto;
-
-			.aioseo-wp-bulk-actions {
-				margin: 10px 0 16px 16px;
-			}
-
-			.pagination {
-				margin: 10px 16px 16px 0;
-			}
-		}
 
 		.wp-table table {
 			border: 0;
-			padding: 0;
 
 			thead {
 				tr:last-child {
@@ -199,22 +181,11 @@ export default {
 					td.manage-column {
 						border-bottom: 1px solid #c3c4c7 !important;
 					}
-
-					th {
-						padding: 8px 10px !important;
-
-						&:first-of-type {
-							padding-left: 15px !important;
-						}
-					}
-
-					td {
-						padding: 4px 0 0 8px !important;
-					}
 				}
 			}
 
 			tbody {
+
 				tr {
 					// These are set in WordPress Core but we need to reset them for the inner table; otherwise the row actions for all rows show on hover.
 					.row-actions {
@@ -226,21 +197,11 @@ export default {
 							position : static;
 						}
 					}
-
-					th {
-						padding: 11px 0 0 8px;
-					}
-
-					td {
-						padding: 8px 10px 15px 8px;
-						&:first-of-type {
-							padding-left: 15px;
-						}
-					}
 				}
 			}
 
 			tbody {
+
 				.aioseo-tooltip {
 					display: inline-block;
 					margin-left: 0;
@@ -271,40 +232,40 @@ export default {
 			margin-left: 10px;
 		}
 
-		.md-tabs-navigation {
-			margin-top: 0;
-		}
-
-		.md-button-content {
+		.var-tab {
 			display: flex;
 			align-items: center;
 			column-gap: 11.75px;
-		}
 
-		svg {
-			display: inline-block;
-			width: 11px;
-			height: 11px;
-			margin-top: 3px;
-			margin-right: 0;
+			svg {
+				display: inline-block;
+				width: 14px;
+				height: 14px;
+				margin-right: 0;
 
-			&.aioseo-link-internal-inbound,
-			&.aioseo-link-internal-outbound {
-				color: $green;
-			}
-			&.aioseo-link-external {
-				color: $blue;
-			}
-			&.aioseo-link-affiliate {
-				color: $orange;
-				width: 12px;
-				height: 12px;
-				margin-top: 2px;
-			}
-			&.aioseo-link-suggestion {
-				color: $black2-hover;
-				width: 16.67px;
-				height: 8.33px;
+				&.aioseo-link-internal-inbound,
+				&.aioseo-link-internal-outbound {
+					width: 17px;
+					height: 17px;
+					color: $green;
+				}
+				&.aioseo-link-external {
+					width: 17px;
+					height: 17px;
+					color: $blue;
+				}
+				&.aioseo-link-affiliate {
+					color: $orange;
+					width: 100%;
+					height: auto;
+					max-height: 18px;
+				}
+				&.aioseo-link-suggestion {
+					color: $black2-hover;
+					width: 100%;
+					height: auto;
+					max-width: 20px;
+				}
 			}
 		}
 	}
@@ -312,12 +273,17 @@ export default {
 	div.links-bottom {
 		display: flex;
 		flex-direction: row;
-		padding: 17px 17px 24px 17px;
+		font-size: 12px;
+		line-height: 18px;
+		margin: 0 16px 16px 16px;
+
 		a {
 			text-decoration: underline;
+
 			&.link-delete {
 				color: $red !important;
 			}
+
 			&:hover{
 				text-decoration: none;
 				cursor: pointer;
@@ -376,11 +342,12 @@ export default {
 		}
 	}
 }
+
+.aioseo-link-suggestions div.links-bottom {
+	margin: 16px 0 0 0;
+}
+
 .aioseo-link-assistant-overview {
 	position: relative;
-
-	.overview-link-count {
-		margin-bottom: -50px;
-	}
 }
 </style>

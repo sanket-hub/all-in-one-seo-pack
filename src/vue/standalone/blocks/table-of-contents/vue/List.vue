@@ -1,5 +1,5 @@
 <template>
-	<Draggable
+	<draggable
 		class="aioseo-toc-list"
 		:class="[
 			{ 'orderable' : this.allowReorder }
@@ -7,16 +7,15 @@
 		v-bind="dragOptions"
 		handle=".aioseo-drag-handle"
 		:list="headings"
-		@input="(value) => $emit('input', value)"
+		@update:modelValue="(value) => $emit('update:modelValue', value)"
 		@change="(value) => setReorder(value)"
+		:item-key="_uid.toString()"
 	>
-
+		<template #item="{element}">
 			<li
-				v-for="(heading, index) in headings"
-				:key="index"
 				:class="[
 					'aioseo-toc-list-item',
-					{ 'heading-hidden' : heading.hidden }
+					{ 'heading-hidden' : element.hidden }
 				]"
 			>
 
@@ -25,39 +24,36 @@
 						class="aioseo-drag-handle has-icon"
 						v-if="allowReorder"
 					>
-						<Drag/>
+						<svg-drag />
 					</button>
 
 					<base-input
 						class="row-input row-input--content"
-						:value="heading.editedContent || heading.content"
-						:placeholder="heading.content"
-						@input="value => setEditedContent(value, heading)"
+						:modelValue="element.editedContent || element.content"
+						@update:modelValue="value => setEditedContent(value, heading)"
+						:placeholder="element.content"
 					>
 						<template #append-icon>
 							<div
 								class="append-icon"
 								v-if="!allowReorder"
 							>
-								<toc-link @click.native="handleAnchorInput"/>
+								<svg-toc-link @click.native="handleAnchorInput" />
 							</div>
 						</template>
 					</base-input>
 
 					<base-input
+						v-if="!allowReorder"
 						class="row-input row-input--anchor"
 						:spellcheck=false
-						:value="heading.anchor"
-						@input="value => setAnchor(value, heading)"
-						v-if="!allowReorder"
+						:modelValue="element.anchor"
+						@update:modelValue="value => setAnchor(value, heading)"
 					>
 						<template #append-icon>
-							<div
-								class="append-icon"
-							>
-
+							<div class="append-icon">
 								<core-tooltip>
-									<Info />
+									<svg-info />
 
 									<template #tooltip>
 										<p class="aioseo-tooltip__header">{{strings.tooltipHeader}}</p>
@@ -65,7 +61,8 @@
 										<p>{{strings.tooltipDescription}}</p>
 									</template>
 								</core-tooltip>
-								<Close @click.native="handleAnchorInput"/>
+
+								<svg-close @click.native="handleAnchorInput" />
 							</div>
 						</template>
 					</base-input>
@@ -73,52 +70,56 @@
 					<button
 						v-if="!allowReorder"
 						:class="[
-							{ 'active' : heading.hidden },
+							{ 'active' : element.hidden },
 							'aioseo-hide-heading-toggle',
 							'has-icon'
 						]"
-						@click="setHiddenStatus(heading)"
-						>
-						<EyeOff v-if="heading.hidden"/>
-						<Eye v-else/>
+						@click="setHiddenStatus(element)"
+					>
+						<svg-eye-off v-if="element.hidden" />
+						<svg-eye v-else />
 					</button>
 
 					<List
+						v-if="element.headings"
 						class="aioseo-toc-list-nested"
-						v-if="heading.headings"
-						:headings="heading.headings"
+						:headings="element.headings"
 						:allowReorder="allowReorder"
 					/>
 				</div>
 			</li>
-	</Draggable>
+		</template>
+	</draggable>
 </template>
 
 <script>
-import Close from '@/vue/components/common/svg/Close'
-import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import Drag from '@/vue/components/common/svg/Drag'
-import Draggable from 'vuedraggable'
-import Eye from '@/vue/components/common/svg/Eye'
-import EyeOff from '@/vue/components/common/svg/EyeOff'
-import Info from '@/vue/components/common/svg/Info'
-import TocLink from '@/vue/components/common/svg/Link'
 import { mapMutations, mapState } from 'vuex'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 import { deepCopy, cleanHtml } from '@/vue/standalone/blocks/utils'
 import { formatHeadingList, orderHeadings } from '../helpers'
 
+import BaseInput from '@/vue/components/common/base/Input'
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
+import Draggable from 'vuedraggable'
+import SvgClose from '@/vue/components/common/svg/Close'
+import SvgDrag from '@/vue/components/common/svg/Drag'
+import SvgEye from '@/vue/components/common/svg/Eye'
+import SvgEyeOff from '@/vue/components/common/svg/EyeOff'
+import SvgInfo from '@/vue/components/common/svg/Info'
+import SvgTocLink from '@/vue/components/common/svg/Link'
+
 export default {
 	name       : 'List',
 	components : {
-		Close,
+		BaseInput,
 		CoreTooltip,
-		Drag,
 		Draggable,
-		Eye,
-		EyeOff,
-		Info,
-		TocLink
+		SvgClose,
+		SvgDrag,
+		SvgEye,
+		SvgEyeOff,
+		SvgInfo,
+		SvgTocLink
 	},
 	props : {
 		headings : {
@@ -345,6 +346,10 @@ export default {
 
 				.aioseo-tooltip {
 					margin-left: 0;
+
+					div {
+						display: flex;
+					}
 				}
 
 				svg {

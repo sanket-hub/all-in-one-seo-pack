@@ -47,12 +47,12 @@
 					@changed="processChangeTab"
 					skinny-tabs
 				>
-					<template #md-tab="{ tab }">
+					<template #var-tab="{ tab }">
 						<span
 							class="round"
-							:class="tab.data.analyze.classColor"
+							:class="tab.analyze.classColor"
 						>
-							{{ tab.data.analyze.count || 0 }}
+							{{ tab.analyze.count || 0 }}
 						</span>
 
 						<span class="label">{{ tab.label }}</span>
@@ -107,7 +107,7 @@ export default {
 			return [
 				{
 					slug    : 'all-items',
-					name    : this.$t.__('All Items', this.$td),
+					label   : this.$t.__('All Items', this.$td),
 					analyze : {
 						classColor : 'black',
 						count      : siteAnalysis.score
@@ -117,7 +117,7 @@ export default {
 				},
 				{
 					slug    : 'critical',
-					name    : this.$t.__('Important Issues', this.$td),
+					label   : this.$t.__('Important Issues', this.$td),
 					analyze : {
 						classColor : 'red',
 						count      : siteAnalysis.score
@@ -127,7 +127,7 @@ export default {
 				},
 				{
 					slug    : 'recommended-improvements',
-					name    : this.$t.__('Recommended Improvements', this.$td),
+					label   : this.$t.__('Recommended Improvements', this.$td),
 					analyze : {
 						classColor : 'blue',
 						count      : siteAnalysis.score
@@ -137,7 +137,7 @@ export default {
 				},
 				{
 					slug    : 'good-results',
-					name    : this.$t.__('Good Results', this.$td),
+					label   : this.$t.__('Good Results', this.$td),
 					analyze : {
 						classColor : 'green',
 						count      : siteAnalysis.score

@@ -11,8 +11,8 @@
 					:id="`id_${name}_${index}`"
 					:name="name"
 					type="radio"
-					@input="$emit('input', option.value)"
-					:checked="option.value === value"
+					@input="$emit('update:modelValue', option.value)"
+					:checked="option.value === modelValue"
 				/>
 				<label
 					:for="`id_${name}_${index}`"
@@ -43,7 +43,7 @@ export default {
 			type     : String,
 			required : true
 		},
-		value : String
+		modelValue : String
 	}
 }
 </script>
@@ -84,16 +84,25 @@ export default {
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		border: 1px solid $box-background;
+		border: 2px solid transparent;
+		box-shadow: 0 0 0 1px $border;
 		transition: all 0.1s ease-in-out;
 		border-radius: 3px;
 		height: 165px;
 		position: relative;
 
-		p {
-			position: absolute;
-			bottom: 15px;
+		svg {
 			margin: 0;
+			flex: 1;
+			color: $black2;
+		}
+
+		p {
+			font-size: $font-md;
+			line-height: 22px;
+			position: relative;
+			bottom: unset;
+			margin: 0 0 12px;
 		}
 
 		&:hover {

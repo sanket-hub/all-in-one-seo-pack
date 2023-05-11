@@ -12,7 +12,12 @@
 		<grid-column
 			:md="leftSize"
 		>
-			<div class="settings-name">
+			<div
+				:class="[
+					'settings-name',
+					{ 'no-name': !name }
+				]"
+			>
 				<div
 					class="name"
 					:class="[
@@ -94,24 +99,45 @@ export default {
 
 <style lang="scss">
 .aioseo-settings-row {
-	margin-bottom: 22px;
-	padding-bottom: 16px;
+	margin-bottom: var(--aioseo-gutter);
+	padding-bottom: var(--aioseo-gutter);
 	border-bottom: 1px solid $border;
+
+	@media only screen and (min-width: 912px) {
+
+		> .col-md-3:first-child {
+			max-width: 240px;
+		}
+
+		> .col-md-9:last-child {
+			max-width: 940px;
+			flex: 1;
+		}
+	}
+
+	:where(.aioseo-row) {
+		--aioseo-gutter: 12px;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
 
 	&.no-margin {
 		margin-bottom: 0;
 	}
 
 	&.small-padding {
-		padding-bottom: 5px;
+		padding-bottom: 4px;
 	}
 
 	&.medium-margin {
-		margin-bottom: 15px;
+		margin-bottom: 16px;
 	}
 
 	&.no-border {
 		border: none;
+		margin-bottom: 0;
 	}
 
 	&.no-horizontal-margin {
@@ -124,21 +150,22 @@ export default {
 		margin-bottom: 0 !important;
 	}
 
+	> .aioseo-col {
+		padding-block: 0;
+	}
+
 	.settings-name {
 		color: $black;
 
 		.name {
-			font-weight: 600;
-			font-size: 16px;
+			font-weight: $font-bold;
+			font-size: $font-md;
+			line-height: 22px;
 			display: flex;
 			align-items: center;
 
 			&.small-margin {
 				margin-bottom: 5px;
-			}
-
-			&.align {
-				line-height: 40px;
 			}
 
 			&.align-small {
@@ -155,12 +182,13 @@ export default {
 		}
 
 		.aioseo-description {
-			margin-top: 20px;
+			margin-top: 12px;
 		}
 	}
 
 	.settings-content {
-		font-size: 16px;
+		font-size: $font-md;
+		line-height: 22px;
 	}
 
 	p.description {

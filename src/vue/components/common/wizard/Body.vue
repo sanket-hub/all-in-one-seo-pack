@@ -22,29 +22,45 @@
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
 
 	.body-content {
-		padding: 80px 140px;
-
-		@media screen and (max-width: 782px) {
-			padding: 40px;
-		}
+		padding: 40px;
 
 		.header {
-			line-height: 1.4;
+			font-size: 24px;
+			line-height: 30px;
+			color: $black;
+			font-weight: 600;
+
+			+ *:not(.description) {
+				margin-top: 20px;
+			}
+		}
+
+		.description {
+			line-height: 24px;
+			margin-block: 16px 20px;
+			font-size: 16px;
+			color: $black2;
 		}
 	}
 
 	.body-footer {
 		border-top: 1px solid $border;
-		padding: 30px;
+		padding: 20px 40px;
 		display: flex;
 		align-items: center;
 
 		> * {
-			margin-right: 10px;
+			margin-right: 16px;
 
 			&:last-child {
 				margin-right: 0;
 			}
+		}
+
+		> .aioseo-button {
+			font-size: 14px;
+			line-height: 22px;
+			height: 40px;
 		}
 
 		.spacer {

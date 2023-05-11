@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue2'
-// import vue from '@vitejs/plugin-vue' // TODO: This is for Vue 3.
+import vue from '@vitejs/plugin-vue'
 import react from '@vitejs/plugin-react'
 // import eslintPlugin from 'vite-plugin-eslint'
 import liveReload from 'vite-plugin-live-reload'
@@ -11,6 +10,7 @@ import copy from 'rollup-plugin-copy'
 import path from 'path'
 import fs from 'fs'
 import * as dotenv from 'dotenv'
+import ElementPlus from 'unplugin-element-plus/vite'
 
 // i18n parser
 import i18n from './build/aioseo-rollup-plugin-gettext-vue'
@@ -59,9 +59,9 @@ const getStandalones = () => {
 		'limit-modified-date'    : './src/vue/standalone/limit-modified-date/main.js',
 		'link-format'            : './src/vue/standalone/link-format/main.js',
 		'local-business-seo'     : './src/vue/standalone/local-business-seo/main.js',
-		'modal-portal'           : './src/vue/standalone/modal-portal/main.js',
 		notifications            : './src/vue/standalone/notifications/main.js',
 		'post-settings'          : './src/vue/standalone/post-settings/main.js',
+		'primary-term'           : './src/vue/standalone/primary-term/main.js',
 		'posts-table'            : './src/vue/standalone/posts-table/main.js',
 		'publish-panel'          : './src/vue/standalone/publish-panel/main.js',
 		'redirects-add-redirect' : './src/vue/standalone/redirects/add-redirect/main.js',
@@ -181,22 +181,20 @@ export default ({ mode }) => {
 				'animate-vanilla-js',
 				'clipboard/dist/clipboard.min.js',
 				'codemirror',
-				'element-ui',
-				'element-ui/lib/locale',
-				'element-ui/lib/locale/lang/en',
+				'element-plus',
+				'element-plus/dist/locale/en.mjs',
+				'element-plus/es/components/date-picker/style/css',
 				'emoji-mart',
+				'libphonenumber-js',
 				'lodash-es',
 				'lottie-web',
 				'luxon',
-				'maz-ui/lib/maz-phone-number-input',
+				'maz-ui/components/MazPhoneNumberInput',
 				'quill',
 				'superagent',
-				'vue-apexcharts',
-				'vue-material/dist/components',
+				'vue3-apexcharts',
 				'vue-multiselect',
-				'vue-popperjs',
-				'vue-scrollto',
-				'vue2-daterange-picker'
+				'vue-scrollto'
 			],
 			exclude : [
 				'@/vue/plugins/constants',
@@ -208,7 +206,7 @@ export default ({ mode }) => {
 			cors       : true,
 			strictPort : true,
 			port       : process.env.VITE_AIOSEO_DEV_PORT,
-			host       : 'localhost' === process.env.VITE_AIOSEO_DOMAIN ? '0.0.0.0' : process.env.VITE_AIOSEO_DOMAIN,
+			host       : process.env.VITE_AIOSEO_DOMAIN,
 			hmr        : {
 				port : process.env.VITE_AIOSEO_DEV_PORT,
 				host : process.env.VITE_AIOSEO_DOMAIN
@@ -219,6 +217,10 @@ export default ({ mode }) => {
 				{
 					find        : '@',
 					replacement : path.resolve(__dirname, 'src')
+				},
+				{
+					find        : 'vue',
+					replacement : '@vue/compat'
 				}
 			],
 			extensions : [
@@ -241,6 +243,7 @@ export default ({ mode }) => {
 				scss : {
 					additionalData : [
 						'@import "./src/vue/assets/scss/app/variables.scss";',
+						'@import "./src/vue/assets/scss/app/mixins.scss";',
 						''
 					].join('\n')
 				}
@@ -258,6 +261,10 @@ export default ({ mode }) => {
 
 const getHttps = () => {
 	let https = false
+	if (process.env.VITE_AIOSEO_HTTP) {
+		return false
+	}
+
 	try {
 		// Generate a certificate using: `mkcert aioseo.local` in the build/ directory.
 		if (fs.existsSync('./build/' + process.env.VITE_AIOSEO_DOMAIN + '-key.pem')) {
@@ -303,7 +310,8 @@ const getPlugins = version => {
 			hook     : 'writeBundle',
 			verbose  : true,
 			copyOnce : true
-		})
+		}),
+		ElementPlus()
 	]
 
 	const reload = [

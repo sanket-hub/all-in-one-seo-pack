@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import { mapGetters } from 'vuex'
 export default {
 	components : {
@@ -48,10 +48,6 @@ export default {
 			return this.requiredPlans.join(', ')
 		},
 		showAlert () {
-			if (this.level) {
-				return !this.$license.hasMinimumLevel(this.level) && this.requiredPlans.length
-			}
-
 			return this.$addons.requiresUpgrade(this.addon) && this.requiredPlans.length
 		},
 		requiredPlans () {
@@ -60,10 +56,10 @@ export default {
 				const feature     = this.coreFeature.length
 					? ('undefined' !== typeof this.coreFeature[1] ? this.coreFeature[1] : '')
 					: ('undefined' !== typeof this.addonFeature[1] ? this.addonFeature[1] : '')
-				return this.$license.getPlansForFeature(sectionSlug, feature)
+				return this.$license.getPlansForFeature(this.$aioseo, sectionSlug, feature)
 			}
 
-			return this.$addons.currentPlans(this.addon)
+			return this.$addons.currentPlans(this.addon) || []
 		}
 	}
 }

@@ -38,7 +38,7 @@ export default {
 		},
 		openPostDetail (post) {
 			this.$router.push({
-				path  : '/post-detail',
+				name  : 'post-detail',
 				query : {
 					postId        : post.postId,
 					previousRoute : this.$route.name

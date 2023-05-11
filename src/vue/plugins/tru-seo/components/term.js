@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 
@@ -43,6 +43,6 @@ export const maybeUpdateTerm = (run = false) => {
 	store.dispatch('savePostState')
 
 	if (run) {
-		Vue.prototype.$truSeo.runAnalysis({ postId: store.state.currentPost.id })
+		TruSeo.runAnalysis({ postId: store.state.currentPost.id })
 	}
 }

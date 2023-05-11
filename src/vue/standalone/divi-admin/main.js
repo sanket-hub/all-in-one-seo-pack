@@ -1,9 +1,10 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
 
-import '@/vue/plugins'
+import loadPlugins from '@/vue/plugins'
 
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
 
 import App from './App.vue'
 import store from '@/vue/store'
@@ -23,11 +24,15 @@ const mountAlert = () => {
 		// Insert the element before the first child of the tab content.
 		tabs[i].insertBefore(element, tabs[i].firstChild)
 
-		// Mount the App inside this element.
-		new Vue({
-			store,
-			render : h => h(App)
-		}).$mount(`#${element.getAttribute('id')}`)
+		let app = createApp(App)
+		app     = loadPlugins(app)
+		app     = loadComponents(app)
+		app     = loadVersionedComponents(app)
+
+		app.use(store)
+		store._vm = app
+
+		app.mount(`#${element.getAttribute('id')}`)
 	}
 }
 

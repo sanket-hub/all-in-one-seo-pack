@@ -1,9 +1,9 @@
 import {
 	isWooCommerceProduct,
 	truSeoShouldAnalyze,
-	maybeUpdatePost,
-	maybeUpdateTaxonomies
-} from '@/vue/plugins/tru-seo/components'
+	maybeUpdatePost
+} from '@/vue/plugins/tru-seo/components/helpers'
+import { maybeUpdateTaxonomies } from '@/vue/plugins/tru-seo/components/taxonomies'
 
 export const watchClassicEditor = () => {
 	let isAnalyzing = false

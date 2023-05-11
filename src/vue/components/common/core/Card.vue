@@ -87,6 +87,7 @@ import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMa
 import SvgClose from '@/vue/components/common/svg/Close'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	emits      : [ 'close-card' ],
 	components : {
 		CoreTooltip,
 		SvgCaret,
@@ -142,22 +143,17 @@ export default {
 
 <style lang="scss">
 .aioseo-card {
+	position: relative;
 	color: $black;
 	background-color: #fff;
 	border: 1px solid $border;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
-	margin: 30px 0;
+	margin: var(--aioseo-gutter) 0;
 
 	&.disabled {
 		.content {
 			background: $box-background;
-			font-size: 16px;
-			line-height: 24px;
 		}
-	}
-
-	@media only screen and (max-width: 782px) {
-		margin: 20px 0;
 	}
 
 	svg.aioseo-circle-question-mark {
@@ -174,10 +170,10 @@ export default {
 	> .header {
 		display: flex;
 		align-items: center;
-		height: 70px;
-		padding: 0 30px;
+		height: 60px;
+		padding: 0 $gutter;
 		font-weight: 600;
-		font-size: 18px;
+		font-size: 16px;
 		border-bottom: 1px solid $border;
 
 		&.toggles {
@@ -260,7 +256,9 @@ export default {
 	}
 
 	.content {
-		padding: 30px;
+		font-size: $font-md;
+		line-height: 22px;
+		padding: $gutter;
 		position: relative;
 	}
 
@@ -268,6 +266,23 @@ export default {
 		margin-bottom: 0;
 		border-bottom: none;
 		padding-bottom: 0;
+	}
+}
+
+@media only screen and (max-width: 911px) {
+
+	.aioseo-col {
+		&.col-sm-12,
+		&.col-xs-12  {
+
+			> .aioseo-card:last-child {
+				margin-bottom: 0;
+			}
+
+			+ .aioseo-col > .aioseo-card:first-child {
+				margin-top: 0;
+			}
+		}
 	}
 }
 </style>

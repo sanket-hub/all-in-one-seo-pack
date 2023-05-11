@@ -56,7 +56,7 @@
 					<base-checkbox
 						v-if="'all' !== setting.value && options.all"
 						size="medium"
-						:value="true"
+						:modelValue="true"
 						disabled
 					>
 						{{ setting.label }}
@@ -98,7 +98,7 @@
 					<base-checkbox
 						v-if="'all' !== postType.name && postOptions.all"
 						size="medium"
-						:value="true"
+						:modelValue="true"
 						disabled
 					>
 						{{ postType.label }}
@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
 import { mapActions } from 'vuex'
 import { ToolsSettings } from '@/vue/mixins'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -231,7 +232,7 @@ export default {
 					const blob       = new Blob([ JSON.stringify(response.body.settings) ], { type: 'application/json' })
 					const link       = document.createElement('a')
 					link.href        = URL.createObjectURL(blob)
-					link.download    = `aioseo-export-settings-${site}${this.$dateTime.now().toFormat('yyyy-MM-dd')}.json`
+					link.download    = `aioseo-export-settings-${site}${DateTime.now().toFormat('yyyy-MM-dd')}.json`
 					link.click()
 					URL.revokeObjectURL(link.href)
 				})
@@ -256,21 +257,22 @@ export default {
 	}
 
 	.export-settings {
-		.aioseo-row {
-			padding-bottom: 15px;
-			margin-bottom: 10px;
-		}
+		border-bottom-width: 0;
 
 		.export-all {
-			margin-bottom: 15px;
-			font-weight: 700;
+			padding-bottom: 12px;
+			font-weight: $font-bold;
+			border-bottom: 1px solid $border;
 		}
 	}
 
 	.export-post-types {
+		border-bottom-width: 0;
+
 		.export-all {
-			margin-bottom: 15px;
-			font-weight: 700;
+			padding-bottom: 12px;
+			font-weight: $font-bold;
+			border-bottom: 1px solid $border;
 		}
 	}
 }

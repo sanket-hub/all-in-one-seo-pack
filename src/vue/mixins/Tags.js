@@ -1,5 +1,5 @@
 import { mapState } from 'vuex'
-import { customFieldValue } from '@/vue/plugins/tru-seo/components'
+import { customFieldValue } from '@/vue/plugins/tru-seo/components/customFields'
 
 export const Tags = {
 	computed : {
@@ -49,11 +49,11 @@ export const Tags = {
 				}
 
 				// Let's update our new value to the window object.
-				this.$set(tag, 'value', value)
+				tag.value = value
 				const { tags }  = window.aioseo.tags
 				const windowTag = tags.find(t => t.id === tag.id)
 				if (windowTag) {
-					this.$set(windowTag, 'value', value)
+					windowTag.value = value
 				}
 			})
 

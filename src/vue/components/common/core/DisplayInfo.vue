@@ -2,14 +2,13 @@
 	<core-settings-row
 		class="aioseo-display-info"
 		:name="label"
-		align
 	>
 		<template #content>
 			<base-box-toggle
 				v-model="currentItem"
 				name="displayInfo"
 				:options="boxToggleOptions"
-				@input="(value) => inputEvent(value)"
+				@update:modelValue="(value) => inputEvent(value)"
 			>
 				<template #extra>
 					<slot name="extra" />
@@ -47,7 +46,10 @@
 								v-if="item.desc"
 								v-html="item.desc"
 							/>
-							<core-copy-block v-if="item.copy" :message="item.copy"/>
+							<core-copy-block
+								v-if="item.copy"
+								:message="item.copy"
+							/>
 
 							<a
 								v-if="$slots[item.slot + 'Advanced'] && !showAdvancedSettings"
@@ -82,6 +84,7 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
 import BaseBoxToggle from '@/vue/components/common/base/BoxToggle'
 import CoreCopyBlock from '@/vue/components/common/core/CopyBlock'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -105,7 +108,9 @@ export default {
 		label : {
 			type : String,
 			default () {
-				return this.$t.__('Display Info', this.$td)
+				const app = getCurrentInstance()
+
+				return app.appContext.app.$t.__('Display Info', app.appContext.app.$td)
 			}
 		},
 		options : {
@@ -163,9 +168,12 @@ export default {
 <style lang="scss">
 .aioseo-display-info {
 	.aioseo-box-toggle {
-		svg {
-			margin-top: -15px;
-			color: $black2;
+
+		> .aioseo-row {
+
+			--aioseo-gutter: 16px;
+
+			@include aioseoGrid(4, 200px);
 		}
 	}
 
@@ -194,8 +202,8 @@ export default {
 
 	.copy-box,
 	.extra-box {
-		margin-top: 10px;
-		padding: 30px;
+		margin-top: 16px;
+		padding: 12px;
 		border-radius: 3px;
 		background-color: $box-background;
 
@@ -205,6 +213,16 @@ export default {
 
 		.aioseo-copy-block {
 			margin: 20px 0 0;
+
+			.message,
+			.copy {
+				min-height: 40px;
+				align-self: stretch;
+				font-size: $font-md;
+				font-weight: 400;
+				line-height: 22px;
+				padding: 8px 12px;
+			}
 		}
 
 		.advanced-settings-link {

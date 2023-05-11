@@ -73,18 +73,13 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-app .aioseo-header {
-	.aioseo-percent-circle {
-		cursor: pointer;
-	}
-}
-
 .aioseo-percent-circle {
 	width: 40px;
 	height: 40px;
 	min-width: 40px;
 	min-height: 40px;
 	position: relative;
+	cursor: pointer;
 
 	.aioseo-percent-circle-score__circle {
 		transform: rotate(-90deg);
@@ -114,7 +109,7 @@ export default {
 			transition: stroke-dasharray 1s;
 		}
 	}
-	.fill-percent-circle-enter, .fill-percent-circle-leave-to {
+	.fill-percent-circle-enter-from, .fill-percent-circle-leave-to {
 		.aioseo-percent-circle-score__circle {
 			stroke-dasharray: 0 100;
 		}

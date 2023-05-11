@@ -38,7 +38,7 @@ import Blur from './Blur'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		Blur,
@@ -105,7 +105,7 @@ export default {
 			.aioseo-input-container {
 				width: 100%;
 				max-width: 445px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				.aioseo-input {
 					width: 100%;
@@ -114,7 +114,7 @@ export default {
 
 			.insert-image {
 				min-width: 214px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				svg.aioseo-circle-plus {
 					width: 13px;

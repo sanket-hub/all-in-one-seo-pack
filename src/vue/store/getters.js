@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { getCurrentInstance } from 'vue'
 
 export default {
 	isUnlicensed                : state => 'pro' !== import.meta.env.VITE_VERSION.toLowerCase() || !state.license.isActive,
@@ -67,5 +67,11 @@ export default {
 
 		return total
 	},
-	licenseKey : state => Vue.prototype.$aioseo.data.isNetworkAdmin ? state.networkOptions.general.licenseKey : state.options.general.licenseKey
+	licenseKey : state => {
+		const app = getCurrentInstance()
+
+		return app.appContext.config.globalProperties.$aioseo.data.isNetworkAdmin
+			? state.networkOptions.general.licenseKey
+			: state.options.general.licenseKey
+	}
 }

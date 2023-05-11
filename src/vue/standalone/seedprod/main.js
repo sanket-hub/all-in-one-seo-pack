@@ -1,19 +1,22 @@
 /* globals seedprod_app */
-import Vue from 'vue'
 
-import '@/vue/plugins'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
+
 import TruSeo from '@/vue/plugins/tru-seo'
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
 
 import initWatcher from './watcher'
 
 import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
 
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
-
-Vue.prototype.$truSeo = new TruSeo()
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components/helpers'
 
 /**
  * Mount our Component inside the SEO tab.
@@ -24,17 +27,43 @@ const mountComponent = () => {
 	// Check whether the route to SEO tab is active. If so, render our Vue component.
 	seedprod_app.$watch('$route.name', (newVal) => {
 		if ('setup_settings_seo' === newVal) {
-			new Vue({
-				store,
-				data : {
-					tableContext  : window.aioseo.currentPost.context,
-					screenContext : 'metabox'
+			// Router placeholder to prevent errors when using router-link.
+			const router = createRouter({
+				history : createWebHistory(),
+				routes  : [
+					{
+						path      : '/',
+						component : App
+					}
+				]
+			})
+
+			let app = createApp({
+				data () {
+					return {
+						tableContext  : window.aioseo.currentPost.context,
+						screenContext : 'metabox'
+					}
 				},
 				mounted : () => {
 					setTimeout(updatePostData)
 				},
-				render : h => h(App)
-			}).$mount('#seedprod-preview-wrapper .seedprod-settings-page-wrapper')
+				render : () => h(App)
+			})
+
+			app = loadPlugins(app)
+			app = loadComponents(app)
+			app = loadVersionedComponents(app)
+
+			app.use(router)
+			app.use(store)
+
+			store._vm = app
+			router.app = app
+
+			app.config.globalProperties.$truSeo = new TruSeo()
+
+			app.mount('#seedprod-preview-wrapper .seedprod-settings-page-wrapper')
 		}
 	},
 	{

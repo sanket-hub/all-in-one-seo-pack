@@ -24,8 +24,8 @@
 				<base-select
 					size="medium"
 					:options="getPriorityOptions"
-					:value="getJsonValue(priority[row].priority)"
-					@input="values => priority[row].priority = setJsonValue(values)"
+					:modelValue="getJsonValue(priority[row].priority)"
+					@update:modelValue="values => priority[row].priority = setJsonValue(values)"
 				/>
 			</table-column>
 
@@ -33,8 +33,8 @@
 				<base-select
 					size="medium"
 					:options="getFrequencyOptions"
-					:value="getJsonValue(priority[row].frequency)"
-					@input="values => priority[row].frequency = setJsonValue(values)"
+					:modelValue="getJsonValue(priority[row].frequency)"
+					@update:modelValue="values => priority[row].frequency = setJsonValue(values)"
 				/>
 			</table-column>
 		</table-row>

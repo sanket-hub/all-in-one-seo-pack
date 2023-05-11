@@ -1,16 +1,16 @@
 import { debounce } from '@/vue/utils/debounce'
-import {
-	maybeUpdatePostTitle,
-	maybeUpdatePostContent,
-	maybeUpdatePostExcerpt,
-	maybeUpdatePostSlug,
-	maybeUpdatePermalink,
-	maybeUpdateTaxonomies,
-	maybeUpdateTerm,
-	maybeUpdateAttachment
-} from './index.js'
 
-import Vue from 'vue'
+// Importing these directly to avaoid circular dependencies.
+import { maybeUpdatePostTitle } from './postTitle'
+import { maybeUpdatePostContent } from './postContent'
+import { maybeUpdatePostExcerpt } from './postExcerpt'
+import { maybeUpdatePostSlug } from './postSlug'
+import { maybeUpdatePermalink } from './postPermalink'
+import { maybeUpdateTaxonomies } from './taxonomies'
+import { maybeUpdateTerm } from './term'
+import { maybeUpdateAttachment } from './attachments'
+
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 
 export {
@@ -89,7 +89,7 @@ export const maybeUpdatePost = async (time = 900, run = true) => {
 		maybeUpdateAttachment(false)
 
 		if (run) {
-			Vue.prototype.$truSeo.runAnalysis({ postId: store.state.currentPost.id })
+			(new TruSeo()).runAnalysis({ postId: store.state.currentPost.id })
 		}
 	}, time)
 }

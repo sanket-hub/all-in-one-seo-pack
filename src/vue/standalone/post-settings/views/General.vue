@@ -6,11 +6,11 @@
 		>
 			<template #content>
 				<base-radio-toggle
-					:value="currentPost.generalMobilePrev"
 					v-if="'metabox' === $root._data.screenContext || 'modal' === parentComponentContext"
+					:modelValue="currentPost.generalMobilePrev"
+					@update:modelValue="isMobilePreviewEv"
 					name="previewGeneralIsMobile"
 					class="circle"
-					@input="isMobilePreviewEv"
 					:options="[
 						{ label: 'desktop', value: false, activeClass: 'dark', slot: 'desktop' },
 						{ label: 'mobile', value: true, slot: 'mobile' }
@@ -67,7 +67,7 @@
 					:line-numbers="false"
 					single
 					@counter="count => updateCount(count, 'titleCount')"
-					@input="setIsDirty"
+					@update:modelValue="setIsDirty"
 					:tags-context="`${currentPost.postType || currentPost.termType}Title`"
 					:defaultMenuOrientation="'modal' === parentComponentContext ? 'top' : 'bottom'"
 					:default-tags="getDefaultTags('title')"
@@ -104,7 +104,7 @@
 					:line-numbers="false"
 					description
 					@counter="count => updateCount(count, 'descriptionCount')"
-					@input="setIsDirty"
+					@update:modelValue="setIsDirty"
 					:tags-context="`${currentPost.postType || currentPost.termType}Description`"
 					:defaultMenuOrientation="'modal' === parentComponentContext ? 'top' : 'bottom'"
 					:default-tags="getDefaultTags('description')"
@@ -132,6 +132,7 @@
 			v-if="displayTruSeoMetaboxCard && options.searchAppearance.advanced.useKeywords && options.searchAppearance.advanced.keywordsLooking"
 		>
 			<core-alert
+				class="meta-keywords-alert"
 				type="blue"
 				show-close
 				@close-alert="hideKeywordsLooking"
@@ -140,7 +141,7 @@
 
 				<a
 					href="#"
-					@click="$emit('changeTab', 'advanced')"
+					@click.prevent="$emit('changeTab', 'advanced')"
 				>
 					{{ strings.goToAdvancedTab }}
 				</a>
@@ -148,7 +149,7 @@
 				<a
 					class="no-underline"
 					href="#"
-					@click="$emit('changeTab', 'advanced')"
+					@click.prevent="$emit('changeTab', 'advanced')"
 				>
 						→
 				</a>
@@ -264,11 +265,11 @@ import { mapActions, mapState, mapMutations } from 'vuex'
 import { IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore } from '@/vue/mixins'
 import { debounce } from '@/vue/utils/debounce'
 import { isPageBuilderEditor } from '@/vue/utils/context'
-import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
+import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components/helpers'
 import AdditionalKeyphrases from './partials/general/AdditionalKeyphrases'
 import AiGenerator from './partials/general/ai/Generator'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -282,6 +283,7 @@ import SvgDesktop from '@/vue/components/common/svg/Desktop'
 import SvgMobile from '@/vue/components/common/svg/Mobile'
 import SvgPencil from '@/vue/components/common/svg/Pencil'
 export default {
+	emits      : [ 'changeTab' ],
 	mixins     : [ IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore ],
 	components : {
 		AdditionalKeyphrases,
@@ -312,6 +314,7 @@ export default {
 	},
 	data () {
 		return {
+			separator         : undefined,
 			isPageBuilderEditor,
 			titleCount        : 0,
 			descriptionCount  : 0,
@@ -350,10 +353,10 @@ export default {
 	},
 	watch : {
 		'currentPost.title' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 750)
 		},
 		'currentPost.description' () {
-			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 500)
+			debounce(() => this.runAnalysis({ postId: this.currentPost.id }), 750)
 		}
 	},
 	computed : {
@@ -393,7 +396,7 @@ export default {
 		}
 	},
 	methods : {
-		...mapActions([ 'openModal' ]),
+		...mapActions([ 'openModal', 'changeGeneralPreview' ]),
 		...mapMutations([ 'changeTabSettings' ]),
 		hideKeywordsLooking () {
 			this.options.searchAppearance.advanced.keywordsLooking = false
@@ -485,7 +488,6 @@ export default {
 	}
 
 	.mobile-radio-buttons {
-		margin: 0!important;
 		padding: 0!important;
 		border: 0;
 
@@ -511,7 +513,7 @@ export default {
 		border: 1px solid $gray;
 
 		svg {
-			margin-right: 5px;
+			margin-right: 11px;
 		}
 	}
 	.disabled-button {
@@ -520,7 +522,7 @@ export default {
 		color: #8c8f9a;
 		background-color: #f3f4f5;
 		cursor: default;
-		height: 30px;
+		height: 40px;
 		font-size: 14px;
 		padding: 0 12px;
 		flex-shrink: 0;
@@ -530,6 +532,7 @@ export default {
 		justify-content: center;
 		font-weight: 600;
 		border-radius: 4px;
+		appearance: none;
 		-webkit-appearance: none;
 		transition: background-color .2s ease;
 		position: relative;
@@ -538,7 +541,7 @@ export default {
 		white-space: nowrap;
 
 		svg {
-			margin-right: 5px;
+			margin-right: 11px;
 		}
 	}
 
@@ -554,10 +557,10 @@ export default {
 	.aioseo-keyphrase-tag {
 		display: inline-block;
 		margin-right: 10px;
-		margin-bottom: 16px;
+		margin-bottom: 4px;
 		border-radius: 3px;
 		font-size: 14px;
-		font-weight: 700;
+		font-weight: $font-bold;
 
 		&.selected {
 			position: relative;
@@ -665,9 +668,19 @@ export default {
 		}
 	}
 
-	.focus-keyphrase-panel {
-		.aioseo-analysis-detail {
+	.aioseo-analysis-detail {
+		margin: 16px 0;
+
+		&:last-child {
 			margin-bottom: 0;
+		}
+
+		+ .aioseo-tooltip {
+			margin-left: 0;
+
+			.add-keyphrase {
+				margin-top: 4px;
+			}
 		}
 	}
 
@@ -679,12 +692,18 @@ export default {
 		position: relative;
 		margin-top: 16px;
 	}
+
+	.meta-keywords-alert {
+		margin-bottom: 20px;
+	}
 }
 
 .edit-post-sidebar {
+
 	.aioseo-google-search-preview {
+
 		.google-post {
-			padding: 10px;
+			padding: 16px;
 		}
 	}
 
@@ -716,11 +735,11 @@ export default {
 			padding: 1rem;
 			border-bottom: none;
 			font-size: 14px;
-			font-weight: 700;
+			font-weight: $font-bold;
 		}
 
 		.content {
-			padding: 24px 16px;
+			padding: 16px;
 			font-size: 14px;
 			border-top: 1px solid $border;
 		}
@@ -735,8 +754,10 @@ export default {
 	}
 
 	.card-focus-keyphrase {
+
 		.aioseo-analysis-detail {
 			margin: 16px 0 !important;
+
 			&:empty {
 				margin: 16px;
 			}
@@ -744,18 +765,19 @@ export default {
 
 		.add-keyphrase {
 			width: 100%;
+			font-size: 14px;
 		}
 	}
 
 	.card-focus-keyphrase,
 	.card-additional-keyphrase {
+
 		.aioseo-analysis-detail {
 			margin: 0 0 16px !important;
 		}
 
 		.add-keyphrase {
 			width: 100%;
-			margin-bottom: 16px;
 		}
 	}
 
@@ -766,7 +788,7 @@ export default {
 	.aioseo-keyphrase-tag {
 		display: block;
 		margin-right: 0;
-		margin-bottom: 10px;
+		margin-bottom: 16px;
 
 		&:after {
 			content: none !important;
@@ -795,6 +817,7 @@ export default {
 	.card-basic-seo,
 	.card-title-seo,
 	.card-readability-seo {
+
 		.aioseo-analysis-detail {
 			margin-top: 0;
 		}
@@ -806,29 +829,34 @@ export default {
 }
 
 .aioseo-modal-content {
+
+	.aioseo-settings-row {
+		--aioseo-gutter: 10px;
+		row-gap: 12px;
+
+		.settings-name .name {
+			margin: 0;
+		}
+	}
+
 	> .aioseo-settings-row {
 		border: none;
 		margin-bottom: 0!important;
 	}
 
-	.aioseo-post-general > .mobile-radio-buttons {
-		position: absolute;
-		right: 40px;
-		top: 18px;
-		margin-bottom: 0;
-		padding-bottom: 0;
+	.aioseo-tab-content .mobile-radio-buttons {
+		margin-bottom: 12px;
 	}
 
-	.settings-name .name {
-		font-size: 16px!important;
-		margin-bottom: 6px!important;
+	.aioseo-post-general > .mobile-radio-buttons {
+		margin-bottom: -30px;
+		padding-bottom: 0;
 	}
 
 	.snippet-title-row,
 	.snippet-description-row {
 		position: relative;
 		display: block;
-		margin-top: 32px;
 
 		.settings-name {
 			margin-bottom: 8px;
@@ -839,10 +867,6 @@ export default {
 		}
 
 		.add-tags {
-			position: absolute;
-			top: 0;
-			right: 8px;
-			margin: 0;
 
 			.aioseo-add-template-tag {
 				@media screen and (max-width: 520px) {
@@ -853,8 +877,7 @@ export default {
 	}
 
 	.snippet-title-row {
-		margin-top: 24px;
-		padding-bottom: 24px !important;
+		margin-top: 12px;
 	}
 
 	.snippet-preview-row,
@@ -869,12 +892,9 @@ export default {
 	}
 
 	.component-wrapper {
-		.aioseo-settings-row>.aioseo-col {
-			padding-top: .5rem!important;
-		}
 
-		.aioseo-tabs .md-button {
-			&:not(.md-active) {
+		.aioseo-tabs .var-tab {
+			&:not(.var-tab--active) {
 				min-width: 72px!important;
 				margin: 0 !important;
 			}
@@ -895,7 +915,7 @@ export default {
 	}
 
 	.mobile-radio-buttons {
-		.aioseo-tabs .md-button:not(.md-active) {
+		.aioseo-tabs .var-tab:not(.var-tab--active) {
 			margin: 0!important;
 
 			&:before {

@@ -177,37 +177,39 @@ export default {
 			}
 
 			.aioseo-table-column {
-				padding: 14px;
-				font-size: 14px;
+				padding: 12px;
 
 				&.post-title {
 					min-width: 0;
 
-					span {
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-					}
-
-					a {
-						color: $black;
-						text-decoration: none;
+					div {
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
 
-						&:hover {
-							color: $blue;
+						span {
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
 						}
-					}
 
-					.aioseo-tooltip {
-						margin-left: 0;
-						.popper a {
-							color: white;
-							text-decoration: underline;
+						a {
+							color: $black;
+							text-decoration: none;
+
 							&:hover {
-								text-decoration: none;
+								color: $blue;
+							}
+						}
+
+						.aioseo-tooltip {
+							margin-left: 0;
+							.popper a {
+								color: white;
+								text-decoration: underline;
+								&:hover {
+									text-decoration: none;
+								}
 							}
 						}
 					}
@@ -234,17 +236,21 @@ export default {
 				svg {
 					&.aioseo-link-internal-outbound,
 					&.aioseo-link-internal-inbound {
-						height: 15.75px;
-						width: 15.75px;
+						height: 17px;
+						width: 17px;
 						color: $green;
 					}
 				}
+			}
+
+			&.header-row > .aioseo-table-column {
+				padding-block: 0 14px;
 			}
 		}
 	}
 
 	.links-report-link {
-		margin-top: 34.5px;
+		margin-top: var(--aioseo-gutter);
 		color: $blue;
 		cursor: pointer;
 		font-weight: bold;

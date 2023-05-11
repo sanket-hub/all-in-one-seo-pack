@@ -6,20 +6,20 @@ import {
 	isClassicEditor,
 	isClassicNoEditor,
 	isWooCommerceProduct,
-	maybeUpdatePost,
-	maybeUpdateTerm,
-	maybeUpdateAttachment
-} from '@/vue/plugins/tru-seo/components'
+	maybeUpdatePost
+} from '@/vue/plugins/tru-seo/components/helpers'
+import { maybeUpdateTerm } from '@/vue/plugins/tru-seo/components/term'
+import { maybeUpdateAttachment } from '@/vue/plugins/tru-seo/components/attachments'
 import {
 	watchClassicEditor,
 	watchBlockEditor,
 	watchWooCommerce
 } from '@/vue/plugins/tru-seo/context'
 
-export default (populateHiddenField = true) => {
+export default (app, populateHiddenField = true) => {
 	// If the options are not loaded, just call the setOptions with empty object.
 	if (!store.state.loaded) {
-		setOptions({})
+		setOptions(app, {})
 	}
 
 	if (!shouldShowMetaBox()) {

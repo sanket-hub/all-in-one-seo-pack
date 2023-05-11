@@ -76,8 +76,8 @@
 				<base-select
 					size="medium"
 					:options="sortOrders"
-					:value="getSortOrder(this.$root.$data.order_by)"
-					@input="values => this.$root.$data.order_by = values.value"
+					:modelValue="getSortOrder(this.$root.$data.order_by)"
+					@update:modelValue="values => this.$root.$data.order_by = values.value"
 					track-by="value"
 				/>
 			</div>
@@ -87,8 +87,8 @@
 				<base-select
 					size="medium"
 					:options="sortDirections"
-					:value="getSortDirection(this.$root.$data.order)"
-					@input="values => this.$root.$data.order = values.value"
+					:modelValue="getSortDirection(this.$root.$data.order)"
+					@update:modelValue="values => this.$root.$data.order = values.value"
 					track-by="value"
 				/>
 			</div>

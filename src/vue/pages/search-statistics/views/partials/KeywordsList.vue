@@ -16,6 +16,7 @@
 <script>
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'delete' ],
 	components : {
 		SvgClose
 	},

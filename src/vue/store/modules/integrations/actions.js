@@ -35,7 +35,7 @@ export default {
 			.then(response => {
 				commit('updateInternalOption', { groups: [ 'integrations' ], key: 'semrush', value: response.body.semrush }, { root: true })
 				internalOptions.integrations.semrush = response.body.semrush
-				setOptions({
+				setOptions(this._vm, {
 					internalOptions
 				})
 			})
@@ -54,7 +54,7 @@ export default {
 			.then(response => {
 				commit('updateInternalOption', { groups: [ 'integrations' ], key: 'semrush', value: response.body.semrush }, { root: true })
 				internalOptions.integrations.semrush = response.body.semrush
-				setOptions({
+				setOptions(this._vm, {
 					internalOptions
 				})
 			})

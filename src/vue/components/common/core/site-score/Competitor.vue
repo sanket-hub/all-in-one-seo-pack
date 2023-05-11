@@ -54,7 +54,7 @@
 <script>
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions } from 'vuex'
-import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 import SvgRefresh from '@/vue/components/common/svg/Refresh'
 export default {
 	components : {
@@ -109,14 +109,14 @@ export default {
 .aioseo-site-score-competitor {
 	position: relative;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	flex-direction: column;
 
 	.aioseo-seo-site-score-score {
 		position: relative;
-		min-width: 175px;
-		max-width: 217px;
+		width: 100%;
+		max-width: 200px;
 		margin-right: 1em;
 
 		svg {
@@ -126,7 +126,7 @@ export default {
 	}
 
 	.aioseo-seo-site-score-recommendations {
-		margin: 20px 0;
+		margin: 16px 0;
 
 		> div:not(.links) {
 			display: flex;
@@ -134,7 +134,10 @@ export default {
 			font-size: 14px;
 			color: $black;
 			font-weight: 600;
-			margin-bottom: 10px;
+
+			+ div:not(.links) {
+				margin-top: 10px;
+			}
 
 			.round {
 				position: relative;
@@ -179,7 +182,7 @@ export default {
 	}
 
 	.mobile-snapshot {
-		margin-top: 60px;
+		margin-top: 30px;
 		max-width: 250px;
 
 		div {

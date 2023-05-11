@@ -265,7 +265,7 @@ export default {
 		align-items: center;
 		justify-content: center;
 		padding: 0 15px;
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 600;
 		color: $black2;
 

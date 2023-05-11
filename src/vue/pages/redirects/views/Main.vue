@@ -11,7 +11,7 @@
 <script>
 import { mapState } from 'vuex'
 import { RequiresActivation, RequiresUpdate } from '@/vue/mixins'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import FullSiteRedirect from './AIOSEO_VERSION/FullSiteRedirect'
 import ImportExport from './AIOSEO_VERSION/ImportExport'
 import Logs from './AIOSEO_VERSION/Logs'

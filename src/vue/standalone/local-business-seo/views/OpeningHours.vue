@@ -97,7 +97,7 @@
 						<base-select
 							size="medium"
 							:options="selectTimezone"
-							value="none"
+							modelValue="none"
 						/>
 					</div>-->
 				</template>
@@ -122,16 +122,16 @@
 										:disabled="getWeekDay(index).open24h || getWeekDay(index).closed"
 										size="medium"
 										:options="currentPost.local_seo.openingHours.use24hFormat ? $constants.HOURS_24H_FORMAT : $constants.HOURS_12H_FORMAT"
-										:value="getSelectOptions(getWeekDay(index).openTime)"
-										@input="value => saveDay(index, 'openTime', value.value)"
+										:modelValue="getSelectOptions(getWeekDay(index).openTime)"
+										@update:modelValue="value => saveDay(index, 'openTime', value.value)"
 									/>
 									<span class="separator">-</span>
 									<base-select
 										:disabled="getWeekDay(index).open24h || getWeekDay(index).closed"
 										size="medium"
 										:options="currentPost.local_seo.openingHours.use24hFormat ? $constants.HOURS_24H_FORMAT : $constants.HOURS_12H_FORMAT"
-										:value="getSelectOptions(getWeekDay(index).closeTime)"
-										@input="value => saveDay(index, 'closeTime', value.value)"
+										:modelValue="getSelectOptions(getWeekDay(index).closeTime)"
+										@update:modelValue="value => saveDay(index, 'closeTime', value.value)"
 									/>
 								</div>
 								<div class="aioseo-col-alwaysopen text-xs-left">
@@ -218,7 +218,7 @@ export default {
 				return this.currentPost.local_seo.openingHours.closedLabel
 			},
 			set (newValue) {
-				this.$set(this.currentPost.local_seo.openingHours, 'closedLabel', newValue)
+				this.currentPost.local_seo.openingHours.closedLabel = newValue
 			}
 		}
 	},
@@ -229,7 +229,7 @@ export default {
 				: this.$constants.HOURS_12H_FORMAT.find(h => h.value === option)
 		},
 		saveDay (day, hour, value) {
-			this.$set(this.currentPost.local_seo.openingHours.days[day], hour, value)
+			this.currentPost.local_seo.openingHours.days[day][hour] = value
 		},
 		getWeekDay (index) {
 			return this.currentPost.local_seo.openingHours.days[index]

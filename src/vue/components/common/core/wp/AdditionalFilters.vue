@@ -2,15 +2,14 @@
 	<div class="aioseo-wp-additional-filters alignleft actions">
 		<template
 			v-for="(filter, index) in additionalFilters"
+			:key="index"
 		>
 			<label
-				:key="index + '_label'"
 				for="filter-by-date"
 				class="screen-reader-text"
 			>{{ filter.label }}</label>
 
 			<select
-				:key="index + '_select'"
 				:name="filter.name"
 				v-model="selectedFilters[filter.name]"
 				@change="event => $emit('change', {name : filter.name, selectedValue : event.target.value})"
@@ -36,6 +35,7 @@
 
 <script>
 export default {
+	emits : [ 'process-additional-filters' ],
 	props : {
 		additionalFilters : {
 			type     : Array,
@@ -65,7 +65,7 @@ export default {
 		setInitialOptions () {
 			this.additionalFilters.forEach(filter => {
 				if (!this.selectedFilters[filter.name]) {
-					this.$set(this.selectedFilters, filter.name, filter.options[0].value)
+					this.selectedFilters[filter.name] = filter.options[0].value
 				}
 			})
 		}

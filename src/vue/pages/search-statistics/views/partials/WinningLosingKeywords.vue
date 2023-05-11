@@ -76,7 +76,7 @@ import { mapState } from 'vuex'
 import { decodeHTMLEntities } from '@/vue/utils/helpers'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import Statistic from './Statistic.vue'
+import Statistic from './Statistic'
 export default {
 	components : {
 		CoreLoader,

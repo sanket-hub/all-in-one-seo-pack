@@ -12,7 +12,7 @@
 					>
 						<base-button
 							type="blue"
-							size="medium"
+							size="small"
 							@click="downloadSystemStatusInfo"
 						>
 							<svg-download />
@@ -21,7 +21,7 @@
 
 						<base-button
 							type="blue"
-							size="medium"
+							size="small"
 							v-clipboard:copy="copySystemStatusInfo"
 							v-clipboard:success="onCopy"
 							v-clipboard:error="onError"
@@ -46,7 +46,7 @@
 						class="right"
 					>
 						<base-input
-							size="medium"
+							size="small"
 							:placeholder="strings.emailDebugInformation"
 							v-model="emailAddress"
 							:class="{ 'aioseo-error': emailError }"
@@ -54,7 +54,7 @@
 
 						<base-button
 							type="blue"
-							size="medium"
+							size="small"
 							@click="processEmailDebugInfo"
 							:loading="sendingEmail"
 						>
@@ -67,10 +67,10 @@
 			<div class="aioseo-settings-row">
 				<template
 					v-for="(group, i) in $aioseo.data.status"
+					:key="i"
 				>
 					<div
 						v-if="group.results.length"
-						:key="i"
 						class="settings-group"
 					>
 						<div class="settings-name">
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
 import { mapActions } from 'vuex'
 import CoreCard from '@/vue/components/common/core/Card'
 import GridColumn from '@/vue/components/common/grid/Column'
@@ -163,7 +164,7 @@ export default {
 			const blob    = new Blob([ JSON.stringify(this.$aioseo.data.status) ], { type: 'application/json' })
 			const link    = document.createElement('a')
 			link.href     = URL.createObjectURL(blob)
-			link.download = `aioseo-system-status-${this.$dateTime.now().toFormat('yyyy-MM-dd')}.json`
+			link.download = `aioseo-system-status-${DateTime.now().toFormat('yyyy-MM-dd')}.json`
 			link.click()
 			URL.revokeObjectURL(link.href)
 		},
@@ -187,8 +188,9 @@ export default {
 
 <style lang="scss">
 .aioseo-tools-system-status-info {
+
 	.actions {
-		margin-bottom: 30px;
+		margin-bottom: var(--aioseo-gutter);
 
 		.left {
 			.aioseo-button {
@@ -218,13 +220,18 @@ export default {
 		}
 	}
 
+	.settings-name .name {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
 	.system-status-table {
 		border: 1px solid $input-border;
 		font-size: 14px;
 		border-radius: 3px;
 
 		.aioseo-table-row {
-			min-height: 33px;
+			min-height: 38px;
 			padding: 0 15px;
 
 			&:first-child {
@@ -256,7 +263,7 @@ export default {
 		}
 
 		.settings-group:not(:first-child) {
-			margin-top: 30px;
+			margin-top: var(--aioseo-gutter);
 		}
 	}
 }

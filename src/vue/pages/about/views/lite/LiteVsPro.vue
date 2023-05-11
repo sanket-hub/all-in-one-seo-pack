@@ -291,13 +291,14 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-lite-vs-pro {
-	margin-top: 30px;
+	margin-top: var(--aioseo-gutter);
 	width: 100%;
 	padding: 2px;
 	background: #fff;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
 	border: 1px solid $border;
 	color: $black;
+
 	.aioseo-lite-vs-pro-header,
 	.aioseo-lite-vs-pro-grid,
 	.aioseo-lite-vs-pro-cta {
@@ -305,15 +306,17 @@ export default {
 	}
 	.aioseo-lite-vs-pro-header,
 	.aioseo-lite-vs-pro-cta {
-		font-size: 16px;
+		font-size: 14px;
 		background-color: $box-background;
 	}
 	.aioseo-lite-vs-pro-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+
 		div {
 			margin: 0 30px 0 0;
+
 			.header-title {
 				font-size: 20px;
 				font-weight: bold;
@@ -322,13 +325,16 @@ export default {
 				margin: 5px 0;
 			}
 		}
+
 		a {
 			width: fit-content;
 			min-width: 220px;
 		}
+
 		@media screen and (max-width: 782px) {
 			flex-direction: column;
 			align-items: start;
+
 			div {
 				.header-text {
 					margin: 15px 0;
@@ -337,17 +343,20 @@ export default {
 		}
 	}
 	.aioseo-lite-vs-pro-grid {
-		font-size: 15px;
+		font-size: 14px;
+
 		.header {
 			display: grid;
 			grid-template-columns: 1.5fr 1fr 1fr;
 			align-items: end;
 			margin: 0 0 24px 0;
 			font-weight: bold;
+
 			.header-lite,
 			.header-pro {
-				font-size: 20px;
+				font-size: 18px;
 			}
+
 			.header-pro {
 				color: $green;
 			}
@@ -355,17 +364,21 @@ export default {
 		.feature {
 			display: grid;
 			grid-template-columns: 1.5fr 30px 1fr 30px 1fr;
+
 			> div {
 				padding: 15px 6px;
 			}
+
 			svg {
 				margin: 15px 0;
+
 				&.aioseo-close {
 					width: 13px;
 					height: 13px;
 					margin: 18px 0;
 					color: $placeholder-color;
 				}
+
 				&.aioseo-circle-check {
 					width: 18px;
 					height: 18px;
@@ -378,12 +391,15 @@ export default {
 			}
 		}
 	}
+
 	.aioseo-lite-vs-pro-cta {
 		text-align: center;
+
 		.cta-title {
-			font-size: 24px;
+			font-size: 18px;
 			font-weight: bold;
 		}
+
 		.cta-text {
 			margin: 24px auto;
 			max-width: 650px;

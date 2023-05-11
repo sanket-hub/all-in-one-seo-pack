@@ -70,10 +70,11 @@ export default {
 
 <style lang="scss">
 .aioseo-wizard-close-and-exit {
-	margin: 96px 0;
-	min-height: 96px;
+	margin: 40px 0;
+	min-height: 40px;
 	text-align: center;
 	font-size: 14px;
+	line-height: 22px;
 
 	a {
 		color: $placeholder-color !important;

@@ -1,4 +1,4 @@
-import { isBlockEditor, shouldShowMetaBox, shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components'
+import { isBlockEditor, shouldShowMetaBox, shouldShowTruSeoScore } from '@/vue/plugins/tru-seo/components/helpers'
 import { __ } from '@wordpress/i18n'
 
 (function (wp) {
@@ -80,7 +80,14 @@ import { __ } from '@wordpress/i18n'
 						el('div',
 							{ id: 'aioseo-post-settings-sidebar-vue', className: 'aioseo-post-settings-sidebar-vue' },
 							el('div',
-								{ className: 'aioseo-loading-spinner dark' },
+								{
+									className : 'aioseo-loading-spinner dark',
+									style     : {
+										left   : 0,
+										right  : 0,
+										margin : '30px auto'
+									}
+								},
 								el('div',
 									{ className: 'double-bounce1' },
 									null

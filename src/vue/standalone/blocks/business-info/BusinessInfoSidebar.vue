@@ -6,8 +6,8 @@
 			<base-select
 				size="medium"
 				:options="locationsList"
-				:value="getLocationOptions(this.$root.$data.locationId)"
-				@input="values => this.$root.$data.locationId = values.value"
+				:modelValue="getLocationOptions(this.$root.$data.locationId)"
+				@update:modelValue="values => this.$root.$data.locationId = values.value"
 				track-by="value"
 			/>
 		</div>
@@ -104,32 +104,50 @@
 			<div class="sidebar-row labels">
 				<div v-if="$root.$data.showAddress">
 					<label>{{ strings.addressLabel }}</label>
-					<base-input size="small" v-model="$root.$data.addressLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.addressLabel"
+					/>
 				</div>
 
 				<div v-if="$root.$data.showVat">
 					<label>{{ strings.vatIdLabel }}</label>
-					<base-input size="small" v-model="$root.$data.vatIdLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.vatIdLabel"
+					/>
 				</div>
 
 				<div v-if="$root.$data.showTax">
 					<label>{{ strings.taxIdLabel }}</label>
-					<base-input size="small" v-model="$root.$data.taxIdLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.taxIdLabel"
+					/>
 				</div>
 
 				<div v-if="$root.$data.showPhone">
 					<label>{{ strings.phoneLabel }}</label>
-					<base-input size="small" v-model="$root.$data.phoneLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.phoneLabel"
+					/>
 				</div>
 
 				<div v-if="$root.$data.showFax">
 					<label>{{ strings.faxLabel }}</label>
-					<base-input size="small" v-model="$root.$data.faxLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.faxLabel"
+					/>
 				</div>
 
 				<div v-if="$root.$data.showEmail">
 					<label>{{ strings.emailLabel }}</label>
-					<base-input size="small" v-model="$root.$data.emailLabel"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.emailLabel"
+					/>
 				</div>
 			</div>
 		</div>
@@ -137,7 +155,16 @@
 </template>
 
 <script>
+import BaseInput from '@/vue/components/common/base/Input'
+import BaseSelect from '@/vue/components/common/base/Select'
+import BaseToggle from '@/vue/components/common/base/Toggle'
+
 export default {
+	components : {
+		BaseInput,
+		BaseSelect,
+		BaseToggle
+	},
 	data () {
 		return {
 			locationsList : [],
@@ -198,13 +225,20 @@ export default {
 <style lang="scss" scoped>
 .sidebar-row {
 	margin-bottom: 16px;
+
 	.title {
-		font-weight: 700;
+		font-weight: $font-bold;
 	}
 
 	&.labels {
-		.aioseo-input {
-			margin: 2px 0 10px;
+
+		> div {
+			margin-bottom: 16px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 4px;
 		}
 	}
 }

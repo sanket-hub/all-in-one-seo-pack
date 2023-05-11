@@ -1,9 +1,11 @@
 <template>
 	<ul class="aioseo-analysis-detail">
-		<template v-for="(keyphrase, index) in analysisItems">
+		<template
+			v-for="(keyphrase, index) in analysisItems"
+			:key="index"
+		>
 			<li
 				v-if="keyphrase.title"
-				:key="index"
 			>
 				<p
 					class="title"
@@ -55,14 +57,27 @@ export default {
 
 <style lang="scss">
 .aioseo-analysis-detail {
-	margin: 0 0 35px;
+	margin: 0 0 16px;
 	padding: 0;
 	list-style: none;
 
 	li {
 		padding-left: 24px;
 		position: relative;
-		margin-bottom: 24px;
+		margin-bottom: 0;
+		font-size: 14px;
+		line-height: 22px;
+
+		+ li {
+			margin-top: 16px;
+		}
+
+		p {
+			font-size: inherit;
+			line-height: inherit;
+			margin: 0;
+			padding: 0;
+		}
 
 		svg {
 			position: relative;
@@ -86,12 +101,17 @@ export default {
 				transition: transform 0.3s;
 			}
 		}
+
 		.title {
+			font-size: 14px;
 			margin-bottom: 6px !important;
+
 			&.toggled {
+
 				.aioseo-caret {
 					transform: rotate(-90deg)
 				}
+
 				&+ .description {
 					opacity: 0;
 					height: 0;
@@ -99,6 +119,7 @@ export default {
 				}
 			}
 		}
+
 		.description {
 			font-size: 14px;
 			font-style: normal;
@@ -111,12 +132,8 @@ export default {
 
 .edit-post-sidebar {
 	.aioseo-analysis-detail {
-		.title {
-			font-size: 14px;
-		}
+
 		.description {
-			font-size: 13px;
-			line-height: 1.5;
 			color: $gray3;
 		}
 	}

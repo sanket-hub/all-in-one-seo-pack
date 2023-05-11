@@ -21,6 +21,7 @@
 import CorePercentCircle from '@/vue/components/common/core/PercentCircle'
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'close' ],
 	components : {
 		CorePercentCircle,
 		SvgClose
@@ -71,7 +72,7 @@ export default {
 .fade-processing-popup-enter-active, .fade-processing-popup-leave-active {
 	transition: opacity 1s, transform 1s ease-in-out;
 }
-.fade-processing-popup-enter, .fade-processing-popup-leave-to {
+.fade-processing-popup-enter-from, .fade-processing-popup-leave-to {
 	opacity: 0;
 	transform: translate3d(0, -100%, 0);
 }

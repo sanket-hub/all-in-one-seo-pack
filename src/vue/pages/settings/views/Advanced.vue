@@ -80,7 +80,7 @@
 						v-if="isUnlicensed"
 						disabled
 						size="medium"
-						:value="true"
+						:modelValue="true"
 					>
 						{{ strings.includeAllTaxonomies }}
 					</base-checkbox>
@@ -117,9 +117,7 @@
 				</template>
 			</core-settings-row>
 
-			<core-settings-row
-				align
-			>
+			<core-settings-row>
 				<template #name>
 					{{ strings.adminBarMenu }}
 					<core-pro-badge
@@ -152,9 +150,7 @@
 				</template>
 			</core-settings-row>
 
-			<core-settings-row
-				align
-			>
+			<core-settings-row>
 				<template #name>
 					{{ strings.dashboardWidgets }}
 					<core-pro-badge
@@ -170,8 +166,8 @@
 							<base-checkbox
 								size="medium"
 								:disabled="isUnlicensed"
-								:value="isDashboardWidgetChecked(widget)"
-								@input="checked => updateDashboardWidgets(checked, widget)"
+								:modelValue="isDashboardWidgetChecked(widget)"
+								@update:modelValue="value => updateDashboardWidgets(value, widget)"
 							>
 								{{ widget.label }}
 								<core-tooltip>
@@ -201,7 +197,6 @@
 
 			<core-settings-row
 				:name="strings.announcements"
-				align
 			>
 				<template #content>
 					<base-radio-toggle
@@ -219,10 +214,7 @@
 				</template>
 			</core-settings-row>
 
-			<core-settings-row
-				align
-				v-if="$isPro"
-			>
+			<core-settings-row>
 				<template #name>
 					{{ strings.automaticUpdates }}
 				</template>
@@ -337,7 +329,7 @@ import { versionCompare } from '@/vue/utils/helpers'
 
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CorePostTypeOptions from '@/vue/components/common/core/PostTypeOptions'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
@@ -400,7 +392,7 @@ export default {
 				minorDescription         : this.$t.__('You are getting bugfixes and security updates, but not major features.', this.$td),
 				none                     : this.$t.__('None', this.$td),
 				noneDescription          : this.$t.__('You will need to manually update everything.', this.$td),
-				usageTrackingDescription : this.$t.__('By allowing us to track usage data we can better help you because we know with which WordPress configurations, themes and plugins we should test.', this.$td),
+				usageTrackingDescription : this.$t.__('By allowing us to track usage data we can better help you as we will know which WordPress configurations, themes and plugins we should test.', this.$td),
 				usageTrackingTooltip     : this.$t.sprintf(
 					// Translators: 1 - Opening HTML link and bold tag, 2 - Closing HTML link and bold tag.
 					this.$t.__('Complete documentation on usage tracking is available %1$shere%2$s.', this.$td),
@@ -504,13 +496,13 @@ export default {
 			if (checked) {
 				const included = this.options.advanced.dashboardWidgets
 				included.push(widget.key)
-				this.$set(this.options.advanced, 'dashboardWidgets', included)
+				this.options.advanced.dashboardWidgets = included
 				return
 			}
 
 			const index = this.options.advanced.dashboardWidgets.findIndex(t => t === widget.key)
 			if (-1 !== index) {
-				this.$delete(this.options.advanced.dashboardWidgets, index)
+				this.options.advanced.dashboardWidgets.splice(index, 1)
 			}
 		},
 		isDashboardWidgetChecked (widget) {
@@ -535,8 +527,7 @@ export default {
 	.inline-upsell,
 	.warning {
 		display: inline-flex;
-
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 
 	.aioseo-input-container {

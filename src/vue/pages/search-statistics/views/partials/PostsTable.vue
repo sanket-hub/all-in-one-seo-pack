@@ -8,8 +8,9 @@
 			:rows="Object.values(posts.rows)"
 			:totals="posts.totals"
 			:filters="posts.filters"
+			:additional-filters="posts.additionalFilters"
 			:selected-filters="selectedFilters"
-			:loading="loading.seoStatistics"
+			:loading="isLoading || loading.seoStatistics"
 			:initial-page-number="pageNumber"
 			:initial-search-term="searchTerm"
 			:initial-items-per-page="$aioseo.settings.tablePagination[changeItemsPerPageSlug]"
@@ -36,9 +37,9 @@
 			<template #post_title="{ row }">
 				<div class="post-title">
 					<a
-						href="#"
 						v-if="row.postId"
-						@click="openPostDetail(row)"
+						href="#"
+						@click.prevent="openPostDetail(row)"
 					>
 						{{ row.postTitle }}
 					</a>
@@ -99,6 +100,39 @@
 				{{ Math.round(row.position).toFixed(0) }}
 			</template>
 
+			<template #lastUpdated="{ row }">
+				{{ row.context.lastUpdated || '-' }}
+			</template>
+
+			<template #decay="{ row }">
+				<statistic
+					type="decay"
+					:show-difference="false"
+					:total="row.decay"
+					:showZeroValues="true"
+					class="no-margin"
+				/>
+			</template>
+
+			<template #decayPercent="{ row }">
+				<statistic
+					type="decayPercent"
+					:show-difference="false"
+					:total="row.decayPercent"
+					:showZeroValues="true"
+					class="no-margin"
+				/>
+			</template>
+
+			<template #performance="{ row }">
+				<graph-decay
+					:points="row.points"
+					:peak="row.peak"
+					:recovering="row.recovering"
+					:height="38"
+				/>
+			</template>
+
 			<template #diffPosition="{ row }">
 				<statistic
 					v-if="row.difference.comparison"
@@ -112,7 +146,7 @@
 			<template #diffDecay="{ row }">
 				<statistic
 					v-if="row.difference.comparison"
-					type="decay"
+					type="diffDecay"
 					:show-original="false"
 					:difference="row.difference.decay"
 					tooltip-offset="-100px,0"
@@ -137,19 +171,22 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+import { clone } from 'lodash-es'
 import { WpTable } from '@/vue/mixins'
 import PostTypesMixin from '@/vue/mixins/PostTypes.js'
 import Table from '../../mixins/Table.js'
 import CoreScoreButton from '@/vue/components/common/core/ScoreButton'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
-import Cta from '@/vue/components/common/cta/Index.vue'
-import PostActions from './AIOSEO_VERSION/PostActions.vue'
-import Statistic from './Statistic.vue'
+import Cta from '@/vue/components/common/cta/Index'
+import GraphDecay from './GraphDecay'
+import PostActions from './AIOSEO_VERSION/PostActions'
+import Statistic from './Statistic'
 export default {
 	components : {
 		CoreScoreButton,
 		CoreWpTable,
 		Cta,
+		GraphDecay,
 		PostActions,
 		Statistic
 	},
@@ -172,6 +209,7 @@ export default {
 	},
 	props : {
 		posts      : Object,
+		isLoading  : Boolean,
 		showHeader : {
 			type : Boolean,
 			default () {
@@ -198,13 +236,19 @@ export default {
 			default () {
 				return ''
 			}
+		},
+		updateAction : {
+			type : String,
+			default () {
+				return 'updateSeoStatistics'
+			}
 		}
 	},
 	computed : {
 		...mapState('search-statistics', [ 'data', 'loading' ]),
 		...mapGetters([ 'isUnlicensed' ]),
 		allColumns () {
-			const columns = this.columns
+			const columns = clone(this.columns)
 
 			// Get the active filter from this.posts.filters array.
 			const activeFilter = this.posts?.filters?.find(f => f.active) || {}
@@ -261,6 +305,34 @@ export default {
 					sorted   : 'position' === this.orderBy
 				},
 				{
+					slug    : 'lastUpdated',
+					label   : this.$t.__('Last Updated On', this.$td),
+					width   : '160px',
+					sortDir : 'lastUpdated' === this.orderBy ? this.orderDir : 'asc',
+					sorted  : 'lastUpdated' === this.orderBy
+				},
+				{
+					slug     : 'decay',
+					label    : this.$t.__('Loss', this.$td),
+					width    : '140px',
+					sortable : this.isSortable,
+					sortDir  : 'decay' === this.orderBy ? this.orderDir : 'asc',
+					sorted   : 'decay' === this.orderBy
+				},
+				{
+					slug     : 'decayPercent',
+					label    : this.$t.__('Drop (%)', this.$td),
+					width    : '120px',
+					sortable : this.isSortable,
+					sortDir  : 'decayPercent' === this.orderBy ? this.orderDir : 'asc',
+					sorted   : 'decayPercent' === this.orderBy
+				},
+				{
+					slug  : 'performance',
+					label : this.$t.__('Performance Score', this.$td),
+					width : '150px'
+				},
+				{
 					slug  : 'diffDecay',
 					label : this.$t.__('Diff', this.$tdPro),
 					width : '95px'
@@ -276,16 +348,20 @@ export default {
 			if (this.disableSorting) {
 				return false
 			}
+
 			return 'all' === this.filter && (this.$isPro && !this.isUnlicensed)
 		}
 	},
 	methods : {
-		...mapActions('search-statistics', {
-			fetchData : 'updateSeoStatistics'
-		}),
+		...mapActions('search-statistics', [ 'updateSeoStatistics', 'updateContentRankings' ]),
 		resetSelectedFilters () {
-			this.selectedFilters['post-type'] = ''
-			this.processAdditionaFilterOptionSelected({ name: 'post-type', selectedValue: '' })
+			this.selectedFilters.postType = ''
+			this.processAdditionaFilterOptionSelected({ name: 'postType', selectedValue: '' })
+		},
+		fetchData (payload) {
+			if ('function' === typeof this[this.updateAction]) {
+				return this[this.updateAction](payload)
+			}
 		}
 	},
 	mounted () {
@@ -301,11 +377,6 @@ export default {
 <style lang="scss">
 .aioseo-search-statistics-post-table {
 	.posts-table {
-		.subsubsub {
-			position: absolute;
-			top: 55px;
-		}
-
 		.manage-column {
 			&.post_title {
 				display: flex;

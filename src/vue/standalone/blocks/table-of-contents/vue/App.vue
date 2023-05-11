@@ -32,17 +32,17 @@
 					class="aioseo-toc-header-buttons"
 				>
 					<a
-						href="#"
 						class="aioseo-button-link"
-						@click="showModal = true"
+						href="#"
+						@click.prevent="showModal = true"
 					>
 						{{strings.reorder}}
 					</a>
 
 					<a
-						href="#"
 						class="aioseo-button-link"
-						@click="save"
+						href="#"
+						@click.prevent="save"
 					>
 						{{strings.done}}
 					</a>
@@ -82,9 +82,6 @@ import { deepCopy } from '@/vue/standalone/blocks/utils'
 import { flattenHeadings, formatHeadingList } from '../helpers'
 import { extraHeadingProperties } from '../constants'
 
-const { __, sprintf } = window.wp.i18n
-const td              = import.meta.env.VITE_TEXTDOMAIN
-
 export default {
 	components : {
 		CoreTooltip,
@@ -97,20 +94,20 @@ export default {
 		return {
 			showModal : false,
 			strings   : {
-				header : sprintf(
+				header : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
-					__('%1$s Table of Contents', td),
+					this.$t.__('%1$s Table of Contents', this.$td),
 					import.meta.env.VITE_SHORT_NAME
 				),
-				instructions           : this.$t.__('Add a heading block below to begin generating the Table of Contents.', this.$tdPro),
+				instructions           : this.$t.__('Add a heading block below to begin generating the Table of Contents.', this.$td),
 				tooltipMainDescription : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
 					this.$t.__('%1$s can automatically output a table of contents based on your heading tags below. Search engines sometimes use table of contents in search results or rich snippets which can help you increase your rankings.', this.$tdPro),
 					import.meta.env.VITE_SHORT_NAME
 				),
-				reorder : __('Reorder', td),
-				save    : __('Save', td),
-				done    : __('Done', td)
+				reorder : this.$t.__('Reorder', this.$td),
+				save    : this.$t.__('Save', this.$td),
+				done    : this.$t.__('Done', this.$td)
 			}
 		}
 	},
@@ -216,7 +213,7 @@ export default {
 
 .wp-block-aioseo-table-of-contents .aioseo-toc-menu,
 .aioseo-toc-modal .modal-body {
-	font-family: system-ui, $font-family;
+	font-family: $font-family;
 	background-color: $background;
 	padding: 20px;
 	min-height: 70px;

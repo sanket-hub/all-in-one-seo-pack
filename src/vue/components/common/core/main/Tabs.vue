@@ -9,38 +9,41 @@
 			ref="tabs-scroller"
 			v-show="!showMobileMenu || calculateWidth"
 		>
-			<md-tabs
-				:md-sync-route="!active"
-				:md-active-tab="active"
-				@md-changed="id => $emit('changed', id)"
+			<var-tabs
+				:active="activeTab"
+				@click="maybeChangeTab"
+				ref="var-tabs"
 			>
-				<template #md-tab="{ tab }">
-					<slot name="md-tab" :tab="tab">
-						<slot name="md-tab-icon" :tab="tab" />
-						<span class="label">{{ tab.label }}</span>
-						<md-tooltip
-							v-if="'sidebar' === $root._data.screenContext && getActiveTabName() !== tab.label"
-							md-direction="top"
-						>
-							{{ tab.label }}
-						</md-tooltip>
+				<var-tab
+					v-for="(tab, index) in tabs"
+					:name="tab.slug"
+					:key="index"
+					v-ripple
+				>
+					<slot name="var-tab" :tab="tab">
+						<slot name="var-tab-icon" :tab="tab" />
+
+						<span class="label">{{ tab.name }}</span>
+
 						<span
-						v-if="tab.data.errorCount >= 0"
+							v-if="tab.errorCount >= 0"
 							class="tab-score"
-							:class="getErrorClass(currentPost.page_analysis.analysis[tab.data.slug].errors)"
+							:class="getErrorClass(currentPost.page_analysis.analysis[tab.slug].errors)"
 						>
 							<svg-ellipse
-								v-if="0 < currentPost.page_analysis.analysis[tab.data.slug].errors"
+								v-if="0 < currentPost.page_analysis.analysis[tab.slug].errors"
 								width="6"
 							/>
+
 							<svg-circle-check
-								v-if="0 === currentPost.page_analysis.analysis[tab.data.slug].errors"
+								v-if="0 === currentPost.page_analysis.analysis[tab.slug].errors"
 								width="12"
 							/>
-							{{ getErrorDisplay(currentPost.page_analysis.analysis[tab.data.slug].errors) }}
+							{{ getErrorDisplay(currentPost.page_analysis.analysis[tab.slug].errors) }}
 						</span>
+
 						<span
-							v-if="tab.data.warning && 'sidebar' !== $root._data.screenContext"
+							v-if="tab.warning && 'sidebar' !== $root._data.screenContext"
 							class="warning"
 						>
 							<svg-circle-information
@@ -49,25 +52,8 @@
 							/>
 						</span>
 					</slot>
-				</template>
-
-				<md-tab
-					v-for="(tab, index) in tabs"
-					:key="index"
-					:id="tab.slug"
-					:md-label="tab.name"
-					:md-icon="tab.icon"
-					:to="tab.url"
-					:md-template-data="{
-						pro         : tab.pro,
-						analyze     : tab.analyze,
-						errorCount  : tab.errorCount,
-						slug        : tab.slug,
-						warning     : tab.warning
-					}"
-				/>
-
-			</md-tabs>
+				</var-tab>
+			</var-tabs>
 		</div>
 
 		<div
@@ -87,6 +73,7 @@
 					<span class="tab-indicator"></span>
 				</div>
 			</div>
+
 			<transition-slide
 				:active="showMobileTabs"
 				class="tab-dropdown"
@@ -148,18 +135,32 @@
 import { SaveChanges } from '@/vue/mixins/SaveChanges'
 import { TruSeoScore } from '@/vue/mixins/TruSeoScore'
 import { mapActions, mapState } from 'vuex'
+
+import BaseButton from '@/vue/components/common/base/Button'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleInformation from '@/vue/components/common/svg/circle/Information'
 import SvgEllipse from '@/vue/components/common/svg/Ellipse'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
+import { Ripple as VarRipple, Tab as VarTab, Tabs as VarTabs } from '@varlet/ui'
+import { supportTouch, createTouchEmulator } from '@/vue/utils/touchEmulator'
+import '@varlet/ui/es/tab/style/index'
+import '@varlet/ui/es/tabs/style/index'
+
 export default {
+	emits      : [ 'changed' ],
+	directives : {
+		ripple : VarRipple
+	},
 	components : {
+		BaseButton,
 		SvgCaret,
 		SvgCircleCheck,
 		SvgCircleInformation,
 		SvgEllipse,
-		TransitionSlide
+		TransitionSlide,
+		VarTab,
+		VarTabs
 	},
 	mixins : [ SaveChanges, TruSeoScore ],
 	props  : {
@@ -191,12 +192,35 @@ export default {
 	},
 	computed : {
 		...mapState([ 'loading', 'currentPost' ]),
+		activeTab () {
+			if (this.active) {
+				return this.active
+			}
+
+			if (this.$route && this.$route.name) {
+				return this.$route.name
+			}
+
+			return this.tabs[0]?.slug
+		},
 		filteredTabs () {
 			return this.tabs.filter(t => t.slug !== (this.active ? this.active : (this.$route && this.$route.name ? this.$route.name : '')))
 		}
 	},
 	methods : {
 		...mapActions([ 'openModal' ]),
+		maybeChangeTab (id) {
+			if (this.active) {
+				this.$emit('changed', id)
+
+				return
+			}
+
+			const tab = this.tabs.find(t => t.slug === id)
+			if (tab) {
+				this.$router.push(tab.url)
+			}
+		},
 		getActiveTabName () {
 			const tab = this.tabs.find(t => t.slug === (this.active ? this.active : (this.$route && this.$route.name ? this.$route.name : '')))
 			if (tab) {
@@ -214,7 +238,7 @@ export default {
 			let width           = 0
 			this.calculateWidth = true
 			this.$nextTick(() => {
-				width = this.$refs['tabs-scroller'].offsetWidth
+				width                   = this.$refs['tabs-scroller'].offsetWidth
 				this.calculateWidth     = false
 				let tabsButtonWidth     = 0
 				const tabsButtonElement = this.$refs['tabs-button']
@@ -232,12 +256,52 @@ export default {
 			})
 		}
 	},
-	beforeDestroy () {
-		window.removeEventListener('resize', this.maybeShowMobileMenu)
-	},
-	mounted () {
+	beforeMount () {
 		window.addEventListener('resize', this.maybeShowMobileMenu)
-		this.$nextTick(() => this.maybeShowMobileMenu())
+	},
+	async mounted () {
+		// Occasionally the tab indicator doesn't show up on the first load. This is a hack to fix that.
+		this.$nextTick(() => {
+			this.maybeShowMobileMenu()
+
+			const tabs      = this.$refs['aioseo-tabs']
+			const activeTab = tabs.querySelector('.var-tab--active')
+			const indicator = tabs.querySelector('.var-tabs__indicator')
+			if (!activeTab || !indicator) {
+				return
+			}
+
+			// Set initial indicator width.
+			setTimeout(() => {
+				if ('0px' !== indicator.style.width) {
+					return
+				}
+
+				indicator.style.width     = `${activeTab.offsetWidth}px`
+				indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`
+			}, 300)
+
+			// Prevent stupid magic from resetting the indicator width to 0.
+			const mutationObserver = new MutationObserver(() => {
+				if ('0px' !== indicator.style.width) {
+					return
+				}
+
+				indicator.style.width     = `${activeTab.offsetWidth}px`
+				indicator.style.transform = `translateX(${activeTab.offsetLeft}px)`
+			})
+
+			mutationObserver.observe(indicator, {
+				attributes : true
+			})
+
+			if (!supportTouch) {
+				createTouchEmulator(tabs)
+			}
+		})
+	},
+	beforeUnmount () {
+		window.removeEventListener('resize', this.maybeShowMobileMenu)
 	}
 }
 </script>
@@ -245,151 +309,35 @@ export default {
 <style lang="scss">
 .aioseo-app {
 	.aioseo-tabs {
+		display: flex;
+		align-items: center;
+
+		--tabs-padding: 0;
+		--tabs-background: none;
+		--tabs-item-horizontal-height: 52px;
+		--tab-padding: 18px;
+		--tab-active-color: #{$black};
+		--tab-inactive-color: #{$black};
+		--tab-font-size: 14px;
+		--tab-line-height: 22px;
+		--tabs-indicator-background: #{$blue};
+
 		&.internal {
+			--tab-padding: 25px;
 			margin-bottom: 0;
-
-			.md-tabs {
-				&.md-theme-default {
-					.md-tabs-navigation {
-						margin-top: 5px;
-
-						.md-button {
-							height: 60px;
-
-							.md-ripple {
-								padding: 0 25px;
-							}
-						}
-					}
-				}
-			}
 		}
 
 		&.skinny {
-			.md-tabs {
-				&.md-theme-default {
-					.md-tabs-navigation {
-						.md-button {
-							.md-ripple {
-								padding: 0 16px;
-							}
-						}
-					}
-				}
-			}
+			--tab-padding: 16px;
 		}
 	}
 
-	.md-tabs {
-		display: flex;
-		flex-direction: column;
+	.var-tabs {
+		margin-bottom: -2px;
 
-		&.md-theme-default {
-			.md-tabs-navigation {
-				margin-top: 2px;
-				background: transparent;
-				display: flex;
-				position: relative;
-				justify-content: flex-start;
-
-				&.md-elevation-0 {
-					box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
-				}
-
-				.md-button {
-					color: $black;
-					max-width: 264px;
-					min-width: 68px;
-					height: 60px;
-					margin: 0;
-					border-radius: 0;
-					font-size: 15px;
-					font-weight: 500;
-					padding: 0;
-					display: inline-block;
-					position: relative;
-					overflow: hidden;
-					outline: none;
-					background: transparent;
-					border: 0;
-					transition: .4s cubic-bezier(.4,0,.2,1);
-					font-family: inherit;
-					line-height: normal;
-					text-decoration: none;
-					vertical-align: top;
-					white-space: nowrap;
-
-					&:before {
-						position: absolute;
-						top: 0;
-						right: 0;
-						bottom: 0;
-						left: 0;
-						opacity: 0;
-						transition: .4s cubic-bezier(.4,0,.2,1);
-						will-change: background-color,opacity;
-						content: " ";
-					}
-
-					.md-ripple {
-						padding: 0 18px;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						width: 100%;
-						height: 100%;
-						position: relative;
-						overflow: hidden;
-						mask-image: radial-gradient(circle, #fff 100%, #000 0);
-
-						.md-button-content {
-							position: static;
-							z-index: 2;
-						}
-
-						// Fixes a weird jittery bug on internal tabs.
-						.md-ripple-wave {
-							display: none;
-						}
-					}
-
-					&:not([disabled]) {
-						cursor: pointer;
-
-						&:active:before,
-						&:hover:before {
-							background-color: currentColor;
-							opacity: 0.12;
-						}
-					}
-
-					&.md-active {
-						color: $blue;
-
-						&:focus {
-							outline: none;
-							box-shadow: none;
-						}
-					}
-				}
-
-				.md-tabs-indicator {
-					height: 2px;
-					background-color: $blue;
-					bottom: -2px;
-					position: absolute;
-					left: 0;
-					transform: translateZ(0);
-					will-change: left,right;
-
-					&.md-tabs-indicator-left {
-						transition: left .3s cubic-bezier(0.4, 0, 0.2, 1), right .35s cubic-bezier(0.4, 0, 0.2, 1);
-					}
-					&.md-tabs-indicator-right {
-						transition: right .3s cubic-bezier(0.4, 0, 0.2, 1),left .35s cubic-bezier(0.4, 0, 0.2, 0.1);
-					}
-				}
-			}
+		.var-tab {
+			font-weight: $font-bold;
+			white-space: pre;
 		}
 	}
 
@@ -397,13 +345,12 @@ export default {
 		display: flex;
 		border-bottom: 2px solid $border;
 		position: relative;
-		margin-bottom: 38px;
+		margin-bottom:var(--aioseo-gutter);
 
 		.button-right,
 		.tabs-extra {
 			position: absolute;
 			right: 0;
-			bottom: 10px;
 		}
 
 		.tab-score {
@@ -451,7 +398,7 @@ export default {
 		width: 100%;
 
 		.active-tab {
-			--spacing-x: 18px;
+			--spacing-x: 20px;
 
 			align-items: center;
 			color: $blue;
@@ -521,24 +468,6 @@ export default {
 				}
 			}
 		}
-	}
-}
-
-.md-tooltip {
-	background-color: $black !important;
-	color: #fff !important;
-	border-radius: 2px;
-	padding: 6px 12px;
-	font-size: 14px;
-	&:after {
-		content: "";
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		margin-left: -5px;
-		border-width: 5px;
-		border-style: solid;
-		border-color: $black transparent transparent transparent;
 	}
 }
 </style>

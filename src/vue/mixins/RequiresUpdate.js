@@ -1,5 +1,9 @@
 import { RequiresUpdate as RequiresUpdateMiddleware } from '@/vue/router/middleware'
+import { mapGetters } from 'vuex'
 export const RequiresUpdate = {
+	computed : {
+		...mapGetters([ 'isUnlicensed' ])
+	},
 	methods : {
 		getExcludedUpdateTabs (addon) {
 			if (!this.isUnlicensed && this.$addons.hasMinimumVersion(addon) && !this.$addons.requiresUpgrade(addon)) {

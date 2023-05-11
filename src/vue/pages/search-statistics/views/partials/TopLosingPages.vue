@@ -9,7 +9,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import PostsTable from './PostsTable.vue'
+import PostsTable from './PostsTable'
 export default {
 	components : {
 		PostsTable

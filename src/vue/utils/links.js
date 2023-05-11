@@ -118,7 +118,8 @@ const docLinks = {
 	schema                        : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/`,
 	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`,
 	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`,
-	openAi                        : `${marketingSite}docs/using-openai-to-generate-seo-titles-and-meta-descriptions/`
+	openAi                        : `${marketingSite}docs/using-openai-to-generate-seo-titles-and-meta-descriptions/`,
+	primaryTerm                   : `${marketingSite}docs/setting-the-primary-term-for-breadcrumbs/`
 }
 
 const upsellLinks = {

@@ -124,7 +124,14 @@
 							:disable-table="disableTable"
 							@sort-column="(column, event) => $emit('sort-column', column, event)"
 							allow-tooltip-icon
-						/>
+						>
+							<template v-if="$slots[column.slug + 'HeaderFooter']" #headerFooter>
+								<slot
+									:name="column.slug + 'HeaderFooter'"
+									:area="'header'"
+								/>
+							</template>
+						</core-wp-table-header-footer>
 					</tr>
 				</thead>
 
@@ -133,7 +140,7 @@
 					v-if="rows"
 				>
 					<div
-						class="loader-overlay"
+						class="loader-overlay-table"
 						v-if="loading"
 					>
 						<core-loader />
@@ -141,15 +148,16 @@
 
 					<template
 						v-for="(row, index) in rows"
+						:key="index"
 					>
 						<tr
-							:key="index + '_' + row.id"
 							class="main-row"
 							:class="{
 								even    : 0 === index % 2,
 								enabled : row.enabled ||!row.hasOwnProperty('enabled')
 							}"
 							:data-row-id="(row.rowIndex && row[row.rowIndex]) || row.id || row.url || index"
+							:data-row-index="index"
 						>
 							<th
 								scope="row"
@@ -162,14 +170,16 @@
 									:disabled="disableTable"
 								/>
 							</th>
+
 							<td
 								class="manage-column"
 								:class="column.slug"
-								v-for="(column, i) in columns"
+								v-for="(column, i) in filteredColumns"
 								:key="i"
+								:colspan="column?.colspan ? column.colspan : 1"
 							>
 								<template
-									v-if="$scopedSlots[column.slug]"
+									v-if="$slots[column.slug]"
 								>
 									<slot
 										:name="column.slug"
@@ -182,14 +192,14 @@
 								</template>
 
 								<span
-									v-if="!$scopedSlots[column.slug]"
+									v-if="!$slots[column.slug]"
 								>
 									{{ row[column.slug] }}
 								</span>
 							</td>
 						</tr>
+
 						<tr
-							:key="index + '_edit'"
 							class="edit-row"
 							:class="{ even: 0 === index % 2 }"
 						>
@@ -215,20 +225,16 @@
 						</tr>
 					</template>
 
-					<template
-						v-if="!rows.length"
-					>
+					<template v-if="!rows.length">
 						<td :colspan="columns.length">
 							<div class="no-results">
-								<span v-if="!loading">{{ strings.noResults }}</span>
+								<span v-if="!loading">{{noResults}}</span>
 							</div>
 						</td>
 					</template>
 				</tbody>
 
-				<tfoot
-					v-if="showTableFooter"
-				>
+				<tfoot v-if="showTableFooter">
 					<tr>
 						<td
 							class="manage-column column-cb check-column"
@@ -246,7 +252,14 @@
 							:column="column"
 							:disable-table="disableTable"
 							@sort-column="(column, event) => $emit('sort-column', column, event)"
-						/>
+						>
+							<template v-if="$slots[column.slug + 'HeaderFooter']" #headerFooter>
+								<slot
+									:name="column.slug + 'HeaderFooter'"
+									:area="'footer'"
+								/>
+							</template>
+						</core-wp-table-header-footer>
 					</tr>
 				</tfoot>
 			</table>
@@ -285,15 +298,19 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
 import { debounce } from '@/vue/utils/debounce'
+
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreWpAdditionalFilters from './AdditionalFilters'
 import CoreWpBulkActions from './BulkActions'
 import CoreWpItemsPerPage from './ItemsPerPage'
 import CoreWpPagination from './Pagination'
-import CoreWpTableHeaderFooter from './TableHeaderFooter.vue'
+import CoreWpTableHeaderFooter from './TableHeaderFooter'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
+
 export default {
+	emits      : [ 'sort-column', 'process-bulk-action', 'paginate', 'search', 'filter-table', 'process-change-items-per-page', 'process-additional-filters' ],
 	components : {
 		CoreLoader,
 		CoreWpAdditionalFilters,
@@ -354,7 +371,9 @@ export default {
 		searchLabel : {
 			type : String,
 			default () {
-				return this.$t.__('Search', this.$td)
+				const app = getCurrentInstance()
+
+				return app.appContext.app.$t.__('Search', app.appContext.app.$td)
 			}
 		},
 		initialPageNumber : {
@@ -374,6 +393,9 @@ export default {
 			default () {
 				return ''
 			}
+		},
+		noResultsLabel : {
+			type : String
 		},
 		bulkOptions        : Array,
 		additionalFilters  : Array,
@@ -486,6 +508,20 @@ export default {
 			this.pageNumber = newPageNumber
 		}
 	},
+	computed : {
+		filteredColumns () {
+			return this.columns.filter((column) => {
+				if (false === 'show' in column) {
+					return true
+				}
+
+				return column.show
+			})
+		},
+		noResults () {
+			return this.noResultsLabel || this.strings.noResults
+		}
+	},
 	created () {
 		this.pageNumber   = this.initialPageNumber
 		this.searchTerm   = this.initialSearchTerm
@@ -496,6 +532,7 @@ export default {
 
 <style lang="scss">
 .aioseo-wp-table {
+
 	select,
 	input[type=search] {
 		border-color: $input-border;
@@ -523,23 +560,37 @@ export default {
 		}
 	}
 
-	&-header {
+	.aioseo-wp-table-header {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: start;
+		gap: 8px;
+
 		.subsubsub {
+			grid-column: 1;
+			grid-row: 1;
+			float: none;
+			display: inline-block;
 			color: $gray3;
-			font-size: 13px;
+			font-size: $font-md;
+			line-height: 18px;
 			font-weight: 600;
-			margin: 8px 0 0 2px;
+			margin: 0;
+
+			&:empty {
+				display: none !important;
+			}
 
 			li > span {
 				display: inline-flex;
 			}
 
 			.separator {
-				margin: 0 5px;
+				margin: 0 8px;
+				cursor: default;
 			}
 
 			.active {
-				padding: 0.2em;
 				-webkit-text-stroke-width: 0.2px;
 				-webkit-text-stroke-color: $black;
 				color: $black;
@@ -548,18 +599,28 @@ export default {
 			a {
 				text-decoration: none;
 				display: inline-flex;
+				padding: 0;
+				line-height: 18px;
 
 				span {
 					color: $gray3;
-
-					&:hover {
-						text-decoration: none;
-					}
 				}
 
 				&:hover {
 					text-decoration: underline;
 				}
+			}
+		}
+
+		.search-box {
+			grid-column: 2;
+			grid-row: 1;
+			justify-self: end;
+			display: flex;
+			gap: 8px;
+
+			> * {
+				margin: 0;
 			}
 		}
 
@@ -573,32 +634,113 @@ export default {
 				margin-right: 6px;
 			}
 		}
+
+		.tablenav.top {
+			grid-column: 1 / 3;
+			grid-row: 2;
+			justify-self: end;
+
+			> * {
+				margin: 0;
+			}
+		}
+
+		button,
+		input {
+			font-size: $font-md;
+			line-height: 22px;
+
+			&.button {
+				min-height: 30px;
+				padding: 0 14px;
+			}
+		}
+
+		@media screen and (max-width: 782px) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 16px;
+
+			.search-box {
+				position: unset;
+				width: auto;
+				height: auto;
+				margin-bottom: 0;
+			}
+		}
 	}
 
 	.aioseo-wp-table-header,
 	.bottom {
+
 		.pagination {
 			color: $gray3;
 
 			input {
-				margin-left: 6px;
+				margin-left: 4px;
 			}
 
 			.tablenav-pages-navspan.button {
-				margin-left: 6px;
+				margin-left: 4px;
+			}
+		}
+	}
+
+	.tablenav {
+		height: auto;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+
+		&.top {
+			margin-bottom: 12px;
+		}
+
+		&.bottom {
+			margin-top: 12px;
+		}
+
+		.tablenav-paging-text {
+			font-size: 13px;
+			line-height: 1.5;
+		}
+
+		.actions {
+			padding-right: 12px;
+
+			select {
+				margin-right: 8px;
 			}
 		}
 	}
 
 	.tablenav-pages {
 		.current-page {
-			padding: 0 0 0 8px;
+			padding: 0 0 0 4px;
 		}
 
 		.pagination-links {
 			a {
-				margin-left: 6px;
+				margin-left: 4px;
 			}
+		}
+	}
+
+	// inner tables
+	tr .aioseo-wp-table {
+		padding: 0 16px 16px 16px;
+
+		.wp-table {
+			border: 1px solid #D0D1D7;
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.04);
+		}
+
+		.aioseo-wp-table-header {
+			row-gap: 16px;
+		}
+		.tablenav.top {
+			margin-bottom: 16px;
 		}
 	}
 
@@ -627,15 +769,24 @@ export default {
 			}
 		}
 
-		.loader-overlay {
+		.loader-overlay-table,
+		.loader-overlay-row {
 			position: absolute;
-			height: 100%;
 			width: 100%;
 			background: rgba(0, 0, 0, 0.3);
 			z-index: 1;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+		}
+
+		.loader-overlay-table {
+			height: 100%;
+		}
+
+		.aioseo-manage-column.manage-column.loader {
+			padding: 0;
+			width: 0;
 		}
 
 		.no-results {
@@ -645,28 +796,41 @@ export default {
 			align-items: center;
 			justify-content: center;
 			font-weight: 400;
-			font-size: 24px;
+			font-size: 16px;
 		}
 
 		tr {
+			position: relative;
+
+			.post-title > a,
+			.post_title > strong a {
+				font-weight: $font-bold;
+				color: $black;
+
+				&:hover {
+					color: $blue;
+				}
+			}
+
 			&.even {
 				background-color: $box-background;
 			}
 
 			&.enabled {
-				td {
+				> td {
 					color: $black;
 
 					strong {
 						a {
 							color: $black;
+							font-weight: $font-bold;
 						}
 					}
 				}
 			}
 
 			&:not(.enabled):not(.edit-row) {
-				td {
+				> td {
 					color: $placeholder-color;
 
 					a.edit-link {
@@ -676,11 +840,11 @@ export default {
 			}
 
 			&.edit-row {
-				th {
+				> th {
 					padding: 0 0 0 3px;
 				}
 
-				td {
+				> td {
 					padding: 0 15px 0 15px;
 				}
 			}
@@ -717,7 +881,7 @@ export default {
 				&.edit-row-content {
 					.wrapper {
 						.border {
-							margin-top: 7px;
+							margin-top: 4px;
 							padding: 19px 0 20px;
 							border-top: 1px solid $border;
 						}

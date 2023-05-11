@@ -11,7 +11,7 @@
 					<template #content>
 						<base-select
 							size="medium"
-							:value="{ value: '', label: '' }"
+							:modelValue="{ value: '', label: '' }"
 							:options="[]"
 						/>
 					</template>
@@ -44,7 +44,7 @@ import CoreCard from '@/vue/components/common/core/Card'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreResetSettings from '@/vue/components/common/core/ResetSettings'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	mixins     : [ Network ],
 	components : {
@@ -100,7 +100,7 @@ export default {
 		align-items: center;
 		justify-content: center;
 		padding: 0 15px;
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 600;
 		color: $black2;
 

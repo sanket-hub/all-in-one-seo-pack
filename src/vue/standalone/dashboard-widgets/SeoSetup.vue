@@ -7,7 +7,7 @@
 <script>
 import { mapState } from 'vuex'
 import { Standalone } from '@/vue/mixins/Standalone'
-import CoreSeoSetup from '@/vue/components/common/core/SeoSetup.vue'
+import CoreSeoSetup from '@/vue/components/common/core/SeoSetup'
 export default {
 	mixins     : [ Standalone ],
 	components : {

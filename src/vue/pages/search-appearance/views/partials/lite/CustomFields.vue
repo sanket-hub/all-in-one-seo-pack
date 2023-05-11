@@ -37,7 +37,7 @@ import { mapState } from 'vuex'
 import BaseTextarea from '@/vue/components/common/base/Textarea'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		BaseTextarea,

@@ -169,11 +169,13 @@ export default {
 	}
 
 	.license-cta-box {
+		font-size: $font-md;
+		line-height: 22px;
 		border-radius: 3px;
 		background-color: $inline-background;
-		padding: 20px;
+		padding: 16px;
 		max-width: 620px;
-		margin: 10px 0 30px;
+		margin: 12px 0;
 
 		a {
 			color: $green;
@@ -190,12 +192,12 @@ export default {
 	}
 
 	.license-key {
-		margin-top: 10px;
+		margin-top: 12px;
 		display: flex;
 		max-width: 620px;
 
 		.aioseo-input-container {
-			margin-right: 10px;
+			margin-right: 8px;
 		}
 	}
 }

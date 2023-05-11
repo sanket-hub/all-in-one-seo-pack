@@ -7,17 +7,17 @@
 <style lang="scss">
 .aioseo-masonry {
 	column-count: 0;
-	column-gap: 20px;
+	column-gap: var(--aioseo-gutter);
 	counter-reset: brick-counter;
 
 	> * {
 		box-sizing: border-box;
 		break-inside: avoid;
 		counter-increment: brick-counter;
-		margin-bottom: 20px;
+		margin-bottom: var(--aioseo-gutter);
 	}
 
-	@media only screen and (min-width: 782px) {
+	@media only screen and (min-width: 783px) {
 		column-count: 1;
 	}
 	@media only screen and (min-width: 912px) {

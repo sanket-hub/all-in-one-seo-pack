@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import '@/vue/plugins'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+
 import TruSeo from '@/vue/plugins/tru-seo'
-import '@/vue/components/common'
+
 import store from '@/vue/store'
 import initSettingsBar from './settings-bar'
 import initWatcher from './watcher'
 import Modal from './Modal.vue'
-
-import PortalVue from 'portal-vue'
-import PortalApp from '../modal-portal/App.vue'
-
-Vue.prototype.$truSeo = new TruSeo()
 
 /**
  * Mount our Modal to render the SEO Settings.
@@ -18,31 +19,39 @@ Vue.prototype.$truSeo = new TruSeo()
  * @returns {void}
  */
 const mountPostSettings = () => {
-	new Vue({
-		store,
-		data : {
-			tableContext  : window.aioseo.currentPost.context,
-			screenContext : 'sidebar'
+	// Router placeholder to prevent errors when using router-link.
+	const router = createRouter({
+		history : createWebHistory(),
+		routes  : [
+			{
+				path      : '/',
+				component : Modal
+			}
+		]
+	})
+
+	let app = createApp({
+		data () {
+			return {
+				tableContext  : window.aioseo.currentPost.context,
+				screenContext : 'sidebar'
+			}
 		},
-		render : h => h(Modal)
-	}).$mount('#aioseo-app-modal > div')
-}
+		render : () => h(Modal)
+	})
 
-/**
- * Mount our portal modal.
- *
- * @returns {void}
- */
-const mountPortalModal = () => {
-	Vue.use(PortalVue)
+	app = loadPlugins(app)
+	app = loadComponents(app)
 
-	const modalPortal = document.querySelector('#aioseo-modal-portal')
-	if (modalPortal) {
-		new Vue({
-			store,
-			render : h => h(PortalApp)
-		}).$mount('#aioseo-modal-portal')
-	}
+	app.use(router)
+	app.use(store)
+
+	store._vm = app
+	router.app = app
+
+	app.config.globalProperties.$truSeo = new TruSeo()
+
+	app.mount('#aioseo-app-modal > div')
 }
 
 /**
@@ -56,7 +65,6 @@ const init = () => {
 
 	// Mount our Vue components in the Divi modal.
 	mountPostSettings()
-	mountPortalModal()
 
 	// Initialize the editor data watcher.
 	initWatcher()

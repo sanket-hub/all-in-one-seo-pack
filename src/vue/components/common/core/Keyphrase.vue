@@ -11,24 +11,33 @@
 		</span>
 		<span class="aioseo-edit-keyphrase-tag" v-if="edit">
 			<input
-				size="medium"
 				:value="keyphrase"
 				@blur="closeEdit"
 				@keydown.enter="pressEnter"
 			/>
 			<span class="keyphrase-delete" @click="deleteKeyphraseEv(index)">
-				<svg-trash />
-				<md-tooltip md-direction="top" >{{ strings.delete }}</md-tooltip>
+				<core-tooltip
+					type="action"
+				>
+					<svg-trash />
+
+					<template #tooltip>
+						{{ strings.delete }}
+					</template>
+				</core-tooltip>
 			</span>
 		</span>
 	</div>
 </template>
 
 <script>
+import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgPencil from '@/vue/components/common/svg/Pencil'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	emits      : [ 'selectedKeyphrase', 'deleted', 'saved' ],
 	components : {
+		CoreTooltip,
 		SvgPencil,
 		SvgTrash
 	},
@@ -84,4 +93,20 @@ export default {
 </script>
 
 <style lang="scss">
+.aioseo-keyphrase-tag {
+	.keyphrase-delete {
+
+		.aioseo-tooltip {
+			display: flex;
+			margin: 0;
+		}
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+}
+
 </style>

@@ -5,6 +5,7 @@
 <script>
 import lottie from 'lottie-web'
 export default {
+	emits : [ 'animCreated' ],
 	props : {
 		options : {
 			type     : Object,

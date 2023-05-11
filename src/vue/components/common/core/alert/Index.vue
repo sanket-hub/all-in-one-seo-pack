@@ -21,6 +21,7 @@
 <script>
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'close-alert' ],
 	components : {
 		SvgClose
 	},
@@ -46,20 +47,21 @@ export default {
 .aioseo-alert {
 	position: relative;
 	border-radius: 3px;
-	padding: 24px;
+	padding: 12px;
 	font-size: 16px;
 	color: $black;
-	line-height: 1.4;
+	line-height: 24px;
 
 	&.medium {
-		padding: 12px 20px;
+		padding: 8px 12px;
 		font-size: 14px;
-		font-weight: bold;
+		line-height: 22px;
 	}
 
 	&.small {
 		padding: 8px;
-		font-size: 13px;
+		font-size: 14px;
+		line-height: 22px;
 	}
 
 	.aioseo-alert-close {

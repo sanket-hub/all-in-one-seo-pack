@@ -30,9 +30,9 @@
 				<div class="keyword">
 					<core-tooltip v-if="shouldLimitText(row.keyword)">
 						<a
+							class="limit-line"
 							href="#"
 							@click.prevent="editRow(index); toggleRow(index)"
-							class="limit-line"
 						>
 							{{ decodeHTMLEntities(row.keyword) }}
 						</a>
@@ -138,14 +138,15 @@
 <script>
 import { decodeHTMLEntities } from '@/vue/utils/helpers'
 import { mapActions, mapGetters, mapState } from 'vuex'
+import { clone } from 'lodash-es'
 import { WpTable } from '@/vue/mixins'
 import PostTypesMixin from '@/vue/mixins/PostTypes.js'
 import Table from '../../mixins/Table.js'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
-import Cta from '@/vue/components/common/cta/Index.vue'
-import KeywordInner from './KeywordInner.vue'
-import Statistic from './Statistic.vue'
+import Cta from '@/vue/components/common/cta/Index'
+import KeywordInner from './KeywordInner'
+import Statistic from './Statistic'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 export default {
 	components : {
@@ -234,7 +235,7 @@ export default {
 			return 'searchStatisticsKeywordRankings'
 		},
 		allColumns () {
-			const columns = this.columns
+			const columns = clone(this.columns)
 
 			// Get the active filter from this.keywords.filters array.
 			const activeFilter = this.keywords?.filters?.find(f => f.active) || {}
@@ -343,7 +344,7 @@ export default {
 			})
 		},
 		hasSlot (name = 'default') {
-			return !!this.$slots[name] || !!this.$scopedSlots[name]
+			return !!this.$slots[name]
 		},
 		shouldLimitText (line) {
 			return 120 < decodeHTMLEntities(line).length
@@ -430,12 +431,6 @@ export default {
 
 <style lang="scss">
 .aioseo-search-statistics-keywords-table {
-	.keywords-table {
-		.subsubsub {
-			position: absolute;
-			top: 55px;
-		}
-	}
 
 	.limit-line {
 		overflow: hidden;
@@ -450,11 +445,9 @@ export default {
 		margin-left: 0;
 	}
 
-	.move-subsubsub {
-		.subsubsub {
-			top: 40px;
-			position: relative;
-		}
+	.subsubsub {
+		position: absolute;
+		top: 65px;
 	}
 
 	thead {

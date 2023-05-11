@@ -9,7 +9,7 @@
 
 <script>
 import BadBotBlocker from './BadBotBlocker'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import DatabaseTools from './DatabaseTools'
 import Debug from './AIOSEO_VERSION/Debug'
 import HtaccessEditor from './HtaccessEditor'

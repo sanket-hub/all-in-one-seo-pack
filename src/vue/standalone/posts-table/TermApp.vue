@@ -93,7 +93,7 @@ import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
 import { TruSeoScore } from '@/vue/mixins'
 import { truncate } from '@/vue/utils/html'
-import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components'
+import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components/helpers'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 
@@ -153,7 +153,7 @@ export default {
 
 					const terms       = window.aioseo.terms
 					terms[this.index] = this.term
-					setOptions({
+					setOptions(this.$.appContext.app, {
 						terms
 					})
 				})
@@ -182,10 +182,10 @@ export default {
 		this.descriptionParsed = this.term.descriptionParsed
 	},
 	async created () {
-		const { options, currentPost, tags } = await getOptions(this.$http)
-		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
-		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
-		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
+		const { options, currentPost, tags } = await getOptions(this.$.appContext.app)
+		this.$store.state.options = merge({ ...this.$store.state.options }, { ...options })
+		this.$store.state.currentPost = merge({ ...this.$store.state.currentPost }, { ...currentPost })
+		this.$store.state.tags = merge({ ...this.$store.state.tags }, { ...tags })
 		this.showTruSeo = truSeoShouldAnalyze()
 	}
 }

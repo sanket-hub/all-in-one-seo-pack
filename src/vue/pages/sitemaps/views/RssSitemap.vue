@@ -41,7 +41,6 @@
 
 					<div class="aioseo-description">
 						{{ strings.noIndexDisplayed }}
-						<br>
 						{{ strings.doYou404 }}
 
 						<span

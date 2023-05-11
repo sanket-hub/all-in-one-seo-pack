@@ -23,15 +23,15 @@
 							:options="filteredTypes"
 							size="medium"
 							:placeholder="strings.selectMatchRule"
-							:value="getRuleValue('type', index)"
-							@input="updateRule('type', $event, index)"
+							:modelValue="getRuleValue('type', index)"
+							@update:modelValue="updateRule('type', $event, index)"
 						/>
 						<base-select
 							v-if="getType(index, 'options') || getType(index, 'taggable')"
 							:options="getType(index, 'options') || []"
 							size="medium"
-							:value="getRuleValue('value', index)"
-							@input="updateRule('value', $event, index)"
+							:modelValue="getRuleValue('value', index)"
+							@update:modelValue="updateRule('value', $event, index)"
 							:multiple="getType(index, 'multiple') || getType(index, 'taggable')"
 							:taggable="getType(index, 'taggable')"
 							:placeholder="getType(index, 'placeholder') || strings.selectAValue"
@@ -39,8 +39,8 @@
 						<!-- Key field when there's a key/value pair. -->
 						<base-input
 							v-if="getType(index, 'keyValuePair')"
-							:value="getRuleValue('key', index)"
-							@input="updateRule('key', $event, index)"
+							:modelValue="getRuleValue('key', index)"
+							@update:modelValue="updateRule('key', $event, index)"
 							size="medium"
 							:placeholder="getType(index, 'placeholderKey') || strings.key"
 						/>
@@ -48,8 +48,8 @@
 						<!-- Value field if there are no options and the option is not taggable -->
 						<base-input
 							v-if="!getType(index, 'options') && !getType(index, 'taggable')"
-							:value="getRuleValue('value', index)"
-							@input="updateRule('value', $event, index)"
+							:modelValue="getRuleValue('value', index)"
+							@update:modelValue="updateRule('value', $event, index)"
 							size="medium"
 							:placeholder="getType(index, 'placeholder') || strings.value"
 							:disabled="!getType(index)"
@@ -57,8 +57,8 @@
 						<!-- Value field if there are no options and the option is not taggable/multiple -->
 						<base-toggle
 							v-if="getType(index, 'regex')"
-							:value="getRuleValue('regex', index)"
-							@input="updateRule('regex', $event, index)"
+							:modelValue="getRuleValue('regex', index)"
+							@update:modelValue="updateRule('regex', $event, index)"
 						>
 							{{ strings.regex }}
 						</base-toggle>
@@ -239,7 +239,7 @@ export default {
 	},
 	methods : {
 		removeRule (index) {
-			this.$delete(this.customRules, index)
+			this.customRules.splice(index, 1)
 			if (!this.hasCustomRules) {
 				this.addRule(null)
 			}
@@ -265,7 +265,7 @@ export default {
 				rule.value = ''
 			}
 
-			this.$set(this.customRules, index, rule)
+			this.customRules[index] = rule
 		},
 		getRuleValue (type, index, raw = false) {
 			if (!this.customRules[index]) {

@@ -12,11 +12,11 @@
 					@changed="value => processChangeTab(value)"
 				/>
 				<base-radio-toggle
-					:value="currentPost.socialMobilePreview"
 					v-if="'metabox' === $root._data.screenContext || 'modal' === parentComponentContext"
+					:modelValue="currentPost.socialMobilePreview"
+					@update:modelValue="isMobilePreviewEv"
 					name="previewSocialIsMobile"
 					class="circle"
-					@input="isMobilePreviewEv"
 					:options="[
 						{ label: 'desktop', value: false, activeClass: 'dark', slot: 'desktop' },
 						{ label: 'mobile', value: true, slot: 'mobile' }
@@ -117,6 +117,7 @@ export default {
 
 <style lang="scss">
 .aioseo-post-social {
+
 	.aioseo-col.col-md-9 {
 		position: relative;
 	}
@@ -164,9 +165,14 @@ export default {
 		height: 12px;
 		color: $black2;
 	}
+
+	.aioseo-select .multiselect__tags {
+		padding: 9px 40px 9px 16px;
+	}
 }
 
 .edit-post-sidebar {
+
 	.tab-facebook,
 	.tab-twitter,
 	.mobile-radio-buttons {
@@ -175,6 +181,7 @@ export default {
 }
 
 .aioseo-modal-content {
+
 	.mobile-radio-buttons {
 		padding-bottom: 0 !important;
 
@@ -206,25 +213,6 @@ export default {
 
 			.aioseo-description {
 				display: none;
-			}
-
-			.add-tags {
-				position: absolute;
-				top: -40px;
-				right: 8px;
-				margin: 0;
-			}
-		}
-
-		.facebook-title-settings,
-		.facebook-description-settings,
-		.twitter-title-settings,
-		.twitter-description-settings {
-			padding-bottom: 24px;
-
-			.col-md-9 {
-				padding-top: 0 !important;
-				margin-top: 0;
 			}
 		}
 	}

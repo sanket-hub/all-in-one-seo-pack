@@ -31,7 +31,7 @@
 <script>
 import CoreLoader from '@/vue/components/common/core/Loader'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
-import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index.vue'
+import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index'
 export default {
 	components : {
 		CoreLoader,

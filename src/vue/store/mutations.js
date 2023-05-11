@@ -4,47 +4,47 @@ import schemaMutations from './mutations/schema'
 export default {
 	...schemaMutations,
 	setPong (state, payload) {
-		this._vm.$set(state, 'pong', payload)
+		state.pong = payload
 	},
 	loading (state, payload) {
-		this._vm.$set(state, 'loading', payload)
+		state.loading = payload
 	},
 	isDirty (state, payload) {
-		this._vm.$set(state, 'isDirty', payload)
+		state.isDirty = payload
 	},
 	analyzer (state, payload) {
-		this._vm.$set(state, 'analyzer', payload)
+		state.analyzer = payload
 	},
 	analyzing (state, payload) {
-		this._vm.$set(state, 'analyzing', payload)
+		state.analyzing = payload
 	},
 	analyzeError (state, payload) {
-		this._vm.$set(state, 'analyzeError', payload)
+		state.analyzeError = payload
 	},
 	toggleCard (state, slug) {
-		this._vm.$set(state.settings.toggledCards, slug, !state.settings.toggledCards[slug])
+		state.settings.toggledCards[slug] = !state.settings.toggledCards[slug]
 	},
 	closeCard (state, slug) {
-		this._vm.$set(state.settings.toggledCards, slug, false)
+		state.settings.toggledCards[slug] = false
 	},
 	hideUpgradeBar (state) {
-		this._vm.$set(state.settings, 'showUpgradeBar', false)
+		state.settings.showUpgradeBar = false
 	},
 	hideSetupWizard (state) {
-		this._vm.$set(state.settings, 'showSetupWizard', false)
+		state.settings.showSetupWizard = false
 	},
 	toggleNotifications (state) {
-		this._vm.$set(state, 'showNotifications', !state.showNotifications)
+		state.showNotifications = !state.showNotifications
 
 		if (!state.showNotifications) {
-			this._vm.$set(state, 'showDismissedNotifications', false)
+			state.showDismissedNotifications = false
 		}
 	},
 	disableForceShowNotifications (state) {
-		this._vm.$set(state.notifications, 'force', false)
+		state.notifications.force = false
 	},
 	updateTags (state, tags) {
-		this._vm.$set(state, 'tags', tags)
+		state.tags = tags
 	},
 	updateAddon (state, addon) {
 		const addons     = state.addons
@@ -52,8 +52,8 @@ export default {
 
 		if (-1 !== addonIndex) {
 			addons[addonIndex] = addon
-			this._vm.$set(state, 'addons', addons)
-			setOptions({
+			state.addons = addons
+			setOptions(this._vm, {
 				addons
 			})
 		}
@@ -63,87 +63,93 @@ export default {
 		groups.forEach(group => {
 			options = options[group]
 		})
-		this._vm.$set(options, key, value)
+		options[key] = value
 	},
 	updateOptions (state, options) {
-		this._vm.$set(state, 'options', options)
+		state.options = options
 	},
 	updateInternalOption (state, { groups, key, value }) {
 		let options = state.internalOptions
 		groups.forEach(group => {
 			options = options[group]
 		})
-		this._vm.$set(options, key, value)
+		options[key] = value
 	},
 	toggleRadio (state, { slug, value }) {
-		this._vm.$set(state.settings.toggledRadio, slug, value)
+		state.settings.toggledRadio[slug] = value
+	},
+	dismissAlert (state, slug) {
+		state.settings.dismissedAlerts[slug] = true
 	},
 	changeItemsPerPage (state, { slug, value }) {
-		this._vm.$set(state.settings.tablePagination, slug, value)
+		state.settings.tablePagination[slug] = value
 	},
 	changeTab (state, { slug, value }) {
-		this._vm.$set(state.settings.internalTabs, slug, value)
+		state.settings.internalTabs[slug] = value
 	},
 	changePageSettings (state, { setting, value }) {
-		this._vm.$set(state.currentPost, setting, value)
+		state.currentPost[setting] = value
 	},
 	changeTabSettings (state, { setting, value }) {
-		this._vm.$set(state.metaBoxTabs, setting, value)
+		state.metaBoxTabs[setting] = value
 	},
 	openModal (state, value) {
-		this._vm.$set(state.currentPost, 'modalOpen', value)
+		state.currentPost.modalOpen = value
 	},
 	toggleLinkAssistantModal (state) {
-		this._vm.$set(state.currentPost.linkAssistant, 'modalOpen', !state.currentPost.linkAssistant.modalOpen)
+		state.currentPost.linkAssistant.modalOpen = !state.currentPost.linkAssistant.modalOpen
 	},
 	toggleRedirectsModal (state) {
-		this._vm.$set(state.currentPost.redirects, 'modalOpen', !state.currentPost.redirects.modalOpen)
+		state.currentPost.redirects.modalOpen = !state.currentPost.redirects.modalOpen
 	},
 	changeGeneralPreview (state, value) {
-		this._vm.$set(state.currentPost, 'generalMobilePrev', value)
+		state.currentPost.generalMobilePrev = value
 	},
 	changeSocialPreview (state, value) {
-		this._vm.$set(state.currentPost, 'socialMobilePreview', value)
+		state.currentPost.socialMobilePreview = value
 	},
 	changeSchemaSettings (state, { schema, setting, value }) {
-		this._vm.$set(state.currentPost.schema_type_options[schema], setting, value)
+		state.currentPost.schema_type_options[schema][setting] = value
 	},
 	updateNotifications (state, payload) {
 		if (payload.new.length && window.aioseoNotifications) {
-			this._vm.$set(window.aioseoNotifications, 'newNotifications', payload.new.length)
+			window.aioseoNotifications.newNotifications = payload.new.length
 		}
-		this._vm.$set(state, 'notifications', payload)
+		state.notifications = payload
 	},
 	toggleDismissedNotifications (state, payload) {
-		this._vm.$set(state, 'showDismissedNotifications', payload)
+		state.showDismissedNotifications = payload
 	},
 	setLicense (state, payload) {
-		this._vm.$set(state, 'license', payload)
+		state.license = payload
 	},
 	setHtaccessError (state, payload) {
-		this._vm.$set(state, 'htaccessError', payload)
+		state.htaccessError = payload
 	},
 	updateState (state, value) {
-		this._vm.$set(state, 'currentPost', value)
+		state.currentPost = value
 	},
 	updateBackups (state, backups) {
-		this._vm.$set(state, 'backups', backups)
+		state.backups = backups
 	},
 	updatePostPermalinkPath (state, slug) {
-		this._vm.$set(state.currentPost, 'permalinkPath', slug)
+		state.currentPost.permalinkPath = slug
 	},
 	updatePostStatus (state, status) {
-		this._vm.$set(state.currentPost, 'postStatus', status)
+		state.currentPost.postStatus = status
 	},
 	updateAdditionalPages (state, pages) {
-		this._vm.$set(state.options.sitemap.general.additionalPages, 'pages', pages)
+		state.options.sitemap.general.additionalPages.pages = pages
 	},
 	incrementInternalLinkCount (state) {
 		const count = state.currentPost.options.linkFormat.internalLinkCount || 0
-		this._vm.$set(state.currentPost.options.linkFormat, 'internalLinkCount', count + 1)
+		state.currentPost.options.linkFormat.internalLinkCount = count + 1
+	},
+	disablePrimaryTermEducation (state) {
+		state.currentPost.options.primaryTerm.productEducationDismissed = true
 	},
 	disableLinkAssistantEducation (state) {
-		this._vm.$set(state.currentPost.options.linkFormat, 'linkAssistantDismissed', true)
+		state.currentPost.options.linkFormat.linkAssistantDismissed = true
 	},
 	// Network mutations.
 	updateNetworkOption (state, { groups, key, value }) {
@@ -151,44 +157,44 @@ export default {
 		groups.forEach(group => {
 			options = options[group]
 		})
-		this._vm.$set(options, key, value)
+		options[key] = value
 	},
 	updateInternalNetworkOption (state, { groups, key, value }) {
 		let options = state.internalNetworkOptions
 		groups.forEach(group => {
 			options = options[group]
 		})
-		this._vm.$set(options, key, value)
+		options[key] = value
 	},
 	updateNetworkBackups (state, { backups, siteId }) {
-		this._vm.$set(state.networkBackups, siteId, backups)
+		state.networkBackups[siteId] = backups
 	},
 	updateNetworkData (state, { key, data }) {
-		this._vm.$set(state.networkData, key, data)
+		state.networkData[key] = data
 	},
 	updateNetworkRobots (state, rules) {
-		this._vm.$set(state.networkRobots, 'rules', rules)
+		state.networkRobots.rules = rules
 	},
 	updateNetworkRobotsSite (state, siteId) {
-		this._vm.$set(state.networkRobots, 'siteId', siteId)
+		state.networkRobots.siteId = siteId
 	},
 	setModalState (state, { modalName, value }) {
-		this._vm.$set(state.modals, modalName, value)
+		state.modals[modalName] = value
 	},
 	setOpenAiData (state, { type, suggestions, usage }) {
-		this._vm.$set(state.currentPost.open_ai[type], 'suggestions', suggestions)
-		this._vm.$set(state.currentPost.open_ai[type], 'usage', usage)
+		state.currentPost.open_ai[type].suggestions = suggestions
+		state.currentPost.open_ai[type].usage = usage
 	},
 	setOpenAiError (state, error) {
-		this._vm.$set(state, 'openAiError', error)
+		state.openAiError = error
 	},
 	updateTitle (state, title) {
-		this._vm.$set(state.currentPost, 'title', title)
+		state.currentPost.title = title
 
 		this._vm.$bus.$emit('updateTitleKey')
 	},
 	updateDescription (state, description) {
-		this._vm.$set(state.currentPost, 'description', description)
+		state.currentPost.description = description
 
 		this._vm.$bus.$emit('updateDescriptionKey')
 	}

@@ -97,8 +97,8 @@
 					<base-select
 						size="medium"
 						:options="sortOrders"
-						:value="getSortOrder(options.sitemap.html.sortOrder)"
-						@input="value => options.sitemap.html.sortOrder = value.value"
+						:modelValue="getSortOrder(options.sitemap.html.sortOrder)"
+						@update:modelValue="value => options.sitemap.html.sortOrder = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -112,8 +112,8 @@
 					<base-select
 						size="medium"
 						:options="sortDirections"
-						:value="getSortDirection(options.sitemap.html.sortDirection)"
-						@input="value => options.sitemap.html.sortDirection = value.value"
+						:modelValue="getSortDirection(options.sitemap.html.sortDirection)"
+						@update:modelValue="value => options.sitemap.html.sortDirection = value.value"
 					/>
 				</template>
 			</core-settings-row>

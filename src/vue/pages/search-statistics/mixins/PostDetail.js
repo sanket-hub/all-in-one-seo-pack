@@ -40,16 +40,16 @@ export default {
 			return [
 				{
 					name   : this.$t.__('Search Impressions', this.$td),
-					data   : graph.map((tick) => ({ x: tick.date, y: tick.impressions })),
+					data   : graph.map((tick) => ({ x: tick.date, y: tick.impressions || 0 })),
 					legend : {
-						total : statistics.impressions
+						total : statistics.impressions || 0
 					}
 				},
 				{
 					name   : this.$t.__('Search Clicks', this.$td),
-					data   : graph.map((tick) => ({ x: tick.date, y: tick.clicks })),
+					data   : graph.map((tick) => ({ x: tick.date, y: tick.clicks || 0 })),
 					legend : {
-						total : statistics.clicks
+						total : statistics.clicks || 0
 					}
 				}
 			]

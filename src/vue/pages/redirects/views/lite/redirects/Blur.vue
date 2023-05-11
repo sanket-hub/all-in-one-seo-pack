@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import CoreAddRedirection from '@/vue/components/common/core/add-redirection/Index.vue'
+import CoreAddRedirection from '@/vue/components/common/core/add-redirection/Index'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'

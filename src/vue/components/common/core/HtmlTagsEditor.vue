@@ -35,7 +35,7 @@
 					</button>
 
 					<core-emoji
-						:show.sync="showEmojiPicker"
+						v-model:show="showEmojiPicker"
 						@selected-emoji="insertSelectedEmoji"
 					/>
 				</div>
@@ -53,8 +53,8 @@
 
 		<base-editor
 			ref="editor"
-			:value="value"
-			@input="value => $emit('input', value)"
+			:modelValue="modelValue"
+			@update:modelValue="value => $emit('update:modelValue', value)"
 			:allow-tags="allowTags"
 			:line-numbers="lineNumbers"
 			:single="single"
@@ -77,11 +77,14 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
+
 import BaseEditor from '@/vue/components/common/base/Editor'
 import CoreAddTemplateTag from '@/vue/components/common/core/AddTemplateTag'
 import CoreAlertUnfilteredHtml from '@/vue/components/common/core/alert/UnfilteredHtml'
 import CoreEmoji from '@/vue/components/common/core/Emoji'
 export default {
+	emits      : [ 'counter', 'update:modelValue' ],
 	components : {
 		BaseEditor,
 		CoreAddTemplateTag,
@@ -121,7 +124,7 @@ export default {
 			}
 		},
 		defaultTags : Array,
-		value       : {
+		modelValue  : {
 			type    : String,
 			default : ''
 		},
@@ -132,7 +135,9 @@ export default {
 		tagsDescription        : {
 			type : String,
 			default () {
-				return this.$t.__('Click on the tags below to insert variables into your template.', this.$td)
+				const app = getCurrentInstance()
+
+				return app.appContext.app.$t.__('Click on the tags below to insert variables into your template.', app.appContext.app.$td)
 			}
 		},
 		checkUnfilteredHtml : {
@@ -143,8 +148,10 @@ export default {
 		},
 		disabled : {
 			type : Boolean,
-			default () {
-				return this.checkUnfilteredHtml && !this.$aioseo.user.unfilteredHtml
+			default (props) {
+				const app = getCurrentInstance()
+
+				return props.checkUnfilteredHtml && !app.appContext.app.$aioseo.user.unfilteredHtml
 			}
 		}
 	},
@@ -185,26 +192,27 @@ export default {
 	}
 
 	.aioseo-description.tags-description {
-		margin: 0 0 20px;
+		margin: 0 0 12px;
 	}
 
 	.add-tags {
 		display: flex;
 		align-items: center;
-		margin-bottom: 20px;
-		gap: 10px;
+		margin-bottom: 12px;
+		gap: 8px;
 
 		button {
-			height: 30px;
+			height: 24px;
 			background: #fff;
 			border-radius: 3px;
-			padding: 0 5px;
+			padding: 0 3px;
+			line-height: 24px;
 			color: $black;
 			font-size: 14px;
 			border: 1px solid $border;
 			cursor: pointer;
 			user-select: none;
-			font-weight: 600;
+			font-weight: 400;
 
 			&:hover {
 				background-color: $background;
@@ -212,7 +220,8 @@ export default {
 		}
 
 		a {
-			font-size: 14px;
+			font-size: 12px;
+			line-height: 18px;
 
 			&.no-underline {
 				padding-left: 10px;

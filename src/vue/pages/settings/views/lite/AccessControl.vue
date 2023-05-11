@@ -15,9 +15,9 @@
 			<core-blur>
 				<template
 					v-for="role in getLiteRoles"
+					:key="role.name"
 				>
 					<core-settings-row
-						:key="role.name"
 						:name="role.label"
 					>
 						<template #content>
@@ -26,7 +26,7 @@
 							>
 								<base-toggle
 									:disabled="true"
-									:value="true"
+									:modelValue="true"
 								>
 									{{ strings.useDefaultSettings }}
 								</base-toggle>
@@ -65,7 +65,7 @@ import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		CoreBlur,

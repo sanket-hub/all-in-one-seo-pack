@@ -1,5 +1,5 @@
 <template>
-	<popper
+	<core-popper
 		class="aioseo-tooltip"
 		:trigger="trigger"
 		:force-show="forceShow"
@@ -19,7 +19,7 @@
 			}
 		}"
 	>
-		<div
+		<span
 			class="popper"
 			:class="{ [type]: type }"
 			:style="{
@@ -30,17 +30,22 @@
 				:is="tag"
 				v-if="tooltip"
 			>{{ tooltip }}</component>
-			<slot name="tooltip" />
-		</div>
 
-		<slot slot="reference" />
-	</popper>
+			<slot name="tooltip" />
+		</span>
+
+		<template #reference>
+			<slot />
+		</template>
+	</core-popper>
 </template>
 
 <script>
-import Popper from 'vue-popperjs'
-import 'vue-popperjs/dist/vue-popper.css'
+import CorePopper from '@/vue/components/common/core/Popper'
 export default {
+	components : {
+		CorePopper
+	},
 	props : {
 		tooltip   : String,
 		type      : String,
@@ -82,9 +87,6 @@ export default {
 			}
 		},
 		zIndex : String
-	},
-	components : {
-		popper : Popper
 	}
 }
 </script>

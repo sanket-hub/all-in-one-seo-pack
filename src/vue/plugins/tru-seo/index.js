@@ -1,9 +1,7 @@
-import {
-	getPostEditedContent,
-	getPostEditedPermalink,
-	getPostEditedTitle,
-	isBlockEditor
-} from '@/vue/plugins/tru-seo/components'
+import { getPostEditedContent } from '@/vue/plugins/tru-seo/components/postContent'
+import { getPostEditedPermalink } from '@/vue/plugins/tru-seo/components/postPermalink'
+import { getPostEditedTitle } from '@/vue/plugins/tru-seo/components/postTitle'
+import { isBlockEditor } from '@/vue/plugins/tru-seo/components/helpers'
 
 import store from '@/vue/store'
 import { decodeHTMLEntities } from '@/vue/utils/helpers'
@@ -36,8 +34,8 @@ class TruSeo {
 		{
 			postId,
 			postData = { ...store.state.currentPost },
-			content = getPostEditedContent(),
-			slug = getPostEditedPermalink()
+			content  = getPostEditedContent(),
+			slug     = getPostEditedPermalink()
 		}
 	) {
 		if (
@@ -58,7 +56,7 @@ class TruSeo {
 			separator : decodeHTMLEntities(window.aioseo.options.searchAppearance.global.separator)
 		}
 
-		const analysisData = {
+		const analysisData = JSON.parse(JSON.stringify({
 			postId,
 			postData,
 			content,
@@ -66,7 +64,7 @@ class TruSeo {
 			postEditedTitle : getPostEditedTitle(),
 			aioseo          : window.aioseo,
 			aioseoGlobals
-		}
+		}))
 
 		let dispatch = []
 		if (import.meta.env.PROD || import.meta.env.VITE_TRUSEO_WEB_WORKER) {

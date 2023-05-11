@@ -26,7 +26,11 @@
 				v-if="isWpDashboard"
 				v-model="postType"
 			>
-				<option v-for="option in postTypes" :key="option.value" :value="option">
+				<option
+					v-for="option in postTypes"
+					:key="option.value"
+					:value="option"
+				>
 					{{ option.label }}
 				</option>
 			</select>
@@ -49,7 +53,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreDonutChartWithLegend from '@/vue/components/common/core/DonutChartWithLegend'
 export default {
 	components : {
@@ -204,7 +208,7 @@ export default {
 			font-size: 14px;
 			display: inline-block;
 			margin-bottom: 4px;
-			font-weight: 700;
+			font-weight: $font-bold;
 		}
 	}
 
@@ -243,6 +247,10 @@ export default {
 		margin: 24px 0;
 		margin-left: -30px;
 		border-color: $border;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
 	}
 
 	&--wp-styles {

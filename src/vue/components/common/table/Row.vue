@@ -10,5 +10,9 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 100%;
+
+	&.header-row {
+		font-weight: 600;
+	}
 }
 </style>

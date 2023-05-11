@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import Facebook from './Facebook'
 import Pinterest from './Pinterest'
 import SocialProfiles from './SocialProfiles'

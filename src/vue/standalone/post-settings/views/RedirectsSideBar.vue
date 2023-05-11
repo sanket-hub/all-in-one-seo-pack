@@ -24,7 +24,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
-import SvgRightArrowShort from '@/vue/components/common/svg/right-arrow/Short.vue'
+import SvgRightArrowShort from '@/vue/components/common/svg/right-arrow/Short'
 export default {
 	components : {
 		CoreSettingsRow,

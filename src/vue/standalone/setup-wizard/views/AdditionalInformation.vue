@@ -39,8 +39,8 @@
 					<base-select
 						class="person-chooser"
 						:options="users"
-						:value="getPersonOptions(additionalInformation.person)"
-						@input="value => additionalInformation.person = value.value"
+						:modelValue="getPersonOptions(additionalInformation.person)"
+						@update:modelValue="value => additionalInformation.person = value.value"
 					>
 						<template #singleLabel="{ option }">
 							<div class="person-label">
@@ -126,8 +126,8 @@
 						size="medium"
 						:options="$constants.CONTACT_TYPES"
 						:placeholder="strings.chooseContactType"
-						:value="getContactTypeOptions(additionalInformation.contactType)"
-						@input="value => additionalInformation.contactType = value.value"
+						:modelValue="getContactTypeOptions(additionalInformation.contactType)"
+						@update:modelValue="value => additionalInformation.contactType = value.value"
 					/>
 					<div class="aioseo-description">
 						{{ strings.contactTypeDescription }}
@@ -419,42 +419,16 @@ export default {
 
 <style lang="scss">
 .aioseo-wizard-additional-information {
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-
-		&.social {
-			margin: 32px 0;
-		}
-	}
-
-	.description {
-		margin-top: 20px;
-		font-size: 16px;
-		color: $black2;
-		margin-bottom: 40px;
-	}
-
-	.person-or-organization {
-		margin-top: 30px;
-		margin-bottom: 16px;
-	}
-
-	.schema-graph-phone {
-		margin-bottom: 16px;
-	}
 
 	.schema-graph-name,
 	.schema-graph-contact-type-manual {
-		margin-bottom: 16px;
 
 		.aioseo-input {
 			max-width: 600px;
 		}
 	}
+
 	.schema-graph-contact-type {
-		margin-bottom: 16px;
 
 		.aioseo-select {
 			max-width: 300px;
@@ -462,7 +436,6 @@ export default {
 	}
 
 	.schema-graph-image {
-		margin-bottom: 16px;
 
 		.image-upload {
 			display: flex;
@@ -470,7 +443,7 @@ export default {
 			.aioseo-input-container {
 				width: 100%;
 				max-width: 445px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				.aioseo-input {
 					width: 100%;
@@ -479,7 +452,7 @@ export default {
 
 			.insert-image {
 				min-width: 214px;
-				margin-right: 10px;
+				margin-right: 8px;
 
 				svg.aioseo-circle-plus {
 					width: 13px;

@@ -29,6 +29,7 @@ import SvgEmojiSmile from '@/vue/components/common/svg/emoji/Smile'
 import SvgEmojiSymbols from '@/vue/components/common/svg/emoji/Symbols'
 import SvgSearch from '@/vue/components/common/svg/Search'
 export default {
+	emits      : [ 'selected-emoji', 'update:show' ],
 	components : {
 		SvgEmojiBasketball,
 		SvgEmojiCar,

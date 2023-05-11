@@ -119,7 +119,7 @@
 									round
 									class="no-clicks"
 									type="green"
-									:value="true"
+									:modelValue="true"
 									@click.native="preventUncheck"
 								/>
 							</grid-column>
@@ -156,7 +156,7 @@
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'

@@ -1,7 +1,7 @@
 export default {
 	isConnected         : false,
 	hasInitialized      : false,
-	latestAvailableData : null,
+	latestAvailableDate : null,
 	unverifiedSite      : false,
 	range               : {
 		start        : null,
@@ -13,6 +13,7 @@ export default {
 	loading : {
 		seoStatistics           : false,
 		keywords                : false,
+		contentRankings         : false,
 		postDetailSeoStatistics : false,
 		postDetailKeywords      : false
 	},
@@ -59,6 +60,16 @@ export default {
 			topLosing             : [],
 			topKeywords           : [],
 			paginated             : {
+				rows   : [],
+				totals : {
+					page  : 0,
+					pages : 0,
+					total : 0
+				}
+			}
+		},
+		contentRankings : {
+			paginated : {
 				rows   : [],
 				totals : {
 					page  : 0,

@@ -7,7 +7,7 @@
 <style lang="scss">
 .aioseo-wizard-container {
 	margin: 40px auto;
-	max-width: 900px;
+	max-width: 850px;
 
 	@media screen and (max-width: 782px) {
 		margin: 0 20px;

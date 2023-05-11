@@ -32,8 +32,8 @@
 						:active="isActive(status)"
 						:name="status.label"
 						type="checkbox"
-						:value="getValue(status)"
-						@input="checked => updateValue(checked, status)"
+						:modelValue="getValue(status)"
+						@update:modelValue="checked => updateValue(checked, status)"
 					>
 						{{ status.label }} ({{ status.status }})
 					</base-highlight-toggle>
@@ -45,7 +45,7 @@
 
 <script>
 import BaseHighlightToggle from '@/vue/components/common/base/HighlightToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 export default {
@@ -63,6 +63,12 @@ export default {
 		options : {
 			type     : Object,
 			required : true
+		},
+		registeredPostStatuses : {
+			type : Object,
+			default () {
+				return this.$aioseo.postData
+			}
 		},
 		excluded : {
 			type : Array,
@@ -85,7 +91,7 @@ export default {
 	},
 	computed : {
 		postStatuses () {
-			return this.$aioseo.postData[this.type].filter(postStatus => {
+			return this.registeredPostStatuses[this.type].filter(postStatus => {
 				return !this.excluded.includes(postStatus.status)
 			})
 		}
@@ -98,13 +104,13 @@ export default {
 			if (checked) {
 				const included = this.options[this.type].included
 				included.push(type.status)
-				this.$set(this.options[this.type], 'included', included)
+				this.options[this.type].included = included
 				return
 			}
 
 			const index = this.options[this.type].included.findIndex(t => t === type.status)
 			if (-1 !== index) {
-				this.$delete(this.options[this.type].included, index)
+				this.options[this.type].included.splice(index, 1)
 			}
 		},
 		getValue (type) {

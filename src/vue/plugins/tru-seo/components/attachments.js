@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 
 // Update post data
@@ -50,6 +50,6 @@ export const maybeUpdateAttachment = (run = false) => {
 	}
 
 	if (run) {
-		Vue.prototype.$truSeo.runAnalysis({ postId: store.state.currentPost.id })
+		(new TruSeo()).runAnalysis({ postId: store.state.currentPost.id })
 	}
 }

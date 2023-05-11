@@ -1,7 +1,11 @@
 import store from '@/vue/store'
-import { getPostEditedAuthor, getPostEditedFeaturedImage, getPostEditedContent, customFieldValue } from '../plugins/tru-seo/components'
+import { getPostEditedAuthor } from '../plugins/tru-seo/components/postAuthor'
+import { getPostEditedFeaturedImage } from '../plugins/tru-seo/components/postFeaturedImage'
+import { getPostEditedContent } from '../plugins/tru-seo/components/postContent'
+import { customFieldValue } from '../plugins/tru-seo/components/customFields'
 
 export const ImageSourceOptions = {
+	emits : [ 'updateSocialImagePreview' ],
 	data () {
 		return {
 			excludedTermOptions        : [ 'featured', 'attach', 'content', 'author', 'auto' ],
@@ -188,27 +192,23 @@ export const ImagePreview = {
 	}
 }
 
+const customUploader = {}
 export const Uploader = {
-	data () {
-		return {
-			customUploader : {}
-		}
-	},
 	methods : {
-		openUploadModal (uploader, setter) {
+		async openUploadModal (uploader, setter) {
 			const callback = () => {
-				const attachment = this.customUploader[uploader].state().get('selection').first().toJSON()
+				const attachment = customUploader[uploader].state().get('selection').first().toJSON()
 				setter(attachment.url)
 			}
 
 			// If the uploader object has already been created, reopen the dialog
-			if (this.customUploader[uploader]) {
-				this.customUploader[uploader].open()
+			if (customUploader[uploader]) {
+				customUploader[uploader].open()
 				return
 			}
 
 			// Extend the wp.media object
-			this.customUploader[uploader] = window.wp.media({
+			customUploader[uploader] = window.wp.media({
 				title  : this.$t.__('Choose Image', this.$td),
 				button : {
 					text : this.$t.__('Choose Image', this.$td)
@@ -217,10 +217,12 @@ export const Uploader = {
 			})
 
 			// When a file is selected, grab the URL and set it as the text field's value
-			this.customUploader[uploader].on('select', callback)
+			customUploader[uploader].on('select', callback)
 
 			// Open the uploader dialog
-			this.customUploader[uploader].open()
+			await this.$nextTick()
+
+			customUploader[uploader].open()
 		}
 	}
 }

@@ -1,6 +1,10 @@
-import Vue from 'vue'
-import '@/vue/plugins'
-import '@/vue/components/common'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
+
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+
 import store from '@/vue/store'
 import App from './App.vue'
 
@@ -8,9 +12,13 @@ const elemDiv = document.createElement('div')
 elemDiv.id    = 'aioseo-redirects-add-redirect-standalone'
 document.body.appendChild(elemDiv)
 
-Vue.prototype.$aioseo = window.aioseo
+let app = createApp(App)
+app     = loadPlugins(app)
+app     = loadComponents(app)
 
-new Vue({
-	store,
-	render : h => h(App)
-}).$mount('#aioseo-redirects-add-redirect-standalone')
+app.use(store)
+store._vm = app
+
+app.config.globalProperties.$aioseo = window.aioseo
+
+app.mount('#aioseo-redirects-add-redirect-standalone')

@@ -10,11 +10,12 @@
 			sorted   : column.sortable && column.sorted,
 		}, column.slug]"
 	>
-		<template
-			v-if="allowTooltipIcon && column.tooltipIcon"
-		>
+		<template v-if="allowTooltipIcon && column.tooltipIcon">
 			<div class="aioseo-table-header-tooltip-icon">
-				<core-tooltip class="action" type="action">
+				<core-tooltip
+					class="action"
+					type="action"
+				>
 					<component :is="column.tooltipIcon"></component>
 
 					<template #tooltip>
@@ -24,12 +25,8 @@
 			</div>
 		</template>
 
-		<template
-			v-if="!allowTooltipIcon || !column.tooltipIcon"
-		>
-			<template
-				v-if="column.sortable"
-			>
+		<template v-if="!allowTooltipIcon || !column.tooltipIcon">
+			<template v-if="column.sortable">
 				<a
 					href="#"
 					@click.prevent="event => $emit('sort-column', column, event)"
@@ -39,10 +36,14 @@
 				</a>
 			</template>
 
-			<template
-				v-if="!column.sortable"
-			>
-				{{ column.label }}
+			<template v-if="!column.sortable">
+				<template v-if="$slots.headerFooter ">
+					<slot name="headerFooter"/>
+				</template>
+
+				<template v-if="!$slots.headerFooter">
+					{{ column.label }}
+				</template>
 			</template>
 		</template>
 	</th>
@@ -51,7 +52,8 @@
 <script>
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 export default {
-	compnents : {
+	emits      : [ 'sort-column' ],
+	components : {
 		CoreTooltip
 	},
 	props : {

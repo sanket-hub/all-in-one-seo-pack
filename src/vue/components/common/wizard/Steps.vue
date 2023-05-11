@@ -25,7 +25,9 @@ export default {
 <style lang="scss">
 .aioseo-wizard-steps {
 	color: $placeholder-color;
-	font-size: 14px;
-	margin-bottom: 20px;
+	font-size: 16px;
+	font-weight: $font-bold;
+	line-height: 24px;
+	margin-bottom: 16px;
 }
 </style>

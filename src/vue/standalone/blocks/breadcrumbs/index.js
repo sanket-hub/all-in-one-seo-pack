@@ -27,8 +27,23 @@ export const settings = {
 	category   : 'aioseo',
 	icon       : icon,
 	example    : {},
-	attributes : {},
-	edit       : function () {
+	attributes : {
+		primaryTerm : {
+			type    : 'string',
+			default : null
+		}
+	},
+	edit : function (props) {
+		const { setAttributes, attributes } = props
+
+		window.aioseoBus.$on('standalone-update-post', (param) => {
+			if (!param.primary_term) {
+				return
+			}
+
+			setAttributes({ primaryTerm: JSON.stringify(param.primary_term) })
+		})
+
 		return el(Fragment, {},
 			el(
 				'div',
@@ -40,7 +55,9 @@ export const settings = {
 						ServerSideRender,
 						{
 							block      : name,
-							attributes : {}
+							attributes : {
+								primaryTerm : attributes.primaryTerm
+							}
 						}
 					)
 				)

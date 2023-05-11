@@ -17,8 +17,8 @@
 			<span class="form-radio">
 				<input
 					type="radio"
-					@input="$emit('input', $event.target.checked)"
-					:checked="value"
+					@input="$emit('update:modelValue', $event.target.checked)"
+					:checked="modelValue"
 					:disabled="disabled"
 					:name="name"
 					:id="id"
@@ -43,7 +43,7 @@ export default {
 		SvgCheckmark
 	},
 	props : {
-		value      : [ String, Boolean ],
+		modelValue : [ String, Boolean ],
 		name       : String,
 		labelClass : {
 			type : String,
@@ -117,13 +117,13 @@ export default {
 
 	&.medium {
 		.form-radio {
-			width: 20px;
-			height: 20px;
+			width: 16px;
+			height: 16px;
 
 			.fancy-radio {
 				svg {
-					width: 12px;
-					height: 12px;
+					width: 10px;
+					height: 10px;
 				}
 			}
 		}
@@ -132,9 +132,9 @@ export default {
 			.form-radio {
 				span {
 					&:before {
-						height: 18px;
-						width: 18px;
-						line-height: 20px;
+						height: 14px;
+						width: 14px;
+						line-height: 16px;
 					}
 				}
 			}
@@ -144,16 +144,16 @@ export default {
 			.form-radio {
 				span {
 					&:before {
-						height: 16px;
-						width: 16px;
-						line-height: 20px;
+						height: 12px;
+						width: 12px;
+						line-height: 16px;
 					}
 
 					&:after {
 						height: 6px;
 						width: 6px;
-						left: 6px;
-						bottom: 6px;
+						left: 4px;
+						bottom: 4px;
 					}
 				}
 			}
@@ -163,8 +163,8 @@ export default {
 	.form-radio {
 		position:relative;
 		display: inline-block;
-		width: 28px;
-		height: 28px;
+		width: 24px;
+		height: 24px;
 		color: white;
 		vertical-align: bottom;
 		text-align: center;
@@ -222,13 +222,13 @@ export default {
 			&:before {
 				position: absolute;
 				content: "";
-				height: 26px;
-				width: 26px;
+				height: 22px;
+				width: 22px;
 				left: 1px;
 				bottom: 1px;
 				transition: 0.2s;
-				font-size: 18px;
-				line-height: 28px;
+				font-size: 16px;
+				line-height: 24px;
 				border-radius: 50%;
 			}
 		}

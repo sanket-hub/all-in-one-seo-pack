@@ -142,20 +142,20 @@ export default {
 
 		&-title {
 			font-weight: 700;
-			font-size: 16px;
+			font-size: 14px;
 			color: $black;
 			margin-bottom: 8px;
 		}
 
 		&-description {
 			font-weight: 400;
-			font-size: 16px;
+			font-size: 14px;
 			color: $black;
 			margin: 0 0 8px;
 		}
 
 		.aioseo-button {
-			margin-top: 20px;
+			margin-top: 12px;
 		}
 	}
 }

@@ -41,8 +41,8 @@
 
 					<a
 						v-if="!notification.dismissed"
-						href="#"
 						class="dismiss"
+						href="#"
 						@click.stop.prevent="processDismissNotification(false)"
 					>{{ strings.dismiss }}</a>
 				</div>
@@ -56,6 +56,7 @@ import { mapActions, mapState } from 'vuex'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	emits      : [ 'dismissed-notification' ],
 	components : {
 		SvgCircleCheck,
 		TransitionSlide
@@ -125,7 +126,7 @@ export default {
 		border-bottom: 1px solid $border;
 
 		.icon {
-			margin-right: 20px;
+			margin-right: 14px;
 
 			svg {
 				width: 20px;
@@ -155,22 +156,22 @@ export default {
 			flex: 1;
 
 			.title {
-				font-size: 16px;
+				font-size: $font-md;
 				font-weight: 600;
 				color: $black;
-				margin-bottom: 7px;
+				margin-bottom: 9px;
 				display: flex;
 				align-items: center;
 
 				div:first-child {
 					flex: 1;
 					margin-right: 5px;
-					line-height: 1.4;
+					line-height: 22px;
 				}
 			}
 
 			.notification-content {
-				margin-bottom: 10px;
+				margin-bottom: 12px;
 				max-width: 400px;
 			}
 
@@ -180,7 +181,7 @@ export default {
 				align-items: center;
 
 				> * {
-					margin-bottom: 10px;
+					margin-bottom: 12px;
 				}
 
 				.aioseo-button {

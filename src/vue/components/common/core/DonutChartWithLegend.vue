@@ -107,22 +107,26 @@ export default {
 	color: $black;
 
 	.chart-left {
-		max-width: 217px;
+		max-width: 200px;
+		max-height: 200px;
 		position: relative;
 	}
 
 	.chart-right {
 		flex: 1 1 80%;
 		font-size: 14px;
-		line-height: 130%;
-		margin-left: 50px;
+		line-height: 125%;
+		margin-left: 32px;
 		margin-top: auto;
 		margin-bottom: auto;
 
 		.legend {
 			display: flex;
 			align-items: center;
-			padding: 6px;
+
+			+ .legend {
+				margin-top: 12px;
+			}
 
 			span {
 				display: inline-block;
@@ -133,12 +137,12 @@ export default {
 				height: 12px;
 				min-width: 12px;
 				border-radius: 50%;
-				margin-right: 9px;
+				margin-right: 8px;
 			}
 
 			.legend-amount {
 				font-weight: bold;
-				margin-right: 12px;
+				margin-right: 8px;
 				min-width: 30px;
 				text-align: left;
 			}

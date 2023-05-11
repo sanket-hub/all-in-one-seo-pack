@@ -1,12 +1,12 @@
 <template>
 	<grid-column class="tool-settings tool-settings-google-search-console">
-		<template
+		<div
 			v-for="(setting, index) in tool.settings"
+			:key="index"
 		>
 			<core-settings-row
 				noHorizontalMargin
 				align-small
-				:key="index"
 			>
 				<template #name>
 					{{ setting.label }}
@@ -34,7 +34,7 @@
 					<core-alert
 						class="inline-upsell"
 						type="blue"
-						v-if="!isUnlicensed && !$license.hasCoreFeature('search-statistics', 'seo-statistics')"
+						v-if="!isUnlicensed && !$license.hasCoreFeature($aioseo, 'search-statistics', 'seo-statistics')"
 					>
 						<div v-html="requiredPlansString" />
 					</core-alert>
@@ -42,20 +42,20 @@
 					<core-alert
 						class="inline-upsell"
 						type="blue"
-						v-if="!isUnlicensed && $license.hasCoreFeature('search-statistics', 'seo-statistics') && !$aioseo?.searchStatistics.isConnected"
+						v-if="!isUnlicensed && $license.hasCoreFeature($aioseo, 'search-statistics', 'seo-statistics') && !$aioseo?.searchStatistics.isConnected"
 					>
 						<div v-html="strings.notConnected" />
 					</core-alert>
 				</template>
 			</core-settings-row>
-		</template>
+		</div>
 	</grid-column>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { WebmasterTools } from '@/vue/pages/settings/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 export default {
@@ -94,7 +94,7 @@ export default {
 	computed : {
 		...mapGetters([ 'settings', 'isUnlicensed' ]),
 		requiredPlans () {
-			return this.$license.getPlansForFeature('search-statistics', 'seo-statistics')
+			return this.$license.getPlansForFeature(this.$aioseo, 'search-statistics', 'seo-statistics')
 		},
 		requiredPlansString () {
 			let string = 1 < this.requiredPlans
@@ -109,12 +109,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.tool-settings-google-search-console {
-	.inline-upsell {
-		display: inline-block;
-		margin-top: 20px;
-	}
-}
-</style>

@@ -25,11 +25,12 @@
 
 <script>
 import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 
 const { __, sprintf } = window.wp.i18n
 const td              = import.meta.env.VITE_TEXTDOMAIN
 export default {
+	emits      : [ 'closeModal' ],
 	components : {
 		CoreModalPortal,
 		Cta

@@ -1,10 +1,10 @@
 export default {
 	semrushSetKeyphrases (state, keyphrases) {
-		this._vm.$set(state.semrush, 'error', null)
-		this._vm.$set(state.semrush, 'results', keyphrases)
+		state.semrush.error = null
+		state.semrush.results = keyphrases
 	},
 	semrushSetKeyphrasesError (state, error) {
-		this._vm.$set(state.semrush, 'error', error)
-		this._vm.$set(state.semrush, 'results', [])
+		state.semrush.error = error
+		state.semrush.results = []
 	}
 }

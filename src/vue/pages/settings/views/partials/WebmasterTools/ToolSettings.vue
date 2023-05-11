@@ -1,12 +1,12 @@
 <template>
 	<grid-column class="tool-settings">
-		<template
+		<div
 			v-for="(setting, index) in tool.settings"
+			:key="index"
 		>
 			<core-settings-row
 				noHorizontalMargin
 				align-small
-				:key="index"
 			>
 				<template #name>
 					{{ setting.label }}
@@ -27,7 +27,7 @@
 					/>
 				</template>
 			</core-settings-row>
-		</template>
+		</div>
 	</grid-column>
 </template>
 

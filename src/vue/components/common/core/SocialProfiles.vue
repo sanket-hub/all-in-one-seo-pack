@@ -32,8 +32,8 @@
 							>
 								<base-checkbox
 									size="medium"
-									:value="getValue(profile)"
-									@input="checked => updateValue(checked, profile)"
+									:modelValue="getValue(profile)"
+									@update:modelValue="checked => updateValue(checked, profile)"
 								>
 									{{ profile.name }}
 								</base-checkbox>
@@ -46,13 +46,13 @@
 
 		<div class="aioseo-social-profile-list">
 			<core-settings-row
+				align
 				class="social-profile"
 				v-for="profile in profiles"
 				:key="profile.key + errorsKey"
-				align
+				:class="profile.key"
 				:leftSize="leftSize"
 				:rightSize="rightSize"
-				:class="profile.key"
 			>
 				<template #name>
 					<component
@@ -65,8 +65,9 @@
 					<base-input
 						v-if="!profileData.sameUsername.enable || !profileData.sameUsername.included.includes(profile.key)"
 						size="medium"
-						:value="profileData.urls[profile.key]"
+						:modelValue="profileData.urls[profile.key]"
 						@blur="validateUrl($event, profile)"
+						:tabindex="index"
 					/>
 
 					<core-alert
@@ -81,7 +82,7 @@
 						v-if="profileData.sameUsername.enable && profileData.sameUsername.included.includes(profile.key)"
 						size="medium"
 						disabled
-						:value="getUrl(profile)"
+						:modelValue="getUrl(profile)"
 					/>
 				</template>
 			</core-settings-row>
@@ -112,7 +113,7 @@ import { mapState } from 'vuex'
 
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseTextarea from '@/vue/components/common/base/Textarea'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
@@ -129,6 +130,7 @@ import SvgIconYelp from '@/vue/components/common/svg/icon/Yelp'
 import SvgIconYoutube from '@/vue/components/common/svg/icon/Youtube'
 
 export default {
+	emits      : [ 'updated' ],
 	components : {
 		BaseCheckbox,
 		BaseTextarea,
@@ -315,15 +317,14 @@ export default {
 	methods : {
 		updateValue (checked, profile) {
 			if (checked) {
-				const included = this.profileData.sameUsername.included
-				included.push(profile.key)
-				this.$set(this.profileData.sameUsername, 'included', included)
+				this.profileData.sameUsername.included.push(profile.key)
+
 				return
 			}
 
 			const index = this.profileData.sameUsername.included.findIndex(t => t === profile.key)
 			if (-1 !== index) {
-				this.$delete(this.profileData.sameUsername.included, index)
+				this.profileData.sameUsername.included.splice(index, 1)
 			}
 		},
 		getValue (profile) {
@@ -411,35 +412,67 @@ export default {
 
 <style lang="scss">
 .aioseo-social-profiles {
-	.same-username {
-		.use-same {
-			padding: 30px;
-			background: $box-background;
+	--aioseo-gutter: 20px;
 
-			.aioseo-checkbox {
-				font-size: 16px;
+	.same-username {
+
+		.use-same {
+			padding: 16px;
+			background: $box-background;
+			border-radius: 4px;
+
+			> label {
+				align-items: flex-start;
+
+				.form-checkbox-wrapper {
+					margin-top: 2px;
+				}
 			}
 
-			.aioseo-settings-row {
-				margin-top: 20px;
+			> .aioseo-settings-row {
+				margin: 16px 0 0 24px;
+				flex-direction: column;
+				max-width: 570px;
+				gap: 4px;
+				flex-wrap: nowrap;
+
+				.aioseo-input-container {
+					max-width: 470px;
+				}
 			}
 
 			.profiles {
-				margin-top: 20px;
+				margin-top: 12px;
+
+				--aioseo-gutter: 12px;
+
+				@include aioseoGrid(4, 130px);
+
+				.aioseo-col {
+					max-width: none;
+				}
 			}
 		}
 	}
 
 	.aioseo-social-profile-list {
 		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
 
 		.social-profile {
 			margin-bottom: 0;
 			padding-bottom: 0;
 			border-bottom: none;
+			gap: 8px;
+
+			> .col-md-9:last-child {
+				max-width: none;
+			}
 
 			.logo-svg {
-				margin-right: 10px;
+				margin-right: 12px;
 			}
 
 			.profile-error {
@@ -453,9 +486,14 @@ export default {
 	}
 
 	.additional-social-profiles {
-		margin-top: 22px;
-		padding-top: 16px;
+		margin-top: var(--aioseo-gutter);
+		padding-top: var(--aioseo-gutter);
 		border-top: 1px solid $border;
+		gap: 8px;
+
+		> .col-md-9:last-child {
+			max-width: none;
+		}
 	}
 }
 </style>

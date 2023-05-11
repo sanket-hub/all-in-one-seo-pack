@@ -62,8 +62,8 @@
 					<base-select
 						size="medium"
 						:options="imagePreviewOptions"
-						:value="getImagePreviewOption(options.maxImagePreview)"
-						@input="value => options.maxImagePreview = value.value"
+						:modelValue="getImagePreviewOption(options.maxImagePreview)"
+						@update:modelValue="value => options.maxImagePreview = value.value"
 					/>
 				</div>
 			</div>
@@ -164,28 +164,38 @@ export default {
 
 <style lang="scss">
 .aioseo-robots-meta {
+
+	.global-robots-settings.aioseo-description {
+		margin-top: 16px;
+		font-weight: $font-bold;
+
+		> .settings {
+			margin-top: 12px;
+			font-weight: 400;
+
+			--aioseo-gutter: 12px;
+
+			@include aioseoGrid(4, 150px);
+
+			.aioseo-col {
+				max-width: none;
+			}
+		}
+	}
+
 	.global-robots-settings-options {
 		display: flex;
+		gap: 12px;
+		margin-top: 16px;
 
-		.max-snippet {
-			margin-right: 30px;
+		> .aioseo-description {
+			margin: 0;
 
-			.aioseo-input {
-				max-width: 90px;
-			}
-		}
-
-		.max-video-preview {
-			margin-right: 30px;
-
-			.aioseo-input {
-				max-width: 90px;
-			}
-		}
-
-		.max-image-preview {
+			.aioseo-input,
 			.aioseo-select {
-				min-width: 155px;
+				min-width: 200px;
+				font-weight: 400;
+				margin-top: 4px;
 			}
 		}
 

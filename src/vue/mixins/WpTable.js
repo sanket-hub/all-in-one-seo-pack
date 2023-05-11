@@ -6,7 +6,7 @@ export const WpTable = {
 			resultsPerPage : 20,
 			orderBy        : null,
 			orderDir       : 'asc',
-			searchTerm     : null,
+			searchTerm     : '',
 			pageNumber     : 1,
 			filter         : 'all',
 			wpTableKey     : 0,
@@ -28,6 +28,9 @@ export const WpTable = {
 				.then(() => (this.wpTableLoading = false))
 		},
 		processSearch (searchTerm) {
+			if ('object' === typeof searchTerm) {
+				searchTerm = searchTerm.target.value
+			}
 			this.pageNumber     = 1
 			this.searchTerm     = searchTerm
 			this.wpTableLoading = true
@@ -44,7 +47,7 @@ export const WpTable = {
 		},
 		processFilterTable (filter) {
 			this.filter         = filter.slug
-			this.searchTerm     = null
+			this.searchTerm     = ''
 			this.pageNumber     = 1
 			this.wpTableLoading = true
 			this.resetSelectedFilters()

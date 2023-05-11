@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss">
 #wpbody-content {
-	padding-bottom: 150px;
+	padding-bottom: 173px;
 }
 
 .aioseo-footer {

@@ -6,9 +6,9 @@ const VueClipboardConfig = {
 }
 
 const VueClipboard = {
-	install : function (Vue) {
-		Vue.prototype.$clipboardConfig = VueClipboardConfig
-		Vue.prototype.$copyText = function (text, container) {
+	install : function (app) {
+		app.config.globalProperties.$clipboardConfig = VueClipboardConfig
+		app.config.globalProperties.$copyText = function (text, container) {
 			return new Promise(function (resolve, reject) {
 				const fakeElement = document.createElement('button')
 				const clipboard = new Clipboard(fakeElement, {
@@ -30,8 +30,8 @@ const VueClipboard = {
 			})
 		}
 
-		Vue.directive('clipboard', {
-			bind : function (el, binding) {
+		app.directive('clipboard', {
+			beforeMount : function (el, binding) {
 				if ('success' === binding.arg) {
 					el._vClipboard_success = binding.value
 				} else if ('error' === binding.arg) {
@@ -53,7 +53,7 @@ const VueClipboard = {
 					el._vClipboard = clipboard
 				}
 			},
-			update : function (el, binding) {
+			updated : function (el, binding) {
 				if ('success' === binding.arg) {
 					el._vClipboard_success = binding.value
 				} else if ('error' === binding.arg) {
@@ -63,7 +63,7 @@ const VueClipboard = {
 					el._vClipboard.action = function () { return 'cut' === binding.arg ? 'cut' : 'copy' }
 				}
 			},
-			unbind : function (el, binding) {
+			unmounted : function (el, binding) {
 				if ('success' === binding.arg) {
 					delete el._vClipboard_success
 				} else if ('error' === binding.arg) {

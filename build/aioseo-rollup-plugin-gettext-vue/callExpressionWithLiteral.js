@@ -84,19 +84,19 @@ function extractArguments (callExpression, argumentMapping, contentOptions) {
 
 	// For literal.
 	if (textArgument && !isTextLiteral(textArgument)) {
-		textArgument = createStringLiteral(textArgument.getText())
+		textArgument = ts.factory.createStringLiteral(textArgument.getText())
 	}
 
 	if (textPluralArgument && !isTextLiteral(textPluralArgument)) {
-		textPluralArgument = createStringLiteral(textPluralArgument.getText())
+		textPluralArgument = ts.factory.createStringLiteral(textPluralArgument.getText())
 	}
 
 	if (textDomainArgument && !isTextLiteral(textDomainArgument)) {
-		textDomainArgument = createStringLiteral(textDomainArgument.getText())
+		textDomainArgument = ts.factory.createStringLiteral(textDomainArgument.getText())
 	}
 
 	if (textNumberArgument && !isTextLiteral(textNumberArgument)) {
-		textNumberArgument = createStringLiteral(textNumberArgument.getText())
+		textNumberArgument = ts.factory.createStringLiteral(textNumberArgument.getText())
 	}
 
 	textArgument       = checkAndConcatenateStrings(textArgument)
@@ -133,11 +133,6 @@ function isParenthesizedExpression (expression) {
 function isBinaryExpression (expression) {
 	return expression && expression.kind === ts.SyntaxKind.BinaryExpression
 }
-function createStringLiteral (text) {
-	const node = ts.createNode(ts.SyntaxKind.StringLiteral, -1, -1)
-	node.text = text
-	return node
-}
 function getAdditionExpression (expression) {
 	while (isParenthesizedExpression(expression)) {
 		expression = expression.expression
@@ -152,7 +147,7 @@ function checkAndConcatenateStrings (expression) {
 	if (!expression || !(addition = getAdditionExpression(expression))) {
 		return expression
 	}
-	const concatenated = createStringLiteral('')
+	const concatenated = ts.factory.createStringLiteral('')
 	if (processStringAddition(addition, concatenated)) {
 		return concatenated
 	}

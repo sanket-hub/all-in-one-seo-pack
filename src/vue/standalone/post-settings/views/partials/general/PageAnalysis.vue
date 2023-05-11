@@ -88,6 +88,7 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-post-general .page-analysis-panel {
+
 	.aioseo-alert {
 		margin-bottom: 12px;
 	}
@@ -95,11 +96,8 @@ export default {
 	.aioseo-tabs {
 		background: #fff;
 
-		.md-button-content {
+		.var-tab {
 			display: flex;
-		}
-
-		.md-button {
 			font-weight: 700;
 		}
 	}

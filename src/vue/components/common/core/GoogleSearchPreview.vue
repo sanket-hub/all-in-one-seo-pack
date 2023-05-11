@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getCurrentInstance } from 'vue'
 import { truncate } from '@/vue/utils/html'
 
 export default {
@@ -37,7 +38,9 @@ export default {
 		domain : {
 			type : String,
 			default () {
-				return this.$aioseo.urls.mainSiteUrl
+				const app = getCurrentInstance()
+
+				return app.appContext.app.$aioseo.urls.mainSiteUrl
 			}
 		},
 		separator : String
@@ -56,8 +59,8 @@ export default {
 		border: 1px solid $border;
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
-		padding: 15px;
+		gap: 8px;
+		padding: 16px;
 		width: 100%;
 
 		.domain,
@@ -76,6 +79,7 @@ export default {
 		.domain {
 			color: $black3;
 			font-size: 14px;
+			line-height: 22px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -83,12 +87,14 @@ export default {
 
 		.site-title {
 			color: #1A0DAB;
-			font-size: 20px;
+			font-size: 16px;
+			line-height: 24px;
 		}
 
 		.meta-description {
 			color: #4d5156;
 			font-size: 14px;
+			line-height: 22px;
 			max-width: 600px;
 			width: 100%;
 
@@ -105,16 +111,18 @@ export default {
 	.edit-post-sidebar,
 	.editor-post-publish-panel {
 		.google-post {
-			.domain {
-				font-size: 13px;
-			}
+			gap: 8px;
+			padding: 16px;
 
 			.site-title {
 				font-size: 16px;
+				line-height: 24px;
 			}
 
+			.domain,
 			.meta-description {
-				font-size: 12px;
+				font-size: 14px;
+				line-height: 22px;
 			}
 		}
 	}

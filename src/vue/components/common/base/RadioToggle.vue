@@ -11,15 +11,15 @@
 				:id="`id_${name}_${index}`"
 				:name="name"
 				type="radio"
-				@input="$emit('input', option.value)"
-				:checked="option.value === value"
+				@input="$emit('update:modelValue', option.value)"
+				:checked="option.value === modelValue"
 				:disabled="disabled"
 			/>
 
 			<label
 				:for="`id_${name}_${index}`"
 				:class="[
-					{ [option.activeClass || 'default']: option.value === value  },
+					{ [option.activeClass || 'default']: option.value === modelValue  },
 					{ disabled: disabled }
 				]"
 			>
@@ -42,8 +42,8 @@ export default {
 			type     : String,
 			required : true
 		},
-		value    : [ String, Boolean ],
-		disabled : {
+		modelValue : [ String, Boolean ],
+		disabled   : {
 			type : Boolean,
 			default () {
 				return false
@@ -118,8 +118,8 @@ export default {
 		flex-direction: column;
 		transition: all 0.1s ease-in-out;
 		position: relative;
-		padding: 11px 20px;
-		font-weight: 600;
+		padding: 6px 14px;
+		font-weight: $font-bold;
 
 		&.disabled {
 			cursor: default;
@@ -139,7 +139,18 @@ export default {
 		}
 	}
 
+	&.small {
+		height: 32px;
+
+		label {
+			font-size: 12px;
+			padding: 6px 14px;
+		}
+	}
+
 	&.circle {
+		height: 36px;
+
 		label {
 			background: #fff;
 			color: $placeholder-color;

@@ -33,8 +33,8 @@
 						:active="isActive(object)"
 						:name="object.name"
 						type="checkbox"
-						:value="getValue(object)"
-						@input="checked => updateValue(checked, object)"
+						:modelValue="getValue(object)"
+						@update:modelValue="checked => updateValue(checked, object)"
 					>
 						<core-tooltip>
 							<span
@@ -123,7 +123,7 @@ export default {
 
 			const index = state.findIndex(t => t === type.name)
 			if (-1 !== index) {
-				this.$delete(state, index)
+				state.splice(index, 1)
 				this.setState(state)
 			}
 		},

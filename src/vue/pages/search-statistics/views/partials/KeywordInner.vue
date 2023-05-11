@@ -18,9 +18,9 @@
 			<template #post_title="{ row }">
 				<div class="post-title">
 					<a
-						href="#"
 						v-if="row.postId"
-						@click="openPostDetail(row)"
+						href="#"
+						@click.prevent="openPostDetail(row)"
 					>
 						{{ row.postTitle }}
 					</a>
@@ -87,7 +87,7 @@ import { mapActions, mapState } from 'vuex'
 import PostTypesMixin from '@/vue/mixins/PostTypes.js'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
-import Statistic from './Statistic.vue'
+import Statistic from './Statistic'
 export default {
 	components : {
 		CoreLoader,

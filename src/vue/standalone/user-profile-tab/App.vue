@@ -6,7 +6,7 @@
 				:key="index"
 				:class="{ active: index === activeTabIndex }"
 				href="#"
-				@click="setActiveTab(index)"
+				@click.prevent="setActiveTab(index)"
 			>
 				<component
 					v-if="tabObject.svg"
@@ -132,13 +132,13 @@ export default {
 	},
 	created () {
 		if (!this.$store.state.loaded) {
-			setOptions({})
+			setOptions(this.$.appContext.app, {})
 		}
 
 		// We're populating only the userProfile store since that's the only data we need here.
-		this.$set(this.$store.state, 'userProfile', merge({ ...this.$store.state.userProfile }, { ...this.$aioseo.userProfile }))
-		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...this.$aioseo.options }))
-		this.$set(this.$store.state, 'settings', merge({ ...this.$store.state.settings }, { ...this.$aioseo.settings }))
+		this.$store.state.userProfile = merge({ ...this.$store.state.userProfile }, { ...this.$aioseo.userProfile })
+		this.$store.state.options = merge({ ...this.$store.state.options }, { ...this.$aioseo.options })
+		this.$store.state.settings = merge({ ...this.$store.state.settings }, { ...this.$aioseo.settings })
 
 		// Set the initial values.
 		this.updateHiddenInputField(this.userProfile.profiles)
@@ -159,6 +159,8 @@ h2.woo-nav-tab-wrapper {
 }
 
 #aioseo-user-profile-tab {
+	--aioseo-gutter: 20px;
+
 	max-width: 1220px;
 
 	.navigation-bar {
@@ -213,18 +215,8 @@ h2.woo-nav-tab-wrapper {
 		}
 	}
 
-	.aioseo-section-description {
-		font-size: 16px;
-		color: #141B38;
-		line-height: 1.8;
-		padding-bottom: 30px;
-	}
-
 	.aioseo-description {
-		font-size: 14px;
-		line-height: 1.8;
 		margin: 8px 0 0;
-		color: #141b38;
 	}
 }
 </style>

@@ -36,11 +36,9 @@ export default {
 	color: $green;
 	font-size: 14px;
 	padding: 0 8px;
-	height: 24px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	margin-right: 14px;
+	height: 26px;
+	line-height: 26px;
+	margin-right: 12px;
 
 	&.red {
 		color: $red;

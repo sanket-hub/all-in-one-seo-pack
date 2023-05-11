@@ -3,19 +3,23 @@
 		<span class="displaying-num">{{ $numbers.numberFormat(totals.total) }} {{ strings.items }}</span>
 		<span class="pagination-links">
 			<component
+				href="#"
 				:is="pageNumber === 1 ? 'span' : 'a'"
 				:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'first-page button'"
-				href="#"
 				@click.prevent="pageNumber === 1 ? null : toPage(1)"
 			>
 				&laquo;
 			</component>
+
 			<component
+				href="#"
 				:is="pageNumber === 1 ? 'span' : 'a'"
 				:class="pageNumber === 1 ? 'tablenav-pages-navspan button disabled' : 'prev-page button'"
-				href="#"
 				@click.prevent="pageNumber === 1 ? null : toPage(pageNumber - 1)"
-			>&lsaquo;</component>
+			>
+				&lsaquo;
+			</component>
+
 			<span class="paging-input">
 				<input
 					class="current-page"
@@ -35,17 +39,17 @@
 				</span>
 			</span>
 			<component
+				href="#"
 				:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
 				:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'next-page button'"
-				href="#"
 				@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(pageNumber + 1)"
 			>
 				&rsaquo;
 			</component>
 			<component
+				href="#"
 				:is="pageNumber === totals.pages || !totals.pages ? 'span' : 'a'"
 				:class="pageNumber === totals.pages || !totals.pages ? 'tablenav-pages-navspan button disabled' : 'last-page button'"
-				href="#"
 				@click.prevent="pageNumber === totals.pages || !totals.pages ? null : toPage(totals.pages)"
 			>
 				&raquo;
@@ -56,6 +60,7 @@
 
 <script>
 export default {
+	emits : [ 'paginate' ],
 	props : {
 		totals : {
 			type     : Object,

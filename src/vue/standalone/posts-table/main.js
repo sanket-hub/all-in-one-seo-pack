@@ -1,32 +1,45 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
 
-import '@/vue/plugins'
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
+
 import TruSeo from '@/vue/plugins/tru-seo'
-
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
-
 import { elemLoaded } from '@/vue/utils/elemLoaded'
 
 import App from './App.vue'
 import TermApp from './TermApp.vue'
 import store from '@/vue/store'
 
-Vue.prototype.$truSeo = new TruSeo()
+const localCreateApp = (app) => {
+	app = loadPlugins(app)
+	app = loadComponents(app)
+	app = loadVersionedComponents(app)
+
+	app.use(store)
+	store._vm = app
+
+	app.config.globalProperties.$truSeo = new TruSeo()
+
+	return app
+}
 
 const loadPostsTable = (post, index) => {
-	new Vue({
-		store,
-		data : {
-			screen : window.aioseo.screen
-		},
-		render : h => h(App, {
-			props : {
-				post,
-				index
+	const app = localCreateApp(createApp({
+		data () {
+			return {
+				screen : window.aioseo.screen
 			}
-		})
-	}).$mount(`#${post.columnName}-${post.id}`)
+		},
+		render : () => h(App)
+	}, {
+		post,
+		index
+	}))
+
+	app.mount(`#${post.columnName}-${post.id}`)
 }
 
 if (window.aioseo.posts) {
@@ -41,18 +54,19 @@ if (window.aioseo.posts) {
 }
 
 const loadTermsTable = (term, index) => {
-	new Vue({
-		store,
-		data : {
-			screen : window.aioseo.screen
-		},
-		render : h => h(TermApp, {
-			props : {
-				term,
-				index
+	const app = localCreateApp(createApp({
+		data () {
+			return {
+				screen : window.aioseo.screen
 			}
-		})
-	}).$mount(`#${term.columnName}-${term.id}`)
+		},
+		render : () => h(TermApp)
+	}, {
+		term,
+		index
+	}))
+
+	app.mount(`#${term.columnName}-${term.id}`)
 }
 
 if (window.aioseo.terms && 0 === window.aioseo.posts.length) {

@@ -35,7 +35,7 @@ import Blur from './Blur'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		Blur,

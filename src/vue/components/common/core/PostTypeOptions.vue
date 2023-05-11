@@ -32,8 +32,8 @@
 						:active="isActive(type)"
 						:name="type.name"
 						type="checkbox"
-						:value="getValue(type)"
-						@input="checked => updateValue(checked, type)"
+						:modelValue="getValue(type)"
+						@update:modelValue="checked => updateValue(checked, type)"
 					>
 						<core-tooltip>
 							<span
@@ -58,7 +58,7 @@
 
 <script>
 import BaseHighlightToggle from '@/vue/components/common/base/HighlightToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
@@ -79,7 +79,8 @@ export default {
 			type     : Object,
 			required : true
 		},
-		excluded : {
+		registeredPostTypes : Object,
+		excluded            : {
 			type : Array,
 			default () {
 				return []
@@ -99,8 +100,11 @@ export default {
 		}
 	},
 	computed : {
+		getRegisteredPostTypes () {
+			return this.registeredPostTypes || this.$aioseo.postData
+		},
 		postTypes () {
-			return this.$aioseo.postData[this.type].filter(postType => {
+			return this.getRegisteredPostTypes[this.type].filter(postType => {
 				return !this.excluded.includes(postType.name)
 			})
 		}
@@ -113,13 +117,13 @@ export default {
 			if (checked) {
 				const included = this.options[this.type].included
 				included.push(type.name)
-				this.$set(this.options[this.type], 'included', included)
+				this.options[this.type].included = included
 				return
 			}
 
 			const index = this.options[this.type].included.findIndex(t => t === type.name)
 			if (-1 !== index) {
-				this.$delete(this.options[this.type].included, index)
+				this.options[this.type].included.splice(index, 1)
 			}
 		},
 		getValue (type) {
@@ -139,6 +143,10 @@ export default {
 
 <style lang="scss">
 .aioseo-post-type-options-toggle {
-	margin-top: 20px;
+	margin-top: 16px;
+
+	+ div.aioseo-description {
+		margin-top: 16px;
+	}
 }
 </style>

@@ -9,10 +9,10 @@ export const LicenseConditions = {
 	},
 	methods : {
 		shouldShowMain (sectionSlug, feature) {
-			return !this.isUnlicensed && this.$license.hasCoreFeature(sectionSlug, feature)
+			return !this.isUnlicensed && this.$license.hasCoreFeature(this.$aioseo, sectionSlug, feature)
 		},
 		shouldShowUpgrade (sectionSlug, feature) {
-			return !this.isUnlicensed && !this.$license.hasCoreFeature(sectionSlug, feature)
+			return !this.isUnlicensed && !this.$license.hasCoreFeature(this.$aioseo, sectionSlug, feature)
 		}
 	}
 }

@@ -9,10 +9,10 @@
 					:active="initialTab"
 					:showSaveButton="false"
 				>
-					<template #md-tab-icon="{ tab }">
+					<template #var-tab-icon="{ tab }">
 						<component
 							:class="[
-								{ warning: tab.data.warning }
+								{ warning: tab.warning }
 							]"
 							:is="tab.icon"
 						/>
@@ -53,11 +53,11 @@
 			v-if="currentPost.linkAssistant.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="toggleLinkAssistantModal"
 		>
-			<div slot="headerTitle">
+			<template #headerTitle>
 				{{ modalHeader }}
-			</div>
+			</template>
 
-			<div slot="body">
+			<template #body>
 				<core-blur>
 					<core-main-tabs
 						class="link-tabs"
@@ -66,10 +66,10 @@
 						:active="initialTab"
 						:showSaveButton="false"
 					>
-						<template #md-tab-icon="{ tab }">
+						<template #var-tab-icon="{ tab }">
 							<component
 								:class="[
-									{ warning: tab.data.warning }
+									{ warning: tab.warning }
 								]"
 								:is="tab.icon"
 							/>
@@ -103,7 +103,7 @@
 						{{ strings.linkAssistantDescription }}
 					</template>
 				</cta>
-			</div>
+			</template>
 		</core-modal-portal>
 
 		<links-side-bar v-if="'modal' !== this.parentComponentContext" />
@@ -116,7 +116,7 @@ import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreModalPortal from '@/vue/components/common/core/modal/Portal'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import LinksSideBar from './../../LinksSideBar'
 import LinkAssistantInboundInternal from '@/vue/components/common/link-assistant/InboundInternal'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'

@@ -42,7 +42,7 @@
 <script>
 import BackupSettings from '../partials/BackupSettings'
 import CoreBlur from '@/vue/components/common/core/Blur'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import ExportSettings from '../partials/ExportSettings'
@@ -81,20 +81,24 @@ export default {
 	position: relative;
 
 	.aioseo-row {
-		margin: -0.5rem;
 
 		.aioseo-card {
-			margin: 0 0 1rem;
-
-			&:last-of-type {
-				margin-bottom: 0.5rem;
-			}
+			margin: 0;
 		}
 
 		.aioseo-col {
 			display: flex;
 			flex-direction: column;
+			gap: var(--aioseo-gutter);
 		}
+
+		+ .aioseo-row {
+			margin-top: var(--aioseo-gutter);
+		}
+	}
+
+	.export-post-types {
+		--aioseo-gutter: 12px;
 	}
 }
 </style>

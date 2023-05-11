@@ -64,7 +64,6 @@
 
 			<core-settings-row
 				:name="strings.miscellaneousVerification"
-				align
 			>
 				<template #content>
 					<core-alert-unfiltered-html />
@@ -93,7 +92,7 @@ import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import BaseEditor from '@/vue/components/common/base/Editor'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import BaseTextarea from '@/vue/components/common/base/Textarea'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreAlertUnfilteredHtml from '@/vue/components/common/core/alert/UnfilteredHtml'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -739,7 +738,7 @@ export default {
 			return !!this.options.webmasterTools[tool.settings[0].option]
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		window.removeEventListener('resize', this.maybeChangeColumnsPerRow)
 	},
 	mounted () {
@@ -758,52 +757,59 @@ export default {
 <style lang="scss">
 .aioseo-webmaster-tools {
 	.webmaster-tools-description {
-		font-size: 16px;
-		margin-bottom: 30px;
+		font-size: $font-md;
+		margin-bottom: 12px;
 	}
 
 	.webmaster-tools-spacer {
 		.aioseo-col {
+			padding-block: 0;
+
 			div {
-				margin: 30px 0;
+				margin: 1px 0 var(--aioseo-gutter);
 				border-bottom: 1px solid $border;
 			}
 		}
 	}
 
+	.webmaster-tools-toggles.aioseo-row {
+		--aioseo-gutter: 16px;
+
+		display: flex;
+		row-gap: 0;
+	}
+
 	.tool-toggle {
 		font-size: 16px;
 		user-select: none;
+		margin-bottom: var(--aioseo-gutter);
 
 		> div {
 			cursor: pointer;
 			height: 165px;
 			border: 1px solid $border;
 			border-radius: 3px;
-			padding: 20px;
+			padding: 12px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			justify-content: center;
+			justify-content: space-between;
 			color: $black;
 			text-align: center;
 			position: relative;
 
 			.logo {
 				flex: 1;
-				padding: 10px;
+				padding: 0;
 				display: flex;
 				align-items: center;
+				max-height: calc(100% - 20px);
 
 				.logo-svg {
 					max-width: 100%;
-					max-height: 85px;
+					max-height: 60px;
 					width: 100%;
 					height: 100%;
-
-					&.aioseo-logo-microsoft-clarity {
-						max-height: 70px;
-					}
 				}
 			}
 
@@ -826,7 +832,7 @@ export default {
 			}
 
 			&.active {
-				padding: 19px;
+				padding: 11px;
 				font-weight: 600;
 				border: 2px solid $blue;
 				box-shadow: 0px 5px 10px rgba(0, 90, 224, 0.1);
@@ -841,9 +847,14 @@ export default {
 	.tool-settings-slide {
 		width: 100%;
 
+		&[aria-expanded="true"] {
+			margin-bottom: var(--aioseo-gutter);
+		}
+
 		.tool-settings {
+
 			> div {
-				padding: 15px;
+				padding: $gutter-sm;
 				background-color: $box-background;
 				border-radius: 3px;
 				border-bottom: 1px solid $border;
@@ -870,6 +881,41 @@ export default {
 				}
 			}
 		}
+
+		.aioseo-input-container .aioseo-input input {
+			height: 40px;
+			padding: 10px;
+			font-size: 14px;
+		}
+
+		.inline-upsell {
+			display: inline-flex;
+			width: 100%;
+			align-items: center;
+			justify-content: space-between;
+			margin-top: 16px;
+			padding: 8px 12px;
+			font-weight: 400;
+		}
+
+		.aioseo-alert {
+			width: 100%;
+			padding: 8px 12px;
+			font-weight: 400;
+			margin-top: 16px;
+		}
+
+		.tool-settings-microsoft-clarity {
+
+			.aioseo-description + br {
+				display: none;
+			}
+		}
+	}
+
+	.aioseo-settings-row .settings-name .name.align {
+		line-height: 22px;
+		margin-bottom: 12px;
 	}
 }
 </style>

@@ -6,14 +6,15 @@
 		:containerClasses="containerClasses"
 	>
 		<template #extra>
-			<date-picker
-				v-if="!isSettings && isConnected && !unverifiedSite"
+			<base-date-picker
+				v-if="showDatePicker"
 				@change="onDateChange"
 				@updated="rolling => highlightShortcut(rolling)"
 				:defaultValue="defaultRange"
+				:defaultRolling="$aioseo.searchStatistics.rolling"
 				:isDisabledDate="isDisabledDate"
 				:shortcuts="datepickerShortcuts"
-				@on-pick="onPick"
+				size="small"
 			/>
 		</template>
 
@@ -60,25 +61,29 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 import AuthenticationAlert from './partials/AuthenticationAlert'
+import BaseDatePicker from '@/vue/components/common/base/DatePicker'
 import CoreBlur from '@/vue/components/common/core/Blur'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
+import ContentRankings from './ContentRankings'
+import Cta from '@/vue/components/common/cta/Index'
 import Dashboard from './Dashboard'
-import DatePicker from '@/vue/components/common/core/DatePicker.vue'
 import KeywordRankings from './KeywordRankings'
 import PostDetail from './AIOSEO_VERSION/PostDetail'
-import Settings from './AIOSEO_VERSION/Settings'
 import SeoStatistics from './SeoStatistics'
+import Settings from './AIOSEO_VERSION/Settings'
 export default {
+	emits      : [ 'rolling' ],
 	components : {
 		AuthenticationAlert,
+		BaseDatePicker,
 		CoreBlur,
 		CoreMain,
+		ContentRankings,
 		Cta,
 		Dashboard,
-		DatePicker,
 		KeywordRankings,
 		PostDetail,
 		Settings,
@@ -88,7 +93,6 @@ export default {
 		return {
 			maxDate        : null,
 			minDate        : null,
-			minDateMax     : null,
 			loadingConnect : false,
 			strings        : {
 				pageName       : this.$t.__('Search Statistics', this.$td),
@@ -121,7 +125,7 @@ export default {
 		excludeTabs () {
 			const exclude = [ 'post-detail' ]
 
-			if (this.isUnlicensed || !this.$license.hasCoreFeature('search-statistics')) {
+			if (this.isUnlicensed || !this.$license.hasCoreFeature(this.$aioseo, 'search-statistics')) {
 				exclude.push('settings')
 			}
 
@@ -131,7 +135,10 @@ export default {
 			return 'settings' === this.$route.name
 		},
 		showConnectCta () {
-			return ((this.$license.hasCoreFeature('search-statistics') && !this.isConnected) || this.unverifiedSite) && !this.isSettings
+			return ((this.$license.hasCoreFeature(this.$aioseo, 'search-statistics') && !this.isConnected) || this.unverifiedSite) && !this.isSettings
+		},
+		showDatePicker () {
+			return ![ 'settings', 'content-rankings' ].includes(this.$route.name) && this.isConnected && !this.unverifiedSite
 		},
 		containerClasses () {
 			const classes = []
@@ -145,45 +152,33 @@ export default {
 		},
 		getOriginalMaxDate () {
 			if (!this.$aioseo.searchStatistics.latestAvailableDate) {
-				return this.$dateTime.local().plus({ days: -2 })
+				return DateTime.local().plus({ days: -2 })
 			}
 
-			return this.$dateTime.fromFormat(this.$aioseo.searchStatistics.latestAvailableDate, 'yyyy-MM-dd').setZone(this.$dateTime.zone) ||
-				this.$dateTime.local().plus({ days: -2 })
+			return DateTime.fromFormat(this.$aioseo.searchStatistics.latestAvailableDate, 'yyyy-MM-dd').setZone(DateTime.zone) ||
+				DateTime.local().plus({ days: -2 })
 		},
 		datepickerShortcuts () {
 			return [
 				{
-					text    : this.$t.__('Last 7 Days', this.$td),
-					onClick : (picker) => {
-						picker.$emit('pick', [
-							this.getOriginalMaxDate.plus({ days: -6 }).toJSDate(),
-							this.getOriginalMaxDate.toJSDate()
-						])
-
+					text  : this.$t.__('Last 7 Days', this.$td),
+					value : () => {
 						window.aioseoBus.$emit('rolling', 'last7Days')
+						return [ this.getOriginalMaxDate.plus({ days: -6 }).toJSDate(), this.getOriginalMaxDate.toJSDate() ]
 					}
 				},
 				{
-					text    : this.$t.__('Last 28 Days', this.$td),
-					onClick : (picker) => {
-						picker.$emit('pick', [
-							this.getOriginalMaxDate.plus({ days: -27 }).toJSDate(),
-							this.getOriginalMaxDate.toJSDate()
-						])
-
+					text  : this.$t.__('Last 28 Days', this.$td),
+					value : () => {
 						window.aioseoBus.$emit('rolling', 'last28Days')
+						return [ this.getOriginalMaxDate.plus({ days: -27 }).toJSDate(), this.getOriginalMaxDate.toJSDate() ]
 					}
 				},
 				{
-					text    : this.$t.__('Last 3 Months', this.$td),
-					onClick : (picker) => {
-						picker.$emit('pick', [
-							this.getOriginalMaxDate.plus({ days: -89 }).toJSDate(),
-							this.getOriginalMaxDate.toJSDate()
-						])
-
+					text  : this.$t.__('Last 3 Months', this.$td),
+					value : () => {
 						window.aioseoBus.$emit('rolling', 'last3Months')
+						return [ this.getOriginalMaxDate.plus({ days: -89 }).toJSDate(), this.getOriginalMaxDate.toJSDate() ]
 					}
 				}
 			]
@@ -192,31 +187,18 @@ export default {
 	methods : {
 		...mapActions('search-statistics', [ 'setDateRange', 'getAuthUrl' ]),
 		...mapMutations('search-statistics', [ 'toggleShowScanPopup' ]),
-		onPick (dates) {
-			this.minDate = null
-			if (!dates.maxDate) {
-				const minDate = this.$dateTime.fromJSDate(dates.minDate)
-				const maxDate = this.getOriginalMaxDate.toJSDate()
-
-				this.minDate = minDate.plus({ days: -89 }).toJSDate()
-				if (minDate.plus({ days: 89 }) < maxDate) {
-					this.maxDate = minDate.plus({ days: 89 }).toJSDate()
-				}
-			}
-		},
 		isDisabledDate (date) {
-			return date.getTime() < this.minDateMax.getTime() ||
-				(this.minDate && date.getTime() < this.minDate.getTime()) ||
-				date.getTime() > this.maxDate.getTime()
+			if (null === this.minDate) {
+				return true
+			}
+
+			return date.getTime() < this.minDate.getTime() || date.getTime() > this.maxDate.getTime()
 		},
 		onDateChange (dateRange, rolling) {
 			this.setDateRange({
 				dateRange,
 				rolling
 			})
-
-			this.minDate = null
-			this.maxDate = this.getOriginalMaxDate.toJSDate()
 		},
 		connect () {
 			this.loadingConnect = true
@@ -268,19 +250,16 @@ export default {
 		}
 	},
 	mounted () {
-		// GSC only gives us data for a max of 16 months. This means that we can't allow the user to select a date range that is more than 16 months.
-		this.minDateMax = this.$dateTime.now().plus({ months: -16 }).toJSDate()
-		this.maxDate    = this.getOriginalMaxDate.toJSDate()
+		// GSC only gives us data for a max of 16 months.
+		// This means that we can't allow the user to select a date range that is more than 16 months.
+		this.minDate = DateTime.now().plus({ months: -16 }).toJSDate()
+		this.maxDate = this.getOriginalMaxDate.toJSDate()
 	}
 }
 </script>
 
 <style lang="scss">
 .aioseo-app {
-	.aioseo-tabs {
-		margin-bottom: 10px;
-	}
-
 	.aioseo-card {
 		margin: 0 0 20px;
 
@@ -293,6 +272,10 @@ export default {
 				position: static;
 			}
 		}
+	}
+
+	.aioseo-datepicker-picker {
+		font-weight: 700;
 	}
 
 	.aioseo-wp-table {

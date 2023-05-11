@@ -6,6 +6,7 @@
 
 <script>
 export default {
+	emits : [ 'resize' ],
 	props : {
 		targetLineCount : {
 			default : 1,
@@ -91,7 +92,7 @@ export default {
 		}
 		window.addEventListener('resize', this.calculate)
 	},
-	beforeDestroy : function () {
+	beforeUnmount : function () {
 		// Clean up
 		this.observer.disconnect()
 		window.removeEventListener('resize', this.calculate)

@@ -10,8 +10,8 @@
 			<input
 				:disabled="disabled"
 				type="checkbox"
-				:checked="value"
-				@input="toggle($event.target.checked)"
+				:checked="modelValue"
+				@input="$emit('update:modelValue', $event.target.checked)"
 				ref="input"
 			>
 			<span class="toggle-switch"></span>
@@ -23,8 +23,8 @@
 <script>
 export default {
 	props : {
-		value    : Boolean,
-		disabled : {
+		modelValue : Boolean,
+		disabled   : {
 			type : Boolean,
 			default () {
 				return false
@@ -34,9 +34,6 @@ export default {
 	methods : {
 		labelToggle () {
 			this.$refs.input.click()
-		},
-		toggle (checked) {
-			this.$emit('input', checked)
 		}
 	}
 }
@@ -45,6 +42,8 @@ export default {
 <style lang="scss">
 .aioseo-toggle {
 	display: inline-flex;
+	align-items: center;
+	vertical-align: middle;
 
 	&:active,
 	&:focus {
@@ -62,15 +61,16 @@ export default {
 	.toggle-content {
 		position: relative;
 		display: inline-block;
-		width: 36px;
-		height: 20px;
-		margin-right: 10px;
+		width: 32px;
+		height: 18px;
+		margin-right: 8px;
 
 		input {
 			display: none;
 
 			&:checked {
-				&+ .toggle-switch {
+
+				+ .toggle-switch {
 					border: 1px solid $blue;
 					background-color: $blue;
 
@@ -80,13 +80,14 @@ export default {
 
 					&:before {
 						background-color: #fff;
-						transform: translateX(15px);
+						transform: translateX(13px);
 					}
 				}
 			}
 
 			&:focus {
-				&+ .toggle-switch {
+
+				+ .toggle-switch {
 					box-shadow: 0 0 1px $blue;
 					outline: 2px solid transparent;
 				}
@@ -102,14 +103,14 @@ export default {
 			bottom: 0;
 			background-color: #fff;
 			border: 1px solid $input-border;
-			border-radius: 15px;
+			border-radius: 16px;
 			transition: 0.2s;
 
 			&:before {
 				position: absolute;
 				content: "";
-				height: 14px;
-				width: 14px;
+				height: 12px;
+				width: 12px;
 				left: 3px;
 				bottom: 2px;
 				background-color: $input-border;

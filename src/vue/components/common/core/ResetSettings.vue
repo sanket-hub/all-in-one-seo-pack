@@ -50,7 +50,7 @@
 							<base-checkbox
 								v-if="'all' !== setting.value && options.all"
 								size="medium"
-								:value="true"
+								:modelValue="true"
 								disabled
 							>
 								{{ setting.label }}
@@ -115,7 +115,7 @@
 import { mapActions } from 'vuex'
 import { ToolsSettings } from '@/vue/mixins'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
@@ -225,8 +225,17 @@ export default {
 		font-size: 16px;
 		color: $black;
 
+		> .settings {
+
+			> .aioseo-col:first-child {
+				font-weight: $font-bold;
+				padding-bottom: 12px;
+				border-bottom: 1px solid $border;
+			}
+		}
+
 		.aioseo-button {
-			margin-top: 10px;
+			margin-top: 16px;
 		}
 	}
 

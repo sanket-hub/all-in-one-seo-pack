@@ -1,18 +1,20 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-import '@/vue/plugins'
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
+
 import TruSeo from '@/vue/plugins/tru-seo'
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
 
 import initWatcher from './watcher'
 import initIntroduction from './introduction'
 
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components/helpers'
 import App from '@/vue/standalone/post-settings/App.vue'
 import store from '@/vue/store'
-
-Vue.prototype.$truSeo = new TruSeo()
 
 /**
  * Add to the body a class to identify the Elementor color schema.
@@ -40,41 +42,20 @@ const addBodyClass = () => {
  *
  * @returns {void}
  */
-const mountComponent = () => {
+const initElementorHooks = () => {
 	// Check whether the route to our tab is active. If so, render our Vue component.
 	window.$e.routes.on('run:after', function (component, route) {
 		addBodyClass()
 
 		// Initialize our Vue component.
 		if ('panel/page-settings/aioseo' === route) {
-			new Vue({
-				store,
-				data : {
-					tableContext  : window.aioseo.currentPost.context,
-					screenContext : 'sidebar'
-				},
-				render : h => h(App)
-			}).$mount('#elementor-panel-page-settings-controls')
-
-			document.getElementById('elementor-panel-page-settings').classList.add('edit-post-sidebar', 'aioseo-elementor-panel')
-
-			// Update the post data and run the analysis when our panel loads.
-			updatePostData()
+			initAioseoEditor('#elementor-panel-page-settings-controls')
 		}
 	})
-}
 
-/**
- * Add the All In One shortcut to the Elementor Page Settings.
- *
- * @returns {void}
- */
-const addMenuShortcut = () => {
-	const menu = window.elementor.modules.layouts.panel.pages.menu.Menu
-	const theme = window.elementor.getPreferences('ui_theme')
-	menu.addItem({
+	window.elementor.modules.layouts.panel.pages.menu.Menu.addItem({
 		name     : 'aioseo',
-		icon     : 'aioseo aioseo-element-menu-icon aioseo-element-menu-icon-' + theme,
+		icon     : 'aioseo aioseo-element-menu-icon aioseo-element-menu-icon-' + window.elementor.getPreferences('ui_theme'),
 		title    : import.meta.env.VITE_NAME,
 		type     : 'page',
 		callback : () => {
@@ -87,6 +68,89 @@ const addMenuShortcut = () => {
 			}
 		}
 	}, 'more')
+
+	// Add our tab to the Elementor Page Settings.
+	window.elementor.once('preview:loaded', function () {
+		window.$e.components.get('panel/elements').addTab('aioseo', { title: 'AIOSEO' })
+	})
+
+	// Add AIOSEO region to the Elementor Region Views.
+	window.elementor.hooks.addFilter('panel/elements/regionViews', (regionViews) => {
+		regionViews.aioseo = {
+			region : regionViews.global.region,
+			view   : window.Marionette.ItemView.extend({
+				template  : false,
+				id        : 'elementor-panel-aioseo',
+				className : 'aioseo-elementor aioseo-sidebar-panel',
+				initialize () {
+					document.getElementById('elementor-panel-elements-search-area').hidden = true
+				},
+				onShow () {
+					initAioseoEditor('#elementor-panel-aioseo')
+				},
+				onDestroy () {
+					document.getElementById('elementor-panel-elements-search-area').hidden = false
+				}
+			}),
+			options : {}
+		}
+		return regionViews
+	})
+}
+
+/**
+ * Mount our Component inside the Elementor tab.
+ *
+ * @param {string} selector The selector of the element where we will mount our Vue component.
+ * @returns {void}
+ */
+const initAioseoEditor = (selector) => {
+	// Get the target element.
+	const wrapper = document.querySelector(selector)
+
+	// Add the class to the wrapper.
+	wrapper.classList.add('edit-post-sidebar', 'aioseo-elementor-panel')
+
+	// Add the div that will contain our Vue component.
+	wrapper.appendChild(document.createElement('div'))
+
+	// Router placeholder to prevent errors when using router-link.
+	const router = createRouter({
+		history : createWebHistory(),
+		routes  : [
+			{
+				path      : '/',
+				component : App
+			}
+		]
+	})
+
+	let app = createApp({
+		data () {
+			return {
+				tableContext  : window.aioseo.currentPost.context,
+				screenContext : 'sidebar'
+			}
+		},
+		render : () => h(App)
+	})
+
+	app = loadPlugins(app)
+	app = loadComponents(app)
+	app = loadVersionedComponents(app)
+
+	app.use(router)
+	app.use(store)
+
+	store._vm  = app
+	router.app = app
+
+	app.config.globalProperties.$truSeo = new TruSeo()
+
+	app.mount(`${selector} > div`)
+
+	// Update the post data and run the analysis when our panel loads.
+	updatePostData()
 }
 
 /**
@@ -95,11 +159,8 @@ const addMenuShortcut = () => {
  * @returns {void}
  */
 const init = () => {
-	// Add a shurtcut on the Elementor Page Settings.
-	addMenuShortcut()
-
-	// Mount our Vue component in the Elementor tab.
-	mountComponent()
+	// Create all the needed Elementor hooks to add our panel.
+	initElementorHooks()
 
 	// Initialize the introduction.
 	initIntroduction()

@@ -4,8 +4,8 @@
 		:style="style"
 		ref="container"
 		@transitionend="onTransitionEnd"
-		:aria-hidden="!active"
-		:aria-expanded="active"
+		:aria-hidden="!active || null"
+		:aria-expanded="active || null"
 	>
 		<slot
 			v-if="!hidden"
@@ -15,6 +15,7 @@
 
 <script>
 export default {
+	emits : [ 'open-start', 'open-end', 'close-start', 'close-end' ],
 	props : {
 		active   : Boolean,
 		duration : {

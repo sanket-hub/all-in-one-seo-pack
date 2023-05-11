@@ -8,6 +8,7 @@
 				:loading="loading"
 				:score="score"
 				:description="description"
+				:strokeWidth="1.75"
 			/>
 		</div>
 
@@ -44,7 +45,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 import SvgBook from '@/vue/components/common/svg/Book'
 export default {
 	components : {
@@ -132,19 +133,46 @@ export default {
 
 	.aioseo-seo-site-score-score {
 		position: relative;
-		min-width: 175px;
-		max-width: 217px;
-		margin-right: 5em;
+		width: 100%;
+		max-width: 160px;
+		margin-right: 32px;
 
 		svg {
 			width: 100%;
 			height: auto;
 		}
+
+		.aioseo-site-score {
+			display: flex;
+		}
+
+		.aioseo-score-amount {
+
+			.score {
+				font-size: 40px;
+				line-height: 1.2;
+			}
+
+			.total {
+				font-size: 14px;
+			}
+		}
+
+		.score-description {
+			font-size: 13px;
+		}
 	}
 
 	.aioseo-seo-site-score-description {
+
 		h2 {
-			line-height: 1.4;
+			font-size: 24px;
+			line-height: 30px;
+			margin-bottom: 12px;
+		}
+
+		div[class] {
+			margin-top: 12px;
 		}
 
 		svg.aioseo-book {
@@ -152,12 +180,6 @@ export default {
 			height: 20px;
 			margin: 0 10px 0 0;
 			color: $blue;
-		}
-
-		> div {
-			font-size: 16px;
-			color: $black;
-			margin-bottom: 10px;
 		}
 
 		.links {

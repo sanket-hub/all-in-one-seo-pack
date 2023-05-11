@@ -1,6 +1,7 @@
 import store from '@/vue/store'
+import emitter from 'tiny-emitter/instance'
 import { isEqual, isEmpty } from 'lodash-es'
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components/helpers'
 import { registerElementorUIHookAfter, registerElementorDataHookAfter } from './hooks'
 import { getEditorData } from './helpers'
 
@@ -80,5 +81,5 @@ export default () => {
 	registerElementorDataHookAfter('document/save/save', 'aioseo-save', handleEditorSave)
 
 	// This hook will fire when the AIOSEO settings are updated.
-	window.aioseoBus.$on('postSettingsUpdated', enableSaveButton)
+	emitter.on('postSettingsUpdated', enableSaveButton)
 }

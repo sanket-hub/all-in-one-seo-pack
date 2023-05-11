@@ -5,6 +5,7 @@
 				:loading="isAnalyzing"
 				:score="score"
 				:description="description"
+				:strokeWidth="1.75"
 			/>
 		</div>
 		<div
@@ -20,7 +21,7 @@
 
 <script>
 import { HeadlineScore } from '@/vue/mixins'
-import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 export default {
 	components : {
 		CoreSiteScore
@@ -74,8 +75,8 @@ export default {
 	&-score {
 		position: relative;
 		min-width: 175px;
-		max-width: 217px;
-		margin-bottom: 45px;
+		max-width: 200px;
+		margin-bottom: 16px;
 		margin-right: auto;
 		margin-left: auto;
 
@@ -86,8 +87,7 @@ export default {
 	}
 
 	&-overall {
-		font-size: 18px;
-		line-height: 150%;
+		font-size: 16px;
 		font-weight: bold;
 		text-align: center;
 		margin-bottom: 12px;

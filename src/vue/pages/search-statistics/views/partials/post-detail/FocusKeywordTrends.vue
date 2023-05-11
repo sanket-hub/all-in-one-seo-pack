@@ -43,9 +43,9 @@
 
 <script>
 import { mapActions } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreLoader from '@/vue/components/common/core/Loader'
-import Graph from '../Graph.vue'
+import Graph from '../Graph'
 export default {
 	components : {
 		CoreAlert,

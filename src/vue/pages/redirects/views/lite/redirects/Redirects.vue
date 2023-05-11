@@ -36,7 +36,7 @@
 
 <script>
 import Blur from './Blur'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 export default {
 	components : {

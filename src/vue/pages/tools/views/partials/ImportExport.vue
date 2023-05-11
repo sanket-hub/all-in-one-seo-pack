@@ -44,21 +44,27 @@ export default {
 
 <style lang="scss">
 .aioseo-tools-import-export {
+	position: relative;
+
 	.aioseo-row {
-		margin: -0.5rem;
 
 		.aioseo-card {
-			margin: 0 0 1rem;
-
-			&:last-of-type {
-				margin-bottom: 0.5rem;
-			}
+			margin: 0;
 		}
 
 		.aioseo-col {
 			display: flex;
 			flex-direction: column;
+			gap: var(--aioseo-gutter);
 		}
+
+		+ .aioseo-row {
+			margin-top: var(--aioseo-gutter);
+		}
+	}
+
+	.export-post-types {
+		--aioseo-gutter: 12px;
 	}
 }
 </style>

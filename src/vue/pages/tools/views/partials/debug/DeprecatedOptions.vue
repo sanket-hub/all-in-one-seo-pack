@@ -41,6 +41,7 @@ import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 export default {
+	emits      : [ 'update' ],
 	components : {
 		BaseCheckbox,
 		GridColumn,
@@ -61,7 +62,7 @@ export default {
 	mounted () {
 		this.$aioseo.deprecatedOptions.forEach(option => {
 			if (option.enabled) {
-				this.$set(this.options, option.value, true)
+				this.options[option.value] = true
 			}
 		})
 	}

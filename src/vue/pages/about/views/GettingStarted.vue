@@ -16,11 +16,11 @@
 			:feature-list="$constants.UPSELL_FEATURE_LIST"
 			:showLink="false"
 		>
-			<template slot="header-text">
+			<template #header-text>
 				{{ strings.cta.header }}
 			</template>
 
-			<template slot="description">
+			<template #description>
 				{{ upgradeToday }}
 			</template>
 
@@ -129,7 +129,7 @@
 import ctaImg from '@/vue/assets/images/upsells/news-sitemap.png'
 // import thumbnailImg from '@/vue/assets/images/about/thumbnail.jpg'
 import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgBook from '@/vue/components/common/svg/Book'
@@ -262,36 +262,44 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-getting-started {
-	.aioseo-getting-started-cta,
+
+	.aioseo-getting-started-cta {
+		margin-block: var(--aioseo-gutter);
+	}
+
 	.aioseo-getting-started-videos,
 	.aioseo-getting-started-documentation {
-		margin-top: 30px;
+		margin-top: var(--aioseo-gutter);
 		background: #fff;
 		width: 100%;
 		padding: 40px;
 		box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
 		border: 1px solid $border;
 		color: $black;
+
 		a {
 			text-decoration: none;
 		}
-	}
-	.aioseo-getting-started-videos,
-	.aioseo-getting-started-documentation {
+
 		.header {
 			align-items: center;
 			font-weight: bold;
+
 			.header-title {
-				font-size: 24px;
+				font-size: 28px;
+				line-height: 40px;
 			}
+
 			.header-link {
 				// This is needed to override the text-align value of the grid row.
 				display: flex;
 				justify-content: flex-end;
+
 				a {
 					text-decoration: underline;
 					color: $blue;
 				}
+
 				@media screen and (max-width: 782px) {
 					justify-content: start !important;
 				}
@@ -299,9 +307,10 @@ export default {
 		}
 		.videos,
 		.docs {
-			margin: 32px 0;
+			margin: var(--aioseo-gutter) 0;
 			font-weight: bold;
-			font-size: 16px;
+			font-size: 14px;
+			line-height: 22px;
 			color: $black;
 		}
 	}
@@ -323,7 +332,7 @@ export default {
 				}
 				div {
 					flex: 2 2 auto;
-					margin: 0 0 0 30px;
+					margin: 0 0 0 var(--aioseo-gutter);
 				}
 				@media screen and (max-width: 520px) {
 					flex-direction: column;
@@ -346,10 +355,9 @@ export default {
 			}
 			.doc {
 				svg {
-					margin: 0 5px 0 0;
-					width: 18px;
-					min-width: 18px;
-					min-height: 20px;
+					margin: 1px 8px 0 0;
+					width: 16px;
+					height: 16px;
 					color: $blue;
 				}
 				a {

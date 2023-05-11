@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<!-- @click.stop is a Vue directive that prevents the click event from propagating further up the DOM tree. This is required inside Elementor. -->
+	<div @click.stop>
 		<alert v-if="'sidebar' !== this.$root._data.screenContext" />
 
 		<main-view
@@ -46,27 +47,28 @@ export default {
 			linkAssistant,
 			redirects,
 			schema
-		} = await getOptions(this.$http)
-		this.$set(this.$store.state, 'internalOptions', merge({ ...this.$store.state.internalOptions }, { ...internalOptions }))
-		this.$set(this.$store.state, 'options', merge({ ...this.$store.state.options }, { ...options }))
-		this.$set(this.$store.state, 'dynamicOptions', merge({ ...this.$store.state.dynamicOptions }, { ...dynamicOptions }))
-		this.$set(this.$store.state, 'settings', merge({ ...this.$store.state.settings }, { ...settings }))
-		this.$set(this.$store.state, 'notifications', merge({ ...this.$store.state.notifications }, { ...notifications }))
-		this.$set(this.$store.state, 'addons', merge([ ...this.$store.state.addons ], [ ...addons ]))
-		this.$set(this.$store.state, 'license', merge({ ...this.$store.state.license }, { ...license }))
-		this.$set(this.$store.state, 'currentPost', merge({ ...this.$store.state.currentPost }, { ...currentPost }))
-		this.$set(this.$store.state, 'tags', merge({ ...this.$store.state.tags }, { ...tags }))
-		this.$set(this.$store.state, 'linkAssistant', merge({ ...this.$store.state.linkAssistant }, { ...linkAssistant }))
-		this.$set(this.$store.state, 'redirects', merge({ ...this.$store.state.redirects }, { ...redirects }))
-		this.$set(this.$store.state, 'schema', merge({ ...this.$store.state.schema }, { ...schema }))
+		} = await getOptions(this.$.appContext.app)
+		this.$store.state.internalOptions = merge({ ...this.$store.state.internalOptions }, { ...internalOptions })
+		this.$store.state.options         = merge({ ...this.$store.state.options }, { ...options })
+		this.$store.state.dynamicOptions  = merge({ ...this.$store.state.dynamicOptions }, { ...dynamicOptions })
+		this.$store.state.settings        = merge({ ...this.$store.state.settings }, { ...settings })
+		this.$store.state.notifications   = merge({ ...this.$store.state.notifications }, { ...notifications })
+		this.$store.state.addons          = merge([ ...this.$store.state.addons ], [ ...addons ])
+		this.$store.state.license         = merge({ ...this.$store.state.license }, { ...license })
+		this.$store.state.currentPost     = merge({ ...this.$store.state.currentPost }, { ...currentPost })
+		this.$store.state.tags            = merge({ ...this.$store.state.tags }, { ...tags })
+		this.$store.state.linkAssistant   = merge({ ...this.$store.state.linkAssistant }, { ...linkAssistant })
+		this.$store.state.redirects       = merge({ ...this.$store.state.redirects }, { ...redirects })
+		this.$store.state.schema          = merge({ ...this.$store.state.schema }, { ...schema })
 	}
 }
 </script>
 
 <style lang="scss">
 .aioseo-post-settings-sidebar-vue {
-	display: flex;
-	justify-content: center;
+	> div {
+		flex: 1;
+	}
 
 	.aioseo-loading-spinner {
 		margin-top: 30px;

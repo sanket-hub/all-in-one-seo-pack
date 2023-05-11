@@ -44,7 +44,12 @@ export default {
 .aioseo-link-assistant-modal {
 	padding: 0 !important;
 
+	.link-assistant-inner-table {
+		padding-inline: 16px;
+	}
+
 	.aioseo-wp-table {
+
 		tbody {
 			th.check-column,
 			td {
@@ -65,8 +70,12 @@ export default {
 
 		}
 
-		.tablenav {
-			font-size: 13px !important;
+		.aioseo-wp-table-header {
+			row-gap: 16px;
+		}
+
+		.tablenav.top {
+			margin-bottom: 16px;
 		}
 
 		button.toggle-row-button {
@@ -147,65 +156,8 @@ export default {
 	}
 
 	.aioseo-wp-table.link-assistant-inner-table {
-		.tablenav {
-			height: auto;
-
-			.aioseo-wp-bulk-actions {
-				margin: 10px 0 16px 16px;
-			}
-
-			.pagination {
-				margin: 10px 16px 16px 0;
-			}
-		}
 
 		.wp-table table {
-			border: 0;
-			padding: 0;
-
-			thead {
-				tr:last-child {
-					th.manage-column,
-					td.manage-column {
-						border-bottom: 1px solid #c3c4c7 !important;
-					}
-
-					th {
-						padding: 8px 10px !important;
-
-						&:first-of-type {
-							padding-left: 15px !important;
-						}
-					}
-
-					td {
-						padding: 4px 0 0 8px !important;
-					}
-				}
-			}
-
-			tbody {
-				tr {
-					// These are set in WordPress Core but we need to reset them for the inner table; otherwise the row actions for all rows show on hover.
-					.row-actions {
-						position: relative;
-					}
-
-					&:hover {
-						.row-actions {
-							position : static;
-						}
-					}
-
-					th {
-						padding: 11px 0 0 8px;
-					}
-
-					td:first-of-type {
-						padding-left: 15px;
-					}
-				}
-			}
 
 			tbody {
 				.aioseo-tooltip {
@@ -240,11 +192,7 @@ export default {
 				margin-left: 10px;
 			}
 
-			.md-tabs-navigation {
-				margin-top: 0;
-			}
-
-			.md-button-content {
+			.var-tab {
 				display: flex;
 				align-items: center;
 				column-gap: 11.75px;
@@ -285,12 +233,18 @@ export default {
 	div.links-bottom {
 		display: flex;
 		flex-direction: row;
-		padding: 17px 17px 24px 17px;
+
+		&:has(a,button) {
+			padding: 17px 17px 24px 17px;
+		}
+
 		a {
 			text-decoration: underline;
+
 			&.link-delete {
 				color: $red !important;
 			}
+
 			&:hover{
 				text-decoration: none;
 				cursor: pointer;
@@ -342,6 +296,7 @@ export default {
 
 	.modal-body {
 		align-items: start;
+		padding: 16px !important;
 
 		.title-header {
 			margin: 45px 0 0 0;

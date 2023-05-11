@@ -279,9 +279,9 @@ class Mention {
 		return true
 	}
 
-	removeOrphanedMentionChar () {
+	removeOrphanedMentionChar (skipFocus = false) {
 		let shouldBlur = false
-		if (!this.quill.hasFocus()) {
+		if (!skipFocus && !this.quill.hasFocus()) {
 			this.quill.focus()
 			shouldBlur = true
 		}

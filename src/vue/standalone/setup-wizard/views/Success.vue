@@ -20,8 +20,10 @@
 							<div>{{ strings.joinOurCommunity }}</div>
 						</div>
 					</div>
+
 					<div>
 						<div class="icon" />
+
 						<div class="content">
 							<base-button
 								class="social-button facebook"
@@ -133,7 +135,7 @@
 <script>
 import { Wizard } from '@/vue/mixins'
 import { mapGetters } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgBook from '@/vue/components/common/svg/Book'
@@ -226,22 +228,8 @@ export default {
 
 <style lang="scss">
 .aioseo-wizard-success {
-	font-size: 16px;
 	color: $black;
 	padding-bottom: 40px;
-
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-	}
-
-	.description {
-		margin-top: 32px;
-		font-size: 16px;
-		color: $black;
-		margin-bottom: 44px;
-	}
 
 	.actions {
 		> div {
@@ -266,7 +254,7 @@ export default {
 
 			.content {
 				font-weight: 700;
-				font-size: 16px;
+				font-size: 14px;
 				color: $black;
 				flex: 1;
 

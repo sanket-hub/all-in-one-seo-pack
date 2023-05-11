@@ -100,8 +100,8 @@
 					multiple
 					taggable
 					:options="getJsonValue(options.advanced.keywords) || []"
-					:value="getJsonValue(options.advanced.keywords) || []"
-					@input="values => options.advanced.keywords = setJsonValue(values)"
+					:modelValue="getJsonValue(options.advanced.keywords) || []"
+					@update:modelValue="values => options.advanced.keywords = setJsonValue(values)"
 					:tag-placeholder="strings.tagPlaceholder"
 				/>
 			</template>
@@ -112,12 +112,18 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { JsonValues, MaxCounts } from '@/vue/mixins'
+
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
+import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreRobotsMeta from '@/vue/components/common/core/RobotsMeta'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+
 export default {
 	components : {
 		BaseRadioToggle,
+		CoreAlert,
+		CoreProBadge,
 		CoreRobotsMeta,
 		CoreSettingsRow
 	},
@@ -205,7 +211,7 @@ export default {
 	.inline-upsell {
 		display: inline-flex;
 
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 
 	.other-options {

@@ -64,7 +64,7 @@
 					<svg-seo-site-score
 						:score="characterCount.percent"
 						:scoreColor="characterCount.class"
-						:strokeWidth="3"
+						:strokeWidth="2"
 					/>
 					<span class="number">{{ result.length }}</span>
 				</div>
@@ -93,7 +93,7 @@
 					<svg-seo-site-score
 						:score="wordCount.percent"
 						:scoreColor="wordCount.class"
-						:strokeWidth="3"
+						:strokeWidth="2"
 					/>
 					<span class="number">{{ result.wordCount }}</span>
 				</div>
@@ -165,7 +165,7 @@
 import { HeadlineResult } from '@/vue/mixins'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
-import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index.vue'
+import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index'
 export default {
 	components : {
 		CoreTooltip,
@@ -184,16 +184,12 @@ export default {
 
 <style lang="scss">
 .aioseo-headline-result {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-gap: 10px;
+	--aioseo-gutter: 20px;
 
-	@media (max-width: 782px) {
-		grid-template-columns: repeat(1, 1fr);
-	}
+	@include aioseoGrid(2, 255px);
 
 	.box {
-		padding: 32px 30px;
+		padding: 20px;
 		border: 1px solid #E8E8EB;
 		display: flex;
 		color: $black2;
@@ -203,8 +199,8 @@ export default {
 		}
 
 		&-icon {
-			margin-right: 32px;
-			flex: 0 0 60px;
+			margin-right: 20px;
+			flex: 0 0 90px;
 			padding-top: 5px;
 			line-height: 0;
 			text-align: center;
@@ -215,7 +211,7 @@ export default {
 			}
 
 			> svg {
-				width: 32px;
+				width: 52px;
 			}
 
 			.score {
@@ -233,8 +229,8 @@ export default {
 					flex-direction: column;
 					color: $black;
 					font-weight: bold;
-					font-size: 26px;
-					line-height: 100%;
+					font-size: 32px;
+					line-height: 40px;
 
 					@media (max-width: 1200px) {
 						font-size: 16px;
@@ -246,26 +242,25 @@ export default {
 		&-title {
 			color: #000000;
 			font-weight: 600;
-			font-size: 16px;
-			line-height: 150%;
-			margin-bottom: 6px;
+			margin-bottom: 4px;
+			font-size: $font-md;
+			line-height: 22px;
 		}
 
 		&-result {
 			margin-bottom: 12px;
 			display: inline-block;
 			font-weight: 600;
-			font-size: 16px;
-			line-height: 150%;
+			font-size: $font-md;
+			line-height: 22px;
 
 			&.has-icon {
 				display: flex;
 				align-items: center;
-				font-size: 14px;
 				line-height: 1;
 
 				svg {
-					width: 20px;
+					width: 16px;
 					margin-right: 5px;
 				}
 			}
@@ -273,8 +268,6 @@ export default {
 
 		&-guideline {
 			margin: 0;
-			font-size: 14px;
-			line-height: 150%;
 
 			strong {
 				display: inline;
@@ -289,7 +282,7 @@ export default {
 
 			.box-title {
 				margin-bottom: 0;
-				margin-right: 25px;
+				margin-right: 16px;
 			}
 
 			.box-icon {
@@ -312,7 +305,7 @@ export default {
 
 	.words {
 		flex: 1 0 100%;
-		margin-top: 38px;
+		margin-top: 20px;
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: 50px;
@@ -327,29 +320,26 @@ export default {
 		}
 
 		&-title {
-			font-weight: 400;
-			font-size: 14px;
-			line-height: 120%;
+			font-weight: $font-bold;
 			color: $black2;
 			margin-bottom: 12px;
 		}
 
 		&-percent {
-			font-weight: bold;
-			font-size: 28px;
+			font-weight: $font-bold;
+			font-size: 32px;
+			line-height: 40px;
 			line-height: 100%;
-			margin-bottom: 7px;
+			margin-bottom: 4px;
 		}
 
 		&-goal {
 			color: $placeholder-color;
-			font-size: 13px;
-			line-height: 130%;
-			margin-bottom: 8px;
+			margin-bottom: 4px;
 		}
 
 		.bar {
-			width: 50%;
+			max-width: 123px;
 
 			@media (max-width: 782px) {
 				width: 100%;
@@ -359,12 +349,12 @@ export default {
 
 	.bar {
 		position: relative;
-		height: 4px;
+		height: 5px;
 		width: 100%;
 		background: $gray;
 		border-radius: 50px;
 		overflow: hidden;
-		margin-bottom: 15px;
+		margin-bottom: 12px;
 
 		&-progress {
 			position: absolute;
@@ -389,16 +379,18 @@ export default {
 	}
 
 	.keywords {
-		margin: 5px -5px -5px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
 
 		&-item {
-			font-size: 14px;
+			font-size: 12px;
+			line-height: 18px;
 			color: #434960;
 			font-weight: 600;
 			background: #F3F4F5;
-			padding: 9px 10px;
+			padding: 0 8px;
 			border-radius: 3px;
-			margin: 5px;
 			display: inline-block;
 		}
 	}

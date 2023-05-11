@@ -44,8 +44,14 @@
 			>
 				<template #content>
 					<div class="previews-box main-preview">
-						<template v-for="(previewItem, preview_index) in previews">
-							<preview :key="preview_index" :preview-data="previewItem.preview" :label="previewItem.label"></preview>
+						<template
+							v-for="(previewItem, preview_index) in previews"
+							:key="preview_index"
+						>
+							<preview
+								:preview-data="previewItem.preview"
+								:label="previewItem.label"
+							/>
 						</template>
 					</div>
 				</template>
@@ -53,12 +59,11 @@
 
 			<core-settings-row
 				:name="strings.separator"
-				align
 			>
 				<template #content>
 					<core-settings-separator
 						:options-separator="options.breadcrumbs.separator"
-						@change="value => options.breadcrumbs.separator = value"
+						@update:separator="value => options.breadcrumbs.separator = value"
 						show-more-slug="breadcrumbsShowMoreSeparators"
 					/>
 				</template>
@@ -66,7 +71,6 @@
 
 			<core-settings-row
 				:name="strings.homepageLink"
-				align
 			>
 				<template #content>
 					<div class="homepage-link">
@@ -84,8 +88,8 @@
 
 							<base-input
 								size="medium"
-								:value="sanitizeString(options.breadcrumbs.homepageLabel)"
-								@input="value => options.breadcrumbs.homepageLabel = sanitizeString(value)"
+								:modelValue="sanitizeString(options.breadcrumbs.homepageLabel)"
+								@update:modelValue="value => options.breadcrumbs.homepageLabel = sanitizeString(value)"
 								v-model="options.breadcrumbs.homepageLabel"
 							/>
 						</div>
@@ -99,12 +103,11 @@
 
 			<core-settings-row
 				:name="strings.breadcrumbPrefix"
-				align
 			>
 				<template #content>
 					<base-input
-						:value="sanitizeString(options.breadcrumbs.breadcrumbPrefix)"
-						@input="value => options.breadcrumbs.breadcrumbPrefix = sanitizeString(value)"
+						:modelValue="sanitizeString(options.breadcrumbs.breadcrumbPrefix)"
+						@update:modelValue="value => options.breadcrumbs.breadcrumbPrefix = sanitizeString(value)"
 						size="medium"
 					/>
 
@@ -135,8 +138,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						:value="sanitizeString(options.breadcrumbs.archiveFormat)"
-						@input="value => options.breadcrumbs.archiveFormat = sanitizeString(value)"
+						:modelValue="sanitizeString(options.breadcrumbs.archiveFormat)"
+						@update:modelValue="value => options.breadcrumbs.archiveFormat = sanitizeString(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -160,8 +163,8 @@
 			>
 				<template #content>
 					<core-html-tags-editor
-						:value="sanitizeString(options.breadcrumbs.searchResultFormat)"
-						@input="value => options.breadcrumbs.searchResultFormat = sanitizeString(value)"
+						:modelValue="sanitizeString(options.breadcrumbs.searchResultFormat)"
+						@update:modelValue="value => options.breadcrumbs.searchResultFormat = sanitizeString(value)"
 						:line-numbers="false"
 						single
 						checkUnfilteredHtml
@@ -182,12 +185,11 @@
 
 			<core-settings-row
 				:name="strings.errorFormat404"
-				align
 			>
 				<template #content>
 					<base-input
-						:value="sanitizeString(options.breadcrumbs.errorFormat404)"
-						@input="value => options.breadcrumbs.errorFormat404 = sanitizeString(value)"
+						:modelValue="sanitizeString(options.breadcrumbs.errorFormat404)"
+						@update:modelValue="value => options.breadcrumbs.errorFormat404 = sanitizeString(value)"
 						size="medium"
 					/>
 
@@ -199,7 +201,6 @@
 
 			<core-settings-row
 				:name="strings.currentItem"
-				align
 			>
 				<template #content>
 					<div class="aioseo-description first">
@@ -395,12 +396,6 @@ export default {
 
 <style lang="scss">
 .aioseo-breadcrumbs {
-	.aioseo-box-toggle {
-		svg {
-			margin-top: -15px;
-			color: $black2;
-		}
-	}
 
 	.alert {
 		margin-top: 24px;
@@ -427,23 +422,44 @@ export default {
 		width: 110px;
 	}
 
-	.current-item {
-		margin-right: 10px;
+	.previews-box {
+		padding: 12px;
+		border: 1px solid $input-border;
+		border-radius: 4px;
+
+		+ .aioseo-row {
+			margin-top: 16px;
+		}
+	}
+
+	.settings-content > div:not(.previews-box) > .aioseo-preview-box {
+		padding: 12px;
+		border: 1px solid $input-border;
+		border-radius: 4px;
+
+		+ .aioseo-row {
+			margin-top: 16px;
+
+			> .aioseo-col:first-child {
+				margin-top: 0;
+			}
+
+			+ .aioseo-row {
+				margin-top: 16px;
+			}
+		}
 	}
 
 	.aioseo-preview-box {
-		padding: 22px 24px;
-		border: 1px solid $border;
-		margin-bottom: 16px;
-		width: 100%;
-		min-height:41px;
+		font-size: $font-md;
+		line-height: 22px;
 
-		@media only screen and (max-width: 782px) {
-			padding: 10px;
+		+ .aioseo-preview-box {
+			margin-top: 8px;
 		}
 
 		.label {
-			font-weight: bold;
+			font-weight: $font-bold;
 			min-width: 75px;
 			display: inline-block;
 		}
@@ -456,38 +472,37 @@ export default {
 			}
 
 			span:last-child {
-				font-weight: bold;
+				font-weight: $font-bold;
 			}
 		}
 
 		.aioseo-breadcrumb-separator {
-			line-height: 1;
-			font-size: 20px;
 			color: $placeholder-color;
-			padding: 0 6px;
+			padding: 0 4px;
 		}
 
 		.aioseo-breadcrumb {
-			padding: 0 6px;
+			padding: 0 4px;
 		}
 
 		.last.noLink {
-			font-weight: bold;
+			font-weight: $font-bold;
 
 			a {
-				font-weight: bold;
+				font-weight: $font-bold;
 			}
 		}
 
 		.link, a {
 			color: $blue;
 			text-decoration: underline;
-			font-weight: 500;
+			font-weight: $font-bold;
 			cursor: pointer;
 			pointer-events: none;
 		}
 
 		.noLink {
+
 			a {
 				color: inherit;
 				text-decoration: none;
@@ -497,27 +512,21 @@ export default {
 		}
 	}
 
-	.previews-box {
-		.aioseo-preview-box:not(:last-child) {
-			margin-bottom: 0;
-			padding-bottom: 0;
-			border-bottom: 0;
-		}
-		.aioseo-preview-box:not(:first-child) {
-			border-top: 0;
-			padding-top: 20px;
-		}
-	}
-
 	.homepage-link {
 		display: flex;
 		align-items: center;
 
 		.homepage-link-label {
+			font-size: $font-md;
+			line-height: 22px;
 			flex: 1 1 auto;
-			margin: 0 0 0 40px;
+			margin: 0 0 0 $gutter;
 			display: flex;
 			align-items: center;
+
+			.aioseo-input-container {
+				flex: 1;
+			}
 
 			.aioseo-input {
 				margin-left: 10px;
@@ -535,6 +544,13 @@ export default {
 					max-width: 215px;
 				}
 			}
+		}
+	}
+
+	.content:is([active="ContentTypes"], [active="Taxonomies"], [active="Archives"]) {
+
+		.settings-name:not(.no-name) {
+			margin-top: 4px;
 		}
 	}
 }

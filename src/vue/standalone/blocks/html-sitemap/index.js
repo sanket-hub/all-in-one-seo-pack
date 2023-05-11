@@ -1,8 +1,12 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
+
 import store from '@/vue/store'
-import '@/vue/plugins'
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
 
 import { observeElement } from '@/vue/utils/helpers'
 import { __ } from '@wordpress/i18n'
@@ -115,9 +119,7 @@ export const settings = {
 				parent  : document.querySelector('.block-editor'),
 				subtree : true,
 				done    : function (el) {
-					new Vue({
-						store,
-						el   : el,
+					let app = createApp({
 						data : function () {
 							return vueInitialState[clientId]
 						},
@@ -129,8 +131,17 @@ export const settings = {
 								deep : true
 							}
 						},
-						render : h => h(HtmlSitemapSidebar)
+						render : () => h(HtmlSitemapSidebar)
 					})
+
+					app = loadPlugins(app)
+					app = loadComponents(app)
+					app = loadVersionedComponents(app)
+
+					app.use(store)
+					store._vm = app
+
+					app.mount(el)
 				}
 			})
 		}

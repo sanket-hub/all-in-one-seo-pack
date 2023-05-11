@@ -16,14 +16,17 @@ export default {
 
 <style lang="scss">
 .aioseo-add-template-tag {
+	display: flex;
+	align-items: center;
 	border-radius: 3px;
-	padding: 5px 10px;
+	padding: 2px 8px;
 	color: $black;
-	font-size: 14px;
+	font-size: $font-sm;
+	line-height: 18px;
 	border: 1px solid $border;
 	cursor: pointer;
 	user-select: none;
-	font-weight: 600;
+	font-weight: $font-bold;
 
 	&:hover {
 		background-color: $background;
@@ -33,6 +36,7 @@ export default {
 		width: 10px;
 		height: 10px;
 		color: $blue;
+		margin-right: 4px;
 	}
 }
 </style>

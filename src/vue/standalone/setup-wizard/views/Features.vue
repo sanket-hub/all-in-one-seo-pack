@@ -35,9 +35,9 @@
 								round
 								:class="{ 'no-clicks': feature.required }"
 								:type="feature.required ? 'green' : 'blue'"
-								:value="feature.required ? true : getValue(feature)"
+								:modelValue="feature.required ? true : getValue(feature)"
+								@update:modelValue="checked => updateValue(checked, feature)"
 								@click.native="event => preventUncheck(event, feature)"
-								@input="checked => updateValue(checked, feature)"
 							/>
 						</grid-column>
 					</grid-row>
@@ -272,7 +272,7 @@ export default {
 
 			const index = features.findIndex(f => f === feature.value)
 			if (-1 !== index) {
-				this.$delete(features, index)
+				features.splice(index, 1)
 			}
 
 			this.updateFeatures(features)
@@ -290,51 +290,39 @@ export default {
 
 <style lang="scss">
 .aioseo-wizard-features {
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-	}
-
-	.description {
-		margin-top: 20px;
-		font-size: 16px;
-		color: $black2;
-		margin-bottom: 40px;
-		line-height: 1.4;
-	}
 
 	.feature-grid {
-		padding: 16px 0;
 		border-bottom: 1px solid $border;
+		padding-bottom: 16px;
+		margin-bottom: 16px;
 
 		&:last-child {
 			border-bottom: none;
+			padding-bottom: 0;
+			margin-bottom: 0;
 		}
 
 		.settings-name {
 			color: $black;
 
 			.name {
-				font-weight: 600;
 				display: flex;
 				align-items: center;
-				font-size: 18px;
+				font-weight: $font-bold;
 
 				.aioseo-pro-badge {
 					margin-left: 12px;
 				}
+
+				+ .aioseo-description-text {
+					margin-top: 8px;
+				}
 			}
 
 			.aioseo-description-text {
-				max-width: 500px;
+				max-width: 650px;
 				color: $black2;
 			}
-		}
-
-		.aioseo-col {
-			display: flex;
-			align-items: center;
 		}
 	}
 

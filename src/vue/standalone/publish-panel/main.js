@@ -1,9 +1,10 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
 
-import '@/vue/plugins'
+import loadPlugins from '@/vue/plugins'
 
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
 
 import PrePublish from './PrePublish.vue'
 import PostPublish from './PostPublish.vue'
@@ -14,6 +15,25 @@ import loadTruSeo from '@/vue/standalone/post-settings/loadTruSeo'
 
 import { elemLoaded } from '@/vue/utils/elemLoaded'
 import { camelCase } from 'lodash-es'
+
+const loadPublishPanel = block => {
+	let app = createApp(block.component)
+	app     = loadPlugins(app)
+	app     = loadComponents(app)
+	app     = loadVersionedComponents(app)
+
+	store._vm  = app
+	app.use(store)
+
+	app.mount('#' + block.id)
+
+	window.addEventListener('load', () => {
+		// The currentPost state hasn't loaded here yet so we need to prevent that we clear out the hidden post data field.
+		loadTruSeo(app, false)
+	})
+
+	return app
+}
 
 if (window.aioseo.currentPost && 'post' === window.aioseo.currentPost.context) {
 	const blockEditorMap = [
@@ -27,22 +47,11 @@ if (window.aioseo.currentPost && 'post' === window.aioseo.currentPost.context) {
 			elemLoaded('#' + block.id, camelCase(block.id))
 			document.addEventListener('animationstart', function (event) {
 				if (camelCase(block.id) === event.animationName) {
-					new Vue({
-						store,
-						render : h => h(block.component)
-					}).$mount('#' + block.id)
+					loadPublishPanel(block)
 				}
 			}, { passive: true })
 		} else {
-			new Vue({
-				store,
-				render : h => h(block.component)
-			}).$mount('#' + block.id)
+			loadPublishPanel(block)
 		}
 	})
 }
-
-window.addEventListener('load', () => {
-	// The currentPost state hasn't loaded here yet so we need to prevent that we clear out the hidden post data field.
-	loadTruSeo(false)
-})

@@ -60,7 +60,6 @@ const pollWindow = (requiredParams, completedCallback, closedCallback, postMessa
 		return
 	}
 
-	// See https://github.com/awesomemotive/optin-monster-app/pull/1735
 	let params = {}
 	try {
 		params = getParams(popupWindow.location.search)

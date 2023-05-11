@@ -65,7 +65,7 @@
 					<base-select
 						size="large"
 						:options="businessTypes"
-						value="default"
+						modelValue="default"
 					/>
 				</template>
 			</core-settings-row>

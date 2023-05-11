@@ -91,7 +91,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CtaModal from './partials-schema/CtaModal'
@@ -135,6 +135,7 @@ export default {
 
 <style lang="scss">
 .aioseo-post-schema {
+
 	.no-graphs {
 		margin-bottom: 15px;
 	}
@@ -142,12 +143,14 @@ export default {
 	.graphs {
 		max-width: 1000px;
 		margin-bottom: 20px;
-
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-
 		gap: 20px 16px;
+
+		&:empty {
+			display: none;
+		}
 	}
 
 	.buttons {
@@ -159,6 +162,10 @@ export default {
 
 		button {
 			margin-right: 8px;
+		}
+
+		&:has(.no-graphs) {
+			margin-top: 0;
 		}
 	}
 

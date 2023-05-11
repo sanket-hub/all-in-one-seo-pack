@@ -83,7 +83,7 @@
 <script>
 import { mapState } from 'vuex'
 import BaseTextarea from '@/vue/components/common/base/Textarea'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 export default {

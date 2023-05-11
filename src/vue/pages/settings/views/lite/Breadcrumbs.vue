@@ -56,7 +56,7 @@ import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		ContentTypesLite,

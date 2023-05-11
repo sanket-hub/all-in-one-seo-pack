@@ -124,7 +124,7 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 import { mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreAttributesList from '@/vue/components/common/core/AttributesList'
 import CoreDisplayInfo from '@/vue/components/common/core/DisplayInfo'
 import CoreLoader from '@/vue/components/common/core/Loader'
@@ -371,6 +371,10 @@ export default {
 		.aioseo-alert {
 			width: 100%;
 			margin: 8px 8px 0 8px;
+		}
+
+		.aioseo-loading-spinner {
+			position: relative;
 		}
 	}
 }

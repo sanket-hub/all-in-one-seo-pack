@@ -33,10 +33,10 @@
 
 		<template
 			v-for="(tag, index) in $tags.context(tagsContext)"
+			:key="index"
 		>
 			<div
 				v-show="false"
-				:key="index"
 				ref="select-template"
 			>
 				<span
@@ -59,7 +59,6 @@
 
 			<div
 				v-show="false"
-				:key="`menu-${index}`"
 				ref="menu-template"
 			>
 				<div class="aioseo-tag-item">
@@ -127,14 +126,18 @@ import '@/vue/plugins/quill/quill-preserve-whitespace'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgPlus from '@/vue/components/common/svg/Plus'
 import SvgTrash from '@/vue/components/common/svg/Trash'
+
+const QuillEditor = []
+
 export default {
+	emits      : [ 'counter', 'selection-change', 'updateEditor', 'focus', 'blur', 'update:modelValue' ],
 	components : {
 		SvgCaret,
 		SvgPlus,
 		SvgTrash
 	},
 	props : {
-		value : {
+		modelValue : {
 			type    : String,
 			default : ''
 		},
@@ -180,12 +183,12 @@ export default {
 	watch : {
 		disabled () {
 			if (this.disabled) {
-				this.quill.disable()
+				QuillEditor[this._uid].disable()
 			} else {
-				this.quill.enable()
+				QuillEditor[this._uid].enable()
 			}
 		},
-		value () {
+		modelValue () {
 			if (this.forceUpdates) {
 				this.startup(true)
 			}
@@ -194,7 +197,7 @@ export default {
 			deep : true,
 			handler () {
 				this.localTags       = this.getTags()
-				const counter        = this.quill.getModule('counter')
+				const counter        = QuillEditor[this._uid].getModule('counter')
 				if (counter) {
 					counter.options.tags = this.localTags
 					this.$emit('counter', counter.calculate())
@@ -238,11 +241,11 @@ export default {
 		},
 		update () {
 			if (this.allowTags) {
-				const counter = this.quill.getModule('counter')
+				const counter = QuillEditor[this._uid].getModule('counter')
 				this.$emit('counter', counter.calculate())
 			}
 
-			let html = this.quill.getText() ? this.quill.root.innerHTML : ''
+			let html = QuillEditor[this._uid].getText() ? QuillEditor[this._uid].root.innerHTML : ''
 
 			const frag    = document.createRange().createContextualFragment(html)
 			const fragNew = document.createRange().createContextualFragment('')
@@ -292,16 +295,16 @@ export default {
 
 			// Trim off the spaces we might have appended after smart tags at startup.
 			html = html.replace(/&nbsp;/gi, ' ').trim()
-			this.$emit('input', html)
+			this.$emit('update:modelValue', html)
 		},
 		insertToCursor (text) {
-			this.quill.focus()
+			QuillEditor[this._uid].focus()
 
-			this.quill.insertText(this.quill.getSelection().index, text, Quill.sources.USER)
-			this.quill.setSelection(this.quill.getSelection().index + text.length, Quill.sources.USER)
+			QuillEditor[this._uid].insertText(QuillEditor[this._uid].getSelection().index, text, Quill.sources.USER)
+			QuillEditor[this._uid].setSelection(QuillEditor[this._uid].getSelection().index + text.length, Quill.sources.USER)
 		},
 		insertTag (tagId) {
-			const mention = this.quill.getModule('mention')
+			const mention = QuillEditor[this._uid].getModule('mention')
 			mention.removeOrphanedMentionChar()
 
 			const textBefore = mention.getTextBeforeCursor()
@@ -309,7 +312,7 @@ export default {
 			const tag  = tagId ? this.localTags.find(t => t.id === tagId) : null
 			let   text = tag ? `#${tag.id}` : '#' === textBefore.charAt(textBefore.length - 1) ? '' : '#'
 
-			const delta = this.quill.getContents(0, mention.cursorPos)
+			const delta = QuillEditor[this._uid].getContents(0, mention.cursorPos)
 			if (
 				delta.ops.length &&
 				(
@@ -322,19 +325,19 @@ export default {
 				text = ' ' + text
 			}
 
-			this.quill.focus()
+			QuillEditor[this._uid].focus()
 
 			if (tagId) {
 				mention.removeOrphanedMentionChar()
 			}
 
-			this.quill.insertText(this.quill.getSelection().index, text, Quill.sources.USER)
-			this.quill.setSelection(this.quill.getSelection().index + text.length, Quill.sources.USER)
+			QuillEditor[this._uid].insertText(QuillEditor[this._uid].getSelection().index, text, Quill.sources.USER)
+			QuillEditor[this._uid].setSelection(QuillEditor[this._uid].getSelection().index + text.length, Quill.sources.USER)
 			this.insertExact = false
 
 			if (!tagId) {
 				setTimeout(() => {
-					mention.mentionCharPos = this.quill.getSelection().index - 1
+					mention.mentionCharPos = QuillEditor[this._uid].getSelection().index - 1
 					mention.silentInsert   = true
 					mention.showMentionList()
 				}, 0)
@@ -360,7 +363,7 @@ export default {
 				return
 			}
 
-			const mention = this.quill.getModule('mention')
+			const mention = QuillEditor[this._uid].getModule('mention')
 			if (mention.isOpen) {
 				mention.hideMentionList()
 				mention.removeOrphanedMentionChar()
@@ -371,10 +374,82 @@ export default {
 				return
 			}
 
-			// Stop auto scrolling to the editor on paste of the HTML.
-			const scrollTop = document.documentElement.scrollTop
+			QuillEditor[this._uid] = this.startQuill()
 
-			this.quill = new Quill(this.$refs.quill, {
+			if (reset) {
+				QuillEditor[this._uid].setText('')
+			}
+
+			let value = this.modelValue
+			if (value && value.length && value.match(/#[^\s]*$/)) {
+				// If the value ends with a smart tag, append a space on startup to prevent weird input behaviour.
+				// https://github.com/awesomemotive/aioseo/issues/1351
+				value = value.trim() + '&nbsp;'
+			}
+
+			// Make sure newlines are kept intact.
+			value = value
+				? (
+					this.single
+						? value.replace('\n', ' ')
+						: '<p>' +
+							value.split('\n')
+								.map(v => '' === v ? '<br>' : v)
+								.join('</p><p>') +
+							'</p>'
+				)
+				: value
+
+			const delta = QuillEditor[this._uid].clipboard.convert(value)
+			QuillEditor[this._uid].setContents(delta)
+
+			const mention = QuillEditor[this._uid].getModule('mention')
+			if (mention) {
+				mention.removeOrphanedMentionChar(true)
+			}
+
+			if (this.allowTags) {
+				const counter = QuillEditor[this._uid].getModule('counter')
+				this.$emit('counter', counter.calculate())
+			}
+
+			this.removeTrailingNewLine()
+
+			// This prevents the editor for turning dirty after we remove the trailing line.
+			await this.$nextTick()
+
+			// We will add the update event here
+			QuillEditor[this._uid].on('text-change', () => this.update())
+			QuillEditor[this._uid].on('selection-change', (range, oldRange, source) => {
+				if ('api' === source) {
+					this.update()
+				}
+
+				if (!range) {
+					this.$emit('blur', QuillEditor[this._uid])
+				} else {
+					this.$emit('focus', QuillEditor[this._uid])
+				}
+
+				this.$emit('selection-change', {
+					range,
+					oldRange,
+					source
+				})
+			})
+
+			document.addEventListener('click', this.maybeCloseMenu)
+
+			if (this.disabled) {
+				QuillEditor[this._uid].disable()
+			}
+
+			if (!reset) {
+				QuillEditor[this._uid].history.clear()
+			}
+		},
+		startQuill () {
+			return new Quill(this.$refs.quill, {
 				modules : {
 					toolbar     : !this.showToolbar ? [] : [ 'bold', 'italic', 'underline', 'autoLink'/* , { list: 'bullet' }, { list: 'ordered' } */ ],
 					lineNumbers : this.lineNumbers
@@ -452,79 +527,6 @@ export default {
 				theme   : 'snow',
 				formats : !this.showToolbar ? [ 'mention' ] : [ 'bold', 'underline', 'italic', 'link', 'list', 'autoLink', 'aioseoInline' ]
 			})
-
-			if (reset) {
-				this.quill.setText('')
-			}
-
-			let value = this.value
-			if (value && value.length && value.match(/#[^\s]*$/)) {
-				// If the value ends with a smart tag, append a space on startup to prevent weird input behaviour.
-				// https://github.com/awesomemotive/aioseo/issues/1351
-				value = value.trim() + '&nbsp;'
-			}
-
-			// Make sure newlines are kept intact.
-			value = value
-				? (
-					this.single
-						? value.replace('\n', ' ')
-						: '<p>' +
-							value.split('\n')
-								.map(v => '' === v ? '<br>' : v)
-								.join('</p><p>') +
-							'</p>'
-				)
-				: value
-
-			this.quill.clipboard.dangerouslyPasteHTML(0, value, Quill.sources.API)
-			this.quill.blur()
-
-			const mention = this.quill.getModule('mention')
-			if (mention) {
-				mention.removeOrphanedMentionChar()
-			}
-			document.documentElement.scrollTop = scrollTop
-
-			if (this.allowTags) {
-				const counter = this.quill.getModule('counter')
-				this.$emit('counter', counter.calculate())
-			}
-
-			this.removeTrailingNewLine()
-
-			// This prevents the editor for turning dirty after we remove the trailing line.
-			await this.$nextTick()
-
-			// We will add the update event here
-			this.quill.on('text-change', () => this.update())
-			this.quill.on('selection-change', (range, oldRange, source) => {
-				if ('api' === source) {
-					this.update()
-				}
-
-				if (!range) {
-					this.$emit('blur', this.quill)
-				} else {
-					this.$emit('focus', this.quill)
-				}
-
-				this.$emit('selection-change', {
-					range,
-					oldRange,
-					source
-				})
-			})
-
-			document.addEventListener('click', this.maybeCloseMenu)
-
-			if (this.disabled) {
-				this.quill.disable()
-			}
-
-			if (!reset) {
-				this.quill.history.clear()
-			}
 		},
 		setPhrase (value) {
 			// We are caching the phrase at this point, so we can use it later to undo the next few lines.
@@ -533,16 +535,17 @@ export default {
 			value = addTags(value)
 			value = value.replace(/<span([^>]*)>/g, '<aioseo-inline$1>').replace(/<\/span>/g, '</aioseo-inline>')
 
-			this.quill.clipboard.dangerouslyPasteHTML(value)
+			const delta = QuillEditor[this._uid].clipboard.convert(value)
+			QuillEditor[this._uid].setContents(delta)
 		},
 		getPhrase () {
-			return this.quill.getText()
+			return QuillEditor[this._uid].getText()
 		},
 		getPhraseWithFormats () {
-			return this.quill.getContents()
+			return QuillEditor[this._uid].getContents()
 		},
 		getPhraseHtml () {
-			let value = this.quill.root.childNodes[0].innerHTML
+			let value = QuillEditor[this._uid].root.childNodes[0].innerHTML
 
 			value = value.replace(/<aioseo-inline([^>]*)>/g, '<span$1>').replace(/<\/aioseo-inline>/g, '</span>')
 			value = removeTags(this.cachedPhrase, value)
@@ -569,10 +572,10 @@ export default {
 			})
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.maybeCloseMenu)
 	},
-	destroyed () {
+	unmounted () {
 		if (this.tagsContext) {
 			this.$bus.$emit('updateEditor' + this.tagsContext, this._uid)
 		}
@@ -608,10 +611,20 @@ export default {
 	}
 
 	.aioseo-append-button {
+
+		// This fixes the button wrapper taking up space below the input.
+		.aioseo-ai-generator {
+			line-height: 0;
+
+			> * {
+				line-height: 22px;
+			}
+		}
+
 		button {
 			position: absolute;
-			right: 6px;
-			top: 6px;
+			right: 4px;
+			top: 4px;
 
 			width: 32px;
 			height: 32px;
@@ -638,7 +651,7 @@ export default {
 
 	.aioseo-editor-single {
 		.ql-editor {
-			padding: 8px 10px;
+			padding: 7px 10px;
 		}
 
 		&.aioseo-editor-line-numbers {
@@ -688,7 +701,7 @@ export default {
 	.ql-editor {
 		padding: 15px;
 		border-radius: 3px;
-		font-size: 16px;
+		font-size: $font-md;
 		color: $black;
 		border: 1px solid $input-border;
 		height: auto;
@@ -704,12 +717,13 @@ export default {
 			}
 
 			.aioseo-tag {
-				height: 25px;
+				height: 20px;
 				margin: 0 1px;
 				color: $black2;
-				font-weight: 600;
-				font-size: 14px;
-				padding: 3px 25px 3px 10px;
+				font-weight: $font-bold;
+				font-size: 12px;
+				line-height: 18px;
+				padding: 0 32px 0 8px;
 				background-color: $background;
 				border-radius: 3px;
 				cursor: pointer;
@@ -720,6 +734,8 @@ export default {
 				.tag-toggle {
 					display: inline-flex;
 					align-items: center;
+					justify-content: center;
+					width: 24px;
 					background-color: $border;
 					position: absolute;
 					top: 0;
@@ -754,7 +770,7 @@ export default {
 
 		.aioseo-tag-custom,
 		.aioseo-tag-search {
-			padding: 12px;
+			padding: 8px;
 			border-bottom: 1px solid $border;
 		}
 
@@ -764,6 +780,10 @@ export default {
 
 			input {
 				flex: 1;
+			}
+
+			.prepend-icon svg.aioseo-search {
+				width: 12px;
 			}
 
 			.aioseo-trash {
@@ -796,7 +816,7 @@ export default {
 				margin: 0;
 				background-color: transparent;
 				border-bottom: 1px solid $border;
-				padding: 15px;
+				padding: 8px;
 				cursor: pointer;
 				font-size: 14px;
 
@@ -817,18 +837,22 @@ export default {
 				.aioseo-tag-item {
 					display: flex;
 
-					> div:first-child {
-						margin-right: 10px;
+					> div:first-child:not(:last-child) {
+						margin: 1px 13px 1px 5px;
 					}
 
 					.aioseo-tag-title {
-						font-weight: 600;
+						font-weight: $font-bold;
+
+						+ .aioseo-tag-description {
+							margin-top: 2px;
+						}
 					}
 				}
 
 				svg.aioseo-plus {
-					width: 10px;
-					height: 10px;
+					width: 12px;
+					height: 12px;
 					color: $blue;
 				}
 
@@ -836,7 +860,7 @@ export default {
 					cursor: default;
 					padding: 12px;
 					font-size: 16px;
-					font-weight: 600;
+					font-weight: $font-bold;
 
 					&:hover,
 					&.highlight {
@@ -867,10 +891,11 @@ export default {
 	}
 
 	.ql-container {
+		font-family: $font-family;
 		height: auto;
 
 		p {
-			font-size: 16px;
+			font-size: $font-md;
 			margin: 0;
 			line-height: 25px;
 		}

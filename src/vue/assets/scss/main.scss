@@ -6,7 +6,7 @@ body.vue-build {
 	margin: 0;
 
 	.aioseo-app {
-		min-height: calc(100vh - 88px);
+		min-height: calc(100vh - var(--aioseo-header-height, 72px));
 
 		.aioseo-main {
 			padding-bottom: 30px;
@@ -26,6 +26,10 @@ body.aioseo-setup-wizard {
 }
 
 body[class*="page_aioseo"] {
+	--aioseo-gutter: 20px;
+	--aioseo-header-height: 72px;
+	--aioseo-footer-height: 150px;
+
 	.aioseo-header,
 	.aioseo-notifications .overlay {
 		left: 160px;
@@ -47,15 +51,21 @@ body[class*="page_aioseo"] {
 		display: none;
 	}
 
+	.aioseo-app {
+		min-height: calc(100vh - var(--aioseo-header-height) - 65px);
+	}
+
 	&.admin-bar {
 		.aioseo-app {
-			// 100% (viewport height) - 72px (header) - 65px (wp content margin) - 32px (admin bar) - 150px (footer).
-			min-height: calc(100vh - 88px - 65px - 32px - 150px);
-		}
+			// 100vh (viewport height) - 72px (header) - 65px (wp content margin) - 32px (admin bar) - 150px (footer)
+			min-height: calc(100vh - var(--aioseo-header-height) - 65px - 32px - var(--aioseo-footer-height));
 
-		&.aioseo-has-bar {
-			.aioseo-app {
-				min-height: calc(100vh - 88px - 40px - 65px - 32px - 150px);
+			@media screen and (max-width: 782px) {
+				min-height: calc(100vh - var(--aioseo-header-height) - 65px - 46px - var(--aioseo-footer-height));
+			}
+
+			@media screen and (max-width: 600px) {
+				min-height: calc(100vh - 65px - 46px);
 			}
 		}
 
@@ -67,27 +77,18 @@ body[class*="page_aioseo"] {
 			.overlay {
 				top: 32px;
 			}
+
 			.notification-menu {
 				top: 32px;
 			}
 		}
 	}
 
-	.aioseo-app {
-		min-height: calc(100vh - 88px - 65px);
-	}
-
 	&.aioseo-has-bar {
-		.aioseo-app {
-			min-height: calc(100vh - 88px - 40px - 65px);
-		}
+		--aioseo-header-height: 112px;
 
-		.aioseo-header {
-			height: 112px;
-
-			@media screen and (max-width: 782px) {
-				height: 132px;
-			}
+		@media screen and (max-width: 782px) {
+			--aioseo-header-height: 132px;
 		}
 	}
 
@@ -112,9 +113,6 @@ body[class*="page_aioseo"] {
 		}
 
 		&.admin-bar {
-			.aioseo-app {
-				min-height: calc(100vh - 88px - 65px - 46px);
-			}
 
 			.aioseo-header {
 				top: 46px;
@@ -165,34 +163,39 @@ body[class*="page_aioseo"] {
 	}
 }
 
-body.aioseo-has-bar {
-	.aioseo-app {
-		.aioseo-main {
-			> .aioseo-container {
-				margin-top: 128px;
-
-				@media screen and (max-width: 782px) {
-					margin-top: 148px;
-				}
-
-				@media screen and (max-width: 600px) {
-					margin-top: 15px;
-				}
-			}
-		}
-	}
-}
-
 .aioseo-app {
+	--aioseo-gutter: 20px;
+
+	font-family: $font-family;
+	font-size: $font-md;
+
+	@media only screen and (max-width: 782px) {
+		--aioseo-gutter: 16px;
+	}
+
+	.sm,
+	.small {
+		font-size: $font-sm;
+		line-height: 18px;
+	}
+
+	.medium {
+		font-size: $font-md;
+		line-height: 22px;
+	}
+
 	.route-fade-enter-active, .route-fade-leave-active {
 		transition: all 0.2s;
 	}
+
 	.route-fade-enter, .route-fade-leave-active {
 		opacity: 0;
 	}
+
 	.route-fade-enter {
 		transform: translateX(30px);
 	}
+
 	.route-fade-leave-active {
 		transform: translateX(-30px);
 	}
@@ -211,8 +214,8 @@ body.aioseo-has-bar {
 	}
 
 	p {
-		font-size: 16px;
-		line-height: 1.5;
+		font-size: $font-md;
+		line-height: 22px;
 	}
 
 	a:not(.aioseo-button) {
@@ -236,20 +239,19 @@ body.aioseo-has-bar {
 		margin: 0;
 	}
 
-	// font-family: $font-family;
-
 	.aioseo-main {
-		// overflow: auto;
 		height: 100%;
 
 		> .aioseo-container {
-			margin-top: 88px; // Padding the top for the header.
+			margin-top: 0;
+			padding-block: var(--aioseo-gutter);
 
-			@media screen and (max-width: 782px) {
-				margin-top: 72px;
+			// Padding the top for the header.
+			@media screen and (min-width: 601px) {
+				margin-top: var(--aioseo-header-height);
 			}
 
-			@media screen and (max-width: 600px) {
+			> .aioseo-tabs .aioseo-mobile-tabs {
 				margin-top: 0;
 			}
 		}
@@ -265,15 +267,15 @@ body.aioseo-has-bar {
 	}
 
 	.aioseo-section-description {
-		font-size: 16px;
+		font-size: $font-md;
 		color: $black;
-		line-height: 1.8;
-		padding-bottom: 30px;
+		line-height: 22px;
+		padding-bottom: 16px;
 	}
 
 	.aioseo-description-text {
 		font-size: 14px;
-		line-height: 1.8;
+		line-height: 22px;
 		color: $black;
 
 		&.aioseo-error {
@@ -283,8 +285,8 @@ body.aioseo-has-bar {
 
 	.aioseo-description {
 		font-size: 14px;
-		line-height: 1.8;
-		margin: 8px 0 0;
+		line-height: 22px;
+		margin: 0;
 		color: $black;
 
 		&.no-margin {
@@ -294,12 +296,24 @@ body.aioseo-has-bar {
 		&.aioseo-error {
 			color: $red;
 		}
+
+		> .aioseo-toggle {
+			margin: 0;
+		}
+	}
+
+	* + .aioseo-description {
+		margin-top: 8px;
+
+		&:has(.aioseo-alert) {
+			margin-top: 12px;
+		}
 	}
 
 	.max-recommended-count {
 		color: $black2;
 		text-align: right;
-		margin-top: 10px;
+		margin-top: 4px;
 		font-size: 14px;
 
 		strong.error {
@@ -367,5 +381,6 @@ body.aioseo-has-bar {
 
 body,
 #wpfooter {
+	padding-top: 0;
 	background-color: #F3F4F5;
 }

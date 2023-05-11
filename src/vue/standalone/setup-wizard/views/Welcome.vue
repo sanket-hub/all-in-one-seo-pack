@@ -12,7 +12,6 @@
 
 				<base-button
 					type="green"
-					size="xl"
 					inline
 					tag="router-link"
 					:to="getNextLink"
@@ -28,9 +27,9 @@
 					>&larr;</a>
 					<a
 						v-else
+						class="no-underline"
 						href="#"
 						@click.prevent="showModal = true"
-						class="no-underline"
 					>&larr;</a>
 					&nbsp;
 					<a
@@ -160,7 +159,7 @@ export default {
 			background-color: #fff;
 			border: 1px solid $border;
 			box-shadow: 0px 2px 10px rgba(0, 90, 224, 0.2);
-			padding: 70px;
+			padding: 40px;
 			display: flex;
 			justify-content: center;
 			flex-direction: column;
@@ -190,7 +189,7 @@ export default {
 			}
 
 			.aioseo-button {
-				margin-top: 40px;
+				margin-top: 20px;
 				max-width: 265px;
 				align-self: center;
 			}

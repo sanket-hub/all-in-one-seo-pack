@@ -43,7 +43,7 @@
 					type="text"
 					size="medium"
 					:placeholder="strings.search"
-					@input="value => inputSearch(value)"
+					@update:modelValue="value => inputSearch(value)"
 				/>
 			</div>
 			<div

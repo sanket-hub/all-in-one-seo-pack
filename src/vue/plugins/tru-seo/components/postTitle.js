@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 import { getPostEditedContent } from './postContent'
 import { getPostEditedPermalink } from './postPermalink'
@@ -95,7 +95,7 @@ export const maybeUpdatePostTitle = async (run = true) => {
 		postTitle = newPostTitle
 		store.commit('live-tags/updatePostTitle', postTitle)
 		if (run) {
-			Vue.prototype.$truSeo.runAnalysis({
+			(new TruSeo()).runAnalysis({
 				postId   : store.state.currentPost.id,
 				postData : { ...store.state.currentPost },
 				content  : getPostEditedContent(),

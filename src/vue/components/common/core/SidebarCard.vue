@@ -160,7 +160,9 @@ export default {
 
 <style lang="scss">
 .aioseo-card {
+
 	&.aioseo-sidebar-card {
+
 		.header {
 			height: 46px;
 
@@ -169,16 +171,16 @@ export default {
 			}
 		}
 
-		.content {
-			padding-bottom: 8px !important;
-		}
-
 		ul {
 			margin-bottom: 0;
 
 			li {
-				margin-bottom: 16px;
-				padding-left: 25px;
+				padding-left: 24px;
+				margin-bottom: 0;
+
+				+ li {
+					margin-top: 12px;
+				}
 			}
 
 			.description {

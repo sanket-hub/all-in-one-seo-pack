@@ -6,7 +6,7 @@
 
 <script>
 import { Standalone } from '@/vue/mixins/Standalone'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 const searchAppearanceUrl = window.aioseo.urls.aio.searchAppearance
 export default {
 	components : {

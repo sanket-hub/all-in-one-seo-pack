@@ -6,9 +6,9 @@
 
 		<core-tooltip
 			class="copy-tooltip"
-			ref="copy-tooltip"
 		>
 			<div
+				ref="copy"
 				class="copy"
 				v-clipboard:copy="message"
 				v-clipboard:success="onCopy"
@@ -59,19 +59,20 @@ export default {
 	methods : {
 		onCopy () {
 			this.copied = true
-			const tooltip = this.$refs['copy-tooltip'].$children[0]
+			const tooltip = this.$refs.copy
 
 			if (tooltip.popperJS) {
 				tooltip.popperJS.destroy()
-				tooltip.popperJS   = null
+				tooltip.popperJS = null
 			}
 			tooltip.showPopper = false
 
 			setTimeout(() => {
 				if (tooltip.popperJS) {
 					tooltip.popperJS.destroy()
-					tooltip.popperJS   = null
+					tooltip.popperJS = null
 				}
+
 				tooltip.showPopper = false
 				this.copied        = false
 			}, 2000)

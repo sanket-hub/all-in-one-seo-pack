@@ -32,3 +32,17 @@ export function dateSqlToLocalRelative (date) {
 			__('years ago', td)
 		)
 }
+export function dateJsToLocal (date, format = 'yyyy-MM-dd HH:mm:ss') {
+	if (!date) {
+		return null
+	}
+
+	return DateTime.fromJSDate(date).setZone(DateTime.local().zoneName).toFormat(format)
+}
+export function dateStringToLocalJs (date) {
+	if (!date) {
+		return null
+	}
+
+	return DateTime.fromJSDate(new Date(date)).setZone(DateTime.local().zoneName).toJSDate()
+}

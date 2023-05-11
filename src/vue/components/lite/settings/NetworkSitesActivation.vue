@@ -74,7 +74,7 @@
 <script>
 import { Network } from '@/vue/mixins'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import SvgCircleCheckSolid from '@/vue/components/common/svg/circle/CheckSolid'
 export default {
 	mixins     : [ Network ],

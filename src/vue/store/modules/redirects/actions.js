@@ -25,24 +25,14 @@ export default {
 			return Promise.resolve()
 		}
 
-		// Convert the rowIds into an object with hashes.
-		let rowIdsWithHashes = rowIds
-		if ('enable' === action || 'disable' === action) {
-			rowIdsWithHashes = {}
-			rowIds.forEach(rowId => {
-				const row = rows.find(r => r.id === parseInt(rowId))
-				rowIdsWithHashes[row.source_url_match_hash] = rowId
-			})
-		}
-
 		const httpAction = 'delete' === action ? 'delete' : 'post'
 		const url        = 'delete' === action ? '' : `${action}/`
 		return this._vm.$http[httpAction](this._vm.$links.restUrl(`redirects/bulk/${url}`))
 			.send({
-				rowIds : rowIdsWithHashes
+				rowIds : rowIds
 			})
 			.then(() => {
-				setOptions({
+				setOptions(this._vm, {
 					redirects : state
 				})
 			})
@@ -63,7 +53,7 @@ export default {
 				additionalFilters
 			})
 			.then(response => {
-				setOptions({
+				setOptions(this._vm, {
 					redirects : state
 				})
 				commit('updateFilters', response.body.filters)
@@ -81,7 +71,7 @@ export default {
 				searchTerm
 			})
 			.then(response => {
-				setOptions({
+				setOptions(this._vm, {
 					redirects : state
 				})
 				const updateRows = '404' === slug ? 'updateLogs404' : 'updateLogs'
@@ -106,7 +96,7 @@ export default {
 						rows[redirectIndex] = response.body.redirect
 						commit('updateRows', rows)
 
-						setOptions({
+						setOptions(this._vm, {
 							redirects : state
 						})
 					}
@@ -172,7 +162,7 @@ export default {
 					commit('original/setOriginalRedirectOptions', JSON.parse(JSON.stringify(response.body.options)), { root: true })
 					const redirects     = this._vm.$aioseo.redirects
 					redirects.importers = response.body.importers
-					setOptions({
+					setOptions(this._vm, {
 						options : response.body.options,
 						redirects
 					})

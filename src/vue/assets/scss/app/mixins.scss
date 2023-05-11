@@ -1,0 +1,27 @@
+// An grid layout that will fill the available space with columns of a minimum width.
+// The grid will have a gap of var(--aioseo-gutter) between columns and rows.
+// The grid will have a maximum of $column-count columns and will automatically scale down to one column based on screen size.
+@mixin aioseoGrid($column-count: 3, $min-width: 200px) {
+	$gap-count: calc($column-count - 1);
+	--total-gap-width: calc(#{$gap-count} * var(--aioseo-gutter));
+	--aioseo-col-max-width: calc((100% - var(--total-gap-width)) / #{$column-count});
+
+	display: grid;
+	gap: var(--aioseo-gutter);
+	grid-template-columns: repeat(auto-fill, minmax(max($min-width, var(--aioseo-col-max-width)), 1fr));
+
+	> * {
+		max-width: none;
+	}
+}
+
+// Calculate the width of a column, including gutter, based on the number of columns it spans.
+@mixin aioseoFlexRowSpan($column-span: 1) {
+	$column-count: calc(12 / $column-span);
+	$width: calc(100 / $column-count);
+	$gap-divisor: calc((100 - $width) / 100);
+	$calculated-width: calc(#{$width}% - var(--aioseo-gutter) * #{$gap-divisor});
+
+	max-width: $calculated-width;
+	flex-basis: $calculated-width;
+}

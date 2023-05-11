@@ -43,6 +43,7 @@
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	emits      : [ 'set-url' ],
 	components : {
 		CoreProBadge,
 		SvgExternal

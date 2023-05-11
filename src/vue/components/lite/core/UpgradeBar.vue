@@ -77,8 +77,8 @@ export default {
 		background-color: $green;
 		justify-content: center;
 		color: #fff;
-		font-size: 13px;
-		padding: 0 14px 0 40px;
+		font-size: 14px;
+		padding: 0 20px;
 
 		.upgrade-text {
 			display: flex;

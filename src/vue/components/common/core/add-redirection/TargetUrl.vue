@@ -7,7 +7,7 @@
 			v-model="value"
 			@keyup="searchChange"
 			@focus="showResults = true"
-			@input="$emit('input', value)"
+			@update:modelValue="$emit('update:modelValue', value)"
 			@blur="$emit('blur', value)"
 			size="medium"
 			placeholder="/target-page/"
@@ -100,7 +100,7 @@ export default {
 		...mapActions('redirects', [ 'getPosts' ]),
 		onBlur () {
 			setTimeout(() => {
-				this.$emit('input', this.value)
+				this.$emit('update:modelValue', this.value)
 			}, 150)
 		},
 		searchChange () {
@@ -140,7 +140,7 @@ export default {
 		setUrl (url) {
 			this.showResults = false
 			this.value       = url.replace(this.$aioseo.urls.mainSiteUrl, '', url)
-			this.$emit('input', this.value)
+			this.$emit('update:modelValue', this.value)
 		},
 		documentClick (event) {
 			if (!this.showResults) {
@@ -158,7 +158,7 @@ export default {
 	mounted () {
 		document.addEventListener('click', this.documentClick)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.documentClick)
 	}
 }

@@ -6,41 +6,40 @@
 			value     : false
 		})"
 	>
-		<div slot="headerTitle">
+		<template #headerTitle>
 			{{ headerTitle }}
-		</div>
+		</template>
 
-		<div
-			slot="body"
-			class="aioseo-ai-unlicensed-modal"
-		>
-			<core-blur>
-				<div class="list">
-					<div class="suggestions">
-						<div
-							class="suggestion"
-							v-for="(suggestion, index) in suggestions['title']"
-							:key="index"
-						>
-							<base-editor
-								ref="editor"
-								:value="suggestion"
-								single
-								disabled
+		<template #body>
+			<div class="aioseo-ai-unlicensed-modal">
+				<core-blur>
+					<div class="list">
+						<div class="suggestions">
+							<div
+								class="suggestion"
+								v-for="(suggestion, index) in suggestions['title']"
+								:key="index"
 							>
-								<template #append-button>
-									<button
-										type="button"
-										disabled
-									>
-										<svg-circle-plus />
-									</button>
-								</template>
-							</base-editor>
+								<base-editor
+									ref="editor"
+									:value="suggestion"
+									single
+									disabled
+								>
+									<template #append-button>
+										<button
+											type="button"
+											disabled
+										>
+											<svg-circle-plus />
+										</button>
+									</template>
+								</base-editor>
+							</div>
 						</div>
 					</div>
-				</div>
-			</core-blur>
+				</core-blur>
+			</div>
 
 			<div class="cta">
 				<img
@@ -68,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</template>
 	</core-modal-portal>
 </template>
 
@@ -202,7 +201,7 @@ export default {
 								}
 
 								.aioseo-editor-single .ql-editor {
-									padding: 8px 55px 8px 10px;
+									padding: 7px 55px 7px 10px;
 								}
 
 								.ql-editor {

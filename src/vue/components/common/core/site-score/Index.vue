@@ -7,6 +7,7 @@
 		<svg-seo-site-score
 			v-if="!loading"
 			:score="score"
+			:strokeWidth="strokeWidth"
 		/>
 
 		<div class="aioseo-score-amount-wrapper">
@@ -35,7 +36,7 @@
 </template>
 
 <script>
-import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index.vue'
+import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index'
 import SvgSeoSiteScoreLoading from '@/vue/components/common/svg/seo-site-score/Loading'
 export default {
 	components : {
@@ -45,7 +46,13 @@ export default {
 	props : {
 		score       : Number,
 		loading     : Boolean,
-		description : String
+		description : String,
+		strokeWidth : {
+			type : Number,
+			default () {
+				return 1.75
+			}
+		}
 	},
 	data () {
 		return {
@@ -72,14 +79,18 @@ export default {
 	margin: 20px;
 
 	.aioseo-score-amount {
-		line-height: 2em;
+		line-height: 1.2;
+
 		.score {
-			font-size: 64px;
-			font-weight: 600;
+			font-size: 50px;
+			font-weight: $font-bold;
+			color: inherit;
 		}
 
 		.total {
 			font-size: 18px;
+			line-height: 1.5;
+			font-weight: $font-bold;
 			color: $placeholder-color;
 			padding-left: 3px;
 		}
@@ -88,10 +99,10 @@ export default {
 	.score-description {
 		max-width: 80%;
 		text-align: center;
-		font-size: 18px;
-		font-weight: 600;
-		line-height: 1.1;
-		margin-top: 8px;
+		font-size: 16px;
+		font-weight: $font-bold;
+		line-height: 1.3;
+		color: inherit;
 	}
 
 	.score-analyzing {
@@ -99,4 +110,30 @@ export default {
 		font-size: 30px;
 	}
 }
+
+.aioseo-site-score {
+	display: flex;
+
+	&:has(.stroke-red) {
+
+		.aioseo-score-amount-wrapper {
+			color: $red;
+		}
+	}
+
+	&:has(.stroke-orange) {
+
+		.aioseo-score-amount-wrapper {
+			color: $orange;
+		}
+	}
+
+	&:has(.stroke-green) {
+
+		.aioseo-score-amount-wrapper {
+			color: $green;
+		}
+	}
+}
+
 </style>

@@ -2,16 +2,27 @@
 export default {
 	methods : {
 		formatStatistic (name, number) {
-			number = Math.abs(number)
-
 			if ('ctr' === name) {
-				return `${number}%`
+				return `${Math.abs(number)}%`
 			}
 
 			if ('position' === name) {
-				return number.toFixed(0)
+				return Math.abs(number).toFixed(0)
 			}
 
+			if ('decay' === name) {
+				return this.$t.sprintf(
+					// Translators: 1 - The number of points.
+					this.$t.__('%1$s Points', this.$td),
+					this.$numbers.numberFormat(number, 0)
+				)
+			}
+
+			if ('decayPercent' === name) {
+				return `${number}%`
+			}
+
+			number = Math.abs(number)
 			return this.$numbers.compactNumber(number)
 		}
 	}

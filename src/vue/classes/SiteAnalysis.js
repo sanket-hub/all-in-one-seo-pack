@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import tags from '@/vue/utils/tags'
 import { __, sprintf } from '@wordpress/i18n'
 
 const td = import.meta.env.VITE_TEXTDOMAIN
@@ -202,7 +202,7 @@ class SiteAnalysis {
 
 	noImgAltAttsBody = result => {
 		const body = {
-			codeAlt    : 'image-missing-alt' !== result.error ? null : result.value.map(tag => Vue.prototype.$tags.decodeHTMLEntities(tag)).join('\n'),
+			codeAlt    : 'image-missing-alt' !== result.error ? null : result.value.map(tag => tags.decodeHTMLEntities(tag)).join('\n'),
 			message    : __('Make sure every image has an alt tag, and add useful descriptions to each image. Add your keywords or synonyms - but do it in a natural way.', td),
 			buttonText : __('Edit Your Page', td),
 			buttonLink : window.aioseo.data.staticHomePage ? window.aioseo.urls.staticHomePage : null

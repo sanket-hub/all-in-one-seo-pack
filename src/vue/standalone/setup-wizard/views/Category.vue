@@ -21,10 +21,11 @@
 						>
 							<base-highlight-toggle
 								type="radio"
+								size="medium"
 								:active="isActive(category)"
 								name="category"
-								:value="getValue(category)"
-								@input="checked => updateValue(checked, category)"
+								:modelValue="getValue(category)"
+								@update:modelValue="checked => updateValue(checked, category)"
 							>
 								<component
 									:is="category.icon"
@@ -39,10 +40,11 @@
 					<base-highlight-toggle
 						class="other-category"
 						type="radio"
+						size="medium"
 						:active="isActive(otherCategory)"
 						name="category"
-						:value="getValue(otherCategory)"
-						@input="checked => updateValue(checked, otherCategory)"
+						:modelValue="getValue(otherCategory)"
+						@update:modelValue="checked => updateValue(checked, otherCategory)"
 					>
 						<component
 							:is="otherCategory.icon"
@@ -67,6 +69,7 @@
 						<div class="settings-name">
 							<div class="name small-margin">{{ strings.siteTitle }}</div>
 						</div>
+
 						<core-html-tags-editor
 							v-model="category.siteTitle"
 							:line-numbers="false"
@@ -84,6 +87,7 @@
 						<div class="settings-name">
 							<div class="name small-margin">{{ strings.metaDescription }}</div>
 						</div>
+
 						<core-html-tags-editor
 							v-model="category.metaDescription"
 							:line-numbers="false"
@@ -187,6 +191,17 @@ export default {
 		selected (newVal) {
 			this.category.category = newVal[0].value
 
+			this.triggerFeaturesUpdate(newVal[0].value)
+		}
+	},
+	computed : {
+		...mapState([ 'options' ]),
+		...mapState('wizard', [ 'category' ])
+	},
+	methods : {
+		...mapMutations('wizard', [ 'updateFeatures' ]),
+		...mapActions('wizard', [ 'saveWizard' ]),
+		triggerFeaturesUpdate (category) {
 			const features = [
 				'optimized-search-appearance',
 				'analytics',
@@ -197,7 +212,7 @@ export default {
 			]
 
 			// Let's preselect some features based on the category set.
-			switch (newVal[0].value) {
+			switch (category) {
 				case 'blog':
 				case 'portfolio':
 				case 'other':
@@ -233,15 +248,7 @@ export default {
 			}
 
 			this.updateFeatures(features)
-		}
-	},
-	computed : {
-		...mapState([ 'options' ]),
-		...mapState('wizard', [ 'category' ])
-	},
-	methods : {
-		...mapMutations('wizard', [ 'updateFeatures' ]),
-		...mapActions('wizard', [ 'saveWizard' ]),
+		},
 		updateValue (checked, category) {
 			this.selected = []
 			if (checked) {
@@ -275,16 +282,19 @@ export default {
 	},
 	mounted () {
 		this.$nextTick(() => {
-			this.selected.push(this.categories[0])
+			const category = this.categories.find(c => c.value === this.category.category) || this.categories[0]
+
+			this.selected.push(category)
+			this.triggerFeaturesUpdate(category)
 
 			const siteTitle = this.$aioseo.data.staticHomePage ? this.$aioseo.data.staticHomePageTitle : this.options.searchAppearance.global.siteTitle
 			if (siteTitle && this.category.siteTitle !== siteTitle) {
-				this.$set(this.category, 'siteTitle', siteTitle)
+				this.category.siteTitle = siteTitle
 			}
 
 			const metaDescription = this.$aioseo.data.staticHomePage ? this.$aioseo.data.staticHomePageDescription : this.options.searchAppearance.global.metaDescription
 			if (metaDescription && this.category.metaDescription !== metaDescription) {
-				this.$set(this.category, 'metaDescription', metaDescription)
+				this.category.metaDescription = metaDescription
 			}
 
 			this.loaded = true
@@ -297,20 +307,9 @@ export default {
 .aioseo-wizard-category {
 	font-size: 16px;
 
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-	}
-
-	.description {
-		margin-top: 20px;
-		font-size: 16px;
-		color: $black2;
-		margin-bottom: 50px;
-	}
-
 	.categories {
+		--aioseo-gutter: 16px;
+
 		color: $black2-hover;
 
 		svg.icon {
@@ -320,10 +319,15 @@ export default {
 		}
 
 		.other-category {
+			padding-block: 4px;
+			margin-top: var(--aioseo-gutter);
+
 			.aioseo-input {
 				margin-left: 10px;
 
 				input {
+					height: 36px;
+					padding-block: 0;
 					border: none;
 
 					&:focus {
@@ -336,10 +340,14 @@ export default {
 	}
 
 	.site-info {
-		margin-top: 56px;
 
-		> div:not(:first-child) {
-			margin-top: 30px;
+		> :first-child {
+			margin-top: var(--aioseo-gutter);
+			padding-bottom: 0;
+		}
+
+		.settings-name .name {
+			margin: 12px 0;
 		}
 	}
 

@@ -125,7 +125,7 @@
 <script>
 import { mapActions } from 'vuex'
 
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreModal from '@/vue/components/common/core/modal/Index'
@@ -393,6 +393,7 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-tools-debug {
+
 	.select-site {
 		font-size: 16px;
 		font-weight: bold;
@@ -406,7 +407,11 @@ export default {
 	}
 
 	.aioseo-tabs.internal {
-		margin: 10px 0 30px 0;
+		margin: 8px 0 var(--aioseo-gutter) 0;
+	}
+
+	.aioseo-description:empty {
+		display: none;
 	}
 
 	.aioseo-modal-body {

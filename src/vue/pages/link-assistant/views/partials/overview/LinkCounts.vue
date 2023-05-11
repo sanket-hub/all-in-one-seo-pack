@@ -83,34 +83,47 @@ export default {
 
 <style lang="scss">
 .aioseo-app .aioseo-link-assistant-statistics {
-	margin-top: 0;
+	--aioseo-gutter: 0px;
+
+	margin: 0;
+
 	.counter {
 		display: flex;
 		justify-content: center;
+		flex: 1;
 	}
+
 	.divider-right {
 		border-right: 2px solid $gray;
 	}
+
 	@media screen and (max-width: 912px) {
+
 		.aioseo-row {
 			justify-content: center;
-			row-gap: 15px;
+			row-gap: 16px;
+
 			.counter {
 				display: inline-flex;
+
 				&.aioseo-col {
 					flex-basis: auto;
 				}
 			}
 		}
 	}
+
 	@media screen and (max-width: 340px) {
+
 		.aioseo-row {
 			justify-content: flex-start !important;
 			margin: 0 auto
 		}
+
 		.divider-right {
 			border-right: 0;
 		}
+
 		.aioseo-tooltip {
 			display: none !important;
 		}

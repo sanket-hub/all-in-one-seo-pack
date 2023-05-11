@@ -119,8 +119,8 @@
 										size="medium"
 										:options="getPostTaxonomyOptions(postType)"
 										:placeholder="strings.selectTaxonomy"
-										:value="getPostTaxonomyOptions(postType).find(t => t.value === getPostTypeTaxonomy(postType).name)"
-										@input="value => dynamicOptions.breadcrumbs.postTypes[postType.name].taxonomy = value.value"
+										:modelValue="getPostTaxonomyOptions(postType).find(t => t.value === getPostTypeTaxonomy(postType).name)"
+										@update:modelValue="value => dynamicOptions.breadcrumbs.postTypes[postType.name].taxonomy = value.value"
 									/>
 								</div>
 							</grid-column>

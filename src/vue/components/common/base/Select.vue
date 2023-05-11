@@ -5,8 +5,8 @@
 			{ [size]: size },
 			{ multiple: multiple }
 		]"
-		:value="value"
-		@input="$emit('input', $event)"
+		:modelValue="modelValue"
+		@update:modelValue="$emit('update:modelValue', $event)"
 		:options="options"
 		:multiple="multiple"
 		:taggable="taggable"
@@ -89,11 +89,12 @@
 
 <script>
 import { debounce } from '@/vue/utils/debounce'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+import 'vue-multiselect/dist/vue3-multiselect.css'
 import Multiselect from 'vue-multiselect'
 import SvgCaret from '@/vue/components/common/svg/Caret'
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'open', 'close', 'update:modelValue' ],
 	components : {
 		Multiselect,
 		SvgCaret,
@@ -124,7 +125,7 @@ export default {
 			default : ({ label }) => label
 		},
 		name          : String,
-		value         : [ String, Array, Number, Object ],
+		modelValue    : [ String, Array, Number, Object ],
 		ajaxSearch    : Function,
 		noDataText    : String,
 		popperClass   : String,
@@ -169,10 +170,10 @@ export default {
 				}
 
 				this.options.push(tag)
-				this.value.push(tag)
+				this.modelValue.push(tag)
 			})
 
-			this.$emit('input', this.value)
+			this.$emit('update:modelValue', this.modelValue)
 
 			this.$refs['aioseo-select'].$el.focus()
 		},
@@ -190,18 +191,20 @@ export default {
 			}
 		},
 		resetFirstLastOption () {
-			const elements = this.$refs['aioseo-select'].$el.querySelectorAll('li.multiselect__element')
-			elements.forEach((element, index) => {
-				element.classList.remove('last')
-				element.classList.remove('first')
+			this.$nextTick(() => {
+				const elements = this.$refs['aioseo-select'].$el.querySelectorAll('li.multiselect__element')
+				elements.forEach((element, index) => {
+					element.classList.remove('last')
+					element.classList.remove('first')
 
-				if (0 === index) {
-					element.classList.add('first')
-				}
+					if (0 === index) {
+						element.classList.add('first')
+					}
 
-				if (index === elements.length - 1) {
-					element.classList.add('last')
-				}
+					if (index === elements.length - 1) {
+						element.classList.add('last')
+					}
+				})
 			})
 		}
 	},
@@ -223,7 +226,7 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 46px;
+		min-height: 40px;
 
 		&:before {
 			display: none;
@@ -260,6 +263,7 @@ export default {
 			display: inline-flex;
 			margin: 0;
 			padding: 0;
+			font-size: $font-md;
 			color: $black;
 			overflow: hidden;
 			white-space: nowrap;
@@ -268,7 +272,7 @@ export default {
 
 		.multiselect__placeholder {
 			color: $placeholder-color;
-			font-size: 16px;
+			font-size: 14px;
 			line-height: 20px;
 			margin: 0;
 			padding: 0;
@@ -281,6 +285,7 @@ export default {
 			border: none;
 			color: $black;
 			min-height: auto;
+			font-size: 14px;
 			line-height: 20px;
 
 			&:focus {
@@ -384,7 +389,7 @@ export default {
 		height: 40px;
 
 		.multiselect__tags {
-			padding: 7px 40px 7px 7px;
+			padding: 9px 40px 9px 12px;
 		}
 
 		.multiselect__select {
@@ -435,10 +440,12 @@ export default {
 
 			.multiselect__option {
 				color: $black;
-				font-weight: 700;
-				font-size: 16px;
+				font-weight: 400;
+				font-size: $font-md;
 				white-space: normal;
-				line-height: 1.4;
+				line-height: 22px;
+				padding: 8px;
+				min-height: 38px;
 
 				&--highlight {
 					background-color: $inline-background;

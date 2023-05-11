@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import store from '@/vue/store'
 import { getJsonValue } from '@/vue/utils/json'
 import { upperFirst } from 'lodash-es'
@@ -13,8 +12,8 @@ const levels = {
 	elite      : 6
 }
 
-const getFeatures = (type = '') => {
-	const features  = Vue.prototype.$aioseo.data.isNetworkAdmin
+const getFeatures = ($aioseo, type = '') => {
+	const features  = $aioseo.data.isNetworkAdmin
 		? store.state.internalNetworkOptions.internal.license?.features || []
 		: store.state.internalOptions.internal.license?.features || []
 	let allFeatures = getJsonValue(features, [])
@@ -25,8 +24,8 @@ const getFeatures = (type = '') => {
 	return allFeatures
 }
 
-const hasCoreFeature = (sectionSlug, feature) => {
-	const features = getFeatures('core')
+const hasCoreFeature = ($aioseo, sectionSlug, feature) => {
+	const features = getFeatures($aioseo, 'core')
 	for (const section in features) {
 		// If we have no specific feature, we're just checking if the section is enabled.
 		if (sectionSlug === section && !feature) {
@@ -41,8 +40,8 @@ const hasCoreFeature = (sectionSlug, feature) => {
 	return false
 }
 
-const hasAddonFeature = (slug, feature) => {
-	const addonFeatures = getFeatures('addons')
+const hasAddonFeature = ($aioseo, slug, feature) => {
+	const addonFeatures = getFeatures($aioseo, 'addons')
 	for (const addon in addonFeatures) {
 		if (slug === addon && addonFeatures[addon].includes(feature)) {
 			return true
@@ -52,8 +51,8 @@ const hasAddonFeature = (slug, feature) => {
 	return false
 }
 
-const hasMinimumLevel = (level) => {
-	const currentLevel = Vue.prototype.$aioseo.data.isNetworkAdmin
+const hasMinimumLevel = ($aioseo, level) => {
+	const currentLevel = $aioseo.data.isNetworkAdmin
 		? store.state.internalNetworkOptions.internal.license?.level
 		: store.state.internalOptions.internal.license?.level
 
@@ -64,11 +63,11 @@ const hasMinimumLevel = (level) => {
 	return levels[currentLevel] >= levels[level]
 }
 
-const getPlansForFeature = (sectionSlug, feature = '') => {
+const getPlansForFeature = ($aioseo, sectionSlug, feature = '') => {
 	const plans = []
 
 	// Loop through all the features and find the plans that have access to the feature.
-	Vue.prototype.$aioseo.features.forEach(featureArray => {
+	$aioseo.features.forEach(featureArray => {
 		if (featureArray.section !== sectionSlug) {
 			return
 		}

@@ -66,7 +66,9 @@ export default {
 
 <style lang="scss">
 .aioseo-post-general {
+
 	.aioseo-ai-generator {
+
 		button {
 			display: flex;
 			align-items: center;
@@ -86,7 +88,7 @@ export default {
 
 	.snippet-title-row {
 		.aioseo-editor .aioseo-editor-single .ql-editor {
-			padding: 8px 55px 8px 10px;
+			padding: 7px 55px 7px 10px;
 		}
 	}
 

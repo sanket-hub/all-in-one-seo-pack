@@ -2,7 +2,7 @@
 import store from '@/vue/store'
 import { isEqual, set } from 'lodash-es'
 import { debounce } from '@/vue/utils/debounce'
-import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components'
+import { maybeUpdatePost as updatePostData } from '@/vue/plugins/tru-seo/components/helpers'
 import { getEditorData } from './helpers'
 
 let editorData = {}

@@ -6,7 +6,7 @@
 		>
 			<div
 				class="aioseo-settings-row"
-				v-if="$aioseo.data.isNetworkAdmin && !isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-robots')"
+				v-if="$aioseo.data.isNetworkAdmin && !isUnlicensed && $license.hasCoreFeature($aioseo, 'tools', 'network-tools-robots')"
 			>
 				<div class="select-site">
 					{{ strings.selectSite }}
@@ -31,7 +31,7 @@
 						v-if="isNetwork"
 						type="blue"
 					>
-						{{ (isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-robots')) ? strings.networkAlertLite : strings.networkAlert }}
+						{{ (isUnlicensed || !$license.hasCoreFeature($aioseo, 'tools', 'network-tools-robots')) ? strings.networkAlertLite : strings.networkAlert }}
 					</core-alert>
 
 					{{ strings.description }}
@@ -155,7 +155,7 @@
 										<base-input
 											ref="userAgent"
 											:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
-											:value="rule.userAgent"
+											:modelValue="rule.userAgent"
 											@blur="updateRule('userAgent', $event, index)"
 											size="medium"
 											:placeholder="strings.userAgentPlaceholder"
@@ -166,8 +166,8 @@
 										<base-radio
 											ref="allow"
 											:name="`rule-${index}`"
-											:value="'allow' === rule.rule"
-											@input="updateRule('rule', 'allow', index)"
+											:modelValue="'allow' === rule.rule"
+											@update:modelValue="updateRule('rule', 'allow', index)"
 											:disabled="!getOptions.enable"
 											size="medium"
 											:type="2"
@@ -177,8 +177,8 @@
 										<base-radio
 											ref="disallow"
 											:name="`rule-${index}`"
-											:value="'disallow' === rule.rule"
-											@input="updateRule('rule', 'disallow', index)"
+											:modelValue="'disallow' === rule.rule"
+											@update:modelValue="updateRule('rule', 'disallow', index)"
 											:disabled="!getOptions.enable"
 											size="medium"
 											:type="2"
@@ -190,7 +190,7 @@
 										<base-input
 											:key="inputKey"
 											:class="hasError(rule.userAgent + rule.rule + rule.directoryPath)"
-											:value="rule.directoryPath"
+											:modelValue="rule.directoryPath"
 											@blur="updateRule('directoryPath', $event, index)"
 											size="medium"
 											:placeholder="strings.directoryPathPlaceholder"
@@ -237,7 +237,7 @@
 
 					<div class="settings-content">
 						<base-editor
-							:value="sanitizedRobotsTxt"
+							:modelValue="sanitizedRobotsTxt"
 							:line-numbers="true"
 							:minimum-line-numbers="13"
 							disabled
@@ -257,7 +257,7 @@ import { Network, SaveChanges } from '@/vue/mixins'
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 import BaseEditor from '@/vue/components/common/base/Editor'
 import BaseRadio from '@/vue/components/common/base/Radio'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
@@ -342,11 +342,11 @@ export default {
 				await this.$nextTick()
 
 				if (this.isNetwork) {
-					this.$set(this.networkOptions.tools.robots, 'rules', this.networkRobots.rules)
+					this.networkOptions.tools.robots.rules = this.networkRobots.rules
 					return
 				}
 
-				this.$set(this.options.tools.robots, 'rules', this.networkRobots.rules)
+				this.options.tools.robots.rules = this.networkRobots.rules
 			}
 		},
 		site (newVal, oldVal) {
@@ -440,7 +440,7 @@ export default {
 				.then(() => (this.siteLoading = false))
 		},
 		removeRow (index) {
-			this.$delete(this.networkRobots.rules, index)
+			this.networkRobots.rules.splice(index, 1)
 
 			if (!this.networkRobots.rules.length) {
 				this.addRow()
@@ -461,13 +461,13 @@ export default {
 		updateRule (type, value, ruleIndex) {
 			const rule = JSON.parse(this.networkRobots.rules[ruleIndex])
 			rule[type] = value
-			this.$set(this.networkRobots.rules, ruleIndex, JSON.stringify(rule))
+			this.networkRobots.rules[ruleIndex] = JSON.stringify(rule)
 
 			// Set the sanitized path.
 			if ('directoryPath' === type) {
 				rule[type] = this.sanitizePath(value)
 				this.inputKey++
-				this.$set(this.networkRobots.rules, ruleIndex, JSON.stringify(rule))
+				this.networkRobots.rules[ruleIndex] = JSON.stringify(rule)
 			}
 			this.validateRules()
 
@@ -651,6 +651,13 @@ export default {
 			align-items: center;
 			justify-content: center;
 		}
+
+		.aioseo-settings-row:last-child {
+
+			> .settings-name {
+				margin-bottom: 16px;
+			}
+		}
 	}
 
 	.robots-table {
@@ -685,7 +692,7 @@ export default {
 			height: 50px;
 			display: flex;
 			font-size: 14px;
-			padding: 0 30px;
+			padding: 0 16px;
 			align-items: center;
 			border-bottom: 1px solid $input-border;
 
@@ -699,10 +706,10 @@ export default {
 
 			.robots-row {
 				background-color: #fff;
-				height: 70px;
+				height: 72px;
 				display: flex;
 				align-items: center;
-				padding: 0 30px;
+				padding: 0 16px;
 
 				&:last-of-type {
 					border-radius: 0 0 3px 3px;
@@ -714,7 +721,7 @@ export default {
 
 				> div {
 					flex: 1 0 auto;
-					padding-right: 30px;
+					padding-right: 16px;
 
 					&:last-child {
 						padding-right: 0;

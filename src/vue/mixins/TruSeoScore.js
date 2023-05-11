@@ -1,39 +1,32 @@
 export const TruSeoScore = {
 	data () {
 		return {
-			strings : {
-				weveGotWorkToDo : this.$t.sprintf(
-					// Translators: 1 - HTML Line break tag.
-					this.$t.__('We\'ve got some%1$swork to do!', this.$td),
-					'<br>'
-				),
-				needsImprovement : this.$t.sprintf(
-					// Translators: 1 - HTML Line break tag.
-					this.$t.__('Needs%1$sImprovement!', this.$td),
-					'<br>'
-				),
-				veryGood                   : this.$t.__('Very Good!', this.$td),
-				excellent                  : this.$t.__('Excellent!', this.$td),
-				criticalIssues             : this.$t.__('Important Issues', this.$td),
-				recommendedImprovements    : this.$t.__('Recommended Improvements', this.$td),
-				goodResults                : this.$t.__('Good Results', this.$td),
-				completeSiteAuditChecklist : this.$t.__('Complete Site Audit Checklist', this.$td),
-				allGood                    : this.$t.__('All Good!', this.$td),
-				errors                     : this.$t.__('Errors', this.$td)
-			}
+			weveGotWorkToDoString : this.$t.sprintf(
+				// Translators: 1 - HTML Line break tag.
+				this.$t.__('We\'ve got some%1$swork to do!', this.$td),
+				'<br>'
+			),
+			needsImprovementString : this.$t.sprintf(
+				// Translators: 1 - HTML Line break tag.
+				this.$t.__('Needs%1$sImprovement!', this.$td),
+				'<br>'
+			),
+			veryGoodString  : this.$t.__('Very Good!', this.$td),
+			excellentString : this.$t.__('Excellent!', this.$td),
+			allGoodString   : this.$t.__('All Good!', this.$td)
 		}
 	},
 	computed : {
 		description () {
 			return 25 >= this.score
-				? this.strings.weveGotWorkToDo
+				? this.weveGotWorkToDoString
 				: (
 					50 >= this.score
-						? this.strings.needsImprovement
+						? this.needsImprovementString
 						: (
 							75 >= this.score
-								? this.strings.veryGood
-								: this.strings.excellent
+								? this.veryGoodString
+								: this.excellentString
 						)
 				)
 		}
@@ -47,7 +40,7 @@ export const TruSeoScore = {
 					amountOfErrors
 				)
 			}
-			return this.strings.allGood
+			return this.allGoodString
 		},
 		getErrorClass (errors) {
 			if (5 < errors) {

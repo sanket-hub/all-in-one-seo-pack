@@ -5,8 +5,8 @@
 			:ajax-search="processGetObjects"
 			size="medium"
 			multiple
-			:value="getJsonValues(optionName)"
-			@input="values => optionName = setJsonValues(values)"
+			:modelValue="getJsonValues(optionName)"
+			@update:modelValue="values => optionName = setJsonValues(values)"
 			:placeholder="strings.typeToSearch"
 		>
 			<template #noOptions>
@@ -72,7 +72,7 @@
 
 		<base-button
 			type="gray"
-			size="medium"
+			size="small"
 			@click="optionName = []"
 		>
 			{{ strings.clear }}
@@ -157,7 +157,7 @@ export default {
 	.aioseo-select {
 		max-width: 600px;
 		display: inline-block;
-		margin-right: 10px;
+		margin-right: 16px;
 
 		button{
 			display: none;
@@ -182,12 +182,12 @@ export default {
 		flex: 1 0 auto;
 
 		.option-title {
-			font-weight: 500;
+			font-weight: 400;
 			font-size: 16px;
 			color: $black;
 
 			.search-term {
-				font-weight: 700;
+				font-weight: 600;
 			}
 		}
 

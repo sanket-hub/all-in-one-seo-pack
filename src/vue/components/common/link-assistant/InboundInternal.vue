@@ -136,6 +136,7 @@ import SvgLinkExternal from '@/vue/components/common/svg/link/External'
 import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	emits      : [ 'openSuggestions' ],
 	components : {
 		CoreTooltip,
 		CoreWpTable,

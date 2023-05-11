@@ -10,7 +10,7 @@
 						size="medium"
 						class="schema-type"
 						:options="schemaTypes"
-						:value="getSchemaTypeOption('Article')"
+						:modelValue="getSchemaTypeOption('Article')"
 					/>
 				</template>
 			</core-settings-row>
@@ -22,7 +22,7 @@
 				<template #content>
 					<base-radio-toggle
 						:name="`${object.name}articleType`"
-						value="BlogPosting"
+						modelValue="BlogPosting"
 						:options="[
 							{ label: strings.article, value: 'Article' },
 							{ label: strings.blogPost, value: 'BlogPosting' },
@@ -54,7 +54,7 @@
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		BaseRadioToggle,
@@ -128,7 +128,6 @@ export default {
 		.header-text {
 			width: 100%;
 			max-width: 600px;
-			font-size: 20px;
 		}
 	}
 

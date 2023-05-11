@@ -15,7 +15,7 @@
 		>
 			<a
 				href="#"
-				@click="openPopup($aioseo.urls.connect)"
+				@click.prevent="openPopup($aioseo.urls.connect)"
 			>{{ connectWithAioseo }}</a> {{ strings.toSeeYourSiteScore }}
 		</div>
 
@@ -111,7 +111,7 @@ export default {
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
 		background-color: #fff;
-		padding: 24px 30px;
+		padding: 20px;
 		border: 1px solid $border;
 		box-shadow: 0px 2px 10px rgba(0, 90, 224, 0.2);
 		color: $black;

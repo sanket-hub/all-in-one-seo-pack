@@ -17,7 +17,7 @@
 
 				<base-radio-toggle
 					v-if="!edit"
-					:value="true"
+					:modelValue="true"
 					:name="`${object.name}ShowInSearch`"
 					:options="[
 						{ label: $constants.GLOBAL_STRINGS.no, value: false, activeClass: 'dark' },
@@ -116,7 +116,7 @@
 <script>
 import { MaxCounts, Tags } from '@/vue/mixins'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreGoogleSearchPreview from '@/vue/components/common/core/GoogleSearchPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'

@@ -5,8 +5,8 @@
 			<base-select
 				size="medium"
 				:options="locationCategories"
-				:value="getCategoryOptions(this.$root.$data.categoryId)"
-				@input="values => this.$root.$data.categoryId = values.value"
+				:modelValue="getCategoryOptions(this.$root.$data.categoryId)"
+				@update:modelValue="values => this.$root.$data.categoryId = values.value"
 				track-by="value"
 			/>
 		</div>
@@ -14,7 +14,11 @@
 </template>
 
 <script>
+import BaseSelect from '@/vue/components/common/base/Select'
 export default {
+	components : {
+		BaseSelect
+	},
 	data () {
 		return {
 			locationCategories : [],

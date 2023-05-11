@@ -2,7 +2,6 @@
 	<div class="content">
 		<core-settings-row
 			:name="strings.showPaged"
-			align
 		>
 			<template #content>
 				<base-radio-toggle
@@ -43,7 +42,6 @@
 
 		<core-settings-row
 			:name="strings.taxonomySkipUnselected"
-			align
 		>
 			<template #content>
 				<base-radio-toggle

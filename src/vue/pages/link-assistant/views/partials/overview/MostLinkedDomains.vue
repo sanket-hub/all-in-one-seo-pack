@@ -188,7 +188,7 @@ export default {
 <style lang="scss">
 .aioseo-app .aioseo-link-assistant-overview {
 	.domains-table {
-		margin-top: 40px;
+		margin-top: var(--aioseo-gutter);
 
 		.row {
 			display: flex;
@@ -213,8 +213,7 @@ export default {
 			}
 
 			.aioseo-table-column {
-				padding: 14px;
-				font-size: 14px;
+				padding: 12px;
 
 				&.domain {
 					min-width: 0;

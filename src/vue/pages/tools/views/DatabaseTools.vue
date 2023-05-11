@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<database-tools
-			v-if="!$aioseo.data.isNetworkAdmin || (!isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-database'))"
+			v-if="!$aioseo.data.isNetworkAdmin || (!isUnlicensed && $license.hasCoreFeature($aioseo, 'tools', 'network-tools-database'))"
 		/>
 
 		<lite-database-tools
-			v-if="$aioseo.data.isNetworkAdmin && (isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-database'))"
+			v-if="$aioseo.data.isNetworkAdmin && (isUnlicensed || !$license.hasCoreFeature($aioseo, 'tools', 'network-tools-database'))"
 		/>
 	</div>
 </template>

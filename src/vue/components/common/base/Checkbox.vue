@@ -17,8 +17,8 @@
 			<span class="form-checkbox">
 				<input
 					type="checkbox"
-					@input="$emit('input', $event.target.checked)"
-					:checked="value"
+					@input="$emit('update:modelValue', $event.target.checked)"
+					:checked="modelValue"
 					:name="name"
 					:id="id"
 					:class="inputClass"
@@ -44,7 +44,7 @@ export default {
 		SvgCheckmark
 	},
 	props : {
-		value      : Boolean,
+		modelValue : Boolean,
 		name       : String,
 		labelClass : {
 			type : String,
@@ -94,34 +94,14 @@ export default {
 	}
 
 	.form-checkbox-wrapper {
-		margin-right: 10px;
+		margin-right: 8px;
 		display: flex;
 	}
 
-	&.medium {
-		.form-checkbox {
-			width: 20px;
-			height: 20px;
-
-			.fancy-checkbox {
-				svg {
-					width: 12px;
-					height: 12px;
-				}
-			}
-
-			span {
-				&:before {
-					height: 18px;
-					width: 18px;
-					line-height: 20px;
-				}
-			}
-		}
-	}
-
 	&.round {
+
 		.form-checkbox {
+
 			span {
 				border-radius: 50%;
 
@@ -130,13 +110,35 @@ export default {
 				}
 			}
 		}
+
+		&:not(.medium) {
+			.form-checkbox {
+				width: 24px;
+				height: 24px;
+
+				.fancy-checkbox {
+					svg {
+						width: 12px;
+						height: 12px;
+					}
+				}
+
+				span {
+					&:before {
+						height: 22px;
+						width: 22px;
+						line-height: 24px;
+					}
+				}
+			}
+		}
 	}
 
 	.form-checkbox {
 		position:relative;
 		display: inline-block;
-		width: 28px;
-		height: 28px;
+		width: 16px;
+		height: 16px;
 		color: white;
 		vertical-align: bottom;
 		text-align: center;
@@ -181,8 +183,8 @@ export default {
 		.fancy-checkbox {
 			svg {
 				color: #fff;
-				width: 16px;
-				height: 16px;
+				width: 10px;
+				height: 10px;
 			}
 		}
 
@@ -204,14 +206,14 @@ export default {
 			&:before {
 				position: absolute;
 				content: "";
-				height: 26px;
-				width: 26px;
+				height: 14px;
+				width: 14px;
 				left: 1px;
 				bottom: 1px;
 				background-color: #fff;
 				transition: 0.2s;
-				font-size: 18px;
-				line-height: 28px;
+				font-size: 14px;
+				line-height: 16px;
 				border-radius: 2px;
 			}
 		}

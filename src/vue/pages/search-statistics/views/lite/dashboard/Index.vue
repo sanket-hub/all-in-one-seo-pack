@@ -85,10 +85,6 @@ export default {
 
 			.aioseo-card {
 				flex: 1;
-
-				&:last-child {
-					margin-bottom: 0;
-				}
 			}
 		}
 	}

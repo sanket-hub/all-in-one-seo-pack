@@ -54,10 +54,10 @@
 import { mapState } from 'vuex'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
-import Graph from '../../partials/Graph.vue'
+import Graph from '../../partials/Graph'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
-import PostsTable from '../../partials/PostsTable.vue'
+import PostsTable from '../../partials/PostsTable'
 import SeoStatisticsOverview from '../../partials/SeoStatisticsOverview'
 export default {
 	components : {

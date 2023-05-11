@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Debug from '../partials/Debug.vue'
+import Debug from '../partials/Debug'
 
 export default {
 	components : {

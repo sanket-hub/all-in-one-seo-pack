@@ -18,7 +18,7 @@
 			>
 				<a
 					href="#"
-					@click="openPopup($aioseo.urls.connect)"
+					@click.prevent="openPopup($aioseo.urls.connect)"
 				>{{ connectWithAioseo }}</a> {{ strings.toAnalyzeCompetitorSite }}
 			</div>
 		</core-card>
@@ -42,7 +42,12 @@ export default {
 		CoreBlur,
 		CoreCard
 	},
-	mixins   : [ SeoSiteScore ],
+	mixins : [ SeoSiteScore ],
+	data () {
+		return {
+			score : 0
+		}
+	},
 	computed : {
 		...mapState([ 'internalOptions' ])
 	},

@@ -82,6 +82,7 @@ import SvgDesktop from '@/vue/components/common/svg/Desktop'
 import SvgMobile from '@/vue/components/common/svg/Mobile'
 import SvgRefresh from '@/vue/components/common/svg/Refresh'
 export default {
+	emits      : [ 'refresh' ],
 	components : {
 		Lottie,
 		SvgDesktop,

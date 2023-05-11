@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import Locations from './Locations'
 import Maps from './Maps'
 import OpeningHours from './OpeningHours'

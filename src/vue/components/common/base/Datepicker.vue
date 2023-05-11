@@ -1,144 +1,329 @@
 <template>
-	<date-range-picker
-		class="aioseo-date-picker"
-		:class="{ [size]: size }"
-		ref="picker"
-		opens="center"
-		:locale-data="{ firstDay: 1, format: 'DD-MM-YYYY HH:mm:ss' }"
-		singleDatePicker
-		:timePicker="false"
-		:timePicker24Hour="false"
-		:showWeekNumbers="false"
-		showDropdowns
-		autoApply
-		:ranges="false"
-		v-model="dateRange"
-		appendToBody
-	>
-		<template #input="picker">
-			<span>{{ formatDate(picker.startDate) }}</span>
-			<svg-circle-close
-				v-if="picker.startDate || picker.endDate"
-				@click.native="clearDates($event)"
-			/>
-			<svg-news-channel
-				v-if="!picker.startDate && !picker.endDate"
-			/>
-		</template>
-	</date-range-picker>
+	<div class="aioseo-datepicker">
+		<el-date-picker
+			v-model="value"
+			ref="picker"
+			:type="type"
+			align="right"
+			:size="size"
+			:range-separator="separator"
+			@change="value => $emit('change', value, rolling)"
+			:clearable="false"
+			:shortcuts="shortcuts"
+			:disabled-date="isDisabledDate"
+			:start-placeholder="strings.startDate"
+			:end-placeholder="strings.endDate"
+		/>
+
+		<div
+			class="aioseo-datepicker-picker"
+			:class="[`aioseo-datepicker-picker--${size}`]"
+			@click="openPicker"
+		>
+			<svg-calendar />
+
+			<div class="label">
+				<template
+					v-if="isDateRange"
+				>
+					{{ label[0] }}
+					<span>{{ separator }}</span>
+					{{ label[1] }}
+				</template>
+
+				<template
+					v-if="!isDateRange"
+				>
+					{{ label }}
+				</template>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-import DateRangePicker from 'vue2-daterange-picker'
-import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
-import SvgNewsChannel from '@/vue/components/common/svg/NewsChannel'
-
+import dateFormat from '@/vue/utils/dateFormat'
+import SvgCalendar from '@/vue/components/common/svg/Calendar'
+import { ElDatePicker } from 'element-plus'
+import en from 'element-plus/dist/locale/en.mjs'
+import 'element-plus/theme-chalk/el-date-picker.css'
 export default {
+	emits : [ 'change', 'updated' ],
+	setup () {
+		return {
+			locale : en
+		}
+	},
 	components : {
-		DateRangePicker,
-		SvgCircleClose,
-		SvgNewsChannel
+		ElDatePicker,
+		SvgCalendar
 	},
 	props : {
-		value : String,
-		size  : {
-			type        : String,
-			default     : '',
-			description : 'Button size (small|medium|large)'
-		}
+		size : {
+			type : String,
+			default () {
+				return 'default'
+			}
+		},
+		type : {
+			type : String,
+			default () {
+				return 'daterange'
+			}
+		},
+		separator : {
+			type : String,
+			default () {
+				return '-'
+			}
+		},
+		isDisabledDate : {
+			type : Function,
+			default () {
+				return false
+			}
+		},
+		shortcuts : {
+			type : Array,
+			default () {
+				return []
+			}
+		},
+		defaultRolling : {
+			type : String,
+			default () {
+				return null
+			}
+		},
+		dateFormat   : String,
+		defaultValue : [ Array, Object ]
 	},
 	data () {
 		return {
-			dateRange : {
-				startDate : null,
-				endDate   : null,
-				ranges    : false
+			rolling : null,
+			value   : null,
+			strings : {
+				startDate : this.$t.__('Start date', this.$td),
+				endDate   : this.$t.__('End date', this.$td)
 			}
 		}
 	},
-	watch : {
-		dateRange : {
-			deep : true,
-			handler () {
-				this.$emit('input', this.formatDate(this.dateRange.startDate))
-			}
+	computed : {
+		format () {
+			return this.dateFormat || this.$aioseo.data.dateFormat
 		},
-		value () {
-			this.dateRange.startDate = this.value ? new Date(this.value) : null
-			this.dateRange.endDate   = this.value ? new Date(this.value) : null
+		label () {
+			if (!this.value) {
+				return '&nbsp;'
+			}
+			if (!this.isDateRange) {
+				return dateFormat(this.value, this.format)
+			}
+			const start = dateFormat(this.value[0], this.format)
+			const end   = dateFormat(this.value[1], this.format)
+			return [ start, end ]
+		},
+		isDateRange () {
+			return Array.isArray(this.value)
 		}
 	},
 	methods : {
-		clearDates (event) {
-			event.stopPropagation()
-			this.dateRange.startDate = null
-			this.dateRange.endDate   = null
-		},
-		formatDate (date) {
-			if (!date) {
-				return date
-			}
-
-			return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()
+		openPicker () {
+			this.$refs.picker.focus()
 		}
 	},
 	mounted () {
-		if (this.value) {
-			this.dateRange.startDate = new Date(this.value)
-			this.dateRange.endDate   = new Date(this.value)
-		}
+		this.$nextTick(() => {
+			if (!this.value && this.defaultValue) {
+				this.value = this.defaultValue
+			}
+		})
+		this.rolling = this.defaultRolling
+		this.$bus.$on('rolling', (rolling) => {
+			this.rolling = rolling
+		})
+		this.$emit('updated', this.rolling)
+	},
+	updated () {
+		this.$emit('updated', this.rolling)
+		// Each time the date range is updated, the local rolling value needs to be reset.
+		// Otherwise the rolling value will persist even when the user selects a custom date range.
+		this.$nextTick(() => {
+			this.rolling = ''
+		})
 	}
 }
 </script>
 
 <style lang="scss">
-.aioseo-date-picker.vue-daterange-picker {
-	width: 100%;
+.el-popper {
+	--el-datepicker-inrange-bg-color: #E6EEFC;
+	--el-datepicker-active-color: #{$blue};
+	--el-color-primary: #{$blue};
+	--el-datepicker-border-color: #{$input-border};
+	--el-border-color-light: #{$input-border};
+}
 
-	.form-control {
+.aioseo-datepicker {
+	position: relative;
+
+	&-picker {
 		display: flex;
+		flex-direction: row;
 		align-items: center;
-		color: $black;
-		font-size: 16px;
-		height: 48px;
-		border-radius: 3px;
+		padding: 5px 8px;
+		background: $white;
 		border: 1px solid $input-border;
-		position: relative;
+		border-radius: 4px;
+		color: $black;
+		line-height: 1.4em;
+		cursor: pointer;
+		font-weight: 400;
+		font-size: 14px;
 
-		svg.aioseo-news-channel,
-		svg.aioseo-circle-close {
-			position: absolute;
-			right: 10px;
-			color: $black2;
-			width: 15px;
-			height: 15px;
+		.aioseo-calendar {
+			width: 12px;
+			height: 13px;
+			color: $placeholder-color;
+			margin-right: 6px;
+			pointer-events: none;
+		}
+
+		.label {
+			span {
+				font-weight: 400;
+			}
+		}
+
+		&--small {
+			padding: 4px 10px;
+			font-size: 13px;
+		}
+
+		&--default {
+			padding: 6px;
+			font-size: 14px;
+		}
+
+		&--large {
+			padding: 9px;
+			font-size: 14px;
 		}
 	}
 
-	&.small {
-		.form-control {
-			height: 30px;
-		}
+	// Hide El input and build ours instead.
+	.el-date-editor {
+		position: absolute;
+		bottom: 5px;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		pointer-events: none;
 	}
 
-	&.medium {
-		.form-control {
-			height: 40px;
+	@at-root {
+		.el-popper {
+			&.el-picker__popper {
+				border: 1px solid $input-border;
+				box-shadow: 0 4px 26px rgba(44, 50, 76, 0.12);
+				z-index: 9998 !important; /* Needs to override the .modal-mask */
+			}
+		}
+
+		.el-picker-panel {
+			overflow: hidden;
+			color: $black2-hover;
+			&__shortcut {
+				color: $black2;
+				font-weight: 400;
+				font-size: 14px;
+				padding-left: 16px;
+
+				&:hover {
+					color: $blue;
+				}
+
+				&.active {
+					background-color: #E6EEFC;
+					color: $blue;
+				}
+			}
+
+			&__sidebar {
+				border-right: 0;
+				padding-top: 16px;
+				width: 130px;
+				background-color: transparent;
+			}
+
+			&__sidebar + &__body {
+				margin-left: 130px;
+			}
+
+			&.el-date-range-picker {
+				.el-picker-panel__content {
+					border-left: 0 !important;
+					border-right: 0 !important;
+
+					&::after {
+						content: '';
+						position: absolute;
+						top: 16px;
+						left: 0;
+						width: 1px;
+						height: 90%;
+						background: $border;
+					}
+				}
+			}
+		}
+
+		.el-date-range-picker__content {
+			padding: 0 8px;
+			.el-date-range-picker__header div {
+				font-size: 14px;
+				font-weight: $font-bold;
+				color: $black2-hover;
+			}
+		}
+
+		.el-date-table {
+			th {
+				font-size: 12px;
+				font-weight: $font-bold;
+				color: $black2;
+				border-bottom: 0;
+			}
+
+			td {
+				padding: 2px 0;
+				span {
+					font-size: 14px;
+				}
+			}
+
+			td.end-date span,
+			td.start-date span {
+				background-color: $blue;
+			}
+
+			td.in-range div,
+			td.in-range div:hover,
+			&.is-week-mode .el-date-table__row.current div,
+			&.is-week-mode .el-date-table__row:hover div {
+				background-color: rgba($blue, 0.1);
+			}
+
+			td.next-month,
+			td.prev-month {
+				color: $placeholder-color;
+			}
+
+			td.available:hover {
+				color: $blue;
+			}
 		}
 	}
-}
-
-body[class*=all-in-one-seo_page] {
-	.daterangepicker {
-		.yearselect {
-			width: 75px;
-		}
-	}
-}
-
-.daterangepicker {
-	// This is necessary to make the date picker work in isolated modals.
-	z-index: 99999;
 }
 </style>

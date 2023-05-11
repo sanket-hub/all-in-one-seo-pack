@@ -12,4 +12,8 @@ const components = {
 	Toggle
 }
 
-autoLoadComponents(components, 'Base')
+export default app => {
+	autoLoadComponents(app, components, 'Base')
+
+	return app
+}

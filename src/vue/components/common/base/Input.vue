@@ -27,7 +27,7 @@
 				:required="required"
 				:disabled="disabled"
 				:type="type"
-				:value="value"
+				:value="modelValue"
 				:placeholder="placeholder"
 				:autocomplete="autocomplete"
 				:readonly="readonly"
@@ -35,11 +35,10 @@
 				:max="'number' === type ? max : null"
 				:min="'number' === type ? min : null"
 				:step="'number' === type ? step : null"
-				@input="$emit('input', $event.target.value)"
+				@input="$emit('update:modelValue', $event.target.value)"
 				@blur="$emit('blur', $event.target.value); validate($event.target.value)"
 				@change="$emit('change', $event.target.value)"
 				@focus="$emit('focus', $event.target.value)"
-				@keyup="$emit('keyup', $event)"
 				@keydown="$emit('keydown', $event)"
 				:class="{
 					[size]  : size,
@@ -51,7 +50,7 @@
 			<div
 				v-if="!$slots.append && appendIcon"
 				class="append-icon"
-				:class="{ [size]: size, clickable : $listeners['append-icon-click'] }"
+				:class="{ [size]: size, clickable : $attrs['append-icon-click'] }"
 				@click="$emit('append-icon-click', $event)"
 			>
 				<component
@@ -77,7 +76,7 @@
 </template>
 
 <script>
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
@@ -112,6 +111,7 @@ import SvgTrash from '@/vue/components/common/svg/Trash'
 import SvgVideo from '@/vue/components/common/svg/schema/Video'
 
 export default {
+	emits      : [ 'append-icon-click', 'blur', 'change', 'focus', 'keydown', 'update:modelValue' ],
 	components : {
 		CoreAlert,
 		SvgCircleCheck,
@@ -146,7 +146,7 @@ export default {
 		SvgVideo
 	},
 	props : {
-		value        : [ String, Number ],
+		modelValue   : [ String, Number ],
 		appendIcon   : String,
 		autocomplete : String,
 		prependIcon  : String,
@@ -155,6 +155,7 @@ export default {
 		disabled     : Boolean,
 		readonly     : Boolean,
 		required     : Boolean,
+		tabindex     : Number,
 		max          : {
 			type    : Number,
 			default : Number.MAX_SAFE_INTEGER
@@ -202,7 +203,7 @@ export default {
 	methods : {
 		validate (value) {
 			this.error = ''
-			if (!this.validation || !this.value) {
+			if (!this.validation || !this.modelValue) {
 				return
 			}
 
@@ -223,12 +224,12 @@ export default {
 		}
 	},
 	beforeMount () {
-		this.validate(this.value)
+		this.validate(this.modelValue)
 	}
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .aioseo-input-container {
 	position: relative;
 	width: 100%;
@@ -272,8 +273,9 @@ export default {
 			background-color: #fff;
 			border: 1px solid $input-border;
 			border-radius: 3px;
-			padding: 15px;
-			font-size: 18px;
+			padding: 12px 16px;
+			font-size: 16px;
+			line-height: 24px;
 			position: relative;
 			overflow: hidden;
 			margin: 0;
@@ -300,9 +302,10 @@ export default {
 			}
 
 			&.small {
-				height: 30px;
-				padding: 10px;
-				font-size: 14px;
+				height: 32px;
+				padding: 7px 8px;
+				font-size: 12px;
+				line-height: 18px;
 
 				&.prepend {
 					padding-left: 30px;
@@ -315,8 +318,9 @@ export default {
 
 			&.medium {
 				height: 40px;
-				padding: 12px;
-				font-size: 16px;
+				padding: 9px 12px;
+				font-size: $font-md;
+				line-height: 22px;
 
 				&.prepend {
 					padding-left: 35px;

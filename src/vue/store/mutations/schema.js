@@ -7,27 +7,27 @@ export function getCustomObject (state) {
 	}
 }
 
-function resetSessionState (context, state) {
-	context._vm.$set(state.schema, 'custom', {
+function resetSessionState (state) {
+	state.schema.custom = {
 		graphName : '',
 		schema    : ''
-	})
+	}
 
-	context._vm.$set(state.schema, 'defaultGraphParent', '')
-	context._vm.$set(state.schema, 'graph', null)
+	state.schema.defaultGraphParent = ''
+	state.schema.graph = null
 
-	context._vm.$set(state.schema, 'isEditingCustomGraph', false)
-	context._vm.$set(state.schema, 'isEditingCustomTemplate', false)
-	context._vm.$set(state.schema, 'isEditingDefaultGraph', false)
-	context._vm.$set(state.schema, 'isEditingGraph', false)
-	context._vm.$set(state.schema, 'isEditingTemplate', false)
+	state.schema.isEditingCustomGraph = false
+	state.schema.isEditingCustomTemplate = false
+	state.schema.isEditingDefaultGraph = false
+	state.schema.isEditingGraph = false
+	state.schema.isEditingTemplate = false
 
-	context._vm.$set(state.schema, 'isDirty', false)
+	state.schema.isDirty = false
 }
 
 export default {
 	resetSessionState (state) {
-		resetSessionState(this, state)
+		resetSessionState(state)
 	},
 	addCustomAsGraph (state) {
 		state.currentPost.schema.customGraphs.push(getCustomObject(state))
@@ -36,19 +36,19 @@ export default {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	addCustomAsTemplate (state) {
 		state.internalOptions.internal.schema.templates.push(getCustomObject(state))
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-		this._vm.$set(state.schema.tabs, 'templates', 'your-templates')
+		state.schema.tabs.generator = 'schema-templates'
+		state.schema.tabs.templates = 'your-templates'
 	},
 	addCustomTemplateAsGraph (state) {
 		state.currentPost.schema.customGraphs.push(state.schema.graph)
@@ -57,20 +57,20 @@ export default {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	addDefaultGraph (state) {
-		this._vm.$set(state.currentPost.schema.default, 'isEnabled', true)
+		state.currentPost.schema.default.isEnabled = true
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	addGraph (state) {
 		state.currentPost.schema.graphs.push(state.schema.graph)
@@ -79,19 +79,19 @@ export default {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	addGraphAsTemplate (state) {
 		state.internalOptions.internal.schema.templates.push(state.schema.graph)
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-		this._vm.$set(state.schema.tabs, 'templates', 'your-templates')
+		state.schema.tabs.generator = 'schema-templates'
+		state.schema.tabs.templates = 'your-templates'
 	},
 	addTemplateAsGraph (state, templateIndex) {
 		if (undefined === templateIndex) {
@@ -118,11 +118,11 @@ export default {
 			})
 		}
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	deleteCustomGraph (state, graphIndex) {
 		if (undefined === graphIndex) {
@@ -130,22 +130,22 @@ export default {
 			graphIndex = state.currentPost.schema.customGraphs.findIndex(x => x.id === state.schema.graph.id)
 		}
 
-		this._vm.$delete(state.currentPost.schema.customGraphs, graphIndex)
+		state.currentPost.schema.customGraphs.splice(graphIndex, 1)
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	deleteDefaultGraph (state) {
-		this._vm.$set(state.currentPost.schema.default, 'isEnabled', false)
+		state.currentPost.schema.default.isEnabled = false
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	deleteGraph (state, graphIndex) {
 		if (undefined === graphIndex) {
@@ -153,13 +153,13 @@ export default {
 			graphIndex = state.currentPost.schema.graphs.findIndex(x => x.id === state.schema.graph.id)
 		}
 
-		this._vm.$delete(state.currentPost.schema.graphs, graphIndex)
+		state.currentPost.schema.graphs.splice(graphIndex, 1)
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	deleteTemplate (state, templateIndex) {
 		if (undefined === templateIndex) {
@@ -167,75 +167,75 @@ export default {
 			templateIndex = state.internalOptions.internal.schema.templates.findIndex(x => x.id === state.schema.graph.id)
 		}
 
-		this._vm.$delete(state.internalOptions.internal.schema.templates, templateIndex)
+		state.internalOptions.internal.schema.templates.splice(templateIndex, 1)
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-		this._vm.$set(state.schema.tabs, 'templates', 'your-templates')
+		state.schema.tabs.generator = 'schema-templates'
+		state.schema.tabs.templates = 'your-templates'
 	},
 	editCustomGraph (state, { customGraphIndex, isSidebar }) {
 		// It's important to create a clone so that we're not editing the existing graph object.
 		const editedCustomGraph = JSON.parse(JSON.stringify(state.currentPost.schema.customGraphs[customGraphIndex]))
-		this._vm.$set(state.schema, 'graph', editedCustomGraph)
-		this._vm.$set(state.schema, 'isEditingCustomGraph', true)
+		state.schema.graph = editedCustomGraph
+		state.schema.isEditingCustomGraph = true
 
-		this._vm.$set(state.schema.tabs, 'generator', 'custom-schema')
+		state.schema.tabs.generator = 'custom-schema'
 
 		if (isSidebar) {
-			this._vm.$set(state.schema, 'modalOpenSidebar', true)
+			state.schema.modalOpenSidebar = true
 		} else {
-			this._vm.$set(state.schema, 'modalOpenMetabox', true)
+			state.schema.modalOpenMetabox = true
 		}
 	},
 	editDefaultGraph (state, { isSidebar, parentGraphName }) {
-		this._vm.$set(state.schema, 'defaultGraphParent', parentGraphName)
+		state.schema.defaultGraphParent = parentGraphName
 
 		// First, check the default graph already has properties set.
 		if (state.currentPost.schema.default.data[parentGraphName]) {
-			this._vm.$set(state.schema, 'graph', state.currentPost.schema.default.data[parentGraphName])
+			state.schema.graph = state.currentPost.schema.default.data[parentGraphName]
 		}
 
-		this._vm.$set(state.schema, 'isEditingDefaultGraph', true)
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
+		state.schema.isEditingDefaultGraph = true
+		state.schema.tabs.generator = 'schema-templates'
 
 		if (isSidebar) {
-			this._vm.$set(state.schema, 'modalOpenSidebar', true)
+			state.schema.modalOpenSidebar = true
 		} else {
-			this._vm.$set(state.schema, 'modalOpenMetabox', true)
+			state.schema.modalOpenMetabox = true
 		}
 	},
 	editGraph (state, { graphIndex, isSidebar }) {
 		// It's important to create a clone so that we're not editing the existing graph object.
 		const editedGraph = JSON.parse(JSON.stringify(state.currentPost.schema.graphs[graphIndex]))
-		this._vm.$set(state.schema, 'graph', editedGraph)
-		this._vm.$set(state.schema, 'isEditingGraph', true)
+		state.schema.graph = editedGraph
+		state.schema.isEditingGraph = true
 
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
+		state.schema.tabs.generator = 'schema-templates'
 
 		if (isSidebar) {
-			this._vm.$set(state.schema, 'modalOpenSidebar', true)
+			state.schema.modalOpenSidebar = true
 		} else {
-			this._vm.$set(state.schema, 'modalOpenMetabox', true)
+			state.schema.modalOpenMetabox = true
 		}
 	},
 	editTemplate (state, templateIndex) {
 		// It's important to create a clone so that we're not editing the existing template object.
 		const editedTemplate = JSON.parse(JSON.stringify(state.internalOptions.internal.schema.templates[templateIndex]))
 
-		this._vm.$set(state.schema, 'graph', editedTemplate)
+		state.schema.graph = editedTemplate
 
 		if (editedTemplate.custom) {
-			this._vm.$set(state.schema, 'templateName', state.schema.graphName)
+			state.schema.templateName = state.schema.graphName
 
-			this._vm.$set(state.schema, 'isEditingCustomTemplate', true)
-			this._vm.$set(state.schema.tabs, 'generator', 'custom-schema')
+			state.schema.isEditingCustomTemplate = true
+			state.schema.tabs.generator = 'custom-schema'
 		} else {
 			const pattern            = new RegExp(`^${state.schema.graph.graphName} -`, 'i')
 			const labelWithoutPrefix = state.schema.graph.label.replace(pattern, '')
-			this._vm.$set(state.schema, 'templateName', labelWithoutPrefix)
+			state.schema.templateName = labelWithoutPrefix
 
-			this._vm.$set(state.schema, 'isEditingTemplate', true)
+			state.schema.isEditingTemplate = true
 		}
 	},
 	parseAndUpdateTemplates (state, templates) {
@@ -252,41 +252,41 @@ export default {
 			return (a.graphName < b.graphName) ? -1 : (a.custom) ? 0 : 1
 		})
 
-		this._vm.$set(state.internalOptions.internal.schema, 'templates', templates)
+		state.internalOptions.internal.schema.templates = templates
 	},
 	setIsDirty (state, isDirty) {
-		this._vm.$set(state.schema, 'isDirty', isDirty)
+		state.schema.isDirty = isDirty
 	},
 	setGraph (state, graph) {
-		this._vm.$set(state.schema, 'graph', graph)
+		state.schema.graph = graph
 	},
 	setModalOpen (state, { isOpen, initialTab, isSidebar }) {
 		if (!isOpen) {
-			resetSessionState(this, state)
+			resetSessionState(state)
 
-			this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-			this._vm.$set(state.schema.tabs, 'templates', 'schema-catalog')
+			state.schema.tabs.generator = 'schema-templates'
+			state.schema.tabs.templates = 'schema-catalog'
 		}
 
 		if (isSidebar) {
-			this._vm.$set(state.schema, 'modalOpenSidebar', isOpen)
+			state.schema.modalOpenSidebar = isOpen
 		} else {
-			this._vm.$set(state.schema, 'modalOpenMetabox', isOpen)
+			state.schema.modalOpenMetabox = isOpen
 		}
 
 		if (initialTab) {
-			this._vm.$set(state.schema.tabs, 'generator', initialTab)
+			state.schema.tabs.generator = initialTab
 		}
 	},
 	setTabGenerator (state, tabName) {
-		this._vm.$set(state.schema.tabs, 'generator', tabName)
+		state.schema.tabs.generator = tabName
 	},
 	setTabTemplates (state, tabName) {
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-		this._vm.$set(state.schema.tabs, 'templates', tabName)
+		state.schema.tabs.generator = 'schema-templates'
+		state.schema.tabs.templates = tabName
 	},
 	setTemplateName (state, templateName) {
-		this._vm.$set(state.schema, 'templateName', templateName)
+		state.schema.templateName = templateName
 	},
 	updateCustomGraph (state) {
 		const index = state.currentPost.schema.customGraphs.findIndex(x => x.id === state.schema.graph.id)
@@ -294,26 +294,26 @@ export default {
 			return
 		}
 
-		this._vm.$set(state.currentPost.schema.customGraphs, index, state.schema.graph)
+		state.currentPost.schema.customGraphs[index] = state.schema.graph
 
 		state.currentPost.schema.customGraphs = state.currentPost.schema.customGraphs.sort((a, b) => {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	updateDefaultGraph (state) {
-		this._vm.$set(state.currentPost.schema.default.data, state.schema.defaultGraphParent, state.schema.graph)
+		state.currentPost.schema.default.data[state.schema.defaultGraphParent] = state.schema.graph
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	updateGraph (state) {
 		const index = state.currentPost.schema.graphs.findIndex(x => x.id === state.schema.graph.id)
@@ -321,17 +321,17 @@ export default {
 			return
 		}
 
-		this._vm.$set(state.currentPost.schema.graphs, index, state.schema.graph)
+		state.currentPost.schema.graphs[index] = state.schema.graph
 
 		state.currentPost.schema.graphs = state.currentPost.schema.graphs.sort((a, b) => {
 			return (a.graphName < b.graphName) ? -1 : 1
 		})
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema, 'graphCardsKey', state.schema.graphsKey + 1)
-		this._vm.$set(state.schema, 'modalOpenMetabox', false)
-		this._vm.$set(state.schema, 'modalOpenSidebar', false)
+		state.schema.graphCardsKey    = state.schema.graphCardsKey + 1
+		state.schema.modalOpenMetabox = false
+		state.schema.modalOpenSidebar = false
 	},
 	updateTemplate (state) {
 		const index = state.internalOptions.internal.schema.templates.findIndex(x => x.id === state.schema.graph.id)
@@ -339,12 +339,12 @@ export default {
 			return
 		}
 
-		this._vm.$set(state.internalOptions.internal.schema.templates, index, state.schema.graph)
+		state.internalOptions.internal.schema.templates[index] = state.schema.graph
 
-		resetSessionState(this, state)
+		resetSessionState(state)
 
-		this._vm.$set(state.schema.tabs, 'generator', 'schema-templates')
-		this._vm.$set(state.schema.tabs, 'templates', 'your-templates')
+		state.schema.tabs.generator = 'schema-templates'
+		state.schema.tabs.templates = 'your-templates'
 	},
 	updateSchemaOutput (state, output) {
 		let object = null
@@ -360,7 +360,7 @@ export default {
 			return
 		}
 
-		this._vm.$set(state.schema, 'output', output)
-		this._vm.$set(state.schema, 'outputKey', state.schema.outputKey + 1)
+		state.schema.output = output
+		state.schema.outputKey = state.schema.outputKey + 1
 	}
 }

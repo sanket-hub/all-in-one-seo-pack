@@ -86,6 +86,8 @@ export default {
 	mixins : [ Standalone, Tags, ImagePreview ],
 	data () {
 		return {
+			separator      : undefined,
+			socialImage    : null,
 			socialImageKey : 0,
 			strings        : {
 				snippetPreview : this.$t.__('Snippet Preview', this.$td),
@@ -307,15 +309,18 @@ export default {
 	}
 }
 .seo-overview {
+
 	ul {
 		margin: 16px 0;
 		padding-bottom: 6px;
 		border-bottom: 1px solid #E8E8EB;
+
 		li {
 			display: flex;
 			align-items: center;
 			margin-bottom: 12px;
 		}
+
 		.icon {
 			margin-right: 10px;
 			line-height: 0;
@@ -325,6 +330,7 @@ export default {
 				height: 22px;
 			}
 		}
+
 		.result {
 			font-weight: 700;
 		}
@@ -345,6 +351,7 @@ export default {
 			color: $red;
 		}
 	}
+
 	.title {
 		font-size: 13px;
 		line-height: 130%;
@@ -352,27 +359,36 @@ export default {
 		margin-bottom: 8px;
 		display: flex;
 	}
+
 	.edit {
 		cursor: pointer;
 		margin-left: auto;
 		margin-right: 5px;
+
 		svg {
 			width: 14px;
 			height: 14px;
 			color: $black2;
 		}
+
 		&:hover {
 			svg {
 				color: $black2-hover;
 			}
 		}
 	}
+
 	.snippet-preview {
-		margin-bottom: 16px;
+		&:not(:last-child) {
+			margin-bottom: 16px;
+		}
+
 		.aioseo-google-search-preview {
+
 			.google-post {
 				padding: 10px;
 			}
+
 			a {
 				color: $black3;
 				text-decoration: none;

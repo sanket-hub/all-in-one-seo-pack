@@ -231,13 +231,16 @@
 </template>
 
 <script>
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
+import BaseButton from '@/vue/components/common/base/Button'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 export default {
+	emits      : [ 'cta-button-click' ],
 	components : {
 		CoreAlert,
+		BaseButton,
 		GridColumn,
 		GridRow,
 		SvgCircleCheck
@@ -337,7 +340,8 @@ export default {
 </script>
 
 <style lang="scss">
-.aioseo-app {
+.aioseo-app,
+.aioseo-blc-app {
 	.aioseo-cta {
 		margin-top: 30px;
 		width: 100%;
@@ -369,50 +373,54 @@ export default {
 			border: 1px solid $border;
 
 			.header-text {
-				line-height: 1.4;
+				line-height: 1.25;
 				font-weight: 600;
-				font-size: 24px;
+				font-size: 18px;
 				text-align: center;
 				color: $black;
 
 				span.large {
 					line-height: 1.4;
-					font-size: 32px;
+					font-size: 22px;
 				}
 			}
 
 			.description {
-				margin: 30px 0 50px 0;
+				margin-block: 16px 30px;
 				width: 100%;
 				max-width: 600px;
 				text-align: center;
 				font-size: 16px;
 				color: $black;
-				line-height: 1.4;
+				line-height: 1.25;
 
 				.aioseo-alert {
-					margin-bottom: 30px;
+					margin-bottom: 16px;
 					text-align: left;
 				}
 			}
 
 			.feature-list {
+				--aioseo-gutter: 32px;
+
 				color: $black;
-				font-size: 16px;
+				font-size: 14px;
+				line-height: 1.25;
 				width: 100%;
 				max-width: 500px;
-				margin-bottom: 50px;
+				margin-bottom: 30px;
+				row-gap: 16px;
 
 				.aioseo-col {
 					display: flex;
-					align-items: flex-start;
+					align-items: center;
 
 					svg.aioseo-circle-check {
 						color: $green;
-						width: 18px;
-						min-width: 18px;
-						min-height: 18px;
-						margin-right: 10px;
+						width: 20px;
+						height: 20px;
+						min-width: 20px;
+						margin-right: 12px;
 					}
 				}
 			}
@@ -430,7 +438,7 @@ export default {
 			}
 
 			.type-2 {
-				margin: 30px 0 30px 50px;
+				// margin: 30px 0 30px 50px;
 				display: flex;
 
 				.header-text,
@@ -439,7 +447,7 @@ export default {
 				}
 
 				.description {
-					margin: 30px 0;
+					margin: 16px 0 30px;
 				}
 
 				.feature-list {
@@ -491,42 +499,54 @@ export default {
 			}
 
 			.type-3 {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				column-gap: 20px;
+				row-gap: 8px;
+
+				> * {
+					width: 100%;
+				}
+
 				.sub-header {
 					line-height: 1.4;
-					font-size: 16px;
-					font-weight: 600;
+					font-size: 12px;
+					font-weight: $font-bold;
 					color: $blue;
-					margin-bottom: 5px;
+					text-align: center;
 				}
 
 				.header-text {
-					text-align: left;
+					text-align: center;
 				}
 
 				.feature-list {
-					margin: 30px 0 30px;
+					margin: 22px 0;
 
 					.aioseo-col {
+
 						svg.aioseo-circle-check {
 							color: $green;
 							width: 21px;
 							min-width: 21px;
 							min-height: 21px;
-							margin-right: 5px;
+							margin-right: 10px;
 						}
 					}
 				}
 
 				.aioseo-button {
-					margin-right: 12px;
+					width: auto;
 				}
 			}
 
 			.type-4 {
+
 				.header-text {
-					font-weight: 700;
+					font-weight: $font-bold;
 					font-size: 16px;
-					margin-bottom: 5px;
+					margin-bottom: 8px;
 				}
 
 				.description {

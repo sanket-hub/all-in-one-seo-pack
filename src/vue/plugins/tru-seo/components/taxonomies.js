@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 import { isBlockEditor, isClassicEditor, isClassicNoEditor } from './helpers'
 
@@ -51,6 +51,6 @@ export const maybeUpdateTaxonomies = (run = true) => {
 		}
 	}
 	if (run) {
-		Vue.prototype.$truSeo.runAnalysis({ postId: store.state.currentPost.id })
+		(new TruSeo()).runAnalysis({ postId: store.state.currentPost.id })
 	}
 }

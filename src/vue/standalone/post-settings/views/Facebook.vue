@@ -41,7 +41,7 @@
 						:line-numbers="false"
 						single
 						@counter="count => updateCount(count, 'titleCount')"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 						:tags-context="`${currentPost.postType || currentPost.termType}Title`"
 						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
 					>
@@ -68,7 +68,7 @@
 						:line-numbers="false"
 						description
 						@counter="count => updateCount(count, 'descriptionCount')"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 						:tags-context="`${currentPost.postType || currentPost.termType}Description`"
 						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
 					>
@@ -92,8 +92,8 @@
 					<base-select
 						size="medium"
 						:options="imageSourceOptionsFiltered"
-						:value="getImageSourceOptionFiltered(currentPost.og_image_type)"
-						@input="value => saveImageType(value.value)"
+						:modelValue="getImageSourceOptionFiltered(currentPost.og_image_type)"
+						@update:modelValue="value => saveImageType(value.value)"
 					/>
 				</template>
 			</core-settings-row>
@@ -109,7 +109,7 @@
 						size="medium"
 						:placeholder="strings.placeholder"
 						v-model="currentPost.og_image_custom_fields"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					/>
 				</template>
 			</core-settings-row>
@@ -125,7 +125,7 @@
 							size="medium"
 							v-model="currentPost.og_image_custom_url"
 							:placeholder="strings.pasteYourImageUrl"
-							@input="setIsDirty"
+							@update:modelValue="setIsDirty"
 						/>
 
 						<base-button
@@ -182,8 +182,8 @@
 						:options="objectTypeOptions"
 						group-label="groupLabel"
 						group-values="options"
-						:value="getObjectTypeOptions(currentPost.og_object_type)"
-						@input="value => setObjectType(value.value)"
+						:modelValue="getObjectTypeOptions(currentPost.og_object_type)"
+						@update:modelValue="value => setObjectType(value.value)"
 					/>
 				</template>
 			</core-settings-row>
@@ -212,8 +212,8 @@
 						multiple
 						taggable
 						:options="getJsonValue(currentPost.og_article_tags) || []"
-						:value="getJsonValue(currentPost.og_article_tags) || []"
-						@input="values => currentPost.og_article_tags = setJsonValue(values)"
+						:modelValue="getJsonValue(currentPost.og_article_tags) || []"
+						@update:modelValue="values => currentPost.og_article_tags = setJsonValue(values)"
 						:tag-placeholder="strings.tagPlaceholder"
 					/>
 				</template>
@@ -226,7 +226,7 @@
 import { ImageSourceOptions, ImagePreview, JsonValues, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState, mapActions } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreFacebookPreview from '@/vue/components/common/core/FacebookPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
@@ -252,6 +252,7 @@ export default {
 	},
 	data () {
 		return {
+			separator        : undefined,
 			titleCount       : 0,
 			descriptionCount : 0,
 			strings          : {
@@ -319,7 +320,7 @@ export default {
 			}, 10)
 		},
 		saveImageType (value) {
-			this.$set(this.currentPost, 'og_image_type', value)
+			this.$store.state.currentPost.og_image_type = value
 			this.$store.commit('isDirty', true)
 		},
 		getObjectTypeOptions (savedOption) {
@@ -334,7 +335,7 @@ export default {
 			return option
 		},
 		setObjectType (option) {
-			this.$set(this.currentPost, 'og_object_type', option)
+			this.$store.state.currentPost.og_object_type = option
 			this.$store.commit('isDirty', true)
 		},
 		updateImage (imageUrl) {
@@ -363,7 +364,7 @@ export default {
 		.aioseo-input-container {
 			width: 100%;
 			max-width: 445px;
-			margin-right: 10px;
+			margin-right: 8px;
 
 			.aioseo-input {
 				width: 100%;
@@ -372,7 +373,7 @@ export default {
 
 		.insert-image {
 			min-width: 214px;
-			margin-right: 10px;
+			margin-right: 8px;
 
 			svg.aioseo-circle-plus {
 				width: 13px;
@@ -397,10 +398,6 @@ export default {
 				max-height: 158px;
 			}
 		}
-	}
-
-	.facebook-meta-input {
-		margin-top: 10px;
 	}
 }
 </style>

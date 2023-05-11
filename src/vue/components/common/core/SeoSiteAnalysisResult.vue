@@ -128,18 +128,18 @@ export default {
 <style lang="scss">
 .aioseo-seo-site-analysis-result {
 	border: 1px solid $gray;
-	margin-top: 10px;
+	margin-top: 8px;
 
 	.result-header {
-		height: 66px;
-		padding: 0 20px;
+		height: 48px;
+		padding: 0 13px;
 		display: flex;
 		align-items: center;
 
 		.result-icon {
 			display: flex;
 			align-items: center;
-			margin-right: 16px;
+			margin-right: 14px;
 
 			svg {
 				width: 24px;
@@ -162,7 +162,8 @@ export default {
 		}
 
 		.result-content {
-			font-size: 16px;
+			font-size: $font-md;
+			line-height: 22px;
 			font-weight: 600;
 			flex: 1;
 		}
@@ -204,11 +205,11 @@ export default {
 	}
 
 	.result-body {
-		padding: 0 60px 24px;
+		padding: 0 40px 22px;
 
 		.result-message {
 			color: $black2;
-			font-size: 16px;
+			font-size: 14px;
 		}
 
 		.result-code,

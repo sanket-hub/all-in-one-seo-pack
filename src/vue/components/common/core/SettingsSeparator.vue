@@ -50,8 +50,8 @@
 		>
 			<div class="show-more">
 				<a
-					@click.prevent="showMoreSeparators = true"
 					href="#"
+					@click.prevent="showMoreSeparators = true"
 				>
 					{{ strings.showMore }}&hellip;
 				</a>
@@ -60,6 +60,7 @@
 
 		<grid-column
 			v-if="showMoreSeparators"
+			class="custom-separator-col"
 		>
 			<div class="custom-separator">
 				{{ strings.custom }}
@@ -73,12 +74,13 @@
 		</grid-column>
 
 		<grid-column
+			xs="2"
 			v-if="showMoreSeparators"
 		>
 			<div class="show-more">
 				<a
-					@click.prevent="showMoreSeparators = false"
 					href="#"
+					@click.prevent="showMoreSeparators = false"
 				>
 					{{ strings.showLess }}&hellip;
 				</a>
@@ -93,6 +95,7 @@ import { mapActions, mapState } from 'vuex'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 export default {
+	emits      : [ 'update:separator' ],
 	components : {
 		GridColumn,
 		GridRow
@@ -153,9 +156,9 @@ export default {
 				return
 			}
 
-			this.$emit('change', newVal)
+			this.$emit('update:separator', decodeHTMLEntities(newVal))
 
-			if (this.separators.concat(this.moreSeparators).includes(newVal)) {
+			if (this.separators.concat(this.moreSeparators).concat(this.decodedSeparators).concat(this.decodedMoreSeparators).includes(newVal)) {
 				this.customSeparator = null
 			}
 		}
@@ -163,7 +166,7 @@ export default {
 	computed : {
 		...mapState([ 'options', 'settings' ]),
 		hiddenSeparator () {
-			return this.optionsSeparator === this.customSeparator || this.moreSeparators.includes(this.optionsSeparator)
+			return this.optionsSeparator === this.customSeparator || this.decodedMoreSeparators.includes(this.optionsSeparator)
 				? this.optionsSeparator
 				: null
 		},
@@ -181,12 +184,12 @@ export default {
 		...mapActions([ 'toggleRadio' ]),
 		setSeparator (separator) {
 			this.customSeparator = null
-			this.$emit('change', separator)
+			this.$emit('update:separator', separator)
 		}
 	},
 	mounted () {
 		this.showMoreSeparators = this.settings.toggledRadio[this.showMoreSlug]
-		this.customSeparator    = !this.optionsSeparator.includes(this.separators.concat(this.moreSeparators))
+		this.customSeparator    = !this.decodedSeparators.concat(this.decodedMoreSeparators).includes(this.optionsSeparator)
 			? this.optionsSeparator
 			: null
 	}
@@ -195,19 +198,29 @@ export default {
 
 <style lang="scss">
 .aioseo-separators {
-	margin-top: -0.5rem;
+	--aioseo-gutter: 8px;
+
+	position: relative;
+	margin-top: 0;
+	padding-right: 100px;
 
 	.aioseo-col {
+
+		&.col-sm-1 {
+			flex: 0 0 40px;
+			max-width: none;
+		}
+
 		.separator {
 			background-color: $background;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			min-height: 51px;
+			min-height: 40px;
 			font-weight: 600;
-			font-size: 25px;
 			border: 1px solid $gray;
 			border-radius: 3px;
+			font-size: 20px;
 			cursor: pointer;
 
 			&:hover {
@@ -236,13 +249,15 @@ export default {
 		}
 
 		.custom-separator {
-			margin: 20px 0;
+			font-weight: $font-bold;
 			display: flex;
-			align-items: center;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 4px;
+			margin-top: 8px;
 
-			.aioseo-input {
-				margin-left: 10px;
-				max-width: 100px;
+			.aioseo-input-container {
+				max-width: 200px;
 			}
 		}
 	}

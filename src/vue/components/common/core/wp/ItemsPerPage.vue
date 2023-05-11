@@ -20,7 +20,7 @@
 <script>
 export default {
 	props : {
-		value        : Number,
+		modelValue   : Number,
 		disableTable : Boolean
 	},
 	data () {
@@ -34,11 +34,11 @@ export default {
 	},
 	watch : {
 		itemsPerPage (newVal) {
-			this.$emit('input', newVal)
+			this.$emit('update:modelValue', newVal)
 		}
 	},
 	mounted () {
-		this.itemsPerPage = this.value
+		this.itemsPerPage = this.modelValue
 	}
 }
 </script>

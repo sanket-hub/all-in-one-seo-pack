@@ -5,8 +5,8 @@
 			<base-select
 				size="medium"
 				:options="locationsList"
-				:value="getLocationOptions(this.$root.$data.locationId)"
-				@input="values => this.$root.$data.locationId = values.value"
+				:modelValue="getLocationOptions(this.$root.$data.locationId)"
+				@update:modelValue="values => this.$root.$data.locationId = values.value"
 				track-by="value"
 			/>
 		</div>
@@ -28,7 +28,7 @@
 			<p class="title">{{strings.customMarker}}</p>
 			<div class="image-upload">
 				<base-input
-					size="medium"
+					size="small"
 					v-model="$root.$data.customMarker"
 					:placeholder="strings.pasteYourImageUrl"
 				/>
@@ -36,7 +36,7 @@
 				<base-button
 					class="insert-image"
 					@click="openUploadModal('locationMapImage', (imageUrl) => $root.$data.customMarker = imageUrl)"
-					size="medium"
+					size="small"
 					type="black"
 				>
 					<svg-circle-plus />
@@ -47,7 +47,7 @@
 					v-if="$root.$data.customMarker"
 					class="remove-image"
 					@click="$root.$data.customMarker = null"
-					size="medium"
+					size="small"
 					type="gray"
 				>
 					{{ strings.remove }}
@@ -67,29 +67,48 @@
 		<div class="sidebar-row dimensions">
 			<div>
 				<label>{{ strings.width }}:</label>
-				<base-input v-model="$root.$data.width"/>
+				<base-input
+					size="small"
+					v-model="$root.$data.width"
+				/>
 			</div>
 			<div>
 				<div>
 					<label>{{ strings.height }}:</label>
-					<base-input v-model="$root.$data.height"/>
+					<base-input
+						size="small"
+						v-model="$root.$data.height"
+					/>
 				</div>
 			</div>
 		</div>
 		<div class="sidebar-row labels" v-if="$root.$data.showLabel">
 			<p class="title">{{ strings.label }}</p>
-			<base-input size="small" v-model="$root.$data.label"/>
+			<base-input
+				size="small"
+				v-model="$root.$data.label"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
 import { Uploader } from '@/vue/mixins'
+
 import BaseImg from '@/vue/components/common/base/Img'
+import BaseInput from '@/vue/components/common/base/Input'
+import BaseSelect from '@/vue/components/common/base/Select'
+import BaseToggle from '@/vue/components/common/base/Toggle'
+import BaseButton from '@/vue/components/common/base/Button'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
+
 export default {
 	components : {
 		BaseImg,
+		BaseInput,
+		BaseSelect,
+		BaseToggle,
+		BaseButton,
 		SvgCirclePlus
 	},
 	mixins : [ Uploader ],
@@ -154,7 +173,7 @@ export default {
 	margin-bottom: 16px;
 
 	.title {
-		font-weight: 700;
+		font-weight: $font-bold;
 	}
 
 	&.dimensions {
@@ -176,8 +195,9 @@ export default {
 }
 
 .image-upload {
-	.aioseo-input, .aioseo-button, img {
-		margin-bottom: 8px;
-	}
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 12px;
 }
 </style>

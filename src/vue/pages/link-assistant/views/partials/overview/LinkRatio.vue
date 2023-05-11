@@ -32,6 +32,7 @@ export default {
 	},
 	data () {
 		return {
+			score   : 0,
 			strings : {
 				header          : this.$t.__('Internal vs External vs Affiliate Links', this.$tdPro),
 				totalLinks      : this.$t.__('Total Links', this.$tdPro),

@@ -25,6 +25,7 @@
 
 <script>
 export default {
+	emits : [ 'process-bulk-action' ],
 	props : {
 		bulkOptions : {
 			type     : Array,

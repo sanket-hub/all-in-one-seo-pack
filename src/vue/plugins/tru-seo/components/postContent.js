@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import TruSeo from '@/vue/plugins/tru-seo'
 import store from '@/vue/store'
 import { customFieldsContent } from './customFields'
 import { getPostEditedPermalink } from './postPermalink'
@@ -179,7 +179,7 @@ export const maybeUpdatePostContent = async (run = true) => {
 		postContent = newPostContent
 		store.commit('live-tags/updatePostContent', postContent)
 		if (run) {
-			Vue.prototype.$truSeo.runAnalysis({
+			(new TruSeo()).runAnalysis({
 				postId   : store.state.currentPost.id,
 				postData : { ...store.state.currentPost },
 				content  : getPostEditedContent(),

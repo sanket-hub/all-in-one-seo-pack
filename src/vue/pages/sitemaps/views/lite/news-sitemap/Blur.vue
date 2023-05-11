@@ -12,7 +12,7 @@
 		>
 			<template #content>
 				<base-toggle
-					:value="true"
+					:modelValue="true"
 				/>
 			</template>
 		</core-settings-row>

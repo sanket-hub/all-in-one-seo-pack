@@ -1,9 +1,8 @@
-import Vue from 'vue'
 import { merge } from 'lodash-es'
 
-export const getOptions = () => new Promise(resolve => {
+export const getOptions = app => new Promise(resolve => {
 	if (window.aioseo.options) {
-		return resolve(setOptions({
+		return resolve(setOptions(app, {
 			internalOptions        : window.aioseo.internalOptions,
 			options                : window.aioseo.options,
 			dynamicOptions         : window.aioseo.dynamicOptions,
@@ -26,7 +25,7 @@ export const getOptions = () => new Promise(resolve => {
 	}
 })
 
-export const setOptions = ({
+export const setOptions = (app, {
 	internalOptions,
 	options,
 	dynamicOptions,
@@ -97,8 +96,8 @@ export const setOptions = ({
 		terms
 	}
 
-	window.aioseo         = aioseo
-	Vue.prototype.$aioseo = aioseo
+	window.aioseo                                     = aioseo
+	app.$aioseo = app.config.globalProperties.$aioseo = aioseo
 
 	return {
 		internalOptions,

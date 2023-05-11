@@ -13,7 +13,9 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon'
 import { mapState } from 'vuex'
+
 export default {
 	computed : {
 		...mapState([ 'internalOptions' ]),
@@ -26,7 +28,7 @@ export default {
 				{
 					label : 'First Activated',
 					value : 0 !== this.internalOptions.internal.firstActivated
-						? this.$dateTime.fromMillis(this.internalOptions.internal.firstActivated * 1000).toFormat('MMMM d, yyyy')
+						? DateTime.fromMillis(this.internalOptions.internal.firstActivated * 1000).toFormat('MMMM d, yyyy')
 						: false
 				}
 			]

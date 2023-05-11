@@ -63,7 +63,7 @@
 			v-if="!disableClose"
 			class="close-wizard"
 			href="#"
-			@click="hideSetupWizard"
+			@click.prevent="hideSetupWizard"
 		>
 			<svg-close
 				@click="hideSetupWizard"
@@ -119,14 +119,8 @@ export default {
 
 <style lang="scss">
 .aioseo-setup-wizard-container {
-	margin-top: 30px;
-	@media only screen and (max-width: 782px) {
-		margin-top: 20px;
-	}
-
-	margin-bottom: 50px;
-
-	padding: 30px;
+	margin-block: var(--aioseo-gutter);
+	padding: calc(var(--aioseo-gutter) * 2);
 	color: #fff;
 	position: relative;
 	background-color: $blue;
@@ -138,14 +132,20 @@ export default {
 	.getting-started-wrapper {
 		position: relative;
 		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 20px;
+
+		.text {
+			max-width: 534px;
+		}
 
 		.video {
 			flex: 0 0 533px;
-			margin: 20px 20px 0;
 
 			.wrapper {
 				padding-bottom: 56.25%;
-				margin-bottom: -60px;
+				margin-bottom: 0;
 				position: relative;
 				height: 0;
 
@@ -184,7 +184,7 @@ export default {
 			flex-wrap: wrap;
 
 			.video {
-				margin: 20px 0 -60px;
+				margin: 0;
 			}
 
 			.video,
@@ -221,15 +221,24 @@ export default {
 	}
 
 	.wizard-actions {
+
 		.aioseo-col {
 			display: flex;
 			align-items: center;
+
+			&:first-child {
+				flex-basis: auto;
+			}
 		}
 
 		.aioseo-button {
+			height: 40px;
+			font-size: 14px;
+			padding: 0 16px;
+
 			svg {
-				width: 16px;
-				height: 16px;
+				width: 14px;
+				height: 14px;
 				margin-right: 10px;
 			}
 		}
@@ -284,16 +293,22 @@ export default {
 	}
 
 	p.how-to-get-started {
+		font-size: 16px;
+		line-height: 24px;
 		margin: 0;
 	}
 
 	p.welcome-text {
-		line-height: 1.6;
+		font-size: 14px;
+		line-height: 24px;
+		margin: 0 0 32px;
 	}
 
 	h2 {
 		color: #fff;
-		line-height: 1.4;
+		font-size: 28px;
+		line-height: 40px;
+		margin-bottom: 16px;
 	}
 
 	a {
@@ -301,9 +316,9 @@ export default {
 	}
 
 	svg.aioseo-book {
-		width: 20px;
-		height: 20px;
-		margin: 0 10px 0 0;
+		width: 16px;
+		height: 16px;
+		margin: 0 8px 0 0;
 	}
 
 	.getting-started-video {

@@ -8,19 +8,21 @@
 			:classes="[ 'aioseo-redirects', 'modal' ]"
 			@close="display = false"
 		>
-			<div slot="headerTitle">
+			<template #headerTitle>
 				{{ strings.modalHeader }}
-			</div>
+			</template>
 
-			<div slot="body">
-				<core-add-redirection
-					v-if="!loading"
-					:urls="urls"
-					:target="urls[0].target ? urls[0].target : '/'"
-					:disableSource="true"
-					@added-redirect="reload"
-				/>
-			</div>
+			<template #body>
+				<div class="bd">
+					<core-add-redirection
+						v-if="!loading"
+						:urls="urls"
+						:target="urls[0].target ? urls[0].target : '/'"
+						:disableSource="true"
+						@added-redirect="reload"
+					/>
+				</div>
+			</template>
 		</core-modal-portal>
 	</div>
 </template>
@@ -145,9 +147,9 @@ export default {
 		const {
 			addons,
 			redirects
-		} = await getOptions(this.$http)
-		this.$set(this.$store.state, 'addons', merge([ ...this.$store.state.addons ], [ ...addons ]))
-		this.$set(this.$store.state, 'redirects', merge({ ...this.$store.state.redirects }, { ...redirects }))
+		} = await getOptions(this.$.appContext.app)
+		this.$store.state.addons = merge([ ...this.$store.state.addons ], [ ...addons ])
+		this.$store.state.redirects = merge({ ...this.$store.state.redirects }, { ...redirects })
 
 		this.preloadRedirect()
 		this.watchClicks()
@@ -158,11 +160,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.aioseo-redirects.modal {
-	.modal-body {
-		padding: 20px;
-	}
-}
-</style>

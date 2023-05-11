@@ -21,11 +21,12 @@
 						>
 							<base-highlight-toggle
 								type="checkbox"
+								size="medium"
 								round
 								:active="isActive(plugin)"
 								:name="plugin.name"
-								:value="getValue(plugin)"
-								@input="checked => updateValue(checked, plugin)"
+								:modelValue="getValue(plugin)"
+								@update:modelValue="checked => updateValue(checked, plugin)"
 							>
 								<img
 									:alt="plugin.name + ' Plugin Icon'"
@@ -140,7 +141,7 @@ export default {
 
 			const index = this.selected.findIndex(p => p.value === plugin.value)
 			if (-1 !== index) {
-				this.$delete(this.selected, index)
+				this.selected.splice(index, 1)
 			}
 		},
 		getValue (plugin) {
@@ -171,32 +172,17 @@ export default {
 
 <style lang="scss">
 .aioseo-wizard-import {
-	font-size: 16px;
-
-	.header {
-		font-size: 24px;
-		color: $black;
-		font-weight: 600;
-	}
-
-	.description {
-		line-height: 1.4;
-		margin-top: 20px;
-		font-size: 16px;
-		color: $black2;
-		margin-bottom: 56px;
-	}
+	font-size: 14px;
 
 	.plugins {
-		margin-bottom: 10px;
+		--aioseo-gutter: 16px;
 
 		img {
-			width: 36px;
+			width: 16px;
 			height: auto;
 
 			&.seopress,
 			&.seopress-pro {
-				width: 26px;
 				margin: 5px 10px 5px 5px;
 			}
 		}

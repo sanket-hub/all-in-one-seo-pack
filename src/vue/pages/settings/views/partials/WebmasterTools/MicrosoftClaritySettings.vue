@@ -1,12 +1,12 @@
 <template>
 	<grid-column class="tool-settings tool-settings-microsoft-clarity">
-		<template
+		<div
 			v-for="(setting, index) in tool.settings"
+			:key="index"
 		>
 			<core-settings-row
 				noHorizontalMargin
 				align-small
-				:key="index"
 			>
 				<template #name>
 					{{ setting.label }}
@@ -93,13 +93,13 @@
 					</core-alert>
 				</template>
 			</core-settings-row>
-		</template>
+		</div>
 	</grid-column>
 </template>
 
 <script>
 import { MiOrEm, WebmasterTools } from '@/vue/pages/settings/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 import SvgExternal from '@/vue/components/common/svg/External'

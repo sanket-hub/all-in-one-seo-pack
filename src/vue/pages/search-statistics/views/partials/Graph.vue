@@ -1,5 +1,8 @@
 <template>
-	<div class="aioseo-graph">
+	<div
+		v-if="isMounted"
+		class="aioseo-graph"
+	>
 		<apexchart
 			width="100%"
 			:height="height"
@@ -27,7 +30,7 @@
 
 <script>
 import dateFormat from '@/vue/utils/dateFormat'
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue3-apexcharts'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import googleSvg from '@/vue/assets/images/logos/google.svg'
@@ -74,6 +77,7 @@ export default {
 	},
 	data () {
 		return {
+			isMounted     : false,
 			reversedYAxis : false,
 			colors        : [ '#005AE0', '#00AA63', '#F18200', '#DF2A4A', '#8B5CF6', '#D946EF' ],
 			presets       : {
@@ -476,6 +480,16 @@ export default {
 				`legend-columns-${legendColumns}`
 			].filter(n => n).map(className => 'aioseo-graph-' + className)
 		}
+	},
+	// The following was added to prevent errors when loading the post detail page in search statistics.
+	// The errors would look similar to: Error: <g> attribute transform: Expected number, "translate(NaN, 0)".
+	// By adding the mounted and beforeUnmount hooks, we can prevent the errors from occurring.
+	// See: https://github.com/apexcharts/vue-apexcharts/issues/108
+	mounted () {
+		this.isMounted = true
+	},
+	beforeUnmount () {
+		this.isMounted = false
 	}
 }
 </script>

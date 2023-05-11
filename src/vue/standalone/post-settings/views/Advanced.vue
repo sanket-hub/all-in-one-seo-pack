@@ -21,7 +21,7 @@
 					size="medium"
 					:placeholder="strings.placeholder"
 					v-model="currentPost.canonicalUrl"
-					@input="setIsDirty"
+					@update:modelValue="setIsDirty"
 				/>
 			</template>
 		</core-settings-row>
@@ -38,8 +38,8 @@
 							:disabled="isUnlicensed"
 							size="medium"
 							:options="getPriorityOptions"
-							:value="isUnlicensed ? getPriority('default') : getPriority(currentPost.priority)"
-							@input="value => isUnlicensed ? null : savePriority(value.value)"
+							:modelValue="isUnlicensed ? getPriority('default') : getPriority(currentPost.priority)"
+							@update:modelValue="value => isUnlicensed ? null : savePriority(value.value)"
 						/>
 					</div>
 					<div class="separator">
@@ -52,8 +52,8 @@
 							:disabled="isUnlicensed"
 							size="medium"
 							:options="getFrequencyOptions"
-							:value="isUnlicensed ? getFrequency('default') : getFrequency(currentPost.frequency)"
-							@input="value => isUnlicensed ? null : saveFrequency(value.value)"
+							:modelValue="isUnlicensed ? getFrequency('default') : getFrequency(currentPost.frequency)"
+							@update:modelValue="value => isUnlicensed ? null : saveFrequency(value.value)"
 						/>
 					</div>
 				</div>
@@ -78,8 +78,8 @@
 					multiple
 					taggable
 					:options="getJsonValue(currentPost.keywords) || []"
-					:value="getJsonValue(currentPost.keywords) || []"
-					@input="values => currentPost.keywords = setJsonValue(values)"
+					:modelValue="getJsonValue(currentPost.keywords) || []"
+					@update:modelValue="values => currentPost.keywords = setJsonValue(values)"
 					:tag-placeholder="strings.tagPlaceholder"
 				/>
 			</template>
@@ -89,7 +89,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { IsDirty, JsonValues } from '@/vue/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreSingleRobotsMeta from '@/vue/components/common/core/SingleRobotsMeta'
 export default {
@@ -152,14 +152,14 @@ export default {
 			return this.getPriorityOptions.find(h => h.value === option)
 		},
 		savePriority (value) {
-			this.$set(this.currentPost, 'priority', value)
+			this.currentPost.priority = value
 			this.$store.commit('isDirty', true)
 		},
 		getFrequency (option) {
 			return this.getFrequencyOptions.find(h => h.value === option)
 		},
 		saveFrequency (value) {
-			this.$set(this.currentPost, 'frequency', value)
+			this.currentPost.frequency = value
 			this.$store.commit('isDirty', true)
 		}
 	}
@@ -171,7 +171,7 @@ export default {
 	.inline-upsell {
 		display: inline-flex;
 
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 	.selectbox-row {
 		display: flex;

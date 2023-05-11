@@ -69,7 +69,7 @@
 							:url="targetUrl"
 							:errors="targetUrlErrors"
 							:warnings="targetUrlWarnings"
-							@input="updateTargetUrl"
+							@update:modelValue="updateTargetUrl"
 						/>
 
 						<div class="aioseo-description">
@@ -203,13 +203,14 @@ import { JsonValues } from '@/vue/mixins'
 import { sanitizeString } from '@/vue/utils/strings'
 import CoreAddRedirectionTargetUrl from '@/vue/components/common/core/add-redirection/TargetUrl'
 import CoreAddRedirectionUrl from '@/vue/components/common/core/add-redirection/Url'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CustomRules from './CustomRules'
-import SvgRightArrow from '@/vue/components/common/svg/right-arrow/Index.vue'
+import SvgRightArrow from '@/vue/components/common/svg/right-arrow/Index'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 import Redirect from '@/vue/mixins/redirects/Redirect'
 
 export default {
+	emits      : [ 'cancel', 'added-redirect' ],
 	components : {
 		CoreAddRedirectionTargetUrl,
 		CoreAddRedirectionUrl,
@@ -425,7 +426,7 @@ export default {
 			this.sourceUrls.push(JSON.parse(JSON.stringify(this.getDefaultSourceUrl)))
 		},
 		removeUrl (index) {
-			this.$delete(this.sourceUrls, index)
+			this.sourceUrls.splice(index, 1)
 		},
 		addRedirects () {
 			this.genericError   = false
@@ -511,7 +512,7 @@ export default {
 					continue
 				}
 
-				this.$delete(this.sourceUrls, i)
+				this.sourceUrls.splice(i, 1)
 			}
 
 			this.addingRedirect = false
@@ -613,10 +614,6 @@ export default {
 	&.edit-url {
 		.urls {
 			align-items: flex-start;
-
-			.url-arrow {
-				margin: -8px 30px 0;
-			}
 		}
 	}
 
@@ -658,20 +655,28 @@ export default {
 			height: 0;
 		}
 
+		.aioseo-description.source-description {
+			margin-top: 12px;
+
+			+ .source-url-options {
+				margin-top: 12px;
+			}
+		}
+
+		.right-arrow,
 		.url-arrow {
-			width: 36px;
-			margin: -15px 30px 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			margin: 40px 30px;
 
-			@media(min-width: 1200px) {
-				margin: -15px 50px 0;
+			&:empty {
+				margin-block: 0;
 			}
 
-			svg {
-				height: 103px;
+			svg.aioseo-right-arrow {
 				color: $blue;
+				max-width: 20px;
 			}
 		}
 
@@ -731,7 +736,7 @@ export default {
 	.settings {
 		display: flex;
 		flex-direction: row;
-		margin-top: 24px;
+		margin-top: 20px;
 
 		&.advanced {
 			flex-direction: column;
@@ -739,6 +744,7 @@ export default {
 
 		.all-settings {
 			flex-grow: 1;
+
 			.all-settings-content {
 				display: flex;
 				align-items: center;
@@ -764,12 +770,12 @@ export default {
 
 			.postbox & {
 				@media (max-width: 1071px) {
-					margin-top: 24px;
+					margin-top: 20px;
 				}
 			}
 
 			@media (max-width: 767px) {
-				margin-top: 24px;
+				margin-top: 20px;
 			}
 
 			button:not(:first-child) {
@@ -784,8 +790,8 @@ export default {
 
 		.redirect-type,
 		.query-params {
-			margin-bottom: 10px;
 			flex: 0 1 auto;
+
 			.aioseo-select {
 				margin-top: 5px;
 			}
@@ -795,9 +801,14 @@ export default {
 			width: 340px;
 		}
 
-		.redirect-type{
+		.redirect-type {
 			width: 300px;
 			margin-right: 24px;
+			font-weight: $font-bold;
+
+			> * {
+				font-weight: 400;
+			}
 		}
 
 		.aioseo-button {

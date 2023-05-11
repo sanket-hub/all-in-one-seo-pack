@@ -8,6 +8,7 @@
 				:loading="loading"
 				:score="score"
 				:description="description"
+				:strokeWidth="1.75"
 			/>
 		</div>
 
@@ -38,8 +39,8 @@
 			class="analyze-errors"
 			v-if="analyzeError"
 		>
-			<h3>{{ strings.anErrorOccurred }}</h3>
-			{{ getError }}
+			<strong>{{ strings.anErrorOccurred }}</strong><br/>
+			<p>{{ getError }}</p>
 		</div>
 	</div>
 </template>
@@ -47,7 +48,7 @@
 <script>
 import { mapState } from 'vuex'
 import { SeoSiteScore } from '@/vue/mixins'
-import CoreSiteScore from '@/vue/components/common/core/site-score/Index.vue'
+import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 export default {
 	components : {
 		CoreSiteScore
@@ -102,18 +103,21 @@ export default {
 	position: relative;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 
 	.analyze-errors {
+		align-items: center;
+		justify-content: center;
+		margin-left: auto;
+		margin-right: auto;
 		text-align: center;
-		margin-bottom: 1em;
 	}
 
 	.aioseo-seo-site-score-score {
 		position: relative;
-		min-width: 175px;
-		max-width: 217px;
-		margin-right: 1em;
+		width: 100%;
+		max-width: 200px;
+		margin-right: 1rem;
 
 		svg {
 			width: 100%;
@@ -165,7 +169,7 @@ export default {
 		}
 
 		.links {
-			margin-top: 30px;
+			margin-top: 18px;
 			font-size: 14px;
 			font-weight: 600;
 

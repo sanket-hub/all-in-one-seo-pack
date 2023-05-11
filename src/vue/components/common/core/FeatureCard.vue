@@ -73,8 +73,8 @@
 				</span>
 				<base-toggle
 					v-if="feature.installed || feature.canInstall"
-					:value="activated"
-					@input="processStatusChange"
+					:modelValue="activated"
+					@update:modelValue="processStatusChange"
 				/>
 			</div>
 
@@ -171,7 +171,7 @@
 import { getParams } from '@/vue/utils/params'
 import { Url } from '@/vue/mixins'
 import { mapActions, mapMutations } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
@@ -341,34 +341,36 @@ export default {
 	flex-direction: column;
 
 	.feature-card-body {
-		padding: 30px 30px 20px;
+		line-height: 22px;
+		padding: $gutter;
 		flex: 1;
 
 		&.static {
-			padding: 30px;
+			padding: $gutter;
 		}
 
 		.feature-card-header {
 			display: flex;
 			align-items: center;
-			font-size: 18px;
-			font-weight: 600;
-			margin-bottom: 16px;
+			font-size: $font-md;
+			font-weight: $font-bold;
+			margin-bottom: 12px;
 
 			img,
 			svg {
-				width: 28px;
-				height: 28px;
+				width: 24px;
+				height: 24px;
 				margin-right: 10px;
 			}
 		}
 
 		.feature-card-description {
 			color: $black2;
-			font-size: 15px;
+			font-size: $font-md;
 
 			.learn-more {
-				margin-top: 10px;
+				margin-top: 12px;
+				font-size: $font-md;
 			}
 		}
 	}
@@ -400,7 +402,7 @@ export default {
 			}
 
 			.status {
-				font-weight: 600;
+				font-weight: $font-bold;
 				font-size: 14px;
 			}
 
@@ -425,7 +427,7 @@ export default {
 				.version {
 					cursor: pointer;
 					color: $blue;
-					font-weight: 600;
+					font-weight: $font-bold;
 					text-decoration: underline;
 				}
 			}

@@ -8,40 +8,42 @@
 			{{ strings.modalHeader }}
 		</template>
 
-		<div slot="body" class="aioseo-modal-content">
-			<core-main-tabs
-				:tabs="tabs"
-				:showSaveButton="false"
-				:active="activeTab"
-				@changed="value => this.activeTab = value"
-			>
-				<template #md-tab-icon="{ tab }">
-					<component :is="tab.icon"/>
-				</template>
-			</core-main-tabs>
+		<template #body>
+			<div class="aioseo-modal-content">
+				<core-main-tabs
+					:tabs="tabs"
+					:showSaveButton="false"
+					:active="activeTab"
+					@changed="value => this.activeTab = value"
+				>
+					<template #var-tab-icon="{ tab }">
+						<component :is="tab.icon" />
+					</template>
+				</core-main-tabs>
 
-			<div class="component-overflow">
-				<div class="component-container">
-					<div
-						class="component-wrapper"
-						:class="'tab'+activeTab"
-					>
-						<component
-							:is="activeTab"
-							parentComponentContext="modal"
-						/>
+				<div class="component-overflow">
+					<div class="component-container">
+						<div
+							class="component-wrapper"
+							:class="'tab'+activeTab"
+						>
+							<component
+								:is="activeTab"
+								parentComponentContext="modal"
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</template>
 
 		<template #footer>
 			<div
-				v-if="editSnippetData().url || editObjectData().url"
+				v-if="editSnippetData.url || editObjectData.url"
 				class="btn-edit-preview-data-wrapper"
 			>
 				<base-button
-					:href="editSnippetData().url || editObjectData().url"
+					:href="editSnippetData.url || editObjectData.url"
 					:loading="loadingEditPreviewDataBtn"
 					@click.exact="loadingEditPreviewDataBtn = true"
 					class="btn-edit-preview-data"
@@ -50,7 +52,7 @@
 					tag="a"
 				>
 					<svg-icon-pencil/>
-					{{ editSnippetData().btnText || editObjectData().btnText }}
+					{{ editSnippetData.btnText || editObjectData.btnText }}
 				</base-button>
 			</div>
 		</template>
@@ -156,39 +158,41 @@ export default {
 					name      : this.$t.__('SEO Inspector', this.$td),
 					component : 'ViewSeoInspector'
 				}
-			],
-			editSnippetData () {
-				const data = {
-					url     : '',
-					btnText : ''
-				}
-
-				if ('ViewGoogle' === this.activeTab) {
-					data.url = this.$aioseo?.editGoogleSnippetUrl || ''
-					data.btnText = this.$t.__('Edit Snippet', this.$td)
-				} else if ('ViewFacebook' === this.activeTab) {
-					data.url = this.$aioseo?.editFacebookSnippetUrl || ''
-					data.btnText = this.$t.__('Edit Facebook Meta Data', this.$td)
-				} else if ('ViewTwitter' === this.activeTab) {
-					data.url = this.$aioseo?.editTwitterSnippetUrl || ''
-					data.btnText = this.$t.__('Edit Twitter Meta Data', this.$td)
-				}
-
-				return data
-			},
-			editObjectData () {
-				const data = {
-					url     : '',
-					btnText : ''
-				}
-
-				if ('ViewSeoInspector' === this.activeTab) {
-					data.url = this.$aioseo?.editObjectUrl || ''
-					data.btnText = this.$aioseo?.editObjectBtnText || ''
-				}
-
-				return data
+			]
+		}
+	},
+	computed : {
+		editSnippetData () {
+			const data = {
+				url     : '',
+				btnText : ''
 			}
+
+			if ('ViewGoogle' === this.activeTab) {
+				data.url = this.$aioseo?.editGoogleSnippetUrl || ''
+				data.btnText = this.$t.__('Edit Snippet', this.$td)
+			} else if ('ViewFacebook' === this.activeTab) {
+				data.url = this.$aioseo?.editFacebookSnippetUrl || ''
+				data.btnText = this.$t.__('Edit Facebook Meta Data', this.$td)
+			} else if ('ViewTwitter' === this.activeTab) {
+				data.url = this.$aioseo?.editTwitterSnippetUrl || ''
+				data.btnText = this.$t.__('Edit Twitter Meta Data', this.$td)
+			}
+
+			return data
+		},
+		editObjectData () {
+			const data = {
+				url     : '',
+				btnText : ''
+			}
+
+			if ('ViewSeoInspector' === this.activeTab) {
+				data.url = this.$aioseo?.editObjectUrl || ''
+				data.btnText = this.$aioseo?.editObjectBtnText || ''
+			}
+
+			return data
 		}
 	},
 	mounted () {
@@ -203,7 +207,7 @@ export default {
 	font-family: $font-family;
 	line-height: 1.4;
 
-	::v-deep {
+	:deep() {
 		* {
 			box-sizing: border-box;
 			letter-spacing: normal;
@@ -275,19 +279,7 @@ export default {
 		.aioseo-tabs {
 			margin-bottom: 0;
 
-			.md-tabs {
-				.md-tabs-navigation {
-					margin-top: 0;
-
-					.md-button {
-						.md-ripple {
-							padding: 0 20px;
-						}
-					}
-				}
-			}
-
-			.md-button-content {
+			.var-tab {
 				align-items: center;
 				display: flex;
 				gap: 6px;

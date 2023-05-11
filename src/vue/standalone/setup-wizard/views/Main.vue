@@ -37,7 +37,8 @@ export default {
 			const stages = [ ...this.stages ]
 			const index = stages.findIndex(s => stage === s)
 			if (-1 !== index) {
-				this.$delete(stages, index)
+				// Delete the stage from stages.
+				stages.splice(index, 1)
 			}
 
 			this.setStages(stages)

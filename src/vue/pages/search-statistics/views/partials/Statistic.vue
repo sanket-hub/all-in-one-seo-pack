@@ -1,12 +1,24 @@
 <template>
 	<div
 		class="statistic"
-		:class=" {
+		:class="[{
 			'no-margin' : !showCurrent
-		}"
+		}, `statistic-${type}`]"
 	>
 		<span v-if="showCurrent && (total || showZeroValues)">
-			{{ formatStatistic(type, total) }}
+			<span
+				class="statistic-direction"
+				:class="{
+					up   : 0 < total,
+					down : 0 > total
+				}"
+			>
+				<svg-caret-solid
+					v-if="0 !== total && 'decayPercent' === type"
+					:direction="0 < total ? 'up' : 'down'"
+				/>
+				{{ formatStatistic(type, total) }}
+			</span>
 		</span>
 
 		<core-tooltip
@@ -136,6 +148,7 @@ export default {
 						this.$numbers.compactNumber(number)
 					)
 				case 'decay':
+				case 'diffDecay':
 					return this.$t.sprintf(
 						// Translators: 1 - The number of points.
 						this.$t._n('%s point', '%s points', parseInt((this.formatStatistic('keywords', number))), this.$td),
@@ -178,6 +191,13 @@ export default {
 		&.down {
 			color: $red;
 		}
+	}
+
+	&-loss,
+	&-drop {
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 22px;
 	}
 
 	&.no-margin {

@@ -27,10 +27,10 @@
 		>
 			<template
 				v-for="(part, index) in parts"
+				:key="index"
 			>
 				<circle
 					v-if="Math.round(part.ratio) && 0 !== index"
-					:key="index + '_border'"
 					class="aioseo-donut-chart-score__circle"
 					stroke="#FFFFFF"
 					:stroke-dasharray="`${Math.round(part.ratio)} ${parseFloat(99 - Math.round(part.ratio))}`"
@@ -43,7 +43,6 @@
 				/>
 				<circle
 					v-if="Math.round(part.ratio)"
-					:key="index + '_stroke'"
 					class="aioseo-donut-chart-score__circle"
 					:stroke="part.color"
 					:stroke-dasharray="`${100 === Math.round(part.ratio) ? 100 : Math.round(part.ratio) - 1} 100`"
@@ -63,9 +62,8 @@
 			>
 				<div class="total">
 					<util-fit-text
-						:max="40"
+						:max="32"
 						:constrain-to-element="$el"
-						:element-padding="30"
 					>
 						<util-animated-number v-if="animatedNumber" :number="parseInt(total)" />
 						<div v-else v-html="parseInt(total)" />
@@ -111,6 +109,7 @@ export default {
 <style lang="scss">
 .aioseo-app .aioseo-donut-chart {
 	position: relative;
+	display: flex;
 
 	svg {
 		width: 100%;
@@ -137,9 +136,9 @@ export default {
 			text-align: center;
 
 			.total {
-				font-size: 40px;
+				font-size: 32px;
 				font-weight: bold;
-				line-height: 1;
+				line-height: 40px;
 			}
 
 			.label {

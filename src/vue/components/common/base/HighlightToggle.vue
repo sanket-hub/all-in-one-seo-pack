@@ -11,10 +11,10 @@
 			:is="`base-${type}`"
 			ref="toggle"
 			:name="name"
-			:value="value"
+			:modelValue="modelValue"
 			:size="size"
 			:round="round"
-			@input="checked => $emit('input', checked)"
+			@update:modelValue="$emit('update:modelValue', $event)"
 		>
 			<slot />
 		</component>
@@ -38,7 +38,7 @@ export default {
 			type     : String,
 			required : true
 		},
-		value : {
+		modelValue : {
 			type     : [ Boolean, String, Event ],
 			required : true
 		},
@@ -58,7 +58,7 @@ export default {
 .aioseo-highlight-toggle {
 	border: 1px solid $border;
 	border-radius: 3px;
-	min-height: 48px;
+	min-height: 40px;
 	display: flex;
 	align-items: center;
 	padding: 5px 10px;

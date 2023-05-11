@@ -92,7 +92,8 @@ export default {
 			const stages = [ ...this.stages ]
 			const index = stages.findIndex(s => stage === s)
 			if (-1 !== index) {
-				this.$delete(stages, index)
+				// Delete the stage from stages.
+				stages.splice(index, 1)
 			}
 
 			this.setStages(stages)
@@ -142,6 +143,9 @@ export default {
 	}
 
 	.aioseo-button {
+		font-size: $font-sm;
+		height: 32px;
+
 		svg {
 			width: 14px;
 			height: 14px;

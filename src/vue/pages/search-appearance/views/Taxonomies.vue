@@ -27,10 +27,9 @@
 							<ul>
 								<template
 									v-for="(postType, index) in taxonomy.postTypes"
+									:key="index"
 								>
-									<li
-										:key="index"
-									>
+									<li>
 										<strong>{{ postType }}</strong>
 									</li>
 								</template>
@@ -150,6 +149,7 @@ export default {
 
 <style lang="scss">
 .aioseo-search-appearance-taxonomies {
+
 	.icon {
 		display: flex;
 		align-items: center;
@@ -157,7 +157,8 @@ export default {
 	}
 
 	.aioseo-description {
-		ul {
+
+		ul:not([role="listbox"]) {
 			list-style: initial;
 			list-style-position: inside;
 			margin: 0;

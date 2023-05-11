@@ -62,7 +62,7 @@ export default {
 	},
 	toggleCard ({ commit, state }, { slug, shouldSave }) {
 		commit('toggleCard', slug)
-		setOptions({
+		setOptions(this._vm, {
 			options  : state.options,
 			settings : state.settings
 		})
@@ -77,7 +77,7 @@ export default {
 	},
 	toggleRadio ({ commit, state }, { slug, value }) {
 		commit('toggleRadio', { slug, value })
-		setOptions({
+		setOptions(this._vm, {
 			options  : state.options,
 			settings : state.settings
 		})
@@ -88,9 +88,21 @@ export default {
 			})
 			.then(() => {})
 	},
+	dismissAlert ({ commit, state }, slug) {
+		commit('dismissAlert', slug)
+		setOptions(this._vm, {
+			options  : state.options,
+			settings : state.settings
+		})
+		this._vm.$http.post(this._vm.$links.restUrl('settings/dismiss-alert'))
+			.send({
+				alert : slug
+			})
+			.then(() => {})
+	},
 	changeItemsPerPage ({ commit, state }, { slug, value }) {
 		commit('changeItemsPerPage', { slug, value })
-		setOptions({
+		setOptions(this._vm, {
 			settings : state.settings
 		})
 		this._vm.$http.post(this._vm.$links.restUrl('settings/items-per-page'))
@@ -102,14 +114,14 @@ export default {
 	},
 	changeTab ({ commit, state }, { slug, value }) {
 		commit('changeTab', { slug, value })
-		setOptions({
+		setOptions(this._vm, {
 			options  : state.options,
 			settings : state.settings
 		})
 	},
 	changePageSettings ({ commit, state }, { setting, value }) {
 		commit('changePageSettings', { setting, value })
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : state.currentPost
 		})
 		return this._vm.$http.post(this._vm.$links.restUrl('post'))
@@ -121,19 +133,19 @@ export default {
 	},
 	changeGeneralPreview ({ commit, state }, value) {
 		commit('changeGeneralPreview', value)
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : state.currentPost
 		})
 	},
 	changeSocialPreview ({ commit, state }, value) {
 		commit('changeSocialPreview', value)
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : state.currentPost
 		})
 	},
 	changeSchemaSettings ({ commit, state }, { schema, setting, value }) {
 		commit('changeSchemaSettings', { schema, setting, value })
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : state.currentPost
 		})
 		return this._vm.$http.post(this._vm.$links.restUrl('post'))
@@ -157,7 +169,7 @@ export default {
 	},
 	saveConnectToken ({ commit, state }, token) {
 		commit('updateInternalOption', { groups: [ 'internal', 'siteAnalysis' ], key: 'connectToken', value: token })
-		setOptions({
+		setOptions(this._vm, {
 			options : state.options
 		})
 		return this._vm.$http.post(this._vm.$links.restUrl('connect'))
@@ -258,10 +270,8 @@ export default {
 				return response
 			})
 			.then(response => {
-				this._vm.$nextTick(() => {
-					setOptions({
-						license : response.body.license
-					})
+				setOptions(this._vm, {
+					license : response.body.license
 				})
 			})
 	},
@@ -272,7 +282,7 @@ export default {
 				sites
 			})
 			.then(response => {
-				setData({
+				setData(this._vm, {
 					network : {
 						...this._vm.$aioseo.data.network,
 						activeSites : response.body.activeSites
@@ -307,16 +317,14 @@ export default {
 				return response
 			})
 			.then(response => {
-				this._vm.$nextTick(() => {
-					setOptions({
-						license : response.body.license
-					})
+				setOptions(this._vm, {
+					license : response.body.license
 				})
 			})
 	},
 	hideUpgradeBar ({ commit, state }) {
 		commit('hideUpgradeBar')
-		setOptions({
+		setOptions(this._vm, {
 			options  : state.options,
 			settings : state.settings
 		})
@@ -326,7 +334,7 @@ export default {
 	},
 	hideSetupWizard ({ commit, state }) {
 		commit('hideSetupWizard')
-		setOptions({
+		setOptions(this._vm, {
 			options  : state.options,
 			settings : state.settings
 		})
@@ -335,7 +343,7 @@ export default {
 			.then(() => {})
 	},
 	saveChanges ({ state, commit }) {
-		setOptions({
+		setOptions(this._vm, {
 			redirects      : state.redirects,
 			options        : state.options,
 			dynamicOptions : state.dynamicOptions,
@@ -403,7 +411,7 @@ export default {
 			})
 	},
 	saveNetworkRobots ({ state, commit }) {
-		setOptions({
+		setOptions(this._vm, {
 			networkOptions : state.networkOptions,
 			options        : state.options
 		})
@@ -424,7 +432,7 @@ export default {
 	},
 	saveCurrentPost ({ commit }, payload) {
 		commit('updateState', payload)
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : payload
 		})
 		return this._vm.$http.post(this._vm.$links.restUrl('post'))
@@ -502,15 +510,17 @@ export default {
 			})
 	},
 	dismissNotifications ({ commit, state }, payload) {
+		// TODO: This should be inside a mutation.
 		const reversed            = payload.reverse()
 		const activeNotifications = state.notifications.active
 		reversed.forEach(slug => {
 			const notificationIndex = activeNotifications.findIndex(n => n.slug === slug)
 			if (-1 !== notificationIndex) {
-				this._vm.$delete(activeNotifications, notificationIndex)
+				activeNotifications.splice(notificationIndex, 1)
 			}
 		})
-		this._vm.$set(state.notifications, 'active', activeNotifications)
+
+		state.notifications.active = activeNotifications
 
 		return this._vm.$http.post(this._vm.$links.restUrl('notifications/dismiss'))
 			.send(payload)
@@ -559,12 +569,12 @@ export default {
 	},
 	updateState ({ commit }, value) {
 		commit('updateState', value)
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : value
 		})
 	},
 	updateKeyphrases ({ state }, payload) {
-		setOptions({
+		setOptions(this._vm, {
 			currentPost : state.currentPost
 		})
 		return this._vm.$http.post(this._vm.$links.restUrl('keyphrases'))
@@ -581,7 +591,7 @@ export default {
 		return this._vm.$http.get(this._vm.$links.restUrl('tags'))
 			.then(response => {
 				commit('updateTags', response.body.tags)
-				setOptions({
+				setOptions(this._vm, {
 					tags : response.body.tags
 				})
 			})
@@ -594,7 +604,7 @@ export default {
 					commit('setLicense', response.body.license)
 					clearLicenseNotices()
 				}
-				setOptions({
+				setOptions(this._vm, {
 					options : response.body.options
 				})
 			})
@@ -627,7 +637,7 @@ export default {
 					clearLicenseNotices()
 				}
 
-				setOptions({
+				setOptions(this._vm, {
 					options         : response.body.options,
 					internalOptions : response.body.internalOptions
 				})
@@ -714,6 +724,10 @@ export default {
 		return await this._vm.$http.get(this._vm.$links.restUrl(`media/${mediaId}`, 'wp/v2'))
 			.then(response => 200 === response.statusCode ? response.body : {})
 	},
+	disablePrimaryTermEducation ({ commit, state }) {
+		commit('disablePrimaryTermEducation')
+		return this._vm.$http.post(this._vm.$links.restUrl(`post/${state.currentPost.id}/disable-primary-term-education`))
+	},
 	disableLinkAssistantEducation ({ commit, state }) {
 		commit('disableLinkAssistantEducation')
 		return this._vm.$http.post(this._vm.$links.restUrl(`post/${state.currentPost.id}/disable-link-format-education`))
@@ -736,7 +750,7 @@ export default {
 				searchTerm
 			})
 			.then(response => {
-				setData({
+				setData(this._vm, {
 					network : {
 						...this._vm.$aioseo.data.network,
 						sites : response.body.sites

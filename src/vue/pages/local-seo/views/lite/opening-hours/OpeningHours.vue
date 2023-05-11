@@ -37,7 +37,7 @@ import Blur from './Blur'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 export default {
 	components : {
 		Blur,
@@ -90,28 +90,32 @@ export default {
 	align-items: center;
 	padding: 12px 0;
 	border-bottom: 1px solid $border;
+
 	&:first-of-type {
 		padding-top: 0;
 	}
+
 	&:last-of-type {
 		padding-bottom: 0;
 		border: none;
 	}
+
 	.aioseo-col-day {
 		flex: 1
 	}
+
 	.aioseo-col-hours,
 	.aioseo-col-alwaysopen {
 		flex: 2
 	}
-	span.separator {
-		margin: 0 20px;
-	}
+
 	.aioseo-select {
 		display: inline-block;
 		max-width: 125px;
 	}
+
 	.multiselect--disabled {
+
 		.multiselect__tags,
 		.multiselect__single {
 			background: $background;

@@ -18,8 +18,6 @@
 				<div class="license-cta-box">
 					<div v-html="tooltipText" />
 
-					<br>
-
 					<grid-row>
 						<grid-column
 							sm="6"
@@ -86,7 +84,7 @@
 import { popup } from '@/vue/utils/popup'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgCheckmark from '@/vue/components/common/svg/Checkmark'
@@ -327,11 +325,13 @@ export default {
 	}
 
 	.license-cta-box {
+		font-size: $font-md;
+		line-height: 22px;
 		border-radius: 3px;
 		background-color: $inline-background;
 		padding: 20px;
 		max-width: 620px;
-		margin: 10px 0 30px;
+		margin: 12px 0;
 
 		a {
 			color: $green;
@@ -358,12 +358,13 @@ export default {
 	}
 
 	.license-key {
-		margin-top: 10px;
+		margin-top: 12px;
 		display: flex;
+		gap: 8px;
 		max-width: 620px;
 
 		.aioseo-input {
-			margin-right: 10px;
+			margin-right: 8px;
 		}
 	}
 

@@ -1,7 +1,9 @@
 import { upperFirst } from 'lodash-es'
 import store from '@/vue/store'
 
-const getAddon = slug => store.state.addons.find(item => slug === item.sku)
+const getAddon = slug => {
+	return store.state.addons.length ? store.state.addons.find(item => slug === item.sku) : null
+}
 
 const isActive = slug => {
 	const addon = getAddon(slug)

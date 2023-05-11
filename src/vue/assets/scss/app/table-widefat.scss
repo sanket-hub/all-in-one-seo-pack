@@ -29,6 +29,10 @@
 	.widefat td,
 	.widefat th {
 		padding: 8px 10px;
+
+		&:has(.row-actions) {
+			padding-bottom: 10px;
+		}
 	}
 
 	.widefat thead th,
@@ -54,16 +58,16 @@
 	.widefat td p,
 	.widefat td ol,
 	.widefat td ul {
-		font-size: 13px;
-		line-height: 1.5em;
+		font-size: $font-md;
+		line-height: 22px;
 	}
 
 	.widefat th,
 	.widefat thead td,
 	.widefat tfoot td {
 		text-align: left;
-		line-height: 1.3em;
-		font-size: 14px;
+		font-size: $font-md;
+		line-height: 22px;
 	}
 
 	.widefat th input,
@@ -170,7 +174,8 @@
 	// Copied from wp-admin/css/list-tables.css WP-5.9
 	.row-actions {
 		color: #a7aaad;
-		font-size: 13px;
+		font-size: 12px;
+		line-height: 18px;
 		padding: 2px 0 0;
 		position: relative;
 		left: -9999em;

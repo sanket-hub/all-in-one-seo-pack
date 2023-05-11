@@ -11,6 +11,7 @@
 <script>
 import { Network } from '@/vue/mixins'
 export default {
+	emits  : [ 'selected-site' ],
 	mixins : [ Network ],
 	props  : {
 		showNetwork : Boolean

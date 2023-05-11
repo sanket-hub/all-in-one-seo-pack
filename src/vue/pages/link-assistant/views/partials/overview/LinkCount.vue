@@ -122,7 +122,7 @@ export default {
 <style lang="scss">
 .aioseo-app .aioseo-link-count {
 	display: flex;
-	padding: 5px 20px;
+	padding: 0 20px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -131,18 +131,18 @@ export default {
 	.aioseo-link-count-top {
 		display: flex;
 		align-items: center;
-		height: 20px;
+			font-size: 32px;
+			line-height: 40px;
+			font-weight: $font-bold;
 
 		span {
 			color: $black;
-			font-size: 28px;
-			font-weight: bold;
 		}
 
 		svg {
-			margin-right: 12px;
-			width: 15.75px;
-			height: 15.75px;
+			margin-right: 11px;
+			width: 100%;
+			max-height: 18px;
 
 			&.aioseo-search {
 				$color: $black2-hover;
@@ -157,13 +157,11 @@ export default {
 			}
 
 			&.aioseo-link-affiliate {
-				max-width: 17.5px;
-				max-height: 17.5px;
+				max-height: 20px;
 				color: $orange;
 			}
 
 			&.aioseo-link-orphaned {
-				max-width: 17.5px;
 				margin-right: 10px;
 				color: $red;
 			}
@@ -171,11 +169,11 @@ export default {
 	}
 	.aioseo-link-count-bottom {
 		display: flex;
-		margin-top: 15px;
+		margin-top: 8px;
+		font-size: 14px;
+		line-height: 18px;
 
 		span {
-			font-size: 14px;
-			line-height: 120%;
 			color: $black2;
 		}
 

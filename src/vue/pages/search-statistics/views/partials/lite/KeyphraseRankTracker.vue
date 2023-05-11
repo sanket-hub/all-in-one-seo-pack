@@ -22,16 +22,16 @@
 			>
 				<template #buttons="{}">
 					<a
-						href="#"
 						class="text-button"
+						href="#"
 					>
 						<svg-circle-plus />
 						{{ strings.addToGraph }}
 					</a>
 
 					<a
-						href="#"
 						class="delete-tracked"
+						href="#"
 					>
 						<svg-trash />
 					</a>
@@ -64,10 +64,10 @@
 <script>
 import { mapState } from 'vuex'
 import CoreBlur from '@/vue/components/common/core/Blur'
-import Cta from '@/vue/components/common/cta/Index.vue'
-import Graph from '../Graph.vue'
-import KeywordsTable from '../KeywordsTable.vue'
-import KeywordsList from '../KeywordsList.vue'
+import Cta from '@/vue/components/common/cta/Index'
+import Graph from '../Graph'
+import KeywordsTable from '../KeywordsTable'
+import KeywordsList from '../KeywordsList'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {

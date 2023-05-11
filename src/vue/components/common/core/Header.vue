@@ -241,7 +241,7 @@ html:not([data-scroll='0']) {
 	right: 0;
 	left: 0;
 	background-color: #fff;
-	height: 72px;
+	height: var(--aioseo-header-height, 72px);
 	color: $black;
 
 	.mascot {
@@ -255,28 +255,27 @@ html:not([data-scroll='0']) {
 		display: flex;
 		height: 72px;
 		align-items: center;
+		gap: 4px;
 
 		a:focus {
 			box-shadow: none;
 		}
 
 		svg.aioseo-logo {
-			height: 26px;
-			margin-right: 10px;
+			height: 20px;
 		}
 
 		.spacer {
 			display: inline-flex;
-			width: 26.25px;
-			height: 0px;
-			border: 1px solid $input-border;
-			transform: rotate(-72.26deg);
+			width: 20px;
+			height: 2px;
+			background: $input-border;
+			transform: rotate(-70deg);
 		}
 
 		.page-name {
 			display: inline-flex;
-			margin-left: 10px;
-			font-size: 18px;
+			font-size: 16px;
 			font-weight: normal;
 			flex: 1 0 auto;
 		}
@@ -343,7 +342,7 @@ html:not([data-scroll='0']) {
 	.fade-percent-circle-enter-active, .fade-percent-circle-leave-active {
 		transition: opacity .5s;
 	}
-	.fade-percent-circle-enter, .fade-percent-circle-leave-to {
+	.fade-percent-circle-enter-from, .fade-percent-circle-leave-to {
 		opacity: 0;
 	}
 }

@@ -32,7 +32,10 @@
 							<core-overview />
 						</core-card>
 
-						<grid-row v-if="quickLinks.length > 0">
+						<grid-row
+							v-if="quickLinks.length > 0"
+							class="aioseo-quicklinks-cards-row"
+						>
 							<grid-column>
 								<div class="aioseo-quicklinks-title">
 									{{ strings.quicklinks }}
@@ -98,8 +101,8 @@
 								<div>{{ notificationTitle }}</div>
 
 								<a
-									class="show-dismissed-notifications"
 									v-if="dismissed"
+									class="show-dismissed-notifications"
 									href="#"
 									@click.prevent="dismissed = false"
 								>{{ strings.activeNotifications }}</a>
@@ -132,8 +135,20 @@
 									<template
 										v-if="notifications.length > visibleNotifications"
 									>
-										<a href="#" @click.stop.prevent="toggleNotifications">{{ moreNotifications }}</a>
-										<a href="#" @click.stop.prevent="toggleNotifications" class="no-underline">&rarr;</a>
+										<a
+											href="#"
+											@click.stop.prevent="toggleNotifications"
+										>
+											{{ moreNotifications }}
+										</a>
+
+										<a
+											class="no-underline"
+											href="#"
+											@click.stop.prevent="toggleNotifications"
+										>
+											&rarr;
+										</a>
 									</template>
 								</div>
 
@@ -143,10 +158,12 @@
 								>
 									<a
 										v-if="notifications.length"
-										href="#"
 										class="dismiss"
+										href="#"
 										@click.stop.prevent="processDismissAllNotifications"
-									>{{ strings.dismissAll }}</a>
+									>
+										{{ strings.dismissAll }}
+									</a>
 								</div>
 							</div>
 						</core-card>
@@ -201,13 +218,13 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreFeatureCard from '@/vue/components/common/core/FeatureCard'
 import CoreGettingStarted from '@/vue/components/common/core/GettingStarted'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import CoreNotificationCards from '@/vue/components/common/core/NotificationCards'
-import CoreOverview from '@/vue/components/common/core/Overview.vue'
-import CoreSeoSetup from '@/vue/components/common/core/SeoSetup.vue'
-import CoreSeoSiteScore from '@/vue/components/AIOSEO_VERSION/core/seo-site-score/Index.vue'
+import CoreOverview from '@/vue/components/common/core/Overview'
+import CoreSeoSetup from '@/vue/components/common/core/SeoSetup'
+import CoreSeoSiteScore from '@/vue/components/AIOSEO_VERSION/core/seo-site-score/Index'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgBook from '@/vue/components/common/svg/Book'
@@ -441,17 +458,18 @@ export default {
 
 <style lang="scss">
 .aioseo-dashboard {
-	.dashboard-getting-started {
-		padding-top: 1px;
-		margin-bottom: 20px;
 
-		> div {
-			margin-top: 19px;
-		}
+	.aioseo-main > .aioseo-container {
+		padding-top: 0;
 	}
 
-	.aioseo-card {
-		margin: 10px 0 20px;
+	.dashboard-getting-started {
+		padding-top: 1px;
+
+		> div {
+			margin-top: calc(var(--aioseo-gutter) - 1px);
+			margin-bottom: 0;
+		}
 	}
 
 	.dashboard-notifications {
@@ -465,7 +483,7 @@ export default {
 
 		.no-dashboard-notifications {
 			padding-top: 0;
-			font-size: 16px;
+			font-size: 14px;
 			color: $black;
 			text-align: center;
 
@@ -482,7 +500,7 @@ export default {
 
 		.show-dismissed-notifications {
 			margin: 0 5px;
-			font-size: 16px;
+			font-size: 14px;
 			color: $black2;
 		}
 
@@ -521,13 +539,13 @@ export default {
 
 	.dashboard-support {
 		.aioseo-settings-row {
-			margin-bottom: 25px;
-			padding-bottom: 25px;
+			margin-bottom: var(--aioseo-gutter);
 
 			a {
 				display: flex;
 				align-items: center;
-				font-size: 16px;
+				font-size: $font-md;
+				line-height: 22px;
 				font-weight: 600;
 				color: $black;
 				text-decoration: none;
@@ -539,15 +557,32 @@ export default {
 
 			svg {
 				color: $blue;
-				width: 24px;
-				height: 24px;
-				margin: -5px 10px 0 0;
+				width: 16px;
+				height: 16px;
+				margin-right: 8px;
 			}
+		}
+	}
+
+	.aioseo-quicklinks-cards-row.aioseo-row {
+		--aioseo-gutter: 16px;
+
+		@include aioseoGrid(2, 204px);
+
+		> * {
+			max-width: none;
+			padding: 0;
+		}
+
+		.aioseo-col:first-child {
+			grid-column: 1 / -1;
+			grid-row: 1 / -1;
 		}
 	}
 
 	.aioseo-quicklinks-title {
 		font-size: 18px;
+		line-height: 22px;
 		color: $black;
 		font-weight: 600;
 		display: flex;
@@ -560,24 +595,8 @@ export default {
 		}
 	}
 
-	.aioseo-quicklinks-cards {
-		.aioseo-feature-card {
-			.feature-card-header {
-				font-size: 16px;
-			}
-
-			.feature-card-description {
-				font-size: 14px;
-
-				.learn-more {
-					font-size: 16px;
-				}
-			}
-		}
-	}
-
 	.dashboard-cta {
-		margin-top: 20px;
+		margin-top: var(--aioseo-gutter);
 	}
 }
 </style>

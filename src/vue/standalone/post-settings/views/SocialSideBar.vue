@@ -6,7 +6,9 @@
 	>
 		<template #content>
 			<div class="aioseo-sidebar-content-title">{{ strings.title }}</div>
+
 			<p>{{ strings.sidebarCopy }}</p>
+
 			<base-button
 				class="open-social-modal gray small"
 				@click="openModalEv"

@@ -32,7 +32,7 @@ export default {
 		commit('dateRange', dateRange)
 		commit('rolling', payload.rolling)
 
-		setOptions({
+		setOptions(this._vm, {
 			searchStatistics : state
 		})
 
@@ -43,6 +43,10 @@ export default {
 
 		dispatch('updateKeywords', {
 			filter     : 'all',
+			searchTerm : ''
+		})
+
+		dispatch('updateContentRankings', {
 			searchTerm : ''
 		})
 	},
@@ -63,6 +67,12 @@ export default {
 		if (!state.data.keywords?.paginated?.rows?.length) {
 			dispatch('updateKeywords', {
 				filter     : 'all',
+				searchTerm : ''
+			})
+		}
+
+		if (!state.data.contentRankings?.paginated?.totals?.total) {
+			dispatch('updateContentRankings', {
 				searchTerm : ''
 			})
 		}
@@ -121,6 +131,32 @@ export default {
 			.finally(() => {
 				commit('loading', {
 					key   : 'keywords',
+					value : false
+				})
+			})
+	},
+	updateContentRankings ({ commit, state }, options) {
+		commit('loading', {
+			key   : 'contentRankings',
+			value : true
+		})
+
+		this._vm.$http.get(this._vm.$links.restUrl('search-statistics/stats/content-rankings'))
+			.query({
+				endDate : state.latestAvailableDate,
+				...options
+			})
+			.then(response => {
+				if (response.body.success) {
+					commit('data', {
+						key   : 'contentRankings',
+						value : response.body.data
+					})
+				}
+			})
+			.finally(() => {
+				commit('loading', {
+					key   : 'contentRankings',
 					value : false
 				})
 			})

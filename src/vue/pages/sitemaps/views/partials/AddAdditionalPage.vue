@@ -16,7 +16,7 @@
 		<div class="page-row">
 			<div class="page-url">
 				<base-input
-					:value="page.url"
+					:modelValue="page.url"
 					@keyup="editPage('url', $event.target.value)"
 					size="medium"
 					:placeholder="strings.placeholder"
@@ -64,8 +64,8 @@
 			<div class="page-priority">
 				<base-select
 					size="medium"
-					:value="page.priority"
-					@input="editPage('priority', $event)"
+					:modelValue="page.priority"
+					@update:modelValue="editPage('priority', $event)"
 					:options="$constants.PRIORITY_OPTIONS"
 				/>
 			</div>
@@ -73,17 +73,19 @@
 			<div class="page-frequency">
 				<base-select
 					size="medium"
-					:value="page.frequency"
-					@input="editPage('frequency', $event)"
+					:modelValue="page.frequency"
+					@update:modelValue="editPage('frequency', $event)"
 					:options="$constants.FREQUENCY_OPTIONS"
 				/>
 			</div>
 
 			<div class="page-last-modified">
-				<base-datepicker
-					size="medium"
-					:value="page.lastModified"
-					@input="editPage('lastModified', $event)"
+				<base-date-picker
+					type="date"
+					size="large"
+					dateFormat="m/d/Y"
+					:defaultValue="dateStringToLocalJs(page.lastModified)"
+					@change="value => editPage('lastModified', dateJsToLocal(value, 'MM/dd/yyyy'))"
 				/>
 			</div>
 		</div>
@@ -136,6 +138,7 @@
 			<template #headerTitle>
 				{{ strings.importAdditionalPages }}
 			</template>
+
 			<template #body >
 				<div class="aioseo-modal-body import-additional-pages">
 					<div class="alert">
@@ -183,10 +186,9 @@
 					</div>
 
 					<base-input
-						v-model="inputFile"
 						type="file"
-						@click="reset"
-						@change="handleFileUpload"
+						:value="file"
+						@update:modelValue="handleFileUpload"
 						ref="file"
 					/>
 
@@ -208,13 +210,14 @@
 
 <script>
 import { DateTime } from 'luxon'
+import { Date } from '@/vue/mixins'
 import { mapMutations, mapState } from 'vuex'
 import { __ } from '@wordpress/i18n'
 import { isUrl, cloneObject } from '@/vue/utils/helpers'
 import csvFileImage from '@/vue/assets/images/sitemap/import-from-csv.png'
 
-import BaseDatepicker from '@/vue/components/common/base/Datepicker'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import BaseDatePicker from '@/vue/components/common/base/DatePicker'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
@@ -230,8 +233,10 @@ const defaults = {
 }
 
 export default {
+	emits      : [ 'cancel', 'process-page-add-and-update', 'process-page-edit' ],
+	mixins     : [ Date ],
 	components : {
-		BaseDatepicker,
+		BaseDatePicker,
 		CoreAlert,
 		CoreModal,
 		SvgCircleCheck,
@@ -243,9 +248,8 @@ export default {
 			csvFileImage,
 			priorityOptionsValues  : [],
 			frequencyOptionsValues : [],
-			inputFile              : null,
-			filename               : null,
-			file                   : null,
+			filename               : '',
+			file                   : '',
 			loading                : false,
 			showImportModal        : false,
 			page                   : cloneObject(defaults.page),
@@ -305,11 +309,11 @@ export default {
 			this.$emit('process-page-add-and-update')
 		},
 		editPage (type, value) {
-			this.$set(this.page, type, value)
+			this.page[type] = value
 
 			if (!isUrl(this.page.url) && this.page.url) {
-				 this.errors.url.invalid = true
-				 return
+				this.errors.url.invalid = true
+				return
 			}
 
 			if (this.pageExists(this.page.url) && !this.inTable) {
@@ -338,9 +342,8 @@ export default {
 		},
 		reset () {
 			this.errors.upload = false
-			this.filename    = null
-			this.file        = null
-			this.inputFile   = null
+			this.filename      = ''
+			this.file          = ''
 		},
 		triggerFileUpload () {
 			this.reset()
@@ -417,7 +420,6 @@ export default {
 			})
 		},
 		handleFileUpload () {
-			this.reset()
 			this.file = this.$refs.file.$el.querySelector('input').files[0]
 			if (this.file) {
 				this.filename = this.file.name
@@ -474,7 +476,7 @@ export default {
 	.additional-pages-input {
 		border: 1px solid $input-border;
 		border-radius: 3px;
-		margin: 24px 0;
+		margin-bottom: var(--aioseo-gutter);
 
 		.append-icon {
 			width: 60px;
@@ -571,7 +573,6 @@ export default {
 
 	.aioseo-modal-body.delete {
 		margin: 20px 0 50px 0;
-		// max-width: 650px;
 	}
 
 	.aioseo-modal-body.import-additional-pages {
@@ -627,7 +628,7 @@ export default {
 		margin: 24px 0;
 		align-items: baseline;
 		width: 100%;
-		gap: 5px;
+		gap: 8px;
 
 		> .aioseo-input {
 			margin-right: 10px;

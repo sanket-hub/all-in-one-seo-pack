@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<import-export
-			v-if="!$aioseo.data.isNetworkAdmin || (!isUnlicensed && $license.hasCoreFeature('tools', 'network-tools-import-export'))"
+			v-if="!$aioseo.data.isNetworkAdmin || (!isUnlicensed && $license.hasCoreFeature($aioseo, 'tools', 'network-tools-import-export'))"
 		/>
 
 		<lite-import-export
-			v-if="$aioseo.data.isNetworkAdmin && (isUnlicensed || !$license.hasCoreFeature('tools', 'network-tools-import-export'))"
+			v-if="$aioseo.data.isNetworkAdmin && (isUnlicensed || !$license.hasCoreFeature($aioseo, 'tools', 'network-tools-import-export'))"
 		/>
 	</div>
 </template>

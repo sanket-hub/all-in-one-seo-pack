@@ -1,9 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { getOptions } from '@/vue/utils/options'
-import store from '@/vue/store'
 import { merge } from 'lodash-es'
 import { __ } from '@wordpress/i18n'
+import { sync } from 'vuex-router-sync'
 
 const td = import.meta.env.VITE_TEXTDOMAIN
 
@@ -18,22 +17,18 @@ const nextFactory = (context, middleware, index) => {
 		return context.next
 	}
 
-	return (...parameters) => {
-		// Run the default Vue Router `next()` callback first.
-		context.next(...parameters)
-		// Then run the subsequent Middleware with a new
-		// `nextMiddleware()` callback.
+	return () => {
+		// Run the subsequent Middleware with a new `nextMiddleware()` callback.
 		const nextMiddleware = nextFactory(context, middleware, index + 1)
+
 		subsequentMiddleware({ ...context, next: nextMiddleware })
 	}
 }
 
-export default paths => {
-	Vue.use(Router)
-
-	const router = new Router({
-		base   : `wp-admin/admin.php?page=aioseo-${window.aioseo.page}`,
-		routes : paths,
+export default (paths, app, store) => {
+	const router = createRouter({
+		history : createWebHashHistory(`wp-admin/admin.php?page=aioseo-${window.aioseo.page}`),
+		routes  : paths,
 		scrollBehavior (to, from, savedPosition) {
 			if (savedPosition) {
 				return savedPosition
@@ -41,7 +36,7 @@ export default paths => {
 			if (to.hash) {
 				return { selector: to.hash }
 			}
-			return { x: 0, y: 0 }
+			return { left: 0, top: 0 }
 		}
 	})
 
@@ -64,31 +59,32 @@ export default paths => {
 				linkAssistant,
 				indexNow,
 				searchStatistics
-			} = await getOptions(router.app.$http)
-			router.app.$set(store.state, 'redirects', merge({ ...store.state.redirects }, { ...redirects }))
-			router.app.$set(store.state, 'linkAssistant', merge({ ...store.state.linkAssistant }, { ...linkAssistant }))
-			router.app.$set(store.state, 'index-now', merge({ ...store.state['index-now'] }, { ...indexNow }))
-			router.app.$set(store.state, 'search-statistics', merge({ ...store.state['search-statistics'] }, { ...searchStatistics }))
-			router.app.$set(store.state, 'internalOptions', merge({ ...store.state.internalOptions }, { ...internalOptions }))
-			router.app.$set(store.state, 'options', merge({ ...store.state.options }, { ...options }))
-			router.app.$set(store.state, 'dynamicOptions', merge({ ...store.state.dynamicOptions }, { ...dynamicOptions }))
-			router.app.$set(store.state, 'settings', merge({ ...store.state.settings }, { ...settings }))
-			router.app.$set(store.state, 'notifications', merge({ ...store.state.notifications }, { ...notifications }))
-			router.app.$set(store.state, 'helpPanel', merge({ ...store.state.helpPanel }, { ...helpPanel }))
-			router.app.$set(store.state, 'addons', merge([ ...store.state.addons ], [ ...addons ]))
-			router.app.$set(store.state, 'backups', merge([ ...store.state.backups ], [ ...backups ]))
-			router.app.$set(store.state, 'tags', merge({ ...store.state.tags }, { ...tags }))
-			router.app.$set(store.state, 'license', merge({ ...store.state.license }, { ...license }))
-			router.app.$set(store.state, 'loaded', true)
+			} = await getOptions(app)
+
+			store.state.redirects            = merge({ ...store.state.redirects }, { ...redirects })
+			store.state.linkAssistant        = merge({ ...store.state.linkAssistant }, { ...linkAssistant })
+			store.state['index-now']         = merge({ ...store.state['index-now'] }, { ...indexNow })
+			store.state['search-statistics'] = merge({ ...store.state['search-statistics'] }, { ...searchStatistics })
+			store.state.internalOptions      = merge({ ...store.state.internalOptions }, { ...internalOptions })
+			store.state.options              = merge({ ...store.state.options }, { ...options })
+			store.state.dynamicOptions       = merge({ ...store.state.dynamicOptions }, { ...dynamicOptions })
+			store.state.settings             = merge({ ...store.state.settings }, { ...settings })
+			store.state.notifications        = merge({ ...store.state.notifications }, { ...notifications })
+			store.state.helpPanel            = merge({ ...store.state.helpPanel }, { ...helpPanel })
+			store.state.addons               = merge([ ...store.state.addons ], [ ...addons ])
+			store.state.backups              = merge([ ...store.state.backups ], [ ...backups ])
+			store.state.tags                 = merge({ ...store.state.tags }, { ...tags })
+			store.state.license              = merge({ ...store.state.license }, { ...license })
+			store.state.loaded               = true
 
 			// Network.
-			router.app.$set(store.state, 'internalNetworkOptions', merge({ ...store.state.internalNetworkOptions }, { ...internalNetworkOptions }))
-			router.app.$set(store.state, 'networkOptions', merge({ ...store.state.networkOptions }, { ...networkOptions }))
-			router.app.$set(store.state, 'networkBackups', merge({ ...store.state.networkBackups }, { ...window.aioseo.data.network?.backups }))
-			router.app.$set(store.state, 'networkData', merge({ ...store.state.networkData }, {
+			store.state.internalNetworkOptions = merge({ ...store.state.internalNetworkOptions }, { ...internalNetworkOptions })
+			store.state.networkOptions         = merge({ ...store.state.networkOptions }, { ...networkOptions })
+			store.state.networkBackups         = merge({ ...store.state.networkBackups }, { ...window.aioseo.data.network?.backups })
+			store.state.networkData            = merge({ ...store.state.networkData }, {
 				sites       : window.aioseo.data.network?.sites,
 				activeSites : window.aioseo.data.network?.activeSites
-			}))
+			})
 
 			// We clone the state as it is right now so we can compare for changes later.
 			store.commit('original/setOriginalOptions', JSON.parse(JSON.stringify(store.state.options)))
@@ -127,6 +123,7 @@ export default paths => {
 			const middleware = Array.isArray(to.meta.middleware) ? to.meta.middleware : [ to.meta.middleware ]
 
 			const context = {
+				app,
 				from,
 				next,
 				router,
@@ -142,6 +139,8 @@ export default paths => {
 
 		return next()
 	})
+
+	sync(store, router)
 
 	return router
 }

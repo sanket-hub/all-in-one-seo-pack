@@ -61,7 +61,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
-import CoreAnalyze from '@/vue/components/common/core/analyze/Index.vue'
+import CoreAnalyze from '@/vue/components/common/core/analyze/Index'
 import CoreAnalyzeScore from '@/vue/components/common/core/analyze/Score'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreHeadlineResult from '@/vue/components/common/core/headline/Result'
@@ -158,7 +158,7 @@ export default {
 		startDeleteheadline (headline) {
 			this.closeAllCards()
 
-			this.$delete(this.headlines, headline)
+			delete this.headlines[headline]
 
 			this.deleteHeadline(headline)
 				.then(() => {
@@ -214,7 +214,7 @@ export default {
 	.headline-result-main {
 		display: flex;
 		flex-direction: row;
-		font-size: 16px;
+		font-size: 14px;
 		align-items: flex-start;
 		color: $black;
 

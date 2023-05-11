@@ -39,7 +39,7 @@
 <script>
 import { Standalone } from '@/vue/mixins/Standalone'
 import { mapState } from 'vuex'
-import SvgFlyoutDannie from '@/vue/components/common/svg/flyout-dannie/Index.vue'
+import SvgFlyoutDannie from '@/vue/components/common/svg/flyout-dannie/Index'
 import SvgFlyoutDannieUp from '@/vue/components/common/svg/flyout-dannie/Up'
 import SvgLightBulb from '@/vue/components/common/svg/LightBulb'
 import SvgMessage from '@/vue/components/common/svg/Message'

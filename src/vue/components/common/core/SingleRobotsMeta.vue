@@ -2,7 +2,7 @@
 	<div class="aioseo-robots-meta">
 		<base-toggle
 			v-model="currentPost.default"
-			@input="setIsDirty"
+			@update:modelValue="setIsDirty"
 		>
 			{{ strings.useDefaultSettings }}
 		</base-toggle>
@@ -24,7 +24,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.noindex"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.noindex }}
 					</base-checkbox>
@@ -37,7 +37,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.nofollow"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.nofollow }}
 					</base-checkbox>
@@ -50,7 +50,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.noarchive"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.noarchive }}
 					</base-checkbox>
@@ -63,7 +63,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.notranslate"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.notranslate }}
 					</base-checkbox>
@@ -76,7 +76,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.noimageindex"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.noimageindex }}
 					</base-checkbox>
@@ -89,7 +89,7 @@
 				<base-checkbox
 						size="medium"
 						v-model="currentPost.nosnippet"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.nosnippet }}
 					</base-checkbox>
@@ -102,7 +102,7 @@
 					<base-checkbox
 						size="medium"
 						v-model="currentPost.noodp"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					>
 						{{ strings.noodp }}
 					</base-checkbox>
@@ -119,7 +119,7 @@
 						type="number"
 						size="medium"
 						v-model="currentPost.maxSnippet"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					/>
 				</div>
 
@@ -131,7 +131,7 @@
 						type="number"
 						size="medium"
 						v-model="currentPost.maxVideoPreview"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					/>
 				</div>
 
@@ -143,8 +143,8 @@
 					<base-select
 						size="medium"
 						:options="imagePreviewOptions"
-						:value="getImagePreview(currentPost.maxImagePreview)"
-						@input="value => saveImagePreview(value.value)"
+						:modelValue="getImagePreview(currentPost.maxImagePreview)"
+						@update:modelValue="value => saveImagePreview(value.value)"
 					/>
 				</div>
 			</div>
@@ -201,7 +201,7 @@ export default {
 			return this.imagePreviewOptions.find(h => h.value === option)
 		},
 		saveImagePreview (value) {
-			this.$set(this.currentPost, 'maxImagePreview', value)
+			this.currentPost.maxImagePreview = value
 			this.$store.commit('isDirty', true)
 		}
 	}
@@ -210,41 +210,39 @@ export default {
 
 <style lang="scss">
 .aioseo-robots-meta {
+
 	.global-robots-settings {
-		margin: 0;
-		padding-top: 24px;
+		margin-top: 16px;
+		font-weight: $font-bold;
+
 		> .settings {
-			padding: 8px 0 16px;
+			margin-top: 12px;
+			font-weight: 400;
+
+			--aioseo-gutter: 12px;
+
+			@include aioseoGrid(4, 150px);
+
+			.aioseo-col {
+				max-width: none;
+			}
 		}
 	}
+
 	.global-robots-settings-options {
 		display: flex;
+		gap: 12px;
+		margin-top: 16px;
 
-		.max-snippet {
-			margin-right: 30px;
+		> .aioseo-description {
+			margin: 0;
 
-			.aioseo-input {
-				max-width: 90px;
-			}
-		}
-
-		.max-video-preview {
-			margin-right: 30px;
-
-			.aioseo-input {
-				max-width: 90px;
-			}
-		}
-
-		.max-image-preview {
+			.aioseo-input,
 			.aioseo-select {
-				min-width: 155px;
+				min-width: 200px;
+				font-weight: 400;
+				margin-top: 4px;
 			}
-		}
-
-		> span {
-			display: inline-block;
-			margin-bottom: 4px;
 		}
 
 		@media screen and (max-width: 782px) {
@@ -266,13 +264,16 @@ export default {
 		}
 	}
 }
+
 .edit-post-sidebar {
 	.global-robots-settings {
 		padding-top: 12px;
+
 		> .settings {
 			padding: 4px 0 12px;
+
 			label {
-				font-size: 16px;
+				font-size: 14px;
 			}
 		}
 		.robots-meta-title {

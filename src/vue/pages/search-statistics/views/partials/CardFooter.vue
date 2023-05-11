@@ -3,7 +3,7 @@
 		v-if="buttonTarget"
 		class="aioseo-card-footer"
 	>
-		<router-link :to="{ name : buttonTarget, params : params }">
+		<router-link :to="{ name : buttonTarget, query : query }">
 			<span v-html="strings.openReport" />
 		</router-link>
 	</div>
@@ -24,7 +24,7 @@ export default {
 	},
 	props : {
 		buttonTarget : String,
-		params       : Object
+		query        : Object
 	}
 }
 </script>
@@ -32,14 +32,14 @@ export default {
 <style lang="scss">
 .aioseo-card-footer {
 	margin-top: auto;
-	padding-top: 30px;
+	padding-top: var(--aioseo-gutter);
 	text-align: left;
 
 	// Align it to footer.
 	position: absolute;
-	bottom: 30px;
-	left: 30px;
-	width: calc( 100% - 48px );
+	bottom: var(--aioseo-gutter);
+	left: var(--aioseo-gutter);
+	width: calc( 100% - 40px );
 
 	a {
 		text-decoration: none;

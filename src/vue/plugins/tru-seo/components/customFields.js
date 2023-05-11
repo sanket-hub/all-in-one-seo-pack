@@ -2,7 +2,7 @@ import { debounce } from '@/vue/utils/debounce'
 import {
 	truSeoShouldAnalyze,
 	maybeUpdatePost
-} from '@/vue/plugins/tru-seo/components'
+} from '@/vue/plugins/tru-seo/components/helpers'
 
 /**
  * Get custom fields values used in content.

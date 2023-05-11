@@ -8,7 +8,7 @@ const loadView = view => {
 
 export default [
 	{
-		path     : '*',
+		path     : '/:pathMatch(.*)*',
 		redirect : '/dashboard'
 	},
 	{
@@ -38,6 +38,16 @@ export default [
 		meta      : {
 			access         : 'aioseo_search_statistics_settings',
 			name           : __('Keyword Rankings', td),
+			hideSaveButton : true
+		}
+	},
+	{
+		path      : '/content-rankings',
+		name      : 'content-rankings',
+		component : loadView('Main'),
+		meta      : {
+			access         : 'aioseo_search_statistics_settings',
+			name           : __('Content Rankings', td),
 			hideSaveButton : true
 		}
 	},

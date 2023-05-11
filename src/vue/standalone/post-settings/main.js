@@ -1,24 +1,67 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { h, createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-import '@/vue/plugins'
-import TruSeo from '@/vue/plugins/tru-seo'
+import loadPlugins from '@/vue/plugins'
+
+import loadComponents from '@/vue/components/common'
+import loadVersionedComponents from '@/vue/components/AIOSEO_VERSION'
+
 import '@/vue/plugins/redirects'
 
-import '@/vue/components/common'
-import '@/vue/components/AIOSEO_VERSION'
+import TruSeo from '@/vue/plugins/tru-seo'
 
 import App from './App.vue'
 import './registerScoreToggler'
 import store from '@/vue/store'
 import { elemLoaded } from '@/vue/utils/elemLoaded'
-import { shouldShowMetaBox } from '@/vue/plugins/tru-seo/components'
+import { shouldShowMetaBox } from '@/vue/plugins/tru-seo/components/helpers'
 import loadTruSeo from '@/vue/standalone/post-settings/loadTruSeo'
 import './link-assistant/AIOSEO_VERSION'
 
 // Local Business.
 import AppLocalBusiness from '../local-business-seo/App.vue'
 
-Vue.prototype.$truSeo = new TruSeo()
+// Router placeholder to prevent errors when using router-link.
+const router = createRouter({
+	history : createWebHistory(),
+	routes  : [
+		{
+			path      : '/',
+			component : App
+		}
+	]
+})
+
+const localCreateApp = (app) => {
+	app = loadPlugins(app)
+	app = loadComponents(app)
+	app = loadVersionedComponents(app)
+
+	app.use(store)
+	app.use(router)
+
+	store._vm  = app
+	router.app = app
+
+	app.config.globalProperties.$truSeo = new TruSeo()
+
+	window.addEventListener('load', () => loadTruSeo(app))
+
+	return app
+}
+
+const loadSidebarApp = () => {
+	localCreateApp(createApp({
+		data () {
+			return {
+				tableContext  : 'post',
+				screenContext : 'sidebar'
+			}
+		},
+		render : () => h(App)
+	})).mount('#aioseo-post-settings-sidebar-vue')
+}
 
 if (window.aioseo.currentPost) {
 	const currentContext = window.aioseo.currentPost.context
@@ -28,14 +71,15 @@ if (window.aioseo.currentPost) {
 			window.wp.blockEditor = window.wp.editor
 		}
 
-		new Vue({
-			store,
-			data : {
-				tableContext  : currentContext,
-				screenContext : 'metabox'
+		localCreateApp(createApp({
+			data () {
+				return {
+					tableContext  : currentContext,
+					screenContext : 'metabox'
+				}
 			},
-			render : h => h(App)
-		}).$mount(`#aioseo-${currentContext}-settings-metabox`)
+			render : () => h(App)
+		})).mount(`#aioseo-${currentContext}-settings-metabox`)
 
 		if ('post' === currentContext) {
 			const sidebar = document.getElementById('aioseo-post-settings-sidebar-vue')
@@ -43,38 +87,23 @@ if (window.aioseo.currentPost) {
 				elemLoaded('#aioseo-post-settings-sidebar-vue', 'aioseoSidebarVisible')
 				document.addEventListener('animationstart', function (event) {
 					if ('aioseoSidebarVisible' === event.animationName) {
-						new Vue({
-							store,
-							data : {
-								tableContext  : 'post',
-								screenContext : 'sidebar'
-							},
-							render : h => h(App)
-						}).$mount('#aioseo-post-settings-sidebar-vue')
+						loadSidebarApp()
 					}
 				}, { passive: true })
 			} else {
-				new Vue({
-					store,
-					data : {
-						tableContext  : 'post',
-						screenContext : 'sidebar'
-					},
-					render : h => h(App)
-				}).$mount('#aioseo-post-settings-sidebar-vue')
+				loadSidebarApp()
 			}
 		}
 	}
 }
 
-window.addEventListener('load', loadTruSeo)
-
 if (window.aioseo.currentPost && window.aioseo.localBusiness && document.getElementById('aioseo-location-settings-metabox')) {
-	new Vue({
-		store,
-		data : {
-			screenContext : 'metabox'
+	localCreateApp(createApp({
+		data () {
+			return {
+				screenContext : 'metabox'
+			}
 		},
-		render : h => h(AppLocalBusiness)
-	}).$mount('#aioseo-location-settings-metabox')
+		render : () => h(AppLocalBusiness)
+	})).mount('#aioseo-location-settings-metabox')
 }

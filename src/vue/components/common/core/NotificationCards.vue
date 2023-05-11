@@ -34,7 +34,7 @@
 						v-if="dismissedCount"
 						href="#"
 						class="dismiss"
-						@click.stop="$emit('toggle-dismissed')"
+						@click.stop.prevent="$emit('toggle-dismissed')"
 					>
 						{{ strings.seeDismissed }}
 					</a>
@@ -51,6 +51,7 @@ import NotificationsReview from '@/vue/components/common/notifications/Review'
 import NotificationsReview2 from '@/vue/components/common/notifications/Review2'
 import NotificationsUnlicensedAddons from '@/vue/components/common/notifications/UnlicensedAddons'
 export default {
+	emits      : [ 'toggle-dismissed', 'dismissed-notification' ],
 	components : {
 		CoreNotification,
 		NotificationsReview,
@@ -94,23 +95,25 @@ export default {
 		align-items: center;
 		flex-direction: column;
 		padding-top: 100px;
-		font-size: 16px;
+		font-size: 14px;
+		line-height: 22px;
 		color: $placeholder-color;
 
 		img {
 			width: 30%;
+			max-width: 108px;
 			height: auto;
 		}
 
 		.great-scott {
-			margin: 20px 0 10px;
-			font-size: 24px;
+			margin: 20px 0 8px;
+			font-size: 18px;
 			font-weight: 600;
 			color: $black2;
 		}
 
 		.no-new-notifications {
-			margin-bottom: 10px;
+			margin-bottom: 20px;
 		}
 	}
 }

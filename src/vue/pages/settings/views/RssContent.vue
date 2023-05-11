@@ -24,7 +24,6 @@
 
 			<core-settings-row
 				:name="$constants.GLOBAL_STRINGS.preview"
-				align
 			>
 				<template #content>
 					<base-button

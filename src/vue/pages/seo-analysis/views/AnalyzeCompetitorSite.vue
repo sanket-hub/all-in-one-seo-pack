@@ -73,7 +73,7 @@
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { SeoSiteScore } from '@/vue/mixins'
 import { isUrl } from '@/vue/utils/helpers'
-import CoreAnalyze from '@/vue/components/common/core/analyze/Index.vue'
+import CoreAnalyze from '@/vue/components/common/core/analyze/Index'
 import CoreAnalyzeScore from '@/vue/components/common/core/analyze/Score'
 import CoreAnalyzeCompetitorSiteHeader from '@/vue/components/AIOSEO_VERSION/core/analyze/CompetitorSiteHeader'
 import CoreCard from '@/vue/components/common/core/Card'
@@ -93,6 +93,7 @@ export default {
 	mixins : [ SeoSiteScore ],
 	data () {
 		return {
+			score             : 0,
 			competitorUrl     : null,
 			isAnalyzing       : false,
 			inputError        : false,
@@ -207,7 +208,7 @@ export default {
 		startDeleteSite (site) {
 			this.closeAllCards()
 
-			this.$delete(this.competitorResults, site)
+			delete this.competitorResults[site]
 
 			this.deleteCompetitorSite(site)
 				.then(() => {
@@ -279,7 +280,7 @@ export default {
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
 		background-color: #fff;
-		padding: 24px 30px;
+		padding: 20px;
 		border: 1px solid $border;
 		box-shadow: 0px 2px 10px rgba(0, 90, 224, 0.2);
 		color: $black;

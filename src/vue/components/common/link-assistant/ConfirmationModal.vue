@@ -42,6 +42,7 @@
 import CoreModal from '@/vue/components/common/core/modal/Index'
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	emits      : [ 'closeModal', 'doBulkAction' ],
 	components : {
 		CoreModal,
 		SvgClose

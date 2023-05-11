@@ -1,14 +1,29 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
 import App from './App.vue'
 import translate from '@/vue/plugins/translations'
-import { MdButton, MdTabs } from 'vue-material/dist/components'
 
-Vue.use(MdButton)
-Vue.use(MdTabs)
+// Router placeholder to prevent errors when using router-link.
+const router = createRouter({
+	history : createWebHistory(),
+	routes  : [
+		{
+			path      : '/',
+			component : App
+		}
+	]
+})
 
-Vue.prototype.$t = translate
-Vue.prototype.$td = import.meta.env.VITE_TEXTDOMAIN
-Vue.prototype.$aioseo = window.aioseoSeoPreview
+const app = createApp(App)
+
+app.use(router)
+router.app = app
+
+app.$t      = app.config.globalProperties.$t      = translate
+app.$td     = app.config.globalProperties.$td     = import.meta.env.VITE_TEXTDOMAIN
+app.$aioseo = app.config.globalProperties.$aioseo = window.aioseoSeoPreview
 
 const elemDiv = document.createElement('div')
 
@@ -30,6 +45,4 @@ if (false !== import.meta.env.PROD) {
 	document.body.appendChild(elemDiv)
 }
 
-new Vue({
-	render : h => h(App)
-}).$mount(elemDiv)
+app.mount(elemDiv)

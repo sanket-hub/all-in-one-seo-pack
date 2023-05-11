@@ -38,7 +38,7 @@
 		<base-button
 			v-if="$isPro && $aioseo.license.isActive"
 			id="add-additional-keyphrase"
-			class="add-keyphrase gray small"
+			class="add-keyphrase gray medium"
 			@click="addKeyphraseEv"
 		>
 			<svg-circle-plus width="14" height="14" />
@@ -65,7 +65,7 @@
 <script>
 import { mapState } from 'vuex'
 import { IsDirty } from '@/vue/mixins'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreKeyphrase from '@/vue/components/common/core/Keyphrase'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import SvgCirclePlus from '@/vue/components/common/svg/circle/Plus'
@@ -163,12 +163,12 @@ export default {
 
 <style lang="scss" scoped>
 .aioseo-description.additional-keyphrases-description {
-	margin: 0 0 20px;
+	margin: 0 0 12px;
 }
 
 .edit-post-sidebar .aioseo-app {
 	.aioseo-description.additional-keyphrases-description {
-		margin: 0 0 20px;
+		margin: 0 0 12px;
 	}
 }
 </style>

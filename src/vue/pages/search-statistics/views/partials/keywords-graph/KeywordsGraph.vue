@@ -10,7 +10,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import Graph from '../Graph.vue'
+import Graph from '../Graph'
 export default {
 	components : {
 		Graph

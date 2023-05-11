@@ -5,7 +5,7 @@ export const MetaTag = {
 			const meta = this.metaHtml(this.options.webmasterTools[setting])
 			if (meta instanceof HTMLElement && 'META' === meta.nodeName) {
 				if (meta.getAttribute('content').length) {
-					this.$set(this.options.webmasterTools, setting, meta.getAttribute('content'))
+					this.options.webmasterTools[setting] = meta.getAttribute('content')
 				}
 			}
 		},

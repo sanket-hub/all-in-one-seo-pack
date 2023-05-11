@@ -46,7 +46,7 @@ export default {
 	mounted () {
 		document.body.classList.add('aioseo-has-bar')
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.body.classList.remove('aioseo-has-bar')
 	}
 }

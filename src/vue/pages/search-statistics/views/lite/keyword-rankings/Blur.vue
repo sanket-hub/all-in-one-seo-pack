@@ -59,9 +59,9 @@ import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
-import KeywordsDistributionGraph from '../../partials/KeywordsDistributionGraph.vue'
-import KeywordsGraph from '../../partials/KeywordsGraph.vue'
-import KeywordsTable from '../../partials/KeywordsTable.vue'
+import KeywordsDistributionGraph from '../../partials/KeywordsDistributionGraph'
+import KeywordsGraph from '../../partials/KeywordsGraph'
+import KeywordsTable from '../../partials/KeywordsTable'
 import SeoStatisticsOverview from '../../partials/SeoStatisticsOverview'
 export default {
 	components : {

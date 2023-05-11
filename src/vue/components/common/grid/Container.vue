@@ -31,7 +31,18 @@ export default {
 }
 
 .aioseo-container {
-	padding: 0 20px;
+	padding: 0;
+	width: calc(100% - var(--aioseo-gutter) * 2);
+	max-width: 1240px;
+
+	&.full-width {
+		width: 100%;
+		max-width: 100%;
+	}
+
+	&.small {
+		max-width: 810px;
+	}
 }
 
 .aioseo-container-fluid.hero, .aioseo-container.hero {
@@ -43,25 +54,5 @@ export default {
 .aioseo-container-fluid {
 	padding-right: 2rem;
 	padding-left: 2rem;
-}
-
-@media only screen and (min-width: 782px) {
-	.aioseo-container {
-		padding: 0 30px;
-	}
-}
-
-@media only screen and (min-width: 1042px) {
-	.aioseo-container {
-		max-width: 1240px;
-
-		&.full-width {
-			max-width: 100%;
-		}
-
-		&.small {
-			max-width: 810px;
-		}
-	}
 }
 </style>

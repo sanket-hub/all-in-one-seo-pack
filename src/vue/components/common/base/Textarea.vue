@@ -9,7 +9,7 @@
 <script>
 export default {
 	props : {
-		value : {
+		modelValue : {
 			type    : [ String, Number ],
 			default : ''
 		},
@@ -74,7 +74,7 @@ export default {
 		},
 		val (val) {
 			this.$nextTick(this.resize)
-			this.$emit('input', val)
+			this.$emit('update:modelValue', val)
 		},
 		minHeight () {
 			this.$nextTick(this.resize)
@@ -110,7 +110,7 @@ export default {
 		}
 	},
 	created () {
-		this.val = this.value
+		this.val = this.modelValue
 	},
 	mounted () {
 		this.resize()
@@ -124,7 +124,7 @@ export default {
 	background-color: #fff;
 	border: 1px solid $input-border;
 	border-radius: 4px;
-	font-size: 16px;
+	font-size: 14px;
 	padding: 12px;
 }
 </style>

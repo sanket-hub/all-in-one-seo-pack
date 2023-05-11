@@ -1,8 +1,10 @@
 <template>
 	<div class="content">
-		<template v-for="archive in archives">
+		<template
+			v-for="archive in archives"
+			:key="archive.slug"
+		>
 			<component
-				:key="archive.slug"
 				:is="archive.slug"
 				:active="archive.slug"
 			/>
@@ -12,12 +14,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import DateArchives from './DateArchives.vue'
-import PostTypeArchives from './PostTypeArchives.vue'
-import SearchArchives from './SearchArchives.vue'
-import NotFound from './NotFound.vue'
-import AuthorArchives from './AuthorArchives.vue'
-import BlogArchives from './BlogArchives.vue'
+import DateArchives from './DateArchives'
+import PostTypeArchives from './PostTypeArchives'
+import SearchArchives from './SearchArchives'
+import NotFound from './NotFound'
+import AuthorArchives from './AuthorArchives'
+import BlogArchives from './BlogArchives'
 
 export default {
 	components : {

@@ -8,6 +8,7 @@
 <script>
 import { debounce } from '@/vue/utils/debounce'
 export default {
+	emits : [ 'can-show', 'images' ],
 	props : {
 		src : String,
 		tag : {
@@ -76,11 +77,11 @@ export default {
 					return
 				}
 
-				this.$set(this.images, this.src, {
+				this.images[this.src] = {
 					image,
 					ratio,
 					vertical : width > height
-				})
+				}
 			})
 
 			image.onerror = await (() => {

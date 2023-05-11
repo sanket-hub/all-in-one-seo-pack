@@ -108,7 +108,7 @@ export default {
 <style lang="scss">
 	.aioseo-app .aioseo-link-assistant-phrase {
 		.aioseo-tooltip {
-			display: inline !important;
+			display: inline;
 			margin: 0;
 			font-size: 0px;
 			line-height: 100%;

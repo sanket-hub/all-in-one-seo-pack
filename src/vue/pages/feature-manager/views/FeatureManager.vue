@@ -165,10 +165,10 @@ import { License } from '@/vue/mixins'
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 import ctaImg from '@/vue/assets/images/upsells/news-sitemap.png'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreFeatureCard from '@/vue/components/common/core/FeatureCard'
 import CoreModal from '@/vue/components/common/core/modal/Index'
-import Cta from '@/vue/components/common/cta/Index.vue'
+import Cta from '@/vue/components/common/cta/Index'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgClose from '@/vue/components/common/svg/Close'
@@ -372,26 +372,25 @@ export default {
 <style lang="scss">
 .aioseo-feature-manager {
 	.aioseo-alert {
-		margin-bottom: 30px;
+		margin-bottom: var(--aioseo-gutter);
 
 		&.install-failed {
-			margin-top: 30px;
+			margin-top: var(--aioseo-gutter);
 			margin-bottom: 0;
 		}
 
 		.buttons {
-			margin-top: 10px;
+			margin-top: 8px;
 
-			.aioseo-button:not(:last-child) {
-				margin-right: 10px;
+			.aioseo-button + .aioseo-button {
+				margin-left: 12px;
 			}
 		}
 	}
 
 	.aioseo-feature-manager-header {
-		padding: 20px 0 10px;
 		border-bottom: 2px solid $border;
-		margin: 0 0 30px;
+		margin: 0 0 var(--aioseo-gutter);
 		display: flex;
 		align-items: center;
 
@@ -399,17 +398,28 @@ export default {
 			flex: 1 0;
 
 			.aioseo-button {
-				margin-right: 10px;
+				margin-right: 16px;
+				margin-bottom: 10px;
 			}
 		}
 
 		.aioseo-input {
 			max-width: 325px;
+			margin-bottom: 10px;
 		}
 	}
 
+	.aioseo-feature-manager-addons > .aioseo-row {
+
+			@include aioseoGrid(3, 290px);
+
+			.aioseo-col {
+				max-width: none;
+			}
+	}
+
 	.feature-manager-upsell {
-		margin-top: 50px;
+		margin-top: var(--aioseo-gutter);
 	}
 
 	.aioseo-modal-body {
@@ -421,12 +431,12 @@ export default {
 		position: relative;
 
 		h3 {
-			font-size: 20px;
+			font-size: 18px;
 			margin-bottom: 16px;
 		}
 
 		.reset-description {
-			font-size: 16px;
+			font-size: 14px;
 			color: $black;
 			margin-bottom: 16px;
 			text-align: center;

@@ -1,4 +1,6 @@
-import Vue from 'vue'
+import '@/vue/utils/vue2.js'
+import { createApp } from 'vue'
+
 import store from './store'
 import App from './vue/App.vue'
 import { formatHeadingList, flattenHeadings } from './helpers'
@@ -7,6 +9,7 @@ import { html, isEqual, deepCopy, cleanHtml } from '@/vue/standalone/blocks/util
 import { observeElement } from '@/vue/utils/helpers'
 import { cleanForSlug } from '@/vue/utils/cleanForSlug'
 import { extraHeadingProperties } from './constants'
+import translate from '@/vue/plugins/translations'
 
 const { useSelect }    = window.wp.data
 const blockEditorStore = window.wp.blockEditor.store
@@ -38,11 +41,16 @@ export default function edit (props) {
 				store.state.listStyle     = attributes.listStyle
 				store.state.reOrdered     = attributes.reOrdered
 
-				new Vue({
-					store,
-					el     : el,
-					render : h => h(App)
-				})
+				const app = createApp(App)
+
+				app.$t      = app.config.globalProperties.$t      = translate
+				app.$td     = app.config.globalProperties.$td     = import.meta.env.VITE_TEXTDOMAIN
+				app.$aioseo = app.config.globalProperties.$aioseo = window.aioseoSeoPreview
+
+				app.use(store)
+				store._vm = app
+
+				app.mount(el)
 
 				// If headings were already saved previously, we need to sync up the new block client IDs.
 				if (store.state.headings?.length) {

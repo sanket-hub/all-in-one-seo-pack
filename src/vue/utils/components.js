@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-const autoLoadComponents = (components, prefix = '') => {
+const autoLoadComponents = (app, components, prefix = '') => {
 	Object.keys(components).forEach(k => {
 		const component = components[k]
 
@@ -8,7 +6,7 @@ const autoLoadComponents = (components, prefix = '') => {
 			k = ''
 		}
 
-		Vue.component(`${prefix}${k}`, component)
+		app.component(`${prefix}${k}`, component)
 	})
 }
 

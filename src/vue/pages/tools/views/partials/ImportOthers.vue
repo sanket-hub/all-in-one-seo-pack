@@ -93,7 +93,7 @@
 					<base-checkbox
 						v-if="'all' !== setting.value && options.all"
 						size="medium"
-						:value="true"
+						:modelValue="true"
 						disabled
 					>
 						{{ setting.label }}
@@ -125,7 +125,7 @@
 <script>
 import { mapActions } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreNetworkSiteSelector from '@/vue/components/common/core/NetworkSiteSelector'
 import GridColumn from '@/vue/components/common/grid/Column'
@@ -292,7 +292,7 @@ export default {
 	}
 
 	.aioseo-button.import {
-		margin-top: 24px;
+		margin-top: 16px;
 	}
 
 	.import-settings {

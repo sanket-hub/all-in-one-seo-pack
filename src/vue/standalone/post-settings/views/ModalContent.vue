@@ -4,7 +4,7 @@
 			<core-main-tabs
 				:tabs="getTabs"
 				:showSaveButton="false"
-				:active="metaBoxTabs.modal"
+				:active="metaBoxTabs.modal || 'general'"
 				internal
 				@changed="value => processChangeTab(value)"
 			/>
@@ -13,7 +13,7 @@
 		<div class="component-wrapper">
 			<transition name="route-fade" mode="out-in">
 				<component
-					:is="this.activeTab"
+					:is="this.metaBoxTabs.modal || 'general'"
 					parentComponentContext="modal"
 				/>
 			</transition>
@@ -40,8 +40,7 @@ export default {
 	},
 	data () {
 		return {
-			activeTab : 'general',
-			strings   : {
+			strings : {
 				pageName : this.$t.__('Modal Content', this.$td)
 			},
 			tabs : [
@@ -67,7 +66,6 @@ export default {
 	methods : {
 		...mapMutations([ 'changeTabSettings' ]),
 		processChangeTab (newTabValue) {
-			this.activeTab = newTabValue
 			this.changeTabSettings({ setting: 'modal', value: newTabValue })
 		}
 	}
@@ -77,44 +75,51 @@ export default {
 .aioseo-modal-content {
 	.mobile-radio-buttons {
 		display: block!important;
+
 		> .col-md-3 {
 			display: none;
 		}
+
 		> .col-md-9 {
 			padding: 0;
 			flex-basis: 100%!important;
 			max-width: 100%!important;
 		}
 	}
+
 	.aioseo-settings-row {
-		> .col-md-3 {
+		> .aioseo-col.col-md-3 {
 			padding-bottom: 0;
 		}
-		> .col-md-3,
-		> .col-md-9 {
+
+		> .aioseo-col.col-md-3,
+		> .aioseo-col.col-md-9 {
 			flex-basis: 100%;
 			max-width: 100%;
 		}
 	}
+
 	> .aioseo-settings-row {
 		.aioseo-tabs {
 			&.internal {
 				padding-left: 40px;
 			}
-			.md-button-content {
+
+			.var-tab {
 				display: flex;
 				align-items: center;
+
 				svg {
 					display: inline;
 					width: 16px;
 					height: 16px;
 				}
-			}
-			.md-button {
+
 				&:before {
 					height: auto!important;
 					border-radius: 0!important;
 				}
+
 				.label {
 					display: inline!important;
 					margin-left: 10px;
@@ -122,17 +127,16 @@ export default {
 			}
 		}
 	}
+
 	> .aioseo-settings-row.mobile-radio-buttons {
-		.md-button {
-			max-height: 46px;
+		.aioseo-tabs {
+			--tabs-item-horizontal-height: 46px;
 		}
 	}
+
 	.aioseo-tab-content {
 		position: relative;
-		padding: 30px 40px !important;
-		&.aioseo-post-social {
-			padding: 22px 40px !important;
-		}
+		padding: 16px;
 	}
 }
 </style>

@@ -75,6 +75,7 @@ export default {
 
 <style lang="scss">
 .aioseo-search-statistics-suggested-changes {
+
 	ul {
 		margin: 0;
 
@@ -82,11 +83,15 @@ export default {
 			font-weight: 400;
 			font-size: 14px;
 			color: $black;
-			margin-bottom: 16px;
+			margin-block: 0;
 			position: relative;
 			padding-left: 30px;
 			display: flex;
 			align-items: center;
+
+			+ li {
+				margin-top: 16px;
+			}
 
 			.aioseo-circle-close {
 				position: absolute;

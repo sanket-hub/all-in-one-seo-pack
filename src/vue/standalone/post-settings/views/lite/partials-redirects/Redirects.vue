@@ -11,18 +11,18 @@
 			v-if="currentPost.redirects.modalOpen && 'sidebar' === $root._data.screenContext"
 			@close="toggleRedirectsModal"
 		>
-			<div slot="headerTitle">
+			<template #headerTitle>
 				{{ strings.modalHeader }}
-			</div>
+			</template>
 
-			<div slot="body">
+			<template #body>
 				<div class="bd">
 					<redirects-lite
 						:noCoreCard="true"
 						:parentComponentContext="parentComponentContext"
 					/>
 				</div>
-			</div>
+			</template>
 		</core-modal-portal>
 
 		<redirects-side-bar v-if="'modal' !== this.parentComponentContext" />

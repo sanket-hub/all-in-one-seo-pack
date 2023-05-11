@@ -10,7 +10,7 @@
 					<div class="aioseo-col col-xs-12 text-xs-left">
 						<base-radio-toggle
 							name="openingHours"
-							:value="true"
+							:modelValue="true"
 							:options="[
 								{ label: $constants.GLOBAL_STRINGS.no, value: false },
 								{ label: $constants.GLOBAL_STRINGS.yes, value: true }
@@ -46,13 +46,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -79,13 +79,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -112,13 +112,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -145,13 +145,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -178,13 +178,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -211,13 +211,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">
@@ -244,13 +244,13 @@
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="09:00"
+									modelValue="09:00"
 								/>
 								<span class="separator">-</span>
 								<base-select
 									size="medium"
 									:options="$constants.HOURS_24H_FORMAT"
-									value="17:00"
+									modelValue="17:00"
 								/>
 							</div>
 							<div class="aioseo-col-alwaysopen text-xs-left">

@@ -4,8 +4,8 @@
 		ref="redirect-source-url"
 	>
 		<base-input
-			:value="url.url"
-			@input="value => updateSourceUrl(value)"
+			:modelValue="url.url"
+			@update:modelValue="value => updateSourceUrl(value)"
 			@keyup="searchChange"
 			@focus="showResults = true"
 			:disabled="log404 || disableSource"
@@ -69,8 +69,8 @@
 					>
 						<base-checkbox
 							size="medium"
-							:value="url.ignoreSlash"
-							@input="value => updateOption('ignoreSlash', value)"
+							:modelValue="url.ignoreSlash"
+							@update:modelValue="value => updateOption('ignoreSlash', value)"
 						>
 							{{ strings.ignoreSlash }}
 						</base-checkbox>
@@ -80,8 +80,8 @@
 					>
 						<base-checkbox
 							size="medium"
-							:value="url.ignoreCase"
-							@input="value => updateOption('ignoreCase', value)"
+							:modelValue="url.ignoreCase"
+							@update:modelValue="value => updateOption('ignoreCase', value)"
 						>
 							{{ strings.ignoreCase }}
 						</base-checkbox>
@@ -92,8 +92,8 @@
 					>
 						<base-checkbox
 							size="medium"
-							:value="url.regex"
-							@input="value => updateOption('regex', value)"
+							:modelValue="url.regex"
+							@update:modelValue="value => updateOption('regex', value)"
 						>
 							{{ strings.regex }}
 						</base-checkbox>
@@ -136,7 +136,7 @@ import { mapActions } from 'vuex'
 import { sanitizeString } from '@/vue/utils/strings'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 import CoreAddRedirectionUrlResults from '@/vue/components/common/core/add-redirection/UrlResults'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreLoader from '@/vue/components/common/core/Loader'
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
@@ -147,6 +147,7 @@ import SvgGear from '@/vue/components/common/svg/Gear'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	emits      : [ 'updated-url', 'remove-url', 'updated-option' ],
 	components : {
 		BaseCheckbox,
 		CoreAddRedirectionUrlResults,
@@ -353,13 +354,13 @@ export default {
 				}
 			}
 
-			this.$set(this.url, 'url', value)
-			this.$set(this.url, 'errors', this.invalidUrl)
-			this.$set(this.url, 'warnings', this.iffyUrl)
+			this.url.url = value
+			this.url.errors = this.invalidUrl
+			this.url.warnings = this.iffyUrl
 			this.$emit('updated-url', this.url)
 		},
 		updateOption (option, value) {
-			this.$set(this.url, option, value)
+			this.url[option] = value
 			this.updateSourceUrl(this.url.url)
 
 			this.$emit('updated-option', this.url)
@@ -424,7 +425,7 @@ export default {
 
 		document.addEventListener('click', this.documentClick)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.documentClick)
 	}
 }

@@ -37,7 +37,7 @@
 				<template #content>
 					<base-toggle
 						v-model="currentPost.twitter_use_og"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					/>
 				</template>
 			</core-settings-row>
@@ -55,7 +55,7 @@
 						:line-numbers="false"
 						single
 						@counter="count => updateCount(count, 'titleCount')"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 						:tags-context="`${currentPost.postType || currentPost.termType}Title`"
 						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'title')"
 					>
@@ -81,7 +81,7 @@
 						:line-numbers="false"
 						description
 						@counter="count => updateCount(count, 'descriptionCount')"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 						:tags-context="`${currentPost.postType || currentPost.termType}Description`"
 						:default-tags="$tags.getDefaultTags('term' === currentPost.context ? 'taxonomies' : null, null, 'description')"
 					>
@@ -107,8 +107,8 @@
 					<base-select
 						size="medium"
 						:options="imageSourceOptionsFiltered"
-						:value="getImageSourceOptionFiltered(currentPost.twitter_image_type)"
-						@input="value => saveTwitterImageType(value.value)"
+						:modelValue="getImageSourceOptionFiltered(currentPost.twitter_image_type)"
+						@update:modelValue="value => saveTwitterImageType(value.value)"
 					/>
 				</template>
 			</core-settings-row>
@@ -125,7 +125,7 @@
 						size="medium"
 						:placeholder="strings.placeholder"
 						v-model="currentPost.twitter_image_custom_fields"
-						@input="setIsDirty"
+						@update:modelValue="setIsDirty"
 					/>
 				</template>
 			</core-settings-row>
@@ -140,7 +140,7 @@
 						<base-input
 							size="medium"
 							v-model="currentPost.twitter_image_custom_url"
-							@input="setIsDirty"
+							@update:modelValue="setIsDirty"
 							:placeholder="strings.pasteYourImageUrl"
 						/>
 
@@ -183,8 +183,8 @@
 						size="medium"
 						open-direction="top"
 						:options="twitterCards"
-						:value="getCardOptions(currentPost.twitter_card)"
-						@input="value => cardSelect(value.value)"
+						:modelValue="getCardOptions(currentPost.twitter_card)"
+						@update:modelValue="value => cardSelect(value.value)"
 					/>
 				</template>
 			</core-settings-row>
@@ -196,7 +196,7 @@
 import { ImageSourceOptions, ImagePreview, MaxCounts, Tags, Uploader, IsDirty } from '@/vue/mixins'
 import { mapState, mapActions } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import CoreTwitterPreview from '@/vue/components/common/core/TwitterPreview'
@@ -222,6 +222,7 @@ export default {
 	},
 	data () {
 		return {
+			separator        : undefined,
 			titleCount       : 0,
 			descriptionCount : 0,
 			strings          : {
@@ -275,7 +276,7 @@ export default {
 			return this.twitterCards.find(t => t.value === option)
 		},
 		cardSelect (option) {
-			this.$set(this.currentPost, 'twitter_card', option)
+			this.$store.state.currentPost.twitter_card = option
 			this.$store.commit('isDirty', true)
 		},
 		scrollToElement () {
@@ -287,7 +288,7 @@ export default {
 			}, 10)
 		},
 		saveTwitterImageType (value) {
-			this.$set(this.currentPost, 'twitter_image_type', value)
+			this.$store.state.currentPost.twitter_image_type = value
 			this.$store.commit('isDirty', true)
 		},
 		updateImage (imageUrl) {
@@ -316,11 +317,11 @@ export default {
 .tab-twitter {
 	.twitter-image-upload {
 		display: flex;
+		gap: 8px;
 
 		.aioseo-input-container {
 			width: 100%;
 			max-width: 445px;
-			margin-right: 10px;
 
 			.aioseo-input {
 				width: 100%;
@@ -329,7 +330,6 @@ export default {
 
 		.insert-image {
 			min-width: 214px;
-			margin-right: 10px;
 
 			svg.aioseo-circle-plus {
 				width: 13px;
@@ -354,27 +354,6 @@ export default {
 				max-height: 158px;
 			}
 		}
-	}
-
-	.twitter-image-source,
-	.twitter-custom-field {
-		padding-top: 8px !important;
-		padding-bottom: 24px !important;
-	}
-
-	.twitter-image,
-	.twitter-card-type {
-		padding-top: 8px !important;
-	}
-
-	.use-facebook {
-		margin-bottom: 32px !important;
-		padding-bottom: 32px !important;
-	}
-
-	.aioseo-settings-row:last-of-type {
-		margin-bottom: 32px !important;
-		padding-bottom: 32px !important;
 	}
 }
 </style>

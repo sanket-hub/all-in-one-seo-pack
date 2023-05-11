@@ -33,8 +33,8 @@
 					<base-select
 						size="medium"
 						:options="imageSourceOptions"
-						:value="getImageSourceOption(options.social.facebook.general.defaultImageSourcePosts)"
-						@input="value => options.social.facebook.general.defaultImageSourcePosts = value.value"
+						:modelValue="getImageSourceOption(options.social.facebook.general.defaultImageSourcePosts)"
+						@update:modelValue="value => options.social.facebook.general.defaultImageSourcePosts = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -105,15 +105,15 @@
 						v-if="!isUnlicensed"
 						size="medium"
 						:options="getTermImageSourceOptions()"
-						:value="getImageSourceOption(options.social.facebook.general.defaultImageSourceTerms)"
-						@input="value => options.social.facebook.general.defaultImageSourceTerms = value.value"
+						:modelValue="getImageSourceOption(options.social.facebook.general.defaultImageSourceTerms)"
+						@update:modelValue="value => options.social.facebook.general.defaultImageSourceTerms = value.value"
 					/>
 
 					<base-select
 						v-if="isUnlicensed"
 						size="medium"
 						:options="getTermImageSourceOptions()"
-						:value="getImageSourceOption('default')"
+						:modelValue="getImageSourceOption('default')"
 						disabled
 					/>
 
@@ -203,8 +203,8 @@
 								:options="objectTypeOptions"
 								group-label="groupLabel"
 								group-values="options"
-								:value="getObjectTypeOptions(dynamicOptions.social.facebook.general.postTypes[postType.name].objectType)"
-								@input="value => dynamicOptions.social.facebook.general.postTypes[postType.name].objectType = value.value"
+								:modelValue="getObjectTypeOptions(dynamicOptions.social.facebook.general.postTypes[postType.name].objectType)"
+								@update:modelValue="value => dynamicOptions.social.facebook.general.postTypes[postType.name].objectType = value.value"
 							/>
 						</table-column>
 					</table-row>
@@ -233,8 +233,8 @@
 								:options="objectTypeOptions"
 								group-label="groupLabel"
 								group-values="options"
-								:value="getObjectTypeOptions(dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType)"
-								@input="value => dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType = value.value"
+								:modelValue="getObjectTypeOptions(dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType)"
+								@update:modelValue="value => dynamicOptions.social.facebook.general.taxonomies[taxonomy.name].objectType = value.value"
 							/>
 
 							<base-select
@@ -243,7 +243,7 @@
 								:options="objectTypeOptions"
 								group-label="groupLabel"
 								group-values="options"
-								:value="getObjectTypeOptions('article')"
+								:modelValue="getObjectTypeOptions('article')"
 								disabled
 							/>
 						</table-column>
@@ -323,8 +323,6 @@
 					v-html="$links.getDocLink($constants.GLOBAL_STRINGS.learnMore, 'staticHomePageFacebook', true)"
 				/>
 			</div>
-
-			<br>
 
 			<core-settings-row
 				:name="$constants.GLOBAL_STRINGS.preview"
@@ -452,8 +450,8 @@
 						:options="objectTypeOptions"
 						group-label="groupLabel"
 						group-values="options"
-						:value="getObjectTypeOptions(options.social.facebook.homePage.objectType)"
-						@input="value => options.social.facebook.homePage.objectType = value.value"
+						:modelValue="getObjectTypeOptions(options.social.facebook.homePage.objectType)"
+						@update:modelValue="value => options.social.facebook.homePage.objectType = value.value"
 					/>
 				</template>
 			</core-settings-row>
@@ -643,7 +641,7 @@ import { ImageSourceOptions, MaxCounts, Tags, Uploader } from '@/vue/mixins'
 import { mapGetters, mapState } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
-import CoreAlert from '@/vue/components/common/core/alert/Index.vue'
+import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreFacebookPreview from '@/vue/components/common/core/FacebookPreview'
 import CoreHtmlTagsEditor from '@/vue/components/common/core/HtmlTagsEditor'
@@ -670,6 +668,7 @@ export default {
 	mixins : [ ImageSourceOptions, MaxCounts, Tags, Uploader ],
 	data () {
 		return {
+			separator        : undefined,
 			siteNameCount    : 0,
 			titleCount       : 0,
 			descriptionCount : 0,
@@ -785,22 +784,27 @@ export default {
 
 <style lang="scss">
 .aioseo-facebook {
+
 	.inline-upsell {
 		display: inline-flex;
-		margin-top: 20px;
+		margin-top: 12px;
 	}
 
 	.facebook-image-upload {
 		display: flex;
+		gap: 8px;
 
-		.aioseo-input {
+		.aioseo-input-container {
+			width: 100%;
 			max-width: 445px;
-			margin-right: 10px;
+
+			.aioseo-input {
+				width: 100%;
+			}
 		}
 
 		.insert-image {
 			min-width: 214px;
-			margin-right: 10px;
 
 			svg.aioseo-circle-plus {
 				width: 13px;
@@ -827,41 +831,51 @@ export default {
 		}
 	}
 
-	.facebook-meta-input {
-		margin-top: 10px;
-	}
-
 	.how-to {
 		display: flex;
 		align-items: center;
+		gap: 8px;
+		margin-top: 16px;
+		font-size: 12px;
+		line-height: 18px;
 
 		svg.aioseo-book {
-			padding-right: 5px;
-			width: 29px;
-			height: 24px;
+			width: 16px;
+			height: 16px;
+			vertical-align: middle;
 		}
 	}
 
 	.facebook-default-image-source {
+
 		.aioseo-select {
-			max-width: 350px;
+			max-width: 445px;
 		}
 	}
 
 	.facebook-object-types {
-		max-width: 400px;
+		max-width: 445px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
 
-		.aioseo-table-column:first-child {
-			text-align: right;
-			max-width: 160px;
+		+ .facebook-object-types {
+			margin-top: 12px;
 		}
 
-		.aioseo-select {
-			max-width: 350px;
+		.aioseo-table-column {
+			width: 100%;
+			padding: 0;
+
+			&:first-child {
+				font-weight: $font-bold;
+				margin-bottom: 4px;
+			}
 		}
 	}
 
 	.facebook-home-page-object-type {
+
 		.aioseo-select {
 			max-width: 300px;
 		}

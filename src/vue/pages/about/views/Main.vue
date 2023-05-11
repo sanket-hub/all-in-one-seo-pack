@@ -9,7 +9,7 @@
 
 <script>
 import AboutUs from './AboutUs'
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import GettingStarted from './GettingStarted'
 import LiteVsPro from './AIOSEO_VERSION/LiteVsPro'
 export default {

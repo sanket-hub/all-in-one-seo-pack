@@ -18,15 +18,18 @@
 							@click.stop.prevent="dismissed = true"
 							v-if="!dismissed && dismissedNotificationsCount"
 						>{{ strings.dismissedNotifications }}</a>
+
 						<a
 							href="#"
 							@click.stop.prevent="dismissed = false"
 							v-if="dismissed && dismissedNotificationsCount"
 						>{{ strings.activeNotifications }}</a>
 					</div>
-					<svg-close
-						@click="toggleNotifications"
-					/>
+					<div
+						@click.stop="toggleNotifications"
+					>
+						<svg-close />
+					</div>
 				</div>
 
 				<core-notification-cards
@@ -69,6 +72,7 @@
 				</div>
 			</div>
 		</transition>
+
 		<transition name="notifications-fade">
 			<div
 				@click="toggleNotifications"
@@ -266,13 +270,16 @@ body.aioseo-show-notifications {
 	}
 }
 .aioseo-notifications {
+
 	a.dismiss {
 		color: $placeholder-color;
 		font-size: 14px;
 	}
 
 	.notification-menu {
-		height: 100%; /* 100% Full-height */
+		display: flex;
+		flex-direction: column;
+		height: calc(100% - var(--wp-admin--admin-bar--height, 32px));
 		width: 100%; /* 0 width - change this with JavaScript */
 		max-width: 570px;
 		position: fixed; /* Stay in place */
@@ -285,10 +292,10 @@ body.aioseo-show-notifications {
 		transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
 
 		.notification-header {
-			height: 70px;
+			height: 64px;
 			display: flex;
 			align-items: center;
-			padding: 0 30px;
+			padding: 0 20px;
 			color: #fff;
 			background-color: $blue;
 
@@ -302,7 +309,7 @@ body.aioseo-show-notifications {
 				flex: 1 1 auto;
 
 				a {
-					font-size: 14px;
+					font-size: 12px;
 					color: #fff;
 				}
 			}
@@ -319,14 +326,14 @@ body.aioseo-show-notifications {
 		}
 
 		.notification-cards {
-			padding: 30px;
-			height: calc(100% - 192px);
+			flex: 1;
+			padding: 24px;
 			overflow: auto;
 		}
 
 		.notification-footer {
 			height: 90px;
-			padding: 30px;
+			padding: 24px;
 			display: flex;
 			align-items: center;
 
@@ -377,7 +384,7 @@ body.aioseo-show-notifications {
 	.notifications-fade-enter-active, .notifications-fade-leave-active {
 		transition: opacity .5s;
 	}
-	.notifications-fade-enter, .notifications-fade-leave-to {
+	.notifications-fade-enter-from, .notifications-fade-leave-to {
 		opacity: 0;
 	}
 
@@ -385,7 +392,7 @@ body.aioseo-show-notifications {
 		transition: all .5s ease-in-out;
 	}
 
-	.notifications-slide-enter, .notifications-slide-leave-to {
+	.notifications-slide-enter-from, .notifications-slide-leave-to {
 		right: -570px;
 	}
 }

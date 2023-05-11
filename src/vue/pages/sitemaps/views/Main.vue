@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CoreMain from '@/vue/components/common/core/main/Index.vue'
+import CoreMain from '@/vue/components/common/core/main/Index'
 import GeneralSitemap from './GeneralSitemap'
 import HtmlSitemap from './HtmlSitemap'
 import NewsSitemap from './NewsSitemap'
@@ -31,3 +31,12 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.aioseo-app {
+	.index-notice,
+	.static-regeneration-notice {
+		margin-top: 10px;
+	}
+}
+</style>

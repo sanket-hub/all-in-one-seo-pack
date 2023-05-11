@@ -4,6 +4,7 @@ import { isBlockEditor, isClassicEditor } from '@/vue/utils/context'
 import { escapeRegex } from '@/vue/utils/regex'
 import CommonMixin from './Common'
 export default {
+	emits  : [ 'updatingLinks', 'linksUpdated' ],
 	mixins : [ CommonMixin ],
 	props  : {
 		post : {
@@ -219,7 +220,7 @@ export default {
 			window.wp.data.dispatch('core/block-editor').updateBlockAttributes(targetBlockId, {
 				content : targetBlock.attributes.content.replace(pattern, newPhraseHtml)
 			}).then(() => {
-				this.$delete(this.post.links[this.linkType].rows, rowIndex)
+				this.post.links[this.linkType].rows.splice(rowIndex, 1)
 			}).catch((error) => {
 				console.error(`Couldn\t delete link with type "${this.linkType}" and index ${rowIndex}:`, error)
 			}).finally(() => {
@@ -273,7 +274,7 @@ export default {
 				textEditor.value = postContent
 			}
 
-			this.$delete(this.post.links[this.linkType].rows, rowIndex)
+			this.post.links[this.linkType].rows.splice(rowIndex, 1)
 
 			this.postSettingsUpdate({ postContent: postContent })
 				.finally(() => {
