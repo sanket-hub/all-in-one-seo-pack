@@ -7,6 +7,7 @@ import original from './original'
 import redirects from './redirects'
 import searchStatistics from './search-statistics'
 import wizard from './wizard'
+import wpcode from './wpcode'
 
 export default {
 	'index-now'         : indexNow,
@@ -16,5 +17,6 @@ export default {
 	linkAssistant,
 	original,
 	redirects,
-	wizard
+	wizard,
+	wpcode
 }

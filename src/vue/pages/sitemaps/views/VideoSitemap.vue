@@ -4,12 +4,8 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
 		/>
 
 		<lite
@@ -19,18 +15,16 @@
 </template>
 
 <script>
-import Activate from './AIOSEO_VERSION/video-sitemap/Activate'
+import Cta from './AIOSEO_VERSION/video-sitemap/Cta'
 import Lite from './lite/video-sitemap/VideoSitemap'
 import VideoSitemap from './AIOSEO_VERSION/video-sitemap/VideoSitemap'
-import Update from './AIOSEO_VERSION/video-sitemap/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
-		Activate,
+		Cta,
 		Lite,
-		VideoSitemap,
-		Update
+		VideoSitemap
 	},
 	data () {
 		return {

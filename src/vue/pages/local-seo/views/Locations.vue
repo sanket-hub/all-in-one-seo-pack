@@ -4,12 +4,11 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
+			card-slug="localBusinessInfo"
+			:header-text="strings.businessInfo"
+			align-top
 		/>
 
 		<lite
@@ -20,21 +19,22 @@
 
 <script>
 import Locations from './AIOSEO_VERSION/locations/Locations'
-import Activate from './AIOSEO_VERSION/locations/Activate'
+import Cta from './AIOSEO_VERSION/partials/Cta'
 import Lite from './lite/locations/Locations'
-import Update from './AIOSEO_VERSION/locations/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
 		Locations,
-		Activate,
-		Lite,
-		Update
+		Cta,
+		Lite
 	},
 	data () {
 		return {
-			addonSlug : 'aioseo-local-business'
+			addonSlug : 'aioseo-local-business',
+			strings   : {
+				businessInfo : this.$t.__('Business Info', this.$td)
+			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace AIOSEO\Plugin\Common\Standalone;
 
 use AIOSEO\Plugin\Common\Models;

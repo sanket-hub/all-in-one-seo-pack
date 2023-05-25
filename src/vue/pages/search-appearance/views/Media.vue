@@ -87,12 +87,8 @@
 				:key="imageSeoKey"
 			/>
 
-			<activate
-				v-if="shouldShowActivate"
-			/>
-
-			<update
-				v-if="shouldShowUpdate"
+			<cta
+				v-if="shouldShowUpdate || shouldShowActivate"
 			/>
 
 			<lite
@@ -106,36 +102,34 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import { AddonConditions } from '@/vue/mixins'
-import Activate from './AIOSEO_VERSION/image-seo/Activate'
 import Advanced from './partials/Advanced'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreMainTabs from '@/vue/components/common/core/main/Tabs'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
+import Cta from './AIOSEO_VERSION/image-seo/Cta'
 import CustomFields from './partials/AIOSEO_VERSION/CustomFields'
 import ImageSeo from './AIOSEO_VERSION/image-seo/ImageSeo'
 import Lite from './lite/image-seo/ImageSeo'
 import Schema from './partials/Schema'
 import TitleDescription from './partials/TitleDescription'
-import Update from './AIOSEO_VERSION/image-seo/Update'
 
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
-		Activate,
 		Advanced,
 		BaseRadioToggle,
 		CoreCard,
 		CoreMainTabs,
 		CoreProBadge,
 		CoreSettingsRow,
+		Cta,
 		CustomFields,
 		ImageSeo,
 		Lite,
 		Schema,
-		TitleDescription,
-		Update
+		TitleDescription
 	},
 	data () {
 		return {

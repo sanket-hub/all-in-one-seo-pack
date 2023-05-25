@@ -4,12 +4,11 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
+			card-slug="localBusinessOpeningHours"
+			:header-text="strings.openingHours"
+			align-top
 		/>
 
 		<lite
@@ -20,21 +19,22 @@
 
 <script>
 import OpeningHours from './AIOSEO_VERSION/opening-hours/OpeningHours'
-import Activate from './AIOSEO_VERSION/opening-hours/Activate'
+import Cta from './AIOSEO_VERSION/partials/Cta'
 import Lite from './lite/opening-hours/OpeningHours'
-import Update from './AIOSEO_VERSION/opening-hours/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
 		OpeningHours,
-		Activate,
-		Lite,
-		Update
+		Cta,
+		Lite
 	},
 	data () {
 		return {
-			addonSlug : 'aioseo-local-business'
+			addonSlug : 'aioseo-local-business',
+			strings   : {
+				openingHours : this.$t.__('Opening Hours Settings', this.$td)
+			}
 		}
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace AIOSEO\Plugin\Common\Sitemap\Html {
 	// Exit if accessed directly.
 	if ( ! defined( 'ABSPATH' ) ) {

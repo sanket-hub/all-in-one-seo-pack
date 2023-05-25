@@ -1,8 +1,16 @@
 import { mapGetters } from 'vuex'
-
+import Activate from '@/vue/components/common/core/addon/Activate'
+import Update from '@/vue/components/common/core/addon/Update'
 export const AddonConditions = {
 	computed : {
 		...mapGetters([ 'isUnlicensed' ]),
+		ctaComponent () {
+			if (this.shouldShowUpdate) {
+				return Update
+			}
+
+			return Activate
+		},
 		shouldShowMain () {
 			return !this.isUnlicensed &&
 				this.$addons.isActive(this.addonSlug) &&

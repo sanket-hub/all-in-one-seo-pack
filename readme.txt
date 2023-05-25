@@ -1,10 +1,10 @@
 === All in One SEO – Best WordPress SEO Plugin – Easily Improve SEO Rankings & Increase Traffic ===
 Contributors: aioseo, smub, benjaminprojas
 Tags: SEO, Google Search Console, XML Sitemap, meta description, schema, meta title, rich snippets, woocommerce seo, local seo, open graph, google news sitemap, video sitemap, robots.txt, seo audit, content analysis, seo plugin, redirection
-Tested up to: 6.2
+Tested up to: 6.2.2
 Requires at least: 4.9
 Requires PHP: 5.6
-Stable tag: 4.3.7
+Stable tag: 4.3.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -256,6 +256,12 @@ Visit <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeg
 
 
 == Changelog ==
+
+**New in Version 4.3.8**
+
+* New: WP Code Integration - You can now view curated code snippets for AIOSEO in the Tools menu and add them in one click through the WP Code plugin.
+* Updated: Added support for WooCommerce Product Categories and Product Tags to our Primary Term feature.
+* Fixed: Console error in Classic Editor when post has no assigned terms.
 
 **New in Version 4.3.7**
 
@@ -580,6 +586,6 @@ Additionally, AIOSEO can also provide you with data on the most frequently used 
 
 == Upgrade Notice ==
 
-= 4.3.7 =
+= 4.3.8 =
 
 This update adds major improvements and bug fixes.

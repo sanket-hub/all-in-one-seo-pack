@@ -16,6 +16,7 @@ import HtaccessEditor from './HtaccessEditor'
 import ImportExport from './ImportExport'
 import RobotsEditor from './RobotsEditor'
 import SystemStatus from './SystemStatus'
+import WpCode from './WpCode'
 export default {
 	components : {
 		BadBotBlocker,
@@ -25,7 +26,8 @@ export default {
 		HtaccessEditor,
 		ImportExport,
 		RobotsEditor,
-		SystemStatus
+		SystemStatus,
+		WpCode
 	},
 	data () {
 		return {
@@ -41,7 +43,8 @@ export default {
 			return 'system-status' !== this.$route.name &&
 				'import-export' !== this.$route.name &&
 				'database-tools' !== this.$route.name &&
-				'debug' !== this.$route.name
+				'debug' !== this.$route.name &&
+				'wp-code' !== this.$route.name
 		}
 	}
 }

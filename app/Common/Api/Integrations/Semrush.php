@@ -1,19 +1,19 @@
 <?php
-namespace AIOSEO\Plugin\Common\Api;
+namespace AIOSEO\Plugin\Common\Api\Integrations;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use AIOSEO\Plugin\Common\Integrations\Semrush;
+use AIOSEO\Plugin\Common\Integrations\Semrush as SemrushIntegration;
 
 /**
  * Route class for the API.
  *
  * @since 4.0.16
  */
-class Integrations {
+class Semrush {
 	/**
 	 * Fetches the additional keyphrases.
 	 *
@@ -24,7 +24,7 @@ class Integrations {
 	 */
 	public static function semrushGetKeyphrases( $request ) {
 		$body       = $request->get_json_params();
-		$keyphrases = Semrush::getKeyphrases( $body['keyphrase'], $body['database'] );
+		$keyphrases = SemrushIntegration::getKeyphrases( $body['keyphrase'], $body['database'] );
 		if ( false === $keyphrases ) {
 			return new \WP_REST_Response( [
 				'success' => false,
@@ -56,7 +56,7 @@ class Integrations {
 			], 400 );
 		}
 
-		$success = Semrush::authenticate( $body['code'] );
+		$success = SemrushIntegration::authenticate( $body['code'] );
 		if ( ! $success ) {
 			return new \WP_REST_Response( [
 				'success' => false,
@@ -79,7 +79,7 @@ class Integrations {
 	 * @return \WP_REST_Response          The response.
 	 */
 	public static function semrushRefresh() {
-		$success = Semrush::refreshTokens();
+		$success = SemrushIntegration::refreshTokens();
 		if ( ! $success ) {
 			return new \WP_REST_Response( [
 				'success' => false,

@@ -4,12 +4,11 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
+			card-slug="localBusinessMapsApiKey"
+			:header-text="strings.googleMapsApiKey"
+			align-top
 		/>
 
 		<lite
@@ -20,21 +19,22 @@
 
 <script>
 import Maps from './AIOSEO_VERSION/maps/Maps'
-import Activate from './AIOSEO_VERSION/maps/Activate'
+import Cta from './AIOSEO_VERSION/partials/Cta'
 import Lite from './lite/maps/Maps'
-import Update from './AIOSEO_VERSION/maps/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
 		Maps,
-		Activate,
-		Lite,
-		Update
+		Cta,
+		Lite
 	},
 	data () {
 		return {
-			addonSlug : 'aioseo-local-business'
+			addonSlug : 'aioseo-local-business',
+			strings   : {
+				googleMapsApiKey : this.$t.__('Google Maps API Key', this.$td)
+			}
 		}
 	}
 }

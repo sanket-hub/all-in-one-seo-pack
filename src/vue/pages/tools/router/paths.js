@@ -72,5 +72,14 @@ export default [
 			access : 'aioseo_tools_settings',
 			name   : 'Debug'
 		}
+	},
+	{
+		path      : '/snippets',
+		name      : 'wp-code',
+		component : loadView('Main'),
+		meta      : {
+			access : 'aioseo_tools_settings',
+			name   : __('Code Snippets', td)
+		}
 	}
 ]

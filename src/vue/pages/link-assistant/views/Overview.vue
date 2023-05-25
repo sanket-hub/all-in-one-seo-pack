@@ -4,12 +4,8 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
 		/>
 
 		<lite
@@ -19,18 +15,16 @@
 </template>
 
 <script>
-import Activate from './AIOSEO_VERSION/overview/Activate'
+import { AddonConditions } from '@/vue/mixins'
+import Cta from './AIOSEO_VERSION/overview/Cta'
 import Lite from './lite/overview/Overview'
 import Overview from './AIOSEO_VERSION/overview/Overview'
-import Update from './AIOSEO_VERSION/overview/Update'
-import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
-		Activate,
+		Cta,
 		Lite,
-		Overview,
-		Update
+		Overview
 	},
 	data () {
 		return {

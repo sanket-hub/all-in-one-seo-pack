@@ -15,18 +15,18 @@ if (isBlockEditor() && window.wp) {
 		'aioseo/primary-term',
 		createHigherOrderComponent((OriginalComponent) => {
 			return (props) => {
-				const { slug } = props
+				const { slug: taxonomy } = props
 
-				if (!taxonomyHasPrimaryTermSupport(slug)) {
+				if (!taxonomyHasPrimaryTermSupport(taxonomy)) {
 					return createElement(OriginalComponent, props)
 				}
 
 				return createElement(Fragment, {},
 					createElement(OriginalComponent, props),
-					createElement('div', { id: `aioseo-primary-term-${slug}` },
+					createElement('div', { id: `aioseo-primary-term-${taxonomy}` },
 						createElement('div', {
 							className : 'aioseo-primary-term-app',
-							taxonomy  : slug
+							taxonomy  : taxonomy
 						})
 					)
 				)

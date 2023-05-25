@@ -4,12 +4,8 @@
 			v-if="shouldShowMain"
 		/>
 
-		<activate
-			v-if="shouldShowActivate"
-		/>
-
-		<update
-			v-if="shouldShowUpdate"
+		<cta
+			v-if="shouldShowUpdate || shouldShowActivate"
 		/>
 
 		<lite
@@ -20,18 +16,16 @@
 
 <script>
 import { mapState } from 'vuex'
-import Activate from './AIOSEO_VERSION/redirects/Activate'
+import Cta from './AIOSEO_VERSION/redirects/Cta'
 import Lite from './lite/redirects/Redirects'
 import Redirects from './AIOSEO_VERSION/redirects/Redirects'
-import Update from './AIOSEO_VERSION/redirects/Update'
 import { AddonConditions } from '@/vue/mixins'
 export default {
 	mixins     : [ AddonConditions ],
 	components : {
-		Activate,
+		Cta,
 		Lite,
-		Redirects,
-		Update
+		Redirects
 	},
 	data () {
 		return {

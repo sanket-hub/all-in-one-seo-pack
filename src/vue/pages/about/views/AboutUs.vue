@@ -116,24 +116,28 @@
 <script>
 import { mapActions } from 'vuex'
 import teamImg from '@/vue/assets/images/about/team.jpg'
-import omImg from '@/vue/assets/images/about/plugins/om.png'
-import wpformsImg from '@/vue/assets/images/about/plugins/wpforms.png'
-import miImg from '@/vue/assets/images/about/plugins/mi.png'
+
+// Plugin image urls.
+import afwpImg from '@/vue/assets/images/about/plugins/afwp.png'
+import eddImg from '@/vue/assets/images/about/plugins/edd.png'
 import emImg from '@/vue/assets/images/about/plugins/em.png'
-import smtpImg from '@/vue/assets/images/about/plugins/smtp.png'
-import spImg from '@/vue/assets/images/about/plugins/sp.png'
-import tpImg from '@/vue/assets/images/about/plugins/tp.png'
-import rafflepressImg from '@/vue/assets/images/about/plugins/rafflepress.png'
 import ffImg from '@/vue/assets/images/about/plugins/ff.png'
 import ifImg from '@/vue/assets/images/about/plugins/if.png'
-import tfImg from '@/vue/assets/images/about/plugins/tf.png'
-import yfImg from '@/vue/assets/images/about/plugins/yf.png'
+import miImg from '@/vue/assets/images/about/plugins/mi.png'
+import omImg from '@/vue/assets/images/about/plugins/om.png'
 import peImg from '@/vue/assets/images/about/plugins/pe.png'
-import swpImg from '@/vue/assets/images/about/plugins/swp.svg'
-import afwpImg from '@/vue/assets/images/about/plugins/afwp.png'
-import wpspImg from '@/vue/assets/images/about/plugins/wpsp.png'
-import eddImg from '@/vue/assets/images/about/plugins/edd.png'
+import rafflepressImg from '@/vue/assets/images/about/plugins/rafflepress.png'
 import scImg from '@/vue/assets/images/about/plugins/sc.png'
+import smtpImg from '@/vue/assets/images/about/plugins/smtp.png'
+import spImg from '@/vue/assets/images/about/plugins/sp.png'
+import swpImg from '@/vue/assets/images/about/plugins/swp.svg'
+import tfImg from '@/vue/assets/images/about/plugins/tf.png'
+import tpImg from '@/vue/assets/images/about/plugins/tp.png'
+import wpformsImg from '@/vue/assets/images/about/plugins/wpforms.png'
+import wpspImg from '@/vue/assets/images/about/plugins/wpsp.png'
+import yfImg from '@/vue/assets/images/about/plugins/yf.png'
+import wpcodeImg from '@/vue/assets/images/about/plugins/wpcode.svg'
+
 import GridColumn from '@/vue/components/common/grid/Column'
 import GridRow from '@/vue/components/common/grid/Row'
 import SvgExternal from '@/vue/components/common/svg/External'
@@ -258,6 +262,23 @@ export default {
 				wpMailPro : {
 					name       : 'WP Mail SMTP Pro',
 					free       : 'wpMail',
+					installed  : false,
+					canInstall : false,
+					activated  : false,
+					loading    : false
+				},
+				wpcode : {
+					name        : 'WPCode',
+					description : this.$t.__('Future proof your WordPress customizations with the most popular code snippet management plugin for WordPress. Trusted by over 1,500,000+ websites for easily adding code to WordPress right from the admin area.', this.$td),
+					icon        : this.$getAssetUrl(wpcodeImg),
+					installed   : false,
+					canInstall  : false,
+					activated   : false,
+					loading     : false
+				},
+				wpcodePro : {
+					name       : 'WPCode Pro',
+					free       : 'wpcode',
 					installed  : false,
 					canInstall : false,
 					activated  : false,

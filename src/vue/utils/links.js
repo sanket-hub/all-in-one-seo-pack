@@ -119,6 +119,7 @@ const docLinks = {
 	schemaJsonLd                  : `${marketingSite}docs/a-guide-to-schema-org-markup-for-rich-snippets/#schema-markup-in-all-in-one-seo`,
 	smartTags                     : `${marketingSite}docs/using-the-smart-tags-in-titles-and-descriptions/`,
 	openAi                        : `${marketingSite}docs/using-openai-to-generate-seo-titles-and-meta-descriptions/`,
+	wpcode                        : `${marketingSite}docs/wpcode-snippet-library/`,
 	primaryTerm                   : `${marketingSite}docs/setting-the-primary-term-for-breadcrumbs/`
 }
 

@@ -58,10 +58,12 @@ export default (paths, app, store) => {
 				redirects,
 				linkAssistant,
 				indexNow,
-				searchStatistics
+				searchStatistics,
+				integrations
 			} = await getOptions(app)
 
 			store.state.redirects            = merge({ ...store.state.redirects }, { ...redirects })
+			store.state.wpcode               = merge({ ...store.state.wpcode }, { ...integrations.wpcode })
 			store.state.linkAssistant        = merge({ ...store.state.linkAssistant }, { ...linkAssistant })
 			store.state['index-now']         = merge({ ...store.state['index-now'] }, { ...indexNow })
 			store.state['search-statistics'] = merge({ ...store.state['search-statistics'] }, { ...searchStatistics })

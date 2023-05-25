@@ -1,11 +1,11 @@
 import { isBlockEditor } from '@/vue/plugins/tru-seo/components/helpers'
 
 const blockEditor = {
-	getTerms : async (taxSlug) => {
+	getTerms : async (taxName) => {
 		const { apiFetch }     = window.wp
 		const { addQueryArgs } = window.wp.url
 
-		const taxonomyData = getTaxonomyData(taxSlug)
+		const taxonomyData = getTaxonomyData(taxName)
 		const response     = await apiFetch({
 			path : addQueryArgs(
 				`/wp/v2/${taxonomyData.restBase}`,
@@ -20,8 +20,8 @@ const blockEditor = {
 
 		return response
 	},
-	getSelectedTerms : (taxSlug) => {
-		const taxonomyData = getTaxonomyData(taxSlug)
+	getSelectedTerms : (taxName) => {
+		const taxonomyData = getTaxonomyData(taxName)
 
 		return window.wp.data.select('core/editor').getEditedPostAttribute(taxonomyData.restBase) || []
 	}
@@ -30,7 +30,8 @@ const blockEditor = {
 const classicEditor = {
 	getTerms : async (taxSlug) => {
 		const taxonomyTerms = []
-		const taxonomyList = document.getElementById(`${taxSlug}checklist`).querySelectorAll('li')
+		const taxonomyData  = getTaxonomyData(taxSlug)
+		const taxonomyList  = document.getElementById(`${taxonomyData.name}checklist`)?.querySelectorAll('li') || []
 
 		taxonomyList.forEach(taxonomy => {
 			const termId   = taxonomy.querySelector('input').value
@@ -47,8 +48,9 @@ const classicEditor = {
 		})
 	},
 	getSelectedTerms : (taxSlug) => {
-		const taxonomyTerms = document.getElementById(`${taxSlug}checklist`).querySelectorAll('input:checked')
 		const selectedTerms = []
+		const taxonomyData  = getTaxonomyData(taxSlug)
+		const taxonomyTerms = document.getElementById(`${taxonomyData.name}checklist`)?.querySelectorAll('input:checked') || []
 
 		taxonomyTerms.forEach(term => {
 			selectedTerms.push(parseInt(term.value, 10))
@@ -74,24 +76,24 @@ export const getTaxonomies = () => {
 /**
  * Checks if the taxonomy has primary term support.
  *
- * @param {string} taxSlug The taxonomy slug.
+ * @param {string} taxName The taxonomy slug.
  * @returns {boolean} Whether the taxonomy has primary term support.
  */
-export const taxonomyHasPrimaryTermSupport = (taxSlug) => {
+export const taxonomyHasPrimaryTermSupport = (taxName) => {
 	return getTaxonomies().some(taxonomy => {
-		return taxSlug === taxonomy.slug
+		return taxName === taxonomy.name
 	})
 }
 
 /**
  * Returns the taxonomy data.
  *
- * @param {string} taxSlug The taxonomy slug.
+ * @param {string} taxName The taxonomy slug.
  * @returns {Object} The taxonomy data.
  */
-export const getTaxonomyData = (taxSlug) => {
+export const getTaxonomyData = (taxName) => {
 	const taxonomyData = getTaxonomies().filter(taxonomy => {
-		return taxSlug === taxonomy.slug
+		return taxName === taxonomy.name
 	})
 
 	return taxonomyData.length ? taxonomyData[0] : {}
@@ -100,27 +102,27 @@ export const getTaxonomyData = (taxSlug) => {
 /**
  * Returns the terms for the taxonomy.
  *
- * @param {string} taxSlug The taxonomy slug.
+ * @param {string} taxName The taxonomy slug.
  * @returns {Array} The terms for the taxonomy.
  */
-export const getTerms = (taxSlug) => {
+export const getTerms = (taxName) => {
 	if (isBlockEditor()) {
-		return blockEditor.getTerms(taxSlug)
+		return blockEditor.getTerms(taxName)
 	}
 
-	return classicEditor.getTerms(taxSlug)
+	return classicEditor.getTerms(taxName)
 }
 
 /**
  * Returns the selected terms for the taxonomy.
  *
- * @param {string} taxSlug The taxonomy slug.
+ * @param {string} taxName The taxonomy slug.
  * @returns {Array} The selected terms for the taxonomy.
  */
-export const getSelectedTerms = (taxSlug) => {
+export const getSelectedTerms = (taxName) => {
 	if (isBlockEditor()) {
-		return blockEditor.getSelectedTerms(taxSlug)
+		return blockEditor.getSelectedTerms(taxName)
 	}
 
-	return classicEditor.getSelectedTerms(taxSlug)
+	return classicEditor.getSelectedTerms(taxName)
 }

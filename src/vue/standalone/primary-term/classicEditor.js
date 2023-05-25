@@ -9,9 +9,9 @@ if (isClassicEditor()) {
 		}
 
 		const primaryTermDiv = document.createElement('div')
-		primaryTermDiv.setAttribute('id', `aioseo-primary-term-${taxonomyData.slug}`)
+		primaryTermDiv.setAttribute('id', `aioseo-primary-term-${taxonomyData.name}`)
 		primaryTermDiv.setAttribute('class', 'aioseo-primary-term-app')
-		primaryTermDiv.setAttribute('taxonomy', taxonomyData.slug)
+		primaryTermDiv.setAttribute('taxonomy', taxonomyData.name)
 
 		metaboxTaxonomyDiv.append(primaryTermDiv)
 
