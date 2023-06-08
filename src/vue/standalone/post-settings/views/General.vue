@@ -261,6 +261,8 @@
 	</div>
 </template>
 <script>
+import { merge } from 'lodash-es'
+import { useTruSeoScore } from '@/vue/composables'
 import { mapActions, mapState, mapMutations } from 'vuex'
 import { IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore } from '@/vue/mixins'
 import { debounce } from '@/vue/utils/debounce'
@@ -283,6 +285,13 @@ import SvgDesktop from '@/vue/components/common/svg/Desktop'
 import SvgMobile from '@/vue/components/common/svg/Mobile'
 import SvgPencil from '@/vue/components/common/svg/Pencil'
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	emits      : [ 'changeTab' ],
 	mixins     : [ IsDirty, MaxCounts, SaveChanges, Tags, TruSeoScore ],
 	components : {
@@ -325,10 +334,9 @@ export default {
 			truSeo            : null,
 			titleKey          : 'title' + 0,
 			descriptionKey    : 'description' + 0,
-			strings           : {
+			strings           : merge(this.composableStrings, {
 				pageName               : this.$t.__('General', this.$td),
 				snippetPreview         : this.$t.__('Snippet Preview', this.$td),
-				snippetPreviewContent  : this.$t.__('Snippet Preview content here.', this.$td),
 				editSnippet            : this.$t.__('Edit Snippet', this.$td),
 				clickToAddTitle        : this.$t.__('Click on the tags below to insert variables into your title.', this.$td),
 				metaDescription        : this.$t.__('Meta Description', this.$td),
@@ -348,7 +356,7 @@ export default {
 					this.$t.__('Not sure what keyphrases are used for? Check out our documentation for more information. %1$s', this.$td),
 					this.$links.getDocLink(this.$constants.GLOBAL_STRINGS.learnMore, 'useKeyphrasesTooltip', true)
 				)
-			}
+			})
 		}
 	},
 	watch : {

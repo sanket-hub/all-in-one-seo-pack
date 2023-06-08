@@ -1,32 +1,15 @@
 export const TruSeoScore = {
-	data () {
-		return {
-			weveGotWorkToDoString : this.$t.sprintf(
-				// Translators: 1 - HTML Line break tag.
-				this.$t.__('We\'ve got some%1$swork to do!', this.$td),
-				'<br>'
-			),
-			needsImprovementString : this.$t.sprintf(
-				// Translators: 1 - HTML Line break tag.
-				this.$t.__('Needs%1$sImprovement!', this.$td),
-				'<br>'
-			),
-			veryGoodString  : this.$t.__('Very Good!', this.$td),
-			excellentString : this.$t.__('Excellent!', this.$td),
-			allGoodString   : this.$t.__('All Good!', this.$td)
-		}
-	},
 	computed : {
 		description () {
 			return 25 >= this.score
-				? this.weveGotWorkToDoString
+				? this.strings.weveGotWorkToDo
 				: (
 					50 >= this.score
-						? this.needsImprovementString
+						? this.strings.needsImprovement
 						: (
 							75 >= this.score
-								? this.veryGoodString
-								: this.excellentString
+								? this.strings.veryGood
+								: this.strings.excellent
 						)
 				)
 		}
@@ -40,7 +23,7 @@ export const TruSeoScore = {
 					amountOfErrors
 				)
 			}
-			return this.allGoodString
+			return this.strings.allGood
 		},
 		getErrorClass (errors) {
 			if (5 < errors) {

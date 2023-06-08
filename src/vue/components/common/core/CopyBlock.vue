@@ -6,6 +6,7 @@
 
 		<core-tooltip
 			class="copy-tooltip"
+			type="action"
 		>
 			<div
 				ref="copy"

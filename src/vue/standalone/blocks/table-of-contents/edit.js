@@ -13,7 +13,7 @@ import translate from '@/vue/plugins/translations'
 
 const { useSelect }    = window.wp.data
 const blockEditorStore = window.wp.blockEditor.store
-const { isTyping }     = window.wp.data.select(blockEditorStore)
+const { isTyping }     = window.wp.data.select(blockEditorStore) || { isTyping: () => null }
 
 const hasInitialized = []
 let latestHeadings   = []
@@ -112,7 +112,11 @@ export default function edit (props) {
 				let headingContent = headingAttributes.question || headingAttributes.content || ''
 
 				// Don't add a heading until it has content & is below the TOC.
-				if ('' === headingContent || tableOfContentsIndex > headingIndex) {
+				if (
+					'string' !== typeof headingContent ||
+					'' === headingContent ||
+					tableOfContentsIndex > headingIndex
+				) {
 					return
 				}
 

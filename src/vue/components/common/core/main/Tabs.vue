@@ -131,7 +131,9 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
 import { SaveChanges } from '@/vue/mixins/SaveChanges'
+import { useTruSeoScore } from '@/vue/composables'
 import { TruSeoScore } from '@/vue/mixins/TruSeoScore'
 import { mapActions, mapState } from 'vuex'
 
@@ -144,6 +146,13 @@ import TransitionSlide from '@/vue/components/common/transition/Slide'
 import { Tab as VarTab, Tabs as VarTabs } from '@varlet/ui'
 
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	emits      : [ 'changed' ],
 	components : {
 		BaseButton,
@@ -178,9 +187,9 @@ export default {
 			showMobileMenu : true,
 			calculateWidth : false,
 			showMobileTabs : false,
-			strings        : {
+			strings        : merge(this.composableStrings, {
 				saveChanges : this.$t.__('Save Changes', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

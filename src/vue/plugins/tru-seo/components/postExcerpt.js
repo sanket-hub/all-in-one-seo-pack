@@ -73,8 +73,7 @@ export const getPostExcerpt = () => {
 	let postExcerpt
 
 	if (isClassicEditor() || isClassicNoEditor()) {
-		const classicExcerpt = document.querySelector('#postexcerpt textarea#excerpt')
-		postExcerpt = classicExcerpt ? classicExcerpt.value : ''
+		postExcerpt = getClassicExcerpt()
 	}
 
 	if (isBlockEditor()) {
@@ -104,8 +103,7 @@ export const getPostEditedExcerpt = () => {
 	let postExcerpt
 
 	if (isClassicEditor() || isClassicNoEditor()) {
-		const classicExcerpt = document.querySelector('#postexcerpt textarea#excerpt')
-		postExcerpt = classicExcerpt ? classicExcerpt.value : ''
+		postExcerpt = getClassicExcerpt()
 	}
 
 	if (isBlockEditor()) {
@@ -138,4 +136,22 @@ export const maybeUpdatePostExcerpt = async (run = true) => {
 			})
 		}
 	}
+}
+
+export const getClassicExcerpt = () => {
+	let excerpt = ''
+
+	// Default excerpt content. Uses the textarea
+	const textEditor = document.querySelector('#postexcerpt textarea#excerpt')
+	excerpt = textEditor ? textEditor.value : ''
+
+	if (document.querySelector('#wp-excerpt-wrap.tmce-active')) {
+		// Get the excerpt content if tinyMCE is enabled
+		const editor = window.tinyMCE ? window.tinyMCE.get('excerpt') : ''
+		if (editor) {
+			excerpt = editor.getContent({ format: 'raw' })
+		}
+	}
+
+	return excerpt
 }

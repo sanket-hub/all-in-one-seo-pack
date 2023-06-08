@@ -384,7 +384,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { CommonSitemap } from '@/vue/pages/sitemaps/mixins'
+import { useCommonSitemap } from '@/vue/pages/sitemaps/composables'
 
 import AdditionalPages from './AdditionalPages'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -398,7 +398,13 @@ import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import SvgExternal from '@/vue/components/common/svg/External'
 
 export default {
-	mixins     : [ CommonSitemap ],
+	setup () {
+		const { validateLinksPerIndex } = useCommonSitemap()
+
+		return {
+			validateLinksPerIndex
+		}
+	},
 	components : {
 		AdditionalPages,
 		BaseCheckbox,

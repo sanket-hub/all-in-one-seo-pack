@@ -174,6 +174,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWebmasterTools } from '@/vue/composables'
 import { MiOrEm, WebmasterTools } from '@/vue/pages/settings/mixins'
 
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -186,6 +188,13 @@ import GridRow from '@/vue/components/common/grid/Row'
 import SvgExternal from '@/vue/components/common/svg/External'
 
 export default {
+	setup () {
+		const { strings } = useWebmasterTools()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseCheckbox,
 		BaseRadioToggle,
@@ -199,7 +208,7 @@ export default {
 	mixins : [ MiOrEm, WebmasterTools ],
 	data () {
 		return {
-			strings : {
+			strings : merge(this.composableStrings, {
 				miLink : this.$t.sprintf(
 					'<strong>%1$s</strong>',
 					this.$t.__('Click here', this.$td)
@@ -216,7 +225,7 @@ export default {
 				),
 				manageGa : this.$t.__('Manage Google Analytics', this.$td),
 				startGa  : this.$t.__('Get Started', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

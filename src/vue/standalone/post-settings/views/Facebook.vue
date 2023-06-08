@@ -268,7 +268,7 @@ export default {
 				facebookDescription           : this.$t.__('Facebook Description', this.$td),
 				uploadOrSelectImage           : this.$t.__('Upload or Select Image', this.$td),
 				pasteYourImageUrl             : this.$t.__('Paste your image URL or select a new image', this.$td),
-				minimumSize                   : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 5MB max. (eg: 1640px x 856px or 3280px x 1712px for retina screens). JPG, PNG, WEBP and GIF formats only.', this.$td),
+				minimumSize                   : this.$t.__('Minimum size: 200px x 200px, ideal ratio 1.91:1, 5MB max. (eg: 1640px x 856px or 3280px x 1712px for Retina screens). JPG, PNG, WEBP and GIF formats only.', this.$td),
 				remove                        : this.$t.__('Remove', this.$td),
 				clickToAddSiteName            : this.$t.__('Click on the tags below to insert variables into your site name.', this.$td),
 				clickToAddHomePageDescription : this.$t.__('Click on the tags below to insert variables into your meta description.', this.$td),

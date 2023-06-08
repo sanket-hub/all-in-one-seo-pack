@@ -84,11 +84,20 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useNotifications } from '@/vue/composables'
 import { Notifications } from '@/vue/mixins'
 import { mapActions, mapState, mapMutations } from 'vuex'
 import CoreNotificationCards from '@/vue/components/common/core/NotificationCards'
 import SvgClose from '@/vue/components/common/svg/Close'
 export default {
+	setup () {
+		const { strings } = useNotifications()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreNotificationCards,
 		SvgClose
@@ -100,10 +109,10 @@ export default {
 			maxNotifications : Number.MAX_SAFE_INTEGER,
 			currentPage      : 0,
 			totalPages       : 1,
-			strings          : {
+			strings          : merge(this.composableStrings, {
 				dismissedNotifications : this.$t.__('Dismissed Notifications', this.$td),
 				dismissAll             : this.$t.__('Dismiss All', this.$td)
-			}
+			})
 		}
 	},
 	watch : {

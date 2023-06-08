@@ -233,6 +233,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { MaxCounts, Tags, Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -246,6 +248,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseCheckbox,
 		BaseRadioToggle,
@@ -269,7 +278,7 @@ export default {
 			editing          : false,
 			loading          : false,
 			stage            : 'search-appearance',
-			strings          : {
+			strings          : merge(this.composableStrings, {
 				searchAppearance          : this.$t.__('Search Appearance', this.$td),
 				description               : this.$t.__('The way your site is displayed in search results is very important. Take some time to look over these settings and tweak as needed.', this.$td),
 				googleSnippetPreview      : this.$t.__('Google Snippet Preview', this.$td),
@@ -285,7 +294,7 @@ export default {
 				enableSitemap             : this.$t.__('Enable Sitemap', this.$td),
 				doYouHaveMultipleAuthors  : this.$t.__('Do you have multiple authors?', this.$td),
 				redirectAttachmentPages   : this.$t.__('Redirect attachment pages?', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

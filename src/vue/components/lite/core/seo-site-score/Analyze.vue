@@ -31,11 +31,19 @@
 
 <script>
 import { popup } from '@/vue/utils/popup'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreSiteScoreAnalyze from '@/vue/components/common/core/site-score/Analyze'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreBlur,
 		CoreSiteScoreAnalyze

@@ -5,14 +5,24 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development (Lite)
 ```
 npm run dev:lite
 ```
 
-### Compiles and minifies for production
+### Compiles and hot-reloads for development (Pro)
+```
+npm run dev:pro
+```
+
+### Compiles and minifies for production (Lite)
 ```
 npm run build:lite
+```
+
+### Compiles and minifies for production (Pro)
+```
+npm run build:pro
 ```
 
 ### Customize configuration

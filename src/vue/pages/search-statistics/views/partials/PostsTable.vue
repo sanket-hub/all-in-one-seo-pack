@@ -197,6 +197,7 @@ export default {
 			changeItemsPerPageSlug : 'searchStatisticsSeoStatistics',
 			showUpsell             : false,
 			strings                : {
+				position      : this.$t.__('Position', this.$td),
 				ctaButtonText : this.$t.__('Upgrade to Pro and Unlock Access Control', this.$td),
 				ctaHeader     : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO"), 2 - "Pro".

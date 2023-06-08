@@ -32,10 +32,18 @@
 </template>
 
 <script>
+import { useWebmasterTools } from '@/vue/composables'
 import { WebmasterTools } from '@/vue/pages/settings/mixins'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 export default {
+	setup () {
+		const { strings } = useWebmasterTools()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreSettingsRow,
 		GridColumn

@@ -153,6 +153,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -170,6 +172,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseCheckbox,
 		CoreAlert,
@@ -193,7 +202,7 @@ export default {
 			stage        : 'smart-recommendations',
 			showModal    : false,
 			loadingModal : false,
-			strings      : {
+			strings      : merge(this.composableStrings, {
 				setupSiteAnalyzer : this.$t.__('Setup Site Analyzer + Smart Recommendations', this.$td),
 				description       : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO").
@@ -231,7 +240,7 @@ export default {
 					),
 					'</a></strong>'
 				)
-			}
+			})
 		}
 	},
 	computed : {

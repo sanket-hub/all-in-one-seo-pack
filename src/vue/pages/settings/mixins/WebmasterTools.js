@@ -26,15 +26,7 @@ export const MiOrEm = {
 			installingPlugin  : false,
 			miInstalled       : false,
 			miInstalledFailed : false,
-			showMiPromo       : true,
-			strings           : {
-				installMi : this.$t.sprintf(
-					// Translators: 1 - The addon or plugin name.
-					this.$t.__('Install %1$s', this.$td),
-					'MonsterInsights'
-				),
-				miInstalled : this.$t.__('Success!', this.$td)
-			}
+			showMiPromo       : true
 		}
 	},
 	computed : {

@@ -87,6 +87,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
+import { useTruSeoScore } from '@/vue/composables'
 import { TruSeoScore } from '@/vue/mixins'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCaret from '@/vue/components/common/svg/Caret'
@@ -95,6 +96,13 @@ import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMa
 import SvgEllipse from '@/vue/components/common/svg/Ellipse'
 import TransitionSlide from '@/vue/components/common/transition/Slide'
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreTooltip,
 		SvgCaret,

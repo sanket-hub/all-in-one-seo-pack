@@ -4,7 +4,7 @@
 			<div
 				class="aioseo-settings-row"
 			>
-				<p class="location-description">{{ strings.description }}</p>
+				{{ strings.description }}
 			</div>
 			<core-settings-row
 				:name="strings.name"

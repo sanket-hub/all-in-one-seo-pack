@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapMutations } from 'vuex'
 import yoastSeoImg from '@/vue/assets/images/plugins/yoast-logo-small.png'
@@ -85,6 +87,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseHighlightToggle,
 		GridColumn,
@@ -100,7 +109,7 @@ export default {
 		return {
 			loading : false,
 			stage   : 'import',
-			strings : {
+			strings : merge(this.composableStrings, {
 				importData     : this.$t.__('Import data from your current plugins', this.$td),
 				weHaveDetected : this.$t.sprintf(
 					// Translators: 1 - Plugin short name ("AIOSEO").
@@ -108,7 +117,7 @@ export default {
 					import.meta.env.VITE_SHORT_NAME
 				),
 				importDataAndContinue : this.$t.__('Import Data and Continue', this.$td)
-			},
+			}),
 			pluginImages : {
 				'yoast-seo'         : this.$getAssetUrl(yoastSeoImg),
 				'yoast-seo-premium' : this.$getAssetUrl(yoastSeoImg),

@@ -62,8 +62,16 @@
 </template>
 
 <script>
+import { useWizard } from '@/vue/composables'
 import { WizardUsageTracking } from '@/vue/mixins'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			strings
+		}
+	},
 	mixins : [ WizardUsageTracking ]
 }
 </script>

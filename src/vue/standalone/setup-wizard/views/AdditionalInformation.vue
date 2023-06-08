@@ -304,6 +304,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { MaxCounts, Uploader, Wizard } from '@/vue/mixins'
 import { mapActions, mapState } from 'vuex'
 import BaseImg from '@/vue/components/common/base/Img'
@@ -317,6 +319,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseImg,
 		BasePhone,
@@ -335,7 +344,7 @@ export default {
 			loaded  : false,
 			loading : false,
 			stage   : 'additional-information',
-			strings : {
+			strings : merge(this.composableStrings, {
 				additionalSiteInformation       : this.$t.__('Additional Site Information', this.$td),
 				personOrOrganization            : this.$t.__('Person or Organization', this.$td),
 				choosePerson                    : this.$t.__('Choose a Person', this.$td),
@@ -355,7 +364,7 @@ export default {
 				remove                          : this.$t.__('Remove', this.$td),
 				defaultSocialShareImage         : this.$t.__('Default Social Share Image', this.$td),
 				yourSocialProfiles              : this.$t.__('Your Social Profiles', this.$td)
-			}
+			})
 		}
 	},
 	watch : {

@@ -12,6 +12,8 @@
 		<core-card
 			v-if="(($isPro && licenseKey) || internalOptions.internal.siteAnalysis.connectToken) && internalOptions.internal.siteAnalysis.score"
 			slug="completeSeoChecklist"
+			no-slide
+			:toggles="false"
 		>
 			<template #header>
 				<span>{{ strings.completeSeoChecklist }}</span>

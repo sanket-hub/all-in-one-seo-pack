@@ -89,11 +89,20 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
+import { merge } from 'lodash-es'
+import { useWebmasterTools } from '@/vue/composables'
 import { WebmasterTools } from '@/vue/pages/settings/mixins'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 export default {
+	setup () {
+		const { strings } = useWebmasterTools()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAlert,
 		CoreSettingsRow,
@@ -108,7 +117,7 @@ export default {
 			indexNowFailed     : false,
 			regeneratingApiKey : false,
 			installingPlugin   : false,
-			strings            : {
+			strings            : merge(this.composableStrings, {
 				upsell : this.$t.sprintf(
 					// Translators: 1 - The plugin short name name ("AIOSEO") + Pro, 2 - "Learn more".
 					this.$t.__('This feature is only for licensed %1$s users. %2$s', this.$td),
@@ -128,7 +137,7 @@ export default {
 				),
 				update           : this.$t.__('Update IndexNow', this.$td),
 				regenerateApiKey : this.$t.__('Regenerate API Key', this.$td)
-			}
+			})
 		}
 	},
 	methods : {

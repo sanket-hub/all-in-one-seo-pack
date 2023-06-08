@@ -4,7 +4,7 @@
 			<div
 				class="aioseo-settings-row"
 			>
-				<p class="apikey-description">{{ strings.description }}</p>
+				{{ strings.description }}
 			</div>
 
 			<core-settings-row

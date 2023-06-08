@@ -4,7 +4,7 @@ Tags: SEO, Google Search Console, XML Sitemap, meta description, schema, meta ti
 Tested up to: 6.2.2
 Requires at least: 4.9
 Requires PHP: 5.6
-Stable tag: 4.3.8
+Stable tag: 4.3.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -256,6 +256,27 @@ Visit <a href="http://www.wpbeginner.com/" rel="friend" title="WPBeginner">WPBeg
 
 
 == Changelog ==
+
+**New in Version 4.3.9**
+
+* Updated: Sitemap performance has been improved across the board, with up to 3 times faster loading times and 8 times less memory usage!
+* Updated: Additional design tweaks to make our UI more compact.
+* Fixed: Meta description in the preview now updates in realtime for the Product Short Description smart tag for WooCommerce Products.
+* Fixed: Preview for the Breadcrumbs widget not working with certain versions of WordPress Core.
+* Fixed: Add warning when AI Title/Description Generator returns empty suggestions due to an infraction of their usage policies.
+* Fixed: The AIOSEO FAQ block can now correctly be used as a widget.
+* Fixed: The Product Brand and Product Identifier schema properties are now correctly migrated over from older versions.
+* Fixed: Schema rating fields now allow float values to be added.
+* Fixed: Ingredient list for Recipe schema now lists ingredients as an array instead of a string as per Google’s documentation.
+* Fixed: Removed support for AggregateOffer for WooCommerce product variations per Google’s guidelines.
+* Fixed: Schema validator content missing due to a Vue 3 error.
+* Fixed: Scanning a URL with the SEO Analyzer no longer collapses the results card for the URL.
+* Fixed: TruSEO score is no displayed for Local SEO Locations.
+* Fixed: Local SEO Enhanced Search error when search term is empty.
+* Fixed: Attachment pages are now correctly scanned by the image sitemap and include their attached image.
+* Fixed: Remove support for keeping certain characters in image filenames in the Image SEO addon as they are automatically stripped out by WordPress Core.
+* Fixed: Plugin conflict where robots meta tag was not output on the homepage of the Extra theme.
+* Fixed: Plugin conflict with Timber where the title isn’t rewritten correctly due to a output buffer conflict.
 
 **New in Version 4.3.8**
 
@@ -586,6 +607,6 @@ Additionally, AIOSEO can also provide you with data on the most frequently used 
 
 == Upgrade Notice ==
 
-= 4.3.8 =
+= 4.3.9 =
 
 This update adds major improvements and bug fixes.

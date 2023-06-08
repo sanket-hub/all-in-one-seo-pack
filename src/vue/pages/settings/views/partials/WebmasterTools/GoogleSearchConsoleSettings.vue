@@ -54,11 +54,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { merge } from 'lodash-es'
+import { useWebmasterTools } from '@/vue/composables'
 import { WebmasterTools } from '@/vue/pages/settings/mixins'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 export default {
+	setup () {
+		const { strings } = useWebmasterTools()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAlert,
 		CoreSettingsRow,
@@ -67,7 +76,7 @@ export default {
 	mixins : [ WebmasterTools ],
 	data () {
 		return {
-			strings : {
+			strings : merge(this.composableStrings, {
 				thisFeatureRequires         : this.$t.__('Advanced tracking and actionable reports require one of the following plans:', this.$td),
 				thisFeatureRequiresSingular : this.$t.__('Advanced tracking and actionable reports require the following plan:', this.$td),
 				liteUpsell                  : this.$t.sprintf(
@@ -88,7 +97,7 @@ export default {
 						false
 					)
 				)
-			}
+			})
 		}
 	},
 	computed : {

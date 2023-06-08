@@ -1569,14 +1569,14 @@ export const SCHEMA_GENDER = [
 
 export const SCHEMA_ENERGY_RATING = [
 	{ label: __('N/A', td), value: '' },
-	{ label: __('AAA+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA3Plus' },
-	{ label: __('AA+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA2Plus' },
-	{ label: __('A+', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA1Plus' },
-	{ label: __('A', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryA' },
-	{ label: __('B', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryB' },
-	{ label: __('C', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryC' },
-	{ label: __('D', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryD' },
-	{ label: __('E', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryE' },
-	{ label: __('F', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryF' },
-	{ label: __('G', td), value: 'https://schema.org/EUEnergyEfficiencyCategoryG' }
+	{ label: 'AAA+', value: 'https://schema.org/EUEnergyEfficiencyCategoryA3Plus' },
+	{ label: 'AA+', value: 'https://schema.org/EUEnergyEfficiencyCategoryA2Plus' },
+	{ label: 'A+', value: 'https://schema.org/EUEnergyEfficiencyCategoryA1Plus' },
+	{ label: 'A', value: 'https://schema.org/EUEnergyEfficiencyCategoryA' },
+	{ label: 'B', value: 'https://schema.org/EUEnergyEfficiencyCategoryB' },
+	{ label: 'C', value: 'https://schema.org/EUEnergyEfficiencyCategoryC' },
+	{ label: 'D', value: 'https://schema.org/EUEnergyEfficiencyCategoryD' },
+	{ label: 'E', value: 'https://schema.org/EUEnergyEfficiencyCategoryE' },
+	{ label: 'F', value: 'https://schema.org/EUEnergyEfficiencyCategoryF' },
+	{ label: 'G', value: 'https://schema.org/EUEnergyEfficiencyCategoryG' }
 ]

@@ -33,11 +33,19 @@
 
 <script>
 import { popup } from '@/vue/utils/popup'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapState, mapActions } from 'vuex'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreBlur,
 		CoreCard

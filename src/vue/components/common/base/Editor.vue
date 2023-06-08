@@ -699,7 +699,7 @@ export default {
 	}
 
 	.ql-editor {
-		padding: 15px;
+		padding: 7px 10px;
 		border-radius: 3px;
 		font-size: $font-md;
 		color: $black;
@@ -719,7 +719,7 @@ export default {
 			.aioseo-tag {
 				height: 20px;
 				margin: 0 1px;
-				color: $black2;
+				color: $black;
 				font-weight: $font-bold;
 				font-size: 12px;
 				line-height: 18px;

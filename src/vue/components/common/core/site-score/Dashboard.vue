@@ -47,9 +47,18 @@
 
 <script>
 import { mapState } from 'vuex'
+import { merge } from 'lodash-es'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreSiteScore
 	},
@@ -66,14 +75,14 @@ export default {
 	},
 	data () {
 		return {
-			strings : {
+			strings : merge(this.composableStrings, {
 				anErrorOccurred            : this.$t.__('An error occurred while analyzing your site.', this.$td),
 				criticalIssues             : this.$t.__('Important Issues', this.$td),
 				warnings                   : this.$t.__('Warnings', this.$td),
 				recommendedImprovements    : this.$t.__('Recommended Improvements', this.$td),
 				goodResults                : this.$t.__('Good Results', this.$td),
 				completeSiteAuditChecklist : this.$t.__('Complete Site Audit Checklist', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

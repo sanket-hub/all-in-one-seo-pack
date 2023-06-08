@@ -125,17 +125,28 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
 import { WpTable } from '@/vue/mixins'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import CoreWpTable from '@/vue/components/common/core/wp/Table'
-import LinksMixin from '@/vue/mixins/link-assistant/Links.js'
-import PostTypesMixin from '@/vue/mixins/PostTypes.js'
+import { useLinks } from '@/vue/composables/link-assistant/Links'
+import LinksMixin from '@/vue/mixins/link-assistant/Links'
+import PostTypesMixin from '@/vue/mixins/PostTypes'
 import LinkAssistantConfirmationModal from '@/vue/components/common/link-assistant/ConfirmationModal'
 import LinkAssistantPhrase from '@/vue/components/common/link-assistant/Phrase'
 import SvgLinkExternal from '@/vue/components/common/svg/link/External'
 import SvgLinkSuggestion from '@/vue/components/common/svg/link/Suggestion'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	setup () {
+		const { strings, modalStrings, bulkOptions } = useLinks()
+
+		return {
+			bulkOptions,
+			modalStrings,
+			composableStrings : strings
+		}
+	},
 	emits      : [ 'openSuggestions' ],
 	components : {
 		CoreTooltip,
@@ -151,7 +162,7 @@ export default {
 		return {
 			tableId  : 'aioseo-post-report-inbound-internal',
 			linkType : 'inboundInternal',
-			strings  : {
+			strings  : merge(this.composableStrings, {
 				deleteAllLinks : this.$t.sprintf(
 					// Translators: 1 - The type of link.
 					this.$t.__('Delete All %1$s Links', this.$td), this.$t.__('Inbound Internal', this.$td)
@@ -160,7 +171,7 @@ export default {
 					// Translators: 1 - The type of link.
 					this.$t.__('%1$s Link Suggestions', this.$td), this.$t.__('Inbound', this.$td)
 				)
-			}
+			})
 		}
 	},
 	computed : {

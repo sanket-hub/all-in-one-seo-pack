@@ -97,6 +97,7 @@ export default {
 			line-height: 22px;
 			max-width: 600px;
 			width: 100%;
+			overflow-wrap: break-word;
 
 			&:empty {
 				display: none;

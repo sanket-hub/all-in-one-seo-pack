@@ -55,7 +55,8 @@ class SeoPreview {
 			is_admin() ||
 			! is_admin_bar_showing() ||
 			// If we're seeing the Divi theme Visual Builder.
-			function_exists( 'et_core_is_fb_enabled' ) && et_core_is_fb_enabled()
+			function_exists( 'et_core_is_fb_enabled' ) && et_core_is_fb_enabled() ||
+			aioseo()->helpers->isAmpPage()
 		) {
 			return;
 		}

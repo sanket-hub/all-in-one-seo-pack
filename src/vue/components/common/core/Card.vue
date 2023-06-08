@@ -202,6 +202,13 @@ export default {
 			.header-title {
 				display: flex;
 				align-items: center;
+
+				.aioseo-tooltip,
+				+ .aioseo-tooltip {
+						> div:has(svg) {
+						display: inline-flex;
+					}
+				}
 			}
 
 			svg.aioseo-circle-question-mark {

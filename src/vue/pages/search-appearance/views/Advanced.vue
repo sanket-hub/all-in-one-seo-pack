@@ -834,7 +834,7 @@ export default {
 				postCommentsFeed              : this.$t.__('Post Comment Feeds', this.$td),
 				postCommentsFeedDescription   : this.$t.__('The post comments feed allows your users to subscribe to any new comments on a specific page or post.', this.$td),
 				searchFeed                    : this.$t.__('Search Feed', this.$td),
-				searchFeedDescription         : this.$t.__('The search feed description allows visitors to subscribe to your content based on a specific search term.', this.$td),
+				searchFeedDescription         : this.$t.__('The search feed allows visitors to subscribe to your content based on a specific search term.', this.$td),
 				attachmentsFeed               : this.$t.__('Attachments Feed', this.$td),
 				attachmentsFeedDescription    : this.$t.__('The attachments feed allows users to subscribe to any changes to your site made to media file categories.', this.$td),
 				postTypesFeed                 : this.$t.__('Post Type Archive Feeds', this.$td),

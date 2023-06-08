@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
@@ -82,6 +84,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseCheckbox,
 		CoreProBadge,
@@ -98,7 +107,7 @@ export default {
 		return {
 			loading : false,
 			stage   : 'features',
-			strings : {
+			strings : merge(this.composableStrings, {
 				whichFeatures : this.$t.__(
 					'Which SEO features do you want to enable?',
 					this.$td
@@ -107,7 +116,7 @@ export default {
 					'We have already selected our recommended features based on your site category, but you can use the following features to fine-tune your site.',
 					this.$td
 				)
-			}
+			})
 		}
 	},
 	computed : {

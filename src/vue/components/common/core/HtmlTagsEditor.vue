@@ -209,7 +209,7 @@ export default {
 			line-height: 24px;
 			color: $black;
 			font-size: 14px;
-			border: 1px solid $border;
+			border: 1px solid $input-border;
 			cursor: pointer;
 			user-select: none;
 			font-weight: 400;

@@ -82,6 +82,8 @@
 
 <script>
 import { popup } from '@/vue/utils/popup'
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
@@ -94,6 +96,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAlert,
 		GridColumn,
@@ -112,7 +121,7 @@ export default {
 			loading         : false,
 			stage           : 'license-key',
 			localLicenseKey : null,
-			strings         : {
+			strings         : merge(this.composableStrings, {
 				enterYourLicenseKey : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
 					this.$t.__('Enter your %1$s License Key', this.$td),
@@ -135,7 +144,7 @@ export default {
 				),
 				placeholder : this.$t.__('Paste your license key here', this.$td),
 				connect     : this.$t.__('Connect', this.$td)
-			}
+			})
 		}
 	},
 	watch : {

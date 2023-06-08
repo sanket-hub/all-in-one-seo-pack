@@ -123,6 +123,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import BaseHighlightToggle from '@/vue/components/common/base/HighlightToggle'
@@ -142,6 +144,13 @@ import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 import WizardSteps from '@/vue/components/common/wizard/Steps'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		BaseHighlightToggle,
 		CoreHtmlTagsEditor,
@@ -168,13 +177,13 @@ export default {
 			descriptionCount : 0,
 			loading          : false,
 			stage            : 'category',
-			strings          : {
+			strings          : merge(this.composableStrings, {
 				category        : this.$t.__('Which category best describes your website?', this.$td),
 				selectCategory  : this.$t.__('Select a category to help us narrow down the SEO options that work best for you and your site.', this.$td),
 				enterYourAnswer : this.$t.__('Enter your answer', this.$td),
 				siteTitle       : this.$t.__('Home Page Title', this.$td),
 				metaDescription : this.$t.__('Home Page Meta Description', this.$td)
-			},
+			}),
 			categories : [
 				{ value: 'blog', name: this.$t.__('Blog', this.$td), icon: 'svg-blog' },
 				{ value: 'news-channel', name: this.$t.__('News Channel', this.$td), icon: 'svg-news-channel' },

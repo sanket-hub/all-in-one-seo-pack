@@ -71,6 +71,8 @@
 
 <script>
 import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
+import { merge } from 'lodash-es'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 import { isUrl } from '@/vue/utils/helpers'
 import CoreAnalyze from '@/vue/components/common/core/analyze/Index'
@@ -81,6 +83,13 @@ import CoreSeoSiteAnalysisResults from '@/vue/components/common/core/SeoSiteAnal
 import CoreSiteScoreCompetitor from '@/vue/components/common/core/site-score/Competitor'
 import SvgTrash from '@/vue/components/common/svg/Trash'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAnalyze,
 		CoreAnalyzeScore,
@@ -99,12 +108,12 @@ export default {
 			inputError        : false,
 			competitorResults : {},
 			analyzeTime       : 8,
-			strings           : {
+			strings           : merge(this.composableStrings, {
 				enterCompetitorUrl     : this.$t.__('Enter Competitor URL', this.$td),
 				performInDepthAnalysis : this.$t.__('Perform in-depth SEO Analysis of your competitor\'s website.', this.$td),
 				analyze                : this.$t.__('Analyze', this.$td),
 				pleaseEnterValidUrl    : this.$t.__('Please enter a valid URL.', this.$td)
-			}
+			})
 		}
 	},
 	watch : {

@@ -96,7 +96,6 @@
 			<template #content>
 				<base-textarea
 					:minHeight="100"
-					:autosize="false"
 					v-model="profileData.additionalUrls"
 				/>
 

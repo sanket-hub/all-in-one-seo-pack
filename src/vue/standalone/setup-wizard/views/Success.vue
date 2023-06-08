@@ -133,6 +133,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard } from '@/vue/mixins'
 import { mapGetters } from 'vuex'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
@@ -149,6 +151,13 @@ import WizardBody from '@/vue/components/common/wizard/Body'
 import WizardContainer from '@/vue/components/common/wizard/Container'
 import WizardHeader from '@/vue/components/common/wizard/Header'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAlert,
 		GridColumn,
@@ -169,7 +178,7 @@ export default {
 		return {
 			loading : false,
 			stage   : 'success',
-			strings : {
+			strings : merge(this.composableStrings, {
 				congratulations    : this.$t.__('Congratulations, your site is now SEO ready!', this.$td),
 				finishSetup        : this.$t.__('Finish Setup and Go to the Dashboard', this.$td),
 				heresWhatToDoNext  : this.$t.__('Here\'s what to do next:', this.$td),
@@ -207,7 +216,7 @@ export default {
 					this.$t.__('Upgrade to %1$s Today', this.$td),
 					'Pro'
 				)
-			}
+			})
 		}
 	},
 	computed : {

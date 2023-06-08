@@ -45,12 +45,7 @@ export const watchClassicEditor = () => {
 	}
 
 	// Excerpt Change.
-	const excerptInput = document.querySelector('#post textarea#excerpt')
-	if (excerptInput) {
-		excerptInput.addEventListener('input', () => {
-			maybeUpdatePost(500)
-		})
-	}
+	addExcerptWatcher()
 
 	// Slug Change.
 	const slug = document.querySelector('#post_name')
@@ -101,6 +96,9 @@ export const watchClassicEditor = () => {
 						maybeUpdatePost(500)
 					})
 				}
+
+				// Excerpt Change.
+				addExcerptWatcher()
 			}
 		})
 	}
@@ -108,6 +106,10 @@ export const watchClassicEditor = () => {
 	const contentWrap = document.querySelector('#wp-content-wrap')
 	if (contentWrap) {
 		mutationObserver.observe(contentWrap, { attributes: true })
+	}
+	const excerptWrap = document.querySelector('#wp-excerpt-wrap')
+	if (excerptWrap) {
+		mutationObserver.observe(excerptWrap, { attributes: true })
 	}
 	setInterval(() => {
 		if (isAnalyzing) {
@@ -130,5 +132,36 @@ export const watchClassicEditor = () => {
 				maybeUpdatePost()
 			}
 		}, 500)
+	}
+}
+
+const addExcerptWatcher = () => {
+	if (document.querySelector('#wp-excerpt-wrap.tmce-active')) {
+		const mceActiveInterval = window.setInterval(() => {
+			if (!window.tinyMCE) {
+				return
+			}
+
+			window.clearInterval(mceActiveInterval)
+			maybeUpdatePost()
+
+			window.tinyMCE.get('excerpt').on('keyup', () => {
+				maybeUpdatePost(500)
+			})
+			window.tinyMCE.get('excerpt').on('paste', () => {
+				maybeUpdatePost(500)
+			})
+		}, 50)
+	}
+
+	// Excerpt textarea when TinyMCE is not enabled
+	const excerptInput = document.querySelector('#post textarea#excerpt')
+	if (excerptInput) {
+		excerptInput.addEventListener('keyup', () => {
+			maybeUpdatePost(500)
+		})
+		excerptInput.addEventListener('paste', () => {
+			maybeUpdatePost(500)
+		})
 	}
 }

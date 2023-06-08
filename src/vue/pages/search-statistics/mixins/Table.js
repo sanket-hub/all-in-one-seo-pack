@@ -5,10 +5,7 @@ export default {
 			orderBy         : 'clicks',
 			orderDir        : 'desc',
 			resultsPerPage  : 10,
-			selectedFilters : {},
-			strings         : {
-				position : this.$t.__('Position', this.$td)
-			}
+			selectedFilters : {}
 		}
 	},
 	methods : {

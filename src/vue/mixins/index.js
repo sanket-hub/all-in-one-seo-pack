@@ -2,7 +2,6 @@ import { AddonConditions } from './AddonConditions'
 import { Date } from './Date'
 import { LicenseConditions } from './LicenseConditions'
 import { HeadlineResult } from './HeadlineResult'
-import { HeadlineScore } from './HeadlineScore'
 import { ImageSourceOptions, Uploader, ImagePreview } from './Image'
 import { IsDirty } from './IsDirty'
 import { JsonValues } from './JsonValues'
@@ -28,7 +27,6 @@ export {
 	Date,
 	LicenseConditions,
 	HeadlineResult,
-	HeadlineScore,
 	ImagePreview,
 	ImageSourceOptions,
 	IsDirty,

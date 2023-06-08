@@ -78,3 +78,11 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.content[active="Archives"]:has(> :last-child:empty) > :nth-last-child(2) {
+	margin-bottom: 0;
+	border-bottom: none;
+	padding-bottom: 0;
+}
+</style>

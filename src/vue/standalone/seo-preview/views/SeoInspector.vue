@@ -108,6 +108,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useTruSeoScore } from '@/vue/composables'
 import { TruSeoScore } from '@/vue/mixins/TruSeoScore'
 import SvgIconPencil from '@/vue/components/common/svg/Pencil'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
@@ -116,6 +118,13 @@ import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 import ViewMetaTags from './MetaTags'
 
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		SvgIconPencil,
 		SvgCircleCheck,
@@ -156,7 +165,7 @@ export default {
 	mixins : [ TruSeoScore ],
 	data () {
 		return {
-			strings : {
+			strings : merge(this.composableStrings, {
 				focusKeyphrase   : this.$t.__('Focus Keyphrase', this.$td),
 				checks           : this.$t.__('Checks', this.$td),
 				basicSeo         : this.$t.__('Basic SEO', this.$td),
@@ -165,7 +174,7 @@ export default {
 				metaTags         : this.$t.__('Meta Tags', this.$td),
 				noKeyphraseFound : this.$t.__('No keyphrase found', this.$td),
 				noDataYet        : this.$t.__('No data yet', this.$td)
-			}
+			})
 		}
 	}
 }

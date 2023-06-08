@@ -23,7 +23,7 @@ export default {
 	color: $black;
 	font-size: $font-sm;
 	line-height: 18px;
-	border: 1px solid $border;
+	border: 1px solid $input-border;
 	cursor: pointer;
 	user-select: none;
 	font-weight: $font-bold;

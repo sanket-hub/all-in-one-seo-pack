@@ -17,8 +17,17 @@
 <script>
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreDonutChartWithLegend from '@/vue/components/common/core/DonutChartWithLegend'
+import { merge } from 'lodash-es'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreCard,
 		CoreDonutChartWithLegend
@@ -33,7 +42,7 @@ export default {
 	data () {
 		return {
 			score   : 0,
-			strings : {
+			strings : merge(this.composableStrings, {
 				header          : this.$t.__('Internal vs External vs Affiliate Links', this.$td),
 				totalLinks      : this.$t.__('Total Links', this.$td),
 				linksReportLink : this.$t.sprintf(
@@ -41,7 +50,7 @@ export default {
 					'#/links-report?fullReport=1',
 					this.$t.__('See a Full Links Report', this.$td)
 				)
-			}
+			})
 		}
 	},
 	computed : {

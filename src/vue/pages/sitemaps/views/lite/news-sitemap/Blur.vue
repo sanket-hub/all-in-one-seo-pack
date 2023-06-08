@@ -77,18 +77,24 @@
 </template>
 
 <script>
-import { NewsSitemap } from '@/vue/pages/sitemaps/mixins'
+import { useNewsSitemap } from '@/vue/pages/sitemaps/composables'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import SvgExternal from '@/vue/components/common/svg/External'
 import BaseCheckbox from '@/vue/components/common/base/Checkbox'
 export default {
+	setup () {
+		const { strings } = useNewsSitemap()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreBlur,
 		CoreSettingsRow,
 		SvgExternal,
 		BaseCheckbox
-	},
-	mixins : [ NewsSitemap ]
+	}
 }
 </script>

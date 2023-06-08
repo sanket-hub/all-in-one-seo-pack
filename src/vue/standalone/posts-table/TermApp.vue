@@ -91,6 +91,7 @@
 import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
+import { useTruSeoScore } from '@/vue/composables'
 import { TruSeoScore } from '@/vue/mixins'
 import { truncate } from '@/vue/utils/html'
 import { truSeoShouldAnalyze } from '@/vue/plugins/tru-seo/components/helpers'
@@ -98,6 +99,13 @@ import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		SvgCircleCheck,
 		SvgCircleClose
@@ -118,14 +126,14 @@ export default {
 			showEditTitle       : false,
 			showEditDescription : false,
 			showTruSeo          : false,
-			strings             : {
+			strings             : merge(this.composableStrings, {
 				title       : this.$t.__('Title:', this.$td),
 				description : this.$t.__('Description:', this.$td),
 				edit        : this.$t.__('Edit', this.$td),
 				save        : this.$t.__('Save', this.$td),
 				cancel      : this.$t.__('Cancel', this.$td),
 				wait        : this.$t.__('Please wait...', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

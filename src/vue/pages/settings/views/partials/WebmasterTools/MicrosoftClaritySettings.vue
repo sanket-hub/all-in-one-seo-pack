@@ -98,12 +98,21 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWebmasterTools } from '@/vue/composables'
 import { MiOrEm, WebmasterTools } from '@/vue/pages/settings/mixins'
 import CoreAlert from '@/vue/components/common/core/alert/Index'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import GridColumn from '@/vue/components/common/grid/Column'
 import SvgExternal from '@/vue/components/common/svg/External'
 export default {
+	setup () {
+		const { strings } = useWebmasterTools()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreAlert,
 		CoreSettingsRow,
@@ -114,7 +123,7 @@ export default {
 	data () {
 		return {
 			promoKey : 1,
-			strings  : {
+			strings  : merge(this.composableStrings, {
 				dashboard   : this.$t.__('Dashboard', this.$td),
 				settings    : this.$t.__('Settings', this.$td),
 				description : this.$t.sprintf(
@@ -127,7 +136,7 @@ export default {
 				useMi    : this.$t.__('Great choice! Get started with MonsterInsights today to see how people find and use your website.', this.$td),
 				miPromo  : this.$t.__('Want to get the most out of Clarity? Integrate Clarity with Google Analytics using MonsterInsights today!', this.$td),
 				manageGa : this.$t.__('Manage Google Analytics', this.$td)
-			}
+			})
 		}
 	},
 	watch : {

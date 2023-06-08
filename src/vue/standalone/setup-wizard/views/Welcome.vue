@@ -96,9 +96,18 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useWizard } from '@/vue/composables'
 import { Wizard, WizardUsageTracking } from '@/vue/mixins'
 import SvgGiantGear from '@/vue/components/common/svg/GiantGear'
 export default {
+	setup () {
+		const { strings } = useWizard()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		SvgGiantGear
 	},
@@ -106,7 +115,7 @@ export default {
 	data () {
 		return {
 			stage   : 'welcome',
-			strings : {
+			strings : merge(this.composableStrings, {
 				welcome : this.$t.sprintf(
 					// Translators: 1 - The plugin short name ("AIOSEO").
 					this.$t.__('Welcome to the %1$s Setup Wizard!', this.$td),
@@ -119,7 +128,7 @@ export default {
 				),
 				letsGetStarted : this.$t.__('Let\'s Get Started', this.$td),
 				goBack         : this.$t.__('Go back to the Dashboard', this.$td)
-			}
+			})
 		}
 	}
 }

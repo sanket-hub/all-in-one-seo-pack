@@ -34,21 +34,27 @@
 </template>
 
 <script>
-import { NewsSitemap } from '@/vue/pages/sitemaps/mixins'
+import { useNewsSitemap } from '@/vue/pages/sitemaps/composables'
 import Blur from './Blur'
 import RequiredPlans from '@/vue/components/lite/core/upsells/RequiredPlans'
 import CoreCard from '@/vue/components/common/core/Card'
 import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import Cta from '@/vue/components/common/cta/Index'
 export default {
+	setup () {
+		const { strings } = useNewsSitemap()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		Blur,
 		RequiredPlans,
 		CoreCard,
 		CoreProBadge,
 		Cta
-	},
-	mixins : [ NewsSitemap ]
+	}
 }
 </script>
 

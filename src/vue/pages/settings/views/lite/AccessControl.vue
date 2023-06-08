@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useAccessControl } from '@/vue/composables'
 import { AccessControl } from '@/vue/pages/settings/mixins'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreCard from '@/vue/components/common/core/Card'
@@ -67,6 +69,14 @@ import CoreProBadge from '@/vue/components/common/core/ProBadge'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import Cta from '@/vue/components/common/cta/Index'
 export default {
+	setup () {
+		const { strings, roles } = useAccessControl()
+
+		return {
+			composableStrings : strings,
+			roles
+		}
+	},
 	components : {
 		CoreBlur,
 		CoreCard,
@@ -77,7 +87,7 @@ export default {
 	mixins : [ AccessControl ],
 	data () {
 		return {
-			strings : {
+			strings : merge(this.composableStrings, {
 				wpRoles         : this.$t.__('WP Roles (Editor, Author)', this.$td),
 				seoManagerRole  : this.$t.__('SEO Manager Role', this.$td),
 				seoEditorRole   : this.$t.__('SEO Editor Role', this.$td),
@@ -90,7 +100,7 @@ export default {
 					import.meta.env.VITE_SHORT_NAME,
 					'Pro'
 				)
-			}
+			})
 		}
 	},
 	computed : {

@@ -500,7 +500,6 @@ export default {
 			height: 50px;
 			display: flex;
 			font-size: 14px;
-			font-weight: 700;
 			color: $black2;
 			padding: 16px;
 			align-items: center;

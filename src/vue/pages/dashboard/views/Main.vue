@@ -212,6 +212,8 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useNotifications } from '@/vue/composables'
 import { Notifications } from '@/vue/mixins'
 import { mapActions, mapGetters, mapState } from 'vuex'
 
@@ -244,6 +246,13 @@ import SvgTitleAndMeta from '@/vue/components/common/svg/TitleAndMeta'
 import SvgVideoCamera from '@/vue/components/common/svg/VideoCamera'
 
 export default {
+	setup () {
+		const { strings } = useNotifications()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreCard,
 		CoreFeatureCard,
@@ -278,7 +287,7 @@ export default {
 		return {
 			dismissed            : false,
 			visibleNotifications : 3,
-			strings              : {
+			strings              : merge(this.composableStrings, {
 				pageName                     : this.$t.__('Dashboard', this.$td),
 				noNewNotificationsThisMoment : this.$t.__('There are no new notifications at this moment.', this.$td),
 				seeAllDismissedNotifications : this.$t.__('See all dismissed notifications.', this.$td),
@@ -333,7 +342,7 @@ export default {
 				),
 				dismissAll          : this.$t.__('Dismiss All', this.$td),
 				relaunchSetupWizard : this.$t.__('Relaunch Setup Wizard', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

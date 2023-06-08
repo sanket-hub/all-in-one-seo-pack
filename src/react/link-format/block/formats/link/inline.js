@@ -177,7 +177,6 @@ function InlineLinkUI ({
 			anchorRef={ versionCompare(window.aioseo.wpVersion, '6.1', '<') ? anchorRef : undefined }
 			focusOnMount={ addingLink ? 'firstElement' : false }
 			onClose={ stopAddingLink }
-			position="bottom center"
 		>
 			<LinkControl
 				value={ linkValue }

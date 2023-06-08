@@ -91,18 +91,24 @@
 </template>
 
 <script>
-import { VideoSitemap } from '@/vue/pages/sitemaps/mixins'
+import { useVideoSitemap } from '@/vue/pages/sitemaps/composables'
 import CoreBlur from '@/vue/components/common/core/Blur'
 import CoreSettingsRow from '@/vue/components/common/core/SettingsRow'
 import SvgExternal from '@/vue/components/common/svg/External'
 import BaseRadioToggle from '@/vue/components/common/base/RadioToggle'
 export default {
+	setup () {
+		const { strings } = useVideoSitemap()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreBlur,
 		CoreSettingsRow,
 		SvgExternal,
 		BaseRadioToggle
-	},
-	mixins : [ VideoSitemap ]
+	}
 }
 </script>

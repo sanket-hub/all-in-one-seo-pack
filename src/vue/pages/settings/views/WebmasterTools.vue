@@ -787,7 +787,7 @@ export default {
 		> div {
 			cursor: pointer;
 			height: 165px;
-			border: 1px solid $border;
+			border: 1px solid $input-border;
 			border-radius: 3px;
 			padding: 12px;
 			display: flex;

@@ -2,7 +2,7 @@ import wordMatch from '../researches/stringProcessing/matchTextWithWord'
 import { stripFullTags as stripTags } from '../researches/stringProcessing/stripHTMLTags.js'
 import { getSubheadingContentsTopLevel } from '../researches/stringProcessing/getSubheadings'
 import { inRangeStartEndInclusive } from '../researches/helpers/inRange'
-import { __ } from '@wordpress/i18n'
+import { sprintf, __ } from '@wordpress/i18n'
 import { td } from '@/vue/plugins/constants'
 
 const parameters = {
@@ -73,19 +73,27 @@ function keyphraseInSubHeadings (content, keyphrase, locale) {
 	if (hasTooFewMatches()) {
 		return {
 			title       : __('Focus keyphrase in Subheadings', td),
-			description : __('Use more focus keyphrases in your H2 and H3 subheadings!', td),
-			score       : scores.tooFewMatches,
-			maxScore    : scores.goodNumberOfMatches,
-			error       : 1
+			description : sprintf(
+				// Translators: 1 - The percentage of headings.
+				__('Less than %1$s of your H2 and H3 subheadings reflect the topic of your copy. That\'s too few.', td),
+				(parameters.lowerBoundary * 100) + '%'
+			),
+			score    : scores.tooFewMatches,
+			maxScore : scores.goodNumberOfMatches,
+			error    : 1
 		}
 	}
 	if (hasTooManyMatches()) {
 		return {
 			title       : __('Focus keyphrase in Subheadings', td),
-			description : __('More than 75% of your H2 and H3 subheadings reflect the topic of your copy. That\'s too much. Don\'t over-optimize!', td),
-			score       : scores.tooManyMatches,
-			maxScore    : scores.goodNumberOfMatches,
-			error       : 1
+			description : sprintf(
+				// Translators: 1 - The percentage of headings.
+				__('More than %1$s of your H2 and H3 subheadings reflect the topic of your copy. That\'s too much. Don\'t over-optimize!', td),
+				(parameters.upperBoundary * 100) + '%'
+			),
+			score    : scores.tooManyMatches,
+			maxScore : scores.goodNumberOfMatches,
+			error    : 1
 		}
 	}
 	if (isOneOfOne()) {

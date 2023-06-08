@@ -52,11 +52,20 @@
 </template>
 
 <script>
+import { merge } from 'lodash-es'
+import { useSeoSiteScore } from '@/vue/composables'
 import { SeoSiteScore } from '@/vue/mixins'
 import { mapActions } from 'vuex'
 import CoreSiteScore from '@/vue/components/common/core/site-score/Index'
 import SvgRefresh from '@/vue/components/common/svg/Refresh'
 export default {
+	setup () {
+		const { strings } = useSeoSiteScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreSiteScore,
 		SvgRefresh
@@ -80,7 +89,7 @@ export default {
 	data () {
 		return {
 			isAnalyzing : false,
-			strings     : {
+			strings     : merge(this.composableStrings, {
 				criticalIssues             : this.$t.__('Important Issues', this.$td),
 				warnings                   : this.$t.__('Warnings', this.$td),
 				recommendedImprovements    : this.$t.__('Recommended Improvements', this.$td),
@@ -88,7 +97,7 @@ export default {
 				completeSiteAuditChecklist : this.$t.__('Complete Site Audit Checklist', this.$td),
 				refreshResults             : this.$t.__('Refresh Results', this.$td),
 				mobileSnapshot             : this.$t.__('Mobile Snapshot', this.$td)
-			}
+			})
 		}
 	},
 	methods : {

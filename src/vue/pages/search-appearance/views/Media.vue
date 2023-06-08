@@ -237,5 +237,9 @@ export default {
 		align-items: center;
 		margin-right: 16px;
 	}
+
+	.content:empty {
+		display: none;
+	}
 }
 </style>

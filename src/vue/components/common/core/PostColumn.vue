@@ -209,6 +209,7 @@
 import { getOptions, setOptions } from '@/vue/utils/options'
 import { merge } from 'lodash-es'
 import { mapState } from 'vuex'
+import { useTruSeoScore } from '@/vue/composables'
 import { TruSeoScore } from '@/vue/mixins'
 import { truncate } from '@/vue/utils/html'
 
@@ -217,6 +218,13 @@ import CoreScoreButton from '@/vue/components/common/core/ScoreButton'
 import SvgCircleCheck from '@/vue/components/common/svg/circle/Check'
 import SvgCircleClose from '@/vue/components/common/svg/circle/Close'
 export default {
+	setup () {
+		const { strings } = useTruSeoScore()
+
+		return {
+			composableStrings : strings
+		}
+	},
 	components : {
 		CoreScoreButton,
 		SvgCircleCheck,
@@ -244,7 +252,7 @@ export default {
 			showEditImageAltTag : false,
 			showTruSeo          : false,
 			isSpecialPage       : false,
-			strings             : {
+			strings             : merge(this.composableStrings, {
 				title       : this.$t.__('Title:', this.$td),
 				description : this.$t.__('Description:', this.$td),
 				imageTitle  : this.$t.__('Image Title:', this.$td),
@@ -253,7 +261,7 @@ export default {
 				save        : this.$t.__('Save', this.$td),
 				cancel      : this.$t.__('Cancel', this.$td),
 				wait        : this.$t.__('Please wait...', this.$td)
-			}
+			})
 		}
 	},
 	computed : {

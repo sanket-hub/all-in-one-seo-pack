@@ -218,7 +218,7 @@ export default {
 			justify-content: center;
 			min-height: 40px;
 			font-weight: 600;
-			border: 1px solid $gray;
+			border: 1px solid $input-border;
 			border-radius: 3px;
 			font-size: 20px;
 			cursor: pointer;

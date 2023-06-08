@@ -15,18 +15,6 @@ export const HeadlineResult = {
 		SvgFaceSmile,
 		SvgList
 	},
-	data () {
-		return {
-			strings : {
-				wordBalance    : this.$t.__('Word balance', this.$td),
-				characterCount : this.$t.__('Character Count', this.$td),
-				sentiment      : this.$t.__('Sentiment', this.$td),
-				wordCount      : this.$t.__('Word Count', this.$td),
-				headlineType   : this.$t.__('Headline Type', this.$td),
-				goal           : this.$t.__('Goal: ', this.$td)
-			}
-		}
-	},
 	computed : {
 		wordBalance () {
 			const result = this.result

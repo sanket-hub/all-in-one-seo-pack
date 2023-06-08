@@ -163,10 +163,18 @@
 
 <script>
 import { HeadlineResult } from '@/vue/mixins'
+import { useHeadlineResult } from '@/vue/composables'
 import CoreTooltip from '@/vue/components/common/core/Tooltip'
 import SvgCircleQuestionMark from '@/vue/components/common/svg/circle/QuestionMark'
 import SvgSeoSiteScore from '@/vue/components/common/svg/seo-site-score/Index'
 export default {
+	setup () {
+		const { strings } = useHeadlineResult()
+
+		return {
+			strings
+		}
+	},
 	components : {
 		CoreTooltip,
 		SvgCircleQuestionMark,
