@@ -46,7 +46,7 @@
 		"tokenizer2": "2.0.1",
 		"vue": "3.3.4",
 		"vue-multiselect": "3.0.0-beta.1",
-		"vue-router": "4.2.1",
+		"vue-router": "4.2.2",
 		"vue-scrollto": "2.20.0",
 		"vue3-apexcharts": "1.4.1",
 		"vuedraggable": "4.1.0",
